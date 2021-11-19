@@ -15,12 +15,6 @@ p, label, span, a, form, select, div, blockquote, cite, figure, figcaption, tabl
   margin-bottom: 0px;
 }
 
-.container {
-    @media (min-width: 1650px){
-        width: 1596px;
-        max-width: 1596px;
-    }
-}
 
 /* mixins */
 @mixin flex-center {
@@ -28,6 +22,8 @@ p, label, span, a, form, select, div, blockquote, cite, figure, figcaption, tabl
     justify-content: center;
     align-items: center;
   }
+
+
 
 button {
     background: none;
@@ -54,6 +50,34 @@ button {
         &:disabled {
             color: #C4C4C4;
             background: #7a7878;
+        }
+    }
+
+    &-fav {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background-color: $color-3;
+        @include flex-center;
+        padding-top: 2px;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            path {
+                fill: #878787;
+            }
+        }
+        &.clicked{
+            background-color: $color-2;
+            svg {
+                path {
+                    fill: #fff;
+                }
+            }
         }
     }
 }
@@ -109,6 +133,15 @@ h2 {
 .color-1 {color: $color-1;}
 .color-2 {color: $color-2;}
 .color-3 {color: $color-3;}
+
+
+.container {
+    @media (min-width: 1650px){
+        width: 1596px;
+        max-width: 1596px;
+    }
+}
+
 
 
 #sec-1 {
@@ -189,6 +222,44 @@ h2 {
 
 .swiper-4 {
     overflow: hidden;
+}
+
+.card-mini {
+    background-color: #fff;
+    filter: drop-shadow(0px 1px 10px rgba(0, 0, 0, 0.15));
+    .text {
+        display: -webkit-box;
+        -webkit-line-clamp: 3; // количество строк
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-height: 1.2em;
+        height: 3.6em;
+        overflow: hidden;
+        font-size: .9em;
+        font-weight: 300;
+    }
+    .labels {
+        position: absolute;
+        top: 10px;
+        left: 0px;
+        div {
+            color: #fff;
+            padding: 0.1em 0.25em;
+            margin-bottom: 0.2em;
+            font-weight: 500;
+            font-size: .95em;
+            display: flex;
+            align-items: center;
+            img {
+                margin-right: .15em;
+                width: 1.5em;
+                height: 1.5em;
+                object-fit: scale-down;
+            }
+            &.vip {background-color: $color-1;}
+            &.hot {background-color: $color-2;}
+        }
+    }
 }
 
 

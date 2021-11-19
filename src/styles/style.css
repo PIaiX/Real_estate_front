@@ -11,13 +11,6 @@ p, label, span, a, form, select, div, blockquote, cite, figure, figcaption, tabl
   margin-bottom: 0px;
 }
 
-@media (min-width: 1650px) {
-  .container {
-    width: 1596px;
-    max-width: 1596px;
-  }
-}
-
 /* mixins */
 button {
   background: none;
@@ -61,6 +54,44 @@ button {
 .btn-1:disabled {
   color: #C4C4C4;
   background: #7a7878;
+}
+
+.btn-fav {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: #ECECEC;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-top: 2px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.btn-fav svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+}
+
+.btn-fav svg path {
+  fill: #878787;
+}
+
+.btn-fav.clicked {
+  background-color: #C59C7E;
+}
+
+.btn-fav.clicked svg path {
+  fill: #fff;
 }
 
 h1, h2 {
@@ -192,6 +223,13 @@ h2 {
   color: #ECECEC;
 }
 
+@media (min-width: 1650px) {
+  .container {
+    width: 1596px;
+    max-width: 1596px;
+  }
+}
+
 #sec-1 {
   height: 650px;
   display: -webkit-box;
@@ -314,6 +352,60 @@ h2 {
 
 .swiper-4 {
   overflow: hidden;
+}
+
+.card-mini {
+  background-color: #fff;
+  -webkit-filter: drop-shadow(0px 1px 10px rgba(0, 0, 0, 0.15));
+          filter: drop-shadow(0px 1px 10px rgba(0, 0, 0, 0.15));
+}
+
+.card-mini .text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.2em;
+  height: 3.6em;
+  overflow: hidden;
+  font-size: .9em;
+  font-weight: 300;
+}
+
+.card-mini .labels {
+  position: absolute;
+  top: 10px;
+  left: 0px;
+}
+
+.card-mini .labels div {
+  color: #fff;
+  padding: 0.1em 0.25em;
+  margin-bottom: 0.2em;
+  font-weight: 500;
+  font-size: .95em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.card-mini .labels div img {
+  margin-right: .15em;
+  width: 1.5em;
+  height: 1.5em;
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
+}
+
+.card-mini .labels div.vip {
+  background-color: #146492;
+}
+
+.card-mini .labels div.hot {
+  background-color: #C59C7E;
 }
 
 footer {

@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+import BtnFav from '../utilities/BtnFav';
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 
 export default function MainPage() {
     return (
@@ -83,26 +85,63 @@ export default function MainPage() {
 
             <div className="container mb-5">
                 <h2>Срочная продажа</h2>
-                <div className="position-relative">
-                    <div className="swiper-4">
-                        <div className="swiper-wrapper">
-                            <div className="swiper-slide"> слайд 1 </div>
-                            <div className="swiper-slide"> слайд 2 </div>
-                            <div className="swiper-slide"> слайд 3 </div>
-                            <div className="swiper-slide"> слайд 4 </div>
-                            <div className="swiper-slide"> слайд 5 </div>
-                            <div className="swiper-slide"> слайд 6 </div>
+                <div className="row row-cols-4">
+                    <div>
+                        <div className="card-mini">
+                            <img src="../img/img3.jpg" alt="фото" className="w-100"/>
+                            <div className="p-3">
+                                <div className="d-flex justify-content-between mb-3">
+                                    <div className="color-1 title-font fw-7 fs-11">1-к, квартира 52м2</div>
+                                    <div className="title-font black fw-7 fs-11">6 000 000 ₽</div>
+                                </div>
+                                <div className="d-flex align-items-start mb-3">
+                                    <img src="../img/icons/pin.svg" alt="адрес"/>
+                                    <div className="fs-09 ms-2">
+                                        <div className="mb-1">ЖК “Столичный”</div>
+                                        <div>Вахитовский район, ул. Четаева 32</div>
+                                    </div>
+                                </div>
+                                <div className="text mb-4">
+                                    Новый дом. Консьерж. Квартира после евро ремонта. Полы ламинат. Кондиционеры. Рядом школа и деский сад...
+                                </div>
+                                <div className="text-end color-2 fs-09 fw-3">Вчера в 21:00</div>
+                            </div>
                         </div>
-                        <div className="swiper-pagination"></div>
-						<div className="swiper-button-prev">
-							<img src="img/icons/prev.svg" alt=""/>
-						</div>
-						<div className="swiper-button-next">
-							<img src="img/icons/next.svg" alt=""/>
-						</div>
+                    </div>
+                    <div>
+                        <div className="card-mini">
+                            <img src="../img/img3.jpg" alt="фото" className="w-100"/>
+                            <div className="p-3">
+                                <div className="d-flex justify-content-between mb-3">
+                                    <div className="color-1 title-font fw-7 fs-11">1-к, квартира 52м2</div>
+                                    <div className="title-font black fw-7 fs-11">6 000 000 ₽</div>
+                                </div>
+                                <div className="d-flex align-items-start mb-3">
+                                    <img src="../img/icons/pin.svg" alt="адрес"/>
+                                    <div className="fs-09 ms-2">
+                                        <div className="mb-1">ЖК “Столичный”</div>
+                                        <div>Вахитовский район, ул. Четаева 32</div>
+                                    </div>
+                                </div>
+                                <div className="text mb-4">
+                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae, sit voluptates. A quam officiis nesciunt dolores eum quibusdam vitae dolorum, sit ut in eius amet facilis atque dignissimos exercitationem velit!
+                                </div>
+                                <div className="text-end color-2 fs-09 fw-3">Вчера в 21:00</div>
+                            </div>
+                            <div className="labels">
+                                <div className="vip">
+                                    <img src="../img/icons/vip.svg" alt="VIP"/> 
+                                    <span>VIP</span>
+                                </div>
+                                <div className="hot">
+                                    <img src="../img/icons/hot.svg" alt="Hot"/> 
+                                    <span>Hot</span>
+                                </div>
+                            </div>
+                            <BtnFav/>
+                        </div>
                     </div>
                 </div>
-                
             </div>
         </div>
     )
