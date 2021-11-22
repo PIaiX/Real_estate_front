@@ -21,9 +21,9 @@ export default function Header() {
                 <button type="button" className="ms-4">
                     <img src="../img/icons/user.svg" alt="аккаунт"/>
                 </button>
-                <button type="button" className="ms-4 btn btn-1">Подать объявление</button>
+                <button type="button" className="ms-4 btn btn-1 text-uppercase">Подать объявление</button>
                 <button type="button" className="ms-4">
-                    <span>Казань</span>
+                    <span className="color-2 fs-09 me-2">Казань</span>
                     <img src="../img/icons/caret-down.svg" alt="caret-down"/>
                 </button>
             </div> 
