@@ -118,8 +118,8 @@ export default function MainPage() {
             </section>
 
             <section id="sec-5">
-                <div className="container">
-                    <div className="row gx-5 mb-5">
+                <div className="container pb-5">
+                    <div className="row gx-5 mb-6">
                         <div className="col-8">
                             <img src="../img/img4.jpg" alt="" className="w-100"/>
                         </div>

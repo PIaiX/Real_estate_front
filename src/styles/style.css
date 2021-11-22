@@ -86,6 +86,21 @@ input[type="checkbox"]:checked {
   background-color: #146492;
 }
 
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  border: none;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  line-height: normal;
+  background: url(bg-imgs/caret-down.svg) no-repeat right center;
+  background-size: 1em .5em;
+  padding: 0 1.2em 0 0;
+}
+
 button {
   background: none;
   border: none;
@@ -305,7 +320,7 @@ h3 {
   color: #ECECEC;
 }
 
-@media (min-width: 1650px) {
+@media (min-width: 1660px) {
   .container {
     width: 1596px;
     max-width: 1596px;
@@ -530,15 +545,14 @@ article .text {
 }
 
 .swiper-3 {
-  position: relative;
   overflow: hidden;
   padding: 1em 0;
 }
 
 .swiper-button-prev,
 .swiper-button-next {
-  width: 1.8em;
-  height: 3.6em;
+  width: 1.5em;
+  height: 3em;
 }
 
 .swiper-button-prev::after,
@@ -547,11 +561,11 @@ article .text {
 }
 
 .swiper-button-next {
-  right: -3em;
+  right: -2em;
 }
 
 .swiper-button-prev {
-  left: -3em;
+  left: -2em;
 }
 
 .swiper-pagination {
