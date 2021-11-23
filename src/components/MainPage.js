@@ -1,7 +1,4 @@
 import React from 'react';
-
-// Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
 import { Slider2 } from './Slider2';
 import { Slider1 } from './Slider1';
 
@@ -10,7 +7,7 @@ export default function MainPage() {
     return (
         <div id="main-page">
             <section id="sec-1">
-                <h1>Мы подобрали для Вас лучшие варианты</h1>
+                <h1 className="main">Мы подобрали для Вас лучшие варианты</h1>
             </section>
 
             <section id="sec-2" className="container tiles px-5 mb-6">

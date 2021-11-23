@@ -1,32 +1,38 @@
 import React from 'react';
-import '../styles/Header.css';
+import { Link } from 'react-router-dom';
 
 export default function Header() {
     return (
         <header>
             <div className="container">
-                <img src="../img/Лого.png" alt="Название сайта" className="logo"/>
-                <nav>
-                    <button type="button" className="active">Главная</button>
-                    <button type="button">Услуги</button>
-                    <button type="button">Ипотека</button>
-                    <button type="button">Задать вопрос</button>
+                <img src="../img/Лого.png" alt="Название сайта" className="logo order-1 me-lg-auto"/>
+                <nav className="d-none d-lg-flex order-2">
+                    <Link to="/" className="active">Главная</Link>
+                    <Link to="/catalog">Услуги</Link>
+                    <a>Ипотека</a>
+                    <a>Задать вопрос</a>
                 </nav>
-                <button type="button" className="ms-4">
-                    <img src="../img/icons/email.svg" alt="email"/>
-                </button>
-                <button type="button" className="ms-4">
-                    <img src="../img/icons/favorite.svg" alt="favorite"/>
-                </button>
-                <button type="button" className="ms-4">
-                    <img src="../img/icons/user.svg" alt="аккаунт"/>
-                </button>
-                <button type="button" className="ms-4 btn btn-1 text-uppercase">Подать объявление</button>
-                <select className="ms-4 color-2 fs-09">
-                    <option selected>Казань</option>
-                    <option>Москва</option>
-                    <option>Питер</option>
+                <div className="d-none d-md-flex order-4 order-lg-3">
+                    <button type="button" className="ms-4">
+                        <img src="../img/icons/email.svg" alt="email"/>
+                    </button>
+                    <button type="button" className="ms-3 ms-xl-4">
+                        <img src="../img/icons/favorite.svg" alt="favorite"/>
+                    </button>
+                    <button type="button" className="ms-3 ms-xl-4">
+                        <img src="../img/icons/user.svg" alt="аккаунт"/>
+                    </button>
+                </div>
+                
+                <button type="button" className="ms-md-4 btn btn-1 text-uppercase p-2 order-3 order-lg-4">Подать объявление</button>
+                <select defaultValue="Казань" className="ms-md-3 ms-xl-4 color-2 order-2 order-lg-5">
+                    <option value="Казань">Казань</option>
+                    <option value="Москва">Москва</option>
+                    <option value="Питер">Питер</option>
                 </select>
+                <button type="button" className="d-block d-lg-none order-5">
+                    <img src="../img/icons/menu.svg" alt="меню"/>
+                </button>
             </div> 
         </header>
     )

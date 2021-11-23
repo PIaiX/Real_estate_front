@@ -1,6 +1,7 @@
 import React from 'react';
 import BtnFav from '../utilities/BtnFav';
 
+
 export default function Card(props) {
     return (
         <div className="card-mini">

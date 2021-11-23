@@ -99,6 +99,7 @@ select {
   background: url(bg-imgs/caret-down.svg) no-repeat right center;
   background-size: 1em .5em;
   padding: 0 1.2em 0 0;
+  outline: none;
 }
 
 button {
@@ -122,12 +123,13 @@ button {
   border-radius: 4px;
   padding: 0.6em 2em;
   text-align: center;
-  font-weight: 500;
   -webkit-transition: 0.5s;
   transition: 0.5s;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
+  font-size: 1em;
+  line-height: normal;
 }
 
 .btn-1 {
@@ -187,11 +189,17 @@ h1, h2, h3 {
   font-family: "Gilroy";
 }
 
-h1 {
-  text-align: center;
-  font-size: 3em;
+h1.main {
+  text-align: left;
   font-weight: 700;
   margin-bottom: 1em;
+  font-size: 1.875em;
+  color: #16445E;
+}
+
+h1.main.main {
+  text-align: center;
+  font-size: 3em;
   color: #146492;
   width: -webkit-fit-content;
   width: -moz-fit-content;
@@ -329,6 +337,94 @@ h3 {
 
 .mb-6 {
   margin-bottom: 6em;
+}
+
+header {
+  background: #FFFFFF;
+  -webkit-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 1em 0;
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  z-index: 1000;
+}
+
+@media (max-width: 1199px) {
+  header {
+    padding: .5em 0;
+  }
+}
+
+header .container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+header .container nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+header .container nav a {
+  color: #C59C7E;
+  padding: .5em 1em;
+  font-size: 1.1em;
+  font-weight: 400;
+}
+
+header .container nav a.active {
+  color: #146492;
+}
+
+@media (max-width: 1199px) {
+  header .container nav a {
+    padding: .5em;
+  }
+}
+
+@media (max-width: 991px) {
+  header .container {
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+  }
+}
+
+header .logo {
+  max-width: 60px;
+  max-height: 30px;
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
+  -o-object-position: center;
+     object-position: center;
+}
+
+@media (max-width: 576px) {
+  header .logo {
+    max-width: 40px;
+    max-height: 20px;
+  }
+}
+
+header select {
+  font-size: .9em;
+}
+
+@media (max-width: 576px) {
+  header select {
+    font-size: 1.1em;
+  }
 }
 
 #sec-1 {
@@ -538,6 +634,7 @@ article .text {
   font-weight: 300;
 }
 
+/* SECTION 6 - catalog */
 /* SLIDERS */
 .swiper-4 {
   overflow: hidden;
