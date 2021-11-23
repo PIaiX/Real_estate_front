@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 export default function Header() {
     return (
@@ -7,10 +7,10 @@ export default function Header() {
             <div className="container">
                 <img src="../img/Лого.png" alt="Название сайта" className="logo order-1 me-lg-auto"/>
                 <nav className="d-none d-lg-flex order-2">
-                    <Link to="/" className="active">Главная</Link>
-                    <Link to="/catalog">Услуги</Link>
-                    <a>Ипотека</a>
-                    <a>Задать вопрос</a>
+                    <NavLink to="/">Главная</NavLink>
+                    <NavLink to="/catalog">Услуги</NavLink>
+                    {/* <NavLink to="/">Ипотека</NavLink>
+                    <NavLink to="/">Задать вопрос</NavLink> */}
                 </nav>
                 <div className="d-none d-md-flex order-4 order-lg-3">
                     <button type="button" className="ms-4">

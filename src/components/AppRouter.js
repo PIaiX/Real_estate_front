@@ -5,11 +5,9 @@ import MainPage from './MainPage';
 
 export default function AppRouter() {
     return (
-        <Router>
             <Routes>
                 <Route exact path="/" element={<MainPage />} />
                 <Route path="/catalog" element={<Catalog />} />
             </Routes>
-        </Router>
     )
 }

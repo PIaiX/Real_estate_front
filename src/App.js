@@ -1,12 +1,13 @@
 import React from 'react';
+import { BrowserRouter } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import './styles/fonts.css';
 import './styles/style.min.css';
-import AppRouter from './components/AppRouter';
 import Header from './components/Header';
+import AppRouter from './components/AppRouter';
 // import MainPage from './components/MainPage';
-import { BrowserRouter } from 'react-router-dom';
+
 
 
 function App() {
