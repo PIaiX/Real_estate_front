@@ -349,12 +349,21 @@ header {
   left: 0px;
   top: 0px;
   width: 100%;
+  height: 70px;
   z-index: 1000;
 }
 
 @media (max-width: 1199px) {
   header {
     padding: .5em 0;
+    height: 55px;
+  }
+}
+
+@media (max-width: 575px) {
+  header {
+    height: 48px;
+    padding: .75em 0;
   }
 }
 
@@ -424,6 +433,28 @@ header select {
 @media (max-width: 576px) {
   header select {
     font-size: 1.1em;
+  }
+}
+
+main {
+  min-height: calc(100vh - 320px);
+}
+
+@media (max-width: 1199px) {
+  main {
+    min-height: calc(100vh - 305px);
+  }
+}
+
+@media (max-width: 767px) {
+  main {
+    min-height: calc(100vh - 105px);
+  }
+}
+
+@media (max-width: 575px) {
+  main {
+    min-height: calc(100vh - 98px);
   }
 }
 
@@ -636,6 +667,57 @@ article .text {
 
 /* SECTION 6 - catalog */
 /* SLIDERS */
+.slider {
+  height: 280px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
+.slider img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  z-index: -1;
+  -webkit-transition: 1s;
+  transition: 1s;
+}
+
+.slider img.hidden {
+  opacity: 0;
+}
+
+.slider .section {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  margin: .5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.slider .section .indicator {
+  width: 100%;
+  height: 15px;
+  background-color: black;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  opacity: 0.5;
+  border-radius: 2px;
+}
+
+.slider .section .indicator.indicator_full {
+  background-color: white;
+}
+
 .swiper-4 {
   overflow: hidden;
   padding: 1em 0 3em;
@@ -697,6 +779,12 @@ article .text {
 
 footer {
   background-color: #373C3F;
-  min-height: 250px;
+  height: 250px;
+}
+
+@media (max-width: 767px) {
+  footer {
+    height: 50px;
+  }
 }
 /*# sourceMappingURL=style.css.map */

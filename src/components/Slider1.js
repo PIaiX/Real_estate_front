@@ -37,7 +37,24 @@ export const Slider1 = () => {
             >
             <SwiperSlide>
                 <div className="card-mini">
-                    <img src="../img/img3.jpg" alt="фото" className="w-100"/>
+                    <div className="slider">
+                        <img src="../img/img1.jpg" alt="фото"/>
+                        <img src="../img/img2.jpg" alt="фото" className="hidden"/>
+                        <img src="../img/img3.jpg" alt="фото" className="hidden"/>
+                        <img src="../img/img4.jpg" alt="фото" className="hidden"/>
+                        <div className="section" data-for="bg-1">
+                            <div className="indicator indicator_full"></div>
+                        </div>
+                        <div className="section" data-for="bg-2">
+                            <div className="indicator"></div>
+                        </div>
+                        <div className="section" data-for="bg-3">
+                            <div className="indicator"></div>
+                        </div>
+                        <div className="section" data-for="bg-4">
+                            <div className="indicator"></div>
+                        </div>
+                    </div>
                     <div className="p-3">
                         <div className="d-flex justify-content-between mb-3">
                             <div className="color-1 title-font fw-7 fs-11">1-к, квартира 52м2</div>

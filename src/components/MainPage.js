@@ -1,11 +1,11 @@
 import React from 'react';
 import { Slider2 } from './Slider2';
 import { Slider1 } from './Slider1';
-
+import { NavLink } from 'react-router-dom';
 
 export default function MainPage() {
     return (
-        <div id="main-page">
+        <main>
             <section id="sec-1">
                 <h1 className="main">Мы подобрали для Вас лучшие варианты</h1>
             </section>
@@ -14,7 +14,7 @@ export default function MainPage() {
                 <div className="tile">
                     <img src="../img/icons/icon-1.svg" alt="Сдать"/>
                     <div className="links">
-                        <a href="#">Купить</a>
+                        <NavLink to="/catalog">Купить</NavLink>
                         <a href="#">Сдать</a>
                         <a href="#">Продать</a>
                         <a href="#">Снять</a>
@@ -143,6 +143,6 @@ export default function MainPage() {
                     </div>
                 </div>
             </section>
-        </div>
+        </main>
     )
 }
