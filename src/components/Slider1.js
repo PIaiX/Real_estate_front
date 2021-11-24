@@ -38,22 +38,11 @@ export const Slider1 = () => {
             <SwiperSlide>
                 <div className="card-mini">
                     <div className="slider">
-                        <img src="../img/img1.jpg" alt="фото"/>
-                        <img src="../img/img2.jpg" alt="фото" className="hidden"/>
-                        <img src="../img/img3.jpg" alt="фото" className="hidden"/>
-                        <img src="../img/img4.jpg" alt="фото" className="hidden"/>
-                        <div className="section" data-for="bg-1">
-                            <div className="indicator indicator_full"></div>
-                        </div>
-                        <div className="section" data-for="bg-2">
-                            <div className="indicator"></div>
-                        </div>
-                        <div className="section" data-for="bg-3">
-                            <div className="indicator"></div>
-                        </div>
-                        <div className="section" data-for="bg-4">
-                            <div className="indicator"></div>
-                        </div>
+                        <img src="../img/img1.jpg" alt="фото" className="active"/>
+                        <img src="../img/img2.jpg" alt="фото"/>
+                        <img src="../img/img3.jpg" alt="фото"/>
+                        <img src="../img/img4.jpg" alt="фото"/>
+                        <div className="box"></div>
                     </div>
                     <div className="p-3">
                         <div className="d-flex justify-content-between mb-3">

@@ -669,9 +669,6 @@ article .text {
 /* SLIDERS */
 .slider {
   height: 280px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   width: 100%;
   position: relative;
 }
@@ -685,36 +682,51 @@ article .text {
   z-index: -1;
   -webkit-transition: 1s;
   transition: 1s;
-}
-
-.slider img.hidden {
   opacity: 0;
 }
 
-.slider .section {
+.slider img.active {
+  opacity: 1;
+}
+
+.slider .box {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.slider .box .section {
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
-  margin: .5rem;
+  margin: 0px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: end;
       -ms-flex-align: end;
           align-items: flex-end;
+  position: relative;
 }
 
-.slider .section .indicator {
-  width: 100%;
+.slider .box .section::after {
+  content: "";
+  position: absolute;
+  bottom: .5em;
+  left: .5em;
+  right: .5em;
   height: 15px;
   background-color: black;
   -webkit-transition: 0.3s;
   transition: 0.3s;
   opacity: 0.5;
-  border-radius: 2px;
 }
 
-.slider .section .indicator.indicator_full {
+.slider .box .section.active::after {
   background-color: white;
 }
 
