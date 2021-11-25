@@ -5,7 +5,7 @@ import BtnFav from '../utilities/BtnFav';
 export default function Card(props) {
     return (
         <div className="card-mini">
-            <img src={props.url} alt={props.title} className="w-100"/>
+            <img src={props.url} alt={props.title} className="photo"/>
             <div className="p-3">
                 <div className="d-flex justify-content-between mb-3">
                     <div className="color-1 title-font fw-7 fs-11">{props.title}</div>

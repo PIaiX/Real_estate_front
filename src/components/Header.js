@@ -8,9 +8,9 @@ export default function Header() {
                 <img src="../img/Лого.png" alt="Название сайта" className="logo order-1 me-lg-auto"/>
                 <nav className="d-none d-lg-flex order-2">
                     <NavLink to="/">Главная</NavLink>
-                    <NavLink to="/catalog">Услуги</NavLink>
-                    {/* <NavLink to="/">Ипотека</NavLink>
-                    <NavLink to="/">Задать вопрос</NavLink> */}
+                    <a href="/">Услуги</a>
+                    <a href="/">Ипотека</a>
+                    <a href="/">Задать вопрос</a>
                 </nav>
                 <div className="d-none d-md-flex order-4 order-lg-3">
                     <button type="button" className="ms-4">

@@ -7,17 +7,19 @@ export default function MainPage() {
     return (
         <main>
             <section id="sec-1">
-                <h1 className="main">Мы подобрали для Вас лучшие варианты</h1>
+                <div className="container d-flex justify-content-center">
+                    <h1 className="main">Мы подобрали для Вас лучшие варианты</h1>
+                </div>
             </section>
 
-            <section id="sec-2" className="container tiles px-5 mb-6">
+            <section id="sec-2" className="container tiles px-xxl-5 mb-6">
                 <div className="tile">
                     <img src="../img/icons/icon-1.svg" alt="Сдать"/>
                     <div className="links">
                         <NavLink to="/catalog">Купить</NavLink>
-                        <a href="#">Сдать</a>
-                        <a href="#">Продать</a>
-                        <a href="#">Снять</a>
+                        <NavLink to="/catalog">Сдать</NavLink>
+                        <NavLink to="/catalog">Продать</NavLink>
+                        <NavLink to="/catalog">Снять</NavLink>
                     </div>
                 </div>
                 <div className="tile">

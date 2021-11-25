@@ -180,7 +180,14 @@ h1.main {
     color: $color-1;
     width: fit-content;
     background-color: #fff;
-    padding: 0.1em 1em;
+    padding: .1em 1em;
+    @media (max-width: 1199px){
+        font-size: 2.5em;
+        padding: .1em .5em;
+    }
+    @media (max-width: 1199px){
+        font-size: 2em;
+    }
   }
 }
 h2 {
@@ -292,7 +299,7 @@ header {
     }
     select {
         font-size: .9em;
-        @media (max-width: 576px){
+        @media (max-width: 991px){
             font-size: 1.1em;
         }
     }
@@ -319,17 +326,26 @@ main {
     background-size: cover;
     position: relative;
     z-index: 1;
-    padding-bottom: 80px;
-    margin-bottom: -80px;
+    padding-bottom: 5em;
+    margin-bottom: -5em;
     &::after {
         content: "";
         position: absolute;
         bottom: 0px;
         left: 0px;
         width: 100%;
-        height: 80px;
+        height: 5em;
         background: rgba(36, 44, 49, 0.22);
         filter: blur(36px);
+    }
+    @media (max-width: 991px){
+        height: 550px;
+    }
+    @media (max-width: 767px){
+        height: 500px;
+    }
+    @media (max-width: 575px){
+        height: 400px;
     }
 }
 
@@ -345,7 +361,6 @@ main {
         box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
         border-radius: 4px;
         width: calc((100% - 150px) / 5);
-        // padding-top: 3em;
         margin-bottom: 25px;
         height: 300px;
         display: flex;
@@ -377,13 +392,78 @@ main {
                text-align: center;
             }
             &:hover {
-                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-                a {
-                    color: $color-1;
-                    &::before {
-                        content: "⦁ ";
+                @media (min-width: 576px){
+                    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+                    a {
+                        color: $color-1;
+                        &::before {
+                            content: "⦁ ";
+                        }
                     }
                 }
+            }
+        }
+    }
+    @media (max-width: 1659px){
+        .tile {
+            height: 250px;
+            .links {
+                height: 90px;
+                a {font-size: 1.25em;}
+            }
+        }
+    }
+    @media (max-width: 1399px){
+        justify-content: space-between;
+        .tile {
+            height: 240px;
+            width: calc((100% - 80px) / 5);
+            margin-bottom: 20px;
+            .links {
+                height: 80px;
+                padding: 0.5em 0;
+            }
+        }
+    }
+    @media (max-width: 1199px){
+        justify-content: center;
+        .tile {
+            width: calc((100% - 80px) / 4);
+            margin-left: 10px;
+            margin-right: 10px;
+            img {
+                height: 100px;
+                width: 100px;
+                margin: 0 auto 15px;
+            }
+        }
+    }
+    @media (max-width: 991px){
+        .tile {
+            width: calc((100% - 60px) / 3);
+        }
+    }
+    @media (max-width: 767px){
+        .tile {
+            width: calc((100% - 40px) / 2);
+        }
+    }
+    @media (max-width: 575px){
+        .tile {
+            width: calc((100% - 32px) / 2);
+            height: calc(30vw + 55px);
+            margin-left: 8px;
+            margin-right: 8px;
+            margin-bottom: 16px;
+            img {
+                height: 20vw;
+                width: 20vw;
+                margin: 0 auto 5px;
+            }
+            .links {
+                height: 55px;
+                padding: 0.6em 0;
+                a {margin: 0 0.3em;}
             }
         }
     }
@@ -394,6 +474,11 @@ main {
 .card-mini {
     background-color: #fff;
     filter: drop-shadow(0px 1px 10px rgba(0, 0, 0, 0.15));
+    .photo {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+    }
     .text {
         display: -webkit-box;
         -webkit-line-clamp: 3; // количество строк
@@ -441,6 +526,29 @@ article {
         width: 100%;
         height: 270px;
         object-fit: cover;
+        @media (max-width: 1659px){
+            height: 240px;
+        }
+        @media (max-width: 1399px){
+            height: 220px;
+        }
+        @media (max-width: 1199px){
+            height: 200px;
+        }
+        @media (max-width: 575px){
+            height: 55vw;
+        }
+    }
+    h2 {
+        @media (max-width: 1659px){
+            font-size: 2em;
+        }
+        @media (max-width: 1399px){
+            font-size: 1.75em;
+        }
+        @media (max-width: 1199px){
+            font-size: 1.5em;
+        }
     }
     .text {
         display: -webkit-box;
@@ -452,6 +560,16 @@ article {
         overflow: hidden;
         font-size: .9em;
         font-weight: 300;
+        @media (max-width: 1399px){
+            -webkit-line-clamp: 8;
+            line-height: 1.2em;
+            height: 9.6em;
+        }
+        @media (max-width: 1199px){
+            -webkit-line-clamp: 6;
+            line-height: 1.2em;
+            height: 7.2em;
+        }
     }
 }
 

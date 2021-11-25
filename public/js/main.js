@@ -48,9 +48,6 @@ sliders.forEach(function(item, i, arr) {
       slide.classList.remove('active');
     });
     slides[index].classList.add('active');
-
-    
   }
-
 });
 }
