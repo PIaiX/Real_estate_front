@@ -6,6 +6,7 @@ import './styles/fonts.css';
 import './styles/style.min.css';
 import Header from './components/Header';
 import AppRouter from './components/AppRouter';
+import { Footer } from './components/Footer';
 // import MainPage from './components/MainPage';
 
 
@@ -15,7 +16,7 @@ function App() {
     <BrowserRouter>
       <Header />
       <AppRouter />
-      <footer></footer>
+      <Footer />
     </BrowserRouter>
   );
 }

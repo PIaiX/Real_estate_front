@@ -229,12 +229,24 @@ h2 {
   color: #146492;
 }
 
+@media (max-width: 1199px) {
+  h2 {
+    font-size: 2em;
+  }
+}
+
 h3 {
   text-align: left;
   font-size: 1.75em;
   font-weight: 700;
   margin-bottom: 1em;
   color: #146492;
+}
+
+@media (max-width: 1199px) {
+  h3 {
+    font-size: 1.5em;
+  }
 }
 
 .title-font {
@@ -352,8 +364,14 @@ h3 {
   margin-bottom: 6em;
 }
 
+@media (max-width: 575px) {
+  .mb-6 {
+    margin-bottom: 4em;
+  }
+}
+
 header {
-  background: #FFFFFF;
+  background: #fff;
   -webkit-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
           box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   padding: 1em 0;
@@ -369,7 +387,7 @@ header {
 @media (max-width: 1199px) {
   header {
     padding: .5em 0;
-    height: 55px;
+    height: 50px;
   }
 }
 
@@ -568,8 +586,10 @@ main {
 
 .tiles .tile .links {
   width: 100%;
+  border-radius: 4px;
+  background: #FFFFFF;
+  position: relative;
   height: 100px;
-  padding: 1em 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -581,10 +601,7 @@ main {
           align-items: center;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  border-radius: 4px;
-  background: #FFFFFF;
-  -webkit-transition: .3s;
-  transition: .3s;
+  padding: 1em 0;
 }
 
 .tiles .tile .links a {
@@ -597,17 +614,44 @@ main {
   text-align: center;
 }
 
-@media (min-width: 576px) {
-  .tiles .tile .links:hover {
-    -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-  }
-  .tiles .tile .links:hover a {
-    color: #146492;
-  }
-  .tiles .tile .links:hover a::before {
-    content: "⦁ ";
-  }
+.tiles .tile .links .hover-links {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+  opacity: 0;
+  background: #FFFFFF;
+  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  padding: 1em 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+.tiles .tile .links .hover-links a {
+  color: #146492;
+}
+
+.tiles .tile .links .hover-links a::before {
+  content: "⦁";
+}
+
+.tiles .tile .links:hover .hover-links {
+  opacity: 1;
 }
 
 @media (max-width: 1659px) {
@@ -756,7 +800,13 @@ main {
 /* SECTION 5 */
 #sec-5 {
   background: url(bg-imgs/bg2.png) no-repeat center bottom;
-  background-size: cover;
+  background-size: 100% auto;
+}
+
+@media (max-width: 575px) {
+  #sec-5 .info {
+    font-size: 10px;
+  }
 }
 
 article {
@@ -790,6 +840,12 @@ article img {
   }
 }
 
+@media (max-width: 767px) {
+  article img {
+    height: 160px;
+  }
+}
+
 @media (max-width: 575px) {
   article img {
     height: 55vw;
@@ -811,6 +867,12 @@ article img {
 @media (max-width: 1199px) {
   article h2 {
     font-size: 1.5em;
+  }
+}
+
+@media (max-width: 767px) {
+  article h2 {
+    font-size: 1.3em;
   }
 }
 
@@ -928,12 +990,39 @@ article .text {
   content: unset;
 }
 
+@media (max-width: 1199px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    top: 0px;
+    height: 100%;
+    width: 2em;
+  }
+}
+
 .swiper-button-next {
   right: -2em;
 }
 
+@media (max-width: 1199px) {
+  .swiper-button-next {
+    right: 0px;
+    padding-left: 0.5em;
+    background: -webkit-gradient(linear, right top, left top, from(rgba(255, 255, 255, 0.7)), to(transparent));
+    background: linear-gradient(to left, rgba(255, 255, 255, 0.7), transparent);
+  }
+}
+
 .swiper-button-prev {
   left: -2em;
+}
+
+@media (max-width: 1199px) {
+  .swiper-button-prev {
+    left: 0px;
+    padding-right: 0.5em;
+    background: -webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0.7)), to(transparent));
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.7), transparent);
+  }
 }
 
 .swiper-pagination {
@@ -966,6 +1055,12 @@ article .text {
   background-color: #C59C7E;
 }
 
+/* MODAL WINDOWS */
+#header-menu nav ul {
+  list-style: none;
+  padding-left: 0px;
+}
+
 footer {
   background-color: #373C3F;
   height: 250px;
@@ -974,6 +1069,58 @@ footer {
 @media (max-width: 767px) {
   footer {
     height: 50px;
+    background: #FFFFFF;
+    -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: 100;
   }
+}
+
+footer nav {
+  height: 100%;
+}
+
+footer nav ul {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  list-style: none;
+  padding: 0px;
+}
+
+footer nav ul li a svg {
+  fill: none;
+}
+
+footer nav ul li a svg path {
+  fill: #C4C4C4;
+}
+
+footer nav ul li a svg.type-2 path {
+  fill: none;
+  stroke: #C4C4C4;
+  stroke-width: 3px;
+  stroke-linecap: square;
+  stroke-linejoin: round;
+}
+
+footer nav ul li a.active svg path {
+  fill: #C59C7E;
+}
+
+footer nav ul li a.active svg.type-2 path {
+  fill: none;
+  stroke: #C59C7E;
 }
 /*# sourceMappingURL=style.css.map */

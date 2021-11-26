@@ -16,10 +16,14 @@ export default function MainPage() {
                 <div className="tile">
                     <img src="../img/icons/icon-1.svg" alt="Сдать"/>
                     <div className="links">
-                        <NavLink to="/catalog">Купить</NavLink>
-                        <NavLink to="/catalog">Сдать</NavLink>
-                        <NavLink to="/catalog">Продать</NavLink>
-                        <NavLink to="/catalog">Снять</NavLink>
+                        <NavLink to="/catalog">Квартиры</NavLink>
+                        <NavLink to="/catalog">Комнаты</NavLink>
+                        <div className="hover-links">
+                            <NavLink to="/catalog">Купить</NavLink>
+                            <NavLink to="/catalog">Сдать</NavLink>
+                            <NavLink to="/catalog">Продать</NavLink>
+                            <NavLink to="/catalog">Снять</NavLink>
+                        </div>
                     </div>
                 </div>
                 <div className="tile">
@@ -28,6 +32,12 @@ export default function MainPage() {
                         <a href="#">Дома</a>
                         <a href="#">Дачи</a>
                         <a href="#">Коттеджи</a>
+                        <div className="hover-links">
+                            <NavLink to="/catalog">Купить</NavLink>
+                            <NavLink to="/catalog">Сдать</NavLink>
+                            <NavLink to="/catalog">Продать</NavLink>
+                            <NavLink to="/catalog">Снять</NavLink>
+                        </div>
                     </div>
                 </div>
                 <div className="tile">
@@ -35,18 +45,36 @@ export default function MainPage() {
                     <div className="links">
                         <a href="#">Гараж</a>
                         <a href="#">Паркинг</a>
+                        <div className="hover-links">
+                            <NavLink to="/catalog">Купить</NavLink>
+                            <NavLink to="/catalog">Сдать</NavLink>
+                            <NavLink to="/catalog">Продать</NavLink>
+                            <NavLink to="/catalog">Снять</NavLink>
+                        </div>
                     </div>
                 </div>
                 <div className="tile">
                     <img src="../img/icons/icon-4.svg" alt="Земельные участки"/>
                     <div className="links">
                         <a href="#">Земельные участки</a>
+                        <div className="hover-links">
+                            <NavLink to="/catalog">Купить</NavLink>
+                            <NavLink to="/catalog">Сдать</NavLink>
+                            <NavLink to="/catalog">Продать</NavLink>
+                            <NavLink to="/catalog">Снять</NavLink>
+                        </div>
                     </div>
                 </div>
                 <div className="tile">
                     <img src="../img/icons/icon-5.svg" alt="Коммерческая недвижимость"/>
                     <div className="links">
                         <a href="#">Коммерческая недвижимость</a>
+                        <div className="hover-links">
+                            <NavLink to="/catalog">Купить</NavLink>
+                            <NavLink to="/catalog">Сдать</NavLink>
+                            <NavLink to="/catalog">Продать</NavLink>
+                            <NavLink to="/catalog">Снять</NavLink>
+                        </div>
                     </div>
                 </div>
                 <div className="tile">
@@ -118,25 +146,25 @@ export default function MainPage() {
 
             <section id="sec-5">
                 <div className="container pb-5">
-                    <div className="row gx-5 mb-6">
-                        <div className="col-8">
+                    <div className="row gx-xxl-5 mb-6">
+                        <div className="col-lg-7 col-xl-8">
                             <img src="../img/img4.jpg" alt="" className="w-100"/>
                         </div>
-                        <div className="col-4 pt-5">
+                        <div className="info col-lg-5 col-xl-4 pt-xxl-5 mt-4 mt-lg-0">
                             <h2>Продаете или покупаете недвижимость?</h2>
-                            <div className="d-flex align-items-baseline mt-4">
+                            <div className="d-flex align-items-baseline mt-2 mt-sm-4">
                                 <img src="../img/icons/mark.svg" alt=""/>
-                                <div className="color-2 fs-15 ms-3">Юридическая консультация</div>
+                                <div className="color-2 fs-15 ms-2 ms-sm-3">Юридическая консультация</div>
                             </div>
-                            <div className="d-flex align-items-baseline mt-4">
+                            <div className="d-flex align-items-baseline mt-2 mt-sm-4">
                                 <img src="../img/icons/mark.svg" alt=""/>
-                                <div className="color-2 fs-15 ms-3">Сопровождение сделок</div>
+                                <div className="color-2 fs-15 ms-2 ms-sm-3">Сопровождение сделок</div>
                             </div>
-                            <div className="d-flex align-items-baseline mt-4">
+                            <div className="d-flex align-items-baseline mt-2 mt-sm-4">
                                 <img src="../img/icons/mark.svg" alt=""/>
-                                <div className="color-2 fs-15 ms-3">Оформление ипотеки на выгодных условиях</div>
+                                <div className="color-2 fs-15 ms-2 ms-sm-3">Оформление ипотеки на выгодных условиях</div>
                             </div>
-                            <button type="button" className="btn btn-1 fs-15 mx-auto mt-5">Услуги риелтора</button>
+                            <button type="button" className="btn btn-1 fs-15 mx-auto mt-4 mt-lg-5">Услуги риелтора</button>
                         </div>
                     </div>
                     <h3 className="black">Статьи</h3>

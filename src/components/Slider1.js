@@ -9,12 +9,12 @@ SwiperCore.use([Navigation, Pagination]);
 export const Slider1 = () => {
     return (
         <Swiper className="swiper-4"
-            spaceBetween={4}
-            slidesPerView={2}
+            spaceBetween={10}
+            slidesPerView={1}
             breakpoints={{
                 576: {
-                    slidesPerView: 3,
-                    spaceBetween: 4,
+                    slidesPerView: 2,
+                    spaceBetween: 10,
                 },
                 768: {
                     slidesPerView: 3,
