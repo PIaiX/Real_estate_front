@@ -49,7 +49,7 @@ export const Slider1 = () => {
                             <div className="color-1 title-font fw-7 fs-11">1-к, квартира 52м2</div>
                             <div className="title-font black fw-7 fs-11">6 000 000 ₽</div>
                         </div>
-                        <div className="d-flex align-items-start mb-3">
+                        <div className="address d-flex align-items-start mb-3">
                             <img src="../img/icons/pin.svg" alt="адрес"/>
                             <div className="fs-09 ms-2">
                                 <div className="mb-1">ЖК “Столичный”</div>

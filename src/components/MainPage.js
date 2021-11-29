@@ -16,8 +16,8 @@ export default function MainPage() {
                 <div className="tile">
                     <img src="../img/icons/icon-1.svg" alt="Сдать"/>
                     <div className="links">
-                        <NavLink to="/catalog">Квартиры</NavLink>
-                        <NavLink to="/catalog">Комнаты</NavLink>
+                        <div className="title">Квартиры</div>
+                        <div className="title">Комнаты</div>
                         <div className="hover-links">
                             <NavLink to="/catalog">Купить</NavLink>
                             <NavLink to="/catalog">Сдать</NavLink>
@@ -29,9 +29,9 @@ export default function MainPage() {
                 <div className="tile">
                     <img src="../img/icons/icon-2.svg" alt="Недвижимость"/>
                     <div className="links">
-                        <a href="#">Дома</a>
-                        <a href="#">Дачи</a>
-                        <a href="#">Коттеджи</a>
+                        <div className="title">Дома</div>
+                        <div className="title">Дачи</div>
+                        <div className="title">Коттеджи</div>
                         <div className="hover-links">
                             <NavLink to="/catalog">Купить</NavLink>
                             <NavLink to="/catalog">Сдать</NavLink>
@@ -167,7 +167,7 @@ export default function MainPage() {
                             <button type="button" className="btn btn-1 fs-15 mx-auto mt-4 mt-lg-5">Услуги риелтора</button>
                         </div>
                     </div>
-                    <h3 className="black">Статьи</h3>
+                    <h3>Статьи</h3>
                     <div className="position-relative">
                         <Slider2 />
                     </div>
