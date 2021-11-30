@@ -3,6 +3,12 @@ $title-font: "Gilroy";
 $color-1: #146492;
 $color-2: #C59C7E;
 $color-3: #ECECEC;
+$gray-1: #333333;
+$gray-2: #4F4F4F;
+$gray-3: #828282;
+$gray-4: #BDBDBD;
+$gray-5: #E0E0E0;
+$gray-6: #F2F2F2;
 $white: #fff;
 $black: #000;
 
@@ -30,57 +36,80 @@ p, label, span, a, form, select, div, blockquote, cite, figure, figcaption, tabl
 input,
 textarea {
   background: #ffffff;
-  border: 1px solid $color-3;
+  border: 1px solid $gray-5;
   border-radius: 0.3em;
   padding: .5em .85em;
   width: 100%;
   line-height: normal;
   box-shadow: unset;
+  outline: none;
   &:not(:placeholder-shown) {
-    border: 1px solid $color-3;
+    border: 1px solid $gray-4;
   }
   &:hover {
-    border: 1px solid $color-3;
+    border: 1px solid $gray-3;
   }
   &:focus {
     border: 1px solid $color-1;
   }
 }
 input {
-  &[type="radio"] {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -ms-appearance: none;
-    border: none;
-    width: 1.3em;
-    height: 1.3em;
-    background-color: transparent;
-    // background: url(../img/icons/radio.svg) no-repeat center;
-    background-size: contain;
-    padding: 0px;
-    &:checked {
-    //   background: url(../img/icons/radio-ch.svg) no-repeat center;
-      background-size: contain;
+    &.price {
+        background: url(bg-imgs/rub.svg) no-repeat;
+        background-size: auto;
+        background-position: calc(100% - 0.5em) center;
+        padding: .5em 1.5em .5em .5em;
+        -moz-appearance: textfield; //Firefox 
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            -webkit-appearance: none; //Chrome, Safari, Edge, Opera
+            margin: 0;
+        }
     }
-  }
-  &[type="checkbox"] {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -ms-appearance: none;
-    width: 1.3em;
-    height: 1.3em;
-    background-color: transparent;
-    
-    background-size: auto;
-    padding: 0px;
-    border-radius: .25em;
-    &:checked {
-      background-color: $color-1;
-      background: url(bg-imgs/mark2.svg) no-repeat center;
+    &[type="radio"] {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -ms-appearance: none;
+        border: none;
+        width: 1.3em;
+        height: 1.3em;
+        background-color: transparent;
+        // background: url(../img/icons/radio.svg) no-repeat center;
+        background-size: contain;
+        padding: 0px;
+        &:checked {
+        //   background: url(../img/icons/radio-ch.svg) no-repeat center;
+        background-size: contain;
+        }
     }
-  }
+    &[type="checkbox"] {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -ms-appearance: none;
+        width: 16px;
+        height: 16px;
+        background-color: transparent;
+        padding: 0px;
+        border-radius: 2px;
+        box-sizing: content-box;
+        &:checked {
+        background-color: $color-1;
+        background: url(bg-imgs/mark2.svg) no-repeat center;
+        background-size: auto;
+        }
+    }
+}
+.inp-label {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    label {
+        flex: 1;
+        &:hover {color: $color-1;}
+    }
+    input:checked + label {color: $color-1;}
 }
 
 select {
@@ -261,7 +290,6 @@ h3 {
         margin-bottom: 4em;
     }
 }
-
 
 
 header {
@@ -649,6 +677,20 @@ article {
     display: flex;
     font-size: 1.5em;
 }
+.popular-queries {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    overflow: hidden;
+    font-size: 1.1em;
+    button {
+        color: $color-1;
+        margin-left: 1em;
+        font-weight: 500;
+        border-bottom: 1px solid $color-1;
+    }
+}
 
 
 /* SLIDERS */
@@ -753,8 +795,13 @@ article {
     }
 }
 
+
 /* breadcrumbs */
 .breadcrumb {font-size: .8em;}
+
+/* pagination */
+.pagination {justify-content: center;}
+
 
 /* MODAL WINDOWS */
 #header-menu {
