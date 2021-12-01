@@ -24,27 +24,120 @@ export default function Catalog() {
                     </button>
                 </div>
                 <form className="form-search mb-3">
-                    <button type="button" className="btn btn-2">
-                        <span className="me-2">Снять</span>
-                        <img src="../img/icons/caret-down-white.svg"/>
-                    </button>
-                    <button type="button" className="btn btn-2 ms-2">
-                        <span className="me-2">Квартиры</span>
-                        <img src="../img/icons/caret-down-white.svg"/>
-                    </button>
-                    <button type="button" className="btn btn-2 ms-2">
-                        <span className="me-2">Район/Метро</span>
-                        <img src="../img/icons/caret-down-white.svg"/>
-                    </button>
+                    <div className="custom-select">
+                        <button type="button" className="btn btn-2">
+                           Снять
+                        </button>
+                        <div className="options py-2">
+                            <div className="radio">
+                                <input type="radio" name="type" value="Купить" />
+                                <label>Купить</label>
+                            </div>
+                            <div className="radio">
+                                <input type="radio" name="type" value="Продать" />
+                                <label>Продать</label>
+                            </div>
+                            <div className="radio">
+                                <input type="radio" name="type" value="Сдать" />
+                                <label>Сдать</label>
+                            </div>
+                            <div className="radio">
+                                <input type="radio" name="type" value="Снять" checked={true}/>
+                                <label>Снять</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="custom-select ms-2">
+                        <button type="button" className="btn btn-2">
+                            Квартиры
+                        </button>
+                        <div className="options py-2">
+                            <div className="radio">
+                                <input type="radio" name="real-estate" value="Квартиры" checked={true}/>
+                                <label>Квартиры</label>
+                            </div>
+                            <div className="radio">
+                                <input type="radio" name="real-estate" value="Комнаты"/>
+                                <label>Комнаты</label>
+                            </div>
+                            <div className="radio">
+                                <input type="radio" name="real-estate" value="Дома"/>
+                                <label>Дома</label>
+                            </div>
+                            <div className="radio">
+                                <input type="radio" name="real-estate" value="Дачи"/>
+                                <label>Дачи</label>
+                            </div>
+                            <div className="radio">
+                                <input type="radio" name="real-estate" value="Коттеджи"/>
+                                <label>Коттеджи</label>
+                            </div>
+                            <div className="radio">
+                                <input type="radio" name="real-estate" value="Гаражи и парковки"/>
+                                <label>Гаражи и парковки</label>
+                            </div>
+                            <div className="radio">
+                                <input type="radio" name="real-estate" value="Земельные участки"/>
+                                <label className="text-underline">Земельные участки</label>
+                            </div>
+                            <div className="radio">
+                                <input type="radio" name="real-estate" value="Коммерческая недвижимость"/>
+                                <label>Коммерческая недвижимость</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="custom-select ms-2">
+                        <button type="button" className="btn btn-2">
+                            Район/Метро
+                        </button>
+                        <div className="options p-2">
+                            <ul className="nav nav-tabs" id="myTab" role="tablist">
+                                <li className="nav-item" role="presentation">
+                                    <button className="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Метро</button>
+                                </li>
+                                <li className="nav-item" role="presentation">
+                                    <button className="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Районы</button>
+                                </li>
+                            </ul>
+                            <div className="tab-content" id="myTabContent">
+                                <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <label>
+                                        <input type="checkbox" name="metro" value="Авиастроительная"  checked={true}/>
+                                        <span>Авиастроительная</span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="metro" value="Аметьево" />
+                                        <span>Аметьево</span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="metro" value="Горки" />
+                                        <span>Горки</span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="metro" value="Дубравная"/>
+                                        <span>Дубравная</span>
+                                    </label>
+                                </div>
+                                <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+                            </div>
+
+                        </div>
+                    </div>
+                    
                     <input type="search" className="flex-1 ms-2" placeholder="Адрес или ЖК" />
                     <button type="submit" className="btn btn-1 ms-2">Поиск</button>
                 </form>
                 <div className="popular-queries d-flex mb-5">
                     <div>Популярные запросы:</div>
-                    <button>Студия</button>
-                    <button>1 комнатная</button>
-                    <button>2 комнатная</button>
-                    <button>3 комнатная</button>
+                    <button type="button">Студия</button>
+                    <button type="button">1 комнатная</button>
+                    <button type="button">2 комнатная</button>
+                    <button type="button">3 комнатная</button>
+                    <button type="button">С мебелью</button>
+                    <button type="button">Без мебели</button>
+                    <button type="button">Есть лифт</button>
+                    <button type="button">Можно с животными</button>
+                    <button type="button">Можно с детьми</button>
                 </div>
 
                 <div className="row">
@@ -53,34 +146,34 @@ export default function Catalog() {
                         <form className="shad-box p-4 mb-4">
                             <fieldset className="mb-4">
                                 <legend className="title-font fs-12 fw-6 mb-3">Количество комнат</legend>
-                                <div className="inp-label ps-2 mb-3">
-                                    <input type="checkbox" name="rooms" value="1room" id="1room"/>
-                                    <label for="1room" className="fs-11 ms-3">1 комнатная</label>
-                                </div>
-                                <div className="inp-label ps-2 mb-3">
-                                    <input type="checkbox" name="rooms" value="2room" id="2room"/>
-                                    <label for="1room" className="fs-11 ms-3">2 комнатная</label>
-                                </div>
-                                <div className="inp-label ps-2 mb-3">
-                                    <input type="checkbox" name="rooms" value="3room" id="3room"/>
-                                    <label for="3room" className="fs-11 ms-3">3 комнатная</label>
-                                </div>
-                                <div className="inp-label ps-2 mb-3">
-                                    <input type="checkbox" name="rooms" value="4room" id="4room"/>
-                                    <label for="4room" className="fs-11 ms-3">4 комнатная</label>
-                                </div>
-                                <div className="inp-label ps-2 mb-3">
-                                    <input type="checkbox" name="rooms" value="5room" id="5room"/>
-                                    <label for="5room" className="fs-11 ms-3">5 комнатная</label>
-                                </div>
-                                <div className="inp-label ps-2 mb-3">
-                                    <input type="checkbox" name="rooms" value="6room" id="6room"/>
-                                    <label for="6room" className="fs-11 ms-3">6 комнатная</label>
-                                </div>
-                                <div className="inp-label ps-2 mb-3">
-                                    <input type="checkbox" name="rooms" value="studio" id="studio"/>
-                                    <label for="studio" className="fs-11 ms-3">Студия</label>
-                                </div>
+                                <label className="ps-2 mb-3">
+                                    <input type="checkbox" name="rooms" value="1room"/>
+                                    <span className="fs-11 ms-3">1 комнатная</span>
+                                </label>
+                                <label className="ps-2 mb-3">
+                                    <input type="checkbox" name="rooms" value="2room"/>
+                                    <span className="fs-11 ms-3">2 комнатная</span>
+                                </label>
+                                <label className="ps-2 mb-3">
+                                    <input type="checkbox" name="rooms" value="3room"/>
+                                    <span className="fs-11 ms-3">3 комнатная</span>
+                                </label>
+                                <label className="ps-2 mb-3">
+                                    <input type="checkbox" name="rooms" value="4room"/>
+                                    <span className="fs-11 ms-3">4 комнатная</span>
+                                </label>
+                                <label className="ps-2 mb-3">
+                                    <input type="checkbox" name="rooms" value="5room"/>
+                                    <span className="fs-11 ms-3">5 комнатная</span>
+                                </label>
+                                <label className="ps-2 mb-3">
+                                    <input type="checkbox" name="rooms" value="6room"/>
+                                    <span className="fs-11 ms-3">6 комнатная</span>
+                                </label>
+                                <label className="ps-2 mb-3">
+                                    <input type="checkbox" name="rooms" value="studio"/>
+                                    <span className="fs-11 ms-3">Студия</span>
+                                </label>
                             </fieldset>
                             <fieldset className="mb-4">
                                 <legend className="title-font fs-12 fw-6 mb-3">Цена</legend>
