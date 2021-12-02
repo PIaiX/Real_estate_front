@@ -7,7 +7,6 @@ import './styles/style.min.css';
 import Header from './components/Header';
 import AppRouter from './components/AppRouter';
 import { Footer } from './components/Footer';
-// import MainPage from './components/MainPage';
 
 
 

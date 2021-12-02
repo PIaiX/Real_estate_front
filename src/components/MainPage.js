@@ -43,8 +43,8 @@ export default function MainPage() {
                 <div className="tile">
                     <img src="../img/icons/icon-3.svg" alt="Паркинг"/>
                     <div className="links">
-                        <a href="#">Гараж</a>
-                        <a href="#">Паркинг</a>
+                        <a href="/">Гараж</a>
+                        <a href="/">Паркинг</a>
                         <div className="hover-links">
                             <NavLink to="/catalog">Купить</NavLink>
                             <NavLink to="/catalog">Сдать</NavLink>
@@ -56,7 +56,7 @@ export default function MainPage() {
                 <div className="tile">
                     <img src="../img/icons/icon-4.svg" alt="Земельные участки"/>
                     <div className="links">
-                        <a href="#">Земельные участки</a>
+                        <a href="/">Земельные участки</a>
                         <div className="hover-links">
                             <NavLink to="/catalog">Купить</NavLink>
                             <NavLink to="/catalog">Сдать</NavLink>
@@ -68,7 +68,7 @@ export default function MainPage() {
                 <div className="tile">
                     <img src="../img/icons/icon-5.svg" alt="Коммерческая недвижимость"/>
                     <div className="links">
-                        <a href="#">Коммерческая недвижимость</a>
+                        <a href="/">Коммерческая недвижимость</a>
                         <div className="hover-links">
                             <NavLink to="/catalog">Купить</NavLink>
                             <NavLink to="/catalog">Сдать</NavLink>
@@ -80,31 +80,31 @@ export default function MainPage() {
                 <div className="tile">
                     <img src="../img/icons/icon-6.svg" alt="Ипотека"/>
                     <div className="links">
-                        <a href="#">Ипотека</a>
+                        <a href="/">Ипотека</a>
                     </div>
                 </div>
                 <div className="tile">
                     <img src="../img/icons/icon-7.svg" alt="Дизайн"/>
                     <div className="links">
-                        <a href="#">Дизайн</a>
+                        <a href="/">Дизайн</a>
                     </div>
                 </div>
                 <div className="tile">
                     <img src="../img/icons/icon-8.svg" alt="Ремонт"/>
                     <div className="links">
-                        <a href="#">Ремонт</a>
+                        <a href="/">Ремонт</a>
                     </div>
                 </div>
                 <div className="tile">
                     <img src="../img/icons/icon-9.svg" alt="Грузоперевозки"/>
                     <div className="links">
-                        <a href="#">Грузоперевозки</a>
+                        <a href="/">Грузоперевозки</a>
                     </div>
                 </div>
                 <div className="tile">
                     <img src="../img/icons/icon-10.svg" alt="Услуги риелторов"/>
                     <div className="links">
-                        <a href="#">Услуги риелторов</a>
+                        <a href="/">Услуги риелторов</a>
                     </div>
                 </div>
             </section>
@@ -120,7 +120,7 @@ export default function MainPage() {
                     <Slider1 />
                 </div>
                 <div className="text-center mt-2">
-                    <a href="#" className="fs-11 fw-5">Смотреть все</a>
+                    <a href="/" className="fs-11 fw-5">Смотреть все</a>
                 </div>
             </section>
 
@@ -130,7 +130,7 @@ export default function MainPage() {
                     <Slider1 />
                 </div>
                 <div className="text-center mt-2">
-                    <a href="#" className="fs-11 fw-5">Смотреть все</a>
+                    <a href="/" className="fs-11 fw-5">Смотреть все</a>
                 </div>
             </section>
 
@@ -140,7 +140,7 @@ export default function MainPage() {
                     <Slider1 />
                 </div>
                 <div className="text-center mt-2">
-                    <a href="#" className="fs-11 fw-5">Смотреть все</a>
+                    <a href="/" className="fs-11 fw-5">Смотреть все</a>
                 </div>
             </section>
 

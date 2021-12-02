@@ -249,6 +249,9 @@ button {
             padding: 0.5em 2em;
             cursor: pointer;
             white-space: nowrap;
+            &:hover {
+                input {background-color: $color-3;}
+            }
             input {
                 position: absolute;
                 top: 0;
@@ -259,6 +262,7 @@ button {
                 cursor: pointer;
                 background-color: transparent;
                 border-radius: 0px;
+                transition: .2s;
                 &:checked {
                     background-color: $color-3;
                 }

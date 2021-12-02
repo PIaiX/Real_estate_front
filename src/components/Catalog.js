@@ -20,7 +20,7 @@ export default function Catalog() {
                 <h1>Каталог недвижимости</h1>
                 <div className="d-flex justify-content-end mb-4">
                     <button type="button" className="">
-                        <img src="../img/icons/pin.svg"/>
+                        <img src="../img/icons/pin.svg" alt="map pin"/>
                         <span className="ms-2 fs-11 fw-7 color-2">Показать на карте</span>
                     </button>
                 </div>
@@ -140,38 +140,38 @@ export default function Catalog() {
 
                             <fieldset className="mb-4">
                                 <legend className="title-font fs-12 fw-6 mb-3">Срок аренды</legend>
-                                <div className="inp-label ps-2 mb-3">
-                                    <input type="checkbox" name="lease" value="lease 1" id="lease-1"/>
-                                    <label for="lease-1" className="fs-11 ms-3">Посуточно</label>
-                                </div>
-                                <div className="inp-label ps-2 mb-3">
-                                    <input type="checkbox" name="lease" value="lease 2" id="lease-2"/>
-                                    <label for="lease-2" className="fs-11 ms-3">Несколько месяцев</label>
-                                </div>
-                                <div className="inp-label ps-2 mb-3">
-                                    <input type="checkbox" name="lease" value="lease 3" id="lease-3"/>
-                                    <label for="lease-3" className="fs-11 ms-3">Длительная аренда</label>
-                                </div>
+                                <label className="ps-2 mb-3">
+                                    <input type="checkbox" name="lease" value="lease 1"/>
+                                    <span className="fs-11 ms-3">Посуточно</span>
+                                </label>
+                                <label className="ps-2 mb-3">
+                                    <input type="checkbox" name="lease" value="lease 2"/>
+                                    <span className="fs-11 ms-3">Несколько месяцев</span>
+                                </label>
+                                <label className="ps-2 mb-3">
+                                    <input type="checkbox" name="lease" value="lease 3"/>
+                                    <span className="fs-11 ms-3">Длительная аренда</span>
+                                </label>
                             </fieldset>
 
                             <fieldset className="mb-4">
                                 <legend className="title-font fs-12 fw-6 mb-3">Ремонт</legend>
-                                <div className="inp-label ps-2 mb-3">
-                                    <input type="checkbox" name="repair" value="no repair" id="no-repair"/>
-                                    <label for="no-repair" className="fs-11 ms-3">Без ремонта</label>
-                                </div>
-                                <div className="inp-label ps-2 mb-3">
-                                    <input type="checkbox" name="repair" value="repair 1" id="repair-1"/>
-                                    <label for="repair-1" className="fs-11 ms-3">Косметический</label>
-                                </div>
-                                <div className="inp-label ps-2 mb-3">
-                                    <input type="checkbox" name="repair" value="repair 2" id="repair-2"/>
-                                    <label for="repair-2" className="fs-11 ms-3">Евроремонт</label>
-                                </div>
-                                <div className="inp-label ps-2 mb-3">
-                                    <input type="checkbox" name="repair" value="repair 3" id="repair-3"/>
-                                    <label for="repair-3" className="fs-11 ms-3">Дизайнерский</label>
-                                </div>
+                                <label className="ps-2 mb-3">
+                                    <input type="checkbox" name="repair" value="no repair"/>
+                                    <span className="fs-11 ms-3">Без ремонта</span>
+                                </label>
+                                <label className="ps-2 mb-3">
+                                    <input type="checkbox" name="repair" value="repair 1"/>
+                                    <span className="fs-11 ms-3">Косметический</span>
+                                </label>
+                                <label className="ps-2 mb-3">
+                                    <input type="checkbox" name="repair" value="repair 2"/>
+                                    <span className="fs-11 ms-3">Евроремонт</span>
+                                </label>
+                                <label className="ps-2 mb-3">
+                                    <input type="checkbox" name="repair" value="repair 3"/>
+                                    <span className="fs-11 ms-3">Дизайнерский</span>
+                                </label>
                             </fieldset>
 
                             <button type="button" className="btn btn-1 w-100 fs-15">Еще фильтры</button>
@@ -327,22 +327,18 @@ export default function Catalog() {
                             </div>
                         </div>
                         <nav className="mt-4">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                        <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M7 1L1 7L7 13" stroke="#797979" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>
+                            <ul className="pagination">
+                                <li className="page-item">
+                                    <a className="page-link" href="/" aria-label="Previous">
+                                    <img src="../img/icons/prev2.svg" alt="Previous"/>
                                     </a>
                                 </li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
-                                        <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M1 1L7 7L1 13" stroke="#797979" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>
+                                <li className="page-item active"><a className="page-link" href="/">1</a></li>
+                                <li className="page-item"><a className="page-link" href="/">2</a></li>
+                                <li className="page-item"><a className="page-link" href="/">3</a></li>
+                                <li className="page-item">
+                                    <a className="page-link" href="/" aria-label="Next">
+                                    <img src="../img/icons/next2.svg" alt="Next"/>
                                     </a>
                                 </li>
                             </ul>

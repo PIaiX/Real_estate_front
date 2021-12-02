@@ -309,6 +309,10 @@ button {
   white-space: nowrap;
 }
 
+.custom-select .options label:hover input {
+  background-color: #ECECEC;
+}
+
 .custom-select .options label input {
   position: absolute;
   top: 0;
@@ -319,6 +323,8 @@ button {
   cursor: pointer;
   background-color: transparent;
   border-radius: 0px;
+  -webkit-transition: .2s;
+  transition: .2s;
 }
 
 .custom-select .options label input:checked {
