@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import CustomSelect from '../utilities/CustomSelect';
 import Card from './Card';
 
 export default function Catalog() {
@@ -24,69 +25,12 @@ export default function Catalog() {
                     </button>
                 </div>
                 <form className="form-search mb-3">
-                    <div className="custom-select">
-                        <button type="button" className="btn btn-2">
-                           Снять
-                        </button>
-                        <div className="options py-2">
-                            <div className="radio">
-                                <input type="radio" name="type" value="Купить" />
-                                <label>Купить</label>
-                            </div>
-                            <div className="radio">
-                                <input type="radio" name="type" value="Продать" />
-                                <label>Продать</label>
-                            </div>
-                            <div className="radio">
-                                <input type="radio" name="type" value="Сдать" />
-                                <label>Сдать</label>
-                            </div>
-                            <div className="radio">
-                                <input type="radio" name="type" value="Снять" checked={true}/>
-                                <label>Снять</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="custom-select ms-2">
-                        <button type="button" className="btn btn-2">
-                            Квартиры
-                        </button>
-                        <div className="options py-2">
-                            <div className="radio">
-                                <input type="radio" name="real-estate" value="Квартиры" checked={true}/>
-                                <label>Квартиры</label>
-                            </div>
-                            <div className="radio">
-                                <input type="radio" name="real-estate" value="Комнаты"/>
-                                <label>Комнаты</label>
-                            </div>
-                            <div className="radio">
-                                <input type="radio" name="real-estate" value="Дома"/>
-                                <label>Дома</label>
-                            </div>
-                            <div className="radio">
-                                <input type="radio" name="real-estate" value="Дачи"/>
-                                <label>Дачи</label>
-                            </div>
-                            <div className="radio">
-                                <input type="radio" name="real-estate" value="Коттеджи"/>
-                                <label>Коттеджи</label>
-                            </div>
-                            <div className="radio">
-                                <input type="radio" name="real-estate" value="Гаражи и парковки"/>
-                                <label>Гаражи и парковки</label>
-                            </div>
-                            <div className="radio">
-                                <input type="radio" name="real-estate" value="Земельные участки"/>
-                                <label className="text-underline">Земельные участки</label>
-                            </div>
-                            <div className="radio">
-                                <input type="radio" name="real-estate" value="Коммерческая недвижимость"/>
-                                <label>Коммерческая недвижимость</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="custom-select ms-2">
+                    <CustomSelect checkedOpt="Снять" options={['Купить', 'Продать', 'Сдать', 'Снять']}/>
+
+                    <CustomSelect checkedOpt="Квартиры" options={['Квартиры', 'Комнаты', 'Дома', 'Дачи', 'Коттеджи', 'Гаражи и парковки', 'Земельные участки', 'Коммерческая недвижимость']}/>
+
+
+                    {/* <div className="custom-select ms-2">
                         <button type="button" className="btn btn-2">
                             Район/Метро
                         </button>
@@ -102,7 +46,7 @@ export default function Catalog() {
                             <div className="tab-content" id="myTabContent">
                                 <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                     <label>
-                                        <input type="checkbox" name="metro" value="Авиастроительная"  checked={true}/>
+                                        <input type="checkbox" name="metro" value="Авиастроительная"/>
                                         <span>Авиастроительная</span>
                                     </label>
                                     <label>
@@ -118,11 +62,20 @@ export default function Catalog() {
                                         <span>Дубравная</span>
                                     </label>
                                 </div>
-                                <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+                                <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <label>
+                                        <input type="checkbox" name="district" value="Советский"/>
+                                        <span>Советский</span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="district" value="Вахитовский" />
+                                        <span>Вахитовский</span>
+                                    </label>
+                                </div>
                             </div>
 
                         </div>
-                    </div>
+                    </div> */}
                     
                     <input type="search" className="flex-1 ms-2" placeholder="Адрес или ЖК" />
                     <button type="submit" className="btn btn-1 ms-2">Поиск</button>

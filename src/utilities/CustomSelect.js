@@ -1,45 +1,49 @@
-import React, { Component } from 'react';
+import React, {useState} from 'react'
 
-export default class CustomSelect extends Component {
-    constructor(props) {
-        super(props)
-    
-        this.state = {
-            clicked: false
-        };
+export default function CustomSelect(props) {
+    const [visible, setVisibility] = useState(false);
+    const [checkedVal, setCheckedVal] = useState(props.checkedOpt);
+    console.log(props.checkedOpt);
+    const options = props.options;
 
-        this.handleClick = this.handleClick.bind(this);
-    }
-    handleClick() {
-        this.setState(state => ({
-            clicked: !state.clicked
-        }))
-    }
-    render() {
-        return (
-            <div className="custom-select">
-                <button type="button" className="btn btn-2">
-                    Снять
-                </button>
-                <div className="options py-2">
-                    <div className="radio">
-                        <input type="radio" name="type" value="Купить" />
-                        <label>Купить</label>
-                    </div>
-                    <div className="radio">
-                        <input type="radio" name="type" value="Продать" />
-                        <label>Продать</label>
-                    </div>
-                    <div className="radio">
-                        <input type="radio" name="type" value="Сдать" />
-                        <label>Сдать</label>
-                    </div>
-                    <div className="radio">
-                        <input type="radio" name="type" value="Снять" checked={true}/>
-                        <label>Снять</label>
-                    </div>
-                </div>
+    const handleChange = e => {
+        setCheckedVal(e.target.value);
+      };
+
+    return (
+        <div className="custom-select">
+            <button type="button" className="btn btn-2" onClick={() => setVisibility((visible == false) ? true : false)}>
+                {checkedVal}
+            </button>
+            <div className={visible ? 'options py-2' : 'options d-none py-2'}>
+                {options.map(function(item) {
+                    if(item === checkedVal) {
+                        return (
+                            <label>
+                                <input type="radio" name="type" value={item} checked={true} onChange={handleChange}/>
+                                <div>{item}</div>
+                            </label>
+                        )
+                    } else {
+                        return (
+                            <label>
+                                <input type="radio" name="type" value={item} checked={false} onChange={handleChange}/>
+                                <div>{item}</div>
+                            </label>
+                        )
+                    }
+                })}
             </div>
-        )
-    }
+        </div>
+    )
 }
+
+
+// document.addEventListener('click', function(e) {
+//     const target = e.target;
+//     const current_sel = target == item || item.contains(target);
+//     const sel_is_opened = options.style.display == 'block';
+//     if (!current_sel && sel_is_opened) {
+//         toggleMenu();
+//     }
+// });
