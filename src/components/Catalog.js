@@ -20,7 +20,7 @@ export default function Catalog() {
                 <h1>Каталог недвижимости</h1>
                 <div className="d-flex justify-content-end mb-4">
                     <button type="button" className="">
-                        <img src="../img/icons/pin.svg" alt="map pin"/>
+                        <img src="img/icons/pin.svg" alt="map pin"/>
                         <span className="ms-2 fs-11 fw-7 color-2">Показать на карте</span>
                     </button>
                 </div>
@@ -330,7 +330,7 @@ export default function Catalog() {
                             <ul className="pagination">
                                 <li className="page-item">
                                     <a className="page-link" href="/" aria-label="Previous">
-                                    <img src="../img/icons/prev2.svg" alt="Previous"/>
+                                    <img src="img/icons/prev2.svg" alt="Previous"/>
                                     </a>
                                 </li>
                                 <li className="page-item active"><a className="page-link" href="/">1</a></li>
@@ -338,7 +338,7 @@ export default function Catalog() {
                                 <li className="page-item"><a className="page-link" href="/">3</a></li>
                                 <li className="page-item">
                                     <a className="page-link" href="/" aria-label="Next">
-                                    <img src="../img/icons/next2.svg" alt="Next"/>
+                                    <img src="img/icons/next2.svg" alt="Next"/>
                                     </a>
                                 </li>
                             </ul>

@@ -67,10 +67,10 @@ export const Slider2 = () => {
                 />
             </SwiperSlide>
             <div className="swiper-button-prev">
-                <img src="../img/icons/prev.svg" alt="предыдущий" className="w-100"/>
+                <img src="img/icons/prev.svg" alt="предыдущий" className="w-100"/>
             </div>
             <div className="swiper-button-next">
-                <img src="../img/icons/next.svg" alt="следующий" className="w-100"/>
+                <img src="img/icons/next.svg" alt="следующий" className="w-100"/>
             </div>
         </Swiper>
     )

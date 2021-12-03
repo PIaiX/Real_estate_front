@@ -6,7 +6,7 @@ export default function Header() {
         <>
             <header>
                 <div className="container">
-                    <img src="../img/Лого.png" alt="Название сайта" className="logo order-1 me-lg-auto"/>
+                    <img src="img/Лого.png" alt="Название сайта" className="logo order-1 me-lg-auto"/>
                     <nav className="d-none d-lg-flex order-2">
                         <NavLink to="/">Главная</NavLink>
                         <a href="/">Услуги</a>
@@ -15,13 +15,13 @@ export default function Header() {
                     </nav>
                     <div className="d-none d-md-flex order-4 order-lg-3">
                         <button type="button" className="ms-4">
-                            <img src="../img/icons/email.svg" alt="email"/>
+                            <img src="img/icons/email.svg" alt="email"/>
                         </button>
                         <button type="button" className="ms-3 ms-xl-4">
-                            <img src="../img/icons/favorite.svg" alt="favorite"/>
+                            <img src="img/icons/favorite.svg" alt="favorite"/>
                         </button>
                         <button type="button" className="ms-3 ms-xl-4">
-                            <img src="../img/icons/user.svg" alt="аккаунт"/>
+                            <img src="img/icons/user.svg" alt="аккаунт"/>
                         </button>
                     </div>
                     
@@ -32,7 +32,7 @@ export default function Header() {
                         <option value="Питер">Питер</option>
                     </select>
                     <button type="button" data-bs-toggle="offcanvas" data-bs-target="#header-menu" className="d-block d-lg-none order-5">
-                        <img src="../img/icons/menu.svg" alt="меню"/>
+                        <img src="img/icons/menu.svg" alt="меню"/>
                     </button>
                 </div> 
             </header>
