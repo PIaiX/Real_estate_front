@@ -20,14 +20,18 @@ export default function Catalog() {
                 <h1>Каталог недвижимости</h1>
                 <div className="d-flex justify-content-end mb-4">
                     <button type="button" className="">
-                        <img src="img/icons/pin.svg" alt="map pin"/>
+                        <img src="/real_estate/img/icons/pin.svg" alt="map pin"/>
                         <span className="ms-2 fs-11 fw-7 color-2">Показать на карте</span>
                     </button>
                 </div>
                 <form className="form-search mb-3">
                     <CustomSelect checkedOpt="Снять" options={['Купить', 'Продать', 'Сдать', 'Снять']}/>
 
-                    <CustomSelect checkedOpt="Квартиры" options={['Квартиры', 'Комнаты', 'Дома', 'Дачи', 'Коттеджи', 'Гаражи и парковки', 'Земельные участки', 'Коммерческая недвижимость']}/>
+                    <CustomSelect className="ms-2" checkedOpt="Квартиры" options={['Квартиры', 'Комнаты', 'Дома', 'Дачи', 'Коттеджи', 'Гаражи и парковки', 'Земельные участки', 'Коммерческая недвижимость']}/>
+
+                    <button type="button" className="btn btn-2 ms-2">
+                        Район/Метро
+                    </button>
 
 
                     {/* <div className="custom-select ms-2">
@@ -195,7 +199,7 @@ export default function Catalog() {
                         <div className="row row-cols-sm-2 row-cols-xxl-3 g-4">
                             <div>
                                 <Card 
-                                    url="img/img3.jpg" 
+                                    url="/real_estate/img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -206,7 +210,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="img/img3.jpg" 
+                                    url="/real_estate/img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -217,7 +221,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="img/img3.jpg" 
+                                    url="/real_estate/img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -228,7 +232,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="img/img3.jpg" 
+                                    url="/real_estate/img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -239,7 +243,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="img/img3.jpg" 
+                                    url="/real_estate/img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -250,7 +254,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="img/img3.jpg" 
+                                    url="/real_estate/img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -261,7 +265,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="img/img3.jpg" 
+                                    url="/real_estate/img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -272,7 +276,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="img/img3.jpg" 
+                                    url="/real_estate/img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -283,7 +287,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="img/img3.jpg" 
+                                    url="/real_estate/img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -294,7 +298,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="img/img3.jpg" 
+                                    url="/real_estate/img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -305,7 +309,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="img/img3.jpg" 
+                                    url="/real_estate/img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -316,7 +320,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="img/img3.jpg" 
+                                    url="/real_estate/img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -330,7 +334,7 @@ export default function Catalog() {
                             <ul className="pagination">
                                 <li className="page-item">
                                     <a className="page-link" href="/" aria-label="Previous">
-                                    <img src="img/icons/prev2.svg" alt="Previous"/>
+                                    <img src="/real_estate/img/icons/prev2.svg" alt="Previous"/>
                                     </a>
                                 </li>
                                 <li className="page-item active"><a className="page-link" href="/">1</a></li>
@@ -338,7 +342,7 @@ export default function Catalog() {
                                 <li className="page-item"><a className="page-link" href="/">3</a></li>
                                 <li className="page-item">
                                     <a className="page-link" href="/" aria-label="Next">
-                                    <img src="img/icons/next2.svg" alt="Next"/>
+                                    <img src="/real_estate/img/icons/next2.svg" alt="Next"/>
                                     </a>
                                 </li>
                             </ul>

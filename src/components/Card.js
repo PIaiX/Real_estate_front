@@ -12,7 +12,7 @@ export default function Card(props) {
                     <div className="title-font black fw-7 fs-11">{props.price}</div>
                 </div>
                 <div className="address d-flex align-items-start mb-3">
-                    <img src="img/icons/pin.svg" alt="адрес"/>
+                    <img src="/real_estate/img/icons/pin.svg" alt="адрес"/>
                     <div className="fs-09 ms-2">
                         <div className="mb-1">{props.addressName}</div>
                         <div>{props.address}</div>
@@ -27,11 +27,11 @@ export default function Card(props) {
             </div>
             <div className="labels">
                 <div className="vip">
-                    <img src="img/icons/vip.svg" alt="vip"/>
+                    <img src="/real_estate/img/icons/vip.svg" alt="vip"/>
                     <span>VIP</span>
                 </div>
                 <div className="hot">
-                    <img src="img/icons/hot.svg" alt="hot"/>
+                    <img src="/real_estate/img/icons/hot.svg" alt="hot"/>
                     <span>Hot</span>
                 </div>
             </div>

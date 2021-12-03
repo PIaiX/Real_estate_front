@@ -6,7 +6,7 @@ export default function Header() {
         <>
             <header>
                 <div className="container">
-                    <img src="img/Лого.png" alt="Название сайта" className="logo order-1 me-lg-auto"/>
+                    <img src="/real_estate/img/Лого.png" alt="Название сайта" className="logo order-1 me-lg-auto" />
                     <nav className="d-none d-lg-flex order-2">
                         <NavLink to="/">Главная</NavLink>
                         <a href="/">Услуги</a>
@@ -15,13 +15,13 @@ export default function Header() {
                     </nav>
                     <div className="d-none d-md-flex order-4 order-lg-3">
                         <button type="button" className="ms-4">
-                            <img src="img/icons/email.svg" alt="email"/>
+                            <img src="/real_estate/img/icons/email.svg" alt="email"/>
                         </button>
                         <button type="button" className="ms-3 ms-xl-4">
-                            <img src="img/icons/favorite.svg" alt="favorite"/>
+                            <img src="/real_estate/img/icons/favorite.svg" alt="favorite"/>
                         </button>
                         <button type="button" className="ms-3 ms-xl-4">
-                            <img src="img/icons/user.svg" alt="аккаунт"/>
+                            <img src="/real_estate/img/icons/user.svg" alt="аккаунт"/>
                         </button>
                     </div>
                     
@@ -32,7 +32,7 @@ export default function Header() {
                         <option value="Питер">Питер</option>
                     </select>
                     <button type="button" data-bs-toggle="offcanvas" data-bs-target="#header-menu" className="d-block d-lg-none order-5">
-                        <img src="img/icons/menu.svg" alt="меню"/>
+                        <img src="/real_estate/img/icons/menu.svg" alt="меню"/>
                     </button>
                 </div> 
             </header>
@@ -49,7 +49,12 @@ export default function Header() {
                             <li><a href="/">Сообщения</a></li>
                         </ul>
                     </nav>
-                    <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas">
+                        <svg viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1.00006 1.18237L15 15.9049"/>
+                            <path d="M14.9999 1.18237L1.00001 15.9049"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </>

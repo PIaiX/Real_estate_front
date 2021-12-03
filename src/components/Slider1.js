@@ -42,10 +42,10 @@ export const Slider1 = () => {
             <SwiperSlide>
                 <div className="card-mini">
                     <div className="slider">
-                        <img src="img/img1.jpg" alt="фото" className="active"/>
-                        <img src="img/img2.jpg" alt="фото"/>
-                        <img src="img/img3.jpg" alt="фото"/>
-                        <img src="img/img4.jpg" alt="фото"/>
+                        <img src="/real_estate/img/img1.jpg" alt="фото" className="active"/>
+                        <img src="/real_estate/img/img2.jpg" alt="фото"/>
+                        <img src="/real_estate/img/img3.jpg" alt="фото"/>
+                        <img src="/real_estate/img/img4.jpg" alt="фото"/>
                         <div className="box"></div>
                     </div>
                     <div className="p-3">
@@ -54,7 +54,7 @@ export const Slider1 = () => {
                             <div className="title-font black fw-7 fs-11">6 000 000 ₽</div>
                         </div>
                         <div className="address d-flex align-items-start mb-3">
-                            <img src="img/icons/pin.svg" alt="адрес"/>
+                            <img src="/real_estate/img/icons/pin.svg" alt="адрес"/>
                             <div className="fs-09 ms-2">
                                 <div className="mb-1">ЖК “Столичный”</div>
                                 <div>Вахитовский район, ул. Четаева 32</div>
@@ -67,11 +67,11 @@ export const Slider1 = () => {
                     </div>
                     <div className="labels">
                         <div className="vip">
-                            <img src="img/icons/vip.svg" alt="vip"/>
+                            <img src="/real_estate/img/icons/vip.svg" alt="vip"/>
                             <span>VIP</span>
                         </div>
                         <div className="hot">
-                            <img src="img/icons/hot.svg" alt="hot"/>
+                            <img src="/real_estate/img/icons/hot.svg" alt="hot"/>
                             <span>Hot</span>
                         </div>
                     </div>
@@ -80,7 +80,7 @@ export const Slider1 = () => {
             </SwiperSlide>
             <SwiperSlide>
                 <Card 
-                url="img/img3.jpg" 
+                url="/real_estate/img/img3.jpg" 
                 title="1-к, квартира 52м2" 
                 price="6 000 000 ₽" 
                 addressName="ЖК “Столичный”" 
@@ -91,7 +91,7 @@ export const Slider1 = () => {
             </SwiperSlide>
             <SwiperSlide>
                 <Card 
-                url="img/img3.jpg" 
+                url="/real_estate/img/img3.jpg" 
                 title="1-к, квартира 52м2" 
                 price="6 000 000 ₽" 
                 addressName="ЖК “Столичный”" 
@@ -102,7 +102,7 @@ export const Slider1 = () => {
             </SwiperSlide>
             <SwiperSlide>
                 <Card 
-                url="img/img3.jpg" 
+                url="/real_estate/img/img3.jpg" 
                 title="1-к, квартира 52м2" 
                 price="6 000 000 ₽" 
                 addressName="ЖК “Столичный”" 
@@ -113,7 +113,7 @@ export const Slider1 = () => {
             </SwiperSlide>
             <SwiperSlide>
                 <Card 
-                url="img/img3.jpg" 
+                url="/real_estate/img/img3.jpg" 
                 title="1-к, квартира 52м2" 
                 price="6 000 000 ₽" 
                 addressName="ЖК “Столичный”" 
@@ -124,7 +124,7 @@ export const Slider1 = () => {
             </SwiperSlide>
             <SwiperSlide>
                 <Card 
-                url="img/img3.jpg" 
+                url="/real_estate/img/img3.jpg" 
                 title="1-к, квартира 52м2" 
                 price="6 000 000 ₽" 
                 addressName="ЖК “Столичный”" 
@@ -134,10 +134,10 @@ export const Slider1 = () => {
                 />
             </SwiperSlide>
             <div className="swiper-button-prev">
-                <img src="img/icons/prev.svg" alt="предыдущий" className="w-100"/>
+                <img src="/real_estate/img/icons/prev.svg" alt="предыдущий" className="w-100"/>
             </div>
             <div className="swiper-button-next">
-                <img src="img/icons/next.svg" alt="следующий" className="w-100"/>
+                <img src="/real_estate/img/icons/next.svg" alt="следующий" className="w-100"/>
             </div>
             <div className="swiper-pagination"></div>
         </Swiper>

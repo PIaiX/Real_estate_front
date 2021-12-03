@@ -12,7 +12,7 @@ export default function CustomSelect(props) {
     };
 
     return (
-        <div className="custom-select">
+        <div className={"custom-select " + props.className}>
             <button type="button" className="btn btn-2" onClick={() => setVisibility((visible === false) ? true : false)}>
                 {checkedVal}
             </button>
