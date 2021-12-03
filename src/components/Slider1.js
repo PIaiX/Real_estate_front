@@ -80,7 +80,7 @@ export const Slider1 = () => {
             </SwiperSlide>
             <SwiperSlide>
                 <Card 
-                url="../img/img3.jpg" 
+                url="img/img3.jpg" 
                 title="1-к, квартира 52м2" 
                 price="6 000 000 ₽" 
                 addressName="ЖК “Столичный”" 
@@ -91,7 +91,7 @@ export const Slider1 = () => {
             </SwiperSlide>
             <SwiperSlide>
                 <Card 
-                url="../img/img3.jpg" 
+                url="img/img3.jpg" 
                 title="1-к, квартира 52м2" 
                 price="6 000 000 ₽" 
                 addressName="ЖК “Столичный”" 
@@ -102,7 +102,7 @@ export const Slider1 = () => {
             </SwiperSlide>
             <SwiperSlide>
                 <Card 
-                url="../img/img3.jpg" 
+                url="img/img3.jpg" 
                 title="1-к, квартира 52м2" 
                 price="6 000 000 ₽" 
                 addressName="ЖК “Столичный”" 
@@ -113,7 +113,7 @@ export const Slider1 = () => {
             </SwiperSlide>
             <SwiperSlide>
                 <Card 
-                url="../img/img3.jpg" 
+                url="img/img3.jpg" 
                 title="1-к, квартира 52м2" 
                 price="6 000 000 ₽" 
                 addressName="ЖК “Столичный”" 
@@ -124,7 +124,7 @@ export const Slider1 = () => {
             </SwiperSlide>
             <SwiperSlide>
                 <Card 
-                url="../img/img3.jpg" 
+                url="img/img3.jpg" 
                 title="1-к, квартира 52м2" 
                 price="6 000 000 ₽" 
                 addressName="ЖК “Столичный”" 

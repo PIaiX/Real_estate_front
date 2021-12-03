@@ -195,7 +195,7 @@ export default function Catalog() {
                         <div className="row row-cols-sm-2 row-cols-xxl-3 g-4">
                             <div>
                                 <Card 
-                                    url="../img/img3.jpg" 
+                                    url="img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -206,7 +206,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="../img/img3.jpg" 
+                                    url="img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -217,7 +217,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="../img/img3.jpg" 
+                                    url="img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -228,7 +228,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="../img/img3.jpg" 
+                                    url="img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -239,7 +239,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="../img/img3.jpg" 
+                                    url="img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -250,7 +250,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="../img/img3.jpg" 
+                                    url="img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -261,7 +261,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="../img/img3.jpg" 
+                                    url="img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -272,7 +272,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="../img/img3.jpg" 
+                                    url="img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -283,7 +283,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="../img/img3.jpg" 
+                                    url="img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -294,7 +294,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="../img/img3.jpg" 
+                                    url="img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -305,7 +305,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="../img/img3.jpg" 
+                                    url="img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -316,7 +316,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="../img/img3.jpg" 
+                                    url="img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
