@@ -20,20 +20,26 @@ export default function Catalog() {
                 <h1>Каталог недвижимости</h1>
                 
                 <form className="form-search mb-5">
-                    <button type="button" className="map-search">
-                        <img src="/real_estate/img/icons/pin.svg" alt="map pin"/>
-                        <span className="ms-2 fs-11 fw-7 color-2">Показать на карте</span>
-                    </button>
+                    <div className="map-search">
+                        <button type="button" className="d-flex d-lg-none align-items-center">
+                            <img src="/real_estate/img/icons/filter.svg" alt="filter"/>
+                            <span className="ms-2 fs-11 fw-5 color-1">Фильтры</span>
+                        </button>
+                        <button type="button" className="d-flex align-items-center">
+                            <img src="/real_estate/img/icons/pin.svg" alt="map pin"/>
+                            <span className="ms-2 fs-11 fw-5 color-2">Показать на карте</span>
+                        </button>
+                    </div>
 
                     <CustomSelect className="sel-1" checkedOpt="Снять" options={['Купить', 'Продать', 'Сдать', 'Снять']}/>
 
                     <CustomSelect className="sel-2" checkedOpt="Квартиры" options={['Квартиры', 'Комнаты', 'Дома', 'Дачи', 'Коттеджи', 'Гаражи и парковки', 'Земельные участки', 'Коммерческая недвижимость']}/>
 
-                    
-                        <button type="button" className="sel-3 btn btn-2">
+                    <div className="sel-3">
+                        <button type="button" className="btn btn-2">
                             Район/Метро
                         </button>
-
+                    </div>
                     {/* <div className="custom-select ms-2">
                         <button type="button" className="btn btn-2">
                             Район/Метро
@@ -84,7 +90,7 @@ export default function Catalog() {
                     <input type="search" placeholder="Адрес или ЖК" />
                     <button type="submit" className="btn btn-1">Поиск</button>
 
-                    <div className="popular-queries d-flex">
+                    <div className="popular-queries">
                     <div>Популярные запросы:</div>
                     <button type="button">Студия</button>
                     <button type="button">1 комнатная</button>
@@ -185,17 +191,16 @@ export default function Catalog() {
                     </div>
                     <div className="col-12 col-lg-8 col-xxl-9">
                         <div className="d-flex justify-content-between align-items-center mb-4">
+                            <div>Найдено 1 200 объявлений</div>
                             <div className="fs-11">Сотрировать: Сначала новые</div>
-                            <div>
-                                <button type="button" className="fs-11">
-                                    <span className="me-3">Показать списком</span>
-                                    <svg width="28" height="26" viewBox="0 0 28 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect width="28" height="5.6" rx="1" fill="#E5E5E5"/>
-                                        <rect y="9.3335" width="28" height="5.6" rx="1" fill="#E5E5E5"/>
-                                        <rect y="18.6665" width="28" height="6.53333" rx="1" fill="#E5E5E5"/>
-                                    </svg>
-                                </button>
-                            </div>
+                            <button type="button" className="fs-11 ">
+                                <span className="me-3">Показать списком</span>
+                                <svg width="28" height="26" viewBox="0 0 28 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="28" height="5.6" rx="1" fill="#E5E5E5"/>
+                                    <rect y="9.3335" width="28" height="5.6" rx="1" fill="#E5E5E5"/>
+                                    <rect y="18.6665" width="28" height="6.53333" rx="1" fill="#E5E5E5"/>
+                                </svg>
+                            </button>
                         </div>
                         <div className="row row-cols-sm-2 row-cols-xxl-3 g-4">
                             <div>
