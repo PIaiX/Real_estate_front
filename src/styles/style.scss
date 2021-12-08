@@ -109,7 +109,7 @@ input {
         border-radius: 2px;
         box-sizing: content-box;
         &:checked {
-        background-color: $color-1;
+        // background-color: $color-1;
         background: url(bg-imgs/mark2.svg) no-repeat center;
         background-size: auto;
         }
@@ -146,79 +146,7 @@ select {
     background: url(bg-imgs/caret-down.svg) no-repeat right center;
     background-size: 1em .5em;
     padding: 0 1.2em 0 0;
-  }
-  
-
-button {
-    background: none;
-    border: none;
-    padding: unset;
-    display: block;
-    font-family: inherit;
-    outline: none;
 }
-.btn {
-    @include flex-center;
-    border-radius: 4px;
-    padding: 0.5em 2em;
-    text-align: center;
-    transition: 0.5s;
-    width: fit-content;
-    font-size: 1em;
-    line-height: normal;
-    &-1 {
-        background-color: $color-1;
-        color: #fff;
-        &:hover, &:focus, &:active {
-            color: #fff;
-            background-color: darken($color-1, 6%);
-        }
-        &:disabled {
-            color: #C4C4C4;
-            background-color: #7a7878;
-        }
-    }
-    &-2 {
-        background-color: $color-2;
-        color: #fff;
-        &:hover, &:focus, &:active {
-            color: #fff;
-            background-color: darken($color-2, 6%);
-        }
-        &:disabled {
-            color: #C4C4C4;
-            background-color: #7a7878;
-        }
-    }
-    &-fav {
-        width: 34px;
-        height: 34px;
-        border-radius: 50%;
-        background-color: $color-3;
-        @include flex-center;
-        padding-top: 2px;
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        svg {
-            width: 22px;
-            height: 22px;
-            fill: none;
-            path {
-                fill: #878787;
-            }
-        }
-        &.clicked{
-            background-color: $color-2;
-            svg {
-                path {
-                    fill: #fff;
-                }
-            }
-        }
-    }
-}
-
 /* custom select */
 .custom-select {
     width: fit-content;
@@ -228,19 +156,33 @@ button {
         width: 100%;
         position: relative;
         z-index: 1;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        background-image: url(bg-imgs/caret-down-white.svg);
-        background-repeat: no-repeat;
-        background-size: 1em;
-        background-position: calc(100% - 0.75em) 50%;
-        padding: 0.5em 2em 0.5em 1.25em;
         text-align: left;
-        display: block;
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
+        }
+        svg {
+            width: 1.4rem;
+            height: .75rem;
+            fill: none;
+            line {
+                stroke: $gray-2;
+                stroke-width: 2px;
+            }
+        }
         @media (max-width: 1199px) {
             background-position: calc(100% - 0.25em) 50%;
             padding: 0.5em 1.25em 0.5em .75em;
+        }
+        &.btn {
+            svg {
+                line {stroke: #fff;}
+            }
         }
     }
     .dropdown-toggle::after {content: unset;}
@@ -257,7 +199,7 @@ button {
         border-radius: 4px;
         // display: none;
         z-index: 2;
-        label {
+        label.radio-line {
             display: block;
             position: relative;
             z-index: 1;
@@ -304,6 +246,80 @@ button {
                         color: $color-1;
                         font-weight: 700;
                     }
+                }
+            }
+        }
+    }
+}
+
+button {
+    background: none;
+    border: none;
+    padding: unset;
+    display: block;
+    font-family: inherit;
+    outline: none;
+    color: inherit;
+}
+.btn {
+    @include flex-center;
+    border-radius: 4px;
+    padding: 0.5em 2em;
+    text-align: center;
+    transition: 0.5s;
+    width: fit-content;
+    font-size: 1em;
+    line-height: normal;
+    &-1 {
+        background-color: $color-1;
+        color: #fff;
+        &:hover, &:focus, &:active {
+            color: #fff;
+            background-color: darken($color-1, 6%);
+        }
+        &:disabled {
+            color: #C4C4C4;
+            background-color: #7a7878;
+        }
+    }
+    &-2 {
+        background-color: $color-2;
+        color: #fff;
+        &:hover, &:focus, &:active {
+            color: #fff;
+            background-color: darken($color-2, 6%);
+        }
+        &:disabled {
+            color: #C4C4C4;
+            background-color: #7a7878;
+        }
+        svg {
+            line {stroke: #fff;}
+        }
+    }
+    &-fav {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background-color: $color-3;
+        @include flex-center;
+        padding-top: 2px;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            path {
+                fill: #878787;
+            }
+        }
+        &.clicked{
+            background-color: $color-2;
+            svg {
+                path {
+                    fill: #fff;
                 }
             }
         }
@@ -383,6 +399,7 @@ h3 {
 }
 .white {color: $white;}
 .black {color: $black;}
+.gray-2 {color: $gray-2;}
 .gray-3 {color: $gray-3;}
 .color-1 {color: $color-1;}
 .color-2 {color: $color-2;}
@@ -793,7 +810,7 @@ article {
     --title-size: 1.5em;
     --size: 1.1em;
     display: grid;
-    grid-template-columns: 190px 215px 250px auto 200px;
+    grid-template-columns: 160px 215px 270px auto 180px;
     grid-template-rows: repeat(3, 1fr);
     grid-gap: 1em .5em;
     width: 100%;

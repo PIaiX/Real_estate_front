@@ -103,7 +103,6 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"]:checked {
-  background-color: #146492;
   background: url(bg-imgs/mark2.svg) no-repeat center;
   background-size: auto;
 }
@@ -169,6 +168,144 @@ select {
   padding: 0 1.2em 0 0;
 }
 
+/* custom select */
+.custom-select {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 100%;
+  position: relative;
+}
+
+.custom-select > button {
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  text-align: left;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.custom-select > button span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.custom-select > button svg {
+  width: 1.4rem;
+  height: .75rem;
+  fill: none;
+}
+
+.custom-select > button svg line {
+  stroke: #4F4F4F;
+  stroke-width: 2px;
+}
+
+@media (max-width: 1199px) {
+  .custom-select > button {
+    background-position: calc(100% - 0.25em) 50%;
+    padding: 0.5em 1.25em 0.5em .75em;
+  }
+}
+
+.custom-select > button.btn svg line {
+  stroke: #fff;
+}
+
+.custom-select .dropdown-toggle::after {
+  content: unset;
+}
+
+.custom-select .options {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  min-width: 100%;
+  max-width: 500px;
+  max-height: 400px;
+  overflow: hidden;
+  background: #FFFFFF;
+  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  z-index: 2;
+}
+
+.custom-select .options label.radio-line {
+  display: block;
+  position: relative;
+  z-index: 1;
+  text-align: left;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  color: #146492;
+  padding: 0.5em 2em;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.custom-select .options label.radio-line:hover input {
+  background-color: #ECECEC;
+}
+
+.custom-select .options label.radio-line input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  cursor: pointer;
+  background-color: transparent;
+  border-radius: 0px;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+.custom-select .options label.radio-line input:checked {
+  background-color: #ECECEC;
+}
+
+.custom-select .options .nav-tabs {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  border-bottom: 1px solid #C4C4C4;
+}
+
+.custom-select .options .nav-tabs .nav-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.custom-select .options .nav-tabs .nav-item .nav-link {
+  border: none;
+  margin-bottom: 0px;
+  font-family: "Gilroy";
+  color: #C59C7E;
+  font-weight: 500;
+}
+
+.custom-select .options .nav-tabs .nav-item .nav-link.active {
+  color: #146492;
+  font-weight: 700;
+}
+
 button {
   background: none;
   border: none;
@@ -176,6 +313,7 @@ button {
   display: block;
   font-family: inherit;
   outline: none;
+  color: inherit;
 }
 
 .btn {
@@ -230,6 +368,10 @@ button {
   background-color: #7a7878;
 }
 
+.btn-2 svg line {
+  stroke: #fff;
+}
+
 .btn-fav {
   width: 34px;
   height: 34px;
@@ -266,121 +408,6 @@ button {
 
 .btn-fav.clicked svg path {
   fill: #fff;
-}
-
-/* custom select */
-.custom-select {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  max-width: 100%;
-  position: relative;
-}
-
-.custom-select > button {
-  width: 100%;
-  position: relative;
-  z-index: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  background-image: url(bg-imgs/caret-down-white.svg);
-  background-repeat: no-repeat;
-  background-size: 1em;
-  background-position: calc(100% - 0.75em) 50%;
-  padding: 0.5em 2em 0.5em 1.25em;
-  text-align: left;
-  display: block;
-}
-
-@media (max-width: 1199px) {
-  .custom-select > button {
-    background-position: calc(100% - 0.25em) 50%;
-    padding: 0.5em 1.25em 0.5em .75em;
-  }
-}
-
-.custom-select .dropdown-toggle::after {
-  content: unset;
-}
-
-.custom-select .options {
-  position: absolute;
-  top: calc(100% + 5px);
-  left: 0;
-  min-width: 100%;
-  max-width: 500px;
-  max-height: 400px;
-  overflow: hidden;
-  background: #FFFFFF;
-  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
-  z-index: 2;
-}
-
-.custom-select .options label {
-  display: block;
-  position: relative;
-  z-index: 1;
-  text-align: left;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-  color: #146492;
-  padding: 0.5em 2em;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.custom-select .options label:hover input {
-  background-color: #ECECEC;
-}
-
-.custom-select .options label input {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  cursor: pointer;
-  background-color: transparent;
-  border-radius: 0px;
-  -webkit-transition: .2s;
-  transition: .2s;
-}
-
-.custom-select .options label input:checked {
-  background-color: #ECECEC;
-}
-
-.custom-select .options .nav-tabs {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: nowrap;
-      flex-wrap: nowrap;
-  border-bottom: 1px solid #C4C4C4;
-}
-
-.custom-select .options .nav-tabs .nav-item {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.custom-select .options .nav-tabs .nav-item .nav-link {
-  border: none;
-  margin-bottom: 0px;
-  font-family: "Gilroy";
-  color: #C59C7E;
-  font-weight: 500;
-}
-
-.custom-select .options .nav-tabs .nav-item .nav-link.active {
-  color: #146492;
-  font-weight: 700;
 }
 
 h1, h2, h3 {
@@ -537,6 +564,10 @@ h3 {
 
 .black {
   color: #000;
+}
+
+.gray-2 {
+  color: #4F4F4F;
 }
 
 .gray-3 {
@@ -1132,8 +1163,8 @@ article .text {
   --size: 1.1em;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 190px 215px 250px auto 200px;
-      grid-template-columns: 190px 215px 250px auto 200px;
+  -ms-grid-columns: 160px 215px 270px auto 180px;
+      grid-template-columns: 160px 215px 270px auto 180px;
   -ms-grid-rows: (1fr)[3];
       grid-template-rows: repeat(3, 1fr);
   grid-gap: 1em .5em;

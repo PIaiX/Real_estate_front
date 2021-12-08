@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import CustomSelect from '../utilities/CustomSelect';
+import CustomSelectMultyDual from '../utilities/CustomSelectMultyDual';
 import Card from './Card';
 
 export default function Catalog() {
@@ -19,7 +20,7 @@ export default function Catalog() {
             <section className="sec-6 container pb-5">
                 <h1>Каталог недвижимости</h1>
                 
-                <form className="form-search mb-5">
+                <form className="form-search mb-4 mb-sm-5">
                     <div className="map-search">
                         <button type="button" className="d-flex d-lg-none align-items-center">
                             <img src="/real_estate/img/icons/filter.svg" alt="filter"/>
@@ -31,61 +32,12 @@ export default function Catalog() {
                         </button>
                     </div>
 
-                    <CustomSelect className="sel-1" checkedOpt="Снять" options={['Купить', 'Продать', 'Сдать', 'Снять']}/>
+                    <CustomSelect className="sel-1" btnClass="btn btn-2 px-3" checkedOpt="Снять" options={['Купить', 'Продать', 'Сдать', 'Снять']}/>
 
-                    <CustomSelect className="sel-2" checkedOpt="Квартиры" options={['Квартиры', 'Комнаты', 'Дома', 'Дачи', 'Коттеджи', 'Гаражи и парковки', 'Земельные участки', 'Коммерческая недвижимость']}/>
+                    <CustomSelect className="sel-2" btnClass="btn btn-2 px-3" checkedOpt="Квартиры" options={['Квартиры', 'Комнаты', 'Дома', 'Дачи', 'Коттеджи', 'Гаражи и парковки', 'Земельные участки', 'Коммерческая недвижимость']}/>
 
-                    <div className="sel-3">
-                        <button type="button" className="btn btn-2">
-                            Район/Метро
-                        </button>
-                    </div>
-                    {/* <div className="custom-select ms-2">
-                        <button type="button" className="btn btn-2">
-                            Район/Метро
-                        </button>
-                        <div className="options p-2">
-                            <ul className="nav nav-tabs" id="myTab" role="tablist">
-                                <li className="nav-item" role="presentation">
-                                    <button className="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Метро</button>
-                                </li>
-                                <li className="nav-item" role="presentation">
-                                    <button className="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Районы</button>
-                                </li>
-                            </ul>
-                            <div className="tab-content" id="myTabContent">
-                                <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                    <label>
-                                        <input type="checkbox" name="metro" value="Авиастроительная"/>
-                                        <span>Авиастроительная</span>
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="metro" value="Аметьево" />
-                                        <span>Аметьево</span>
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="metro" value="Горки" />
-                                        <span>Горки</span>
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="metro" value="Дубравная"/>
-                                        <span>Дубравная</span>
-                                    </label>
-                                </div>
-                                <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                    <label>
-                                        <input type="checkbox" name="district" value="Советский"/>
-                                        <span>Советский</span>
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="district" value="Вахитовский" />
-                                        <span>Вахитовский</span>
-                                    </label>
-                                </div>
-                            </div>
+                    <CustomSelectMultyDual className="sel-3" btnClass="btn btn-2 px-3" checkedDist={['Авиастроительный', 'Вахитовский']} checkedSt={['Яшьлек', 'Козья слобода']} districts={['Авиастроительный', 'Вахитовский', 'Кировский', 'Московский', 'Ново-Савиновский', 'Приволжский', 'Советский']} stations={['Авиастроительная', 'Северный вокзал', 'Яшьлек', 'Козья слобода', 'Кремлёвская', 'Площадь Габдуллы Тукая', 'Суконная слобода', 'Аметьево', 'Горки', 'Проспект Победы', 'Дубравная']}/>
 
-                        </div>
-                    </div> */}
                     
                     <input type="search" placeholder="Адрес или ЖК" />
                     <button type="submit" className="btn btn-1">Поиск</button>
@@ -191,9 +143,9 @@ export default function Catalog() {
                     </div>
                     <div className="col-12 col-lg-8 col-xxl-9">
                         <div className="d-flex justify-content-between align-items-center mb-4">
-                            <div>Найдено 1 200 объявлений</div>
-                            <div className="fs-11">Сотрировать: Сначала новые</div>
-                            <button type="button" className="fs-11 ">
+                            <div className="d-lg-none">Найдено 1 200 объявлений</div>
+                            <CustomSelect className="gray-2" btnClass="fs-11" checkedOpt="Сначала новые" options={['По популярности', 'Сначала новые', 'Сначала старые', 'Сначала дешевые', 'Сначала дорогие']}/>
+                            <button type="button" className="fs-11 d-none d-lg-flex">
                                 <span className="me-3">Показать списком</span>
                                 <svg width="28" height="26" viewBox="0 0 28 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <rect width="28" height="5.6" rx="1" fill="#E5E5E5"/>
