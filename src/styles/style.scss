@@ -160,11 +160,14 @@ select {
         display: flex;
         flex-wrap: nowrap;
         align-items: center;
-        span {
+        div {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             flex: 1;
+            span:not(:empty):before{
+                content: ":";
+            }
         }
         svg {
             width: 1.4rem;
@@ -197,7 +200,6 @@ select {
         background: #FFFFFF;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
         border-radius: 4px;
-        // display: none;
         z-index: 2;
         label.radio-line {
             display: block;
@@ -229,11 +231,12 @@ select {
             }
             // div {}
         }
-
+    }
+    &.dual {
         .nav-tabs {
             display: flex;
             flex-wrap: nowrap;
-            border-bottom: 1px solid #C4C4C4;
+            border-bottom: 1px solid $gray-5;
             .nav-item {
                 display: flex;
                 .nav-link {
@@ -242,12 +245,28 @@ select {
                     font-family: $title-font;
                     color: $color-2;
                     font-weight: 500;
+                    padding: .25em 1em;
                     &.active {
                         color: $color-1;
                         font-weight: 700;
                     }
                 }
             }
+        }
+        .tab-content {
+            .tab-pane {
+                padding: 1em 1em .75em;
+                column-count: 2;
+                column-gap: 1.5em;
+                break-inside: avoid;
+                label {
+                    display: inline-flex;
+                    &:not(:last-child){
+                        margin-bottom: .5em;
+                    }
+                }
+            }
+            
         }
     }
 }
@@ -304,9 +323,6 @@ button {
         background-color: $color-3;
         @include flex-center;
         padding-top: 2px;
-        position: absolute;
-        top: 5px;
-        right: 5px;
         svg {
             width: 22px;
             height: 22px;
@@ -325,8 +341,6 @@ button {
         }
     }
 }
-
-
 
 h1, h2, h3 {font-family: $title-font;}
 h1 {
@@ -735,7 +749,48 @@ main {
             &.hot {background-color: $color-2;}
         }
     }
+    .btn-fav {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    }
 }
+.card-midi {
+    position: relative;
+    background-color: #fff;
+    filter: drop-shadow(0px 1px 10px rgba(0, 0, 0, 0.15));
+    padding: 1em;
+    display: flex;
+    align-items: flex-start;
+    img.photo {
+        width: 100%;
+    }
+    .labels {
+        position: absolute;
+        top: 10px;
+        left: 0px;
+        div {
+            color: #fff;
+            padding: 0.1em 0.25em;
+            margin-bottom: 0.2em;
+            font-weight: 500;
+            font-size: .95em;
+            display: flex;
+            align-items: center;
+            img {
+                margin-right: .15em;
+                width: 1.5em;
+                height: 1.5em;
+                object-fit: scale-down;
+            }
+            &.vip {
+                background-color: $color-1;
+            }
+            &.hot {background-color: $color-2;}
+        }
+    }
+}
+
 
 /* SECTION 5 */
 #sec-5 {
@@ -819,7 +874,7 @@ article {
     }
     @media (max-width: 1399px){
         --title-size: 1.3em;
-        grid-template-columns: 150px 180px 220px auto 160px;
+        grid-template-columns: 130px 180px 250px auto 160px;
     }
     @media (max-width: 1199px){
         --title-size: 1.2em;
@@ -926,8 +981,20 @@ article {
         }
     }
 }
-
-
+.btn-view {
+    svg {
+        rect {
+            fill: $gray-5;
+        }
+    }
+    &:hover {
+        svg {
+            rect {
+                fill: $color-1;
+            }
+        }
+    }
+}
 
 
 /* SLIDERS */

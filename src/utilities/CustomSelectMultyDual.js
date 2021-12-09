@@ -46,20 +46,20 @@ export default function CustomSelectMultyDual(props) {
     });
     
     return (
-        <div ref={ref} className={"custom-select " + props.className}>
+        <div ref={ref} className={"custom-select dual " + props.className}>
             <button type="button" className={props.btnClass} onClick={() => setVisibility((visible === false) ? true : false)}>
-                <span>Район {count1} / Метро {count2}</span>
+                <div>Район<span>{(count1==0) ? '' : count1}</span>/Метро<span>{(count2==0) ? '' : count2}</span></div>
                 <svg className="ms-2" viewBox="0 0 23 12" xmlns="http://www.w3.org/2000/svg">
                     <line x1="21.6832" y1="0.730271" x2="10.7468" y2="10.961"/>
                     <line y1="-1" x2="14.9757" y2="-1" transform="matrix(0.730271 0.683157 0.683157 -0.730271 2 0)"/>
                 </svg>
             </button>
-            <div className={visible ? 'options p-2' : 'options d-none py-2'}>
+            <div className={visible ? 'options px-2 pt-3' : 'options d-none py-2'}>
                 <ul className="nav nav-tabs" id="myTab" role="tablist">
-                    <li className="nav-item" role="presentation">
+                    <li className="nav-item fs-11" role="presentation">
                         <button className="nav-link active" data-bs-toggle="tab" data-bs-target="#districts" type="button" role="tab" aria-selected="true">Районы</button>
                     </li>
-                    <li className="nav-item" role="presentation">
+                    <li className="nav-item fs-11" role="presentation">
                         <button className="nav-link" data-bs-toggle="tab" data-bs-target="#stations" type="button" role="tab" aria-selected="false">Метро</button>
                     </li>
                 </ul>
@@ -67,7 +67,7 @@ export default function CustomSelectMultyDual(props) {
                     <div className="tab-pane fade show active" id="districts" role="tabpanel">
                         {districts.map(function(item) {
                             return (
-                                <label key={item} className="mb-3">
+                                <label key={item}>
                                     <input type="checkbox" name="district" value={item} defaultChecked={(checkedDist.includes(item)) ? true : false} onChange={handleChange}/>
                                     <span className="ms-3">{item}</span>
                                 </label>
@@ -77,8 +77,8 @@ export default function CustomSelectMultyDual(props) {
                     <div className="tab-pane fade" id="stations" role="tabpanel">
                         {stations.map(function(item) {
                             return (
-                                <label key={item} className="mb-3">
-                                    <input type="checkbox" name="station" value={item} defaultChecked={(checkedDist.includes(item)) ? true : false} onChange={handleChange2}/>
+                                <label key={item}>
+                                    <input type="checkbox" name="station" value={item} defaultChecked={(checkedSt.includes(item)) ? true : false} onChange={handleChange2}/>
                                     <span className="ms-3">{item}</span>
                                 </label>
                             )

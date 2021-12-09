@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { NavLink } from 'react-router-dom';
 import CustomSelect from '../utilities/CustomSelect';
 import CustomSelectMultyDual from '../utilities/CustomSelectMultyDual';
 import Card from './Card';
 
 export default function Catalog() {
+    const [view, setView] = useState('tiled');
+
     return (
         <main>
             <div className="container py-4">
@@ -19,7 +21,6 @@ export default function Catalog() {
             </div>
             <section className="sec-6 container pb-5">
                 <h1>Каталог недвижимости</h1>
-                
                 <form className="form-search mb-4 mb-sm-5">
                     <div className="map-search">
                         <button type="button" className="d-flex d-lg-none align-items-center">
@@ -31,29 +32,23 @@ export default function Catalog() {
                             <span className="ms-2 fs-11 fw-5 color-2">Показать на карте</span>
                         </button>
                     </div>
-
                     <CustomSelect className="sel-1" btnClass="btn btn-2 px-3" checkedOpt="Снять" options={['Купить', 'Продать', 'Сдать', 'Снять']}/>
-
                     <CustomSelect className="sel-2" btnClass="btn btn-2 px-3" checkedOpt="Квартиры" options={['Квартиры', 'Комнаты', 'Дома', 'Дачи', 'Коттеджи', 'Гаражи и парковки', 'Земельные участки', 'Коммерческая недвижимость']}/>
-
-                    <CustomSelectMultyDual className="sel-3" btnClass="btn btn-2 px-3" checkedDist={['Авиастроительный', 'Вахитовский']} checkedSt={['Яшьлек', 'Козья слобода']} districts={['Авиастроительный', 'Вахитовский', 'Кировский', 'Московский', 'Ново-Савиновский', 'Приволжский', 'Советский']} stations={['Авиастроительная', 'Северный вокзал', 'Яшьлек', 'Козья слобода', 'Кремлёвская', 'Площадь Габдуллы Тукая', 'Суконная слобода', 'Аметьево', 'Горки', 'Проспект Победы', 'Дубравная']}/>
-
-                    
+                    <CustomSelectMultyDual className="sel-3" btnClass="btn btn-2 px-3" checkedDist={[]} checkedSt={['Яшьлек', 'Козья слобода']} districts={['Авиастроительный', 'Вахитовский', 'Кировский', 'Московский', 'Ново-Савиновский', 'Приволжский', 'Советский']} stations={['Авиастроительная', 'Северный вокзал', 'Яшьлек', 'Козья слобода', 'Кремлёвская', 'Площадь Габдуллы Тукая', 'Суконная слобода', 'Аметьево', 'Горки', 'Проспект Победы', 'Дубравная']}/>
                     <input type="search" placeholder="Адрес или ЖК" />
                     <button type="submit" className="btn btn-1">Поиск</button>
-
                     <div className="popular-queries">
-                    <div>Популярные запросы:</div>
-                    <button type="button">Студия</button>
-                    <button type="button">1 комнатная</button>
-                    <button type="button">2 комнатная</button>
-                    <button type="button">3 комнатная</button>
-                    <button type="button">С мебелью</button>
-                    <button type="button">Без мебели</button>
-                    <button type="button">Есть лифт</button>
-                    <button type="button">Можно с животными</button>
-                    <button type="button">Можно с детьми</button>
-                </div>
+                        <div>Популярные запросы:</div>
+                        <button type="button">Студия</button>
+                        <button type="button">1 комнатная</button>
+                        <button type="button">2 комнатная</button>
+                        <button type="button">3 комнатная</button>
+                        <button type="button">С мебелью</button>
+                        <button type="button">Без мебели</button>
+                        <button type="button">Есть лифт</button>
+                        <button type="button">Можно с животными</button>
+                        <button type="button">Можно с детьми</button>
+                    </div>
                 </form>
 
                 <div className="row">
@@ -145,18 +140,48 @@ export default function Catalog() {
                         <div className="d-flex justify-content-between align-items-center mb-4">
                             <div className="d-lg-none">Найдено 1 200 объявлений</div>
                             <CustomSelect className="gray-2" btnClass="fs-11" checkedOpt="Сначала новые" options={['По популярности', 'Сначала новые', 'Сначала старые', 'Сначала дешевые', 'Сначала дорогие']}/>
-                            <button type="button" className="fs-11 d-none d-lg-flex">
-                                <span className="me-3">Показать списком</span>
-                                <svg width="28" height="26" viewBox="0 0 28 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect width="28" height="5.6" rx="1" fill="#E5E5E5"/>
-                                    <rect y="9.3335" width="28" height="5.6" rx="1" fill="#E5E5E5"/>
-                                    <rect y="18.6665" width="28" height="6.53333" rx="1" fill="#E5E5E5"/>
-                                </svg>
-                            </button>
+                            {
+                                (view == 'tiled') ? 
+                                <button type="button" onClick={()=>{setView('as-a-list')}} className="btn-view fs-11 d-none d-lg-flex">
+                                    <span className="me-3">Показать списком</span>
+                                    <svg width="28" height="22" viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="28" height="6" rx="1"/>
+                                        <rect y="8" width="28" height="6" rx="1"/>
+                                        <rect y="16" width="28" height="6" rx="1"/>
+                                    </svg>
+                                </button> :
+                                <button type="button" onClick={()=>{setView('tiled')}} className="btn-view fs-11 d-none d-lg-flex">
+                                    <span className="me-3">Показать плиткой</span>
+                                    <svg width="28" height="22" viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="8" height="6" rx="1"/>
+                                        <rect x="10" width="8" height="6" rx="1"/>
+                                        <rect x="20" width="8" height="6" rx="1"/>
+                                        <rect y="8" width="8" height="6" rx="1"/>
+                                        <rect x="10" y="8" width="8" height="6" rx="1"/>
+                                        <rect x="20" y="8" width="8" height="6" rx="1"/>
+                                        <rect y="16" width="8" height="6" rx="1"/>
+                                        <rect x="10" y="16" width="8" height="6" rx="1"/>
+                                        <rect x="20" y="16" width="8" height="6" rx="1"/>
+                                    </svg>
+                                </button>
+                            }
                         </div>
-                        <div className="row row-cols-sm-2 row-cols-xxl-3 g-4">
+                        <div className={(view === 'tiled') ? "row row-cols-sm-2 row-cols-xxl-3 g-4" : "row g-4"}>
                             <div>
                                 <Card 
+                                    type={view}
+                                    url="/real_estate/img/img3.jpg" 
+                                    title="1-к, квартира 52м2" 
+                                    price="6 000 000 ₽" 
+                                    addressName="ЖК “Столичный”" 
+                                    address="Вахитовский район, ул. Четаева 32" 
+                                    text='Сдается 1-комнатная квартира в строящемся доме (Дом 3.1), срок сдачи: IV-кв. 2021, общей площадью 51.82 кв.м., на 18 этаже. Жилой комплекс "Столичный"- это современный жилой комплекс, который находится в самом  центре Казани, состоящий из нескольких кварталов, органично сочетающий городской комфорт и природное окружение...'
+                                    date="Вчера в 21:00"
+                                />
+                            </div>
+                            <div>
+                                <Card 
+                                    type={view}
                                     url="/real_estate/img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
@@ -168,6 +193,19 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
+                                    type={view}
+                                    url="/real_estate/img/img3.jpg" 
+                                    title="1-к, квартира 52м2" 
+                                    price="6 000 000 ₽" 
+                                    addressName="ЖК “Столичный”" 
+                                    address="Вахитовский район, ул. Четаева 32" 
+                                    text="Новый дом. Консьерж. Квартира после евро ремонта. Полы ламинат. Кондиционеры. Рядом школа и деский сад..."
+                                    date="Вчера в 21:00"
+                                />
+                            </div>
+                            <div>
+                                <Card
+                                    type={view} 
                                     url="/real_estate/img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
@@ -179,6 +217,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
+                                    type={view}
                                     url="/real_estate/img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
@@ -190,6 +229,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
+                                    type={view}
                                     url="/real_estate/img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
@@ -201,6 +241,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
+                                    type={view}
                                     url="/real_estate/img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
@@ -212,6 +253,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
+                                    type={view}
                                     url="/real_estate/img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
@@ -223,6 +265,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
+                                    type={view}
                                     url="/real_estate/img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
@@ -234,6 +277,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
+                                    type={view}
                                     url="/real_estate/img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
@@ -245,6 +289,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
+                                    type={view}
                                     url="/real_estate/img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
@@ -256,28 +301,7 @@ export default function Catalog() {
                             </div>
                             <div>
                                 <Card 
-                                    url="/real_estate/img/img3.jpg" 
-                                    title="1-к, квартира 52м2" 
-                                    price="6 000 000 ₽" 
-                                    addressName="ЖК “Столичный”" 
-                                    address="Вахитовский район, ул. Четаева 32" 
-                                    text="Новый дом. Консьерж. Квартира после евро ремонта. Полы ламинат. Кондиционеры. Рядом школа и деский сад..."
-                                    date="Вчера в 21:00"
-                                />
-                            </div>
-                            <div>
-                                <Card 
-                                    url="/real_estate/img/img3.jpg" 
-                                    title="1-к, квартира 52м2" 
-                                    price="6 000 000 ₽" 
-                                    addressName="ЖК “Столичный”" 
-                                    address="Вахитовский район, ул. Четаева 32" 
-                                    text="Новый дом. Консьерж. Квартира после евро ремонта. Полы ламинат. Кондиционеры. Рядом школа и деский сад..."
-                                    date="Вчера в 21:00"
-                                />
-                            </div>
-                            <div>
-                                <Card 
+                                    type={view}
                                     url="/real_estate/img/img3.jpg" 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
