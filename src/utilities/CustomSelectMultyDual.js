@@ -48,7 +48,7 @@ export default function CustomSelectMultyDual(props) {
     return (
         <div ref={ref} className={"custom-select dual " + props.className}>
             <button type="button" className={props.btnClass} onClick={() => setVisibility((visible === false) ? true : false)}>
-                <div>Район<span>{(count1==0) ? '' : count1}</span>/Метро<span>{(count2==0) ? '' : count2}</span></div>
+                <div>Район<span>{(count1===0) ? '' : count1}</span>/Метро<span>{(count2===0) ? '' : count2}</span></div>
                 <svg className="ms-2" viewBox="0 0 23 12" xmlns="http://www.w3.org/2000/svg">
                     <line x1="21.6832" y1="0.730271" x2="10.7468" y2="10.961"/>
                     <line y1="-1" x2="14.9757" y2="-1" transform="matrix(0.730271 0.683157 0.683157 -0.730271 2 0)"/>

@@ -141,7 +141,7 @@ export default function Catalog() {
                             <div className="d-lg-none">Найдено 1 200 объявлений</div>
                             <CustomSelect className="gray-2" btnClass="fs-11" checkedOpt="Сначала новые" options={['По популярности', 'Сначала новые', 'Сначала старые', 'Сначала дешевые', 'Сначала дорогие']}/>
                             {
-                                (view == 'tiled') ? 
+                                (view === 'tiled') ? 
                                 <button type="button" onClick={()=>{setView('as-a-list')}} className="btn-view fs-11 d-none d-lg-flex">
                                     <span className="me-3">Показать списком</span>
                                     <svg width="28" height="22" viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -171,10 +171,12 @@ export default function Catalog() {
                                 <Card 
                                     type={view}
                                     url="/real_estate/img/img3.jpg" 
+                                    images={['/real_estate/img/img1.jpg', '/real_estate/img/img2.jpg', '/real_estate/img/img3.jpg', '/real_estate/img/img4.jpg']}
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
                                     address="Вахитовский район, ул. Четаева 32" 
+                                    metro="Козья слобода, 7 минут"
                                     text='Сдается 1-комнатная квартира в строящемся доме (Дом 3.1), срок сдачи: IV-кв. 2021, общей площадью 51.82 кв.м., на 18 этаже. Жилой комплекс "Столичный"- это современный жилой комплекс, который находится в самом  центре Казани, состоящий из нескольких кварталов, органично сочетающий городской комфорт и природное окружение...'
                                     date="Вчера в 21:00"
                                 />
