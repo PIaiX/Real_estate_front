@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { NavLink } from 'react-router-dom';
 import CustomSelect from '../utilities/CustomSelect';
 import CustomSelectMultyDual from '../utilities/CustomSelectMultyDual';
@@ -6,6 +6,20 @@ import Card from './Card';
 
 export default function Catalog() {
     const [view, setView] = useState('tiled');
+    {
+        
+    }
+
+    useEffect(() => {
+        function updateSize() {
+            if(window.matchMedia("(max-width: 1399px)").matches){
+                setView('tiled');
+            }
+        }
+          window.addEventListener('resize', updateSize);
+          updateSize();
+          return () => window.removeEventListener('resize', updateSize);
+    }, []);
 
     return (
         <main>
@@ -142,7 +156,7 @@ export default function Catalog() {
                             <CustomSelect className="gray-2" btnClass="fs-11" checkedOpt="Сначала новые" options={['По популярности', 'Сначала новые', 'Сначала старые', 'Сначала дешевые', 'Сначала дорогие']}/>
                             {
                                 (view === 'tiled') ? 
-                                <button type="button" onClick={()=>{setView('as-a-list')}} className="btn-view fs-11 d-none d-lg-flex">
+                                <button type="button" onClick={()=>{setView('as-a-list')}} className="btn-view fs-11 d-none d-xxl-flex">
                                     <span className="me-3">Показать списком</span>
                                     <svg width="28" height="22" viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <rect width="28" height="6" rx="1"/>
@@ -150,7 +164,7 @@ export default function Catalog() {
                                         <rect y="16" width="28" height="6" rx="1"/>
                                     </svg>
                                 </button> :
-                                <button type="button" onClick={()=>{setView('tiled')}} className="btn-view fs-11 d-none d-lg-flex">
+                                <button type="button" onClick={()=>{setView('tiled')}} className="btn-view fs-11 d-none d-xxl-flex">
                                     <span className="me-3">Показать плиткой</span>
                                     <svg width="28" height="22" viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <rect width="8" height="6" rx="1"/>
@@ -170,7 +184,6 @@ export default function Catalog() {
                             <div>
                                 <Card 
                                     type={view}
-                                    url="/real_estate/img/img3.jpg" 
                                     images={['/real_estate/img/img1.jpg', '/real_estate/img/img2.jpg', '/real_estate/img/img3.jpg', '/real_estate/img/img4.jpg']}
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
@@ -184,7 +197,7 @@ export default function Catalog() {
                             <div>
                                 <Card 
                                     type={view}
-                                    url="/real_estate/img/img3.jpg" 
+                                    images={['/real_estate/img/img1.jpg', '/real_estate/img/img2.jpg', '/real_estate/img/img3.jpg', '/real_estate/img/img4.jpg', '/real_estate/img/img1.jpg', '/real_estate/img/img2.jpg', '/real_estate/img/img3.jpg', '/real_estate/img/img4.jpg']}
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -196,7 +209,7 @@ export default function Catalog() {
                             <div>
                                 <Card 
                                     type={view}
-                                    url="/real_estate/img/img3.jpg" 
+                                    images={['/real_estate/img/img3.jpg']}
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -208,7 +221,7 @@ export default function Catalog() {
                             <div>
                                 <Card
                                     type={view} 
-                                    url="/real_estate/img/img3.jpg" 
+                                    images={['/real_estate/img/img3.jpg']} 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -220,7 +233,7 @@ export default function Catalog() {
                             <div>
                                 <Card 
                                     type={view}
-                                    url="/real_estate/img/img3.jpg" 
+                                    images={['/real_estate/img/img3.jpg']}
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -232,7 +245,7 @@ export default function Catalog() {
                             <div>
                                 <Card 
                                     type={view}
-                                    url="/real_estate/img/img3.jpg" 
+                                    images={['/real_estate/img/img3.jpg']}
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -244,7 +257,7 @@ export default function Catalog() {
                             <div>
                                 <Card 
                                     type={view}
-                                    url="/real_estate/img/img3.jpg" 
+                                    images={['/real_estate/img/img3.jpg']}
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -256,7 +269,7 @@ export default function Catalog() {
                             <div>
                                 <Card 
                                     type={view}
-                                    url="/real_estate/img/img3.jpg" 
+                                    images={['/real_estate/img/img3.jpg']}
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -268,7 +281,7 @@ export default function Catalog() {
                             <div>
                                 <Card 
                                     type={view}
-                                    url="/real_estate/img/img3.jpg" 
+                                    images={['/real_estate/img/img3.jpg']} 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -280,7 +293,7 @@ export default function Catalog() {
                             <div>
                                 <Card 
                                     type={view}
-                                    url="/real_estate/img/img3.jpg" 
+                                    images={['/real_estate/img/img3.jpg']}
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -292,7 +305,7 @@ export default function Catalog() {
                             <div>
                                 <Card 
                                     type={view}
-                                    url="/real_estate/img/img3.jpg" 
+                                    images={['/real_estate/img/img3.jpg']}
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 
@@ -304,7 +317,7 @@ export default function Catalog() {
                             <div>
                                 <Card 
                                     type={view}
-                                    url="/real_estate/img/img3.jpg" 
+                                    images={['/real_estate/img/img3.jpg']} 
                                     title="1-к, квартира 52м2" 
                                     price="6 000 000 ₽" 
                                     addressName="ЖК “Столичный”" 

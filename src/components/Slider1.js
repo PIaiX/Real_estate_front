@@ -40,47 +40,20 @@ export const Slider1 = () => {
             }}
             >
             <SwiperSlide>
-                <div className="card-mini">
-                    <div className="slider">
-                        <img src="/real_estate/img/img1.jpg" alt="фото" className="active"/>
-                        <img src="/real_estate/img/img2.jpg" alt="фото"/>
-                        <img src="/real_estate/img/img3.jpg" alt="фото"/>
-                        <img src="/real_estate/img/img4.jpg" alt="фото"/>
-                        <div className="box"></div>
-                    </div>
-                    <div className="p-3">
-                        <div className="d-flex justify-content-between mb-3">
-                            <div className="color-1 title-font fw-7 fs-11">1-к, квартира 52м2</div>
-                            <div className="title-font black fw-7 fs-11">6 000 000 ₽</div>
-                        </div>
-                        <div className="address d-flex align-items-start mb-3">
-                            <img src="/real_estate/img/icons/pin.svg" alt="адрес"/>
-                            <div className="fs-09 ms-2">
-                                <div className="mb-1">ЖК “Столичный”</div>
-                                <div>Вахитовский район, ул. Четаева 32</div>
-                            </div>
-                        </div>
-                        <div className="text mb-4">
-                            Новый дом. Консьерж. Квартира после евро ремонта. Полы ламинат. Кондиционеры. Рядом школа и деский сад...
-                        </div>
-                        <div className="text-end color-2 fs-09 fw-3">Вчера в 21:00</div>
-                    </div>
-                    <div className="labels">
-                        <div className="vip">
-                            <img src="/real_estate/img/icons/vip.svg" alt="vip"/>
-                            <span>VIP</span>
-                        </div>
-                        <div className="hot">
-                            <img src="/real_estate/img/icons/hot.svg" alt="hot"/>
-                            <span>Hot</span>
-                        </div>
-                    </div>
-                    <BtnFav/>
-                </div>
+                <Card 
+                    images={['/real_estate/img/img1.jpg', '/real_estate/img/img2.jpg', '/real_estate/img/img3.jpg', '/real_estate/img/img4.jpg']}
+                    title="1-к, квартира 52м2" 
+                    price="6 000 000 ₽" 
+                    addressName="ЖК “Столичный”" 
+                    address="Вахитовский район, ул. Четаева 32" 
+                    metro="Козья слобода, 7 минут"
+                    text='Сдается 1-комнатная квартира в строящемся доме (Дом 3.1), срок сдачи: IV-кв. 2021, общей площадью 51.82 кв.м., на 18 этаже. Жилой комплекс "Столичный"- это современный жилой комплекс, который находится в самом  центре Казани, состоящий из нескольких кварталов, органично сочетающий городской комфорт и природное окружение...'
+                    date="Вчера в 21:00"
+                />
             </SwiperSlide>
             <SwiperSlide>
                 <Card 
-                url="/real_estate/img/img3.jpg" 
+                images={['/real_estate/img/img3.jpg']} 
                 title="1-к, квартира 52м2" 
                 price="6 000 000 ₽" 
                 addressName="ЖК “Столичный”" 
@@ -91,7 +64,7 @@ export const Slider1 = () => {
             </SwiperSlide>
             <SwiperSlide>
                 <Card 
-                url="/real_estate/img/img3.jpg" 
+                images={['/real_estate/img/img3.jpg']}
                 title="1-к, квартира 52м2" 
                 price="6 000 000 ₽" 
                 addressName="ЖК “Столичный”" 
@@ -102,7 +75,7 @@ export const Slider1 = () => {
             </SwiperSlide>
             <SwiperSlide>
                 <Card 
-                url="/real_estate/img/img3.jpg" 
+                images={['/real_estate/img/img3.jpg']}
                 title="1-к, квартира 52м2" 
                 price="6 000 000 ₽" 
                 addressName="ЖК “Столичный”" 
@@ -113,7 +86,7 @@ export const Slider1 = () => {
             </SwiperSlide>
             <SwiperSlide>
                 <Card 
-                url="/real_estate/img/img3.jpg" 
+                images={['/real_estate/img/img3.jpg']} 
                 title="1-к, квартира 52м2" 
                 price="6 000 000 ₽" 
                 addressName="ЖК “Столичный”" 
@@ -124,7 +97,7 @@ export const Slider1 = () => {
             </SwiperSlide>
             <SwiperSlide>
                 <Card 
-                url="/real_estate/img/img3.jpg" 
+                images={['/real_estate/img/img3.jpg']}
                 title="1-к, квартира 52м2" 
                 price="6 000 000 ₽" 
                 addressName="ЖК “Столичный”" 

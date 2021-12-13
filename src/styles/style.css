@@ -216,13 +216,6 @@ select {
   stroke-width: 2px;
 }
 
-@media (max-width: 1199px) {
-  .custom-select > button {
-    background-position: calc(100% - 0.25em) 50%;
-    padding: 0.5em 1.25em 0.5em .75em;
-  }
-}
-
 .custom-select > button.btn svg line {
   stroke: #fff;
 }
@@ -1153,6 +1146,7 @@ main {
   position: absolute;
   top: 5px;
   right: 5px;
+  z-index: 10;
 }
 
 .card-midi {
@@ -1167,10 +1161,6 @@ main {
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: flex-start;
-}
-
-.card-midi img.photo {
-  width: 100%;
 }
 
 .card-midi .text {
@@ -1232,6 +1222,97 @@ main {
 
 .card-midi .bottom-btns > * {
   margin-right: 1em;
+}
+
+.card-midi .img-preview {
+  margin-top: .75em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+}
+
+.card-midi .img-preview div {
+  position: relative;
+}
+
+.card-midi .img-preview div:not(:first-child) {
+  margin-left: .5em;
+}
+
+.card-midi .img-preview div img {
+  width: 100%;
+  height: 90px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+@media (max-width: 1659px) {
+  .card-midi .img-preview div img {
+    height: 80px;
+  }
+}
+
+@media (max-width: 1659px) {
+  .card-midi .img-preview div img {
+    height: 60px;
+  }
+}
+
+.card-midi .img-preview div .extra {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  font-family: "Gilroy";
+  font-size: .9em;
+  font-weight: 600;
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-left: 0em;
+}
+
+.card-midi .author {
+  text-align: center;
+  width: 100%;
+}
+
+@media (max-width: 1399px) {
+  .card-midi .author {
+    text-align: left;
+  }
+}
+
+.card-midi .author img {
+  width: 110px;
+  height: 110px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+}
+
+@media (max-width: 1399px) {
+  .card-midi .author img {
+    width: 45px;
+    height: 45px;
+  }
 }
 
 /* SECTION 5 */
@@ -1608,20 +1689,49 @@ article .text {
   position: relative;
 }
 
-.hover-slider img, .slider img {
+.hover-slider .sld, .slider .sld {
   position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  -webkit-transition: 1s;
+  transition: 1s;
+  opacity: 0;
+  z-index: -1;
+}
+
+.hover-slider .sld img, .slider .sld img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
-  z-index: -1;
-  -webkit-transition: 1s;
-  transition: 1s;
-  opacity: 0;
 }
 
-.hover-slider img.active, .slider img.active {
+.hover-slider .sld.active, .slider .sld.active {
   opacity: 1;
+}
+
+.hover-slider .sld .extra, .slider .sld .extra {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.25);
+  color: #fff;
+  font-family: "Gilroy";
+  font-size: 1.2em;
+  font-weight: 600;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .hover-slider .box, .slider .box {
@@ -1651,18 +1761,23 @@ article .text {
 .hover-slider .box .section::after, .slider .box .section::after {
   content: "";
   position: absolute;
-  bottom: .5em;
-  left: .5em;
-  right: .5em;
-  height: 15px;
-  background-color: black;
+  bottom: 5px;
+  left: 2px;
+  right: 2px;
+  height: 5px;
+  background-color: #ECECEC;
   -webkit-transition: 0.3s;
   transition: 0.3s;
-  opacity: 0.5;
 }
 
 .hover-slider .box .section.active::after, .slider .box .section.active::after {
-  background-color: white;
+  background-color: #146492;
+}
+
+@media (max-width: 1659px) {
+  .hover-slider, .slider {
+    height: 240px;
+  }
 }
 
 .swiper-4 {
