@@ -10,19 +10,19 @@ export default function ImgPreview(props) {
                 urls.map(function(item, index, arr) {
                     if(index<2){
                         return (
-                            <div key={index.toString()} className="">
+                            <div key={index.toString()} className="wrap">
                                 <img src={item} alt="фото" />
                             </div>
                         )
                     } else if(index===2){
                         return (
-                            <div key={index.toString()} className="">
+                            <div key={index.toString()} className="wrap">
                                 <img src={item} alt="фото" />
                                 <div className="extra">Еще {arr.length - 3} фото</div>
                             </div>
                         )
                     } else {
-                        return
+                        return false;
                     }
                 })
             }

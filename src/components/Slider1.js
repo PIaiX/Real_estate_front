@@ -1,7 +1,6 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
-import BtnFav from '../utilities/BtnFav';
 import Card from './Card';
 
 SwiperCore.use([Navigation, Pagination]);

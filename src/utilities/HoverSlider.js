@@ -30,21 +30,21 @@ export default function HoverSlider(props) {
                                 </div>
                             )
                         } else {
-                            return
+                            return false;
                         }
                     }
                 })
             }
             <div className="box">
                 {
-                    urls &&
+                    urls && urls.length>1 &&
                     urls.map(function(item, index, arr) {
                         if(index<6) {
                             return (
                                 <div key={index.toString()} className={(index===activeIndex) ? 'section active' : 'section'}  onMouseEnter={() => setActiveIndex(index)}></div>
                             )
                         } else {
-                            return
+                            return false;
                         }
                     })
                 }

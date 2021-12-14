@@ -35,7 +35,7 @@ export default function CustomSelect(props) {
                     <line y1="-1" x2="14.9757" y2="-1" transform="matrix(0.730271 0.683157 0.683157 -0.730271 2 0)"/>
                 </svg>
             </button>
-            <div className={visible ? 'options py-2' : 'options d-none py-2'}>
+            <div className={visible ? 'options py-2' : 'options d-none py-2'} data-alignment={props.alignment}>
                 {options.map(function(item) {
                     return (
                         <label className="radio-line" key={item}>

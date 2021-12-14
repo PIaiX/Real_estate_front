@@ -6,13 +6,10 @@ import Card from './Card';
 
 export default function Catalog() {
     const [view, setView] = useState('tiled');
-    {
-        
-    }
 
     useEffect(() => {
         function updateSize() {
-            if(window.matchMedia("(max-width: 1399px)").matches){
+            if(window.matchMedia("(max-width: 991px)").matches){
                 setView('tiled');
             }
         }
@@ -66,7 +63,7 @@ export default function Catalog() {
                 </form>
 
                 <div className="row">
-                    <div className="d-none d-lg-block col-4 col-xxl-3">
+                    <div className="d-none d-xxl-block col-xxl-3">
                         <div className="fs-11 mb-4">Найдено 1 200 объявлений</div>
                         <form className="shad-box p-4 mb-4">
                             <fieldset className="mb-4">
@@ -104,9 +101,9 @@ export default function Catalog() {
                                 <legend className="title-font fs-12 fw-6 mb-3">Цена</legend>
                                 <div className="d-flex align-items-baseline">
                                     <div className="fs-11 me-2">От</div>
-                                    <input type="number" className="price me-3"/>
+                                    <input type="number" className="w-100 price me-3"/>
                                     <div className="fs-11 me-2">До</div>
-                                    <input type="number" className="price"/>
+                                    <input type="number" className="w-100 price"/>
                                 </div>
                             </fieldset>
 
@@ -150,13 +147,19 @@ export default function Catalog() {
                             <button type="button" onClick={(e) => e.target.closest("form").reset()} className="color-1 fs-11 fw-5 mx-auto mt-2">Очистить фильтр</button>
                         </form>
                     </div>
-                    <div className="col-12 col-lg-8 col-xxl-9">
+                    <div className="col-12 col-xxl-9">
                         <div className="d-flex justify-content-between align-items-center mb-4">
                             <div className="d-lg-none">Найдено 1 200 объявлений</div>
-                            <CustomSelect className="gray-2" btnClass="fs-11" checkedOpt="Сначала новые" options={['По популярности', 'Сначала новые', 'Сначала старые', 'Сначала дешевые', 'Сначала дорогие']}/>
+                            <div className="d-flex align-items-center">
+                                <button type="button" className="d-none d-lg-flex d-xxl-none align-items-center me-4">
+                                    <img src="/real_estate/img/icons/filter.svg" alt="filter" />
+                                    <span className="ms-2 fs-11 fw-5 color-1">Фильтры</span>
+                                </button>
+                                <CustomSelect className="gray-2" btnClass="fs-11" checkedOpt="Сначала новые" options={['По популярности', 'Сначала новые', 'Сначала старые', 'Сначала дешевые', 'Сначала дорогие']}/>
+                            </div>
                             {
                                 (view === 'tiled') ? 
-                                <button type="button" onClick={()=>{setView('as-a-list')}} className="btn-view fs-11 d-none d-xxl-flex">
+                                <button type="button" onClick={()=>{setView('as-a-list')}} className="btn-view fs-11 d-none d-lg-flex">
                                     <span className="me-3">Показать списком</span>
                                     <svg width="28" height="22" viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <rect width="28" height="6" rx="1"/>
@@ -164,7 +167,7 @@ export default function Catalog() {
                                         <rect y="16" width="28" height="6" rx="1"/>
                                     </svg>
                                 </button> :
-                                <button type="button" onClick={()=>{setView('tiled')}} className="btn-view fs-11 d-none d-xxl-flex">
+                                <button type="button" onClick={()=>{setView('tiled')}} className="btn-view fs-11 d-none d-lg-flex">
                                     <span className="me-3">Показать плиткой</span>
                                     <svg width="28" height="22" viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <rect width="8" height="6" rx="1"/>
@@ -180,18 +183,27 @@ export default function Catalog() {
                                 </button>
                             }
                         </div>
-                        <div className={(view === 'tiled') ? "row row-cols-sm-2 row-cols-xxl-3 g-4" : "row g-4"}>
+                        <div className={(view === 'tiled') ? "row row-cols-sm-2 row-cols-lg-3 g-2 g-md-3 g-lg-4" : "row g-2 g-md-3 g-lg-4"}>
                             <div>
                                 <Card 
                                     type={view}
                                     images={['/real_estate/img/img1.jpg', '/real_estate/img/img2.jpg', '/real_estate/img/img3.jpg', '/real_estate/img/img4.jpg']}
                                     title="1-к, квартира 52м2" 
-                                    price="6 000 000 ₽" 
+                                    price="6 000 000" 
                                     addressName="ЖК “Столичный”" 
                                     address="Вахитовский район, ул. Четаева 32" 
                                     metro="Козья слобода, 7 минут"
                                     text='Сдается 1-комнатная квартира в строящемся доме (Дом 3.1), срок сдачи: IV-кв. 2021, общей площадью 51.82 кв.м., на 18 этаже. Жилой комплекс "Столичный"- это современный жилой комплекс, который находится в самом  центре Казани, состоящий из нескольких кварталов, органично сочетающий городской комфорт и природное окружение...'
                                     date="Вчера в 21:00"
+                                    authorName="Колесникова Ирина"
+                                    authorPhoto="/real_estate/img/photo.png"
+                                    authorTimeSpan="сентября 2021"
+                                    phone="+ 7 (952) 879 78 65"
+                                    communalPayments="Не включая коммунальные платежи"
+                                    deposit="20 000"
+                                    commission="50%"
+                                    prepayment="без предоплаты"
+                                    tenancy="аренда от года"
                                 />
                             </div>
                             <div>
@@ -199,11 +211,19 @@ export default function Catalog() {
                                     type={view}
                                     images={['/real_estate/img/img1.jpg', '/real_estate/img/img2.jpg', '/real_estate/img/img3.jpg', '/real_estate/img/img4.jpg', '/real_estate/img/img1.jpg', '/real_estate/img/img2.jpg', '/real_estate/img/img3.jpg', '/real_estate/img/img4.jpg']}
                                     title="1-к, квартира 52м2" 
-                                    price="6 000 000 ₽" 
+                                    price="6 000 000" 
                                     addressName="ЖК “Столичный”" 
                                     address="Вахитовский район, ул. Четаева 32" 
                                     text="Новый дом. Консьерж. Квартира после евро ремонта. Полы ламинат. Кондиционеры. Рядом школа и деский сад..."
-                                    date="Вчера в 21:00"
+                                    date="Вчера в 21:00"authorName="Колесникова Ирина"
+                                    authorPhoto="/real_estate/img/photo.png"
+                                    authorTimeSpan="сентября 2021"
+                                    phone="+ 7 (952) 879 78 65"
+                                    communalPayments="Не включая коммунальные платежи"
+                                    deposit="20 000"
+                                    commission="50%"
+                                    prepayment="без предоплаты"
+                                    tenancy="аренда от года"
                                 />
                             </div>
                             <div>
@@ -337,6 +357,8 @@ export default function Catalog() {
                                 <li className="page-item active"><a className="page-link" href="/">1</a></li>
                                 <li className="page-item"><a className="page-link" href="/">2</a></li>
                                 <li className="page-item"><a className="page-link" href="/">3</a></li>
+                                <li className="page-item">...</li>
+                                <li className="page-item"><a className="page-link" href="/">6</a></li>
                                 <li className="page-item">
                                     <a className="page-link" href="/" aria-label="Next">
                                     <img src="/real_estate/img/icons/next2.svg" alt="Next"/>
@@ -348,7 +370,7 @@ export default function Catalog() {
                 </div>
             </section>
        
-            <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-xl">
                     <div className="modal-content">
                         <div className="modal-body">
