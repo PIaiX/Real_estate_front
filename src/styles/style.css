@@ -11,6 +11,46 @@ p, label, span, a, form, select, div, blockquote, cite, figure, figcaption, tabl
   margin-bottom: 0px;
 }
 
+/*****************
+SCROLL STYLIZATION
+******************/
+html {
+  scrollbar-color: #e0e0e0 transparent;
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar:hover, ::-webkit-scrollbar:active {
+  background: #f2f2f2;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #bdbdbd;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: #C59C7E;
+}
+
+::-webkit-scrollbar-button:vertical:start:decrement,
+::-webkit-scrollbar-button:vertical:end:increment,
+::-webkit-scrollbar-button:horizontal:start:decrement,
+::-webkit-scrollbar-button:horizontal:end:increment {
+  display: none;
+}
+
 /* mixins */
 /* FORMS CUSTOMIZATION */
 input,
@@ -211,9 +251,22 @@ select {
   fill: none;
 }
 
+@media (max-width: 575px) {
+  .custom-select > button svg {
+    width: 1em;
+    height: .75rem;
+  }
+}
+
 .custom-select > button svg line {
   stroke: #4F4F4F;
   stroke-width: 2px;
+}
+
+@media (max-width: 575px) {
+  .custom-select > button svg line {
+    stroke-width: 3px;
+  }
 }
 
 .custom-select > button.btn svg line {
@@ -280,6 +333,10 @@ select {
   background-color: #ECECEC;
 }
 
+.custom-select.dual .options {
+  max-width: calc(100vw - 24px);
+}
+
 .custom-select.dual .nav-tabs {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -317,6 +374,13 @@ select {
           column-gap: 1.5em;
   -webkit-column-break-inside: avoid;
           break-inside: avoid;
+}
+
+@media (max-width: 575px) {
+  .custom-select.dual .tab-content .tab-pane {
+    -webkit-column-count: 1;
+            column-count: 1;
+  }
 }
 
 .custom-select.dual .tab-content .tab-pane label {
@@ -799,6 +863,12 @@ header .logo {
   }
 }
 
+@media (max-width: 575px) {
+  header .custom-select {
+    max-width: 80px;
+  }
+}
+
 header .custom-select > button {
   font-size: .9em;
 }
@@ -816,6 +886,12 @@ header .custom-select > button svg {
 
 header .custom-select > button svg line {
   stroke: #C59C7E;
+}
+
+@media (max-width: 575px) {
+  header .btn {
+    font-size: .9em;
+  }
 }
 
 main {
@@ -1698,8 +1774,8 @@ article .text {
 
 @media (max-width: 991px) {
   .form-search {
-    -ms-grid-columns: 3fr 3fr 4fr;
-        grid-template-columns: 3fr 3fr 4fr;
+    -ms-grid-columns: 30% 30% 4fr;
+        grid-template-columns: 30% 30% 4fr;
     -ms-grid-rows: (1fr)[3];
         grid-template-rows: repeat(3, 1fr);
   }
@@ -1925,6 +2001,96 @@ article .text {
   fill: #146492;
 }
 
+#mobile-filters .btn-collapse {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#mobile-filters .btn-collapse span::after {
+  content: "Расширенный фильтр";
+}
+
+#mobile-filters .btn-collapse svg {
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+#mobile-filters .btn-collapse[aria-expanded="true"] svg {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
+#mobile-filters .btn-collapse[aria-expanded="true"] span::after {
+  content: "Свернуть фильтр";
+}
+
+footer {
+  background-color: #373C3F;
+  height: 250px;
+}
+
+@media (max-width: 767px) {
+  footer {
+    height: 50px;
+    background: #FFFFFF;
+    -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: 100;
+  }
+}
+
+footer nav {
+  height: 100%;
+}
+
+footer nav ul {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  list-style: none;
+  padding: 0px;
+}
+
+footer nav ul li a svg {
+  fill: none;
+}
+
+footer nav ul li a svg path {
+  fill: #C4C4C4;
+}
+
+footer nav ul li a svg.type-2 path {
+  fill: none;
+  stroke: #C4C4C4;
+  stroke-width: 3px;
+  stroke-linecap: square;
+  stroke-linejoin: round;
+}
+
+footer nav ul li a.active svg path {
+  fill: #C59C7E;
+}
+
+footer nav ul li a.active svg.type-2 path {
+  fill: none;
+  stroke: #C59C7E;
+}
+
 /* SWIPER SLIDERS */
 .swiper-4 {
   overflow: hidden;
@@ -2066,71 +2232,28 @@ article .text {
   padding-left: 0px;
 }
 
-footer {
-  background-color: #373C3F;
-  height: 250px;
+.modal .modal-content {
+  background-color: #fff;
+  border-radius: 0px;
+  border: none;
 }
 
-@media (max-width: 767px) {
-  footer {
-    height: 50px;
-    background: #FFFFFF;
-    -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    position: -webkit-sticky;
-    position: sticky;
-    bottom: 0px;
-    left: 0px;
+.modal .modal-content .modal-body {
+  padding: 2em;
+}
+
+.offcanvas {
+  width: 450px;
+}
+
+@media (max-width: 575px) {
+  .offcanvas {
     width: 100%;
-    z-index: 100;
   }
 }
 
-footer nav {
-  height: 100%;
-}
-
-footer nav ul {
-  height: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  list-style: none;
-  padding: 0px;
-}
-
-footer nav ul li a svg {
-  fill: none;
-}
-
-footer nav ul li a svg path {
-  fill: #C4C4C4;
-}
-
-footer nav ul li a svg.type-2 path {
-  fill: none;
-  stroke: #C4C4C4;
-  stroke-width: 3px;
-  stroke-linecap: square;
-  stroke-linejoin: round;
-}
-
-footer nav ul li a.active svg path {
-  fill: #C59C7E;
-}
-
-footer nav ul li a.active svg.type-2 path {
-  fill: none;
-  stroke: #C59C7E;
-}
-
 .offcanvas .offcanvas-body {
-  padding: 3em 2em;
+  padding: 2em;
 }
 
 .offcanvas .offcanvas-body nav ul li {
@@ -2151,14 +2274,11 @@ footer nav ul li a.active svg.type-2 path {
   color: #146492;
 }
 
-.modal .modal-content {
-  background-color: #fff;
-  border-radius: 0px;
-  border: none;
-}
-
-.modal .modal-content .modal-body {
-  padding: 2em;
+.offcanvas .offcanvas-footer {
+  padding: 1em;
+  background: #FFFFFF;
+  -webkit-box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .btn-close {
@@ -2173,6 +2293,15 @@ footer nav ul li a.active svg.type-2 path {
   display: flex;
   opacity: 1;
   background: unset;
+}
+
+@media (max-width: 1399px) {
+  .btn-close {
+    top: 0.5em;
+    right: 0.5em;
+    width: 1.25em;
+    height: 1.25em;
+  }
 }
 
 .btn-close svg {

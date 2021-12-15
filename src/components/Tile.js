@@ -9,6 +9,8 @@ export default function Tile(props) {
         function changeTile() {
             if(window.matchMedia("(max-width: 991px)").matches){
                 setMob(true);
+            } else {
+                setMob(false);
             }
         }
           window.addEventListener('resize', changeTile);

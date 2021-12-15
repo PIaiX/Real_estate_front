@@ -27,12 +27,8 @@ export default function Header() {
                     </div>
                     
                     <button type="button" className="ms-md-4 btn btn-1 text-uppercase p-2 order-3 order-lg-4">Подать объявление</button>
-                    {/* <select defaultValue="Казань" className="ms-md-3 ms-xl-4 color-2 order-2 order-lg-5">
-                        <option value="Казань">Казань</option>
-                        <option value="Москва">Москва</option>
-                        <option value="Питер">Питер</option>
-                    </select> */}
-                    <CustomSelect className="ms-md-3 ms-xl-4 order-2 order-lg-5" btnClass="color-2 text-uppercase" checkedOpt="Казань" options={['Казань', 'Москва', 'Питер']} alignment="right"/>
+
+                    <CustomSelect className="ms-md-3 ms-xl-4 order-2 order-lg-5" btnClass="color-2 text-uppercase" checkedOpt="Казань" options={['Казань', 'Москва', 'Санкт-Петербург']} alignment="right"/>
 
                     <button type="button" data-bs-toggle="offcanvas" data-bs-target="#header-menu" className="d-block d-lg-none order-5">
                         <img src="/real_estate/img/icons/menu.svg" alt="меню"/>

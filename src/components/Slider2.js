@@ -10,6 +10,8 @@ export const Slider2 = () => {
         <Swiper className="swiper-3"
             spaceBetween={0}
             slidesPerView={1}
+            touchStartPreventDefault={false}
+            grabCursor={true}
             breakpoints={{
                 576: {
                     slidesPerView: 2,

@@ -54,7 +54,7 @@ export default function CustomSelectMultyDual(props) {
                     <line y1="-1" x2="14.9757" y2="-1" transform="matrix(0.730271 0.683157 0.683157 -0.730271 2 0)"/>
                 </svg>
             </button>
-            <div className={visible ? 'options px-2 pt-3' : 'options d-none py-2'}>
+            <div className={visible ? 'options px-2 pt-3' : 'options d-none py-2'} data-alignment={(window.matchMedia("(max-width: 991px)").matches) ? "right" : ""}>
                 <ul className="nav nav-tabs" id="myTab" role="tablist">
                     <li className="nav-item fs-11" role="presentation">
                         <button className="nav-link active" data-bs-toggle="tab" data-bs-target="#districts" type="button" role="tab" aria-selected="true">Районы</button>

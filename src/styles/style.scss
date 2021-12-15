@@ -23,13 +23,47 @@ p, label, span, a, form, select, div, blockquote, cite, figure, figcaption, tabl
   margin-bottom: 0px;
 }
 
+/*****************
+SCROLL STYLIZATION
+******************/
+html {
+    scrollbar-color: #e0e0e0 transparent;
+    scrollbar-width: thin;
+}
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+    background-color: transparent;
+    &:hover,
+    &:active {
+        background: #f2f2f2;
+    }
+}
+::-webkit-scrollbar-thumb {
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    transition: 0.2s;
+    &:hover {
+      background-color: #bdbdbd;
+    }
+    &:active {
+      background-color: $color-2
+    }
+}
+::-webkit-scrollbar-button:vertical:start:decrement,
+::-webkit-scrollbar-button:vertical:end:increment,
+::-webkit-scrollbar-button:horizontal:start:decrement,
+::-webkit-scrollbar-button:horizontal:end:increment {
+    display: none;
+}
+
 
 /* mixins */
 @mixin flex-center {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+}
 
 
 /* FORMS CUSTOMIZATION */
@@ -173,9 +207,16 @@ select {
             width: 1.4rem;
             height: .75rem;
             fill: none;
+            @media (max-width: 575px){
+                width: 1em;
+                height: .75rem;
+            }
             line {
                 stroke: $gray-2;
                 stroke-width: 2px;
+                @media (max-width: 575px){
+                    stroke-width: 3px;
+                }
             }
         }
         &.btn {
@@ -229,10 +270,12 @@ select {
                     background-color: $color-3;
                 }
             }
-            // div {}
         }
     }
     &.dual {
+        .options {
+            max-width: calc(100vw - 24px);
+        }
         .nav-tabs {
             display: flex;
             flex-wrap: nowrap;
@@ -259,6 +302,7 @@ select {
                 column-count: 2;
                 column-gap: 1.5em;
                 break-inside: avoid;
+                @media (max-width: 575px){column-count: 1;}
                 label {
                     display: inline-flex;
                     &:not(:last-child){
@@ -535,6 +579,9 @@ header {
         }
     }
     .custom-select {
+        @media (max-width: 575px){
+            max-width: 80px;
+        }
         >button {
             font-size: .9em;
             @media (max-width: 991px){
@@ -547,6 +594,11 @@ header {
                     stroke: $color-2;
                 }
             }
+        }
+    }
+    .btn {
+        @media (max-width: 575px){
+            font-size: .9em;
         }
     }
 }
@@ -1040,7 +1092,6 @@ main {
 }
 
 
-
 /* SECTION 5 */
 #sec-5 {
     background: url(bg-imgs/bg2.png) no-repeat center bottom;
@@ -1131,7 +1182,7 @@ article {
         grid-template-columns: 120px 150px 190px auto 140px;
     }
     @media (max-width: 991px){
-        grid-template-columns: 3fr 3fr 4fr;
+        grid-template-columns: 30% 30% 4fr;
         grid-template-rows: repeat(3, 1fr);
     }
     @media (max-width: 767px){
@@ -1244,6 +1295,89 @@ article {
         }
     }
 }
+#mobile-filters {
+    .btn-collapse {
+        display: flex;
+        align-items: center;
+        span {
+            &::after {
+                content: "Расширенный фильтр";
+            }
+        }
+        svg {transition: .2s;}
+        &[aria-expanded="true"]{
+            svg {
+                transform: rotate(180deg);
+            }
+            span {
+                &::after {
+                    content: "Свернуть фильтр";
+                }
+            }
+        }
+    }
+}
+
+
+
+footer {
+    background-color: #373C3F;
+    height: 250px;
+    @media (max-width: 767px) {
+        height: 50px;
+        background: #FFFFFF;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        bottom: 0px;
+        left: 0px;
+        width: 100%;
+        z-index: 100;
+    }
+    nav {
+        height: 100%;
+        ul {
+            height: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            list-style: none;
+            padding: 0px;
+            li {
+                a {
+                    svg {
+                        fill: none;
+                        path {
+                            fill:#C4C4C4;
+                        }
+                        &.type-2 {
+                            path {
+                                fill: none;
+                                stroke: #C4C4C4;
+                                stroke-width: 3px;
+                                stroke-linecap: square;
+                                stroke-linejoin: round;
+                            }
+                        }
+                    }
+                    &.active {
+                        svg {
+                            path {
+                                fill:$color-2;
+                            }
+                            &.type-2 {
+                                path {
+                                    fill: none;
+                                    stroke: $color-2;
+                                }
+                            }
+                        }
+                    }
+                    
+                }
+            }
+        }
+    }
+}
 
 
 /* SWIPER SLIDERS */
@@ -1342,70 +1476,21 @@ article {
         }
     }
 }
-
-footer {
-    background-color: #373C3F;
-    height: 250px;
-    @media (max-width: 767px) {
-        height: 50px;
-        background: #FFFFFF;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        position: sticky;
-        bottom: 0px;
-        left: 0px;
-        width: 100%;
-        z-index: 100;
-    }
-    nav {
-        height: 100%;
-        ul {
-            height: 100%;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            list-style: none;
-            padding: 0px;
-            li {
-                a {
-                    svg {
-                        fill: none;
-                        path {
-                            fill:#C4C4C4;
-                        }
-                        &.type-2 {
-                            path {
-                                fill: none;
-                                stroke: #C4C4C4;
-                                stroke-width: 3px;
-                                stroke-linecap: square;
-                                stroke-linejoin: round;
-                            }
-                        }
-                    }
-                    &.active {
-                        svg {
-                            path {
-                                fill:$color-2;
-                            }
-                            &.type-2 {
-                                path {
-                                    fill: none;
-                                    stroke: $color-2;
-                                }
-                            }
-                        }
-                    }
-                    
-                }
-            }
+.modal {
+    .modal-content {
+        background-color: #fff;
+        border-radius: 0px;
+        border: none;
+        .modal-body {
+            padding: 2em;
         }
     }
 }
-
-
 .offcanvas {
+    width: 450px;
+    @media (max-width: 575px){width: 100%;}
     .offcanvas-body {
-        padding: 3em 2em;
+        padding: 2em;
         nav {
             ul {
                 li {
@@ -1425,15 +1510,10 @@ footer {
             }
         }
     }
-}
-.modal {
-    .modal-content {
-        background-color: #fff;
-        border-radius: 0px;
-        border: none;
-        .modal-body {
-            padding: 2em;
-        }
+    .offcanvas-footer {
+        padding: 1em;
+        background: #FFFFFF;
+        box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.1);
     }
 }
 .btn-close {
@@ -1446,6 +1526,12 @@ footer {
     display: flex;
     opacity: 1;
     background: unset;
+    @media (max-width: 1399px){
+        top: 0.5em;
+        right: 0.5em;
+        width: 1.25em;
+        height: 1.25em;
+    }
     svg {
         width: 100%;
         height: 100%;
