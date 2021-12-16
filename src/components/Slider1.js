@@ -42,7 +42,7 @@ export const Slider1 = () => {
                 <Card 
                     images={['/real_estate/img/img1.jpg', '/real_estate/img/img2.jpg', '/real_estate/img/img3.jpg', '/real_estate/img/img4.jpg']}
                     title="1-к, квартира 52м2" 
-                    price="6 000 000 ₽" 
+                    price="6 000 000" 
                     addressName="ЖК “Столичный”" 
                     address="Вахитовский район, ул. Четаева 32" 
                     metro="Козья слобода, 7 минут"
@@ -54,7 +54,7 @@ export const Slider1 = () => {
                 <Card 
                 images={['/real_estate/img/img3.jpg']} 
                 title="1-к, квартира 52м2" 
-                price="6 000 000 ₽" 
+                price="6 000 000" 
                 addressName="ЖК “Столичный”" 
                 address="Вахитовский район, ул. Четаева 32" 
                 text="Новый дом. Консьерж. Квартира после евро ремонта. Полы ламинат. Кондиционеры. Рядом школа и деский сад..."
@@ -65,7 +65,7 @@ export const Slider1 = () => {
                 <Card 
                 images={['/real_estate/img/img3.jpg']}
                 title="1-к, квартира 52м2" 
-                price="6 000 000 ₽" 
+                price="6 000 000" 
                 addressName="ЖК “Столичный”" 
                 address="Вахитовский район, ул. Четаева 32" 
                 text="Новый дом. Консьерж. Квартира после евро ремонта. Полы ламинат. Кондиционеры. Рядом школа и деский сад..."
@@ -76,7 +76,7 @@ export const Slider1 = () => {
                 <Card 
                 images={['/real_estate/img/img3.jpg']}
                 title="1-к, квартира 52м2" 
-                price="6 000 000 ₽" 
+                price="6 000 000" 
                 addressName="ЖК “Столичный”" 
                 address="Вахитовский район, ул. Четаева 32" 
                 text="Новый дом. Консьерж. Квартира после евро ремонта. Полы ламинат. Кондиционеры. Рядом школа и деский сад..."
@@ -87,7 +87,7 @@ export const Slider1 = () => {
                 <Card 
                 images={['/real_estate/img/img3.jpg']} 
                 title="1-к, квартира 52м2" 
-                price="6 000 000 ₽" 
+                price="6 000 000" 
                 addressName="ЖК “Столичный”" 
                 address="Вахитовский район, ул. Четаева 32" 
                 text="Новый дом. Консьерж. Квартира после евро ремонта. Полы ламинат. Кондиционеры. Рядом школа и деский сад..."
@@ -98,7 +98,7 @@ export const Slider1 = () => {
                 <Card 
                 images={['/real_estate/img/img3.jpg']}
                 title="1-к, квартира 52м2" 
-                price="6 000 000 ₽" 
+                price="6 000 000" 
                 addressName="ЖК “Столичный”" 
                 address="Вахитовский район, ул. Четаева 32" 
                 text="Новый дом. Консьерж. Квартира после евро ремонта. Полы ламинат. Кондиционеры. Рядом школа и деский сад..."

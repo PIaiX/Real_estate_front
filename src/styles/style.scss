@@ -526,6 +526,33 @@ h3 {
 }
 
 
+.show-phone {
+    position: relative;
+    width: 100%;
+    background-color: #fff;
+    @include flex-center();
+    .phone {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        @include flex-center();
+    }
+    button {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        transition: .2s;
+        &.invisible {
+            z-index: -1;
+            opacity: 0;
+        }
+    }
+}
+
+
 header {
     background: $white;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -1092,6 +1119,7 @@ main {
 }
 
 
+
 /* SECTION 5 */
 #sec-5 {
     background: url(bg-imgs/bg2.png) no-repeat center bottom;
@@ -1318,6 +1346,48 @@ article {
     }
 }
 
+
+/* SECTION 7 - card page */
+.main-slider {
+    position: relative;
+    overflow: hidden;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.1);
+    .swiper-slide {
+        width: 100%;
+        height: 500px;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: scale-down;
+        }
+    }
+    
+}
+.thumbs-slider {
+    overflow: hidden;
+    img {
+        width: 100%;
+    }
+    .swiper-button-prev {
+        left: 0;
+    }
+    .swiper-button-next {
+        right: 0;
+    }
+}
+.author {
+    img {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+}
+.frame {
+    background: #FFFFFF;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
 
 
 footer {

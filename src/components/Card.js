@@ -3,7 +3,7 @@ import BtnFav from '../utilities/BtnFav';
 import HoverSlider from '../utilities/HoverSlider';
 import ImgPreview from '../utilities/ImgPreview';
 import ShowPhone from '../utilities/ShowPhone';
-
+import { NavLink } from 'react-router-dom';
 
 export default function Card(props) {
     const type = props.type;
@@ -99,7 +99,7 @@ export default function Card(props) {
                                 (props.authorTimeSpan)&&
                                 <div className="gray-3 fs-08 mt-2">На сайте с {props.authorTimeSpan}</div>
                             }
-                            <ShowPhone className="mt-3" phone={props.phone}/>
+                            <ShowPhone className="fs-09 mt-3" phone={props.phone}/>
                         </div>
                     </div>
                 </div>
@@ -122,7 +122,9 @@ export default function Card(props) {
                 <HoverSlider urls={images}/>
                 <div className="p-3">
                     <div className="d-flex justify-content-between mb-3">
-                        <div className="color-1 title-font fw-7 fs-11">{props.title}</div>
+                        <div className="color-1 title-font fw-7 fs-11">
+                            <NavLink to="/card-page">{props.title}</NavLink>
+                        </div>
                         <div className="title-font black fw-7 fs-11">{props.price} ₽</div>
                     </div>
                     <div className="address d-flex align-items-start mb-3">
