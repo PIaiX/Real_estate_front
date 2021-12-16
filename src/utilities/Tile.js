@@ -34,7 +34,7 @@ export default function Tile(props) {
                         (titles)&&
                         titles.map(function(item) {
                             return (
-                                <div className="title">{item}</div>
+                                <div key={item} className="title">{item}</div>
                             )
                         })
                     }
@@ -46,7 +46,7 @@ export default function Tile(props) {
                             {
                                 titles.map(function(item) {
                                     return (
-                                        <div className="title">{item}</div>
+                                        <div key={item} className="title">{item}</div>
                                     )
                                 })
                             }
@@ -56,7 +56,7 @@ export default function Tile(props) {
                                 hoverLinks.map(function(item) {
                                     return (
                                         <li>
-                                            <NavLink to={item.link}>{item.name}</NavLink>
+                                            <NavLink key={item.name} to={item.link}>{item.name}</NavLink>
                                         </li>
                                     )
                                 })
@@ -80,7 +80,7 @@ export default function Tile(props) {
                         (titles)&&
                         titles.map(function(item) {
                             return (
-                                <div className="title">{item}</div>
+                                <div key={item} className="title">{item}</div>
                             )
                         })
                     }
@@ -91,7 +91,7 @@ export default function Tile(props) {
                                 hoverLinks.map(function(item) {
                                     return (
                                         <div>
-                                            <NavLink to={item.link}>{item.name}</NavLink>
+                                            <NavLink key={item.name} to={item.link}>{item.name}</NavLink>
                                         </div>
                                     )
                                 })
