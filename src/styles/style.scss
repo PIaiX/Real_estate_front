@@ -472,6 +472,12 @@ h3 {
         font-size: 1.5em;
     }
 }
+h4 {
+    text-align: left;
+    color: #545454;
+    font-size: 1.5em;
+    font-weight: 500;
+}
 
 .title-font {font-family: $title-font;}
 .fs {
@@ -893,35 +899,36 @@ main {
         font-size: .9em;
         font-weight: 300;
     }
-    .labels {
-        position: absolute;
-        top: 10px;
-        left: 0px;
-        div {
-            color: #fff;
-            padding: 0.1em 0.25em;
-            margin-bottom: 0.2em;
-            font-weight: 500;
-            font-size: .95em;
-            display: flex;
-            align-items: center;
-            img {
-                margin-right: .15em;
-                width: 1.5em;
-                height: 1.5em;
-                object-fit: scale-down;
-            }
-            &.vip {
-                background-color: $color-1;
-            }
-            &.hot {background-color: $color-2;}
-        }
-    }
     .btn-fav {
         position: absolute;
         top: 5px;
         right: 5px;
         z-index: 10;
+    }
+}
+.labels {
+    position: absolute;
+    top: 10px;
+    left: 0px;
+    z-index: 10;
+    div {
+        color: #fff;
+        padding: 0.1em 0.25em;
+        margin-bottom: 0.2em;
+        font-weight: 500;
+        font-size: .95em;
+        display: flex;
+        align-items: center;
+        img {
+            margin-right: .15em;
+            width: 1.5em;
+            height: 1.5em;
+            object-fit: scale-down;
+        }
+        &.vip {
+            background-color: $color-1;
+        }
+        &.hot {background-color: $color-2;}
     }
 }
 .card-midi {
@@ -941,30 +948,6 @@ main {
         overflow: hidden;
         font-size: .9em;
         font-weight: 300;
-    }
-    .labels {
-        position: absolute;
-        top: 10px;
-        left: 0px;
-        div {
-            color: #fff;
-            padding: 0.1em 0.25em;
-            margin-bottom: 0.2em;
-            font-weight: 500;
-            font-size: .95em;
-            display: flex;
-            align-items: center;
-            img {
-                margin-right: .15em;
-                width: 1.5em;
-                height: 1.5em;
-                object-fit: scale-down;
-            }
-            &.vip {
-                background-color: $color-1;
-            }
-            &.hot {background-color: $color-2;}
-        }
     }
     .bottom-btns {
         display: flex;
@@ -1356,24 +1339,58 @@ article {
     .swiper-slide {
         width: 100%;
         height: 500px;
+        position: relative;
+        button {
+            position: absolute;
+            top: 1em;
+            right: 1em;
+        }
+    }
+    &-img {
+        width: 100%;
+        height: 100%;
+        object-fit: scale-down;
+    }
+}
+.swiper-container-fade {
+    .swiper-slide {
+        opacity: 0 !important;
+        transition: .1s;
+        z-index: 1;
+        &-active {
+            opacity: 1 !important;
+            z-index: 2;
+        }
+    }
+}
+.thumbs-slider {
+    padding: 3px 3px;
+    overflow: hidden;
+    .swiper-slide-thumb-active {
+        outline: 3px solid $color-2;
+    }
+    .swiper-slide {
         img {
             width: 100%;
-            height: 100%;
-            object-fit: scale-down;
+            height: 77px;
+            object-fit: cover;
         }
     }
     
-}
-.thumbs-slider {
-    overflow: hidden;
-    img {
-        width: 100%;
-    }
     .swiper-button-prev {
         left: 0;
     }
     .swiper-button-next {
         right: 0;
+    }
+}
+#ReactSimpleImageViewer {
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, .75);
+    .react-simple-image-viewer__next,
+    .react-simple-image-viewer__previous,
+    .react-simple-image-viewer__close {
+        opacity: .4;
     }
 }
 .author {
@@ -1387,6 +1404,20 @@ article {
 .frame {
     background: #FFFFFF;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+.specification {
+    background-image: url(bg-imgs/slice.png);
+    background-repeat: repeat-x;
+    background-size: auto;
+    background-position: 50% .8em;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    color: #545454;
+    &:not(:first-child){margin-top: 1em;}
+    .left, .right {
+        background-color: #fff;
+    }
 }
 
 

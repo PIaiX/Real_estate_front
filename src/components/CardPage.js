@@ -1,15 +1,41 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import { NavLink } from 'react-router-dom';
 import { Slider1 } from './Slider1';
 import BtnFav from '../utilities/BtnFav';
 import ShowPhone from '../utilities/ShowPhone';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { Navigation, Thumbs } from 'swiper';
+import SwiperCore, { Navigation, Thumbs, EffectFade } from 'swiper';
+import ImageViewer from 'react-simple-image-viewer';
 
-SwiperCore.use([Navigation, Thumbs]);
+SwiperCore.use([Navigation, Thumbs, EffectFade]);
 
 export default function CardPage() {
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
+
+    const [currentImage, setCurrentImage] = useState(0);
+    const [isViewerOpen, setIsViewerOpen] = useState(false);
+    const images = [
+        '/real_estate/img/img1.jpg',
+        '/real_estate/img/img2.jpg',
+        '/real_estate/img/img3.jpg',
+        '/real_estate/img/img1.jpg',
+        '/real_estate/img/img2.jpg',
+        '/real_estate/img/img3.jpg',
+        '/real_estate/img/img1.jpg',
+        '/real_estate/img/img2.jpg',
+        '/real_estate/img/img3.jpg',
+    ];
+
+    const openImageViewer = useCallback((index) => {
+        console.log(index);
+        setCurrentImage(index);
+        setIsViewerOpen(true);
+    }, []);
+
+    const closeImageViewer = () => {
+        setCurrentImage(0);
+        setIsViewerOpen(false);
+    };
 
     return (
         <main>
@@ -73,47 +99,60 @@ export default function CardPage() {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-8">
-                        <Swiper className="main-slider mb-4"
-                            modules={[Thumbs]}
-                            thumbs={{ swiper: thumbsSwiper }}
-                            slidesPerView={1}
-                            navigation={{
-                                nextEl: '.swiper-button-next',
-                                prevEl: '.swiper-button-prev',
-                            }}
-                        >
-                            <SwiperSlide>
-                                <img src="/real_estate/img/img1.jpg" alt="фото"/>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <img src="/real_estate/img/img2.jpg" alt="фото"/>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <img src="/real_estate/img/img3.jpg" alt="фото"/>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <img src="/real_estate/img/img4.jpg" alt="фото"/>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <img src="/real_estate/img/img1.jpg" alt="фото"/>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <img src="/real_estate/img/img2.jpg" alt="фото"/>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <img src="/real_estate/img/img3.jpg" alt="фото"/>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <img src="/real_estate/img/img4.jpg" alt="фото"/>
-                            </SwiperSlide>
-                            <div className="swiper-button-prev">
-                                <img src="/real_estate/img/icons/prev.svg" alt="предыдущий" className="w-100"/>
+                    <div className="col-8 mb-5">
+                        <div className="position-relative">
+                            <Swiper className="main-slider mb-4"
+                                modules={[Thumbs, EffectFade]}
+                                effect="fade"
+                                thumbs={{ swiper: thumbsSwiper }}
+                                slidesPerView={1}
+                                navigation={{
+                                    nextEl: '.swiper-button-next',
+                                    prevEl: '.swiper-button-prev',
+                                }}
+                            >
+                                {
+                                    images.map((src, i) => (
+                                        <SwiperSlide key={'main-img-'+i}>
+                                            <img
+                                            className="main-slider-img"
+                                            src={src}
+                                            alt={'фото'+i}
+                                            />
+                                            <button type="button" data-target={i} onClick={ () => openImageViewer(i)}>
+                                                <img src="/real_estate/img/icons/img-full.svg" alt="увеличить фото"/>
+                                            </button>
+                                        </SwiperSlide>
+                                    ))
+                                }
+                                <div className="swiper-button-prev">
+                                    <img src="/real_estate/img/icons/prev.svg" alt="предыдущий" className="w-100"/>
+                                </div>
+                                <div className="swiper-button-next">
+                                    <img src="/real_estate/img/icons/next.svg" alt="следующий" className="w-100"/>
+                                </div>
+                            </Swiper>
+                            <div className="labels">
+                                <div className="vip">
+                                    <img src="/real_estate/img/icons/vip.svg" alt="vip"/>
+                                    <span>VIP</span>
+                                </div>
+                                <div className="hot">
+                                    <img src="/real_estate/img/icons/hot.svg" alt="hot"/>
+                                    <span>Hot</span>
+                                </div>
                             </div>
-                            <div className="swiper-button-next">
-                                <img src="/real_estate/img/icons/next.svg" alt="следующий" className="w-100"/>
-                            </div>
-                        </Swiper>
+
+                            {isViewerOpen && (
+                                <ImageViewer
+                                src={ images }
+                                currentIndex={ currentImage }
+                                disableScroll={ false }
+                                closeOnClickOutside={ true }
+                                onClose={ closeImageViewer }
+                                />
+                            )}
+                        </div>
                         
                         <div className="position-relative px-5">
                             <Swiper
@@ -121,37 +160,23 @@ export default function CardPage() {
                                 modules={[Thumbs]}
                                 watchSlidesProgress={true}
                                 onSwiper={setThumbsSwiper}
-                                slidesPerView={4}
+                                slidesPerView={7}
                                 spaceBetween={16}
                                 navigation={{
                                     nextEl: '.swiper-button-next',
                                     prevEl: '.swiper-button-prev',
                                 }}
                             >
-                                <SwiperSlide>
-                                    <img src="/real_estate/img/img1.jpg" alt="фото"/>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <img src="/real_estate/img/img2.jpg" alt="фото"/>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <img src="/real_estate/img/img3.jpg" alt="фото"/>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <img src="/real_estate/img/img4.jpg" alt="фото"/>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <img src="/real_estate/img/img1.jpg" alt="фото"/>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <img src="/real_estate/img/img2.jpg" alt="фото"/>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <img src="/real_estate/img/img3.jpg" alt="фото"/>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <img src="/real_estate/img/img4.jpg" alt="фото"/>
-                                </SwiperSlide>
+                                {
+                                    images.map((src, index) => (
+                                        <SwiperSlide key={'thumb-img-'+index}>
+                                            <img
+                                            src={src}
+                                            alt={'фото'+index}
+                                            />
+                                        </SwiperSlide>
+                                    ))
+                                }
                                 <div className="swiper-button-prev">
                                     <img src="/real_estate/img/icons/prev3.svg" alt="предыдущий" className="w-100"/>
                                 </div>
@@ -161,7 +186,7 @@ export default function CardPage() {
                             </Swiper>
                         </div>
                     </div>
-                    <div className="col-4">
+                    <div className="col-4 mb-5">
                         <div className="frame text-end px-5 py-5 mb-4">
                             <div className="title-font black fw-7 fs-20 mb-3">40 000 ₽/мес</div>
                             <div className="fs-11 gray-3">
@@ -173,9 +198,9 @@ export default function CardPage() {
                         <div className="frame author px-5 pt-5 pb-4">
                             <div className="d-flex justify-content-between">
                                 <div>
-                                    <div className="gray-2 fs-15 fw-5 mb-3">Колесникова Ирина</div>
+                                    <h4>Колесникова Ирина</h4>
                                     <div className="gray-3 fs-11 mb-2">На сайте с июля 2021</div>
-                                    <div className="color-1 fs-11"><a href="">Еще 4 объекта</a></div>
+                                    <div className="color-1 fs-11"><a href="/">Еще 4 объекта</a></div>
                                 </div>
                                 <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
                             </div>
@@ -183,9 +208,146 @@ export default function CardPage() {
                             <button type="button" className="btn btn-1 w-100 fs-15 mt-3">Написать сообщение</button>
                         </div>
                     </div>
+                    <div className="col-8">
+                        <h4>Описание</h4>
+                        <p className="fs-11">Сдается 1-комнатная квартира в строящемся доме (Дом 3.1), общей площадью 51.82 кв.м., на 5 этаже. Жилой комплекс "Столичный"- это современный жилой комплекс, который находится в самом  центре Казани, состоящий из нескольких кварталов, органично сочетающий городской комфорт и природное окружение</p>
+
+                        <h4 className="mt-5 mb-3">Характерстики</h4>
+                        <div className="row">
+                            <div className="col-4">
+                                <div class="specification fs-11">
+                                    <div class="left">
+                                        <span>Комнат</span>
+                                    </div>
+                                    <div class="right">
+                                        <span>2</span>
+                                    </div>
+                                </div>
+                                <div class="specification fs-11">
+                                    <div class="left">
+                                        <span>Общая площадь</span>
+                                    </div>
+                                    <div class="right">
+                                        <span>40 м<sup>2</sup></span>
+                                    </div>
+                                </div>
+                                <div class="specification fs-11">
+                                    <div class="left">
+                                        <span>Жилая площадь</span>
+                                    </div>
+                                    <div class="right">
+                                        <span>35 м<sup>2</sup></span>
+                                    </div>
+                                </div>
+                                <div class="specification fs-11">
+                                    <div class="left">
+                                        <span>Площадь кухни</span>
+                                    </div>
+                                    <div class="right">
+                                        <span>10 м<sup>2</sup></span>
+                                    </div>
+                                </div>
+                                <div class="specification fs-11">
+                                    <div class="left">
+                                        <span>Этаж</span>
+                                    </div>
+                                    <div class="right">
+                                        <span>5/15</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-4 offset-2">
+                                <div class="specification fs-11">
+                                    <div class="left">
+                                        <span>Планировка</span>
+                                    </div>
+                                    <div class="right">
+                                        <span>Изолированная</span>
+                                    </div>
+                                </div>
+                                <div class="specification fs-11">
+                                    <div class="left">
+                                        <span>Ремонт</span>
+                                    </div>
+                                    <div class="right">
+                                        <span>Евроремонт</span>
+                                    </div>
+                                </div>
+                                <div class="specification fs-11">
+                                    <div class="left">
+                                        <span>Санузел</span>
+                                    </div>
+                                    <div class="right">
+                                        <span>Раздельный</span>
+                                    </div>
+                                </div>
+                                <div class="specification fs-11">
+                                    <div class="left">
+                                        <span>Балкон/Лоджия</span>
+                                    </div>
+                                    <div class="right">
+                                        <span>Лоджия</span>
+                                    </div>
+                                </div>
+                                <div class="specification fs-11">
+                                    <div class="left">
+                                        <span>Лифт</span>
+                                    </div>
+                                    <div class="right">
+                                        <span>Есть грузовой</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 className="mt-5">Дополнительная информация</h4>
+
+                        <h4 className="mt-5 mb-3">О здании</h4>
+                        <div className="row">
+                            <div className="col-4">
+                                <div class="specification fs-11">
+                                    <div class="left">
+                                        <span>Тип дома</span>
+                                    </div>
+                                    <div class="right">
+                                        <span>Кирпичный</span>
+                                    </div>
+                                </div>
+                                <div class="specification fs-11">
+                                    <div class="left">
+                                        <span>Лифт</span>
+                                    </div>
+                                    <div class="right">
+                                        <span>Грузовой/пассажирский</span>
+                                    </div>
+                                </div>
+                                <div class="specification fs-11">
+                                    <div class="left">
+                                        <span>Год постройки</span>
+                                    </div>
+                                    <div class="right">
+                                        <span>2015</span>
+                                    </div>
+                                </div>
+                                <div class="specification fs-11">
+                                    <div class="left">
+                                        <span>Высота потолков</span>
+                                    </div>
+                                    <div class="right">
+                                        <span>2.7 м</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 className="mt-5">На карте</h4>
+                        <img src="/real_estate/img/map.png" alt="Карта" className="w-100"/>
+                    </div>
                 </div>
                 
             </section>
+
+  
 
             <section className="sec-4 container mb-6">
                 <h3>Похожие объявления</h3>
