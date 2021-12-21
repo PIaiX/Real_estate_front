@@ -37,7 +37,7 @@ export const Slider1 = () => {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
             }}
-            >
+        >
             <SwiperSlide>
                 <Card 
                     images={['/real_estate/img/img1.jpg', '/real_estate/img/img2.jpg', '/real_estate/img/img3.jpg', '/real_estate/img/img4.jpg']}

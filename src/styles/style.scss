@@ -473,10 +473,11 @@ h3 {
     }
 }
 h4 {
+    font-family: $title-font;
     text-align: left;
     color: #545454;
     font-size: 1.5em;
-    font-weight: 500;
+    font-weight: 700;
 }
 
 .title-font {font-family: $title-font;}
@@ -638,7 +639,7 @@ header {
 
 main {
     min-height: calc(100vh - 320px);
-
+    position: relative;
     @media (max-width: 1199px) {
         min-height: calc(100vh - 305px);
     }
@@ -1331,57 +1332,27 @@ article {
 
 
 /* SECTION 7 - card page */
-.main-slider {
-    position: relative;
-    overflow: hidden;
-    background: #FFFFFF;
-    box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.1);
-    .swiper-slide {
-        width: 100%;
-        height: 500px;
-        position: relative;
-        button {
-            position: absolute;
-            top: 1em;
-            right: 1em;
-        }
-    }
-    &-img {
-        width: 100%;
-        height: 100%;
+#sec-7 {
+    .icon-mini {
+        width: 1.25em;
+        height: 1.25em;
         object-fit: scale-down;
     }
-}
-.swiper-container-fade {
-    .swiper-slide {
-        opacity: 0 !important;
-        transition: .1s;
-        z-index: 1;
-        &-active {
-            opacity: 1 !important;
-            z-index: 2;
+    .btns {
+        display: flex;
+        button {
+            width: 2.2em;
+            height: 2.2em;
+            margin-right: 1em;
         }
     }
-}
-.thumbs-slider {
-    padding: 3px 3px;
-    overflow: hidden;
-    .swiper-slide-thumb-active {
-        outline: 3px solid $color-2;
-    }
-    .swiper-slide {
-        img {
-            width: 100%;
-            height: 77px;
-            object-fit: cover;
+    .frame {
+        @media (max-width: 1659px) {
+            font-size: 14px;
         }
-    }
-    
-    .swiper-button-prev {
-        left: 0;
-    }
-    .swiper-button-next {
-        right: 0;
+        @media (max-width: 1199px) {
+            font-size: 12px;
+        }
     }
 }
 #ReactSimpleImageViewer {
@@ -1399,11 +1370,39 @@ article {
         height: 130px;
         border-radius: 50%;
         object-fit: cover;
+        @media (max-width: 1199px) {
+            width: 100px;
+            height: 100px;
+        }
+        @media (max-width: 575px) {
+            width: 80px;
+            height: 80px;
+        }
     }
 }
 .frame {
     background: #FFFFFF;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+.column-2 {
+    column-count: 2;
+    column-gap: 150px;
+    padding-right: 150px;
+    @media (max-width: 1659px) {
+        column-gap: 100px;
+        padding-right: 100px;
+    }
+    @media (max-width: 1399px) {
+        column-gap: 80px;
+        padding-right: 0px;
+    }
+    @media (max-width: 991px) {
+        column-gap: 50px;
+    }
+    @media (max-width: 767px) {
+        column-gap: 0px;
+        column-count: 1;
+    }
 }
 .specification {
     background-image: url(bg-imgs/slice.png);
@@ -1415,8 +1414,52 @@ article {
     align-items: baseline;
     color: #545454;
     &:not(:first-child){margin-top: 1em;}
-    .left, .right {
-        background-color: #fff;
+    .left {
+        span {background-color: #fff;}
+    }
+    .right {
+        text-align: right;
+        span {background-color: #fff;}
+    }
+}
+.mobile-btns {
+    position: sticky;
+    bottom: 50px;
+    left: 0px;
+    width: 100%;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    @media (max-width: 575px) {
+        font-size: 10px;
+    }
+}
+.card-page-top {
+    background: #FFFFFF;
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 50px;
+    left: 0px;
+    width: 100%;
+    z-index: 100;
+    @media (max-width: 575px) {
+        top: 48px;
+    }
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        div.title {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1 1;
+            font-family: $title-font;
+            font-weight: 700;
+            font-size: 1.5em;
+            color: $color-1;
+        }
+        button {margin-left: 1em;}
     }
 }
 
@@ -1490,32 +1533,29 @@ footer {
     overflow: hidden;
     padding: 1em 0;
 }
-.swiper-button-prev,
-.swiper-button-next {
-    width: 1.5em;
-    height: 3em;
+.swiper-4, .swiper-3 {
+    .swiper-button-prev,
+    .swiper-button-next {
+        width: 1.5em;
+        height: 3em;
+        &::after {content: unset;}
+        @media (max-width: 1199px){
+            display: none;
+        }
+    }
+    .swiper-button-next {right: -2em;}
+    .swiper-button-prev {left: -2em;}
+}
+.swiper-button-prev, .swiper-button-next {
     &::after {content: unset;}
-    @media (max-width: 1199px){
-        top: 0px;
-        height: 100%;
-        
-        width: 2em;
-    }
-}
-.swiper-button-next {
-    right: -2em;
-    @media (max-width: 1199px){
-        right: 0px;
-        padding-left: 0.5em;
-        background: linear-gradient(to left, rgba($white, 0.7), transparent);
-    }
-}
-.swiper-button-prev {
-    left: -2em;
-    @media (max-width: 1199px){
-        left: 0px;
-        padding-right: 0.5em;
-        background: linear-gradient(to right, rgba($white, 0.7), transparent);
+    svg {
+        width: 1.5em;
+        height: 3em;
+        fill: none;
+        line {
+            stroke: $color-1;
+            stroke-width: 3px;
+        }
     }
 }
 .swiper-pagination {
@@ -1536,10 +1576,128 @@ footer {
         }
     }
 }
+.swiper-container-fade {
+    .swiper-slide {
+        opacity: 0 !important;
+        transition: .1s;
+        z-index: 1;
+        &-active {
+            opacity: 1 !important;
+            z-index: 2;
+        }
+    }
+}
+.main-slider, .thumbs-slider {
+    .swiper-button-prev, .swiper-button-next {
+        svg {
+            line {
+                stroke: $color-2;
+                stroke-width: 4px;
+            }
+        }
+    }
+}
+.main-slider {
+    position: relative;
+    overflow: hidden;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.1);
+    .swiper-slide {
+        width: 100%;
+        height: 500px;
+        position: relative;
+        @media (max-width: 1659px) {
+            height: 460px;
+        }
+        @media (max-width: 1399px) {
+            height: 380px;
+        }
+        @media (max-width: 1199px) {
+            height: 325px;
+        }
+        @media (max-width: 991px) {
+            height: 380px;
+        }
+        @media (max-width: 767px) {
+            height: 330px;
+        }
+        @media (max-width: 575px) {
+            height: 60vw;
+        }
+        button {
+            position: absolute;
+            top: 1em;
+            right: 1em;
+            @media (max-width: 991px) {
+                right: 2em;
+            }
+            @media (max-width: 575px) {
+                width: 1.5em;
+            }
+        }
+    }
+    &-img {
+        width: 100%;
+        height: 100%;
+        object-fit: scale-down;
+    }
+    .swiper-button-prev {left: 1em;}
+    .swiper-button-next {right: 1em;}
+    @media (max-width: 1199px) {
+        .swiper-button-prev, .swiper-button-next {width: 1.5em;}
+    }
+    @media (max-width: 767px){
+        .swiper-button-prev {left: 0em;}
+        .swiper-button-next {right: 0em;}
+        .swiper-button-prev, .swiper-button-next {
+            background-color: rgba(68, 73, 76, .28);
+            width: 2em;
+            padding: .5em;
+            top: 0px;
+            margin-top: 0px;
+            bottom: 0px;
+            height: 100%;
+            svg {
+                line {
+                    stroke: #fff;
+                    stroke-width: 4px;
+                }
+            }
+        }
+    }
+}
+.thumbs-slider {
+    padding: 3px 3px;
+    overflow: hidden;
+    .swiper-slide-thumb-active {
+        outline: 3px solid $color-2;
+    }
+    .swiper-slide {
+        img {
+            width: 100%;
+            height: 77px;
+            object-fit: cover;
+            @media (max-width: 575px) {
+                height: 15vw;
+            }
+        }
+    }
+    .swiper-button-prev {left: 0;}
+    .swiper-button-next {right: 0;}
+    @media (max-width: 1199px) {
+        .swiper-button-prev, .swiper-button-next {width: 1.5em;}
+    }
+    @media (max-width: 767px){
+        .swiper-button-prev, .swiper-button-next {display: none;}
+    }
+}
 
 
 /* breadcrumbs */
-.breadcrumb {font-size: .8em;}
+.breadcrumb {
+    font-size: .8em;
+    margin-bottom: 0px;
+}
 
 
 /* pagination */

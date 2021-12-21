@@ -39,7 +39,7 @@ export default function Header() {
             <div className="offcanvas offcanvas-end" tabIndex="-1" id="header-menu">
                 <div className="offcanvas-body">
                     <nav>
-                        <ul>
+                        <ul data-bs-dismiss="offcanvas">
                             <li><NavLink to="/">Главная</NavLink></li>
                             <li><a href="/">Услуги</a></li>
                             <li><a href="/">Задать вопрос</a></li>
