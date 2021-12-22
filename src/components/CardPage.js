@@ -6,6 +6,7 @@ import ShowPhone from '../utilities/ShowPhone';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Thumbs, EffectFade } from 'swiper';
 import ImageViewer from 'react-simple-image-viewer';
+import InputFile from '../utilities/InputFile';
 
 SwiperCore.use([Navigation, Thumbs, EffectFade]);
 
@@ -286,7 +287,7 @@ export default function CardPage() {
                                         <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
                                     </div>
                                     <ShowPhone className="mt-4 fs-15" phone="+ 7 (952) 879 78 65"/>
-                                    <button type="button" className="btn btn-1 w-100 fs-15 px-3 mt-2 mt-xl-3">Написать сообщение</button>
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#write-message" className="btn btn-1 w-100 fs-15 px-3 mt-2 mt-xl-3">Написать сообщение</button>
                                     
                                 </div>
                             </div>
@@ -519,17 +520,24 @@ export default function CardPage() {
                                     <path d="M14.9999 1.18237L1.00001 15.9049"/>
                                 </svg>
                             </button>
-                            <form>
+                            <form className="message-form">
                                 <div className="d-flex align-items-center">
-                                    <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
+                                    <div className="photo me-2 me-sm-4">
+                                        <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
+                                        <div className="indicator"></div>
+                                    </div>
+                                    
                                     <div>
                                         <h4>Колесникова Ирина</h4>
-                                        <div className="gray-2">Сейчас онлайн</div>
+                                        <div className="gray-2 fs-09">Сейчас онлайн</div>
                                     </div>
                                 </div>
-                                <textarea placeholder="Введите сообщение"></textarea>
+                                <textarea className="mt-3" rows="4" placeholder="Введите сообщение"></textarea>
+                                <div className="d-flex align-items-center mt-3">
+                                    <InputFile multiple={false}/>
+                                    <button type="submit" className="btn btn-1 w-100 flex-1 fs-12 ms-4">ОТПРАВИТЬ</button>
+                                </div>
                             </form>
-                            {/* data-bs-toggle="modal" data-bs-target="#write-message" */}
                         </div>
                     </div>
                 </div>

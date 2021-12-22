@@ -11,7 +11,7 @@ export default function Card(props) {
 
     if(type === 'as-a-list') {
         return (
-            <div className="card-midi">
+            <div className={"card-midi " + props.className}>
                 <div className="row">
                     <div className="col-4">
                         <HoverSlider urls={images}/>
@@ -20,7 +20,9 @@ export default function Card(props) {
                     <div className="col-5">
                         <div className="h-100 d-flex flex-column justify-content-between align-items-start">
                             <div>
-                                <div className="color-1 title-font fw-7 fs-15 mb-3 mb-xxl-4">{props.title}</div>
+                                <div className="color-1 title-font fw-7 fs-15 mb-3 mb-xxl-4">
+                                    <NavLink to="/card-page">{props.title}</NavLink>
+                                </div>
                                 <div className="d-flex align-items-center mb-2 mb-xxl-3">
                                     <img src="/real_estate/img/icons/pin.svg" alt="адрес"/>
                                     <div className="fs-09 ms-2">
@@ -118,11 +120,11 @@ export default function Card(props) {
     }
     else {
         return (
-            <div className="card-mini">
+            <div className={"card-mini " + props.className}>
                 <HoverSlider urls={images}/>
                 <div className="p-3">
                     <div className="d-flex justify-content-between mb-3">
-                        <div className="color-1 title-font fw-7 fs-11">
+                        <div className="title color-1 title-font fw-7 fs-11">
                             <NavLink to="/card-page">{props.title}</NavLink>
                         </div>
                         <div className="title-font black fw-7 fs-11">{props.price} ₽</div>

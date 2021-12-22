@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 a, a:hover, a:focus, a:active {
   color: inherit;
   outline: none;
@@ -393,6 +394,81 @@ select {
   margin-bottom: .5em;
 }
 
+.input-file {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+  height: 2.5em;
+  width: 2.5em;
+  border-radius: .25em;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+.input-file:hover {
+  background-color: #C59C7E;
+}
+
+.input-file:hover img {
+  -webkit-filter: brightness(0) invert(1);
+          filter: brightness(0) invert(1);
+}
+
+.input-file input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  top: 0px;
+  left: 0px;
+  padding: 0px;
+}
+
+.input-file img {
+  height: 2em;
+  width: 2em;
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
+  -o-object-position: center;
+     object-position: center;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+.input-file .ind {
+  position: absolute;
+  bottom: -.5em;
+  right: -.25em;
+  width: 1.2em;
+  height: 1.2em;
+  font-size: .9em;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #ECECEC;
+  color: #146492;
+  font-weight: 600;
+}
+
+.input-file .ind:empty {
+  display: none;
+}
+
 button {
   background: none;
   border: none;
@@ -691,6 +767,10 @@ h4 {
   font-size: 9em;
 }
 
+.fw-3 {
+  font-weight: 300;
+}
+
 .fw-4 {
   font-weight: 400;
 }
@@ -729,6 +809,10 @@ h4 {
 
 .gray-3 {
   color: #828282;
+}
+
+.gray-4 {
+  color: #BDBDBD;
 }
 
 .color-1 {
@@ -822,6 +906,28 @@ h4 {
 .show-phone button.invisible {
   z-index: -1;
   opacity: 0;
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #545454;
+  font-size: 16px;
+  background-color: #fff;
+}
+
+@media (max-width: 991px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 576px) {
+  body {
+    font-size: 12px;
+  }
 }
 
 header {
@@ -1330,6 +1436,15 @@ main {
   height: 280px;
   -o-object-fit: cover;
      object-fit: cover;
+}
+
+.card-mini .title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 
 .card-mini .address img {
@@ -2256,6 +2371,74 @@ article .text {
   margin-left: 1em;
 }
 
+.message-form .photo {
+  position: relative;
+}
+
+.message-form .photo img {
+  width: 80px;
+  height: 80px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 50%;
+}
+
+/* SECTION 8 - article page */
+#sec-8 .article-full .article-page-img {
+  width: 500px;
+  float: left;
+  margin: 0 1.5em 1.5em 0;
+}
+
+@media (max-width: 1659px) {
+  #sec-8 .article-full .article-page-img {
+    width: 450px;
+  }
+}
+
+@media (max-width: 1399px) {
+  #sec-8 .article-full .article-page-img {
+    width: 350px;
+  }
+}
+
+@media (max-width: 991px) {
+  #sec-8 .article-full .article-page-img {
+    width: 300px;
+  }
+}
+
+@media (max-width: 767px) {
+  #sec-8 .article-full .article-page-img {
+    width: 100%;
+    margin: 0 0 1.5em 0;
+  }
+}
+
+#sec-8 .article-full .text {
+  font-weight: 300;
+  font-size: 1.2em;
+}
+
+#sec-8 .article-full .text p {
+  margin-bottom: 1em;
+}
+
+@media (max-width: 767px) {
+  #sec-8 .article-full {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: stretch;
+        -ms-flex-align: stretch;
+            align-items: stretch;
+  }
+}
+
 footer {
   background-color: #373C3F;
   height: 250px;
@@ -2320,14 +2503,9 @@ footer nav ul li a.active svg.type-2 path {
 }
 
 /* SWIPER SLIDERS */
-.swiper-4 {
+.swiper-4, .swiper-3 {
   overflow: hidden;
   padding: 1em 0 3em;
-}
-
-.swiper-3 {
-  overflow: hidden;
-  padding: 1em 0;
 }
 
 .swiper-4 .swiper-button-prev,

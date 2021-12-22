@@ -1,8 +1,10 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import CardPage from './CardPage';
+import ArticlePage from './ArticlePage';
 import Catalog from './Catalog';
 import MainPage from './MainPage';
+import Services from './Services';
 
 export default function AppRouter() {
     return (
@@ -10,6 +12,8 @@ export default function AppRouter() {
                 <Route exact path="/" element={<MainPage />} />
                 <Route path="/catalog" element={<Catalog />} />
                 <Route path="/card-page" element={<CardPage />} />
+                <Route path="/article-page" element={<ArticlePage />} />
+                <Route path="/service" element={<Services />} />
             </Routes>
     )
 }
