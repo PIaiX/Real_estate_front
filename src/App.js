@@ -6,10 +6,12 @@ import './styles/style.min.css';
 import Header from './components/Header';
 import AppRouter from './components/AppRouter';
 import { Footer } from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
     <HashRouter>
+  
       <Header />
       <AppRouter />
       <Footer />

@@ -10,7 +10,23 @@ export default function Header() {
                     <img src="/real_estate/img/Лого.png" alt="Название сайта" className="logo order-1 me-lg-auto" />
                     <nav className="d-none d-lg-flex order-2">
                         <NavLink to="/">Главная</NavLink>
-                        <a href="/">Услуги</a>
+                        <div className="dropdown">
+                            <a href="#" className="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Услуги</a>
+                            <ul className="dropdown-menu py-2">
+                                <li>
+                                    <NavLink to="/service" className="dropdown-item">Дизайн</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/service" className="dropdown-item">Ремонт</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/service" className="dropdown-item">Грузоперевозки</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/service" className="dropdown-item">Услуги риелторов</NavLink>
+                                </li>
+                            </ul>
+                        </div>
                         <a href="/">Ипотека</a>
                         <a href="/">Задать вопрос</a>
                     </nav>
@@ -41,14 +57,7 @@ export default function Header() {
                     <nav>
                         <ul data-bs-dismiss="offcanvas">
                             <li><NavLink to="/">Главная</NavLink></li>
-                            <li className="dropdown">
-                                <a href="#" className="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Услуги</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
-                            </li>
+                            <li><a href="/">Услуги</a></li>
                             <li><a href="/">Задать вопрос</a></li>
                             <li><a href="/">Личный кабинет</a></li>
                             <li><a href="/">Избранное</a></li>
