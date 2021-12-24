@@ -922,7 +922,7 @@ h4 {
   transition: .2s;
 }
 
-.dropdown-menu li a.dropdown-item:hover, .dropdown-menu li a.dropdown-item:focus {
+.dropdown-menu li a.dropdown-item:hover, .dropdown-menu li a.dropdown-item:focus, .dropdown-menu li a.dropdown-item.active, .dropdown-menu li a.dropdown-item:active {
   background-color: #ECECEC;
 }
 

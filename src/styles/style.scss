@@ -626,7 +626,7 @@ h4 {
             color: $color-1 !important;
             padding: 0.5em 2em !important;
             transition: .2s;
-            &:hover, &:focus {
+            &:hover, &:focus, &.active, &:active {
                 background-color: $color-3;
             }
         }
