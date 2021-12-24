@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import CustomSelect from '../utilities/CustomSelect';
 import ShowPhone from '../utilities/ShowPhone';
+import InputFile from '../utilities/InputFile';
 
 export default function Services() {
     return (
@@ -18,10 +19,25 @@ export default function Services() {
                 </nav>
             </div>
 
-            <section id="sec-9" className="container pb-5">
-                <h1>Услуги</h1>
-                <nav className="service-nav mb-5">
-                    <div className="row row-cols-4">
+            <div className="sec-9 container">
+                <h1 className="text-center text-md-left">Услуги</h1>
+            </div>
+
+            <section className="sec-9 d-md-none mb-4">
+                <div className="mobile-title px-4 py-3">
+                    <div className="container pe-5">
+                        <svg width="43" height="47" viewBox="0 0 84 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path className="fill" d="M43.147 66.9147H13.1234V24.4083L38.6111 3.17477L63.4873 23.5381V50.226C63.4873 50.9813 64.1264 51.5944 64.9161 51.5944C65.7057 51.5944 66.3449 50.9813 66.3449 50.226V25.8771L75.6425 33.488C75.912 33.7078 76.2416 33.8155 76.5702 33.8155C76.9732 33.8155 77.3742 33.6522 77.6571 33.3366C78.1705 32.7618 78.099 31.8989 77.4989 31.4071L39.5313 0.32854C38.9921 -0.11299 38.1987 -0.108429 37.6653 0.335838L0.491035 31.305C-0.104293 31.8012 -0.16716 32.6651 0.351014 33.2353C0.869188 33.8055 1.77028 33.8648 2.36656 33.3694L10.2659 26.7884V68.2822C10.2659 69.0376 10.905 69.6506 11.6946 69.6506H43.147C43.9367 69.6506 44.5758 69.0376 44.5758 68.2822C44.5758 67.5269 43.9367 66.9147 43.147 66.9147Z"/>
+                        <path className="fill" d="M82.2016 80.8425L49.8396 45.3096C50.2351 41.5777 49.2111 38.5586 46.8233 36.569C43.9192 34.1495 41.2492 34.6095 37.2097 35.3031C36.6802 35.3944 36.1196 35.4911 35.5213 35.5879C33.997 35.8352 32.7116 34.3822 31.3147 32.6025C30.3256 31.3421 29.4705 30.2551 28.1351 30.5946C26.8345 30.9269 26.5316 32.3616 26.3494 33.6795C25.5443 39.5169 25.9294 47.6269 29.6603 51.273C32.7125 54.2665 36.9275 54.6864 39.0511 54.6864C39.3125 54.6864 39.5277 54.6791 39.7193 54.6708L76.8116 86.0557C77.9602 87.1518 79.3844 87.7797 80.7227 87.7788C80.7331 87.7788 80.7444 87.7788 80.7548 87.7788C81.6769 87.7724 82.5084 87.4493 83.0982 86.8689C84.5885 85.3995 84.1921 82.76 82.2016 80.8425ZM29.1166 34.3311C30.4644 36.0469 32.6974 38.8233 35.9865 38.2884C36.5953 38.1908 37.1663 38.0922 37.7043 38C41.705 37.311 43.1811 37.1485 44.9744 38.6444C46.6694 40.0572 47.348 42.2412 47.0186 45.1252L39.6022 51.9337C38.2951 51.9885 34.3037 51.9274 31.6743 49.35C28.9213 46.6567 28.421 39.7423 29.1166 34.3311ZM48.2805 47.7409L51.2233 50.9718L45.82 56.195L42.3081 53.2234L48.2805 47.7409ZM81.0776 84.9504C81.019 85.007 80.8822 85.0353 80.7236 85.0399C80.2857 85.0399 79.5231 84.7953 78.7379 84.0506L47.9558 58.0021L53.0986 53.0308L80.1092 82.687C80.1319 82.7117 80.1555 82.7363 80.18 82.7591C81.1502 83.6809 81.3144 84.7177 81.0776 84.9504Z"/>
+                    </svg>
+                        <div className="mx-auto">Дизайн</div>
+                    </div> 
+                </div>
+            </section>
+
+            <section className="sec-9 container pb-4 pb-sm-5">
+                <nav className="d-none d-md-block service-nav mb-5">
+                    <div className="row row-cols-4 gx-2 gx-lg-4">
                         <div>
                             <a href="#">
                                 <svg width="80" height="105" viewBox="0 0 103 136" xmlns="http://www.w3.org/2000/svg">
@@ -74,7 +90,7 @@ export default function Services() {
                     </div>
                 </nav>
                 <div className="row">
-                    <div className="col-3 pt-4">
+                    <div className="d-none d-xl-block col-4 col-xxl-3 pt-4">
                         <form className="service-leftMenu">
                             <div className="title px-4 py-3">
                                 <svg width="43" height="47" viewBox="0 0 84 88" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -83,7 +99,7 @@ export default function Services() {
                                 </svg>
                                 <div className="mx-auto">Дизайн</div>
                             </div>
-                            <div className="p-4">
+                            <div className="p-3 p-xxl-4">
                                 <fieldset className="mb-4">
                                     <legend className="title-font text-center fs-12 fw-6 mb-3">Опыт работы исполнителя</legend>
                                     <label className="ps-2 mb-3">
@@ -103,7 +119,7 @@ export default function Services() {
                                         <span className="fs-11 ms-3">Более 5 лет</span>
                                     </label>
                                 </fieldset>
-                                <fieldset className="mb-4">
+                                <fieldset>
                                     <legend className="title-font text-center fs-12 fw-6 mb-3">Предоставляемые услуги</legend>
                                     <div className="d-flex flex-wrap fw-5">
                                         <label className="inp-text mb-3 me-3">
@@ -147,114 +163,248 @@ export default function Services() {
                             </div>
                         </form>
                     </div>
-                    <div className="col-9">
-                        <div className="d-flex justify-content-between mb-2">
-                            <div className="d-flex">
-                                <div className="fs-11 me-1">Сортировать:</div>
-                                <CustomSelect className="gray-2" btnClass="fs-11" checkedOpt="По рейтингу" options={['По рейтингу', 'По опыту']}/>
-                            </div>
-                            <div>Найдено 15 объявлений</div>
-                        </div>
-                        <div className="user-card mb-4">
-                            <div className="photo">
-                                <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
-                                <ShowPhone className="mt-4" phone="+ 7 (952) 879 78 65"/>
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#write-message" className="btn btn-1 w-100 px-3 mt-2 mt-xl-3">Написать сообщение</button>
-                            </div>
-                            <div className="title">
-                                <h4 className="color-1 mb-0">Колесникова Ирина</h4>
+                    <div className="col-xl-8 col-xxl-9">
+                        <div className="d-flex justify-content-between mb-3 mb-xl-2">
+                            <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasServiceFilter" className="d-flex d-xl-none align-items-center">
+                                <img src="/real_estate/img/icons/filter.svg" alt="filter"/>
+                                <span className="ms-2 fs-11 fw-5 color-1">Фильтры</span>
+                            </button>
+                            <div className="d-flex flex-column-reverse flex-sm-row align-items-end justify-content-between flex-1 ms-4 ms-xl-0">
                                 <div className="d-flex">
-                                    <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                    <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                    <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                    <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
-                                    <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                    <div className="d-none d-md-block fs-11 me-1">Сортировать:</div>
+                                    <CustomSelect className="gray-2" btnClass="fs-11" alignment="right" checkedOpt="По рейтингу" options={['По рейтингу', 'По опыту']}/>
                                 </div>
-                                <h4 className="mb-0">Дизайнер</h4>
-                            </div>
-                            <div className="text">
-                                <div>
-                                    <div className="fs-11 gray-2 mb-3">Опыт работы от 1 года</div>
-                                    <p>Создание индивидуального дизайна по Вашим предпочтениям. Помощь в подброре отделочных материалов, мебели и текстиля. Примеры работ в личных сообщениях.</p>
-                                </div>
-                                <div className="d-flex flex-wrap">
-                                    <span className="serv">Проектирование</span>
-                                    <span className="serv">Курирование проекта</span>
-                                    <span className="serv">Создание макета</span>
-                                    <span className="serv">Визуализация</span>
-                                    <span className="serv">Освещение</span>
-                                </div>
+                                <div className="fs-11">Найдено 15 объявлений</div>
                             </div>
                         </div>
-                        <div className="user-card mb-4">
-                            <div className="photo">
-                                <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
-                                <ShowPhone className="mt-4" phone="+ 7 (952) 879 78 65"/>
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#write-message" className="btn btn-1 w-100 px-3 mt-2 mt-xl-3">Написать сообщение</button>
-                            </div>
-                            <div className="title">
-                                <h4 className="color-1 mb-0">Колесникова Ирина</h4>
-                                <h4 className="mb-0">Дизайнер</h4>
-                            </div>
-                            <div className="text">
-                                <div>
-                                    <div className="fs-11 gray-2 mb-3">Опыт работы от 1 года</div>
-                                    <p>Создание индивидуального дизайна по Вашим предпочтениям. Помощь в подброре отделочных материалов, мебели и текстиля. Примеры работ в личных сообщениях.</p>
-                                </div>
-                                <div className="d-flex flex-wrap">
-                                    <span className="serv">Проектирование</span>
-                                    <span className="serv">Курирование проекта</span>
-                                    <span className="serv">Создание макета</span>
-                                    <span className="serv">Визуализация</span>
-                                    <span className="serv">Освещение</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="user-card mb-4">
-                            <div className="photo">
-                                <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
-                                <ShowPhone className="mt-4" phone="+ 7 (952) 879 78 65"/>
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#write-message" className="btn btn-1 w-100 px-3 mt-2 mt-xl-3">Написать сообщение</button>
-                            </div>
-                            <div className="title">
-                                <h4 className="color-1 mb-0">Колесникова Ирина</h4>
-                                <h4 className="mb-0">Дизайнер</h4>
-                            </div>
-                            <div className="text">
-                                <div>
-                                    <div className="fs-11 gray-2 mb-3">Опыт работы от 1 года</div>
-                                    <p>Создание индивидуального дизайна по Вашим предпочтениям. Помощь в подброре отделочных материалов, мебели и текстиля. Примеры работ в личных сообщениях.</p>
-                                </div>
-                                <div className="d-flex flex-wrap">
-                                    <span className="serv">Проектирование</span>
-                                    <span className="serv">Курирование проекта</span>
-                                    <span className="serv">Создание макета</span>
-                                    <span className="serv">Визуализация</span>
-                                    <span className="serv">Освещение</span>
+
+                        <div className="row px-4 px-sm-0 row-cols-sm-2 row-cols-lg-3 row-cols-xl-2 row-cols-xxl-1 g-4">
+                            <div>
+                                <div className="user-card">
+                                    <div className="title">
+                                        <div className="d-xxl-flex">
+                                            <h4 className="color-1 mb-1 mb-xl-2 mb-xxl-0"><a href="#">Колесникова Ирина</a></h4>
+                                            <div className="rating mb-1 mb-xl-2 ms-xxl-4">
+                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                                <span>(3.35)</span>
+                                            </div>
+                                        </div>
+                                        <h4 className="mb-1 mb-xl-2 mb-xxl-0">Дизайнер</h4>
+                                    </div>
+                                    <div className="photo mt-2 mt-md-3 mt-xxl-0">
+                                        <a href="#"><img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/></a>
+                                    </div>
+                                    <div className="desc mt-2 mt-md-3 mt-xxl-0">
+                                        <div className="fs-11 gray-2 mb-1 mb-md-2 mb-xxl-3">Опыт работы от 1 года</div>
+                                        <div className="text">
+                                            <p>Создание индивидуального дизайна по Вашим предпочтениям. Помощь в подброре отделочных материалов, мебели и текстиля. Примеры работ в личных сообщениях.</p>
+                                        </div>
+                                    </div>
+                                    <div className="serv-list mt-2 mt-md-3 mt-xxl-0">
+                                        <div className="serv">Проектирование</div>
+                                        <div className="serv">Курирование проекта</div>
+                                        <div className="serv">Создание макета</div>
+                                        <div className="serv">Визуализация</div>
+                                        <div className="serv">Освещение</div>
+                                    </div>
+                                    <div className="btns mt-2 mt-md-3 mt-xxl-0">
+                                        <ShowPhone phone="+ 7 (952) 879 78 65"/>
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#write-message" className="d-none d-xxl-block btn btn-1 w-100 px-3">Написать сообщение</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="user-card mb-4">
-                            <div className="photo">
-                                <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
-                                <ShowPhone className="mt-4" phone="+ 7 (952) 879 78 65"/>
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#write-message" className="btn btn-1 w-100 px-3 mt-2 mt-xl-3">Написать сообщение</button>
-                            </div>
-                            <div className="title">
-                                <h4 className="color-1 mb-0">Колесникова Ирина</h4>
-                                <h4 className="mb-0">Дизайнер</h4>
-                            </div>
-                            <div className="text">
-                                <div>
-                                    <div className="fs-11 gray-2 mb-3">Опыт работы от 1 года</div>
-                                    <p>Создание индивидуального дизайна по Вашим предпочтениям. Помощь в подброре отделочных материалов, мебели и текстиля. Примеры работ в личных сообщениях.</p>
+                            <div>
+                                <div className="user-card">
+                                    <div className="title">
+                                        <div className="d-xxl-flex">
+                                            <h4 className="color-1 mb-1 mb-xl-2 mb-xxl-0"><a href="#">Колесникова Ирина</a></h4>
+                                            <div className="rating mb-1 mb-xl-2 ms-xxl-4">
+                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                                <span>(3.35)</span>
+                                            </div>
+                                        </div>
+                                        <h4 className="mb-1 mb-xl-2 mb-xxl-0">Дизайнер</h4>
+                                    </div>
+                                    <div className="photo mt-2 mt-md-3 mt-xxl-0">
+                                        <a href="#"><img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/></a>
+                                    </div>
+                                    <div className="desc mt-2 mt-md-3 mt-xxl-0">
+                                        <div className="fs-11 gray-2 mb-1 mb-md-2 mb-xxl-3">Опыт работы от 1 года</div>
+                                        <div className="text">
+                                            <p>Создание индивидуального дизайна по Вашим предпочтениям. Помощь в подброре отделочных материалов, мебели и текстиля. Примеры работ в личных сообщениях.</p>
+                                        </div>
+                                    </div>
+                                    <div className="serv-list mt-2 mt-md-3 mt-xxl-0">
+                                        <div className="serv">Проектирование</div>
+                                        <div className="serv">Курирование проекта</div>
+                                        <div className="serv">Создание макета</div>
+                                        <div className="serv">Визуализация</div>
+                                        <div className="serv">Освещение</div>
+                                    </div>
+                                    <div className="btns mt-2 mt-md-3 mt-xxl-0">
+                                        <ShowPhone phone="+ 7 (952) 879 78 65"/>
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#write-message" className="d-none d-xxl-block btn btn-1 w-100 px-3">Написать сообщение</button>
+                                    </div>
                                 </div>
-                                <div className="d-flex flex-wrap">
-                                    <span className="serv">Проектирование</span>
-                                    <span className="serv">Курирование проекта</span>
-                                    <span className="serv">Создание макета</span>
-                                    <span className="serv">Визуализация</span>
-                                    <span className="serv">Освещение</span>
+                            </div>
+                            <div>
+                                <div className="user-card">
+                                    <div className="title">
+                                        <div className="d-xxl-flex">
+                                            <h4 className="color-1 mb-1 mb-xl-2 mb-xxl-0"><a href="#">Колесникова Ирина</a></h4>
+                                            <div className="rating mb-1 mb-xl-2 ms-xxl-4">
+                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                                <span>(3.35)</span>
+                                            </div>
+                                        </div>
+                                        <h4 className="mb-1 mb-xl-2 mb-xxl-0">Дизайнер</h4>
+                                    </div>
+                                    <div className="photo mt-2 mt-md-3 mt-xxl-0">
+                                        <a href="#"><img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/></a>
+                                    </div>
+                                    <div className="desc mt-2 mt-md-3 mt-xxl-0">
+                                        <div className="fs-11 gray-2 mb-1 mb-md-2 mb-xxl-3">Опыт работы от 1 года</div>
+                                        <div className="text">
+                                            <p>Создание индивидуального дизайна по Вашим предпочтениям. Помощь в подброре отделочных материалов, мебели и текстиля. Примеры работ в личных сообщениях.</p>
+                                        </div>
+                                    </div>
+                                    <div className="serv-list mt-2 mt-md-3 mt-xxl-0">
+                                        <div className="serv">Проектирование</div>
+                                        <div className="serv">Курирование проекта</div>
+                                        <div className="serv">Создание макета</div>
+                                        <div className="serv">Визуализация</div>
+                                        <div className="serv">Освещение</div>
+                                    </div>
+                                    <div className="btns mt-2 mt-md-3 mt-xxl-0">
+                                        <ShowPhone phone="+ 7 (952) 879 78 65"/>
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#write-message" className="d-none d-xxl-block btn btn-1 w-100 px-3">Написать сообщение</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div className="user-card">
+                                    <div className="title">
+                                        <div className="d-xxl-flex">
+                                            <h4 className="color-1 mb-1 mb-xl-2 mb-xxl-0"><a href="#">Колесникова Ирина</a></h4>
+                                            <div className="rating mb-1 mb-xl-2 ms-xxl-4">
+                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                                <span>(3.35)</span>
+                                            </div>
+                                        </div>
+                                        <h4 className="mb-1 mb-xl-2 mb-xxl-0">Дизайнер</h4>
+                                    </div>
+                                    <div className="photo mt-2 mt-md-3 mt-xxl-0">
+                                        <a href="#"><img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/></a>
+                                    </div>
+                                    <div className="desc mt-2 mt-md-3 mt-xxl-0">
+                                        <div className="fs-11 gray-2 mb-1 mb-md-2 mb-xxl-3">Опыт работы от 1 года</div>
+                                        <div className="text">
+                                            <p>Создание индивидуального дизайна по Вашим предпочтениям. Помощь в подброре отделочных материалов, мебели и текстиля. Примеры работ в личных сообщениях.</p>
+                                        </div>
+                                    </div>
+                                    <div className="serv-list mt-2 mt-md-3 mt-xxl-0">
+                                        <div className="serv">Проектирование</div>
+                                        <div className="serv">Курирование проекта</div>
+                                        <div className="serv">Создание макета</div>
+                                        <div className="serv">Визуализация</div>
+                                        <div className="serv">Освещение</div>
+                                    </div>
+                                    <div className="btns mt-2 mt-md-3 mt-xxl-0">
+                                        <ShowPhone phone="+ 7 (952) 879 78 65"/>
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#write-message" className="d-none d-xxl-block btn btn-1 w-100 px-3">Написать сообщение</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div className="user-card">
+                                    <div className="title">
+                                        <div className="d-xxl-flex">
+                                            <h4 className="color-1 mb-1 mb-xl-2 mb-xxl-0"><a href="#">Колесникова Ирина</a></h4>
+                                            <div className="rating mb-1 mb-xl-2 ms-xxl-4">
+                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                                <span>(3.35)</span>
+                                            </div>
+                                        </div>
+                                        <h4 className="mb-1 mb-xl-2 mb-xxl-0">Дизайнер</h4>
+                                    </div>
+                                    <div className="photo mt-2 mt-md-3 mt-xxl-0">
+                                        <a href="#"><img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/></a>
+                                    </div>
+                                    <div className="desc mt-2 mt-md-3 mt-xxl-0">
+                                        <div className="fs-11 gray-2 mb-1 mb-md-2 mb-xxl-3">Опыт работы от 1 года</div>
+                                        <div className="text">
+                                            <p>Создание индивидуального дизайна по Вашим предпочтениям. Помощь в подброре отделочных материалов, мебели и текстиля. Примеры работ в личных сообщениях.</p>
+                                        </div>
+                                    </div>
+                                    <div className="serv-list mt-2 mt-md-3 mt-xxl-0">
+                                        <div className="serv">Проектирование</div>
+                                        <div className="serv">Курирование проекта</div>
+                                        <div className="serv">Создание макета</div>
+                                        <div className="serv">Визуализация</div>
+                                        <div className="serv">Освещение</div>
+                                    </div>
+                                    <div className="btns mt-2 mt-md-3 mt-xxl-0">
+                                        <ShowPhone phone="+ 7 (952) 879 78 65"/>
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#write-message" className="d-none d-xxl-block btn btn-1 w-100 px-3">Написать сообщение</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div className="user-card">
+                                    <div className="title">
+                                        <div className="d-xxl-flex">
+                                            <h4 className="color-1 mb-1 mb-xl-2 mb-xxl-0"><a href="#">Колесникова Ирина</a></h4>
+                                            <div className="rating mb-1 mb-xl-2 ms-xxl-4">
+                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                                <span>(3.35)</span>
+                                            </div>
+                                        </div>
+                                        <h4 className="mb-1 mb-xl-2 mb-xxl-0">Дизайнер</h4>
+                                    </div>
+                                    <div className="photo mt-2 mt-md-3 mt-xxl-0">
+                                        <a href="#"><img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/></a>
+                                    </div>
+                                    <div className="desc mt-2 mt-md-3 mt-xxl-0">
+                                        <div className="fs-11 gray-2 mb-1 mb-md-2 mb-xxl-3">Опыт работы от 1 года</div>
+                                        <div className="text">
+                                            <p>Создание индивидуального дизайна по Вашим предпочтениям. Помощь в подброре отделочных материалов, мебели и текстиля. Примеры работ в личных сообщениях.</p>
+                                        </div>
+                                    </div>
+                                    <div className="serv-list mt-2 mt-md-3 mt-xxl-0">
+                                        <div className="serv">Проектирование</div>
+                                        <div className="serv">Курирование проекта</div>
+                                        <div className="serv">Создание макета</div>
+                                        <div className="serv">Визуализация</div>
+                                        <div className="serv">Освещение</div>
+                                    </div>
+                                    <div className="btns mt-2 mt-md-3 mt-xxl-0">
+                                        <ShowPhone phone="+ 7 (952) 879 78 65"/>
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#write-message" className="d-none d-xxl-block btn btn-1 w-100 px-3">Написать сообщение</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -280,8 +430,122 @@ export default function Services() {
                         </nav>
                     </div>
                 </div>
-                
             </section>
+
+            <div className="modal fade" id="write-message" tabIndex="-1" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-body">
+                            <button type="button" className="btn-close" data-bs-dismiss="modal">
+                                <svg viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1.00006 1.18237L15 15.9049"/>
+                                    <path d="M14.9999 1.18237L1.00001 15.9049"/>
+                                </svg>
+                            </button>
+                            <form className="message-form">
+                                <div className="d-flex align-items-center">
+                                    <div className="photo me-2 me-sm-4">
+                                        <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
+                                        <div className="indicator"></div>
+                                    </div>
+                                    
+                                    <div>
+                                        <h4>Колесникова Ирина</h4>
+                                        <div className="gray-2 fs-09">Сейчас онлайн</div>
+                                    </div>
+                                </div>
+                                <textarea className="mt-3" rows="4" placeholder="Введите сообщение"></textarea>
+                                <div className="d-flex align-items-center mt-3">
+                                    <InputFile multiple={false}/>
+                                    <button type="submit" className="btn btn-1 w-100 flex-1 fs-12 ms-4">ОТПРАВИТЬ</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <form className="offcanvas offcanvas-start" tabIndex="-1" id="offcanvasServiceFilter">
+                <div className="offcanvas-body">
+                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas">
+                        <svg viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1.00006 1.18237L15 15.9049"/>
+                            <path d="M14.9999 1.18237L1.00001 15.9049"/>
+                        </svg>
+                    </button>
+                    <div className="service-leftMenu">
+                        <div className="p-sm-3 p-xxl-4">
+                            <fieldset className="mb-4">
+                                <legend className="title-font text-center fs-12 fw-6 mb-3">Опыт работы исполнителя</legend>
+                                <label className="ps-2 mb-3">
+                                    <input type="checkbox" name="experience" value="Меньше года"/>
+                                    <span className="fs-11 ms-3">Меньше года</span>
+                                </label>
+                                <label className="ps-2 mb-3">
+                                    <input type="checkbox" name="experience" value="От года"/>
+                                    <span className="fs-11 ms-3">От года</span>
+                                </label>
+                                <label className="ps-2 mb-3">
+                                    <input type="checkbox" name="experience" value="От 3 лет"/>
+                                    <span className="fs-11 ms-3">От 3 лет</span>
+                                </label>
+                                <label className="ps-2 mb-3">
+                                    <input type="checkbox" name="experience" value="Более 5 лет"/>
+                                    <span className="fs-11 ms-3">Более 5 лет</span>
+                                </label>
+                            </fieldset>
+                            <fieldset>
+                                <legend className="title-font text-center fs-12 fw-6 mb-3">Предоставляемые услуги</legend>
+                                <div className="d-flex flex-wrap fw-5">
+                                    <label className="inp-text mb-3 me-3">
+                                        <input type="checkbox" name="servises" value="Курирование проекта"/>
+                                        <div>Курирование проекта</div>
+                                    </label>
+                                    <label className="inp-text mb-3 me-3">
+                                        <input type="checkbox" name="servises" value="Закупки"/>
+                                        <div>Закупки</div>
+                                    </label>
+                                    <label className="inp-text mb-3 me-3">
+                                        <input type="checkbox" name="servises" value="Проектирование"/>
+                                        <div>Проектирование</div>
+                                    </label>
+                                    <label className="inp-text mb-3 me-3">
+                                        <input type="checkbox" name="servises" value="Освещение"/>
+                                        <div>Освещение</div>
+                                    </label>
+                                    <label className="inp-text mb-3 me-3">
+                                        <input type="checkbox" name="servises" value="Подбор мебели"/>
+                                        <div>Подбор мебели</div>
+                                    </label>
+                                    <label className="inp-text mb-3 me-3">
+                                        <input type="checkbox" name="servises" value="Консультация"/>
+                                        <div>Консультация</div>
+                                    </label>
+                                    <label className="inp-text mb-3 me-3">
+                                        <input type="checkbox" name="servises" value="Подбор отделочных материалов"/>
+                                        <div>Подбор отделочных материалов</div>
+                                    </label>
+                                    <label className="inp-text mb-3 me-3">
+                                        <input type="checkbox" name="servises" value="Ландшафтный дизайн"/>
+                                        <div>Ландшафтный дизайн</div>
+                                    </label>
+                                    <label className="inp-text mb-3 me-3">
+                                        <input type="checkbox" name="servises" value="Коммерческий дизайн"/>
+                                        <div>Коммерческий дизайн</div>
+                                    </label>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <div className="offcanvas-footer">
+                    <div className="d-flex justify-content-between mb-3">
+                        <div className="gray-3 fw-5">Найденно 1 200 объявлений</div>
+                        <button type="button" onClick={() => document.getElementById("offcanvasServiceFilter").reset()} className="color-1 fs-11 fw-5">Очистить фильтр</button>
+                    </div>
+                    <button type="submit" className="btn btn-1 w-100 fs-11 text-uppercase">Показать</button>
+                </div>
+            </form>
         </main>
     )
 }
