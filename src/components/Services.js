@@ -183,7 +183,9 @@ export default function Services() {
                                 <div className="user-card">
                                     <div className="title">
                                         <div className="d-xxl-flex">
-                                            <h4 className="color-1 mb-1 mb-xl-2 mb-xxl-0"><a href="#">Колесникова Ирина</a></h4>
+                                            <h4 className="color-1 mb-1 mb-xl-2 mb-xxl-0">
+                                                <NavLink to="/user">Колесникова Ирина</NavLink>
+                                            </h4>
                                             <div className="rating mb-1 mb-xl-2 ms-xxl-4">
                                                 <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
                                                 <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
@@ -196,7 +198,7 @@ export default function Services() {
                                         <h4 className="mb-1 mb-xl-2 mb-xxl-0">Дизайнер</h4>
                                     </div>
                                     <div className="photo mt-2 mt-md-3 mt-xxl-0">
-                                        <a href="#"><img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/></a>
+                                        <NavLink to="/user"><img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/></NavLink>
                                     </div>
                                     <div className="desc mt-2 mt-md-3 mt-xxl-0">
                                         <div className="fs-11 gray-2 mb-1 mb-md-2 mb-xxl-3">Опыт работы от 1 года</div>
@@ -446,9 +448,8 @@ export default function Services() {
                                 <div className="d-flex align-items-center">
                                     <div className="photo me-2 me-sm-4">
                                         <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
-                                        <div className="indicator"></div>
+                                        <div className="indicator online"></div>
                                     </div>
-                                    
                                     <div>
                                         <h4>Колесникова Ирина</h4>
                                         <div className="gray-2 fs-09">Сейчас онлайн</div>

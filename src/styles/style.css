@@ -825,6 +825,10 @@ h4 {
   color: #ECECEC;
 }
 
+.bb-1 {
+  border-bottom: 1px solid;
+}
+
 .shad-box {
   background: #FFFFFF;
   -webkit-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
@@ -2403,6 +2407,22 @@ article .text {
   border-radius: 50%;
 }
 
+.message-form .photo .indicator {
+  position: absolute;
+  bottom: .25em;
+  right: .25em;
+  width: .75em;
+  height: .75em;
+  border-radius: 50%;
+  background-color: transparent;
+  outline: 2px solid transparent;
+}
+
+.message-form .photo .indicator.online {
+  background-color: #15A672;
+  outline: 2px solid #FFFFFF;
+}
+
 /* SECTION 8 - article page */
 #sec-8 .article-full .article-page-img {
   width: 500px;
@@ -2642,6 +2662,24 @@ article .text {
   }
 }
 
+.user-card.page {
+  display: block;
+  padding: 2em 3em;
+}
+
+.user-card.page .title {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+@media (max-width: 767px) {
+  .user-card.page {
+    padding: 2em;
+  }
+}
+
 .user-card .photo {
   -ms-grid-column: 1;
   -ms-grid-column-span: 1;
@@ -2739,41 +2777,6 @@ article .text {
   }
 }
 
-.user-card .title .rating {
-  font-size: .9em;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-@media (max-width: 1399px) {
-  .user-card .title .rating {
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-  }
-}
-
-.user-card .title .rating img {
-  width: 1.5em;
-  height: 1.5em;
-}
-
-.user-card .title .rating img:not(:first-child) {
-  margin-left: .2em;
-}
-
-.user-card .title .rating span {
-  margin-left: 0.5em;
-  color: #BDBDBD;
-}
-
 .user-card .desc {
   -ms-grid-column: 2;
   -ms-grid-column-span: 3;
@@ -2821,6 +2824,126 @@ article .text {
   border-radius: 2em;
   font-weight: 500;
   margin-right: .75em;
+}
+
+.rating {
+  font-size: .9em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+@media (max-width: 1399px) {
+  .rating {
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+}
+
+.rating img {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.rating img:not(:first-child) {
+  margin-left: .2em;
+}
+
+.rating span {
+  margin-left: 0.5em;
+  color: #BDBDBD;
+}
+
+/* SECTION 10 - user page */
+#sec-10 .user-photo {
+  position: relative;
+  width: 100%;
+}
+
+#sec-10 .user-photo img {
+  width: 100%;
+  height: 190px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 50%;
+}
+
+@media (max-width: 1659px) {
+  #sec-10 .user-photo img {
+    height: 150px;
+  }
+}
+
+@media (max-width: 575px) {
+  #sec-10 .user-photo img {
+    height: 37vw;
+  }
+}
+
+#sec-10 .user-photo .indicator {
+  position: absolute;
+  bottom: 8%;
+  right: 8%;
+  width: 11%;
+  height: 11%;
+  border-radius: 50%;
+  background-color: transparent;
+  outline: 2px solid transparent;
+}
+
+#sec-10 .user-photo .indicator.online {
+  background-color: #15A672;
+  outline: .3em solid #FFFFFF;
+}
+
+.review {
+  background: #FFFFFF;
+  -webkit-box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.12);
+          box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.12);
+  padding: 3em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+}
+
+@media (max-width: 767px) {
+  .review {
+    padding: 2em;
+  }
+}
+
+.review img.photo {
+  width: 115px;
+  height: 115px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.review .rating {
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.review .date {
+  position: absolute;
+  top: 1em;
+  right: 1.5em;
+}
+
+.review .claiming {
+  position: absolute;
+  bottom: 1em;
+  right: 2em;
 }
 
 footer {

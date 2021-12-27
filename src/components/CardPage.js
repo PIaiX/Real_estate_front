@@ -524,9 +524,8 @@ export default function CardPage() {
                                 <div className="d-flex align-items-center">
                                     <div className="photo me-2 me-sm-4">
                                         <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
-                                        <div className="indicator"></div>
+                                        <div className="indicator online"></div>
                                     </div>
-                                    
                                     <div>
                                         <h4>Колесникова Ирина</h4>
                                         <div className="gray-2 fs-09">Сейчас онлайн</div>
