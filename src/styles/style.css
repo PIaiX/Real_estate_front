@@ -2680,6 +2680,12 @@ article .text {
   }
 }
 
+@media (max-width: 575px) {
+  .user-card.page {
+    padding: 1em;
+  }
+}
+
 .user-card .photo {
   -ms-grid-column: 1;
   -ms-grid-column-span: 1;
@@ -2920,12 +2926,25 @@ article .text {
   }
 }
 
+@media (max-width: 575px) {
+  .review {
+    padding: 1.5em 1.5em 2em;
+  }
+}
+
 .review img.photo {
   width: 115px;
   height: 115px;
   border-radius: 50%;
   -o-object-fit: cover;
      object-fit: cover;
+}
+
+@media (max-width: 575px) {
+  .review img.photo {
+    width: 20vw;
+    height: 20vw;
+  }
 }
 
 .review .rating {
@@ -2940,10 +2959,24 @@ article .text {
   right: 1.5em;
 }
 
+@media (max-width: 575px) {
+  .review .date {
+    top: .5em;
+    right: .5em;
+  }
+}
+
 .review .claiming {
   position: absolute;
   bottom: 1em;
   right: 2em;
+}
+
+@media (max-width: 575px) {
+  .review .claiming {
+    bottom: .5em;
+    right: .5em;
+  }
 }
 
 footer {

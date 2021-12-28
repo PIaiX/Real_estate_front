@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import ShowPhone from '../utilities/ShowPhone';
+import InputFile from '../utilities/InputFile';
 import { Slider1 } from './Slider1';
 
 export default function UserPage() {
@@ -32,7 +33,7 @@ export default function UserPage() {
                                 </div>
                                 <h4>Риелтор</h4>
                                 <div className="fs-11 gray-3">На сайте с сентября 2019</div>
-                                <div className="d-flex align-items-center mt-4">
+                                <div className="d-flex align-items-center mt-2 mt-sm-4">
                                     <ShowPhone className="d-none d-md-flex flex-1" phone="+ 7 (952) 879 78 65"/>
                                     <button type="button" data-bs-toggle="modal" data-bs-target="#write-message" className="d-none d-md-flex btn btn-1 px-3 w-100 flex-1 ms-4">Написать сообщение</button>
                                     <button type="button" className="btn-notice ms-md-4" data-bs-toggle="tooltip" data-bs-placement="top" title="Пожаловаться">
@@ -52,9 +53,9 @@ export default function UserPage() {
                         </div>
                     </div>
                     <div className="col-xl-10 col-xxl-9 mb-5">
-                        <h4 className="mb-4">Предоставляемые услуги</h4>
+                        <h4 className="text-center text-md-left mb-2 mb-sm-4">Предоставляемые услуги</h4>
                         <div className="user-card page">
-                            <div className="title justify-content-start mb-4">
+                            <div className="title justify-content-md-start mb-2 mb-sm-4">
                                 <h4 className="mb-0">Дизайнер</h4>
                                 <div className="rating ms-4">
                                     <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
@@ -65,9 +66,9 @@ export default function UserPage() {
                                     <span>(3.35)</span>
                                 </div>
                             </div>
-                            <div className="desc mb-4">
-                                <div className="fs-11 gray-2 mb-1 mb-md-2 mb-xxl-3">Опыт работы от 1 года</div>
-                                <div>
+                            <div className="desc mb-3 mb-sm-4">
+                                <div className="fs-11 fw-5 gray-2 mb-3">Опыт работы от 1 года</div>
+                                <div className="fw-3">
                                     <p>Создание индивидуального дизайна по Вашим предпочтениям. Помощь в подброре отделочных материалов, мебели и текстиля. Примеры работ в личных сообщениях.</p>
                                 </div>
                             </div>
@@ -81,21 +82,26 @@ export default function UserPage() {
                         </div>
                     </div>
                     <div className="col-xl-10 col-xxl-9 mb-5">
-                        <div className="d-flex justify-content-between mb-4">
-                            <h4 className="mb-0">Отзывы на Ирину (2)</h4>
-                            <button type="button" className="btn btn-1 fs-11">Написать отзыв</button>
+                        <div className="d-sm-flex justify-content-between mb-4">
+                            <h4 className="text-center text-sm-left mb-0">Отзывы на Ирину (2)</h4>
+                            <button type="button" className="mx-auto mx-sm-0 mt-3 mt-sm-0 btn btn-1 fs-11">Написать отзыв</button>
                         </div>
                         <div className="review mb-3">
-                            <img src="/real_estate/img/photo2.png" alt="Андрей Шевцов" className="photo"/>
-                            <div className="ms-4">
-                                <h4>Андрей Шевцов</h4>
-                                <div className="rating mb-3">
-                                    <span className="fs-12 ms-0">Оценка:</span>
-                                    <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                    <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                    <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                    <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
-                                    <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                            <img src="/real_estate/img/photo2.png" alt="Андрей Шевцов" className="photo d-none d-sm-block"/>
+                            <div className="ms-sm-4">
+                                <div className="d-flex align-items-center d-sm-block mb-2 mb-sm-0">
+                                    <img src="/real_estate/img/photo2.png" alt="Андрей Шевцов" className="photo d-block d-sm-none"/>
+                                    <div className="ms-3">
+                                        <h4>Андрей Шевцов</h4>
+                                        <div className="rating mb-sm-3">
+                                            <span className="fs-12 ms-0">Оценка:</span>
+                                            <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                            <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                            <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                            <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                            <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel mauris, habitasse iaculis donec nec. Massa egestas vestibulum cursus justo, quis lectus.</p>
@@ -105,16 +111,21 @@ export default function UserPage() {
                             </div>
                         </div>
                         <div className="review mb-3">
-                            <img src="/real_estate/img/photo2.png" alt="Андрей Шевцов" className="photo"/>
-                            <div className="ms-4">
-                                <h4>Андрей Шевцов</h4>
-                                <div className="rating mb-3">
-                                    <span className="fs-12 ms-0">Оценка:</span>
-                                    <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                    <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                    <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                    <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
-                                    <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                            <img src="/real_estate/img/photo2.png" alt="Андрей Шевцов" className="photo d-none d-sm-block"/>
+                            <div className="ms-sm-4">
+                                <div className="d-flex align-items-center d-sm-block mb-2 mb-sm-0">
+                                    <img src="/real_estate/img/photo2.png" alt="Андрей Шевцов" className="photo d-block d-sm-none"/>
+                                    <div className="ms-3">
+                                        <h4>Андрей Шевцов</h4>
+                                        <div className="rating mb-sm-3">
+                                            <span className="fs-12 ms-0">Оценка:</span>
+                                            <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                            <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                            <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                            <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                            <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel mauris, habitasse iaculis donec nec. Massa egestas vestibulum cursus justo, quis lectus.</p>
@@ -126,7 +137,7 @@ export default function UserPage() {
                         <button type="button" className="fs-12 fw-5 color-1 mx-auto bb-1">Показать еще</button>
                     </div>
                     <div className="col-12 mb-5">
-                        <h4>Объявления пользователя</h4>
+                        <h4 className="text-center text-md-left">Объявления пользователя</h4>
                         <div className="position-relative">
                             <Slider1 />
                         </div>
@@ -142,6 +153,38 @@ export default function UserPage() {
                         </div>
                         <div>
                             <button type="button" className="fs-12 btn btn-1 w-100 px-2">Написать сообщение</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="modal fade" id="write-message" tabIndex="-1" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-body">
+                            <button type="button" className="btn-close" data-bs-dismiss="modal">
+                                <svg viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1.00006 1.18237L15 15.9049"/>
+                                    <path d="M14.9999 1.18237L1.00001 15.9049"/>
+                                </svg>
+                            </button>
+                            <form className="message-form">
+                                <div className="d-flex align-items-center">
+                                    <div className="photo me-2 me-sm-4">
+                                        <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
+                                        <div className="indicator online"></div>
+                                    </div>
+                                    <div>
+                                        <h4>Колесникова Ирина</h4>
+                                        <div className="gray-2 fs-09">Сейчас онлайн</div>
+                                    </div>
+                                </div>
+                                <textarea className="mt-3" rows="4" placeholder="Введите сообщение"></textarea>
+                                <div className="d-flex align-items-center mt-3">
+                                    <InputFile multiple={false}/>
+                                    <button type="submit" className="btn btn-1 w-100 flex-1 fs-12 ms-4">ОТПРАВИТЬ</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

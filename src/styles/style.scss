@@ -1735,6 +1735,9 @@ article {
         @media (max-width: 767px) {
             padding: 2em;
         }
+        @media (max-width: 575px) {
+            padding: 1em;
+        }
     }
     .photo {
         grid-column: 1/2;
@@ -1875,22 +1878,37 @@ article {
     @media (max-width: 767px) {
         padding: 2em;
     }
+    @media (max-width: 575px) {
+        padding: 1.5em 1.5em 2em;
+    }
     img.photo {
         width: 115px;
         height: 115px;
         border-radius: 50%;
         object-fit: cover;
+        @media (max-width: 575px) {
+            width: 20vw;
+            height: 20vw;
+        }
     }
     .rating {justify-content: flex-start;}
     .date {
         position: absolute;
         top: 1em;
         right: 1.5em;
+        @media (max-width: 575px) {
+            top: .5em;
+            right: .5em;
+        }
     }
     .claiming {
         position: absolute;
         bottom: 1em;
         right: 2em;
+        @media (max-width: 575px) {
+            bottom: .5em;
+            right: .5em;
+        }
     }
 }
 
