@@ -84,7 +84,7 @@ export default function UserPage() {
                     <div className="col-xl-10 col-xxl-9 mb-5">
                         <div className="d-sm-flex justify-content-between mb-4">
                             <h4 className="text-center text-sm-left mb-0">Отзывы на Ирину (2)</h4>
-                            <button type="button" className="mx-auto mx-sm-0 mt-3 mt-sm-0 btn btn-1 fs-11">Написать отзыв</button>
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#write-review" className="mx-auto mx-sm-0 mt-3 mt-sm-0 btn btn-1 fs-11">Написать отзыв</button>
                         </div>
                         <div className="review mb-3">
                             <img src="/real_estate/img/photo2.png" alt="Андрей Шевцов" className="photo d-none d-sm-block"/>
@@ -152,7 +152,7 @@ export default function UserPage() {
                             <ShowPhone className="fs-12" phone="+ 7 (952) 879 78 65"/>
                         </div>
                         <div>
-                            <button type="button" className="fs-12 btn btn-1 w-100 px-2">Написать сообщение</button>
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#write-message" className="fs-12 btn btn-1 w-100 px-2">Написать сообщение</button>
                         </div>
                     </div>
                 </div>
@@ -185,6 +185,39 @@ export default function UserPage() {
                                     <button type="submit" className="btn btn-1 w-100 flex-1 fs-12 ms-4">ОТПРАВИТЬ</button>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="modal fade" id="write-review" tabIndex="-1" aria-hidden="true">
+                <div className="modal-dialog modal-lg">
+                    <div className="modal-content">
+                        <div className="modal-body">
+                            <button type="button" className="btn-close" data-bs-dismiss="modal">
+                                <svg viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1.00006 1.18237L15 15.9049"/>
+                                    <path d="M14.9999 1.18237L1.00001 15.9049"/>
+                                </svg>
+                            </button>
+                            <h4 className="text-center color-1">Оставьте отзыв</h4>
+                            <form className="message-form">
+                                <div className="row">
+                                    <div className="col-4 d-flex flex-column align-items-center">
+                                        <div className="photo mb-3">
+                                            <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
+                                            <div className="indicator online"></div>
+                                        </div>
+                                        <div className="mb-2">Колесникова Ирина</div>
+                                        <div>Риелтор</div>
+                                    </div>
+                                    <div className="col-8">
+                                        <textarea className="mt-3" rows="4" placeholder="Напишите отзвыв"></textarea>
+                                        <button type="submit" className="btn btn-1 fs-12 ms-auto mt-3">ОТПРАВИТЬ</button>
+                                    </div>
+                                </div>
+                            </form>
+                            
                         </div>
                     </div>
                 </div>
