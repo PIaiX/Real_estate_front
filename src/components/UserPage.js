@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import ShowPhone from '../utilities/ShowPhone';
 import InputFile from '../utilities/InputFile';
 import { Slider1 } from './Slider1';
+import InputRating from '../utilities/InputRating';
 
 export default function UserPage() {
     return (
@@ -53,7 +54,8 @@ export default function UserPage() {
                         </div>
                     </div>
                     <div className="col-xl-10 col-xxl-9 mb-5">
-                        <h4 className="text-center text-md-left mb-2 mb-sm-4">Предоставляемые услуги</h4>
+                        <h4 className="text-center text-md-start mb-2 mb-sm-4">Предоставляемые услуги</h4>
+                        <div className="fs-11 text-center text-md-start">Пользователь не предоставляет услуг</div>
                         <div className="user-card page">
                             <div className="title justify-content-md-start mb-2 mb-sm-4">
                                 <h4 className="mb-0">Дизайнер</h4>
@@ -82,8 +84,14 @@ export default function UserPage() {
                         </div>
                     </div>
                     <div className="col-xl-10 col-xxl-9 mb-5">
+                        {/* если нет отзывов */}
+                        <h4 className="text-center text-md-start">Отзывы на Ирину (0)</h4>
+                        <div className="fs-11 text-center text-md-start mb-4">Нет отзывов</div>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#write-review" className="btn btn-1 fs-11 mx-auto mx-md-0 mb-4">Написать отзыв</button>
+                        
+                        {/* если есть отзывы */}
                         <div className="d-sm-flex justify-content-between mb-4">
-                            <h4 className="text-center text-sm-left mb-0">Отзывы на Ирину (2)</h4>
+                            <h4 className="text-center text-sm-start mb-0">Отзывы на Ирину (2)</h4>
                             <button type="button" data-bs-toggle="modal" data-bs-target="#write-review" className="mx-auto mx-sm-0 mt-3 mt-sm-0 btn btn-1 fs-11">Написать отзыв</button>
                         </div>
                         <div className="review mb-3">
@@ -137,7 +145,8 @@ export default function UserPage() {
                         <button type="button" className="fs-12 fw-5 color-1 mx-auto bb-1">Показать еще</button>
                     </div>
                     <div className="col-12 mb-5">
-                        <h4 className="text-center text-md-left">Объявления пользователя</h4>
+                        <h4 className="text-center text-md-start">Объявления пользователя</h4>
+                        <div className="fs-11 text-center text-md-start">Нет актуальных объявлений</div>
                         <div className="position-relative">
                             <Slider1 />
                         </div>
@@ -200,19 +209,25 @@ export default function UserPage() {
                                     <path d="M14.9999 1.18237L1.00001 15.9049"/>
                                 </svg>
                             </button>
-                            <h4 className="text-center color-1">Оставьте отзыв</h4>
-                            <form className="message-form">
+                            <h4 className="text-center color-1 mb-2 mb-sm-4">Оставьте отзыв</h4>
+                            <form>
                                 <div className="row">
-                                    <div className="col-4 d-flex flex-column align-items-center">
-                                        <div className="photo mb-3">
+                                    <div className="col-lg-4 d-flex flex-lg-column align-items-center mb-2 mb-sm-4 mb-lg-0">
+                                        <div className="photo me-3 me-lg-0 mb-lg-3">
                                             <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
                                             <div className="indicator online"></div>
                                         </div>
-                                        <div className="mb-2">Колесникова Ирина</div>
-                                        <div>Риелтор</div>
+                                        <div className="text-lg-center">
+                                            <div className="fs-11 fw-5 mb-sm-2">Колесникова Ирина</div>
+                                            <div className="fs-11 fw-5">Риелтор</div>
+                                        </div>
                                     </div>
-                                    <div className="col-8">
-                                        <textarea className="mt-3" rows="4" placeholder="Напишите отзвыв"></textarea>
+                                    <div className="col-lg-8">
+                                        <div className="d-flex align-items-center">
+                                            <span className="fs-11 me-4">Ваша оценка:</span>
+                                            <InputRating name="user-review"/>
+                                        </div>
+                                        <textarea className="mt-3" rows="6" placeholder="Напишите отзвыв"></textarea>
                                         <button type="submit" className="btn btn-1 fs-12 ms-auto mt-3">ОТПРАВИТЬ</button>
                                     </div>
                                 </div>

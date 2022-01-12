@@ -125,12 +125,12 @@ input {
         width: 1.3em;
         height: 1.3em;
         background-color: transparent;
-        // background: url(../img/icons/radio.svg) no-repeat center;
+        background: url(bg-imgs/radio.svg) no-repeat center;
         background-size: contain;
         padding: 0px;
         &:checked {
-        //   background: url(../img/icons/radio-ch.svg) no-repeat center;
-        background-size: contain;
+            background: url(bg-imgs/radio-ch.svg) no-repeat center;
+            background-size: contain;
         }
     }
     &[type="checkbox"] {
@@ -274,11 +274,11 @@ select {
                 height: 100%;
                 z-index: -1;
                 cursor: pointer;
-                background-color: transparent;
+                background: transparent;
                 border-radius: 0px;
                 transition: .2s;
                 &:checked {
-                    background-color: $color-3;
+                    background: $color-3;
                 }
             }
         }
@@ -974,11 +974,11 @@ main {
 .card-mini {
     background-color: #fff;
     filter: drop-shadow(0px 1px 10px rgba(0, 0, 0, 0.15));
-    .photo {
-        width: 100%;
-        height: 280px;
-        object-fit: cover;
-    }
+    // .photo {
+    //     width: 100%;
+    //     height: 280px;
+    //     object-fit: cover;
+    // }
     .title {
         white-space: nowrap;
         overflow: hidden;
@@ -1562,31 +1562,31 @@ article {
     }
 }
 
-.message-form {
-    .photo {
-        position: relative;
-        img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-        .indicator {
-            position: absolute;
-            bottom: .25em;
-            right: .25em;
-            width: .75em;
-            height: .75em;
-            border-radius: 50%;
-            background-color: transparent;
-            outline: 2px solid transparent;
-            &.online {
-                background-color: #15A672;
-                outline: 2px solid #FFFFFF;
-            }
+
+.photo {
+    position: relative;
+    img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    .indicator {
+        position: absolute;
+        bottom: .25em;
+        right: .25em;
+        width: .75em;
+        height: .75em;
+        border-radius: 50%;
+        background-color: transparent;
+        outline: 2px solid transparent;
+        &.online {
+            background-color: #15A672;
+            outline: 2px solid #FFFFFF;
         }
     }
 }
+
 
 
 /* SECTION 8 - article page */
@@ -1618,7 +1618,7 @@ article {
 }
 
 
-/* SECTION 9 - article page */
+/* SECTION 9 - services */
 .sec-9 {
     .mobile-title {
         background-color: $color-1;
@@ -1745,8 +1745,6 @@ article {
         img {
             width: 160px;
             height: 160px;
-            object-fit: cover;
-            border-radius: 50%;
             margin: 0 auto;
             display: block;
             @media (max-width: 1199px){
@@ -1836,6 +1834,7 @@ article {
     }
 }
 
+
 /* SECTION 10 - user page */
 #sec-10 {
     .user-photo {
@@ -1911,6 +1910,53 @@ article {
         }
     }
 }
+/*sprite with stars*/
+.rate {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    input {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -ms-appearance: none;
+        background: url(bg-imgs/sprite.svg) no-repeat;
+        background-size: 100% auto;
+        background-position: 0 0;
+        width: 1.5em;
+        height: 1.5em;
+        margin-right: .2em;
+        &:hover, &:hover ~ input, &:checked, &:checked ~ input {
+            background: url(bg-imgs/sprite.svg) no-repeat;
+            background-size: 100% auto;
+            background-position: 0 -1.5em;
+        }
+    }
+}
+#write-review {
+    .photo {
+        img {
+            width: 120px;
+            height: 120px;
+            @media (max-width: 991px) {
+                width: 80px;
+                height: 80px;
+            }
+            @media (max-width: 575px) {
+                width: 60px;
+                height: 60px;
+            }
+        }
+        .indicator {
+            bottom: 8%;
+            right: 8%;
+            width: 11%;
+            height: 11%;
+        }
+    }
+}
+
+
 
 footer {
     background-color: #373C3F;
