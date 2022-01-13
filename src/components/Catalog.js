@@ -385,54 +385,54 @@ export default function Catalog() {
                                     </div>
                                     <div className="col-9">
                                         <div className="row row-cols-3">
-                                        <label className="mb-3">
-                                            <input type="checkbox" name="extra" value="Кухонная мебель"/>
-                                            <span className="fs-11 ms-3">Кухонная мебель</span>
-                                        </label>
-                                        <label className="mb-3">
-                                            <input type="checkbox" name="extra" value="Мебель в комнатах"/>
-                                            <span className="fs-11 ms-3">Мебель в комнатах</span>
-                                        </label>
-                                        <label className="mb-3">
-                                            <input type="checkbox" name="extra" value="Холодильник"/>
-                                            <span className="fs-11 ms-3">Холодильник</span>
-                                        </label>
-                                        <label className="mb-3">
-                                            <input type="checkbox" name="extra" value="Стиральная машина"/>
-                                            <span className="fs-11 ms-3">Стиральная машина</span>
-                                        </label>
-                                        <label className="mb-3">
-                                            <input type="checkbox" name="extra" value="Посудомоечная машина"/>
-                                            <span className="fs-11 ms-3">Посудомоечная машина</span>
-                                        </label>
-                                        <label className="mb-3">
-                                            <input type="checkbox" name="extra" value="Телевизор"/>
-                                            <span className="fs-11 ms-3">Телевизор</span>
-                                        </label>
-                                        <label className="mb-3">
-                                            <input type="checkbox" name="extra" value="Кондиционер"/>
-                                            <span className="fs-11 ms-3">Кондиционер</span>
-                                        </label>
-                                        <label className="mb-3">
-                                            <input type="checkbox" name="extra" value="Интернет"/>
-                                            <span className="fs-11 ms-3">Интернет</span>
-                                        </label>
-                                        <label className="mb-3">
-                                            <input type="checkbox" name="extra" value="Ванна"/>
-                                            <span className="fs-11 ms-3">Ванна</span>
-                                        </label>
-                                        <label className="mb-3">
-                                            <input type="checkbox" name="extra" value="Душевая кабина"/>
-                                            <span className="fs-11 ms-3">Душевая кабина</span>
-                                        </label>
-                                        <label className="mb-3">
-                                            <input type="checkbox" name="extra" value="Можно с детьми"/>
-                                            <span className="fs-11 ms-3">Можно с детьми</span>
-                                        </label>
-                                        <label className="mb-3">
-                                            <input type="checkbox" name="extra" value="Можно с животными"/>
-                                            <span className="fs-11 ms-3">Можно с животными</span>
-                                        </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Кухонная мебель"/>
+                                                <span className="fs-11 ms-3">Кухонная мебель</span>
+                                            </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Мебель в комнатах"/>
+                                                <span className="fs-11 ms-3">Мебель в комнатах</span>
+                                            </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Холодильник"/>
+                                                <span className="fs-11 ms-3">Холодильник</span>
+                                            </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Стиральная машина"/>
+                                                <span className="fs-11 ms-3">Стиральная машина</span>
+                                            </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Посудомоечная машина"/>
+                                                <span className="fs-11 ms-3">Посудомоечная машина</span>
+                                            </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Телевизор"/>
+                                                <span className="fs-11 ms-3">Телевизор</span>
+                                            </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Кондиционер"/>
+                                                <span className="fs-11 ms-3">Кондиционер</span>
+                                            </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Интернет"/>
+                                                <span className="fs-11 ms-3">Интернет</span>
+                                            </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Ванна"/>
+                                                <span className="fs-11 ms-3">Ванна</span>
+                                            </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Душевая кабина"/>
+                                                <span className="fs-11 ms-3">Душевая кабина</span>
+                                            </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Можно с детьми"/>
+                                                <span className="fs-11 ms-3">Можно с детьми</span>
+                                            </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Можно с животными"/>
+                                                <span className="fs-11 ms-3">Можно с животными</span>
+                                            </label>
                                         </div>
                                     </div>
                                 </fieldset>

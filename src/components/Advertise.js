@@ -17,14 +17,14 @@ export default function Advertise() {
                     </ol>
                 </nav>
             </div>
-            <section className="container">
+            <section className="container mb-6">
                 <h1>Подать объявление</h1>
                 <div className="row">
                     <div className="col-10">
-                        <fieldset className="frame p-4 mb-4">
+                        <fieldset className="frame p-4 mb-5">
                             <legend className="title-font fw-7 fs-15 mb-4">Тип объявления</legend>
                             <div className="row">
-                                <div className="col-3">Владелец объявления*:</div>
+                                <div className="col-3 fs-11">Владелец объявления*:</div>
                                 <div className="col-9">
                                     <div className="row row-cols-4">
                                         <div>
@@ -44,7 +44,7 @@ export default function Advertise() {
                             </div>
                             <hr className="my-4" />
                             <div className="row">
-                                <div className="col-3">Сделка*:</div>
+                                <div className="col-3 fs-11">Сделка*:</div>
                                 <div className="col-9">
                                     <div className="row row-cols-4">
                                         <div>
@@ -64,7 +64,7 @@ export default function Advertise() {
                             </div>
                             <hr className="my-4" />
                             <div className="row">
-                                <div className="col-3">Тип недвижимости*:</div>
+                                <div className="col-3 fs-11">Тип недвижимости*:</div>
                                 <div className="col-9">
                                     <div className="row  row-cols-4">
                                         <div>
@@ -151,24 +151,24 @@ export default function Advertise() {
                                 </div>
                             </div>
                         </fieldset>
-                        <fieldset className="frame p-4 mb-4">
+                        <fieldset className="frame p-4 mb-5">
                             <legend className="title-font fw-7 fs-15 mb-4">Об объекте</legend>
                             <div className="row align-items-center">
-                                <div className="col-3">Адрес*:</div>
+                                <div className="col-3 fs-11">Адрес*:</div>
                                 <div className="col-9">
-                                    <input type="text" placeholder="р. Татарстан, г. Казань"/>
+                                    <input type="text" className="fs-11" placeholder="р. Татарстан, г. Казань"/>
                                 </div>
                             </div>
                             <hr className="my-4" />
                             <div className="row align-items-center">
-                                <div className="col-3">Название ЖК:</div>
+                                <div className="col-3 fs-11">Название ЖК:</div>
                                 <div className="col-9">
-                                    <input type="text" placeholder="Например: “Центральный”"/>
+                                    <input type="text" className="fs-11" placeholder="Например: “Центральный”"/>
                                 </div>
                             </div>
                             <hr className="my-4" />
                             <div className="row">
-                                <div className="col-3">Тип жилья*:</div>
+                                <div className="col-3 fs-11">Тип жилья*:</div>
                                 <div className="col-9">
                                     <div className="row row-cols-4">
                                         <div>
@@ -187,13 +187,385 @@ export default function Advertise() {
                                 </div>
                             </div>
                             <hr className="my-4" />
+                            <div className="row align-items-center">
+                                <div className="col-3 fs-11">Количество комнат*:</div>
+                                <div className="col-9 d-flex">
+                                    <label className="inp-btn me-2">
+                                        <input type="radio" name="rooms" value="Студия"/>
+                                        <div>Студия</div>
+                                    </label>
+                                    <label className="inp-btn me-2">
+                                        <input type="radio" name="rooms" value="1" defaultChecked={true}/>
+                                        <div>1</div>
+                                    </label>
+                                    <label className="inp-btn me-2">
+                                        <input type="radio" name="rooms" value="2"/>
+                                        <div>2</div>
+                                    </label>
+                                    <label className="inp-btn me-2">
+                                        <input type="radio" name="rooms" value="3"/>
+                                        <div>3</div>
+                                    </label>
+                                    <label className="inp-btn me-2">
+                                        <input type="radio" name="rooms" value="4"/>
+                                        <div>4</div>
+                                    </label>
+                                    <label className="inp-btn me-2">
+                                        <input type="radio" name="rooms" value="5"/>
+                                        <div>5</div>
+                                    </label>
+                                    <label className="inp-btn me-2">
+                                        <input type="radio" name="rooms" value="5+"/>
+                                        <div>5+</div>
+                                    </label>
+                                </div>
+                            </div>
+                            <hr className="my-4" />
+                            <div className="row row-cols-4 align-items-center">
+                                <div className="fs-11">Общая площадь*:</div>
+                                <div>
+                                    <input type="number" className="fs-11 area w-100"/> 
+                                </div>
+                                <div className="text-end">Жилая площадь:</div>
+                                <div>
+                                    <input type="number" className="fs-11 area w-100"/> 
+                                </div>
+                            </div>
+                            <hr className="my-4" />
+                            <div className="row row-cols-4 align-items-center">
+                                <div className="fs-11">Площадь кухни:</div>
+                                <div>
+                                    <input type="number" className="fs-11 area w-100"/> 
+                                </div>
+                            </div>
+                            <hr className="my-4" />
+                            <div className="row row-cols-4 align-items-center">
+                                <div className="fs-11">Этаж*:</div>
+                                <div>
+                                    <input type="number" className="fs-11 w-100"/> 
+                                </div>
+                                <div className="text-end">Этажей в доме:</div>
+                                <div>
+                                    <input type="number" className="fs-11 w-100"/> 
+                                </div>
+                            </div>
+                            <hr className="my-4" />
+                            <div className="row">
+                                <div className="col-3 fs-11">Санузел</div>
+                                <div className="col-9">
+                                    <div className="row row-cols-4">
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="bathroom" value="Раздельный" checked/>
+                                                <span className="fs-11 ms-2">Раздельный</span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="bathroom" value="Совмещенный"/>
+                                                <span className="fs-11 ms-2">Совмещенный</span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="bathroom" value="Два или более"/>
+                                                <span className="fs-11 ms-2">Два или более</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr className="my-4" />
+                            <div className="row">
+                                <div className="col-3 fs-11">Балкон/Лоджия</div>
+                                <div className="col-9">
+                                    <div className="row row-cols-4">
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="balcony" value="Балкон" checked/>
+                                                <span className="fs-11 ms-2">Балкон</span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="balcony" value="Лоджия"/>
+                                                <span className="fs-11 ms-2">Лоджия</span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="balcony" value="Нет"/>
+                                                <span className="fs-11 ms-2">Нет</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr className="my-4" />
+                            <div className="row">
+                                <div className="col-3 fs-11">Планировка:</div>
+                                <div className="col-9">
+                                    <div className="row row-cols-4">
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="layout" value="Изолированная" checked/>
+                                                <span className="fs-11 ms-2">Изолированная</span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="layout" value="Смежная"/>
+                                                <span className="fs-11 ms-2">Смежная</span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="layout" value="Свободная"/>
+                                                <span className="fs-11 ms-2">Свободная</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr className="my-4" />
+                            <div className="row">
+                                <div className="col-3 fs-11">Ремонт:</div>
+                                <div className="col-9">
+                                    <div className="row row-cols-4">
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="repairs" value="Косметический" checked/>
+                                                <span className="fs-11 ms-2">Косметический</span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="repairs" value="Евро"/>
+                                                <span className="fs-11 ms-2">Евро</span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="repairs" value="Дизайнерский"/>
+                                                <span className="fs-11 ms-2">Дизайнерский</span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="repairs" value="Без ремонта"/>
+                                                <span className="fs-11 ms-2">Без ремонта</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr className="my-4" />
+                                <div className="row">
+                                    <div className="col-3 fs-11">Дополнительно:</div>
+                                    <div className="col-9">
+                                        <div className="row row-cols-3">
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Кухонная мебель"/>
+                                                <span className="fs-11 ms-3">Кухонная мебель</span>
+                                            </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Мебель в комнатах"/>
+                                                <span className="fs-11 ms-3">Мебель в комнатах</span>
+                                            </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Холодильник"/>
+                                                <span className="fs-11 ms-3">Холодильник</span>
+                                            </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Стиральная машина"/>
+                                                <span className="fs-11 ms-3">Стиральная машина</span>
+                                            </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Посудомоечная машина"/>
+                                                <span className="fs-11 ms-3">Посудомоечная машина</span>
+                                            </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Телевизор"/>
+                                                <span className="fs-11 ms-3">Телевизор</span>
+                                            </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Кондиционер"/>
+                                                <span className="fs-11 ms-3">Кондиционер</span>
+                                            </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Интернет"/>
+                                                <span className="fs-11 ms-3">Интернет</span>
+                                            </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Ванна"/>
+                                                <span className="fs-11 ms-3">Ванна</span>
+                                            </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Душевая кабина"/>
+                                                <span className="fs-11 ms-3">Душевая кабина</span>
+                                            </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Можно с детьми"/>
+                                                <span className="fs-11 ms-3">Можно с детьми</span>
+                                            </label>
+                                            <label className="mb-3">
+                                                <input type="checkbox" name="extra" value="Можно с животными"/>
+                                                <span className="fs-11 ms-3">Можно с животными</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset className="frame p-4 mb-5">
+                            <legend className="title-font fw-7 fs-15 mb-4">Описание и фото</legend>
+                            <div className="row mb-2">
+                                <div className="col-3 fs-11">Описание*:</div>
+                                <div className="col-9">
+                                    <textarea rows="5" className="fs-11" placeholder="Расскажите подробне об объекте и условиях сделки. "></textarea>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-3 fs-11">Фото и планировка*:</div>
+                                <div className="col-9">
+                                    <div className="fs-08">Не допускаются к размещению фотографии с водяными знаками, чужих объектов и рекламные баннеры. JPG, PNG или GIF. Максимальный размер файла 10 мб</div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset className="frame p-4 mb-5">
+                            <legend className="title-font fw-7 fs-15 mb-4">О здании</legend>
+                            <div className="row align-items-center">
+                                <div className="col-3 fs-11">Год постройки:</div>
+                                <div className="col-9">
+                                    <input type="number" className="fs-11"/> 
+                                </div>
+                            </div>
+                            <hr className="my-4" />
+                            <div className="row align-items-center">
+                                <div className="col-3 fs-11">Тип дома:</div>
+                                <div className="col-9">
+                                    <div className="d-flex align-items-baseline flex-wrap">
+                                        <label className="me-5">
+                                            <input type="radio" name="house-type" value="Кирпичный" checked/>
+                                            <span className="fs-11 ms-2">Кирпичный</span>
+                                        </label>
+                                        <label className="me-5">
+                                            <input type="radio" name="house-type" value="Панельный"/>
+                                            <span className="fs-11 ms-2">Панельный</span>
+                                        </label>
+                                        <label className="me-5">
+                                            <input type="radio" name="house-type" value="Монолитный"/>
+                                            <span className="fs-11 ms-2">Монолитный</span>
+                                        </label>
+                                        <label className="me-5">
+                                            <input type="radio" name="house-type" value="Блочный"/>
+                                            <span className="fs-11 ms-2">Блочный</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="house-type" value="Деревянный"/>
+                                            <span className="fs-11 ms-2">Деревянный</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr className="my-4" />
+                            <div className="row align-items-center">
+                                <div className="col-3 fs-11">Лифт:</div>
+                                <div className="col-9">
+                                    <div className="d-flex align-items-baseline flex-wrap">
+                                        <label className="me-5">
+                                            <input type="radio" name="lift" value="Нет"/>
+                                            <span className="fs-11 ms-2">Нет</span>
+                                        </label>
+                                        <label className="me-5">
+                                            <input type="radio" name="lift" value="Пассажирский"/>
+                                            <span className="fs-11 ms-2">Пассажирский</span>
+                                        </label>
+                                        <label className="me-5">
+                                            <input type="radio" name="lift" value="Грузовой"/>
+                                            <span className="fs-11 ms-2">Грузовой</span>
+                                        </label>
+                                        <label className="me-5">
+                                            <input type="radio" name="lift" value="Пассажирский/Грузовой"/>
+                                            <span className="fs-11 ms-2">Пассажирский/Грузовой</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr className="my-4" />
+                            <div className="row align-items-center">
+                                <div className="col-3 fs-11">Высота потолков:</div>
+                                <div className="col-9">
+                                    <input type="number" className="fs-11"/>
+                                    <span className="ms-2">м</span>
+                                </div>
+                            </div>
+                            <hr className="my-4" />
+                            <div className="row align-items-center">
+                                <div className="col-3 fs-11">Пандус:</div>
+                                <div className="col-9 row row-cols-2">
+                                    <div>
+                                        <label className="me-5">
+                                            <input type="radio" name="ramp" value="Есть"/>
+                                            <span className="fs-11 ms-2">Есть</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label className="me-5">
+                                            <input type="radio" name="ramp" value="Нет"/>
+                                            <span className="fs-11 ms-2">Нет</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr className="my-4" />
+                            <div className="row align-items-center">
+                                <div className="col-3 fs-11">Мусоропровод:</div>
+                                <div className="col-9 row row-cols-2">
+                                    <div>
+                                        <label className="me-5">
+                                            <input type="radio" name="chute" value="Есть"/>
+                                            <span className="fs-11 ms-2">Есть</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label className="me-5">
+                                            <input type="radio" name="chute" value="Нет"/>
+                                            <span className="fs-11 ms-2">Нет</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr className="my-4" />
+                            <div className="row align-items-center">
+                                <div className="col-3 fs-11">Парковка:</div>
+                                <div className="col-9 row row-cols-3">
+                                    <div>
+                                        <label className="mb-3">
+                                            <input type="checkbox" name="parking" value="Наземная"/>
+                                            <span className="fs-11 ms-3">Наземная</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label className="mb-3">
+                                            <input type="checkbox" name="parking" value="Подземная"/>
+                                            <span className="fs-11 ms-3">Подземная</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label className="mb-3">
+                                            <input type="checkbox" name="parking" value="Многоуровневая"/>
+                                            <span className="fs-11 ms-3">Многоуровневая</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </fieldset>
                         <div className="d-flex justify-content-between mb-3">
                             <div>*- поля обязательные для заполнения</div>
                             <button type="button" className="color-1 fs-11 fw-5 bb-1">Очистить форму</button>
                         </div>
                         <button type="submit" className="btn btn-1 fs-15 mx-auto">Разместить объявление</button>
-                        <div>Нажимая кнопку “Разместить объявление”, Вы соглашаетесь с условиями сайта</div>
+                        <div className="gray-3 text-center mt-3">Нажимая кнопку “Разместить объявление”, Вы соглашаетесь с <a href="#" className="color-1">условиями сайта</a></div>
                     </div>
                    
                 </div>

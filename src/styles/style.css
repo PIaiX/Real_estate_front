@@ -188,6 +188,41 @@ label.inp-text input:checked + div {
   background-color: #146492;
 }
 
+.inp-btn {
+  position: relative;
+}
+
+.inp-btn div {
+  position: relative;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-radius: 2px;
+  padding: 0.2em 0.6em;
+  line-height: normal;
+  z-index: 2;
+}
+
+.inp-btn input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  background: none;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.inp-btn input:checked + div {
+  background-color: #146492;
+  color: #fff;
+}
+
 select {
   appearance: none;
   -webkit-appearance: none;
