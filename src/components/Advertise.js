@@ -1,7 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { NavLink } from 'react-router-dom';
+import ImageUploading from "react-images-uploading";
 
 export default function Advertise() {
+    const [images, setImages] = React.useState([]);
+    const maxNumber = 24;
+    const onChange = (imageList, addUpdateIndex) => {
+        // data for submit
+        console.log(imageList, addUpdateIndex);
+        setImages(imageList);
+    };
+
     return (
         <main>
             <div className="container py-3 py-sm-4 py-lg-5">
@@ -17,7 +26,7 @@ export default function Advertise() {
                     </ol>
                 </nav>
             </div>
-            <section className="container mb-6">
+            <section id="sec-11" className="container mb-6">
                 <h1>Подать объявление</h1>
                 <div className="row">
                     <div className="col-10">
@@ -427,7 +436,58 @@ export default function Advertise() {
                             <div className="row">
                                 <div className="col-3 fs-11">Фото и планировка*:</div>
                                 <div className="col-9">
-                                    <div className="fs-08">Не допускаются к размещению фотографии с водяными знаками, чужих объектов и рекламные баннеры. JPG, PNG или GIF. Максимальный размер файла 10 мб</div>
+                                    <ImageUploading
+                                        multiple
+                                        value={images}
+                                        onChange={onChange}
+                                        maxNumber={maxNumber}
+                                        dataURLKey="data_url"
+                                    >
+                                        {({
+                                        imageList,
+                                        onImageUpload,
+                                        onImageRemoveAll,
+                                        onImageUpdate,
+                                        onImageRemove,
+                                        isDragging,
+                                        dragProps
+                                        }) => (
+                                        // write your building UI
+                                        <div className="upload__image-wrapper photo-upload">
+                                            <div className="imgs-box">
+                                                {imageList.map((image, index) => (
+                                                <div key={index} className="image-item">
+                                                    <img src={image.data_url} alt=""/>
+                                                    <div className="image-item__btn-wrapper">
+                                                        <button type="button" onClick={() => onImageUpdate(index)}>
+                                                            <img src="/real_estate/img/icons/update.svg" alt="Обновить" />
+                                                        </button>
+                                                        <button type="button" onClick={() => onImageRemove(index)}>
+                                                            <img src="/real_estate/img/icons/delete.svg" alt="Удалить" />
+                                                        </button>
+                                                        <button type="button" className="main-img">Сделать главным</button>
+                                                    </div>
+                                                </div>
+                                                ))}
+                                            </div>
+                                            <div className="d-flex">
+                                                <button className="btn btn-1 me-4"
+                                                style={isDragging ? { color: "red" } : null}
+                                                onClick={onImageUpload}
+                                                {...dragProps}
+                                                >
+                                                    <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <line x1="10.75" x2="10.75" y2="21" stroke="white" stroke-width="1.5"/>
+                                                        <line y1="10.25" x2="21" y2="10.25" stroke="white" stroke-width="1.5"/>
+                                                    </svg>
+                                                    <span className="ms-2">Добавить фото</span>
+                                                </button>
+                                                <button onClick={onImageRemoveAll}>Удалить все</button>
+                                            </div>
+                                        </div>
+                                        )}
+                                    </ImageUploading>
+                                    <div className="fs-08 gray-3 mt-2">Не допускаются к размещению фотографии с водяными знаками, чужих объектов и рекламные баннеры. JPG, PNG или GIF. Максимальный размер файла 10 мб</div>
                                 </div>
                             </div>
                         </fieldset>
@@ -511,7 +571,7 @@ export default function Advertise() {
                                     </div>
                                     <div>
                                         <label className="me-5">
-                                            <input type="radio" name="ramp" value="Нет"/>
+                                            <input type="radio" name="ramp" value="Нет" defaultChecked={true}/>
                                             <span className="fs-11 ms-2">Нет</span>
                                         </label>
                                     </div>
@@ -529,7 +589,7 @@ export default function Advertise() {
                                     </div>
                                     <div>
                                         <label className="me-5">
-                                            <input type="radio" name="chute" value="Нет"/>
+                                            <input type="radio" name="chute" value="Нет"  defaultChecked={true}/>
                                             <span className="fs-11 ms-2">Нет</span>
                                         </label>
                                     </div>
@@ -557,6 +617,41 @@ export default function Advertise() {
                                             <span className="fs-11 ms-3">Многоуровневая</span>
                                         </label>
                                     </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset className="frame p-4 mb-5">
+                            <legend className="title-font fw-7 fs-15 mb-4">Условия сделки</legend>
+                            <div className="row align-items-center mb-4">
+                                <div className="col-3 fs-11">Цена*:</div>
+                                <div className="col-9">
+                                    <input type="number" class="fs-11 price" />
+                                </div>
+                            </div>
+                            <div className="row align-items-center mb-4">
+                                <div className="col-3 fs-11">Ипотека*:</div>
+                                <div className="col-9 d-flex">
+                                    <label className="me-5">
+                                        <input type="radio" name="hypothec" value="Да"/>
+                                        <span className="fs-11 ms-2">Да</span>
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="hypothec" value="Нет" defaultChecked={true}/>
+                                        <span className="fs-11 ms-2">Нет</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div className="row align-items-center mb-4">
+                                <div className="col-3 fs-11">Обременения:</div>
+                                <div className="col-9 d-flex">
+                                    <label className="me-5">
+                                        <input type="radio" name="difficulties" value="Да"/>
+                                        <span className="fs-11 ms-2">Да</span>
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="difficulties" value="Нет" defaultChecked={true}/>
+                                        <span className="fs-11 ms-2">Нет</span>
+                                    </label>
                                 </div>
                             </div>
                         </fieldset>
