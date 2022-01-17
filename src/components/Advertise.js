@@ -4,6 +4,7 @@ import ImageUploading from "react-images-uploading";
 
 export default function Advertise() {
     const [images, setImages] = React.useState([]);
+    const [mainImg, setMainImg] = useState(0);
     const maxNumber = 24;
     const onChange = (imageList, addUpdateIndex) => {
         // data for submit
@@ -28,8 +29,8 @@ export default function Advertise() {
             </div>
             <section id="sec-11" className="container mb-6">
                 <h1>Подать объявление</h1>
-                <div className="row">
-                    <div className="col-10">
+                <form className="row">
+                    <div className="col-9">
                         <fieldset className="frame p-4 mb-5">
                             <legend className="title-font fw-7 fs-15 mb-4">Тип объявления</legend>
                             <div className="row">
@@ -453,7 +454,7 @@ export default function Advertise() {
                                         dragProps
                                         }) => (
                                         // write your building UI
-                                        <div className="upload__image-wrapper photo-upload">
+                                        <div className="upload__image-wrapper">
                                             <div className="imgs-box">
                                                 {imageList.map((image, index) => (
                                                 <div key={index} className="image-item">
@@ -465,12 +466,19 @@ export default function Advertise() {
                                                         <button type="button" onClick={() => onImageRemove(index)}>
                                                             <img src="/real_estate/img/icons/delete.svg" alt="Удалить" />
                                                         </button>
-                                                        <button type="button" className="main-img">Сделать главным</button>
+                                                        {
+                                                            (index != mainImg) &&
+                                                            <button type="button" onClick={() => setMainImg(index)} className="main-img">Сделать главным</button>
+                                                        }
                                                     </div>
+                                                    {
+                                                        (index === mainImg) &&
+                                                        <div className="mark">Главное фото</div>
+                                                    }
                                                 </div>
                                                 ))}
                                             </div>
-                                            <div className="d-flex">
+                                            <div className="d-flex justify-content-center">
                                                 <button className="btn btn-1 me-4"
                                                 style={isDragging ? { color: "red" } : null}
                                                 onClick={onImageUpload}
@@ -504,23 +512,23 @@ export default function Advertise() {
                                 <div className="col-3 fs-11">Тип дома:</div>
                                 <div className="col-9">
                                     <div className="d-flex align-items-baseline flex-wrap">
-                                        <label className="me-5">
-                                            <input type="radio" name="house-type" value="Кирпичный" checked/>
+                                        <label className="me-5 my-2">
+                                            <input type="radio" name="house-type" value="Кирпичный" defaultChecked={true}/>
                                             <span className="fs-11 ms-2">Кирпичный</span>
                                         </label>
-                                        <label className="me-5">
+                                        <label className="me-5 my-2">
                                             <input type="radio" name="house-type" value="Панельный"/>
                                             <span className="fs-11 ms-2">Панельный</span>
                                         </label>
-                                        <label className="me-5">
+                                        <label className="me-5 my-2">
                                             <input type="radio" name="house-type" value="Монолитный"/>
                                             <span className="fs-11 ms-2">Монолитный</span>
                                         </label>
-                                        <label className="me-5">
+                                        <label className="me-5 my-2">
                                             <input type="radio" name="house-type" value="Блочный"/>
                                             <span className="fs-11 ms-2">Блочный</span>
                                         </label>
-                                        <label>
+                                        <label className="my-2">
                                             <input type="radio" name="house-type" value="Деревянный"/>
                                             <span className="fs-11 ms-2">Деревянный</span>
                                         </label>
@@ -532,19 +540,19 @@ export default function Advertise() {
                                 <div className="col-3 fs-11">Лифт:</div>
                                 <div className="col-9">
                                     <div className="d-flex align-items-baseline flex-wrap">
-                                        <label className="me-5">
-                                            <input type="radio" name="lift" value="Нет"/>
+                                        <label className="me-5 my-2">
+                                            <input type="radio" name="lift" value="Нет" defaultChecked={true}/>
                                             <span className="fs-11 ms-2">Нет</span>
                                         </label>
-                                        <label className="me-5">
+                                        <label className="me-5 my-2">
                                             <input type="radio" name="lift" value="Пассажирский"/>
                                             <span className="fs-11 ms-2">Пассажирский</span>
                                         </label>
-                                        <label className="me-5">
+                                        <label className="me-5 my-2">
                                             <input type="radio" name="lift" value="Грузовой"/>
                                             <span className="fs-11 ms-2">Грузовой</span>
                                         </label>
-                                        <label className="me-5">
+                                        <label className="me-5 my-2">
                                             <input type="radio" name="lift" value="Пассажирский/Грузовой"/>
                                             <span className="fs-11 ms-2">Пассажирский/Грузовой</span>
                                         </label>
@@ -598,7 +606,7 @@ export default function Advertise() {
                             <hr className="my-4" />
                             <div className="row align-items-center">
                                 <div className="col-3 fs-11">Парковка:</div>
-                                <div className="col-9 row row-cols-3">
+                                <div className="col-9 row row-cols-2 row-cols-xl-3">
                                     <div>
                                         <label className="mb-3">
                                             <input type="checkbox" name="parking" value="Наземная"/>
@@ -662,8 +670,14 @@ export default function Advertise() {
                         <button type="submit" className="btn btn-1 fs-15 mx-auto">Разместить объявление</button>
                         <div className="gray-3 text-center mt-3">Нажимая кнопку “Разместить объявление”, Вы соглашаетесь с <a href="#" className="color-1">условиями сайта</a></div>
                     </div>
-                   
-                </div>
+                    <div className="col-3">
+                        <div className="faster">
+                            <img src="/real_estate/img/img5.jpg" alt="" className="img-fluid" />
+                            <div className="title">Хотите найти покупателя/арендатора быстрее?</div>
+                            <button type="button" className="btn btn-1">Узнать о преимуществах</button>
+                        </div>
+                    </div>
+                </form>
             </section>
             
         </main>

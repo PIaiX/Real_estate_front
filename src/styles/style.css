@@ -508,9 +508,9 @@ select {
   border: 1px dashed #E0E0E0;
   padding: 1em;
   border-radius: .25em;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
+  min-width: -webkit-fit-content;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
   max-width: 100%;
 }
 
@@ -527,6 +527,7 @@ select {
       -ms-flex-align: center;
           align-items: center;
   margin-bottom: .75em;
+  width: 100%;
 }
 
 .upload__image-wrapper .imgs-box:empty {
@@ -543,6 +544,12 @@ select {
   margin: 0 1% 1% 0;
 }
 
+@media (max-width: 1399px) {
+  .upload__image-wrapper .imgs-box .image-item {
+    width: calc((100% - 5%)/5);
+  }
+}
+
 .upload__image-wrapper .imgs-box .image-item img {
   position: relative;
   z-index: 1;
@@ -550,6 +557,12 @@ select {
   height: 100px;
   -o-object-fit: cover;
      object-fit: cover;
+}
+
+@media (max-width: 1659px) {
+  .upload__image-wrapper .imgs-box .image-item img {
+    height: 90px;
+  }
 }
 
 .upload__image-wrapper .imgs-box .image-item__btn-wrapper {
@@ -593,6 +606,19 @@ select {
   height: 1em;
   -o-object-fit: contain;
      object-fit: contain;
+}
+
+.upload__image-wrapper .imgs-box .image-item .mark {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  height: auto;
+  background-color: rgba(0, 0, 0, 0.44);
+  color: #fff;
+  font-size: .8em;
+  text-align: center;
+  z-index: 3;
 }
 
 button {
@@ -3157,6 +3183,43 @@ article .text {
 }
 
 /* SECTION 11 - user page */
+#sec-11 .faster {
+  position: relative;
+  width: 100%;
+  height: 270px;
+  border-radius: .25em;
+  overflow: hidden;
+}
+
+#sec-11 .faster img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+#sec-11 .faster .title {
+  position: absolute;
+  top: 1em;
+  left: 5%;
+  width: 90%;
+  z-index: 2;
+  color: #FFFFFF;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+#sec-11 .faster button {
+  position: absolute;
+  bottom: 1em;
+  left: 5%;
+  width: 90%;
+  z-index: 2;
+}
+
 footer {
   background-color: #373C3F;
   height: 250px;
