@@ -1,15 +1,21 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { NavLink } from 'react-router-dom';
 import ImageUploading from "react-images-uploading";
+import * as Scroll from 'react-scroll';
+import { Link, animateScroll as scroll } from 'react-scroll';
+
 
 export default function Advertise() {
     const [images, setImages] = React.useState([]);
     const [mainImg, setMainImg] = useState(0);
     const maxNumber = 24;
     const onChange = (imageList, addUpdateIndex) => {
-        // data for submit
         console.log(imageList, addUpdateIndex);
         setImages(imageList);
+    };
+
+    const onSubmit = e => {
+        e.preventDefault();
     };
 
     return (
@@ -29,9 +35,9 @@ export default function Advertise() {
             </div>
             <section id="sec-11" className="container mb-6">
                 <h1>Подать объявление</h1>
-                <form className="row">
+                <form className="row gx-5" onSubmit={onSubmit} noValidate>
                     <div className="col-9">
-                        <fieldset className="frame p-4 mb-5">
+                        <fieldset name="anchor-1" className="element frame p-4 mb-5">
                             <legend className="title-font fw-7 fs-15 mb-4">Тип объявления</legend>
                             <div className="row">
                                 <div className="col-3 fs-11">Владелец объявления*:</div>
@@ -39,13 +45,13 @@ export default function Advertise() {
                                     <div className="row row-cols-4">
                                         <div>
                                             <label>
-                                                <input type="radio" name="owner" value="Собственник" checked/>
+                                                <input type="radio" name="owner" value="Собственник" required/>
                                                 <span className="fs-11 ms-2">Собственник</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="owner" value="Агент"/>
+                                                <input type="radio" name="owner" value="Агент" required/>
                                                 <span className="fs-11 ms-2">Агент</span>
                                             </label>
                                         </div>
@@ -59,13 +65,13 @@ export default function Advertise() {
                                     <div className="row row-cols-4">
                                         <div>
                                             <label>
-                                                <input type="radio" name="deal" value="Аренда"/>
+                                                <input type="radio" name="deal" value="Аренда" required/>
                                                 <span className="fs-11 ms-2">Аренда</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="deal" value="Продажа" checked/>
+                                                <input type="radio" name="deal" value="Продажа" required/>
                                                 <span className="fs-11 ms-2">Продажа</span>
                                             </label>
                                         </div>
@@ -79,25 +85,25 @@ export default function Advertise() {
                                     <div className="row  row-cols-4">
                                         <div>
                                             <label>
-                                                <input type="radio" name="property-type" value="Жилая" checked/>
+                                                <input type="radio" name="property-type" value="Жилая" required/>
                                                 <span className="fs-11 ms-2">Жилая</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="property-type" value="Коммерческая"/>
+                                                <input type="radio" name="property-type" value="Коммерческая" required/>
                                                 <span className="fs-11 ms-2">Коммерческая</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="property-type" value="Паркинг/Гараж"/>
+                                                <input type="radio" name="property-type" value="Паркинг/Гараж" required/>
                                                 <span className="fs-11 ms-2">Паркинг/Гараж</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="property-type" value="Земельный участок"/>
+                                                <input type="radio" name="property-type" value="Земельный участок" required/>
                                                 <span className="fs-11 ms-2">Земельный участок</span>
                                             </label>
                                         </div>
@@ -111,49 +117,49 @@ export default function Advertise() {
                                     <div className="row row-cols-4 gy-3">
                                         <div>
                                             <label>
-                                                <input type="radio" name="estate" value="Квартира"/>
+                                                <input type="radio" name="estate" value="Квартира" required/>
                                                 <span className="fs-11 ms-2">Квартира</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="estate" value="Комната"/>
+                                                <input type="radio" name="estate" value="Комната" required/>
                                                 <span className="fs-11 ms-2">Комната</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="estate" value="Койко-место"/>
+                                                <input type="radio" name="estate" value="Койко-место" required/>
                                                 <span className="fs-11 ms-2">Койко-место</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="estate" value="Дом"/>
+                                                <input type="radio" name="estate" value="Дом" required/>
                                                 <span className="fs-11 ms-2">Дом</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="estate" value="Дача"/>
+                                                <input type="radio" name="estate" value="Дача" required/>
                                                 <span className="fs-11 ms-2">Дача</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="estate" value="Коттедж"/>
+                                                <input type="radio" name="estate" value="Коттедж" required/>
                                                 <span className="fs-11 ms-2">Коттедж</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="estate" value="Таунхаус"/>
+                                                <input type="radio" name="estate" value="Таунхаус" required/>
                                                 <span className="fs-11 ms-2">Таунхаус</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="estate" value="Часть дома"/>
+                                                <input type="radio" name="estate" value="Часть дома" required/>
                                                 <span className="fs-11 ms-2">Часть дома</span>
                                             </label>
                                         </div>
@@ -161,12 +167,12 @@ export default function Advertise() {
                                 </div>
                             </div>
                         </fieldset>
-                        <fieldset className="frame p-4 mb-5">
+                        <fieldset name="anchor-2" className="element frame p-4 mb-5">
                             <legend className="title-font fw-7 fs-15 mb-4">Об объекте</legend>
                             <div className="row align-items-center">
                                 <div className="col-3 fs-11">Адрес*:</div>
                                 <div className="col-9">
-                                    <input type="text" className="fs-11" placeholder="р. Татарстан, г. Казань"/>
+                                    <input type="text" className="fs-11" placeholder="р. Татарстан, г. Казань" required/>
                                 </div>
                             </div>
                             <hr className="my-4" />
@@ -426,7 +432,7 @@ export default function Advertise() {
                                 </div>
                             </div>
                         </fieldset>
-                        <fieldset className="frame p-4 mb-5">
+                        <fieldset name="anchor-3" className="element frame p-4 mb-5">
                             <legend className="title-font fw-7 fs-15 mb-4">Описание и фото</legend>
                             <div className="row mb-2">
                                 <div className="col-3 fs-11">Описание*:</div>
@@ -453,7 +459,6 @@ export default function Advertise() {
                                         isDragging,
                                         dragProps
                                         }) => (
-                                        // write your building UI
                                         <div className="upload__image-wrapper">
                                             <div className="imgs-box">
                                                 {imageList.map((image, index) => (
@@ -467,7 +472,7 @@ export default function Advertise() {
                                                             <img src="/real_estate/img/icons/delete.svg" alt="Удалить" />
                                                         </button>
                                                         {
-                                                            (index != mainImg) &&
+                                                            (index !== mainImg) &&
                                                             <button type="button" onClick={() => setMainImg(index)} className="main-img">Сделать главным</button>
                                                         }
                                                     </div>
@@ -499,7 +504,7 @@ export default function Advertise() {
                                 </div>
                             </div>
                         </fieldset>
-                        <fieldset className="frame p-4 mb-5">
+                        <fieldset name="anchor-4" className="element frame p-4 mb-5">
                             <legend className="title-font fw-7 fs-15 mb-4">О здании</legend>
                             <div className="row align-items-center">
                                 <div className="col-3 fs-11">Год постройки:</div>
@@ -628,7 +633,7 @@ export default function Advertise() {
                                 </div>
                             </div>
                         </fieldset>
-                        <fieldset className="frame p-4 mb-5">
+                        <fieldset name="anchor-5" className="element frame p-4 mb-5">
                             <legend className="title-font fw-7 fs-15 mb-4">Условия сделки</legend>
                             <div className="row align-items-center mb-4">
                                 <div className="col-3 fs-11">Цена*:</div>
@@ -670,12 +675,33 @@ export default function Advertise() {
                         <button type="submit" className="btn btn-1 fs-15 mx-auto">Разместить объявление</button>
                         <div className="gray-3 text-center mt-3">Нажимая кнопку “Разместить объявление”, Вы соглашаетесь с <a href="#" className="color-1">условиями сайта</a></div>
                     </div>
-                    <div className="col-3">
-                        <div className="faster">
-                            <img src="/real_estate/img/img5.jpg" alt="" className="img-fluid" />
-                            <div className="title">Хотите найти покупателя/арендатора быстрее?</div>
-                            <button type="button" className="btn btn-1">Узнать о преимуществах</button>
-                        </div>
+                    <div className="col-3 position-relative">
+                        <aside>
+                            <nav className="mb-5">
+                                <ol>
+                                    <li>
+                                        <Link activeClass="active" to="anchor-1" spy={true} smooth={true} hashSpy={true} offset={-80} duration={300} isDynamic={true}>Тип объявления</Link>
+                                    </li>
+                                    <li>
+                                        <Link activeClass="active" to="anchor-2" spy={true} smooth={true} hashSpy={true} offset={-80} duration={300} isDynamic={true}>Об объекте</Link>
+                                    </li>
+                                    <li>
+                                        <Link activeClass="active" to="anchor-3" spy={true} smooth={true} hashSpy={true} offset={-80} duration={300} isDynamic={true}>Описание и фото</Link>
+                                    </li>
+                                    <li>
+                                        <Link activeClass="active" to="anchor-4" spy={true} smooth={true} hashSpy={true} offset={-80} duration={300} isDynamic={true}>О здании</Link>
+                                    </li>
+                                    <li>
+                                        <Link activeClass="active" to="anchor-5" spy={true} smooth={true} hashSpy={true} offset={-80} duration={300} isDynamic={true}>Условия сделки</Link>
+                                    </li>
+                                </ol>
+                            </nav>
+                            <div className="faster">
+                                <img src="/real_estate/img/img5.jpg" alt="" className="img-fluid" />
+                                <div className="title">Хотите найти покупателя/арендатора быстрее?</div>
+                                <button type="button" className="btn btn-1">Узнать о преимуществах</button>
+                            </div>
+                        </aside>
                     </div>
                 </form>
             </section>

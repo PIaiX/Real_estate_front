@@ -2091,8 +2091,8 @@ article {
         .title {
             position: absolute;
             top: 1em;
-            left: 5%;
-            width: 90%;
+            left: 10%;
+            width: 80%;
             z-index: 2;
             color: #FFFFFF;
             text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -2105,6 +2105,67 @@ article {
             left: 5%;
             width: 90%;
             z-index: 2;
+        }
+    }
+    aside {
+        position: sticky;
+        top: 80px;
+        left: 0px;
+        width: 100%;
+        nav {
+            ol {
+                list-style: none;
+                counter-reset: li; 
+                font-size: 1.5em;
+                padding: 0;
+                li {
+                    padding-left: 2.25em;
+                    margin-bottom: 1em;
+                    position: relative;
+                    &:not(:first-child) {
+                        a::after{
+                            content: "";
+                            position: absolute;
+                            left: calc(.75em - 2px);
+                            bottom: 100%;
+                            width: 4px;
+                            height: 1em;
+                            background-color: $color-3;
+                        }
+                    }
+                    a {
+                        border-bottom: 4px solid transparent;
+                        transition: .2s;
+                        line-height: 1.5em;
+                        &::before {
+                            content: counter(li);
+                            counter-increment: li;
+                            position: absolute;
+                            left: 0;
+                            width: 1.5em;
+                            height: 1.5em;
+                            border-radius: 50%;
+                            border: 2px solid $color-3;
+                            background-color: $color-3;
+                            color: #fff;
+                            font-family: $title-font;
+                            font-weight: 700;
+                            @include flex-center();
+                            transition: .2s;
+                        }
+                        &.active, &:hover, &:focus, &:active {
+                            border-bottom: 4px solid $color-1;
+                            &:before {
+                                border: 2px solid $color-1;
+                                background-color: #fff;
+                                color: $color-1;
+                            }
+                        }
+                        
+                    }
+                }     
+            }
+            
         }
     }
 }
