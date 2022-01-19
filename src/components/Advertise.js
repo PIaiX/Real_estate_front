@@ -14,8 +14,46 @@ export default function Advertise() {
         setImages(imageList);
     };
 
+    const scrollToTop = () => {
+        scroll.scrollToTop();
+    };
+
+    const notNull = (element, index, array) => {
+        const textORnum = element.type == 'text' || element.type == 'number';
+        const chekboxORradio = element.type == 'radio' || element.type == 'checkbox';
+        if(chekboxORradio){
+            let name = element.name;
+            let arrElms = Array.from(document.forms.postingAd.querySelectorAll('input[name="'+name+'"]'));
+            if(arrElms.some(isChecked)){return element;}
+        } else if ( textORnum && element.value.trim() != ''){
+            return element;
+        }
+    };
+    const isChecked = (el) => {
+        if(el.checked && el.value.trim() != ''){
+            return el;
+        }
+    };
+
     const onSubmit = e => {
         e.preventDefault();
+        console.log('нажата кнопка сабмит');
+        let requiredElems = Array.from(document.forms.postingAd.querySelectorAll('input[required]'));
+        
+        if(requiredElems.length === 0){
+            return;
+        } else {
+            let flag = requiredElems.every(notNull);
+        
+            if (flag){
+                console.log('все поля заполнены');
+                document.forms.postingAd.classList.remove('not-filled');
+            } else {
+                console.log('есть не заполненые поля');
+                document.forms.postingAd.classList.add('not-filled');
+                scrollToTop();
+            }
+        }
     };
 
     return (
@@ -35,12 +73,12 @@ export default function Advertise() {
             </div>
             <section id="sec-11" className="container mb-6">
                 <h1>Подать объявление</h1>
-                <form className="row gx-5" onSubmit={onSubmit} noValidate>
+                <form className="row gx-5" name="postingAd" onSubmit={onSubmit} noValidate>
                     <div className="col-9">
                         <fieldset name="anchor-1" className="element frame p-4 mb-5">
                             <legend className="title-font fw-7 fs-15 mb-4">Тип объявления</legend>
                             <div className="row">
-                                <div className="col-3 fs-11">Владелец объявления*:</div>
+                                <div className="col-3 fs-11 title-req">Владелец объявления*:</div>
                                 <div className="col-9">
                                     <div className="row row-cols-4">
                                         <div>
@@ -60,7 +98,7 @@ export default function Advertise() {
                             </div>
                             <hr className="my-4" />
                             <div className="row">
-                                <div className="col-3 fs-11">Сделка*:</div>
+                                <div className="col-3 fs-11 title-req">Сделка*:</div>
                                 <div className="col-9">
                                     <div className="row row-cols-4">
                                         <div>
@@ -80,7 +118,7 @@ export default function Advertise() {
                             </div>
                             <hr className="my-4" />
                             <div className="row">
-                                <div className="col-3 fs-11">Тип недвижимости*:</div>
+                                <div className="col-3 fs-11 title-req">Тип недвижимости*:</div>
                                 <div className="col-9">
                                     <div className="row  row-cols-4">
                                         <div>
@@ -112,7 +150,7 @@ export default function Advertise() {
                             </div>
                             <hr className="my-4" />
                             <div className="row">
-                                <div className="col-3 fs-11">Объект*:</div>
+                                <div className="col-3 fs-11 title-req">Объект*:</div>
                                 <div className="col-9">
                                     <div className="row row-cols-4 gy-3">
                                         <div>
@@ -170,7 +208,7 @@ export default function Advertise() {
                         <fieldset name="anchor-2" className="element frame p-4 mb-5">
                             <legend className="title-font fw-7 fs-15 mb-4">Об объекте</legend>
                             <div className="row align-items-center">
-                                <div className="col-3 fs-11">Адрес*:</div>
+                                <div className="col-3 fs-11 title-req">Адрес*:</div>
                                 <div className="col-9">
                                     <input type="text" className="fs-11" placeholder="р. Татарстан, г. Казань" required/>
                                 </div>
@@ -184,7 +222,7 @@ export default function Advertise() {
                             </div>
                             <hr className="my-4" />
                             <div className="row">
-                                <div className="col-3 fs-11">Тип жилья*:</div>
+                                <div className="col-3 fs-11 title-req">Тип жилья*:</div>
                                 <div className="col-9">
                                     <div className="row row-cols-4">
                                         <div>
@@ -204,7 +242,7 @@ export default function Advertise() {
                             </div>
                             <hr className="my-4" />
                             <div className="row align-items-center">
-                                <div className="col-3 fs-11">Количество комнат*:</div>
+                                <div className="col-3 fs-11 title-req">Количество комнат*:</div>
                                 <div className="col-9 d-flex">
                                     <label className="inp-btn me-2">
                                         <input type="radio" name="rooms" value="Студия"/>
@@ -238,7 +276,7 @@ export default function Advertise() {
                             </div>
                             <hr className="my-4" />
                             <div className="row row-cols-4 align-items-center">
-                                <div className="fs-11">Общая площадь*:</div>
+                                <div className="fs-11 title-req">Общая площадь*:</div>
                                 <div>
                                     <input type="number" className="fs-11 area w-100"/> 
                                 </div>
@@ -256,7 +294,7 @@ export default function Advertise() {
                             </div>
                             <hr className="my-4" />
                             <div className="row row-cols-4 align-items-center">
-                                <div className="fs-11">Этаж*:</div>
+                                <div className="fs-11 title-req">Этаж*:</div>
                                 <div>
                                     <input type="number" className="fs-11 w-100"/> 
                                 </div>
@@ -435,13 +473,13 @@ export default function Advertise() {
                         <fieldset name="anchor-3" className="element frame p-4 mb-5">
                             <legend className="title-font fw-7 fs-15 mb-4">Описание и фото</legend>
                             <div className="row mb-2">
-                                <div className="col-3 fs-11">Описание*:</div>
+                                <div className="col-3 fs-11 title-req">Описание*:</div>
                                 <div className="col-9">
                                     <textarea rows="5" className="fs-11" placeholder="Расскажите подробне об объекте и условиях сделки. "></textarea>
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="col-3 fs-11">Фото и планировка*:</div>
+                                <div className="col-3 fs-11 title-req">Фото и планировка*:</div>
                                 <div className="col-9">
                                     <ImageUploading
                                         multiple
@@ -484,7 +522,7 @@ export default function Advertise() {
                                                 ))}
                                             </div>
                                             <div className="d-flex justify-content-center">
-                                                <button className="btn btn-1 me-4"
+                                                <button type="button" className="btn btn-1 me-4"
                                                 style={isDragging ? { color: "red" } : null}
                                                 onClick={onImageUpload}
                                                 {...dragProps}
@@ -495,7 +533,7 @@ export default function Advertise() {
                                                     </svg>
                                                     <span className="ms-2">Добавить фото</span>
                                                 </button>
-                                                <button onClick={onImageRemoveAll}>Удалить все</button>
+                                                <button type="button" onClick={onImageRemoveAll}>Удалить все</button>
                                             </div>
                                         </div>
                                         )}
@@ -636,13 +674,13 @@ export default function Advertise() {
                         <fieldset name="anchor-5" className="element frame p-4 mb-5">
                             <legend className="title-font fw-7 fs-15 mb-4">Условия сделки</legend>
                             <div className="row align-items-center mb-4">
-                                <div className="col-3 fs-11">Цена*:</div>
+                                <div className="col-3 fs-11 title-req">Цена*:</div>
                                 <div className="col-9">
                                     <input type="number" class="fs-11 price" />
                                 </div>
                             </div>
                             <div className="row align-items-center mb-4">
-                                <div className="col-3 fs-11">Ипотека*:</div>
+                                <div className="col-3 fs-11 title-req">Ипотека*:</div>
                                 <div className="col-9 d-flex">
                                     <label className="me-5">
                                         <input type="radio" name="hypothec" value="Да"/>

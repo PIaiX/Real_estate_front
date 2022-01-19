@@ -2107,6 +2107,16 @@ article {
             z-index: 2;
         }
     }
+    form {
+        &.not-filled {
+            .title-req {
+                color: #DA1E2A;
+            }
+            input:not([type='radio'])[required], textarea[required] {
+                border: 1px solid rgba(#DA1E2A, .44);
+            }
+        }
+    }
     aside {
         position: sticky;
         top: 80px;
@@ -2161,7 +2171,11 @@ article {
                                 color: $color-1;
                             }
                         }
-                        
+                        &.filled {
+                            &::before {
+                                background-color: $color-1;
+                            }
+                        }
                     }
                 }     
             }

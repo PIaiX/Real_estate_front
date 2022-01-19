@@ -3220,6 +3220,14 @@ article .text {
   z-index: 2;
 }
 
+#sec-11 form.not-filled .title-req {
+  color: #DA1E2A;
+}
+
+#sec-11 form.not-filled input:not([type='radio'])[required], #sec-11 form.not-filled textarea[required] {
+  border: 1px solid rgba(218, 30, 42, 0.44);
+}
+
 #sec-11 aside {
   position: -webkit-sticky;
   position: sticky;
@@ -3292,6 +3300,10 @@ article .text {
   border: 2px solid #146492;
   background-color: #fff;
   color: #146492;
+}
+
+#sec-11 aside nav ol li a.filled::before {
+  background-color: #146492;
 }
 
 footer {
