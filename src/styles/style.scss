@@ -2171,10 +2171,10 @@ article {
                                 color: $color-1;
                             }
                         }
-                        &.filled {
-                            &::before {
-                                background-color: $color-1;
-                            }
+                    }
+                    &.filled {
+                        a::before {
+                            background-color: $color-1;
                         }
                     }
                 }     

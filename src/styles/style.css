@@ -3302,7 +3302,7 @@ article .text {
   color: #146492;
 }
 
-#sec-11 aside nav ol li a.filled::before {
+#sec-11 aside nav ol li.filled a::before {
   background-color: #146492;
 }
 
