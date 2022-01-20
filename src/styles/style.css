@@ -167,6 +167,7 @@ label span {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
+  max-width: calc(100% - 1.3em - 0.5rem);
 }
 
 label.inp-text div {
@@ -1015,6 +1016,12 @@ h4 {
 @media (max-width: 575px) {
   .mb-6 {
     margin-bottom: 4em;
+  }
+}
+
+@media (min-width: 992px) {
+  .position-lg-relative {
+    position: relative !important;
   }
 }
 
@@ -3191,6 +3198,31 @@ article .text {
   overflow: hidden;
 }
 
+@media (max-width: 1659px) {
+  #sec-11 .faster {
+    height: 230px;
+  }
+}
+
+@media (max-width: 1399px) {
+  #sec-11 .faster {
+    height: 210px;
+  }
+}
+
+@media (max-width: 1199px) {
+  #sec-11 .faster {
+    height: 180px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 991px) {
+  #sec-11 .faster {
+    display: none;
+  }
+}
+
 #sec-11 .faster img {
   position: relative;
   z-index: 1;
@@ -3212,6 +3244,19 @@ article .text {
   font-size: 1.5em;
 }
 
+@media (max-width: 1659px) {
+  #sec-11 .faster .title {
+    left: 5%;
+    width: 90%;
+  }
+}
+
+@media (max-width: 1399px) {
+  #sec-11 .faster .title {
+    font-size: 1.4em;
+  }
+}
+
 #sec-11 .faster button {
   position: absolute;
   bottom: 1em;
@@ -3228,7 +3273,7 @@ article .text {
   border: 1px solid rgba(218, 30, 42, 0.44);
 }
 
-#sec-11 aside {
+#sec-11 form aside {
   position: -webkit-sticky;
   position: sticky;
   top: 80px;
@@ -3236,20 +3281,81 @@ article .text {
   width: 100%;
 }
 
-#sec-11 aside nav ol {
+@media (max-width: 991px) {
+  #sec-11 form nav.contents {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 50px;
+    left: 0px;
+    width: 100%;
+    background-color: #fff;
+    -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 0.5em;
+    z-index: 100;
+  }
+}
+
+#sec-11 form nav.contents ol {
   list-style: none;
   counter-reset: li;
   font-size: 1.5em;
   padding: 0;
 }
 
-#sec-11 aside nav ol li {
+@media (max-width: 1399px) {
+  #sec-11 form nav.contents ol {
+    font-size: 1.4em;
+  }
+}
+
+@media (max-width: 1199px) {
+  #sec-11 form nav.contents ol {
+    font-size: 1.2em;
+  }
+}
+
+@media (max-width: 991px) {
+  #sec-11 form nav.contents ol {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    font-size: 1.5em;
+  }
+}
+
+#sec-11 form nav.contents ol li {
   padding-left: 2.25em;
   margin-bottom: 1em;
   position: relative;
 }
 
-#sec-11 aside nav ol li:not(:first-child) a::after {
+@media (max-width: 1199px) {
+  #sec-11 form nav.contents ol li {
+    padding-left: 2em;
+  }
+}
+
+@media (max-width: 991px) {
+  #sec-11 form nav.contents ol li {
+    padding-left: 0px;
+    margin-bottom: 0px;
+  }
+}
+
+@media (max-width: 991px) {
+  #sec-11 form nav.contents ol li:not(:first-child) {
+    margin-left: 1em;
+  }
+}
+
+#sec-11 form nav.contents ol li:not(:first-child) a::after {
   content: "";
   position: absolute;
   left: calc(.75em - 2px);
@@ -3259,14 +3365,30 @@ article .text {
   background-color: #ECECEC;
 }
 
-#sec-11 aside nav ol li a {
+@media (max-width: 991px) {
+  #sec-11 form nav.contents ol li:not(:first-child) a::after {
+    left: unset;
+    right: 100%;
+    bottom: calc(.75em - 2px);
+    height: 4px;
+    width: 1em;
+  }
+}
+
+#sec-11 form nav.contents ol li a {
   border-bottom: 4px solid transparent;
   -webkit-transition: .2s;
   transition: .2s;
   line-height: 1.5em;
 }
 
-#sec-11 aside nav ol li a::before {
+@media (max-width: 991px) {
+  #sec-11 form nav.contents ol li a {
+    border-bottom: unset;
+  }
+}
+
+#sec-11 form nav.contents ol li a::before {
   content: counter(li);
   counter-increment: li;
   position: absolute;
@@ -3292,17 +3414,44 @@ article .text {
   transition: .2s;
 }
 
-#sec-11 aside nav ol li a.active, #sec-11 aside nav ol li a:hover, #sec-11 aside nav ol li a:focus, #sec-11 aside nav ol li a:active {
+#sec-11 form nav.contents ol li a.active, #sec-11 form nav.contents ol li a:hover, #sec-11 form nav.contents ol li a:focus, #sec-11 form nav.contents ol li a:active {
   border-bottom: 4px solid #146492;
 }
 
-#sec-11 aside nav ol li a.active:before, #sec-11 aside nav ol li a:hover:before, #sec-11 aside nav ol li a:focus:before, #sec-11 aside nav ol li a:active:before {
+@media (max-width: 991px) {
+  #sec-11 form nav.contents ol li a.active, #sec-11 form nav.contents ol li a:hover, #sec-11 form nav.contents ol li a:focus, #sec-11 form nav.contents ol li a:active {
+    border-bottom: unset;
+  }
+}
+
+#sec-11 form nav.contents ol li a.active:before, #sec-11 form nav.contents ol li a:hover:before, #sec-11 form nav.contents ol li a:focus:before, #sec-11 form nav.contents ol li a:active:before {
   border: 2px solid #146492;
   background-color: #fff;
   color: #146492;
 }
 
-#sec-11 aside nav ol li.filled a::before {
+@media (max-width: 991px) {
+  #sec-11 form nav.contents ol li a {
+    width: 1.5em;
+    height: 1.5em;
+    display: block;
+  }
+  #sec-11 form nav.contents ol li a span {
+    display: none;
+  }
+}
+
+#sec-11 form nav.contents ol li.filled a::before {
+  background-color: #146492;
+  border: 2px solid #146492;
+  color: transparent;
+  background-image: url(bg-imgs/mark3.svg);
+  background-repeat: no-repeat;
+  background-position: 55% 55%;
+  background-size: 0.8em;
+}
+
+#sec-11 form nav.contents ol li.filled a::after {
   background-color: #146492;
 }
 
