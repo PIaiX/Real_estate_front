@@ -3190,6 +3190,24 @@ article .text {
 }
 
 /* SECTION 11 - user page */
+@media (max-width: 991px) {
+  #sec-11.mb-6 {
+    margin-bottom: 4em;
+  }
+}
+
+@media (max-width: 767px) {
+  #sec-11.mb-6 {
+    margin-bottom: 3em;
+  }
+}
+
+@media (max-width: 575px) {
+  #sec-11.mb-6 {
+    margin-bottom: 1.5em;
+  }
+}
+
 #sec-11 .faster {
   position: relative;
   width: 100%;
@@ -3282,7 +3300,7 @@ article .text {
 }
 
 @media (max-width: 991px) {
-  #sec-11 form nav.contents {
+  #sec-11 form aside nav.contents {
     position: -webkit-sticky;
     position: sticky;
     top: 50px;
@@ -3296,7 +3314,7 @@ article .text {
   }
 }
 
-#sec-11 form nav.contents ol {
+#sec-11 form aside nav.contents ol {
   list-style: none;
   counter-reset: li;
   font-size: 1.5em;
@@ -3304,19 +3322,19 @@ article .text {
 }
 
 @media (max-width: 1399px) {
-  #sec-11 form nav.contents ol {
+  #sec-11 form aside nav.contents ol {
     font-size: 1.4em;
   }
 }
 
 @media (max-width: 1199px) {
-  #sec-11 form nav.contents ol {
+  #sec-11 form aside nav.contents ol {
     font-size: 1.2em;
   }
 }
 
 @media (max-width: 991px) {
-  #sec-11 form nav.contents ol {
+  #sec-11 form aside nav.contents ol {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -3330,32 +3348,32 @@ article .text {
   }
 }
 
-#sec-11 form nav.contents ol li {
+#sec-11 form aside nav.contents ol li {
   padding-left: 2.25em;
   margin-bottom: 1em;
   position: relative;
 }
 
 @media (max-width: 1199px) {
-  #sec-11 form nav.contents ol li {
+  #sec-11 form aside nav.contents ol li {
     padding-left: 2em;
   }
 }
 
 @media (max-width: 991px) {
-  #sec-11 form nav.contents ol li {
+  #sec-11 form aside nav.contents ol li {
     padding-left: 0px;
     margin-bottom: 0px;
   }
 }
 
 @media (max-width: 991px) {
-  #sec-11 form nav.contents ol li:not(:first-child) {
+  #sec-11 form aside nav.contents ol li:not(:first-child) {
     margin-left: 1em;
   }
 }
 
-#sec-11 form nav.contents ol li:not(:first-child) a::after {
+#sec-11 form aside nav.contents ol li:not(:first-child) a::after {
   content: "";
   position: absolute;
   left: calc(.75em - 2px);
@@ -3366,7 +3384,7 @@ article .text {
 }
 
 @media (max-width: 991px) {
-  #sec-11 form nav.contents ol li:not(:first-child) a::after {
+  #sec-11 form aside nav.contents ol li:not(:first-child) a::after {
     left: unset;
     right: 100%;
     bottom: calc(.75em - 2px);
@@ -3375,7 +3393,7 @@ article .text {
   }
 }
 
-#sec-11 form nav.contents ol li a {
+#sec-11 form aside nav.contents ol li a {
   border-bottom: 4px solid transparent;
   -webkit-transition: .2s;
   transition: .2s;
@@ -3383,12 +3401,12 @@ article .text {
 }
 
 @media (max-width: 991px) {
-  #sec-11 form nav.contents ol li a {
+  #sec-11 form aside nav.contents ol li a {
     border-bottom: unset;
   }
 }
 
-#sec-11 form nav.contents ol li a::before {
+#sec-11 form aside nav.contents ol li a::before {
   content: counter(li);
   counter-increment: li;
   position: absolute;
@@ -3414,34 +3432,34 @@ article .text {
   transition: .2s;
 }
 
-#sec-11 form nav.contents ol li a.active, #sec-11 form nav.contents ol li a:hover, #sec-11 form nav.contents ol li a:focus, #sec-11 form nav.contents ol li a:active {
+#sec-11 form aside nav.contents ol li a.active, #sec-11 form aside nav.contents ol li a:hover, #sec-11 form aside nav.contents ol li a:focus, #sec-11 form aside nav.contents ol li a:active {
   border-bottom: 4px solid #146492;
 }
 
 @media (max-width: 991px) {
-  #sec-11 form nav.contents ol li a.active, #sec-11 form nav.contents ol li a:hover, #sec-11 form nav.contents ol li a:focus, #sec-11 form nav.contents ol li a:active {
+  #sec-11 form aside nav.contents ol li a.active, #sec-11 form aside nav.contents ol li a:hover, #sec-11 form aside nav.contents ol li a:focus, #sec-11 form aside nav.contents ol li a:active {
     border-bottom: unset;
   }
 }
 
-#sec-11 form nav.contents ol li a.active:before, #sec-11 form nav.contents ol li a:hover:before, #sec-11 form nav.contents ol li a:focus:before, #sec-11 form nav.contents ol li a:active:before {
+#sec-11 form aside nav.contents ol li a.active:before, #sec-11 form aside nav.contents ol li a:hover:before, #sec-11 form aside nav.contents ol li a:focus:before, #sec-11 form aside nav.contents ol li a:active:before {
   border: 2px solid #146492;
   background-color: #fff;
   color: #146492;
 }
 
 @media (max-width: 991px) {
-  #sec-11 form nav.contents ol li a {
+  #sec-11 form aside nav.contents ol li a {
     width: 1.5em;
     height: 1.5em;
     display: block;
   }
-  #sec-11 form nav.contents ol li a span {
+  #sec-11 form aside nav.contents ol li a span {
     display: none;
   }
 }
 
-#sec-11 form nav.contents ol li.filled a::before {
+#sec-11 form aside nav.contents ol li.filled a::before {
   background-color: #146492;
   border: 2px solid #146492;
   color: transparent;
@@ -3451,8 +3469,98 @@ article .text {
   background-size: 0.8em;
 }
 
-#sec-11 form nav.contents ol li.filled a::after {
+#sec-11 form aside nav.contents ol li.filled a::after {
   background-color: #146492;
+}
+
+#sec-11 form .mob-indicator {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 2em;
+}
+
+@media (min-width: 992px) {
+  #sec-11 form .mob-indicator {
+    display: none;
+  }
+}
+
+#sec-11 form .mob-indicator div {
+  position: relative;
+  font-size: 2em;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+  border: 2px solid #ECECEC;
+  background-color: #ECECEC;
+  color: #fff;
+  font-family: "Gilroy";
+  font-weight: 700;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+@media (max-width: 575px) {
+  #sec-11 form .mob-indicator div {
+    font-size: 1.5em;
+  }
+}
+
+#sec-11 form .mob-indicator div.active {
+  border: 2px solid #146492;
+  background-color: #fff;
+  color: #146492;
+}
+
+#sec-11 form .mob-indicator div:not(:first-child) {
+  margin-left: 1em;
+}
+
+#sec-11 form .mob-indicator div:not(:first-child)::after {
+  content: "";
+  position: absolute;
+  right: calc(100% + 2px);
+  bottom: calc(.75em - 4px);
+  height: 4px;
+  width: 1em;
+  background-color: #ECECEC;
+}
+
+@media (max-width: 991px) {
+  #sec-11 form fieldset[data-show='false'] {
+    display: none;
+  }
+  #sec-11 form fieldset[data-show='true'] {
+    display: block;
+  }
+}
+
+@media (max-width: 767px) {
+  #sec-11 form fieldset .title, #sec-11 form fieldset .title-req {
+    font-size: 1.2em;
+    font-weight: 500;
+  }
+}
+
+@media (max-width: 991px) {
+  #sec-11 form .frame {
+    -webkit-box-shadow: unset;
+            box-shadow: unset;
+  }
 }
 
 footer {

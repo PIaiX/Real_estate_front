@@ -8,6 +8,9 @@ import { Link, animateScroll as scroll } from 'react-scroll';
 export default function Advertise() {
     const [images, setImages] = React.useState([]);
     const [mainImg, setMainImg] = useState(0);
+
+    const [activeField, setActiveField] = useState(1);
+
     const maxNumber = 24;
     const onChange = (imageList, addUpdateIndex) => {
         console.log(imageList, addUpdateIndex);
@@ -93,62 +96,22 @@ export default function Advertise() {
                 </nav>
             </div>
             <section id="sec-11" className="container mb-6">
-                <h1>Подать объявление</h1>
-                <form className="row flex-lg-row-reverse gx-xxl-5 position-relative" name="postingAd" onSubmit={onSubmit} noValidate>
-                    <nav className="contents mb-4 mb-lg-5">
-                        <ol>
-                            <li data-target="anchor-1">
-                                <Link activeClass="active" to="anchor-1" spy={true} smooth={true} hashSpy={true} offset={-100} duration={300} isDynamic={true}><span>Тип объявления</span></Link>
-                            </li>
-                            <li data-target="anchor-2">
-                                <Link activeClass="active" to="anchor-2" spy={true} smooth={true} hashSpy={true} offset={-100} duration={300} isDynamic={true}><span>Об объекте</span></Link>
-                            </li>
-                            <li data-target="anchor-3">
-                                <Link activeClass="active" to="anchor-3" spy={true} smooth={true} hashSpy={true} offset={-100} duration={300} isDynamic={true}><span>Описание и фото</span></Link>
-                            </li>
-                            <li data-target="anchor-4">
-                                <Link activeClass="active" to="anchor-4" spy={true} smooth={true} hashSpy={true} offset={-100} duration={300} isDynamic={true}><span>О здании</span></Link>
-                            </li>
-                            <li data-target="anchor-5">
-                                <Link activeClass="active" to="anchor-5" spy={true} smooth={true} hashSpy={true} offset={-100} duration={300} isDynamic={true}><span>Условия сделки</span></Link>
-                            </li>
-                        </ol>
-                    </nav>
-                <div className="col-lg-3 position-lg-relative d-none">
-                        <aside>
-                            <nav className="contents mb-4 mb-lg-5">
-                                <ol>
-                                    <li data-target="anchor-1">
-                                        <Link activeClass="active" to="anchor-1" spy={true} smooth={true} hashSpy={true} offset={-80} duration={300} isDynamic={true}><span>Тип объявления</span></Link>
-                                    </li>
-                                    <li data-target="anchor-2">
-                                        <Link activeClass="active" to="anchor-2" spy={true} smooth={true} hashSpy={true} offset={-80} duration={300} isDynamic={true}><span>Об объекте</span></Link>
-                                    </li>
-                                    <li data-target="anchor-3">
-                                        <Link activeClass="active" to="anchor-3" spy={true} smooth={true} hashSpy={true} offset={-80} duration={300} isDynamic={true}><span>Описание и фото</span></Link>
-                                    </li>
-                                    <li data-target="anchor-4">
-                                        <Link activeClass="active" to="anchor-4" spy={true} smooth={true} hashSpy={true} offset={-80} duration={300} isDynamic={true}><span>О здании</span></Link>
-                                    </li>
-                                    <li data-target="anchor-5">
-                                        <Link activeClass="active" to="anchor-5" spy={true} smooth={true} hashSpy={true} offset={-80} duration={300} isDynamic={true}><span>Условия сделки</span></Link>
-                                    </li>
-                                </ol>
-                            </nav>
-                            <div className="faster">
-                                <img src="/real_estate/img/img5.jpg" alt="" className="img-fluid" />
-                                <div className="title">Хотите найти покупателя/арендатора быстрее?</div>
-                                <button type="button" className="btn btn-1 px-3">Узнать о преимуществах</button>
-                            </div>
-                        </aside>
+                <h1 className="text-center text-lg-left">Подать объявление</h1>
+                <form className="row gx-xxl-5 position-relative" name="postingAd" onSubmit={onSubmit} noValidate>
+                    <div className="mob-indicator">
+                        <div className={(activeField === 1) ? 'active' : ''}>1</div>
+                        <div className={(activeField === 2) ? 'active' : ''}>2</div>
+                        <div className={(activeField === 3) ? 'active' : ''}>3</div>
+                        <div className={(activeField === 4) ? 'active' : ''}>4</div>
+                        <div className={(activeField === 5) ? 'active' : ''}>5</div>
                     </div>
                     <div className="col-lg-9">
-                        <fieldset name="anchor-1" className="element frame p-4 mb-5">
-                            <legend className="title-font fw-7 fs-15 mb-4">Тип объявления</legend>
+                        <fieldset data-show={(activeField === 1) ? 'true' : 'false'} name="anchor-1" className="element frame p-lg-4 mb-4 mb-lg-5">
+                            <legend className="text-center text-lg-left title-font fw-7 fs-15 mb-md-4">Тип объявления</legend>
                             <div className="row">
-                                <div className="col-3 fs-11 title-req">Владелец объявления*:</div>
-                                <div className="col-9">
-                                    <div className="row row-cols-3 row-cols-xxl-4">
+                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">Владелец объявления*:</div>
+                                <div className="col-md-9">
+                                    <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4">
                                         <div>
                                             <label>
                                                 <input type="radio" name="owner" value="Собственник" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
@@ -164,10 +127,10 @@ export default function Advertise() {
                                     </div>
                                 </div>
                             </div>
-                            <hr className="my-4" />
+                            <hr className="d-none d-md-block my-4" />
                             <div className="row">
-                                <div className="col-3 fs-11 title-req">Сделка*:</div>
-                                <div className="col-9">
+                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">Сделка*:</div>
+                                <div className="col-md-9">
                                     <div className="row row-cols-3 row-cols-xxl-4">
                                         <div>
                                             <label>
@@ -184,11 +147,11 @@ export default function Advertise() {
                                     </div>
                                 </div>
                             </div>
-                            <hr className="my-4" />
+                            <hr className="d-none d-md-block my-4" />
                             <div className="row">
-                                <div className="col-3 fs-11 title-req">Тип недвижимости*:</div>
-                                <div className="col-9">
-                                    <div className="row row-cols-3 row-cols-xxl-4 gy-3">
+                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">Тип недвижимости*:</div>
+                                <div className="col-md-9">
+                                    <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
                                         <div>
                                             <label>
                                                 <input type="radio" name="property-type" value="Жилая" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
@@ -216,11 +179,11 @@ export default function Advertise() {
                                     </div>
                                 </div>
                             </div>
-                            <hr className="my-4" />
+                            <hr className="d-none d-md-block my-4" />
                             <div className="row">
-                                <div className="col-3 fs-11 title-req">Объект*:</div>
-                                <div className="col-9">
-                                    <div className="row row-cols-3 row-cols-xxl-4 gy-3">
+                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">Объект*:</div>
+                                <div className="col-md-9">
+                                    <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
                                         <div>
                                             <label>
                                                 <input type="radio" name="estate" value="Квартира" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
@@ -272,26 +235,34 @@ export default function Advertise() {
                                     </div>
                                 </div>
                             </div>
+                            <div className="d-lg-none row row-cols-2 row-cols-md-3 gx-2 gx-sm-4 justify-content-center mt-4 mt-sm-5">
+                                <div>
+                                    <button type="button" className="btn btn-2 w-100" onClick={(e) => e.target.closest("form").reset()}>Отменить</button>
+                                </div>
+                                <div>
+                                    <button type="button" className="btn btn-1 w-100" onClick={()=>setActiveField(2)}>Далее</button>
+                                </div>
+                            </div>
                         </fieldset>
-                        <fieldset name="anchor-2" className="element frame p-4 mb-5">
-                            <legend className="title-font fw-7 fs-15 mb-4">Об объекте</legend>
+                        <fieldset data-show={(activeField === 2) ? 'true' : 'false'} name="anchor-2" className="element frame p-lg-4 mb-4 mb-lg-5">
+                            <legend className="text-center text-lg-left title-font fw-7 fs-15 mb-md-4">Об объекте</legend>
                             <div className="row align-items-center">
-                                <div className="col-3 fs-11 title-req">Адрес*:</div>
-                                <div className="col-9">
+                                <div className="col-md-3 fs-11 title-req">Адрес*:</div>
+                                <div className="col-md-9">
                                     <input type="text" className="fs-11" placeholder="р. Татарстан, г. Казань" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
                                 </div>
                             </div>
-                            <hr className="my-4" />
+                            <hr className="d-none d-md-block my-4" />
                             <div className="row align-items-center">
-                                <div className="col-3 fs-11">Название ЖК:</div>
-                                <div className="col-9">
+                                <div className="col-md-3 fs-11 title">Название ЖК:</div>
+                                <div className="col-md-9">
                                     <input type="text" className="fs-11" placeholder="Например: “Центральный”"/>
                                 </div>
                             </div>
-                            <hr className="my-4" />
+                            <hr className="d-none d-md-block my-4" />
                             <div className="row">
-                                <div className="col-3 fs-11 title-req">Тип жилья*:</div>
-                                <div className="col-9">
+                                <div className="col-md-3 fs-11 title-req">Тип жилья*:</div>
+                                <div className="col-md-9">
                                     <div className="row row-cols-4">
                                         <div>
                                             <label>
@@ -308,10 +279,10 @@ export default function Advertise() {
                                     </div>
                                 </div>
                             </div>
-                            <hr className="my-4" />
+                            <hr className="d-none d-md-block my-4" />
                             <div className="row align-items-center">
-                                <div className="col-3 fs-11 title-req">Количество комнат*:</div>
-                                <div className="col-9 d-flex">
+                                <div className="col-md-3 fs-11 title-req">Количество комнат*:</div>
+                                <div className="col-md-9 d-flex">
                                     <label className="inp-btn me-2">
                                         <input type="radio" name="rooms" value="Студия" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
                                         <div>Студия</div>
@@ -342,25 +313,25 @@ export default function Advertise() {
                                     </label>
                                 </div>
                             </div>
-                            <hr className="my-4" />
-                            <div className="row row-cols-4 align-items-center">
+                            <hr className="d-none d-md-block my-4" />
+                            <div className="row row-cols-2 row-cols-md-4 align-items-center">
                                 <div className="fs-11 title-req">Общая площадь*:</div>
                                 <div>
                                     <input type="number" className="fs-11 area w-100" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/> 
                                 </div>
-                                <div className="text-end">Жилая площадь:</div>
+                                <div className="text-end title">Жилая площадь:</div>
                                 <div>
                                     <input type="number" className="fs-11 area w-100"/> 
                                 </div>
                             </div>
-                            <hr className="my-4" />
+                            <hr className="d-none d-md-block my-4" />
                             <div className="row row-cols-4 align-items-center">
-                                <div className="fs-11">Площадь кухни:</div>
+                                <div className="fs-11 title">Площадь кухни:</div>
                                 <div>
                                     <input type="number" className="fs-11 area w-100"/> 
                                 </div>
                             </div>
-                            <hr className="my-4" />
+                            <hr className="d-none d-md-block my-4" />
                             <div className="row row-cols-4 align-items-center">
                                 <div className="fs-11 title-req">Этаж*:</div>
                                 <div>
@@ -371,7 +342,7 @@ export default function Advertise() {
                                     <input type="number" className="fs-11 w-100"/> 
                                 </div>
                             </div>
-                            <hr className="my-4" />
+                            <hr className="d-none d-md-block my-4" />
                             <div className="row">
                                 <div className="col-3 fs-11">Санузел</div>
                                 <div className="col-9">
@@ -397,7 +368,7 @@ export default function Advertise() {
                                     </div>
                                 </div>
                             </div>
-                            <hr className="my-4" />
+                            <hr className="d-none d-md-block my-4" />
                             <div className="row">
                                 <div className="col-3 fs-11">Балкон/Лоджия</div>
                                 <div className="col-9">
@@ -423,7 +394,7 @@ export default function Advertise() {
                                     </div>
                                 </div>
                             </div>
-                            <hr className="my-4" />
+                            <hr className="d-none d-md-block my-4" />
                             <div className="row">
                                 <div className="col-3 fs-11">Планировка:</div>
                                 <div className="col-9">
@@ -449,7 +420,7 @@ export default function Advertise() {
                                     </div>
                                 </div>
                             </div>
-                            <hr className="my-4" />
+                            <hr className="d-none d-md-block my-4" />
                             <div className="row">
                                 <div className="col-3 fs-11">Ремонт:</div>
                                 <div className="col-9">
@@ -537,8 +508,16 @@ export default function Advertise() {
                                     </div>
                                 </div>
                             </div>
+                            <div className="d-lg-none row row-cols-2 row-cols-md-3 gx-2 gx-sm-4 justify-content-center mt-4 mt-sm-5">
+                                <div>
+                                    <button type="button" className="btn btn-2 w-100" onClick={()=>setActiveField(1)}>Назад</button>
+                                </div>
+                                <div>
+                                    <button type="button" className="btn btn-1 w-100" onClick={()=>setActiveField(3)}>Далее</button>
+                                </div>
+                            </div>
                         </fieldset>
-                        <fieldset name="anchor-3" className="element frame p-4 mb-5">
+                        <fieldset data-show={(activeField === 3) ? 'true' : 'false'} name="anchor-3" className="element frame p-lg-4 mb-4 mb-lg-5">
                             <legend className="title-font fw-7 fs-15 mb-4">Описание и фото</legend>
                             <div className="row mb-2">
                                 <div className="col-3 fs-11 title-req">Описание*:</div>
@@ -609,8 +588,16 @@ export default function Advertise() {
                                     <div className="fs-08 gray-3 mt-2">Не допускаются к размещению фотографии с водяными знаками, чужих объектов и рекламные баннеры. JPG, PNG или GIF. Максимальный размер файла 10 мб</div>
                                 </div>
                             </div>
+                            <div className="row row-cols-3 justify-content-center mt-4">
+                                <div>
+                                    <button type="button" className="btn btn-2 w-100" onClick={()=>setActiveField(2)}>Назад</button>
+                                </div>
+                                <div>
+                                    <button type="button" className="btn btn-1 w-100" onClick={()=>setActiveField(4)}>Далее</button>
+                                </div>
+                            </div>
                         </fieldset>
-                        <fieldset name="anchor-4" className="element frame p-4 mb-5">
+                        <fieldset data-show={(activeField === 4) ? 'true' : 'false'} name="anchor-4" className="element frame p-lg-4 mb-4 mb-lg-5">
                             <legend className="title-font fw-7 fs-15 mb-4">О здании</legend>
                             <div className="row align-items-center">
                                 <div className="col-3 fs-11">Год постройки:</div>
@@ -738,8 +725,16 @@ export default function Advertise() {
                                     </div>
                                 </div>
                             </div>
+                            <div className="row row-cols-3 justify-content-center mt-4">
+                                <div>
+                                    <button type="button" className="btn btn-2 w-100" onClick={()=>setActiveField(3)}>Назад</button>
+                                </div>
+                                <div>
+                                    <button type="button" className="btn btn-1 w-100" onClick={()=>setActiveField(5)}>Далее</button>
+                                </div>
+                            </div>
                         </fieldset>
-                        <fieldset name="anchor-5" className="element frame p-4 mb-5">
+                        <fieldset data-show={(activeField === 5) ? 'true' : 'false'} name="anchor-5" className="element frame p-lg-4 mb-4 mb-lg-5">
                             <legend className="title-font fw-7 fs-15 mb-4">Условия сделки</legend>
                             <div className="row align-items-center mb-4">
                                 <div className="col-3 fs-11 title-req">Цена*:</div>
@@ -773,17 +768,52 @@ export default function Advertise() {
                                     </label>
                                 </div>
                             </div>
+                            <div className="row row-cols-3 justify-content-center mt-4">
+                                <div>
+                                    <button type="button" className="btn btn-2 w-100" onClick={()=>setActiveField(4)}>Назад</button>
+                                </div>
+                                <div>
+                                    <button type="submit" className="btn btn-1 w-100">Разместить</button>
+                                </div>
+                            </div>
                         </fieldset>
                         <div className="d-flex justify-content-between mb-3">
                             <div>*- поля обязательные для заполнения</div>
-                            <button type="button" className="color-1 fs-11 fw-5 bb-1">Очистить форму</button>
+                            <button type="button" className="d-none d-lg-block color-1 fs-11 fw-5 bb-1">Очистить форму</button>
                         </div>
-                        <button type="submit" className="btn btn-1 fs-15 mx-auto">Разместить объявление</button>
-                        <div className="gray-3 text-center mt-3">Нажимая кнопку “Разместить объявление”, Вы соглашаетесь с <a href="#" className="color-1">условиями сайта</a></div>
+                        <button type="submit" className="d-none d-lg-block btn btn-1 fs-15 mx-auto">Разместить объявление</button>
+                        <div className="d-none d-lg-block gray-3 text-center mt-3">Нажимая кнопку “Разместить объявление”, Вы соглашаетесь с <a href="#" className="color-1">условиями сайта</a></div>
+                    </div>
+                    <div className="d-none d-lg-block col-lg-3 position-relative">
+                        <aside>
+                            <nav className="contents mb-4 mb-lg-5">
+                                <ol>
+                                    <li data-target="anchor-1">
+                                        <Link activeClass="active" to="anchor-1" spy={true} smooth={true} hashSpy={true} offset={-80} duration={300} isDynamic={true}><span>Тип объявления</span></Link>
+                                    </li>
+                                    <li data-target="anchor-2">
+                                        <Link activeClass="active" to="anchor-2" spy={true} smooth={true} hashSpy={true} offset={-80} duration={300} isDynamic={true}><span>Об объекте</span></Link>
+                                    </li>
+                                    <li data-target="anchor-3">
+                                        <Link activeClass="active" to="anchor-3" spy={true} smooth={true} hashSpy={true} offset={-80} duration={300} isDynamic={true}><span>Описание и фото</span></Link>
+                                    </li>
+                                    <li data-target="anchor-4">
+                                        <Link activeClass="active" to="anchor-4" spy={true} smooth={true} hashSpy={true} offset={-80} duration={300} isDynamic={true}><span>О здании</span></Link>
+                                    </li>
+                                    <li data-target="anchor-5">
+                                        <Link activeClass="active" to="anchor-5" spy={true} smooth={true} hashSpy={true} offset={-80} duration={300} isDynamic={true}><span>Условия сделки</span></Link>
+                                    </li>
+                                </ol>
+                            </nav>
+                            <div className="faster">
+                                <img src="/real_estate/img/img5.jpg" alt="" className="img-fluid" />
+                                <div className="title">Хотите найти покупателя/арендатора быстрее?</div>
+                                <button type="button" className="btn btn-1 px-3">Узнать о преимуществах</button>
+                            </div>
+                        </aside>
                     </div>
                 </form>
             </section>
-            
         </main>
     )
 }
