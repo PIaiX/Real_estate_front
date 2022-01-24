@@ -37,9 +37,9 @@ export default function Header() {
                         <button type="button" className="ms-3 ms-xl-4">
                             <img src="/real_estate/img/icons/favorite.svg" alt="favorite"/>
                         </button>
-                        <button type="button" className="ms-3 ms-xl-4">
+                        <NavLink to="/personal-account" className="ms-3 ms-xl-4">
                             <img src="/real_estate/img/icons/user.svg" alt="аккаунт"/>
-                        </button>
+                        </NavLink>
                     </div>
                     
                     {/* <button type="button" className="ms-md-4 btn btn-1 text-uppercase p-2 order-3 order-lg-4">Подать объявление</button> */}

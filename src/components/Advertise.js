@@ -96,7 +96,7 @@ export default function Advertise() {
                 </nav>
             </div>
             <section id="sec-11" className="container mb-6">
-                <h1 className="text-center text-lg-left">Подать объявление</h1>
+                <h1 className="text-center text-lg-start">Подать объявление</h1>
                 <form className="row gx-xxl-5 position-relative" name="postingAd" onSubmit={onSubmit} noValidate>
                     <div className="mob-indicator">
                         <div className={(activeField === 1) ? 'active' : ''}>1</div>
@@ -247,23 +247,23 @@ export default function Advertise() {
                         <fieldset data-show={(activeField === 2) ? 'true' : 'false'} name="anchor-2" className="element frame p-lg-4 mb-4 mb-lg-5">
                             <legend className="text-center text-lg-left title-font fw-7 fs-15 mb-md-4">Об объекте</legend>
                             <div className="row align-items-center">
-                                <div className="col-md-3 fs-11 title-req">Адрес*:</div>
+                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">Адрес*:</div>
                                 <div className="col-md-9">
                                     <input type="text" className="fs-11" placeholder="р. Татарстан, г. Казань" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
                                 </div>
                             </div>
                             <hr className="d-none d-md-block my-4" />
                             <div className="row align-items-center">
-                                <div className="col-md-3 fs-11 title">Название ЖК:</div>
+                                <div className="col-md-3 fs-11 title mt-4 mt-sm-5 mb-3 m-md-0">Название ЖК:</div>
                                 <div className="col-md-9">
                                     <input type="text" className="fs-11" placeholder="Например: “Центральный”"/>
                                 </div>
                             </div>
                             <hr className="d-none d-md-block my-4" />
                             <div className="row">
-                                <div className="col-md-3 fs-11 title-req">Тип жилья*:</div>
+                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">Тип жилья*:</div>
                                 <div className="col-md-9">
-                                    <div className="row row-cols-4">
+                                    <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4">
                                         <div>
                                             <label>
                                                 <input type="radio" name="type" value="Квартира" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
@@ -281,7 +281,7 @@ export default function Advertise() {
                             </div>
                             <hr className="d-none d-md-block my-4" />
                             <div className="row align-items-center">
-                                <div className="col-md-3 fs-11 title-req">Количество комнат*:</div>
+                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">Количество комнат*:</div>
                                 <div className="col-md-9 d-flex">
                                     <label className="inp-btn me-2">
                                         <input type="radio" name="rooms" value="Студия" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
@@ -314,39 +314,39 @@ export default function Advertise() {
                                 </div>
                             </div>
                             <hr className="d-none d-md-block my-4" />
-                            <div className="row row-cols-2 row-cols-md-4 align-items-center">
+                            <div className="row row-cols-2 row-cols-md-4 align-items-center mt-4 mt-sm-5">
                                 <div className="fs-11 title-req">Общая площадь*:</div>
                                 <div>
                                     <input type="number" className="fs-11 area w-100" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/> 
                                 </div>
-                                <div className="text-end title">Жилая площадь:</div>
-                                <div>
+                                <div className="text-md-end title mt-3 mt-sm-4">Жилая площадь:</div>
+                                <div className="mt-3 mt-sm-4">
                                     <input type="number" className="fs-11 area w-100"/> 
                                 </div>
                             </div>
                             <hr className="d-none d-md-block my-4" />
-                            <div className="row row-cols-4 align-items-center">
+                            <div className="row row-cols-2 row-cols-md-4 align-items-center mt-3 mt-sm-4">
                                 <div className="fs-11 title">Площадь кухни:</div>
                                 <div>
                                     <input type="number" className="fs-11 area w-100"/> 
                                 </div>
                             </div>
                             <hr className="d-none d-md-block my-4" />
-                            <div className="row row-cols-4 align-items-center">
+                            <div className="row row-cols-2 row-cols-md-4 align-items-center mt-4 mt-sm-5">
                                 <div className="fs-11 title-req">Этаж*:</div>
                                 <div>
                                     <input type="number" className="fs-11 w-100" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/> 
                                 </div>
-                                <div className="text-end">Этажей в доме:</div>
-                                <div>
+                                <div className="title text-md-end mt-3 mt-sm-4">Этажей в доме:</div>
+                                <div className="mt-3 mt-sm-4">
                                     <input type="number" className="fs-11 w-100"/> 
                                 </div>
                             </div>
-                            <hr className="d-none d-md-block my-4" />
-                            <div className="row">
-                                <div className="col-3 fs-11">Санузел</div>
-                                <div className="col-9">
-                                    <div className="row row-cols-3 row-cols-xxl-4">
+                            <hr className="d-none d-md-block my-4"/>
+                            <div className="row mt-4 mt-sm-5">
+                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Санузел</div>
+                                <div className="col-md-9">
+                                    <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
                                         <div>
                                             <label>
                                                 <input type="radio" name="bathroom" value="Раздельный"/>
@@ -369,10 +369,10 @@ export default function Advertise() {
                                 </div>
                             </div>
                             <hr className="d-none d-md-block my-4" />
-                            <div className="row">
-                                <div className="col-3 fs-11">Балкон/Лоджия</div>
-                                <div className="col-9">
-                                    <div className="row row-cols-3 row-cols-xxl-4">
+                            <div className="row mt-4 mt-sm-5">
+                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Балкон/Лоджия</div>
+                                <div className="col-md-9">
+                                    <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
                                         <div>
                                             <label>
                                                 <input type="radio" name="balcony" value="Балкон"/>
@@ -395,10 +395,10 @@ export default function Advertise() {
                                 </div>
                             </div>
                             <hr className="d-none d-md-block my-4" />
-                            <div className="row">
-                                <div className="col-3 fs-11">Планировка:</div>
-                                <div className="col-9">
-                                    <div className="row row-cols-3 row-cols-xxl-4">
+                            <div className="row mt-4 mt-sm-5">
+                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Планировка:</div>
+                                <div className="col-md-9">
+                                    <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
                                         <div>
                                             <label>
                                                 <input type="radio" name="layout" value="Изолированная"/>
@@ -421,10 +421,10 @@ export default function Advertise() {
                                 </div>
                             </div>
                             <hr className="d-none d-md-block my-4" />
-                            <div className="row">
-                                <div className="col-3 fs-11">Ремонт:</div>
-                                <div className="col-9">
-                                    <div className="row row-cols-3 row-cols-xxl-4 gy-3">
+                            <div className="row mt-4 mt-sm-5">
+                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Ремонт:</div>
+                                <div className="col-md-9">
+                                    <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
                                         <div>
                                             <label>
                                                 <input type="radio" name="repairs" value="Косметический"/>
@@ -451,11 +451,11 @@ export default function Advertise() {
                                         </div>
                                     </div>
                                 </div>
-                                <hr className="my-4" />
-                                <div className="row">
-                                    <div className="col-3 fs-11">Дополнительно:</div>
-                                    <div className="col-9">
-                                        <div className="row row-cols-2 row-cols-xxl-3">
+                                <hr className="d-none d-md-block my-4"/>
+                                <div className="row mt-4 mt-sm-5">
+                                    <div className="col-md-3 fs-11 title mb-3 m-md-0">Дополнительно:</div>
+                                    <div className="col-md-9">
+                                        <div className="row row-cols-sm-2 row-cols-xxl-3">
                                             <label className="mb-3">
                                                 <input type="checkbox" name="extra" value="Кухонная мебель"/>
                                                 <span className="fs-11 ms-3">Кухонная мебель</span>
@@ -520,14 +520,14 @@ export default function Advertise() {
                         <fieldset data-show={(activeField === 3) ? 'true' : 'false'} name="anchor-3" className="element frame p-lg-4 mb-4 mb-lg-5">
                             <legend className="title-font fw-7 fs-15 mb-4">Описание и фото</legend>
                             <div className="row mb-2">
-                                <div className="col-3 fs-11 title-req">Описание*:</div>
-                                <div className="col-9">
+                                <div className="col-md-3 fs-11 title-req mb-3 m-md-0">Описание*:</div>
+                                <div className="col-md-9">
                                     <textarea type="text" rows="5" className="fs-11" placeholder="Расскажите подробне об объекте и условиях сделки." required onChange={(e) => isFilled(e.target.closest('fieldset'))}></textarea>
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="col-3 fs-11 title-req">Фото и планировка*:</div>
-                                <div className="col-9">
+                                <div className="col-md-3 fs-11 title-req mb-3 m-md-0">Фото и планировка*:</div>
+                                <div className="col-md-9">
                                     <ImageUploading
                                         multiple
                                         value={images}
@@ -569,7 +569,7 @@ export default function Advertise() {
                                                 ))}
                                             </div>
                                             <div className="d-flex justify-content-center">
-                                                <button type="button" className="btn btn-1 me-4"
+                                                <button type="button" className="btn btn-1 px-3 px-sm-4 me-3 me-sm-4"
                                                 style={isDragging ? { color: "red" } : null}
                                                 onClick={onImageUpload}
                                                 {...dragProps}
@@ -588,7 +588,7 @@ export default function Advertise() {
                                     <div className="fs-08 gray-3 mt-2">Не допускаются к размещению фотографии с водяными знаками, чужих объектов и рекламные баннеры. JPG, PNG или GIF. Максимальный размер файла 10 мб</div>
                                 </div>
                             </div>
-                            <div className="row row-cols-3 justify-content-center mt-4">
+                            <div className="row row-cols-2 row-cols-md-3 gx-2 gx-sm-4 justify-content-center mt-4">
                                 <div>
                                     <button type="button" className="btn btn-2 w-100" onClick={()=>setActiveField(2)}>Назад</button>
                                 </div>
@@ -600,15 +600,15 @@ export default function Advertise() {
                         <fieldset data-show={(activeField === 4) ? 'true' : 'false'} name="anchor-4" className="element frame p-lg-4 mb-4 mb-lg-5">
                             <legend className="title-font fw-7 fs-15 mb-4">О здании</legend>
                             <div className="row align-items-center">
-                                <div className="col-3 fs-11">Год постройки:</div>
-                                <div className="col-9">
+                                <div className="col-6 col-md-3 fs-11 title">Год постройки:</div>
+                                <div className="col-6 col-md-9">
                                     <input type="number" className="fs-11"/> 
                                 </div>
                             </div>
-                            <hr className="my-4" />
-                            <div className="row align-items-center">
-                                <div className="col-3 fs-11">Тип дома:</div>
-                                <div className="col-9">
+                            <hr className="d-none d-md-block my-4"/>
+                            <div className="row align-items-center mt-4 mt-sm-5">
+                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Тип дома:</div>
+                                <div className="col-md-9">
                                     <div className="d-flex align-items-baseline flex-wrap">
                                         <label className="me-5 my-2">
                                             <input type="radio" name="house-type" value="Кирпичный"/>
@@ -633,10 +633,10 @@ export default function Advertise() {
                                     </div>
                                 </div>
                             </div>
-                            <hr className="my-4" />
-                            <div className="row align-items-center">
-                                <div className="col-3 fs-11">Лифт:</div>
-                                <div className="col-9">
+                            <hr className="d-none d-md-block my-4"/>
+                            <div className="row align-items-center mt-4 mt-sm-5">
+                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Лифт:</div>
+                                <div className="col-md-9">
                                     <div className="d-flex align-items-baseline flex-wrap">
                                         <label className="me-5 my-2">
                                             <input type="radio" name="lift" value="Нет"/>
@@ -657,18 +657,18 @@ export default function Advertise() {
                                     </div>
                                 </div>
                             </div>
-                            <hr className="my-4" />
-                            <div className="row align-items-center">
-                                <div className="col-3 fs-11">Высота потолков:</div>
-                                <div className="col-9">
+                            <hr className="d-none d-md-block my-4"/>
+                            <div className="row align-items-center mt-4 mt-sm-5">
+                                <div className="col-6 col-md-3 fs-11 title">Высота потолков:</div>
+                                <div className="col-6 col-md-9">
                                     <input type="number" className="fs-11"/>
                                     <span className="ms-2">м</span>
                                 </div>
                             </div>
-                            <hr className="my-4" />
-                            <div className="row align-items-center">
-                                <div className="col-3 fs-11">Пандус:</div>
-                                <div className="col-9 row row-cols-2">
+                            <hr className="d-none d-md-block my-4"/>
+                            <div className="row align-items-center mt-4 mt-sm-5">
+                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Пандус:</div>
+                                <div className="col-md-9 row row-cols-2">
                                     <div>
                                         <label className="me-5">
                                             <input type="radio" name="ramp" value="Есть"/>
@@ -683,10 +683,10 @@ export default function Advertise() {
                                     </div>
                                 </div>
                             </div>
-                            <hr className="my-4" />
-                            <div className="row align-items-center">
-                                <div className="col-3 fs-11">Мусоропровод:</div>
-                                <div className="col-9 row row-cols-2">
+                            <hr className="d-none d-md-block my-4"/>
+                            <div className="row align-items-center mt-4 mt-sm-5">
+                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Мусоропровод:</div>
+                                <div className="col-md-9 row row-cols-2">
                                     <div>
                                         <label className="me-5">
                                             <input type="radio" name="chute" value="Есть"/>
@@ -701,10 +701,10 @@ export default function Advertise() {
                                     </div>
                                 </div>
                             </div>
-                            <hr className="my-4" />
-                            <div className="row align-items-center">
-                                <div className="col-3 fs-11">Парковка:</div>
-                                <div className="col-9 row row-cols-2 row-cols-xl-3">
+                            <hr className="d-none d-md-block my-4"/>
+                            <div className="row align-items-center mt-4 mt-sm-5">
+                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Парковка:</div>
+                                <div className="col-md-9 row row-cols-2 row-cols-xl-3">
                                     <div>
                                         <label className="mb-3">
                                             <input type="checkbox" name="parking" value="Наземная"/>
@@ -725,7 +725,7 @@ export default function Advertise() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="row row-cols-3 justify-content-center mt-4">
+                            <div className="row row-cols-2 row-cols-sm-3 justify-content-center gx-2 gx-sm-4 mt-4">
                                 <div>
                                     <button type="button" className="btn btn-2 w-100" onClick={()=>setActiveField(3)}>Назад</button>
                                 </div>
@@ -736,15 +736,15 @@ export default function Advertise() {
                         </fieldset>
                         <fieldset data-show={(activeField === 5) ? 'true' : 'false'} name="anchor-5" className="element frame p-lg-4 mb-4 mb-lg-5">
                             <legend className="title-font fw-7 fs-15 mb-4">Условия сделки</legend>
-                            <div className="row align-items-center mb-4">
-                                <div className="col-3 fs-11 title-req">Цена*:</div>
-                                <div className="col-9">
+                            <div className="row align-items-center mt-4 mt-sm-5 mb-4">
+                                <div className="col-md-3 fs-11 title-req mb-3 m-md-0">Цена*:</div>
+                                <div className="col-md-9">
                                     <input type="number" className="fs-11 price" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
                                 </div>
                             </div>
-                            <div className="row align-items-center mb-4">
-                                <div className="col-3 fs-11 title-req">Ипотека*:</div>
-                                <div className="col-9 d-flex">
+                            <div className="row align-items-center mt-4 mt-sm-5 mb-4">
+                                <div className="col-md-3 fs-11 title-req mb-3 m-md-0">Ипотека*:</div>
+                                <div className="col-md-9 d-flex">
                                     <label className="me-5">
                                         <input type="radio" name="hypothec" value="Да" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
                                         <span className="fs-11 ms-2">Да</span>
@@ -755,9 +755,9 @@ export default function Advertise() {
                                     </label>
                                 </div>
                             </div>
-                            <div className="row align-items-center mb-4">
-                                <div className="col-3 fs-11">Обременения:</div>
-                                <div className="col-9 d-flex">
+                            <div className="row align-items-center mt-4 mt-sm-5 mb-4">
+                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Обременения:</div>
+                                <div className="col-md-9 d-flex">
                                     <label className="me-5">
                                         <input type="radio" name="difficulties" value="Да" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
                                         <span className="fs-11 ms-2">Да</span>
@@ -768,7 +768,7 @@ export default function Advertise() {
                                     </label>
                                 </div>
                             </div>
-                            <div className="row row-cols-3 justify-content-center mt-4">
+                            <div className="row row-cols-2 row-cols-sm-3 justify-content-center gx-2 gx-sm-4 mt-4">
                                 <div>
                                     <button type="button" className="btn btn-2 w-100" onClick={()=>setActiveField(4)}>Назад</button>
                                 </div>

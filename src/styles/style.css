@@ -551,6 +551,18 @@ select {
   }
 }
 
+@media (max-width: 1199px) {
+  .upload__image-wrapper .imgs-box .image-item {
+    width: calc((100% - 4%)/4);
+  }
+}
+
+@media (max-width: 575px) {
+  .upload__image-wrapper .imgs-box .image-item {
+    width: calc((100% - 3%)/3);
+  }
+}
+
 .upload__image-wrapper .imgs-box .image-item img {
   position: relative;
   z-index: 1;
@@ -563,6 +575,12 @@ select {
 @media (max-width: 1659px) {
   .upload__image-wrapper .imgs-box .image-item img {
     height: 90px;
+  }
+}
+
+@media (max-width: 575px) {
+  .upload__image-wrapper .imgs-box .image-item img {
+    height: 23vw;
   }
 }
 

@@ -431,6 +431,12 @@ select {
             @media (max-width: 1399px) {
                 width: calc((100% - 5%)/5);
             }
+            @media (max-width: 1199px) {
+                width: calc((100% - 4%)/4);
+            }
+            @media (max-width: 575px) {
+                width: calc((100% - 3%)/3);
+            }
             img {
                 position: relative;
                 z-index: 1;
@@ -439,6 +445,9 @@ select {
                 object-fit: cover;
                 @media (max-width: 1659px) {
                     height: 90px;
+                }
+                @media (max-width: 575px) {
+                    height: 23vw;
                 }
             }
             &__btn-wrapper {

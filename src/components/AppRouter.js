@@ -7,6 +7,7 @@ import MainPage from './MainPage';
 import Services from './Services';
 import UserPage from './UserPage';
 import Advertise from './Advertise';
+import PersonalAccount from './PersonalAccount';
 
 export default function AppRouter() {
     return (
@@ -18,6 +19,7 @@ export default function AppRouter() {
                 <Route path="/service" element={<Services />} />
                 <Route path="/user" element={<UserPage />} />
                 <Route path="/advertise" element={<Advertise />} />
+                <Route path="/personal-account" element={<PersonalAccount />} />
             </Routes>
     )
 }
