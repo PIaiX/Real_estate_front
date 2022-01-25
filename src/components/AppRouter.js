@@ -20,6 +20,7 @@ export default function AppRouter() {
                 <Route path="/user" element={<UserPage />} />
                 <Route path="/advertise" element={<Advertise />} />
                 <Route path="/personal-account" element={<PersonalAccount />} />
+                {/* <Route path="/personal-account/profile" element={<PersonalAccount />} /> */}
             </Routes>
     )
 }

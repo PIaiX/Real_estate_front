@@ -70,7 +70,7 @@ html {
 
 /* FORMS CUSTOMIZATION */
 input,
-textarea {
+textarea, .inp {
   background: #ffffff;
   border: 1px solid $gray-5;
   border-radius: 0.3em;
@@ -277,7 +277,7 @@ select {
         left: 0;
         min-width: 100%;
         max-width: 500px;
-        max-height: 400px;
+        max-height: 300px;
         overflow-y: auto;
         background: #FFFFFF;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
@@ -2088,7 +2088,7 @@ article {
 }
 
 
-/* SECTION 11 - user page */
+/* SECTION 11 - Submit an ad */
 #sec-11 {
     &.mb-6 {
         @media (max-width: 991px) {margin-bottom: 4em;}
@@ -2343,6 +2343,41 @@ article {
     }
 }
 
+
+/* SECTION 12 - personal account */
+.form-profile {
+    .upload__image-wrapper {
+        border: unset;
+        padding: 0px;
+        .imgs-box {
+            .image-item {
+                width: 170px;
+                height: 170px;
+                border-radius: 50%;
+                display: block;
+                margin: 0 auto;
+                overflow: hidden;
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+                &__btn-wrapper {
+                    background-color: rgba(0,0,0,0.35);
+                    @include flex-center();
+                    flex-direction: column;
+                    button {
+                        width: fit-content;
+                        display: flex;
+                        img {
+                            width: .9em;
+                            height: .9em;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 
 footer {
