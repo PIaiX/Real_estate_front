@@ -1,12 +1,12 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import { NavLink } from 'react-router-dom';
 import { Slider1 } from './Slider1';
-import BtnFav from '../utilities/BtnFav';
-import ShowPhone from '../utilities/ShowPhone';
+import BtnFav from './utilities/BtnFav';
+import ShowPhone from './utilities/ShowPhone';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Thumbs, EffectFade } from 'swiper';
 import ImageViewer from 'react-simple-image-viewer';
-import InputFile from '../utilities/InputFile';
+import InputFile from './utilities/InputFile';
 
 SwiperCore.use([Navigation, Thumbs, EffectFade]);
 

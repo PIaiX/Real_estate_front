@@ -1,9 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import ShowPhone from '../utilities/ShowPhone';
-import InputFile from '../utilities/InputFile';
+import ShowPhone from './utilities/ShowPhone';
+import InputFile from './utilities/InputFile';
 import { Slider1 } from './Slider1';
-import InputRating from '../utilities/InputRating';
+import InputRating from './utilities/InputRating';
 
 export default function UserPage() {
     return (
@@ -99,7 +99,7 @@ export default function UserPage() {
                             <div className="ms-sm-4">
                                 <div className="d-flex align-items-center d-sm-block mb-2 mb-sm-0">
                                     <img src="/real_estate/img/photo2.png" alt="Андрей Шевцов" className="photo d-block d-sm-none"/>
-                                    <div className="ms-3">
+                                    <div className="ms-3 ms-sm-0">
                                         <h4>Андрей Шевцов</h4>
                                         <div className="rating mb-sm-3">
                                             <span className="fs-12 ms-0">Оценка:</span>
@@ -123,7 +123,7 @@ export default function UserPage() {
                             <div className="ms-sm-4">
                                 <div className="d-flex align-items-center d-sm-block mb-2 mb-sm-0">
                                     <img src="/real_estate/img/photo2.png" alt="Андрей Шевцов" className="photo d-block d-sm-none"/>
-                                    <div className="ms-3">
+                                    <div className="ms-3 ms-sm-0">
                                         <h4>Андрей Шевцов</h4>
                                         <div className="rating mb-sm-3">
                                             <span className="fs-12 ms-0">Оценка:</span>

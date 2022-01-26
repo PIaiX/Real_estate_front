@@ -1,7 +1,7 @@
 import React from 'react';
 import { Slider2 } from './Slider2';
 import { Slider1 } from './Slider1';
-import Tile from '../utilities/Tile';
+import Tile from './utilities/Tile';
 
 export default function MainPage() {
     return (

@@ -3135,6 +3135,19 @@ article .text {
   }
 }
 
+.review .btns {
+  position: absolute;
+  bottom: 1em;
+  right: 2em;
+}
+
+@media (max-width: 575px) {
+  .review .btns {
+    bottom: .5em;
+    right: .5em;
+  }
+}
+
 .review .claiming {
   position: absolute;
   bottom: 1em;
@@ -3582,6 +3595,71 @@ article .text {
 }
 
 /* SECTION 12 - personal account */
+main.account {
+  background: url(bg-imgs/bg2.png) no-repeat center bottom #F2F2F2;
+  background-size: 100% auto;
+}
+
+#sec-12 nav.menu ul {
+  list-style: none;
+  padding-left: 0px;
+}
+
+#sec-12 nav.menu ul li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#sec-12 nav.menu ul li:not(:last-child) {
+  margin-bottom: 1.5em;
+}
+
+#sec-12 nav.menu ul li img {
+  width: 1.5em;
+  margin-right: 1em;
+}
+
+#sec-12 nav.menu ul li a, #sec-12 nav.menu ul li button {
+  font-family: "Gilroy";
+  font-size: 1.5em;
+  font-weight: 600;
+  color: #44494C;
+}
+
+#sec-12 nav.menu ul li a.active, #sec-12 nav.menu ul li button.active {
+  color: #146492;
+}
+
+#sec-12 nav.menu ul li .count {
+  width: 1.4em;
+  height: 1.4em;
+  background-color: #146492;
+  color: #fff;
+  font-family: "Gilroy";
+  font-weight: 600;
+  font-size: 1.1em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-left: 1em;
+  border-radius: 50%;
+}
+
+#sec-12 .card-midi {
+  -webkit-filter: drop-shadow(0px 1px 10px rgba(0, 0, 0, 0.1));
+          filter: drop-shadow(0px 1px 10px rgba(0, 0, 0, 0.1));
+}
+
 .form-profile .upload__image-wrapper {
   border: unset;
   padding: 0px;

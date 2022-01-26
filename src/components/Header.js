@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import CustomSelect from '../utilities/CustomSelect';
+import CustomSelect from './utilities/CustomSelect';
 
 export default function Header() {
     return (

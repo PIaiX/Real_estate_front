@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { NavLink } from 'react-router-dom';
-import CustomSelect from '../utilities/CustomSelect';
-import CustomSelectMultyDual from '../utilities/CustomSelectMultyDual';
+import CustomSelect from './utilities/CustomSelect';
+import CustomSelectMultyDual from './utilities/CustomSelectMultyDual';
 import Card from './Card';
 
 export default function Catalog() {

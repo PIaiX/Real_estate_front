@@ -1,8 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import CustomSelect from '../utilities/CustomSelect';
-import ShowPhone from '../utilities/ShowPhone';
-import InputFile from '../utilities/InputFile';
+import CustomSelect from './utilities/CustomSelect';
+import ShowPhone from './utilities/ShowPhone';
+import InputFile from './utilities/InputFile';
 
 export default function Services() {
     return (

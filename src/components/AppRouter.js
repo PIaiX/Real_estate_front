@@ -19,8 +19,7 @@ export default function AppRouter() {
                 <Route path="/service" element={<Services />} />
                 <Route path="/user" element={<UserPage />} />
                 <Route path="/advertise" element={<Advertise />} />
-                <Route path="/personal-account" element={<PersonalAccount />} />
-                {/* <Route path="/personal-account/profile" element={<PersonalAccount />} /> */}
+                <Route path="/personal-account/*" element={<PersonalAccount />} />
             </Routes>
     )
 }
