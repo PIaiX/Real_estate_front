@@ -6,6 +6,7 @@ import UserProfile from './account/UserProfile';
 import UserServices from './account/UserServices';
 import UserReviews from './account/UserReviews';
 import UserMessages from './account/UserMessages';
+import CreateService from './account/CreateService';
 
 export default function PersonalAccount() {
     return (
@@ -57,11 +58,11 @@ export default function PersonalAccount() {
                                 <Route path="profile" element={<UserProfile />} />
                                 <Route path="my-ads" element={<UserAds />} />
                                 <Route path="my-services" element={<UserServices />} />
+                                <Route path="my-services/create" element={<CreateService />} />
                                 <Route path="favorites" element={<Favorites />} />
                                 <Route path="my-messages" element={<UserMessages /> } />
                                 <Route path="my-reviews" element={ <UserReviews /> } />
                             </Routes>
-                            
                         </div>
                     </div>
                 </div>

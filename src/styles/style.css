@@ -3135,6 +3135,20 @@ article .text {
   }
 }
 
+.review .top {
+  position: absolute;
+  top: 1em;
+  right: 1.5em;
+  text-align: right;
+}
+
+@media (max-width: 575px) {
+  .review .top {
+    top: .5em;
+    right: .5em;
+  }
+}
+
 .review .btns {
   position: absolute;
   bottom: 1em;
@@ -3660,6 +3674,10 @@ main.account {
           filter: drop-shadow(0px 1px 10px rgba(0, 0, 0, 0.1));
 }
 
+#sec-12 input, #sec-12 textarea, #sec-12 .inp {
+  padding: .8em .85em;
+}
+
 .form-profile .upload__image-wrapper {
   border: unset;
   padding: 0px;
@@ -3708,6 +3726,43 @@ main.account {
 .form-profile .upload__image-wrapper .imgs-box .image-item__btn-wrapper button img {
   width: .9em;
   height: .9em;
+}
+
+.tag-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 1em;
+}
+
+.tag-list .tag {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #E0E0E0;
+  padding: 0.6em 1em;
+  border-radius: 2em;
+  color: #828282;
+  font-weight: 500;
+}
+
+.tag-list .tag button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-left: .5em;
 }
 
 footer {

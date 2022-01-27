@@ -2031,6 +2031,16 @@ article {
             right: .5em;
         }
     }
+    .top {
+        position: absolute;
+        top: 1em;
+        right: 1.5em;
+        text-align: right;
+        @media (max-width: 575px) {
+            top: .5em;
+            right: .5em;
+        }
+    }
     .btns {
         position: absolute;
         bottom: 1em;
@@ -2396,6 +2406,7 @@ main.account {
     .card-midi {
         filter: drop-shadow(0px 1px 10px rgba(0, 0, 0, 0.1));
     }
+    input, textarea, .inp {padding: .8em .85em;}
 }
 .form-profile {
     .upload__image-wrapper {
@@ -2427,6 +2438,22 @@ main.account {
                     }
                 }
             }
+        }
+    }
+}
+.tag-list {
+    display: flex;
+    margin-top: 1em;
+    .tag {
+        @include flex-center();
+        background-color: $gray-5;
+        padding: 0.6em 1em;
+        border-radius: 2em;
+        color: $gray-3;
+        font-weight: 500;
+        button {
+            @include flex-center();
+            margin-left: .5em;
         }
     }
 }
