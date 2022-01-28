@@ -2443,7 +2443,7 @@ main.account {
 }
 .tag-list {
     display: flex;
-    margin-top: 1em;
+    flex-wrap:wrap;
     .tag {
         @include flex-center();
         background-color: $gray-5;
@@ -2451,6 +2451,7 @@ main.account {
         border-radius: 2em;
         color: $gray-3;
         font-weight: 500;
+        margin: 0 .5em .75em 0;
         button {
             @include flex-center();
             margin-left: .5em;

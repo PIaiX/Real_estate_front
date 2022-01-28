@@ -52,7 +52,7 @@ export default function PersonalAccount() {
                         </div>
                     </div>
                     <div className="col-9">
-                        <div className="frame p-5">
+                        <div className="frame py-5">
                             <Routes>
                                 <Route path="/" element={<UserProfile />} />
                                 <Route path="profile" element={<UserProfile />} />

@@ -4,12 +4,8 @@ import { Link } from 'react-router-dom';
 import InputTags from '../utilities/InputTags';
 
 export default function CreateService() {
-    // function handleSubmit(e) {
-    //     e.preventDefault();    console.log('Отправлена форма.');
-    // }
-
     return (
-        <div>
+        <div className="px-5">
             <h4 className="text-center color-1 mb-5">Мои услуги</h4>
             <form>
                 <div className="row align-items-center mb-5">

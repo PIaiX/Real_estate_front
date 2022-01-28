@@ -1,9 +1,16 @@
 import React from 'react';
 import Card from '../Card';
+import { Link } from 'react-router-dom';
+import * as Scroll from 'react-scroll';
+import { animateScroll as scroll } from 'react-scroll';
 
 export default function UserAds() {
+    const scrollToTop = () => {
+        scroll.scrollToTop();
+    };
+
     return (
-        <div>
+        <div className="px-5">
             <h4 className="text-center color-1 mb-5">Мои объявления</h4>
             <div className="mb-5">
                 <Card 
@@ -31,11 +38,11 @@ export default function UserAds() {
                         <img src="/real_estate/img/icons/pa-8.svg" alt="Срочная продажа"/>
                         <span className="ms-2">Срочная продажа</span>
                     </button>
-                    <button type="button" className="ms-4 color-1 d-flex align-items-center">
+                    <Link to="/advertise" className="ms-4 color-1 d-flex align-items-center">
                         <img src="/real_estate/img/icons/pa-9.svg" alt="Редактировать"/>
                         <span className="ms-2">Редактировать</span>
-                    </button>
-                    <button type="button" className="ms-4 color-1 d-flex align-items-center">
+                    </Link>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#delete-ad" className="ms-4 color-1 d-flex align-items-center">
                         <img src="/real_estate/img/icons/pa-10.svg" alt="Удалить"/>
                         <span className="ms-2">Удалить объявление</span>
                     </button>
@@ -67,11 +74,11 @@ export default function UserAds() {
                         <img src="/real_estate/img/icons/pa-8.svg" alt="Срочная продажа"/>
                         <span className="ms-2">Срочная продажа</span>
                     </button>
-                    <button type="button" className="ms-4 color-1 d-flex align-items-center">
+                    <Link to="/advertise" className="ms-4 color-1 d-flex align-items-center">
                         <img src="/real_estate/img/icons/pa-9.svg" alt="Редактировать"/>
                         <span className="ms-2">Редактировать</span>
-                    </button>
-                    <button type="button" className="ms-4 color-1 d-flex align-items-center">
+                    </Link>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#delete-ad" className="ms-4 color-1 d-flex align-items-center">
                         <img src="/real_estate/img/icons/pa-10.svg" alt="Удалить"/>
                         <span className="ms-2">Удалить объявление</span>
                     </button>
@@ -103,11 +110,11 @@ export default function UserAds() {
                         <img src="/real_estate/img/icons/pa-8.svg" alt="Срочная продажа"/>
                         <span className="ms-2">Срочная продажа</span>
                     </button>
-                    <button type="button" className="ms-4 color-1 d-flex align-items-center">
+                    <Link to="/advertise" className="ms-4 color-1 d-flex align-items-center">
                         <img src="/real_estate/img/icons/pa-9.svg" alt="Редактировать"/>
                         <span className="ms-2">Редактировать</span>
-                    </button>
-                    <button type="button" className="ms-4 color-1 d-flex align-items-center">
+                    </Link>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#delete-ad" className="ms-4 color-1 d-flex align-items-center">
                         <img src="/real_estate/img/icons/pa-10.svg" alt="Удалить"/>
                         <span className="ms-2">Удалить объявление</span>
                     </button>
@@ -139,11 +146,11 @@ export default function UserAds() {
                         <img src="/real_estate/img/icons/pa-8.svg" alt="Срочная продажа"/>
                         <span className="ms-2">Срочная продажа</span>
                     </button>
-                    <button type="button" className="ms-4 color-1 d-flex align-items-center">
+                    <Link to="/advertise" onClick={scrollToTop} className="ms-4 color-1 d-flex align-items-center">
                         <img src="/real_estate/img/icons/pa-9.svg" alt="Редактировать"/>
                         <span className="ms-2">Редактировать</span>
-                    </button>
-                    <button type="button" className="ms-4 color-1 d-flex align-items-center">
+                    </Link>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#delete-ad" className="ms-4 color-1 d-flex align-items-center">
                         <img src="/real_estate/img/icons/pa-10.svg" alt="Удалить"/>
                         <span className="ms-2">Удалить объявление</span>
                     </button>
@@ -168,6 +175,31 @@ export default function UserAds() {
                     </li>
                 </ul>
             </nav>
+
+            <div className="modal fade" id="delete-ad" tabIndex="-1" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-body">
+                            <button type="button" className="btn-close" data-bs-dismiss="modal">
+                                <svg viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1.00006 1.18237L15 15.9049"/>
+                                    <path d="M14.9999 1.18237L1.00001 15.9049"/>
+                                </svg>
+                            </button>
+                            <div className="text-center fs-15 fw-6 title-font my-5">Вы уверены что хотите удалить объявление?</div>
+                            <div className="row row-cols-2">
+                                <div>
+                                    <button type="button" data-bs-dismiss="modal" className="btn btn-2 w-100 fs-11 text-uppercase">Отмена</button>
+                                </div>
+                                <div>
+                                    <button type="button" className="btn btn-1 w-100 fs-11 text-uppercase">Удалить</button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

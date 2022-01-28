@@ -3,7 +3,7 @@ import Card from '../Card';
 
 export default function Favorites() {
     return (
-        <div>
+        <div className="px-5">
             <h4 className="text-center color-1 mb-5">Избранное</h4>
             <div className="mb-5">
                 <Card 
@@ -27,18 +27,10 @@ export default function Favorites() {
                     tenancy="аренда от года"
                     fav={true}
                 />
-                <div className="d-flex justify-content-end align-items-center mt-2">
-                    <button type="button" className="color-1 d-flex align-items-center">
-                        <img src="/real_estate/img/icons/pa-8.svg" alt="Срочная продажа"/>
-                        <span className="ms-2">Срочная продажа</span>
-                    </button>
-                    <button type="button" className="ms-4 color-1 d-flex align-items-center">
-                        <img src="/real_estate/img/icons/pa-9.svg" alt="Редактировать"/>
-                        <span className="ms-2">Редактировать</span>
-                    </button>
+                <div className="d-flex justify-content-end mt-2">
                     <button type="button" className="ms-4 color-1 d-flex align-items-center">
                         <img src="/real_estate/img/icons/pa-10.svg" alt="Удалить"/>
-                        <span className="ms-2">Удалить объявление</span>
+                        <span className="ms-2">Удалить из избранного</span>
                     </button>
                 </div>
             </div>
@@ -63,18 +55,10 @@ export default function Favorites() {
                     prepayment="без предоплаты"
                     tenancy="аренда от года"
                 />
-                <div className="d-flex justify-content-end align-items-center mt-2">
-                    <button type="button" className="color-1 d-flex align-items-center">
-                        <img src="/real_estate/img/icons/pa-8.svg" alt="Срочная продажа"/>
-                        <span className="ms-2">Срочная продажа</span>
-                    </button>
-                    <button type="button" className="ms-4 color-1 d-flex align-items-center">
-                        <img src="/real_estate/img/icons/pa-9.svg" alt="Редактировать"/>
-                        <span className="ms-2">Редактировать</span>
-                    </button>
+                <div className="d-flex justify-content-end mt-2">
                     <button type="button" className="ms-4 color-1 d-flex align-items-center">
                         <img src="/real_estate/img/icons/pa-10.svg" alt="Удалить"/>
-                        <span className="ms-2">Удалить объявление</span>
+                        <span className="ms-2">Удалить из избранного</span>
                     </button>
                 </div>
             </div>
@@ -99,18 +83,10 @@ export default function Favorites() {
                     prepayment="без предоплаты"
                     tenancy="аренда от года"
                 />
-                <div className="d-flex justify-content-end align-items-center mt-2">
-                    <button type="button" className="color-1 d-flex align-items-center">
-                        <img src="/real_estate/img/icons/pa-8.svg" alt="Срочная продажа"/>
-                        <span className="ms-2">Срочная продажа</span>
-                    </button>
-                    <button type="button" className="ms-4 color-1 d-flex align-items-center">
-                        <img src="/real_estate/img/icons/pa-9.svg" alt="Редактировать"/>
-                        <span className="ms-2">Редактировать</span>
-                    </button>
+                <div className="d-flex justify-content-end mt-2">
                     <button type="button" className="ms-4 color-1 d-flex align-items-center">
                         <img src="/real_estate/img/icons/pa-10.svg" alt="Удалить"/>
-                        <span className="ms-2">Удалить объявление</span>
+                        <span className="ms-2">Удалить из избранного</span>
                     </button>
                 </div>
             </div>
@@ -135,18 +111,10 @@ export default function Favorites() {
                     prepayment="без предоплаты"
                     tenancy="аренда от года"
                 />
-                <div className="d-flex justify-content-end align-items-center mt-2">
-                    <button type="button" className="color-1 d-flex align-items-center">
-                        <img src="/real_estate/img/icons/pa-8.svg" alt="Срочная продажа"/>
-                        <span className="ms-2">Срочная продажа</span>
-                    </button>
-                    <button type="button" className="ms-4 color-1 d-flex align-items-center">
-                        <img src="/real_estate/img/icons/pa-9.svg" alt="Редактировать"/>
-                        <span className="ms-2">Редактировать</span>
-                    </button>
+                <div className="d-flex justify-content-end mt-2">
                     <button type="button" className="ms-4 color-1 d-flex align-items-center">
                         <img src="/real_estate/img/icons/pa-10.svg" alt="Удалить"/>
-                        <span className="ms-2">Удалить объявление</span>
+                        <span className="ms-2">Удалить из избранного</span>
                     </button>
                 </div>
             </div>

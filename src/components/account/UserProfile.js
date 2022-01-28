@@ -11,7 +11,7 @@ export default function UserProfile() {
     };
  
     return (
-        <div>
+        <div className="px-5">
             <h4 className="text-center color-1 mb-5">Профиль</h4>
             <form className="form-profile">
                 <div className="row">

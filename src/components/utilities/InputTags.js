@@ -28,12 +28,12 @@ export default function InputTags(props) {
     return (
         <div>
             <input type="text" id={props.name} name={props.name} className={props.class} placeholder={props.placeholder} onKeyDown={onKeyDown} />
-            <div className="tag-list">
+            <div className="tag-list mt-3">
                 {
                     (tag) &&
                     tag.map(item =>
                     (
-                        <div key={item} id={item} className="tag">
+                        <div key={item} className="tag">
                             <span>{item}</span>
                             <button type="button" onClick={() => setTag(tag.filter(obj => {
                                 if (obj !== item) {
