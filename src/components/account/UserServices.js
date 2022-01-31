@@ -5,7 +5,7 @@ import InputTags from '../utilities/InputTags';
 
 export default function UserServices() {
     return (
-        <div className="px-5">
+        <div className="px-5 pb-5">
             <h4 className="text-center color-1 mb-5">Мои услуги</h4>
             {/* если НЕ указаны услуги */}
             <div>

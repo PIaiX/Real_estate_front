@@ -10,7 +10,7 @@ export default function UserAds() {
     };
 
     return (
-        <div className="px-5">
+        <div className="px-5 pb-5">
             <h4 className="text-center color-1 mb-5">Мои объявления</h4>
             <div className="mb-5">
                 <Card 

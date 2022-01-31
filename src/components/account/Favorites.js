@@ -3,7 +3,7 @@ import Card from '../Card';
 
 export default function Favorites() {
     return (
-        <div className="px-5">
+        <div className="px-5 pb-5">
             <h4 className="text-center color-1 mb-5">Избранное</h4>
             <div className="mb-5">
                 <Card 

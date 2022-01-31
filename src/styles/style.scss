@@ -13,6 +13,7 @@ $gray-5: #E0E0E0;
 $gray-6: #F2F2F2;
 $white: #fff;
 $black: #000;
+$green: #15A672;
 
 a, a:hover, a:focus, a:active {
   color: inherit;
@@ -1712,7 +1713,7 @@ article {
         background-color: transparent;
         outline: 2px solid transparent;
         &.online {
-            background-color: #15A672;
+            background-color: $green;
             outline: 2px solid #FFFFFF;
         }
     }
@@ -1993,7 +1994,7 @@ article {
             background-color: transparent;
             outline: 2px solid transparent;
             &.online {
-                background-color: #15A672;
+                background-color: $green;
                 outline: .3em solid #FFFFFF;
             }
         }
@@ -2456,6 +2457,149 @@ main.account {
             @include flex-center();
             margin-left: .5em;
         }
+    }
+}
+.chat {
+    border-top: 1px solid $gray-5;
+    border-bottom: 1px solid $gray-5;
+    padding: 2em 3em 2em 4em;
+    display: flex;
+    position: relative;
+    .link-to-chat {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+    }
+    &.unread {
+        background-color: #F1F7FA;
+    }
+    .photo {
+        width: fit-content;
+        margin-right: 2em;
+        position: relative;
+        z-index: 1;
+        img {
+            width: 115px;
+            height: 115px;
+        }
+        .indicator {
+            bottom: 8%;
+            right: 8%;
+            width: 11%;
+            height: 11%;
+            background-color: $gray-4;
+            outline: 0.3em solid #FFFFFF;
+            &.online {
+                background-color: $green;
+                outline: 0.3em solid #FFFFFF;
+            }
+        }
+    }
+    .main {
+        flex:1;
+        position: relative;
+        z-index:1;
+    }
+    .new {
+        width: fit-content;
+        position: relative;
+        z-index: 1;
+        @include flex-center();
+        flex-direction: column;
+        div {
+            font-size: 1.1em;
+            font-family: $title-font;
+            font-weight: bold;
+            background-color: $color-1;
+            color: #fff;
+            width: 1.5em;
+            height: 1.5em;
+            border-radius: 50%;
+            @include flex-center();
+        }
+    }
+    .end {
+        margin-left: 2em;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        z-index: 3;
+        .btn-del {
+            opacity:0;
+            transition: .2s ease;
+            svg {
+                width: 1.1em;
+                height: 1.3em;
+                fill: none;
+                path {fill: $gray-4;}
+            }
+            &:hover {
+                svg {
+                    path {fill: $color-1;}
+                }
+            }
+        }
+        .btn-notice {
+            background-color: transparent;
+            opacity:0;
+            transition: .2s ease;
+            svg {
+                width: 1.5em;
+                height: 1.5em;
+            }
+        }
+    }
+    &:hover {
+        .end {
+            .btn-notice, .btn-del {
+                opacity:1;
+            }
+        }
+    }
+}
+
+.dropdown-toggle{
+    padding: 0px .5em;
+    &::after {content: unset;}
+    svg {
+        fill: none;
+        width: .4em;
+        height: 1.7em;
+        circle {
+            fill: $gray-4;
+        }
+    }
+}
+.dropdown-menu{
+    background: #FFFFFF;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    padding: 0px;
+    max-width: 500px;
+    max-height: 300px;
+    overflow-y: auto;
+    .dropdown-item {
+        color: #146492;
+        padding: 0.5em 2em;
+        cursor: pointer;
+        white-space: nowrap;
+        text-align: left;
+        background-color: transparent;
+        &:hover, &:active {
+            background-color: $color-3;
+        }
+    }
+}
+.messages-list {
+    max-height: 730px;
+    overflow-y: auto;
+    .message {
+        display: flex;
     }
 }
 

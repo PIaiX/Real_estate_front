@@ -3,7 +3,7 @@ import InputRating from '../utilities/InputRating';
 
 export default function UserReviews() {
     return (
-        <div className="px-5">
+        <div className="px-5 pb-5">
             <h4 className="text-center color-1 mb-5">Отзывы</h4>
             <div className="review mb-3">
                 <img src="/real_estate/img/photo2.png" alt="Андрей Шевцов" className="photo d-none d-sm-block"/>

@@ -7,6 +7,7 @@ import UserServices from './account/UserServices';
 import UserReviews from './account/UserReviews';
 import UserMessages from './account/UserMessages';
 import CreateService from './account/CreateService';
+import ChatPage from './account/ChatPage';
 
 export default function PersonalAccount() {
     return (
@@ -52,7 +53,7 @@ export default function PersonalAccount() {
                         </div>
                     </div>
                     <div className="col-9">
-                        <div className="frame py-5">
+                        <div className="frame pt-5">
                             <Routes>
                                 <Route path="/" element={<UserProfile />} />
                                 <Route path="profile" element={<UserProfile />} />
@@ -61,6 +62,7 @@ export default function PersonalAccount() {
                                 <Route path="my-services/create" element={<CreateService />} />
                                 <Route path="favorites" element={<Favorites />} />
                                 <Route path="my-messages" element={<UserMessages /> } />
+                                <Route path="my-messages/*" element={<ChatPage /> } />
                                 <Route path="my-reviews" element={ <UserReviews /> } />
                             </Routes>
                         </div>
