@@ -3774,6 +3774,9 @@ main.account {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
   position: relative;
 }
 
@@ -3826,10 +3829,19 @@ main.account {
   z-index: 1;
 }
 
+.chat .main .message {
+  font-size: .9em;
+  font-weight: 300;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .chat .new {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
+  height: 100%;
   position: relative;
   z-index: 1;
   display: -webkit-box;
