@@ -443,9 +443,11 @@ select {
   position: relative;
   height: 2.5em;
   width: 2.5em;
+  padding: 0.3em;
   border-radius: .25em;
   -webkit-transition: .2s;
   transition: .2s;
+  cursor: pointer;
 }
 
 .input-file:hover {
@@ -469,10 +471,10 @@ select {
 }
 
 .input-file img {
-  height: 2em;
-  width: 2em;
-  -o-object-fit: scale-down;
-     object-fit: scale-down;
+  height: 100%;
+  width: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
   -o-object-position: center;
      object-position: center;
   -webkit-transition: .2s;
@@ -3674,7 +3676,7 @@ main.account {
           filter: drop-shadow(0px 1px 10px rgba(0, 0, 0, 0.1));
 }
 
-#sec-12 input, #sec-12 textarea, #sec-12 .inp {
+#sec-12 input:not([type="checkbox"]):not([type="radio"]), #sec-12 textarea, #sec-12 .inp {
   padding: .8em .85em;
 }
 
@@ -3774,9 +3776,9 @@ main.account {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
   position: relative;
 }
 
@@ -3822,9 +3824,7 @@ main.account {
 }
 
 .chat .main {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  width: calc(100% - (115px + 10em));
   position: relative;
   z-index: 1;
 }
@@ -3837,11 +3837,60 @@ main.account {
   text-overflow: ellipsis;
 }
 
+.chat .main .reply {
+  font-size: .9em;
+  font-weight: 300;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.chat .main .reply img {
+  width: 2em;
+  height: 2em;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 50%;
+  margin-right: .5em;
+}
+
+.chat .main .reply .message {
+  font-size: .9em;
+  font-weight: 300;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 4.5em);
+}
+
+.chat .main .reply .mark {
+  width: 2em;
+  background: none;
+  padding: 0px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.chat .main .reply .mark img {
+  max-width: 100%;
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
+  margin-right: 0px;
+}
+
 .chat .new {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  height: 100%;
+  margin-left: 1em;
+  width: 2em;
   position: relative;
   z-index: 1;
   display: -webkit-box;
@@ -3881,6 +3930,7 @@ main.account {
 
 .chat .end {
   margin-left: 2em;
+  width: 3em;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3934,6 +3984,162 @@ main.account {
   opacity: 1;
 }
 
+.messages-list {
+  max-height: 730px;
+  overflow-y: auto;
+}
+
+.messages-list .message {
+  padding: 1.25em 1em 1.25em 4em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+
+.messages-list .message.unread {
+  background-color: #F1F7FA;
+}
+
+.messages-list .message.unread .photo .indicator, .messages-list .message.unread .photo .indicator.online {
+  outline: 0.3em solid #F1F7FA;
+}
+
+.messages-list .message .photo {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-right: 2em;
+  position: relative;
+  z-index: 1;
+}
+
+.messages-list .message .photo img {
+  width: 115px;
+  height: 115px;
+}
+
+.messages-list .message .photo .indicator {
+  bottom: 8%;
+  right: 8%;
+  width: 11%;
+  height: 11%;
+  background-color: #BDBDBD;
+  outline: 0.3em solid #FFFFFF;
+}
+
+.messages-list .message .photo .indicator.online {
+  background-color: #15A672;
+  outline: 0.3em solid #FFFFFF;
+}
+
+.messages-list .message .main {
+  width: calc(100% - (115px + 11em));
+}
+
+.messages-list .message .main .name {
+  font-size: 1.3em;
+  font-family: "Gilroy";
+  font-weight: 700;
+  margin-bottom: .5em;
+}
+
+.messages-list .message .main .text {
+  font-size: .9em;
+  font-weight: 300;
+}
+
+.messages-list .message .main .text p {
+  margin-bottom: 1em;
+}
+
+.messages-list .message .mark {
+  width: 2em;
+  background: none;
+  padding: 0px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.messages-list .message .mark img {
+  max-width: 100%;
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
+  margin-right: 0px;
+}
+
+.messages-list .message .date {
+  font-size: .9em;
+  font-weight: 500;
+  width: 3em;
+  margin-left: 1em;
+}
+
+.messages-list .message .btns {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  width: 4em;
+  margin-left: 1em;
+}
+
+.messages-list .message .btns button {
+  width: 1em;
+  height: 1em;
+  opacity: 0;
+  -webkit-transition: .2s ease;
+  transition: .2s ease;
+}
+
+.messages-list .message .btns button svg {
+  width: 1em;
+  height: 1em;
+  fill: none;
+}
+
+.messages-list .message .btns button svg path {
+  -webkit-transition: .2s ease;
+  transition: .2s ease;
+  fill: #BDBDBD;
+}
+
+.messages-list .message .btns button:hover svg path, .messages-list .message .btns button:focus svg path {
+  fill: #146492;
+}
+
+.messages-list .message:hover .btns button {
+  opacity: 1;
+}
+
+.send-message {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border: 1px solid #E0E0E0;
+}
+
+.send-message .input-file {
+  width: 3em;
+  height: 3em;
+}
+
 .dropdown-toggle {
   padding: 0px .5em;
 }
@@ -3974,17 +4180,6 @@ main.account {
 
 .dropdown-menu .dropdown-item:hover, .dropdown-menu .dropdown-item:active {
   background-color: #ECECEC;
-}
-
-.messages-list {
-  max-height: 730px;
-  overflow-y: auto;
-}
-
-.messages-list .message {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
 }
 
 footer {

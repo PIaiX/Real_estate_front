@@ -47,8 +47,8 @@ export default function UserProfile() {
                             <div className="col-4 fs-11">Дата рождения:</div>
                             <div className="col-8 d-flex">
                                 <CustomSelect className="flex-1" btnClass="inp" checkedOpt="1" options={['1', '2', '3', '4']}/>
-                                <CustomSelect className="flex-1 ms-4" btnClass="inp" checkedOpt="января" options={['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']}/>
-                                <CustomSelect className="flex-1 ms-4" btnClass="inp" checkedOpt="2001" options={['2001', '2002', '2003', '2004']}/>
+                                <CustomSelect className="flex-1 ms-2 ms-xxl-4" btnClass="inp" checkedOpt="января" options={['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']}/>
+                                <CustomSelect className="flex-1 ms-2 ms-xxl-4" btnClass="inp" checkedOpt="2001" options={['2001', '2002', '2003', '2004']}/>
                             </div>
                         </div>
                         <div className="row align-items-center mb-5">

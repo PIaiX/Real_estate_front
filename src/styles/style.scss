@@ -366,8 +366,10 @@ select {
     position: relative;
     height: 2.5em;
     width: 2.5em;
+    padding: 0.3em;
     border-radius: .25em;
     transition: .2s;
+    cursor: pointer;
     &:hover {
         background-color: $color-2;
         img {filter: brightness(0) invert(1);}
@@ -383,9 +385,9 @@ select {
         padding: 0px;
     }
     img {
-        height: 2em;
-        width: 2em;
-        object-fit: scale-down;
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
         object-position: center;
         transition: .2s;
     }
@@ -2407,7 +2409,7 @@ main.account {
     .card-midi {
         filter: drop-shadow(0px 1px 10px rgba(0, 0, 0, 0.1));
     }
-    input, textarea, .inp {padding: .8em .85em;}
+    input:not([type="checkbox"]):not([type="radio"]), textarea, .inp {padding: .8em .85em;}
 }
 .form-profile {
     .upload__image-wrapper {
@@ -2464,7 +2466,7 @@ main.account {
     border-bottom: 1px solid $gray-5;
     padding: 2em 3em 2em 4em;
     display: flex;
-    align-items: flex-start;
+    align-items: stretch;
     position: relative;
     .link-to-chat {
         position: absolute;
@@ -2500,7 +2502,7 @@ main.account {
         }
     }
     .main {
-        flex:1;
+        width: calc(100% - (115px + 10em));
         position: relative;
         z-index:1;
         .message {
@@ -2510,10 +2512,42 @@ main.account {
             overflow: hidden;
             text-overflow: ellipsis;
         }
+        .reply {
+            font-size: .9em;
+            font-weight: 300;
+            display: flex;
+            align-items: center;
+            img {
+                width: 2em;
+                height: 2em;
+                object-fit: cover;
+                border-radius: 50%;
+                margin-right: .5em;
+            }
+            .message {
+                font-size: .9em;
+                font-weight: 300;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: calc(100% - 4.5em);
+            }
+            .mark {
+                width: 2em;
+                background: none;
+                padding: 0px;
+                @include flex-center();
+                img {
+                    max-width: 100%;
+                    object-fit: scale-down;
+                    margin-right: 0px;
+                }
+            }
+        }
     }
     .new {
-        width: fit-content;
-        height: 100%;
+        margin-left: 1em;
+        width: 2em;
         position: relative;
         z-index: 1;
         @include flex-center();
@@ -2532,6 +2566,7 @@ main.account {
     }
     .end {
         margin-left: 2em;
+        width: 3em;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -2572,6 +2607,119 @@ main.account {
     }
 }
 
+.messages-list {
+    max-height: 730px;
+    overflow-y: auto;
+    .message {
+        padding: 1.25em 1em 1.25em 4em;
+        display: flex;
+        align-items: flex-start;
+        &.unread {
+            background-color: #F1F7FA;
+            .photo {
+                .indicator, .indicator.online {
+                    outline: 0.3em solid #F1F7FA;
+                }
+            }
+        }
+        .photo {
+            width: fit-content;
+            margin-right: 2em;
+            position: relative;
+            z-index: 1;
+            img {
+                width: 115px;
+                height: 115px;
+            }
+            .indicator {
+                bottom: 8%;
+                right: 8%;
+                width: 11%;
+                height: 11%;
+                background-color: $gray-4;
+                outline: 0.3em solid #FFFFFF;
+                &.online {
+                    background-color: $green;
+                    outline: 0.3em solid #FFFFFF;
+                }
+            }
+        }
+        .main {
+            width: calc(100% - (115px + 11em));
+            .name {
+                font-size:1.3em;
+                font-family: $title-font;
+                font-weight: 700;
+                margin-bottom: .5em;
+            }
+            .text {
+                font-size: .9em;
+                font-weight: 300;
+                p {margin-bottom:1em;}
+            }
+        }
+        .mark {
+            width: 2em;
+            background: none;
+            padding: 0px;
+            @include flex-center();
+            img {
+                max-width: 100%;
+                object-fit: scale-down;
+                margin-right: 0px;
+            }
+        }
+        .date {
+            font-size: .9em;
+            font-weight: 500;
+            width: 3em;
+            margin-left: 1em;
+        }
+        .btns {
+            display: flex;
+            justify-content: space-around;
+            width: 4em;
+            margin-left: 1em;
+            button {
+                width: 1em;
+                height: 1em;
+                opacity: 0;
+                transition: .2s ease;
+                svg {
+                    width: 1em;
+                    height: 1em;
+                    fill: none;
+                    path {
+                        transition: .2s ease;
+                        fill: $gray-4;
+                    }
+                }
+                &:hover, &:focus {
+                    svg {
+                        path{fill: $color-1;}
+                    }
+                }
+            }
+        }
+        &:hover {
+            .btns {
+                button {opacity: 1;}
+            }
+        }
+    }
+}
+
+.send-message {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid $gray-5;
+    .input-file {
+        width: 3em;
+        height: 3em;
+    }
+}
+
 .dropdown-toggle{
     padding: 0px .5em;
     &::after {content: unset;}
@@ -2604,13 +2752,7 @@ main.account {
         }
     }
 }
-.messages-list {
-    max-height: 730px;
-    overflow-y: auto;
-    .message {
-        display: flex;
-    }
-}
+
 
 
 footer {
