@@ -4,7 +4,10 @@ import { Link } from 'react-router-dom';
 export default function UserMessages() {
     return (
         <div>
-            <h4 className="text-center color-1 mb-5">Сообщения</h4>
+            <nav className="d-block d-lg-none mb-3 mb-sm-5" aria-label="breadcrumb">
+                <Link to="/personal-account" className="gray-3">&#10094; Назад</Link>
+            </nav>
+            <h4 className="text-center color-1 mb-3 mb-sm-4 mb-xl-5">Сообщения</h4>
             <div className="chat unread">
                 <div className="photo">
                     <img src="/real_estate/img/photo2.png" alt="Шевцов Андрей"/>

@@ -872,6 +872,9 @@ main {
     @media (max-width: 1199px) {
         min-height: calc(100vh - 305px);
     }
+    @media (max-width: 991px) {
+        min-height: calc(100vh - 300px);
+    }
     @media (max-width: 767px) {
         min-height: calc(100vh - 105px);
     }
@@ -2370,9 +2373,16 @@ article {
 main.account {
     background: url(bg-imgs/bg2.png) no-repeat center bottom $gray-6;
     background-size: 100% auto;
+    @media (max-width: 991px){
+        background: #fff;
+    }
 }
 #sec-12 {
     nav.menu {
+        @media (max-width: 991px){
+            width: fit-content;
+            margin: 0 auto;
+        }
         ul {
             list-style: none;
             padding-left: 0px;
@@ -2390,6 +2400,16 @@ main.account {
                     font-weight: 600;
                     color: #44494C;
                     &.active {color: $color-1;}
+                    @media (max-width: 1399px){
+                        font-size: 1.25em; 
+                    }
+                    @media (max-width: 991px){
+                        font-size: 1.75em;
+                    }
+                    @media (max-width: 575px){
+                        font-size: 1.5em;
+                        font-weight: 500;
+                    }
                 }
                 .count {
                     width: 1.4em;
@@ -2410,6 +2430,21 @@ main.account {
         filter: drop-shadow(0px 1px 10px rgba(0, 0, 0, 0.1));
     }
     input:not([type="checkbox"]):not([type="radio"]), textarea, .inp {padding: .8em .85em;}
+    @media (max-width: 767px){
+        .review {
+            padding: 2em 2em 3em 2em;
+            .top {
+                top: 0.5em;
+                right: 0.5em;
+                .rating {
+                    img {
+                        width: 1em;
+                        height: 1em;
+                    }
+                }
+            }
+        }
+    }
 }
 .form-profile {
     .upload__image-wrapper {
@@ -2462,12 +2497,21 @@ main.account {
     }
 }
 .chat {
-    border-top: 1px solid $gray-5;
-    border-bottom: 1px solid $gray-5;
+    border-top: 1px solid $color-3;
+    border-bottom: 1px solid $color-3;
     padding: 2em 3em 2em 4em;
     display: flex;
     align-items: stretch;
     position: relative;
+    @media (max-width: 1399px){
+        padding: 1.5em 2em;
+    }
+    @media (max-width: 1199px){
+        padding: 1em;
+    }
+    @media (max-width: 991px){
+        border: 1px solid $color-3;
+    }
     .link-to-chat {
         position: absolute;
         top: 0px;
@@ -2484,9 +2528,14 @@ main.account {
         margin-right: 2em;
         position: relative;
         z-index: 1;
+        @media (max-width: 1199px){margin-right: 1em;}
         img {
             width: 115px;
             height: 115px;
+            @media (max-width: 767px){
+                width: 100px;
+                height: 100px;
+            }
         }
         .indicator {
             bottom: 8%;
@@ -2505,6 +2554,7 @@ main.account {
         width: calc(100% - (115px + 10em));
         position: relative;
         z-index:1;
+        @media (max-width: 1199px){width: calc(100% - (115px + 8em));}
         .message {
             font-size: .9em;
             font-weight: 300;
@@ -2573,9 +2623,11 @@ main.account {
         align-items: center;
         position: relative;
         z-index: 3;
+        @media (max-width: 1199px){margin-left: 1em;}
         .btn-del {
             opacity:0;
             transition: .2s ease;
+            @media (max-width: 1024px){opacity:1;}
             svg {
                 width: 1.1em;
                 height: 1.3em;
@@ -2592,6 +2644,7 @@ main.account {
             background-color: transparent;
             opacity:0;
             transition: .2s ease;
+            @media (max-width: 1024px){opacity:1;}
             svg {
                 width: 1.5em;
                 height: 1.5em;

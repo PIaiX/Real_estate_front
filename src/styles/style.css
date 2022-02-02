@@ -1270,6 +1270,12 @@ main {
   }
 }
 
+@media (max-width: 991px) {
+  main {
+    min-height: calc(100vh - 300px);
+  }
+}
+
 @media (max-width: 767px) {
   main {
     min-height: calc(100vh - 105px);
@@ -3616,6 +3622,21 @@ main.account {
   background-size: 100% auto;
 }
 
+@media (max-width: 991px) {
+  main.account {
+    background: #fff;
+  }
+}
+
+@media (max-width: 991px) {
+  #sec-12 nav.menu {
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    margin: 0 auto;
+  }
+}
+
 #sec-12 nav.menu ul {
   list-style: none;
   padding-left: 0px;
@@ -3650,6 +3671,25 @@ main.account {
   color: #146492;
 }
 
+@media (max-width: 1399px) {
+  #sec-12 nav.menu ul li a, #sec-12 nav.menu ul li button {
+    font-size: 1.25em;
+  }
+}
+
+@media (max-width: 991px) {
+  #sec-12 nav.menu ul li a, #sec-12 nav.menu ul li button {
+    font-size: 1.75em;
+  }
+}
+
+@media (max-width: 575px) {
+  #sec-12 nav.menu ul li a, #sec-12 nav.menu ul li button {
+    font-size: 1.5em;
+    font-weight: 500;
+  }
+}
+
 #sec-12 nav.menu ul li .count {
   width: 1.4em;
   height: 1.4em;
@@ -3678,6 +3718,20 @@ main.account {
 
 #sec-12 input:not([type="checkbox"]):not([type="radio"]), #sec-12 textarea, #sec-12 .inp {
   padding: .8em .85em;
+}
+
+@media (max-width: 767px) {
+  #sec-12 .review {
+    padding: 2em 2em 3em 2em;
+  }
+  #sec-12 .review .top {
+    top: 0.5em;
+    right: 0.5em;
+  }
+  #sec-12 .review .top .rating img {
+    width: 1em;
+    height: 1em;
+  }
 }
 
 .form-profile .upload__image-wrapper {
@@ -3770,8 +3824,8 @@ main.account {
 }
 
 .chat {
-  border-top: 1px solid #E0E0E0;
-  border-bottom: 1px solid #E0E0E0;
+  border-top: 1px solid #ECECEC;
+  border-bottom: 1px solid #ECECEC;
   padding: 2em 3em 2em 4em;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -3780,6 +3834,24 @@ main.account {
       -ms-flex-align: stretch;
           align-items: stretch;
   position: relative;
+}
+
+@media (max-width: 1399px) {
+  .chat {
+    padding: 1.5em 2em;
+  }
+}
+
+@media (max-width: 1199px) {
+  .chat {
+    padding: 1em;
+  }
+}
+
+@media (max-width: 991px) {
+  .chat {
+    border: 1px solid #ECECEC;
+  }
 }
 
 .chat .link-to-chat {
@@ -3804,9 +3876,22 @@ main.account {
   z-index: 1;
 }
 
+@media (max-width: 1199px) {
+  .chat .photo {
+    margin-right: 1em;
+  }
+}
+
 .chat .photo img {
   width: 115px;
   height: 115px;
+}
+
+@media (max-width: 767px) {
+  .chat .photo img {
+    width: 100px;
+    height: 100px;
+  }
 }
 
 .chat .photo .indicator {
@@ -3827,6 +3912,12 @@ main.account {
   width: calc(100% - (115px + 10em));
   position: relative;
   z-index: 1;
+}
+
+@media (max-width: 1199px) {
+  .chat .main {
+    width: calc(100% - (115px + 8em));
+  }
 }
 
 .chat .main .message {
@@ -3948,10 +4039,22 @@ main.account {
   z-index: 3;
 }
 
+@media (max-width: 1199px) {
+  .chat .end {
+    margin-left: 1em;
+  }
+}
+
 .chat .end .btn-del {
   opacity: 0;
   -webkit-transition: .2s ease;
   transition: .2s ease;
+}
+
+@media (max-width: 1024px) {
+  .chat .end .btn-del {
+    opacity: 1;
+  }
 }
 
 .chat .end .btn-del svg {
@@ -3973,6 +4076,12 @@ main.account {
   opacity: 0;
   -webkit-transition: .2s ease;
   transition: .2s ease;
+}
+
+@media (max-width: 1024px) {
+  .chat .end .btn-notice {
+    opacity: 1;
+  }
 }
 
 .chat .end .btn-notice svg {

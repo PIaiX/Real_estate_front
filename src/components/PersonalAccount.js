@@ -1,5 +1,5 @@
-import React from 'react';
-import { Routes, Route, NavLink } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Favorites from './account/Favorites';
 import UserAds from './account/UserAds';
 import UserProfile from './account/UserProfile';
@@ -8,65 +8,70 @@ import UserReviews from './account/UserReviews';
 import UserMessages from './account/UserMessages';
 import CreateService from './account/CreateService';
 import ChatPage from './account/ChatPage';
+import AccountMenu from './account/AccountMenu';
 
 export default function PersonalAccount() {
+    const [mob, setMob] = useState(false);
+
+    useEffect(() => {
+        function updateView() {
+            if(window.matchMedia("(max-width: 991px)").matches){
+                setMob(true);
+            } else {
+                setMob(false);
+            }
+        }
+        window.addEventListener('resize', updateView);
+        updateView();
+        return () => window.removeEventListener('resize', updateView);
+    }, []);
+
     return (
-        <main className="account py-5">
+        <main className="account py-3 py-sm-4 py-lg-5">
             <section id="sec-12" className="container">
-                <h1 className="text-center text-lg-start">Личный кабинет</h1>
-                <div className="row">
-                    <div className="col-3">
-                        <div className="frame p-4">
-                            <nav className="menu">
-                                <ul>
-                                    <li>
-                                        <img src="/real_estate/img/icons/pa-1.svg" alt="Профиль"/>
-                                        <NavLink to="profile">Профиль</NavLink>
-                                    </li>
-                                    <li>
-                                        <img src="/real_estate/img/icons/pa-2.svg" alt="Мои объявления"/>
-                                        <NavLink to="my-ads">Мои объявления</NavLink>
-                                    </li>
-                                    <li>
-                                        <img src="/real_estate/img/icons/pa-3.svg" alt="Мои услуги"/>
-                                        <NavLink to="my-services">Мои услуги</NavLink>
-                                    </li>
-                                    <li>
-                                        <img src="/real_estate/img/icons/pa-4.svg" alt="Избранное"/>
-                                        <NavLink to="favorites">Избранное</NavLink>
-                                    </li>
-                                    <li>
-                                        <img src="/real_estate/img/icons/pa-5.svg" alt="Сообщения"/>
-                                        <NavLink to="my-messages">Сообщения</NavLink>
-                                        <div className="count">2</div>
-                                    </li>
-                                    <li>
-                                        <img src="/real_estate/img/icons/pa-6.svg" alt="Отзывы"/>
-                                        <NavLink to="my-reviews">Отзывы</NavLink>
-                                    </li>
-                                    <li>
-                                        <img src="/real_estate/img/icons/pa-7.svg" alt="Выйти"/>
-                                        <button type="button">Выйти</button>
-                                    </li>
-                                </ul>
-                            </nav>
+                <div className="d-none d-lg-block">
+                    <h1 className="text-center text-lg-start">Личный кабинет</h1>
+                    <div className="row ">
+                        <div className="col-lg-4 col-xl-3">
+                            <div className="frame p-4">
+                                <AccountMenu />
+                            </div>
+                        </div>
+                        <div className="col-lg-8 col-xl-9">
+                            <div className="frame pt-4 pt-xxl-5">
+                                {
+                                    (mob === false) &&
+                                    <Routes>
+                                        <Route path="/" element={<UserProfile />} />
+                                        <Route path="profile" element={<UserProfile />} />
+                                        <Route path="my-ads" element={<UserAds />} />
+                                        <Route path="my-services" element={<UserServices />} />
+                                        <Route path="my-services/create" element={<CreateService />} />
+                                        <Route path="favorites" element={<Favorites />} />
+                                        <Route path="my-messages" element={<UserMessages /> } />
+                                        <Route path="my-messages/*" element={<ChatPage /> } />
+                                        <Route path="my-reviews" element={ <UserReviews /> } />
+                                    </Routes>
+                                }
+                            </div>
                         </div>
                     </div>
-                    <div className="col-9">
-                        <div className="frame pt-5">
-                            <Routes>
-                                <Route path="/" element={<UserProfile />} />
-                                <Route path="profile" element={<UserProfile />} />
-                                <Route path="my-ads" element={<UserAds />} />
-                                <Route path="my-services" element={<UserServices />} />
-                                <Route path="my-services/create" element={<CreateService />} />
-                                <Route path="favorites" element={<Favorites />} />
-                                <Route path="my-messages" element={<UserMessages /> } />
-                                <Route path="my-messages/*" element={<ChatPage /> } />
-                                <Route path="my-reviews" element={ <UserReviews /> } />
-                            </Routes>
-                        </div>
-                    </div>
+                </div>
+                <div className="d-block d-lg-none">
+                    {
+                        (mob === true) &&
+                        <Routes>
+                            <Route path="/" element={<AccountMenu />} />
+                            <Route path="profile" element={<UserProfile />} />
+                            <Route path="my-ads" element={<UserAds />} />
+                            <Route path="my-services" element={<UserServices />} />
+                            <Route path="my-services/create" element={<CreateService />} />
+                            <Route path="favorites" element={<Favorites />} />
+                            <Route path="my-messages" element={<UserMessages /> } />
+                            <Route path="my-messages/*" element={<ChatPage /> } />
+                            <Route path="my-reviews" element={ <UserReviews /> } />
+                        </Routes>
+                    }
                 </div>
             </section>
         </main>

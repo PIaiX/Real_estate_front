@@ -1,18 +1,22 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import InputRating from '../utilities/InputRating';
 
 export default function UserReviews() {
     return (
-        <div className="px-5 pb-5">
-            <h4 className="text-center color-1 mb-5">Отзывы</h4>
+        <div className="px-2 px-sm-4 px-xxl-5 pb-4 pb-xxl-5">
+            <nav className="d-block d-lg-none mb-3 mb-sm-5" aria-label="breadcrumb">
+                <Link to="/personal-account" className="gray-3">&#10094; Назад</Link>
+            </nav>
+            <h4 className="text-center color-1 mb-3 mb-sm-4 mb-xl-5">Отзывы</h4>
             <div className="review mb-3">
                 <img src="/real_estate/img/photo2.png" alt="Андрей Шевцов" className="photo d-none d-sm-block"/>
                 <div className="ms-sm-4">
-                    <div className="d-flex align-items-center d-sm-block mb-2 mb-sm-0">
+                    <div className="d-flex align-items-end align-items-sm-center d-sm-block mb-2 mb-sm-0">
                         <img src="/real_estate/img/photo2.png" alt="Андрей Шевцов" className="photo d-block d-sm-none"/>
                         <div className="ms-3 ms-sm-0">
                             <h4>Андрей Шевцов</h4>
-                            <h4>Риелтор</h4>
+                            <h4 className="mb-0">Риелтор</h4>
                         </div>
                     </div>
                     <div>
@@ -20,7 +24,7 @@ export default function UserReviews() {
                     </div>
                     <div className="top">
                         <div className="fs-11 gray-3">21.09.21</div>
-                        <div className="rating mt-2">
+                        <div className="rating mt-1 mt-sm-2">
                             <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
                             <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
                             <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
@@ -41,13 +45,13 @@ export default function UserReviews() {
                 </div>
             </div>
             <div className="review mb-3">
-                <img src="/real_estate/img/photo.png" alt="Дмитрова Анастасия" className="photo d-none d-sm-block"/>
+                <img src="/real_estate/img/photo2.png" alt="Андрей Шевцов" className="photo d-none d-sm-block"/>
                 <div className="ms-sm-4">
-                    <div className="d-flex align-items-center d-sm-block mb-2 mb-sm-0">
-                        <img src="/real_estate/img/photo2.png" alt="Дмитрова Анастасия" className="photo d-block d-sm-none"/>
+                    <div className="d-flex align-items-end align-items-sm-center d-sm-block mb-2 mb-sm-0">
+                        <img src="/real_estate/img/photo2.png" alt="Андрей Шевцов" className="photo d-block d-sm-none"/>
                         <div className="ms-3 ms-sm-0">
                             <h4>Андрей Шевцов</h4>
-                            <h4>Риелтор</h4>
+                            <h4 className="mb-0">Риелтор</h4>
                         </div>
                     </div>
                     <div>
@@ -55,7 +59,7 @@ export default function UserReviews() {
                     </div>
                     <div className="top">
                         <div className="fs-11 gray-3">21.09.21</div>
-                        <div className="rating mt-2">
+                        <div className="rating mt-1 mt-sm-2">
                             <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
                             <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
                             <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
@@ -134,7 +138,6 @@ export default function UserReviews() {
                                     <button type="button" className="btn btn-1 w-100 fs-11 text-uppercase">Удалить</button>
                                 </div>
                             </div>
-                            
                         </div>
                     </div>
                 </div>
