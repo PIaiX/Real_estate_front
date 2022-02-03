@@ -8,6 +8,8 @@ import Services from './Services';
 import UserPage from './UserPage';
 import Advertise from './Advertise';
 import PersonalAccount from './PersonalAccount';
+import Entrance from './Entrance';
+import Registration from './Registration';
 
 export default function AppRouter() {
     return (
@@ -20,6 +22,8 @@ export default function AppRouter() {
                 <Route path="/user" element={<UserPage />} />
                 <Route path="/advertise" element={<Advertise />} />
                 <Route path="/personal-account/*" element={<PersonalAccount />} />
+                <Route path="/entrance" element={<Entrance />} />
+                <Route path="/registration" element={<Registration />} />
             </Routes>
     )
 }

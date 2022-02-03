@@ -4,7 +4,7 @@ import { NavLink, Link } from 'react-router-dom';
 export default function AccountMenu() {
     return (
         <div>
-            <nav className="d-block d-lg-none mb-4 mb-sm-5" aria-label="breadcrumb">
+            <nav className="d-block d-lg-none mt-3 mb-4 mb-sm-5" aria-label="breadcrumb">
                 <Link to="/" className="gray-3">&#10094; На главную</Link>
             </nav>
             <h1 className="d-block d-lg-none text-center color-1 mb-4">Личный кабинет</h1>

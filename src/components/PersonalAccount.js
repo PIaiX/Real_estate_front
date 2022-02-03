@@ -27,7 +27,7 @@ export default function PersonalAccount() {
     }, []);
 
     return (
-        <main className="account py-3 py-sm-4 py-lg-5">
+        <main className="account py-sm-3 py-md-4 py-lg-5">
             <section id="sec-12" className="container">
                 <div className="d-none d-lg-block">
                     <h1 className="text-center text-lg-start">Личный кабинет</h1>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export default function UserMessages() {
     return (
         <div>
-            <nav className="d-block d-lg-none mb-3 mb-sm-5" aria-label="breadcrumb">
+            <nav className="d-block d-lg-none mt-3 mb-3 mb-sm-5" aria-label="breadcrumb">
                 <Link to="/personal-account" className="gray-3">&#10094; Назад</Link>
             </nav>
             <h4 className="text-center color-1 mb-3 mb-sm-4 mb-xl-5">Сообщения</h4>
@@ -15,7 +15,7 @@ export default function UserMessages() {
                 </div>
                 <div className="main">
                     <div className="title-font fs-11 fw-7 mb-1">Шевцов Андрей</div>
-                    <div className="fs-09 fw-5 mb-4">Тема: 1-к, квартира 52м2, ЖК “Столичный”</div>
+                    <div className="fs-09 fw-5 mb-3 mb-sm-4">Тема: 1-к, квартира 52м2, ЖК “Столичный”</div>
                     <div className="message">Добрый день. Когда можно будет приехать на просмотр? Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
                 </div>
                 <div className="new">
@@ -44,7 +44,7 @@ export default function UserMessages() {
                 </div>
                 <div className="main">
                     <div className="title-font fs-11 fw-7 mb-1">Наумова Кристина</div>
-                    <div className="fs-09 fw-5 mb-4">Тема: 1-к, квартира 52м2, Четаева 32</div>
+                    <div className="fs-09 fw-5 mb-3 mb-sm-4">Тема: 1-к, квартира 52м2, Четаева 32</div>
                     <div className="message">Возможен просмотр на завтра? </div>
                 </div>
                 <div className="new">
@@ -72,7 +72,7 @@ export default function UserMessages() {
                 </div>
                 <div className="main">
                     <div className="title-font fs-11 fw-7 mb-1">Калинина Татьяна</div>
-                    <div className="fs-09 fw-5 mb-4">Тема: 1-к, квартира 52м2, ЖК “Столичный”</div>
+                    <div className="fs-09 fw-5 mb-3 mb-sm-4">Тема: 1-к, квартира 52м2, ЖК “Столичный”</div>
                     <div className="reply">
                         <img src="/real_estate/img/photo.png" alt="Ирина Колесникова"/>
                         <div className="message">Добрый день. Когда можно будет приехать на просмотр? Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
@@ -107,7 +107,7 @@ export default function UserMessages() {
                 </div>
                 <div className="main">
                     <div className="title-font fs-11 fw-7 mb-1">Баженов Илья</div>
-                    <div className="fs-09 fw-5 mb-4">Тема: 1-к, квартира 52м2, Четаева 32</div>
+                    <div className="fs-09 fw-5 mb-3 mb-sm-4">Тема: 1-к, квартира 52м2, Четаева 32</div>
                     <div className="reply">
                         <img src="/real_estate/img/photo.png" alt="Ирина Колесникова"/>
                         <div className="message">Звоните мне на рабочий телефоен. Отвечаю с 9 до 19:00.</div>

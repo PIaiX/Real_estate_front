@@ -5,21 +5,27 @@ import InputFile from '../utilities/InputFile';
 export default function ChatPage() {
     return (
         <div>
-            <div className="w-100 d-flex align-items-center justify-content-between px-5 mb-5">
-                <Link to="/personal-account/my-messages">
+            <div className="chat-top px-2 px-md-4 px-xxl-5 mt-3 mb-md-4 mb-xxl-5">
+                <Link to="/personal-account/my-messages" className="d-flex align-items-center me-2">
                     <svg width="12" height="23" viewBox="0 0 12 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <line y1="-1" x2="14.5309" y2="-1" transform="matrix(-0.660679 -0.750669 0.709114 -0.705094 11.6006 21)" stroke="#C59C7E" stroke-width="2"/>
                         <line y1="-1" x2="14.5309" y2="-1" transform="matrix(-0.660679 0.750669 0.709114 0.705094 11.6006 2)" stroke="#C59C7E" stroke-width="2"/>
                     </svg>
-                    <span className="fs-09 ms-3">Назад</span>
+                    <span className="fs-09 ms-1 ms-md-3">Назад</span>
                 </Link>
-                <div className="text-center">
-                    <h4 className="text-center color-1">Шевцов Андрей</h4>
-                    <div className="fs-09 fw-5">Тема: 1-к, квартира 52м2, ЖК “Столичный”</div>
+                <div className="d-flex align-items-center">
+                    <div className="photo d-block d-lg-none me-1 me-sm-3">
+                        <img src="/real_estate/img/photo2.png" alt="Шевцов Андрей"/>
+                        <div className="indicator online"></div>
+                    </div>
+                    <div className="text-lg-center">
+                        <h4 className="text-lg-center color-1 mb-0">Шевцов Андрей</h4>
+                        <div className="fs-09 fw-5">Тема: 1-к, квартира 52м2, ЖК “Столичный”</div>
+                    </div>
                 </div>
                 <div className="d-flex align-items-center">
-                    <span className="fw-3 fs-09">Сейчас онлайн</span>
-                    <div className="btn-group ms-4">
+                    <span className="fw-3 fs-09 d-none d-xl-inline">Сейчас онлайн</span>
+                    <div className="btn-group ms-sm-4">
                         <button type="button" className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             <svg viewBox="0 0 6 27" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="3" cy="3" r="3"/>
@@ -35,7 +41,8 @@ export default function ChatPage() {
                 </div>
             </div>
             <div className="messages-list">
-                <div className="message">
+                <div className="chat-date">14.01.22</div>
+                <div className="message my">
                     <div className="photo">
                         <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
                         <div className="indicator online"></div>
@@ -84,7 +91,8 @@ export default function ChatPage() {
                         </button>
                     </div>
                 </div>
-                <div className="message">
+                <div className="chat-date">Сегодня</div>
+                <div className="message my">
                     <div className="photo">
                         <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
                         <div className="indicator online"></div>
@@ -136,10 +144,10 @@ export default function ChatPage() {
                     </div>
                 </div>
             </div>
-            <form className="send-message p-5">
+            <form className="send-message p-2 p-sm-3 p-md-4 p-xl-5">
                 <InputFile multiple={false}/>
-                <textarea placeholder="Введите сообщение" rows="2" className="ms-4"></textarea>
-                <button type="submit" className="ms-4">
+                <textarea placeholder="Введите сообщение" rows="2" className="ms-2 ms-md-4"></textarea>
+                <button type="submit" className="ms-2 ms-md-4">
                     <img src="/real_estate/img/icons/send.svg" alt="отправить"/>
                 </button>
             </form>

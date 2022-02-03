@@ -5,7 +5,7 @@ import InputRating from '../utilities/InputRating';
 export default function UserReviews() {
     return (
         <div className="px-2 px-sm-4 px-xxl-5 pb-4 pb-xxl-5">
-            <nav className="d-block d-lg-none mb-3 mb-sm-5" aria-label="breadcrumb">
+            <nav className="d-block d-lg-none mt-3 mb-3 mb-sm-5" aria-label="breadcrumb">
                 <Link to="/personal-account" className="gray-3">&#10094; Назад</Link>
             </nav>
             <h4 className="text-center color-1 mb-3 mb-sm-4 mb-xl-5">Отзывы</h4>

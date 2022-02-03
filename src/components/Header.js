@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import CustomSelect from './utilities/CustomSelect';
 
 export default function Header() {
@@ -7,7 +7,9 @@ export default function Header() {
         <>
             <header>
                 <div className="container">
-                    <img src="/real_estate/img/Лого.png" alt="Название сайта" className="logo order-1 me-lg-auto" />
+                    <Link to="/" className="order-1 me-lg-auto">
+                        <img src="/real_estate/img/Лого.png" alt="Название сайта" className="logo" />
+                    </Link>
                     <nav className="d-none d-lg-flex order-2">
                         <NavLink to="/">Главная</NavLink>
                         <div className="dropdown">
@@ -31,15 +33,15 @@ export default function Header() {
                         <a href="/">Задать вопрос</a>
                     </nav>
                     <div className="d-none d-md-flex order-4 order-lg-3">
-                        <button type="button" className="ms-4">
+                        <Link to="/personal-account/my-messages" className="ms-4">
                             <img src="/real_estate/img/icons/email.svg" alt="email"/>
-                        </button>
-                        <button type="button" className="ms-3 ms-xl-4">
+                        </Link>
+                        <Link to="/personal-account/favorites" className="ms-3 ms-xl-4">
                             <img src="/real_estate/img/icons/favorite.svg" alt="favorite"/>
-                        </button>
-                        <NavLink to="/personal-account" className="ms-3 ms-xl-4">
+                        </Link>
+                        <Link to="/entrance" className="ms-3 ms-xl-4">
                             <img src="/real_estate/img/icons/user.svg" alt="аккаунт"/>
-                        </NavLink>
+                        </Link>
                     </div>
                     
                     {/* <button type="button" className="ms-md-4 btn btn-1 text-uppercase p-2 order-3 order-lg-4">Подать объявление</button> */}
@@ -57,12 +59,12 @@ export default function Header() {
                 <div className="offcanvas-body">
                     <nav>
                         <ul data-bs-dismiss="offcanvas">
-                            <li><NavLink to="/">Главная</NavLink></li>
+                            <li><Link to="/">Главная</Link></li>
                             <li><a href="/">Услуги</a></li>
                             <li><a href="/">Задать вопрос</a></li>
-                            <li><a href="/">Личный кабинет</a></li>
-                            <li><a href="/">Избранное</a></li>
-                            <li><a href="/">Сообщения</a></li>
+                            <li><Link to="/personal-account">Личный кабинет</Link></li>
+                            <li><Link to="/personal-account/favorites">Избранное</Link></li>
+                            <li><Link to="/personal-account/my-messages">Сообщения</Link></li>
                         </ul>
                     </nav>
                     <button type="button" className="btn-close" data-bs-dismiss="offcanvas">
