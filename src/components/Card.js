@@ -4,10 +4,16 @@ import HoverSlider from './utilities/HoverSlider';
 import ImgPreview from './utilities/ImgPreview';
 import ShowPhone from './utilities/ShowPhone';
 import { NavLink } from 'react-router-dom';
+import * as Scroll from 'react-scroll';
+import { animateScroll as scroll } from 'react-scroll';
 
 export default function Card(props) {
     const type = props.type;
     const images = props.images;
+
+    const scrollToTop = () => {
+        scroll.scrollToTop();
+    };
 
     if(type === 'as-a-list') {
         return (
@@ -21,7 +27,7 @@ export default function Card(props) {
                         <div className="h-100 d-flex flex-column justify-content-between align-items-start">
                             <div>
                                 <div className="color-1 title-font fw-7 fs-15 mb-3 mb-xxl-4">
-                                    <NavLink to="/card-page">{props.title}</NavLink>
+                                    <NavLink to="/card-page" onClick={() => scrollToTop()}>{props.title}</NavLink>
                                 </div>
                                 <div className="d-flex align-items-center mb-2 mb-xxl-3">
                                     <img src="/real_estate/img/icons/pin.svg" alt="адрес"/>
@@ -125,7 +131,7 @@ export default function Card(props) {
                 <div className="p-3">
                     <div className="d-flex justify-content-between mb-3">
                         <div className="title color-1 title-font fw-7 fs-11">
-                            <NavLink to="/card-page">{props.title}</NavLink>
+                            <NavLink to="/card-page" onClick={() => scrollToTop()}>{props.title}</NavLink>
                         </div>
                         <div className="title-font black fw-7 fs-11">{props.price} ₽</div>
                     </div>

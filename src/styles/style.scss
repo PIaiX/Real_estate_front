@@ -2479,6 +2479,25 @@ main.account {
         }
     }
 }
+
+.input-tag {
+    position: relative;
+    input {
+        position: relative;
+        z-index: 1; 
+    }
+    button {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        height: 100%;
+        width: 2em;
+        z-index: 2;
+        font-size: 1.5em;
+        color: #c59c7e;
+        @include flex-center();
+    }
+}
 .tag-list {
     display: flex;
     flex-wrap:wrap;
@@ -2602,6 +2621,10 @@ main.account {
                 background: none;
                 padding: 0px;
                 @include flex-center();
+                i {
+                    font-size: 1.8em;
+                    color: $color-1;
+                }
                 img {
                     max-width: 100%;
                     object-fit: scale-down;
@@ -2660,24 +2683,45 @@ main.account {
                 fill: none;
                 path {fill: $gray-4;}
             }
-            &:hover {
+            i {
+                font-size: 1.4em;
+                color: $gray-4;
+            }
+            &:hover, &:focus {
                 svg {
                     path {fill: $color-1;}
                 }
+                i {color: $color-1;}
+            }
+            &:active {
+                i {color: $color-2;}
             }
         }
         .btn-notice {
             background-color: transparent;
             opacity:0;
             transition: .2s ease;
-            @media (max-width: 1024px){opacity:1;}
+            @media (max-width: 1024px){
+                opacity:1;
+            }
             svg {
                 width: 1.5em;
                 height: 1.5em;
             }
+            i {
+                font-size: 1.4em;
+                color: $gray-4;
+            }
+            &:hover, &:focus {
+                i {color: $color-1;}
+            }
+            &:active {
+                i {color: $color-2;}
+            }
         }
     }
     &:hover {
+        background-color: #F1F7FA;
         .end {
             .btn-notice, .btn-del {
                 opacity:1;
@@ -2691,6 +2735,7 @@ main.account {
     align-items: center;
     justify-content: space-between;
     @media (max-width: 767px){
+        background-color: #fff;
         border-bottom: 1px solid $color-3;
         padding-bottom: 1em;
     }
@@ -2702,6 +2747,7 @@ main.account {
         position: sticky;
         top:48px;
         left:0px;
+        z-index: 10;
     }
     a {
         svg {
@@ -2838,6 +2884,11 @@ main.account {
                     height: 100%;
                 }
             }
+            i {
+                font-size: 1.6em;
+                color: $color-1;
+                line-height: .8em;
+            }
             @media (max-width: 991px){
                 position: absolute;
                 bottom: 1.2em;
@@ -2889,10 +2940,18 @@ main.account {
                         fill: $gray-4;
                     }
                 }
+                i {
+                    font-size: 1.1em;
+                    color: $gray-4;
+                }
                 &:hover, &:focus {
                     svg {
                         path{fill: $color-1;}
                     }
+                    i {color:$color-1;}
+                }
+                &:active {
+                    i{color:$color-2;}
                 }
             }
         }

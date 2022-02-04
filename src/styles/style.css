@@ -3784,6 +3784,35 @@ main.account {
   height: .9em;
 }
 
+.input-tag {
+  position: relative;
+}
+
+.input-tag input {
+  position: relative;
+  z-index: 1;
+}
+
+.input-tag button {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 100%;
+  width: 2em;
+  z-index: 2;
+  font-size: 1.5em;
+  color: #c59c7e;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
 .tag-list {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -4008,6 +4037,11 @@ main.account {
           align-items: center;
 }
 
+.chat .main .reply .mark i {
+  font-size: 1.8em;
+  color: #146492;
+}
+
 .chat .main .reply .mark img {
   max-width: 100%;
   -o-object-fit: scale-down;
@@ -4120,8 +4154,21 @@ main.account {
   fill: #BDBDBD;
 }
 
-.chat .end .btn-del:hover svg path {
+.chat .end .btn-del i {
+  font-size: 1.4em;
+  color: #BDBDBD;
+}
+
+.chat .end .btn-del:hover svg path, .chat .end .btn-del:focus svg path {
   fill: #146492;
+}
+
+.chat .end .btn-del:hover i, .chat .end .btn-del:focus i {
+  color: #146492;
+}
+
+.chat .end .btn-del:active i {
+  color: #C59C7E;
 }
 
 .chat .end .btn-notice {
@@ -4142,6 +4189,23 @@ main.account {
   height: 1.5em;
 }
 
+.chat .end .btn-notice i {
+  font-size: 1.4em;
+  color: #BDBDBD;
+}
+
+.chat .end .btn-notice:hover i, .chat .end .btn-notice:focus i {
+  color: #146492;
+}
+
+.chat .end .btn-notice:active i {
+  color: #C59C7E;
+}
+
+.chat:hover {
+  background-color: #F1F7FA;
+}
+
 .chat:hover .end .btn-notice, .chat:hover .end .btn-del {
   opacity: 1;
 }
@@ -4160,6 +4224,7 @@ main.account {
 
 @media (max-width: 767px) {
   .chat-top {
+    background-color: #fff;
     border-bottom: 1px solid #ECECEC;
     padding-bottom: 1em;
   }
@@ -4175,6 +4240,7 @@ main.account {
     position: sticky;
     top: 48px;
     left: 0px;
+    z-index: 10;
   }
 }
 
@@ -4391,6 +4457,12 @@ main.account {
   }
 }
 
+.messages-list .message .mark i {
+  font-size: 1.6em;
+  color: #146492;
+  line-height: .8em;
+}
+
 @media (max-width: 991px) {
   .messages-list .message .mark {
     position: absolute;
@@ -4469,8 +4541,21 @@ main.account {
   fill: #BDBDBD;
 }
 
+.messages-list .message .btns button i {
+  font-size: 1.1em;
+  color: #BDBDBD;
+}
+
 .messages-list .message .btns button:hover svg path, .messages-list .message .btns button:focus svg path {
   fill: #146492;
+}
+
+.messages-list .message .btns button:hover i, .messages-list .message .btns button:focus i {
+  color: #146492;
+}
+
+.messages-list .message .btns button:active i {
+  color: #C59C7E;
 }
 
 .messages-list .message:hover .btns button {

@@ -12,7 +12,11 @@ export default function InputPassword(props) {
         <div className="password">
             <input type={(visible) ? "text" : "password"} name={props.name} autocomplete="current-password" minlength="4" maxlength="8" size="8" required/>
             <button type="button" onClick={() => handleClick()}>
-                <img src="/real_estate/img/icons/eye.svg" alt="показать"/>
+                {
+                    (visible) ?
+                    <img src="/real_estate/img/icons/eye-slash.svg" alt="скрыть"/>
+                    : <img src="/real_estate/img/icons/eye.svg" alt="показать"/>
+                }
             </button>
         </div>
     )

@@ -25,7 +25,7 @@ export default function UserAds() {
     };
 
     return (
-        <div className="px-sm-3 px-md-4 px-xxl-5 pb-sm-4 pb-xxl-5">
+        <div className="px-sm-3 px-md-4 px-xxl-5 pb-3 pb-sm-4 pb-xxl-5">
             <nav className="d-block d-lg-none mt-3 mb-3 mb-sm-5" aria-label="breadcrumb">
                 <Link to="/personal-account" className="gray-3">&#10094; Назад</Link>
             </nav>

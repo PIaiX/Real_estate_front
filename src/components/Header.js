@@ -66,7 +66,7 @@ export default function Header() {
                     <nav>
                         <ul data-bs-dismiss="offcanvas">
                             <li><Link to="/" onClick={() => scrollToTop()}>Главная</Link></li>
-                            <li><a href="/">Услуги</a></li>
+                            <li><Link to="/service" onClick={() => scrollToTop()}>Услуги</Link></li>
                             <li><a href="/">Задать вопрос</a></li>
                             <li><Link to="/personal-account" onClick={() => scrollToTop()}>Личный кабинет</Link></li>
                             <li><Link to="/personal-account/favorites" onClick={() => scrollToTop()}>Избранное</Link></li>

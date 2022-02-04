@@ -1,6 +1,7 @@
 import React from 'react';
 import { HashRouter } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles/fonts.css';
 import './styles/style.min.css';
 import Header from './components/Header';

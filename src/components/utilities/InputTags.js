@@ -3,18 +3,7 @@ import React, { useState, useEffect } from 'react'
 export default function InputTags(props) {
     const [tag, setTag] = useState([]);
 
-    let res = (item) => {
-        return (
-            <div className="tag">
-                <span>{item}</span>
-                <button type="button">
-                    <img src="/real_estate/img/icons/delete3.svg" alt="удалить" />
-                </button>
-            </div>
-        )
-    };
-
-    const onKeyDown = e => {
+    const onKeyDown = (e) => {
         if (e.keyCode === 13) {
             e.preventDefault();
             if (e.target.value !== '') {
@@ -25,9 +14,23 @@ export default function InputTags(props) {
         }
     }
 
+    const onClickHandler = () => {
+        let inp = document.getElementById(props.name);
+        if (inp.value !== '') {
+            setTag([...tag, inp.value]);
+            console.log(tag);
+            inp.value = "";
+        }
+    }
+
     return (
         <div>
-            <input type="text" id={props.name} name={props.name} className={props.class} placeholder={props.placeholder} onKeyDown={onKeyDown} />
+            <div className="input-tag">
+                <input type="text" id={props.name} name={props.name} className={props.class} placeholder={props.placeholder} onKeyDown={onKeyDown}/>
+                <button type="button" onClick={() => onClickHandler()}>
+                    <i class="bi bi-arrow-return-left"></i>
+                </button>
+            </div>
             <div className="tag-list mt-3">
                 {
                     (tag) &&
