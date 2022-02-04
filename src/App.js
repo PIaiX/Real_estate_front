@@ -11,7 +11,6 @@ import { Footer } from './components/Footer';
 function App() {
   return (
     <HashRouter>
-  
       <Header />
       <AppRouter />
       <Footer />

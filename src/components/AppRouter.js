@@ -10,6 +10,7 @@ import Advertise from './Advertise';
 import PersonalAccount from './PersonalAccount';
 import Entrance from './Entrance';
 import Registration from './Registration';
+import Articles from './Articles';
 
 export default function AppRouter() {
     return (
@@ -19,6 +20,7 @@ export default function AppRouter() {
                 <Route path="/card-page" element={<CardPage />} />
                 <Route path="/article-page" element={<ArticlePage />} />
                 <Route path="/service" element={<Services />} />
+                <Route path="/articles" element={<Articles />} />
                 <Route path="/user" element={<UserPage />} />
                 <Route path="/advertise" element={<Advertise />} />
                 <Route path="/personal-account/*" element={<PersonalAccount />} />

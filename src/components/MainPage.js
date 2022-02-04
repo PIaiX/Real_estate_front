@@ -2,8 +2,15 @@ import React from 'react';
 import { Slider2 } from './Slider2';
 import { Slider1 } from './Slider1';
 import Tile from './utilities/Tile';
+import { Link } from 'react-router-dom';
+import * as Scroll from 'react-scroll';
+import { animateScroll as scroll } from 'react-scroll';
 
 export default function MainPage() {
+    const scrollToTop = () => {
+        scroll.scrollToTop();
+    };
+
     return (
         <main>
             <section id="sec-1">
@@ -23,11 +30,11 @@ export default function MainPage() {
 
                 <Tile img="/real_estate/img/icons/icon-5.svg" titles={['Коммерческая недвижимость']} hoverLinks={[{name: 'Купить', link: '/catalog'}, {name: 'Сдать', link: '/catalog'}, {name: 'Продать', link: '/catalog'}, {name: 'Снять', link: '/catalog'}]}/>
 
-                <Tile img="/real_estate/img/icons/icon-6.svg" simpleLink={{title: 'Ипотека', url: '/'}}/>
-                <Tile img="/real_estate/img/icons/icon-7.svg" simpleLink={{title: 'Дизайн', url: '/'}}/>
-                <Tile img="/real_estate/img/icons/icon-8.svg" simpleLink={{title: 'Ремонт', url: '/'}}/>
-                <Tile img="/real_estate/img/icons/icon-9.svg" simpleLink={{title: 'Грузоперевозки', url: '/'}}/>
-                <Tile img="/real_estate/img/icons/icon-10.svg" simpleLink={{title: 'Услуги риелторов', url: '/'}}/>
+                <Tile img="/real_estate/img/icons/icon-6.svg" simpleLink={{title: 'Ипотека', url: '/service'}}/>
+                <Tile img="/real_estate/img/icons/icon-7.svg" simpleLink={{title: 'Дизайн', url: '/service'}}/>
+                <Tile img="/real_estate/img/icons/icon-8.svg" simpleLink={{title: 'Ремонт', url: '/service'}}/>
+                <Tile img="/real_estate/img/icons/icon-9.svg" simpleLink={{title: 'Грузоперевозки', url: '/service'}}/>
+                <Tile img="/real_estate/img/icons/icon-10.svg" simpleLink={{title: 'Услуги риелторов', url: '/service'}}/>
             </section>
         
             <section id="sec-3" className="container mb-6">
@@ -91,6 +98,9 @@ export default function MainPage() {
                     <h3>Статьи</h3>
                     <div className="position-relative">
                         <Slider2 />
+                    </div>
+                    <div className="text-center mt-4">
+                        <Link to="/articles" onClick={() => scrollToTop()} className="fs-12 color-1 bb-1">Смотреть все статьи</Link>
                     </div>
                 </div>
             </section>

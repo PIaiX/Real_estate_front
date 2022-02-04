@@ -1,9 +1,16 @@
 import React, {useState, useEffect} from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
+import * as Scroll from 'react-scroll';
+import { animateScroll as scroll } from 'react-scroll';
+
 
 export default function Tile(props) {
     const [mob, setMob] = useState(false);
     const [visibility, setVisibility] = useState(false);
+
+    const scrollToTop = () => {
+        scroll.scrollToTop();
+    };
 
     useEffect(() => {
         function changeTile() {
@@ -28,7 +35,7 @@ export default function Tile(props) {
                 <div className="links">
                     {
                         (props.simpleLink)&&
-                        <a className="title" href={props.simpleLink.url}>{props.simpleLink.title}</a>
+                        <Link className="title" to={props.simpleLink.url} onClick={() => scrollToTop()}>{props.simpleLink.title}</Link>
                     }
                     {
                         (titles)&&
@@ -56,7 +63,7 @@ export default function Tile(props) {
                                 hoverLinks.map(function(item) {
                                     return (
                                         <li>
-                                            <NavLink key={item.name} to={item.link}>{item.name}</NavLink>
+                                            <NavLink key={item.name} to={item.link} onClick={() => scrollToTop()}>{item.name}</NavLink>
                                         </li>
                                     )
                                 })
@@ -74,7 +81,7 @@ export default function Tile(props) {
                 <div className="links">
                     {
                         (props.simpleLink)&&
-                        <a className="title" href={props.simpleLink.url}>{props.simpleLink.title}</a>
+                        <Link className="title" to={props.simpleLink.url} onClick={() => scrollToTop()}>{props.simpleLink.title}</Link>
                     }
                     {
                         (titles)&&
@@ -91,7 +98,7 @@ export default function Tile(props) {
                                 hoverLinks.map(function(item) {
                                     return (
                                         <div>
-                                            <NavLink key={item.name} to={item.link}>{item.name}</NavLink>
+                                            <NavLink key={item.name} to={item.link} onClick={() => scrollToTop()}>{item.name}</NavLink>
                                         </div>
                                     )
                                 })

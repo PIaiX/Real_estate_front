@@ -20,7 +20,7 @@ export default function Services() {
             </div>
 
             <div className="sec-9 container">
-                <h1 className="text-center text-md-left">Услуги</h1>
+                <h1 className="text-center text-md-start">Услуги</h1>
             </div>
 
             <section className="sec-9 d-md-none mb-4">
