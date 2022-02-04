@@ -71,6 +71,7 @@ export default function Header() {
                             <li><Link to="/personal-account" onClick={() => scrollToTop()}>Личный кабинет</Link></li>
                             <li><Link to="/personal-account/favorites" onClick={() => scrollToTop()}>Избранное</Link></li>
                             <li><Link to="/personal-account/my-messages" onClick={() => scrollToTop()}>Сообщения</Link></li>
+                            <li><Link to="/articles" onClick={() => scrollToTop()}>Статьи</Link></li>
                         </ul>
                     </nav>
                     <button type="button" className="btn-close" data-bs-dismiss="offcanvas">
