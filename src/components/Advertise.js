@@ -9,6 +9,9 @@ export default function Advertise() {
     const [images, setImages] = React.useState([]);
     const [mainImg, setMainImg] = useState(0);
 
+    const [deal, setDeal] = useState('sale'); // тип сделки
+    const [proptype, setProptype] = useState('residential'); // тип недвижимости
+
     const [activeField, setActiveField] = useState(1);
 
     const maxNumber = 24;
@@ -107,7 +110,7 @@ export default function Advertise() {
                     </div>
                     <div className="col-lg-9">
                         <fieldset data-show={(activeField === 1) ? 'true' : 'false'} name="anchor-1" className="element frame p-lg-4 mb-4 mb-lg-5">
-                            <legend className="text-center text-lg-left title-font fw-7 fs-15 mb-md-4">Тип объявления</legend>
+                            <legend className="text-center text-lg-start title-font fw-7 fs-15 mb-md-4">Тип объявления</legend>
                             <div className="row">
                                 <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">Владелец объявления*:</div>
                                 <div className="col-md-9">
@@ -134,13 +137,13 @@ export default function Advertise() {
                                     <div className="row row-cols-3 row-cols-xxl-4">
                                         <div>
                                             <label>
-                                                <input type="radio" name="deal" value="Аренда" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="deal" value="rent" required onChange={(e) => isFilled(e.target.closest('fieldset')), (e) => setDeal(e.target.value)}/>
                                                 <span className="fs-11 ms-2">Аренда</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="deal" value="Продажа" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="deal" value="sale" required onChange={(e) => isFilled(e.target.closest('fieldset')), (e) => setDeal(e.target.value)}/>
                                                 <span className="fs-11 ms-2">Продажа</span>
                                             </label>
                                         </div>
@@ -148,19 +151,45 @@ export default function Advertise() {
                                 </div>
                             </div>
                             <hr className="d-none d-md-block my-4" />
+                            <div className={(deal === "rent")? "row" : "d-none"}>
+                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">Тип аренды*:</div>
+                                <div className="col-md-9">
+                                    <div className="row row-cols-3 row-cols-xxl-4">
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="rental-type" value="Длительно" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <span className="fs-11 ms-2">Длительно</span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="rental-type" value="Несколько месяцев" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <span className="fs-11 ms-2">Несколько месяцев</span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="rental-type" value="Посуточно" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <span className="fs-11 ms-2">Посуточно</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr className={(deal === "rent")? "d-none d-md-block my-4" : "d-none"}/>
                             <div className="row">
                                 <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">Тип недвижимости*:</div>
                                 <div className="col-md-9">
                                     <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
                                         <div>
                                             <label>
-                                                <input type="radio" name="property-type" value="Жилая" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="property-type" value="residential" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
                                                 <span className="fs-11 ms-2">Жилая</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="property-type" value="Коммерческая" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="property-type" value="commercial" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
                                                 <span className="fs-11 ms-2">Коммерческая</span>
                                             </label>
                                         </div>
@@ -244,6 +273,7 @@ export default function Advertise() {
                                 </div>
                             </div>
                         </fieldset>
+                        
                         <fieldset data-show={(activeField === 2) ? 'true' : 'false'} name="anchor-2" className="element frame p-lg-4 mb-4 mb-lg-5">
                             <legend className="text-center text-lg-left title-font fw-7 fs-15 mb-md-4">Об объекте</legend>
                             <div className="row align-items-center">
@@ -517,6 +547,7 @@ export default function Advertise() {
                                 </div>
                             </div>
                         </fieldset>
+                        
                         <fieldset data-show={(activeField === 3) ? 'true' : 'false'} name="anchor-3" className="element frame p-lg-4 mb-4 mb-lg-5">
                             <legend className="title-font fw-7 fs-15 mb-4">Описание и фото</legend>
                             <div className="row mb-2">
@@ -588,7 +619,8 @@ export default function Advertise() {
                                     <div className="fs-08 gray-3 mt-2">Не допускаются к размещению фотографии с водяными знаками, чужих объектов и рекламные баннеры. JPG, PNG или GIF. Максимальный размер файла 10 мб</div>
                                 </div>
                             </div>
-                            <div className="row row-cols-2 row-cols-md-3 gx-2 gx-sm-4 justify-content-center mt-4">
+                            
+                            <div className="d-lg-none row row-cols-2 row-cols-md-3 gx-2 gx-sm-4 justify-content-center mt-4">
                                 <div>
                                     <button type="button" className="btn btn-2 w-100" onClick={()=>setActiveField(2)}>Назад</button>
                                 </div>
@@ -597,6 +629,7 @@ export default function Advertise() {
                                 </div>
                             </div>
                         </fieldset>
+                        
                         <fieldset data-show={(activeField === 4) ? 'true' : 'false'} name="anchor-4" className="element frame p-lg-4 mb-4 mb-lg-5">
                             <legend className="title-font fw-7 fs-15 mb-4">О здании</legend>
                             <div className="row align-items-center">
@@ -725,7 +758,8 @@ export default function Advertise() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="row row-cols-2 row-cols-sm-3 justify-content-center gx-2 gx-sm-4 mt-4">
+
+                            <div className="d-lg-none row row-cols-2 row-cols-sm-3 justify-content-center gx-2 gx-sm-4 mt-4">
                                 <div>
                                     <button type="button" className="btn btn-2 w-100" onClick={()=>setActiveField(3)}>Назад</button>
                                 </div>
@@ -734,41 +768,78 @@ export default function Advertise() {
                                 </div>
                             </div>
                         </fieldset>
+                        
                         <fieldset data-show={(activeField === 5) ? 'true' : 'false'} name="anchor-5" className="element frame p-lg-4 mb-4 mb-lg-5">
-                            <legend className="title-font fw-7 fs-15 mb-4">Условия сделки</legend>
-                            <div className="row align-items-center mt-4 mt-sm-5 mb-4">
-                                <div className="col-md-3 fs-11 title-req mb-3 m-md-0">Цена*:</div>
-                                <div className="col-md-9">
-                                    <input type="number" className="fs-11 price" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                            <legend className="title-font fw-7 fs-15 mb-5">Условия сделки</legend>
+                            {/* условия ПРОДАЖИ */}
+                            <div className={(deal === "sale")? "d-block" : "d-none"}>
+                                <div className="row align-items-center mt-4 mt-sm-5 mb-4">
+                                    <div className="col-md-3 fs-11 title-req mb-3 m-md-0">Цена*:</div>
+                                    <div className="col-md-9">
+                                        <input type="number" className="fs-11 price" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                    </div>
+                                </div>
+                                <div className="row align-items-center mt-4 mt-sm-5 mb-4">
+                                    <div className="col-md-3 fs-11 title-req mb-3 m-md-0">Ипотека*:</div>
+                                    <div className="col-md-9 d-flex">
+                                        <label className="me-5">
+                                            <input type="radio" name="hypothec" value="Да" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                            <span className="fs-11 ms-2">Да</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="hypothec" value="Нет" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                            <span className="fs-11 ms-2">Нет</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div className="row align-items-center mt-4 mt-sm-5 mb-4">
+                                    <div className="col-md-3 fs-11 title mb-3 m-md-0">Обременения:</div>
+                                    <div className="col-md-9 d-flex">
+                                        <label className="me-5">
+                                            <input type="radio" name="difficulties" value="Да" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                            <span className="fs-11 ms-2">Да</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="difficulties" value="Нет" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                            <span className="fs-11 ms-2">Нет</span>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="row align-items-center mt-4 mt-sm-5 mb-4">
-                                <div className="col-md-3 fs-11 title-req mb-3 m-md-0">Ипотека*:</div>
-                                <div className="col-md-9 d-flex">
-                                    <label className="me-5">
-                                        <input type="radio" name="hypothec" value="Да" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
-                                        <span className="fs-11 ms-2">Да</span>
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="hypothec" value="Нет" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
-                                        <span className="fs-11 ms-2">Нет</span>
-                                    </label>
+                            {/* условия АРЕНДЫ */}
+                            <div className={(deal === "rent")? "d-block" : "d-none"}>
+                                <div className="row align-items-center mb-4">
+                                    <div className="col-md-3 mb-3 m-md-0">
+                                        <div className="fs-11 title-req">Арендная плата*:</div>
+                                        <small className="gray-3 fs-08">Без коммунальных услуг</small>
+                                    </div>
+                                    <div className="col-md-9">
+                                        <input type="number" className="fs-11 price" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                    </div>
+                                </div>
+                                <div className="row mb-4">
+                                    <div className="col-md-3 mb-3 m-md-0 fs-11 title-req">Коммунальные платежи:</div>
+                                    <div className="col-md-9">
+                                        <input type="number" className="fs-11 price" required/>
+                                        <div className="d-flex mt-2">
+                                            <input type="checkbox" name="meter"/>
+                                            <span className="ms-2">Счетчики оплачиваются отдельно</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row mb-4">
+                                    <div className="col-md-3 mb-3 m-md-0 fs-11 title-req">Залог*:</div>
+                                    <div className="col-md-9">
+                                        <input type="number" className="fs-11" required/>
+                                        <div className="d-flex mt-2">
+                                            <input type="checkbox" name="meter"/>
+                                            <span className="ms-2">Без залога</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="row align-items-center mt-4 mt-sm-5 mb-4">
-                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Обременения:</div>
-                                <div className="col-md-9 d-flex">
-                                    <label className="me-5">
-                                        <input type="radio" name="difficulties" value="Да" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
-                                        <span className="fs-11 ms-2">Да</span>
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="difficulties" value="Нет" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
-                                        <span className="fs-11 ms-2">Нет</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div className="row row-cols-2 row-cols-sm-3 justify-content-center gx-2 gx-sm-4 mt-4">
+                            {/* для мобильных устроийств */}
+                            <div className="d-lg-none row row-cols-2 row-cols-sm-3 justify-content-center gx-2 gx-sm-4 mt-4">
                                 <div>
                                     <button type="button" className="btn btn-2 w-100" onClick={()=>setActiveField(4)}>Назад</button>
                                 </div>
@@ -777,6 +848,7 @@ export default function Advertise() {
                                 </div>
                             </div>
                         </fieldset>
+
                         <div className="d-flex justify-content-between mb-3">
                             <div>*- поля обязательные для заполнения</div>
                             <button type="button" className="d-none d-lg-block color-1 fs-11 fw-5 bb-1">Очистить форму</button>
