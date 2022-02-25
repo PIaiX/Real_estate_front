@@ -112,6 +112,11 @@ input[type="number"].length {
   padding: .5em 1.5em .5em .5em;
 }
 
+input[type="number"].percent {
+  background-image: url(bg-imgs/percent.svg);
+  padding: .5em 1.5em .5em .5em;
+}
+
 input[type="radio"] {
   appearance: none;
   -webkit-appearance: none;

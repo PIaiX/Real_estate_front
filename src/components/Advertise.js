@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useRef} from 'react';
 import { NavLink } from 'react-router-dom';
 import ImageUploading from "react-images-uploading";
+import CustomSelect from './utilities/CustomSelect';
 import * as Scroll from 'react-scroll';
 import { Link, animateScroll as scroll } from 'react-scroll';
 
@@ -8,15 +9,8 @@ import { Link, animateScroll as scroll } from 'react-scroll';
 export default function Advertise() {
     const [images, setImages] = React.useState([]);
     const [mainImg, setMainImg] = useState(0);
-
-    const [deal, setDeal] = useState('sale'); // тип сделки
-    const [proptype, setProptype] = useState('residential'); // тип недвижимости
-
-    const [activeField, setActiveField] = useState(1);
-
     const maxNumber = 24;
     const onChange = (imageList, addUpdateIndex) => {
-        console.log(imageList, addUpdateIndex);
         setImages(imageList);
     };
 
@@ -24,64 +18,75 @@ export default function Advertise() {
         scroll.scrollToTop();
     };
 
-    const notNull = (element, index, array) => {
-        const textORnum = element.type == 'text' || element.type == 'number' || element.tagName == 'textarea';
-        const chekboxORradio = element.type == 'radio' || element.type == 'checkbox';
-        if(chekboxORradio){
-            let name = element.name;
-            let arrElms = Array.from(document.forms.postingAd.querySelectorAll('input[name="'+name+'"]'));
-            if(arrElms.some(isChecked)){return element;}
-        } else if ( textORnum && element.value.trim() != ''){
-            return element;
+    const ref = useRef(null); // Form
+    const [deal, setDeal] = useState('sale'); // тип сделки (по умолчанию - продажа)
+    const [proptype, setProptype] = useState('residential'); // тип недвижимости (по умолчанию - Жилая)
+
+    const [requiredElems, setRequired] = React.useState(['owner', 'address']);
+
+    const validate = (elem) => {
+        let name = elem.name;
+        console.log(elem)
+        if(elem.type === 'radio' || elem.type === 'checkbox'){
+            
+            let arrElms = ref.current.querySelectorAll(`[name="${elem.name}"]`);
+            console.log(arrElms);
+            
+            if([...arrElms].some(isChecked)){
+                setRequired(requiredElems.filter(obj => {
+                    if (obj !== name) {
+                        return obj;
+                    }
+                }))
+            }
+        } else if(elem.value.trim() !== ''){
+            setRequired(requiredElems.filter(obj => {
+                if (obj !== name) {
+                    return obj;
+                }
+            }))
         }
     };
     const isChecked = (el) => {
-        if(el.checked && el.value.trim() != ''){
+        if(el.checked){
             return el;
         }
     };
 
-    const isFilled = (el) => {
-        console.log('функция выполняется el ='+el);
-        let requiredElems = Array.from(el.querySelectorAll('[required]'));
-        let link = document.querySelector('[data-target="'+el.name+'"]');
-        console.log('requiredElems.length ='+requiredElems.length);
-        console.log('link ='+link);
+    // const isFilled = (el) => {
+    //     console.log('функция выполняется el ='+el);
+    //     let requiredElems = Array.from(el.querySelectorAll('[required]'));
+    //     let link = document.querySelector('[data-target="'+el.name+'"]');
+    //     console.log('requiredElems.length ='+requiredElems.length);
+    //     console.log('link ='+link);
 
-        if(requiredElems.length === 0){
-            return;
-        } else {
-            let flag = requiredElems.every(notNull);
-            if (flag){
-                console.log('все поля fieldset заполнены');
-                link.classList.add('filled');
-            } else {
-                console.log('есть не заполненые поля fieldset');
-                link.classList.remove('filled');
-            }
-        }
-    };
+    //     if(requiredElems.length === 0){
+    //         return;
+    //     } else {
+    //         let flag = requiredElems.every(notNull);
+    //         if (flag){
+    //             console.log('все поля fieldset заполнены');
+    //             link.classList.add('filled');
+    //         } else {
+    //             console.log('есть не заполненые поля fieldset');
+    //             link.classList.remove('filled');
+    //         }
+    //     }
+    // };
 
     const onSubmit = e => {
         e.preventDefault();
-        console.log('нажата кнопка сабмит');
-        let requiredElems = Array.from(document.forms.postingAd.querySelectorAll('input[required]'));
-        
         if(requiredElems.length === 0){
-            return;
+            alert('форма отправлена');
         } else {
-            let flag = requiredElems.every(notNull);
-        
-            if (flag){
-                console.log('все поля заполнены');
-                document.forms.postingAd.classList.remove('not-filled');
-            } else {
-                console.log('есть не заполненые поля');
-                document.forms.postingAd.classList.add('not-filled');
-                scrollToTop();
-            }
+            requiredElems.map(item => (
+                document.querySelector('[data-for="'+item+'"]').style.color = "#DA1E2A"
+                //цвет остается при повторном нажатии submit
+            ))
         }
     };
+
+    const [activeField, setActiveField] = useState(1); //для мобильных устройств
 
     return (
         <main>
@@ -100,7 +105,7 @@ export default function Advertise() {
             </div>
             <section id="sec-11" className="container mb-6">
                 <h1 className="text-center text-lg-start">Подать объявление</h1>
-                <form className="row gx-xxl-5 position-relative" name="postingAd" onSubmit={onSubmit} noValidate>
+                <form ref={ref} className="row gx-xxl-5 position-relative" name="postingAd" onSubmit={onSubmit} noValidate>
                     <div className="mob-indicator">
                         <div className={(activeField === 1) ? 'active' : ''}>1</div>
                         <div className={(activeField === 2) ? 'active' : ''}>2</div>
@@ -112,18 +117,20 @@ export default function Advertise() {
                         <fieldset data-show={(activeField === 1) ? 'true' : 'false'} name="anchor-1" className="element frame p-lg-4 mb-4 mb-lg-5">
                             <legend className="text-center text-lg-start title-font fw-7 fs-15 mb-md-4">Тип объявления</legend>
                             <div className="row">
-                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">Владелец объявления*:</div>
+                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
+                                    <span data-for="owner">Владелец объявления*:</span>
+                                </div>
                                 <div className="col-md-9">
                                     <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4">
                                         <div>
                                             <label>
-                                                <input type="radio" name="owner" value="Собственник" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="owner" value="Собственник" required onChange={(e) => validate(e.target)}/>
                                                 <span className="fs-11 ms-2">Собственник</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="owner" value="Агент" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="owner" value="Агент" required onChange={(e) => validate(e.target)}/>
                                                 <span className="fs-11 ms-2">Агент</span>
                                             </label>
                                         </div>
@@ -132,18 +139,20 @@ export default function Advertise() {
                             </div>
                             <hr className="d-none d-md-block my-4" />
                             <div className="row">
-                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">Сделка*:</div>
+                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
+                                    <span data-for="deal">Сделка*:</span>
+                                </div>
                                 <div className="col-md-9">
                                     <div className="row row-cols-3 row-cols-xxl-4">
                                         <div>
                                             <label>
-                                                <input type="radio" name="deal" value="rent" required onChange={(e) => isFilled(e.target.closest('fieldset')), (e) => setDeal(e.target.value)}/>
+                                                <input type="radio" name="deal" value="rent" required onChange={(e) => setDeal(e.target.value)}/>
                                                 <span className="fs-11 ms-2">Аренда</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="deal" value="sale" required onChange={(e) => isFilled(e.target.closest('fieldset')), (e) => setDeal(e.target.value)}/>
+                                                <input type="radio" name="deal" value="sale" defaultChecked={true} required onChange={(e) => setDeal(e.target.value)}/>
                                                 <span className="fs-11 ms-2">Продажа</span>
                                             </label>
                                         </div>
@@ -157,19 +166,19 @@ export default function Advertise() {
                                     <div className="row row-cols-3 row-cols-xxl-4">
                                         <div>
                                             <label>
-                                                <input type="radio" name="rental-type" value="Длительно" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="rental-type" value="Длительно" required/>
                                                 <span className="fs-11 ms-2">Длительно</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="rental-type" value="Несколько месяцев" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="rental-type" value="Несколько месяцев" required />
                                                 <span className="fs-11 ms-2">Несколько месяцев</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="rental-type" value="Посуточно" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="rental-type" value="Посуточно" required />
                                                 <span className="fs-11 ms-2">Посуточно</span>
                                             </label>
                                         </div>
@@ -183,87 +192,131 @@ export default function Advertise() {
                                     <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
                                         <div>
                                             <label>
-                                                <input type="radio" name="property-type" value="residential" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="property-type" value="residential" defaultChecked={true} required onChange={(e) => setProptype(e.target.value)}/>
                                                 <span className="fs-11 ms-2">Жилая</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="property-type" value="commercial" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="property-type" value="commercial" required onChange={(e) => setProptype(e.target.value)}/>
                                                 <span className="fs-11 ms-2">Коммерческая</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="property-type" value="Паркинг/Гараж" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="property-type" value="Паркинг/Гараж" required onChange={(e) => setProptype(e.target.value)}/>
                                                 <span className="fs-11 ms-2">Паркинг/Гараж</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="property-type" value="Земельный участок" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="property-type" value="Земельный участок" required onChange={(e) => setProptype(e.target.value)}/>
                                                 <span className="fs-11 ms-2">Земельный участок</span>
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <hr className="d-none d-md-block my-4" />
-                            <div className="row">
+                            <hr className={(proptype === "residential" || proptype === "commercial")? "d-none d-md-block my-4" : "d-none"}/>
+                            <div className={(proptype === "residential")? "row" : "d-none"}>
                                 <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">Объект*:</div>
                                 <div className="col-md-9">
                                     <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
                                         <div>
                                             <label>
-                                                <input type="radio" name="estate" value="Квартира" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="estate" value="Квартира" required />
                                                 <span className="fs-11 ms-2">Квартира</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="estate" value="Комната" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="estate" value="Комната" required />
                                                 <span className="fs-11 ms-2">Комната</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="estate" value="Койко-место" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="estate" value="Койко-место" required />
                                                 <span className="fs-11 ms-2">Койко-место</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="estate" value="Дом" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="estate" value="Дом" required />
                                                 <span className="fs-11 ms-2">Дом</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="estate" value="Дача" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="estate" value="Дача" required />
                                                 <span className="fs-11 ms-2">Дача</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="estate" value="Коттедж" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="estate" value="Коттедж" required />
                                                 <span className="fs-11 ms-2">Коттедж</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="estate" value="Таунхаус" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="estate" value="Таунхаус" required />
                                                 <span className="fs-11 ms-2">Таунхаус</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="estate" value="Часть дома" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="estate" value="Часть дома" required />
                                                 <span className="fs-11 ms-2">Часть дома</span>
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div className={(proptype === "commercial")? "row" : "d-none"}>
+                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">Объект*:</div>
+                                <div className="col-md-9">
+                                    <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="estate" value="Офис"/>
+                                                <span className="fs-11 ms-2">Офис</span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="estate" value="Здание"/>
+                                                <span className="fs-11 ms-2">Здание</span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="estate" value="Помещение"/>
+                                                <span className="fs-11 ms-2">Помещение</span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="estate" value="Торговая площадь"/>
+                                                <span className="fs-11 ms-2">Торговая площадь</span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="estate" value="Склад"/>
+                                                <span className="fs-11 ms-2">Склад</span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input type="radio" name="estate" value="Коммерческая земля"/>
+                                                <span className="fs-11 ms-2">Коммерческая земля</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div className="d-lg-none row row-cols-2 row-cols-md-3 gx-2 gx-sm-4 justify-content-center mt-4 mt-sm-5">
                                 <div>
                                     <button type="button" className="btn btn-2 w-100" onClick={(e) => e.target.closest("form").reset()}>Отменить</button>
@@ -275,11 +328,13 @@ export default function Advertise() {
                         </fieldset>
                         
                         <fieldset data-show={(activeField === 2) ? 'true' : 'false'} name="anchor-2" className="element frame p-lg-4 mb-4 mb-lg-5">
-                            <legend className="text-center text-lg-left title-font fw-7 fs-15 mb-md-4">Об объекте</legend>
+                            <legend className="text-center text-lg-start title-font fw-7 fs-15 mb-md-4">Об объекте</legend>
                             <div className="row align-items-center">
-                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">Адрес*:</div>
+                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
+                                    <span data-for="address">Адрес*:</span>
+                                </div>
                                 <div className="col-md-9">
-                                    <input type="text" className="fs-11" placeholder="р. Татарстан, г. Казань" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                    <input type="text" name="address" className="fs-11" placeholder="р. Татарстан, г. Казань" required onChange={(e) => validate(e.target)}/>
                                 </div>
                             </div>
                             <hr className="d-none d-md-block my-4" />
@@ -296,13 +351,13 @@ export default function Advertise() {
                                     <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4">
                                         <div>
                                             <label>
-                                                <input type="radio" name="type" value="Квартира" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="type" value="Квартира" required />
                                                 <span className="fs-11 ms-2">Квартира</span>
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" name="type" value="Апартаменты" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                                <input type="radio" name="type" value="Апартаменты" required />
                                                 <span className="fs-11 ms-2">Апартаменты</span>
                                             </label>
                                         </div>
@@ -314,31 +369,31 @@ export default function Advertise() {
                                 <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">Количество комнат*:</div>
                                 <div className="col-md-9 d-flex">
                                     <label className="inp-btn me-2">
-                                        <input type="radio" name="rooms" value="Студия" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                        <input type="radio" name="rooms" value="Студия" required />
                                         <div>Студия</div>
                                     </label>
                                     <label className="inp-btn me-2">
-                                        <input type="radio" name="rooms" value="1" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                        <input type="radio" name="rooms" value="1" required />
                                         <div>1</div>
                                     </label>
                                     <label className="inp-btn me-2">
-                                        <input type="radio" name="rooms" value="2" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                        <input type="radio" name="rooms" value="2" required />
                                         <div>2</div>
                                     </label>
                                     <label className="inp-btn me-2">
-                                        <input type="radio" name="rooms" value="3" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                        <input type="radio" name="rooms" value="3" required />
                                         <div>3</div>
                                     </label>
                                     <label className="inp-btn me-2">
-                                        <input type="radio" name="rooms" value="4" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                        <input type="radio" name="rooms" value="4" required />
                                         <div>4</div>
                                     </label>
                                     <label className="inp-btn me-2">
-                                        <input type="radio" name="rooms" value="5" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                        <input type="radio" name="rooms" value="5" required />
                                         <div>5</div>
                                     </label>
                                     <label className="inp-btn me-2">
-                                        <input type="radio" name="rooms" value="5+" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                        <input type="radio" name="rooms" value="5+" required />
                                         <div>5+</div>
                                     </label>
                                 </div>
@@ -347,7 +402,7 @@ export default function Advertise() {
                             <div className="row row-cols-2 row-cols-md-4 align-items-center mt-4 mt-sm-5">
                                 <div className="fs-11 title-req">Общая площадь*:</div>
                                 <div>
-                                    <input type="number" className="fs-11 area w-100" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/> 
+                                    <input type="number" className="fs-11 area w-100" required /> 
                                 </div>
                                 <div className="text-md-end title mt-3 mt-sm-4">Жилая площадь:</div>
                                 <div className="mt-3 mt-sm-4">
@@ -365,7 +420,7 @@ export default function Advertise() {
                             <div className="row row-cols-2 row-cols-md-4 align-items-center mt-4 mt-sm-5">
                                 <div className="fs-11 title-req">Этаж*:</div>
                                 <div>
-                                    <input type="number" className="fs-11 w-100" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/> 
+                                    <input type="number" className="fs-11 w-100" required /> 
                                 </div>
                                 <div className="title text-md-end mt-3 mt-sm-4">Этажей в доме:</div>
                                 <div className="mt-3 mt-sm-4">
@@ -553,7 +608,7 @@ export default function Advertise() {
                             <div className="row mb-2">
                                 <div className="col-md-3 fs-11 title-req mb-3 m-md-0">Описание*:</div>
                                 <div className="col-md-9">
-                                    <textarea type="text" rows="5" className="fs-11" placeholder="Расскажите подробне об объекте и условиях сделки." required onChange={(e) => isFilled(e.target.closest('fieldset'))}></textarea>
+                                    <textarea type="text" rows="5" className="fs-11" placeholder="Расскажите подробне об объекте и условиях сделки." required ></textarea>
                                 </div>
                             </div>
                             <div className="row">
@@ -619,7 +674,7 @@ export default function Advertise() {
                                     <div className="fs-08 gray-3 mt-2">Не допускаются к размещению фотографии с водяными знаками, чужих объектов и рекламные баннеры. JPG, PNG или GIF. Максимальный размер файла 10 мб</div>
                                 </div>
                             </div>
-                            
+                            {/* для мобильных устроийств */}
                             <div className="d-lg-none row row-cols-2 row-cols-md-3 gx-2 gx-sm-4 justify-content-center mt-4">
                                 <div>
                                     <button type="button" className="btn btn-2 w-100" onClick={()=>setActiveField(2)}>Назад</button>
@@ -776,18 +831,18 @@ export default function Advertise() {
                                 <div className="row align-items-center mt-4 mt-sm-5 mb-4">
                                     <div className="col-md-3 fs-11 title-req mb-3 m-md-0">Цена*:</div>
                                     <div className="col-md-9">
-                                        <input type="number" className="fs-11 price" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                        <input type="number" className="fs-11 price" required />
                                     </div>
                                 </div>
                                 <div className="row align-items-center mt-4 mt-sm-5 mb-4">
                                     <div className="col-md-3 fs-11 title-req mb-3 m-md-0">Ипотека*:</div>
                                     <div className="col-md-9 d-flex">
                                         <label className="me-5">
-                                            <input type="radio" name="hypothec" value="Да" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                            <input type="radio" name="hypothec" value="Да" required />
                                             <span className="fs-11 ms-2">Да</span>
                                         </label>
                                         <label>
-                                            <input type="radio" name="hypothec" value="Нет" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                            <input type="radio" name="hypothec" value="Нет" required />
                                             <span className="fs-11 ms-2">Нет</span>
                                         </label>
                                     </div>
@@ -796,11 +851,11 @@ export default function Advertise() {
                                     <div className="col-md-3 fs-11 title mb-3 m-md-0">Обременения:</div>
                                     <div className="col-md-9 d-flex">
                                         <label className="me-5">
-                                            <input type="radio" name="difficulties" value="Да" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                            <input type="radio" name="difficulties" value="Да" required />
                                             <span className="fs-11 ms-2">Да</span>
                                         </label>
                                         <label>
-                                            <input type="radio" name="difficulties" value="Нет" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                            <input type="radio" name="difficulties" value="Нет" required />
                                             <span className="fs-11 ms-2">Нет</span>
                                         </label>
                                     </div>
@@ -814,7 +869,7 @@ export default function Advertise() {
                                         <small className="gray-3 fs-08">Без коммунальных услуг</small>
                                     </div>
                                     <div className="col-md-9">
-                                        <input type="number" className="fs-11 price" required onChange={(e) => isFilled(e.target.closest('fieldset'))}/>
+                                        <input type="number" className="fs-11 price" required />
                                     </div>
                                 </div>
                                 <div className="row mb-4">
@@ -832,8 +887,24 @@ export default function Advertise() {
                                     <div className="col-md-9">
                                         <input type="number" className="fs-11" required/>
                                         <div className="d-flex mt-2">
-                                            <input type="checkbox" name="meter"/>
+                                            <input type="checkbox" name="no-deposit"/>
                                             <span className="ms-2">Без залога</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row align-items-center mb-4">
+                                    <div className="col-md-3 mb-3 m-md-0 fs-11 title-req">Предоплата*:</div>
+                                    <div className="col-md-9">
+                                        <CustomSelect btnClass="inp" checkedOpt="1 месяц" options={['1 месяц', '3 месяца', 'полгода']}/>
+                                    </div>
+                                </div>
+                                <div className="row mb-4">
+                                    <div className="col-md-3 mb-3 m-md-0 fs-11 title-req">Комиссия агента:</div>
+                                    <div className="col-md-9">
+                                        <input type="number" className="percent fs-11"/>
+                                        <div className="d-flex mt-2">
+                                            <input type="checkbox" name="no-commissions"/>
+                                            <span className="ms-2">Без комиссии</span>
                                         </div>
                                     </div>
                                 </div>
@@ -849,9 +920,9 @@ export default function Advertise() {
                             </div>
                         </fieldset>
 
-                        <div className="d-flex justify-content-between mb-3">
+                        <div className="d-flex justify-content-between mb-4">
                             <div>*- поля обязательные для заполнения</div>
-                            <button type="button" className="d-none d-lg-block color-1 fs-11 fw-5 bb-1">Очистить форму</button>
+                            <button type="reset" className="d-none d-lg-block color-1 fs-11 fw-5 bb-1">Очистить форму</button>
                         </div>
                         <button type="submit" className="d-none d-lg-block btn btn-1 fs-15 mx-auto">Разместить объявление</button>
                         <div className="d-none d-lg-block gray-3 text-center mt-3">Нажимая кнопку “Разместить объявление”, Вы соглашаетесь с <a href="#" className="color-1">условиями сайта</a></div>

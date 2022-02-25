@@ -116,6 +116,10 @@ input {
             background-image: url(bg-imgs/м.svg);
             padding: .5em 1.5em .5em .5em;
         }
+        &.percent {
+            background-image: url(bg-imgs/percent.svg);
+            padding: .5em 1.5em .5em .5em;
+        }
     }
     &[type="radio"] {
         appearance: none;
