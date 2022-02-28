@@ -3,7 +3,6 @@ import { Slider2 } from './Slider2';
 import { Slider1 } from './Slider1';
 import Tile from './utilities/Tile';
 import { Link } from 'react-router-dom';
-import * as Scroll from 'react-scroll';
 import { animateScroll as scroll } from 'react-scroll';
 
 export default function MainPage() {

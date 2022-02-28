@@ -1,6 +1,5 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import * as Scroll from 'react-scroll';
 import { animateScroll as scroll } from 'react-scroll';
 
 export const Footer = () => {

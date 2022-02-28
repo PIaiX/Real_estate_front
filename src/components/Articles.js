@@ -1,16 +1,16 @@
 import React from 'react';
 import Article from './Article';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function Articles() {
     return (
         <main>
             <div className="container py-3 py-sm-4 py-lg-5">
                 <nav aria-label="breadcrumb">
-                    <a href="javascript:history.go(-1)" className="d-block d-md-none gray-3">&#10094; Назад</a>
+                    <Link to="/" className="d-block d-md-none gray-3">&#10094; Назад</Link>
                     <ol className="d-none d-md-flex breadcrumb">
                         <li className="breadcrumb-item">
-                            <NavLink to="/">Главная</NavLink>
+                            <Link to="/">Главная</Link>
                         </li>
                         <li className="breadcrumb-item active" aria-current="page">Статьи</li>
                     </ol>

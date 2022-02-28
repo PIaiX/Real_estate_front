@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import * as Scroll from 'react-scroll';
 import { animateScroll as scroll } from 'react-scroll';
 
 
@@ -62,8 +61,8 @@ export default function Tile(props) {
                             {
                                 hoverLinks.map(function(item) {
                                     return (
-                                        <li>
-                                            <NavLink key={item.name} to={item.link} onClick={() => scrollToTop()}>{item.name}</NavLink>
+                                        <li key={item.name}>
+                                            <NavLink to={item.link} onClick={() => scrollToTop()}>{item.name}</NavLink>
                                         </li>
                                     )
                                 })
@@ -97,8 +96,8 @@ export default function Tile(props) {
                             {
                                 hoverLinks.map(function(item) {
                                     return (
-                                        <div>
-                                            <NavLink key={item.name} to={item.link} onClick={() => scrollToTop()}>{item.name}</NavLink>
+                                        <div key={item.name}>
+                                            <NavLink to={item.link} onClick={() => scrollToTop()}>{item.name}</NavLink>
                                         </div>
                                     )
                                 })

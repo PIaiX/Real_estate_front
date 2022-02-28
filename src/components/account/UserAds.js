@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Card from '../Card';
 import { Link } from 'react-router-dom';
-import * as Scroll from 'react-scroll';
-import { animateScroll as scroll } from 'react-scroll';
 
 export default function UserAds() {
     const [view, setView] = useState('as-a-list');
@@ -19,10 +17,6 @@ export default function UserAds() {
           updateSize();
           return () => window.removeEventListener('resize', updateSize);
     }, []);
-
-    const scrollToTop = () => {
-        scroll.scrollToTop();
-    };
 
     return (
         <div className="px-sm-3 px-md-4 px-xxl-5 pb-3 pb-sm-4 pb-xxl-5">

@@ -1,5 +1,5 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { Slider1 } from './Slider1';
 import BtnFav from './utilities/BtnFav';
 import ShowPhone from './utilities/ShowPhone';
@@ -77,7 +77,7 @@ export default function CardPage() {
             </div>
             <div className="container py-3 py-sm-4 py-lg-5">
                 <nav aria-label="breadcrumb">
-                    <a href="javascript:history.go(-1)" className="d-block d-md-none gray-3">&#10094; Назад</a>
+                    <Link to="/" className="d-block d-md-none gray-3">&#10094; Назад</Link>
                     <ol className="d-none d-md-flex breadcrumb">
                         <li className="breadcrumb-item">
                             <NavLink to="/catalog">Недвижимость в Казани</NavLink>

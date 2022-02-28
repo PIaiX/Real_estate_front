@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import CustomSelect from './utilities/CustomSelect';
-import * as Scroll from 'react-scroll';
 import { animateScroll as scroll } from 'react-scroll';
 
 export default function Header() {
@@ -19,7 +18,7 @@ export default function Header() {
                     <nav className="d-none d-lg-flex order-2">
                         <NavLink to="/">Главная</NavLink>
                         <div className="dropdown">
-                            <a href="#" className="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Услуги</a>
+                            <a href="/" className="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Услуги</a>
                             <ul className="dropdown-menu py-2">
                                 <li>
                                     <NavLink to="/service" className="dropdown-item">Дизайн</NavLink>

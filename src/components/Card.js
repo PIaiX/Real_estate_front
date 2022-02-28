@@ -4,7 +4,6 @@ import HoverSlider from './utilities/HoverSlider';
 import ImgPreview from './utilities/ImgPreview';
 import ShowPhone from './utilities/ShowPhone';
 import { NavLink } from 'react-router-dom';
-import * as Scroll from 'react-scroll';
 import { animateScroll as scroll } from 'react-scroll';
 
 export default function Card(props) {

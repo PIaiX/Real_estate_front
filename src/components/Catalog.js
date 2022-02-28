@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import CustomSelect from './utilities/CustomSelect';
 import CustomSelectMultyDual from './utilities/CustomSelectMultyDual';
 import Card from './Card';
@@ -22,7 +22,7 @@ export default function Catalog() {
         <main>
             <div className="container py-3 py-sm-4 py-lg-5">
                 <nav aria-label="breadcrumb">
-                    <a href="javascript:history.go(-1)" className="d-block d-md-none gray-3">&#10094; Назад</a>
+                    <Link to="/" className="d-block d-md-none gray-3">&#10094; Назад</Link>
                     <ol className="d-none d-md-flex breadcrumb">
                         <li className="breadcrumb-item">
                             <NavLink to="/">Недвижимость в Казани</NavLink>
