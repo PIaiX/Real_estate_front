@@ -13,6 +13,7 @@ export default function Advertise() {
 
     console.log("requiredElems: "+requiredElems);
 
+    // проверка на заполнение обязательных пунктов
     const validate = (elem) => {
         let name = elem.name;
         if(elem.type === 'radio' || elem.type === 'checkbox'){
@@ -33,11 +34,13 @@ export default function Advertise() {
             return el;
         }
     };
+    // добавление пункта
     const addRequired = (el) => {
         if(!requiredElems.includes(el)){
             setRequired([...requiredElems, el]);
         }
     };
+    // удаление пункта
     const removeRequired = (el) => {
         setRequired(requiredElems.filter(obj => {
             if (obj !== el) {
@@ -59,20 +62,42 @@ export default function Advertise() {
         }
     };
 
+    /* 
+        при переключении типа сделки на АРЕНДУ:
+        1. добавить в обязательные пункты "Тип аренды", "Арендная плата", "Залог", "Предоплата"
+        2. удалить пункты "Цена", "Ипотека"
+    */
     const onRent = (e) => {
-        console.log("аренда")
-        addRequired(['rental-type', 'rental', 'deposit', 'prepayment'])
-        removeRequired(['price', 'hypothec'])
-        setDeal(e.target.value)
-        validate(e.target)
+        setDeal(e.target.value); //переключение типа
+        console.log("аренда");
+        ['rental-type', 'rental', 'deposit', 'prepayment'].forEach(function(item, i, arr) {
+            console.log(i + ': ' + item);
+            addRequired(item);
+        });
+        ['price', 'hypothec'].forEach(function(item, i, arr) {
+            console.log(i + ': ' + item);
+            removeRequired(item);
+        });
+        validate(e.target); //проверка на заполнение обязательного пункта
     };
+    /* 
+        при переключении типа сделки на ПРОДАЖУ:
+        1. добавить в обязательные пункты "Цена", "Ипотека" 
+        2. удалить пункты "Тип аренды", "Арендная плата", "Залог", "Предоплата"
+    */
     const onSale = (e) => {
-        console.log("продажа")
-        addRequired(['price', 'hypothec']);
-
-        removeRequired(['rental-type', 'rental', 'deposit', 'prepayment'])
-        setDeal(e.target.value)
-        validate(e.target)
+        setDeal(e.target.value); //переключение типа
+        console.log("продажа");
+        ['price', 'hypothec'].forEach(function(item, i, arr) {
+            console.log(i + ': ' + item);
+            addRequired(item);
+        });
+        addRequired('хуйня');
+        ['rental-type', 'rental', 'deposit', 'prepayment'].forEach(function(item, i, arr) {
+            console.log(i + ': ' + item);
+            removeRequired(item);
+        });
+        validate(e.target); //проверка на заполнение обязательного пункта
     };
 
     const onSubmit = e => {
@@ -207,7 +232,7 @@ export default function Advertise() {
                                     <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
                                         <div>
                                             <label>
-                                                <input type="radio" name="property-type" value="residential" defaultChecked={true} onChange={(e) => {
+                                                <input type="radio" name="property-type" value="residential" onChange={(e) => {
                                                     validate(e.target);
                                                     setProptype(e.target.value);
                                                 }}/>
