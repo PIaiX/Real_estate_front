@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import { NavLink } from 'react-router-dom';
 import ImageUploading from "react-images-uploading";
 import CustomSelect from './utilities/CustomSelect';
@@ -9,24 +9,38 @@ export default function Advertise() {
     const [deal, setDeal] = useState('sale'); // тип сделки (по умолчанию - продажа)
     const [proptype, setProptype] = useState('residential'); // тип недвижимости (по умолчанию - Жилая)
 
-    const [requiredElems, setRequired] = React.useState(['owner', 'deal', 'property-type', 'estate', 'address', 'housing-type', 'rooms', 'total-area', 'floor', 'description', 'imgs']);
+    const [requiredElems, setRequired] = React.useState([]);
+
+    useEffect(() => {
+        function updateState() {
+            let arrNames = Array.from(ref.current.querySelectorAll(`[data-for]`)).map(
+                function(el) {
+                    if(el.dataset.status === 'false') {
+                        return el.dataset.for
+                    }
+                }
+            )
+            setRequired(arrNames);
+        }
+        ref.current.addEventListener('change', updateState);
+    }, []);
 
     console.log("requiredElems: "+requiredElems);
 
     // проверка на заполнение обязательных пунктов
     const validate = (elem) => {
-        let name = elem.name;
+        let name = elem.name
         if(elem.type === 'radio' || elem.type === 'checkbox'){
             let arrElms = ref.current.querySelectorAll(`[name="${elem.name}"]`);
             if([...arrElms].some(isChecked)){
-                removeRequired(name);
+                removeRequired(name)
             } else if(!requiredElems.includes(name)){
-                addRequired(name);
+                addRequired(name)
             }
         } else if(elem.value.trim()){
-            removeRequired(name);
+            removeRequired(name)
         } else {
-            addRequired(name);
+            addRequired(name)
         }
     };
     const isChecked = (el) => {
@@ -37,16 +51,22 @@ export default function Advertise() {
     // добавление пункта
     const addRequired = (el) => {
         if(!requiredElems.includes(el)){
+            let label = ref.current.querySelector(`[data-for="${el}"]`);
+            label.dataset.state = false;
             setRequired([...requiredElems, el]);
+            
         }
     };
     // удаление пункта
     const removeRequired = (el) => {
+        let label = ref.current.querySelector(`[data-for="${el}"]`);
+        label.dataset.state = true;
         setRequired(requiredElems.filter(obj => {
             if (obj !== el) {
                 return obj;
             }
-        }))
+        }));
+        
     };
 
     /* images upload */
@@ -56,51 +76,33 @@ export default function Advertise() {
     const onChange = (imageList, addUpdateIndex) => {
         setImages(imageList);
         if(imageList !== null){
-            removeRequired('imgs');
+            setRequired(requiredElems.filter(obj => {
+                if (obj !== 'imgs') {
+                    return obj;
+                }
+            }));
+            let label = ref.current.querySelector(`[data-for="imgs"]`);
+            label.dataset.state = true;
         } else {
-            addRequired('imgs');
+            if(!requiredElems.includes('imgs')){
+                setRequired([...requiredElems, 'imgs']);
+                let label = ref.current.querySelector(`[data-for="imgs"]`);
+                label.dataset.state = false;
+            }
         }
     };
 
-    /* 
-        при переключении типа сделки на АРЕНДУ:
-        1. добавить в обязательные пункты "Тип аренды", "Арендная плата", "Залог", "Предоплата"
-        2. удалить пункты "Цена", "Ипотека"
-    */
     const onRent = (e) => {
         setDeal(e.target.value); //переключение типа
-        console.log("аренда");
-        ['rental-type', 'rental', 'deposit', 'prepayment'].forEach(function(item, i, arr) {
-            console.log(i + ': ' + item);
-            addRequired(item);
-        });
-        ['price', 'hypothec'].forEach(function(item, i, arr) {
-            console.log(i + ': ' + item);
-            removeRequired(item);
-        });
         validate(e.target); //проверка на заполнение обязательного пункта
     };
-    /* 
-        при переключении типа сделки на ПРОДАЖУ:
-        1. добавить в обязательные пункты "Цена", "Ипотека" 
-        2. удалить пункты "Тип аренды", "Арендная плата", "Залог", "Предоплата"
-    */
     const onSale = (e) => {
         setDeal(e.target.value); //переключение типа
-        console.log("продажа");
-        ['price', 'hypothec'].forEach(function(item, i, arr) {
-            console.log(i + ': ' + item);
-            addRequired(item);
-        });
-        addRequired('хуйня');
-        ['rental-type', 'rental', 'deposit', 'prepayment'].forEach(function(item, i, arr) {
-            console.log(i + ': ' + item);
-            removeRequired(item);
-        });
         validate(e.target); //проверка на заполнение обязательного пункта
     };
 
     const onSubmit = e => {
+        //выдает ошибку
         e.preventDefault();
         let oldArr = ['owner', 'deal', 'property-type', 'estate', 'address', 'housing-type', 'rooms', 'total-area', 'floor', 'description', 'imgs', 'rental-type', 'rental', 'deposit', 'prepayment', 'price', 'hypothec'];
         if(requiredElems.length === 0){
@@ -154,7 +156,7 @@ export default function Advertise() {
                             <legend className="text-center text-lg-start title-font fw-7 fs-15 mb-md-4">Тип объявления</legend>
                             <div className="row">
                                 <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
-                                    <span data-for="owner">Владелец объявления*:</span>
+                                    <span data-for="owner" data-status={false}>Владелец объявления*:</span>
                                 </div>
                                 <div className="col-md-9">
                                     <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4">
@@ -176,7 +178,7 @@ export default function Advertise() {
                             <hr className="d-none d-md-block my-4" />
                             <div className="row">
                                 <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
-                                    <span data-for="deal">Сделка*:</span>
+                                    <span data-for="deal" data-status={false}>Сделка*:</span>
                                 </div>
                                 <div className="col-md-9">
                                     <div className="row row-cols-3 row-cols-xxl-4">
@@ -196,37 +198,42 @@ export default function Advertise() {
                                 </div>
                             </div>
                             <hr className="d-none d-md-block my-4" />
-                            <div className={(deal === "rent")? "row" : "d-none"}>
-                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
-                                    <span data-for="rental-type">Тип аренды*:</span>
-                                </div>
-                                <div className="col-md-9">
-                                    <div className="row row-cols-3 row-cols-xxl-4">
-                                        <div>
-                                            <label>
-                                                <input type="radio" name="rental-type" value="Длительно" onChange={(e) => validate(e.target)}/>
-                                                <span className="fs-11 ms-2">Длительно</span>
-                                            </label>
+                            {
+                                (deal === "rent") &&
+                                <>
+                                    <div className="row">
+                                        <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
+                                            <span data-for="rental-type" data-status={false}>Тип аренды*:</span>
                                         </div>
-                                        <div>
-                                            <label>
-                                                <input type="radio" name="rental-type" value="Несколько месяцев" onChange={(e) => validate(e.target)}/>
-                                                <span className="fs-11 ms-2">Несколько месяцев</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input type="radio" name="rental-type" value="Посуточно" onChange={(e) => validate(e.target)}/>
-                                                <span className="fs-11 ms-2">Посуточно</span>
-                                            </label>
+                                        <div className="col-md-9">
+                                            <div className="row row-cols-3 row-cols-xxl-4">
+                                                <div>
+                                                    <label>
+                                                        <input type="radio" name="rental-type" value="Длительно" onChange={(e) => validate(e.target)}/>
+                                                        <span className="fs-11 ms-2">Длительно</span>
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <label>
+                                                        <input type="radio" name="rental-type" value="Несколько месяцев" onChange={(e) => validate(e.target)}/>
+                                                        <span className="fs-11 ms-2">Несколько месяцев</span>
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <label>
+                                                        <input type="radio" name="rental-type" value="Посуточно" onChange={(e) => validate(e.target)}/>
+                                                        <span className="fs-11 ms-2">Посуточно</span>
+                                                    </label>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <hr className={(deal === "rent")? "d-none d-md-block my-4" : "d-none"}/>
+                                    <hr className={(deal === "rent")? "d-none d-md-block my-4" : "d-none"}/>
+                                </>
+                            }
                             <div className="row">
                                 <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
-                                    <span data-for="property-type">Тип недвижимости*:</span>
+                                    <span data-for="property-type" data-status={false}>Тип недвижимости*:</span>
                                 </div>
                                 <div className="col-md-9">
                                     <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
@@ -269,109 +276,120 @@ export default function Advertise() {
                                     </div>
                                 </div>
                             </div>
-                            <hr className={(proptype === "residential" || proptype === "commercial")? "d-none d-md-block my-4" : "d-none"}/>
-                            <div className={(proptype === "residential")? "row" : "d-none"}>
-                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
-                                    <span data-for="estate">Объект*:</span>
-                                </div>
-                                <div className="col-md-9">
-                                    <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
-                                        <div>
-                                            <label>
-                                                <input type="radio" name="estate" value="Квартира" onChange={(e) => validate(e.target)}/>
-                                                <span className="fs-11 ms-2">Квартира</span>
-                                            </label>
+                            {
+                                (proptype === "residential") &&
+                                <>
+                                    <hr className="d-none d-md-block my-4"/>
+                                    <div className="row">
+                                        <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
+                                            <span data-for="estate" data-status={false}>Объект*:</span>
                                         </div>
-                                        <div>
-                                            <label>
-                                                <input type="radio" name="estate" value="Комната" onChange={(e) => validate(e.target)}/>
-                                                <span className="fs-11 ms-2">Комната</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input type="radio" name="estate" value="Койко-место" onChange={(e) => validate(e.target)}/>
-                                                <span className="fs-11 ms-2">Койко-место</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input type="radio" name="estate" value="Дом" onChange={(e) => validate(e.target)}/>
-                                                <span className="fs-11 ms-2">Дом</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input type="radio" name="estate" value="Дача" onChange={(e) => validate(e.target)}/>
-                                                <span className="fs-11 ms-2">Дача</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input type="radio" name="estate" value="Коттедж" onChange={(e) => validate(e.target)}/>
-                                                <span className="fs-11 ms-2">Коттедж</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input type="radio" name="estate" value="Таунхаус" onChange={(e) => validate(e.target)}/>
-                                                <span className="fs-11 ms-2">Таунхаус</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input type="radio" name="estate" value="Часть дома" onChange={(e) => validate(e.target)}/>
-                                                <span className="fs-11 ms-2">Часть дома</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={(proptype === "commercial")? "row" : "d-none"}>
-                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
-                                    <span data-for="estate">Объект*:</span>
-                                </div>
-                                <div className="col-md-9">
-                                    <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
-                                        <div>
-                                            <label>
-                                                <input type="radio" name="estate" value="Офис" onChange={(e) => validate(e.target)}/>
-                                                <span className="fs-11 ms-2">Офис</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input type="radio" name="estate" value="Здание" onChange={(e) => validate(e.target)}/>
-                                                <span className="fs-11 ms-2">Здание</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input type="radio" name="estate" value="Помещение" onChange={(e) => validate(e.target)}/>
-                                                <span className="fs-11 ms-2">Помещение</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input type="radio" name="estate" value="Торговая площадь" onChange={(e) => validate(e.target)}/>
-                                                <span className="fs-11 ms-2">Торговая площадь</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input type="radio" name="estate" value="Склад" onChange={(e) => validate(e.target)}/>
-                                                <span className="fs-11 ms-2">Склад</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input type="radio" name="estate" value="Коммерческая земля" onChange={(e) => validate(e.target)}/>
-                                                <span className="fs-11 ms-2">Коммерческая земля</span>
-                                            </label>
+                                        <div className="col-md-9">
+                                            <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
+                                                <div>
+                                                    <label>
+                                                        <input type="radio" name="estate" value="Квартира" onChange={(e) => validate(e.target)}/>
+                                                        <span className="fs-11 ms-2">Квартира</span>
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <label>
+                                                        <input type="radio" name="estate" value="Комната" onChange={(e) => validate(e.target)}/>
+                                                        <span className="fs-11 ms-2">Комната</span>
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <label>
+                                                        <input type="radio" name="estate" value="Койко-место" onChange={(e) => validate(e.target)}/>
+                                                        <span className="fs-11 ms-2">Койко-место</span>
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <label>
+                                                        <input type="radio" name="estate" value="Дом" onChange={(e) => validate(e.target)}/>
+                                                        <span className="fs-11 ms-2">Дом</span>
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <label>
+                                                        <input type="radio" name="estate" value="Дача" onChange={(e) => validate(e.target)}/>
+                                                        <span className="fs-11 ms-2">Дача</span>
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <label>
+                                                        <input type="radio" name="estate" value="Коттедж" onChange={(e) => validate(e.target)}/>
+                                                        <span className="fs-11 ms-2">Коттедж</span>
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <label>
+                                                        <input type="radio" name="estate" value="Таунхаус" onChange={(e) => validate(e.target)}/>
+                                                        <span className="fs-11 ms-2">Таунхаус</span>
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <label>
+                                                        <input type="radio" name="estate" value="Часть дома" onChange={(e) => validate(e.target)}/>
+                                                        <span className="fs-11 ms-2">Часть дома</span>
+                                                    </label>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                </>
+                            }
+                            {
+                                (proptype === "commercial") &&
+                                <>
+                                    <hr className="d-none d-md-block my-4"/>
+                                    <div className="row">
+                                        <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
+                                            <span data-for="estate" data-status={false}>Объект*:</span>
+                                        </div>
+                                        <div className="col-md-9">
+                                            <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
+                                                <div>
+                                                    <label>
+                                                        <input type="radio" name="estate" value="Офис" onChange={(e) => validate(e.target)}/>
+                                                        <span className="fs-11 ms-2">Офис</span>
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <label>
+                                                        <input type="radio" name="estate" value="Здание" onChange={(e) => validate(e.target)}/>
+                                                        <span className="fs-11 ms-2">Здание</span>
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <label>
+                                                        <input type="radio" name="estate" value="Помещение" onChange={(e) => validate(e.target)}/>
+                                                        <span className="fs-11 ms-2">Помещение</span>
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <label>
+                                                        <input type="radio" name="estate" value="Торговая площадь" onChange={(e) => validate(e.target)}/>
+                                                        <span className="fs-11 ms-2">Торговая площадь</span>
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <label>
+                                                        <input type="radio" name="estate" value="Склад" onChange={(e) => validate(e.target)}/>
+                                                        <span className="fs-11 ms-2">Склад</span>
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <label>
+                                                        <input type="radio" name="estate" value="Коммерческая земля" onChange={(e) => validate(e.target)}/>
+                                                        <span className="fs-11 ms-2">Коммерческая земля</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            }
                             {/* для мобильных устроийств */}
                             <div className="d-lg-none row row-cols-2 row-cols-md-3 gx-2 gx-sm-4 justify-content-center mt-4 mt-sm-5">
                                 <div>
@@ -387,7 +405,7 @@ export default function Advertise() {
                             <legend className="text-center text-lg-start title-font fw-7 fs-15 mb-md-4">Об объекте</legend>
                             <div className="row align-items-center">
                                 <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
-                                    <span data-for="address">Адрес*:</span>
+                                    <span data-for="address" data-status={false}>Адрес*:</span>
                                 </div>
                                 <div className="col-md-9">
                                     <input type="text" name="address" className="fs-11" placeholder="р. Татарстан, г. Казань" onChange={(e) => validate(e.target)}/>
@@ -403,7 +421,7 @@ export default function Advertise() {
                             <hr className="d-none d-md-block my-4" />
                             <div className="row">
                                 <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
-                                    <span data-for="housing-type">Тип жилья*:</span>
+                                    <span data-for="housing-type" data-status={false}>Тип жилья*:</span>
                                 </div>
                                 <div className="col-md-9">
                                     <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4">
@@ -425,7 +443,7 @@ export default function Advertise() {
                             <hr className="d-none d-md-block my-4" />
                             <div className="row align-items-center">
                                 <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
-                                    <span data-for="rooms">Количество комнат*:</span>
+                                    <span data-for="rooms" data-status={false}>Количество комнат*:</span>
                                 </div>
                                 <div className="col-md-9 d-flex">
                                     <label className="inp-btn me-2">
@@ -461,7 +479,7 @@ export default function Advertise() {
                             <hr className="d-none d-md-block my-4" />
                             <div className="row row-cols-2 row-cols-md-4 align-items-center mt-4 mt-sm-5">
                                 <div className="fs-11 title-req">
-                                    <span data-for="total-area">Общая площадь*:</span>
+                                    <span data-for="total-area" data-status={false}>Общая площадь*:</span>
                                 </div>
                                 <div>
                                     <input type="number" name="total-area" placeholder="0" className="fs-11 area w-100" onChange={(e) => validate(e.target)} /> 
@@ -481,7 +499,7 @@ export default function Advertise() {
                             <hr className="d-none d-md-block my-4" />
                             <div className="row row-cols-2 row-cols-md-4 align-items-center mt-4 mt-sm-5 mt-md-0">
                                 <div className="fs-11 title-req">
-                                    <span data-for="floor">Этаж*:</span>
+                                    <span data-for="floor" data-status={false}>Этаж*:</span>
                                 </div>
                                 <div>
                                     <input type="number" name="floor" placeholder="0" className="fs-11 w-100" onChange={(e) => validate(e.target)} /> 
@@ -673,7 +691,7 @@ export default function Advertise() {
                                 Описание и фото</legend>
                             <div className="row mb-2">
                                 <div className="col-md-3 fs-11 title-req mb-3 m-md-0">
-                                    <span data-for="description">Описание*:</span>
+                                    <span data-for="description" data-status={false}>Описание*:</span>
                                 </div>
                                 <div className="col-md-9">
                                     <textarea name="description" rows="5" className="fs-11" placeholder="Расскажите подробне об объекте и условиях сделки." onChange={(e) => validate(e.target)}></textarea>
@@ -681,7 +699,7 @@ export default function Advertise() {
                             </div>
                             <div className="row">
                                 <div className="col-md-3 fs-11 title-req mb-3 m-md-0">
-                                    <span data-for="imgs">Фото и планировка*:</span>
+                                    <span data-for="imgs" data-status={false}>Фото и планировка*:</span>
                                 </div>
                                 <div className="col-md-9">
                                     <ImageUploading
@@ -896,99 +914,105 @@ export default function Advertise() {
                         
                         <fieldset data-show={(activeField === 5) ? 'true' : 'false'} name="anchor-5" className="element frame p-lg-4 mb-4 mb-lg-5">
                             <legend className="title-font fw-7 fs-15 mb-5">Условия сделки</legend>
-                            {/* условия ПРОДАЖИ */}
-                            <div className={(deal === "sale")? "d-block" : "d-none"}>
-                                <div className="row align-items-center mt-4 mt-sm-5 mb-4">
-                                    <div className="col-md-3 fs-11 title-req mb-3 m-md-0">
-                                        <span data-for="price">Цена*:</span>
-                                    </div>
-                                    <div className="col-md-9">
-                                        <input type="number" name="price" className="fs-11 price" onChange={(e) => validate(e.target)} />
-                                    </div>
-                                </div>
-                                <div className="row align-items-center mt-4 mt-sm-5 mb-4">
-                                    <div className="col-md-3 fs-11 title-req mb-3 m-md-0">
-                                        <span data-for="hypothec">Ипотека*:</span>
-                                    </div>
-                                    <div className="col-md-9 d-flex">
-                                        <label className="me-5">
-                                            <input type="radio" name="hypothec" value="Да" onChange={(e) => validate(e.target)} />
-                                            <span className="fs-11 ms-2">Да</span>
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="hypothec" value="Нет" onChange={(e) => validate(e.target)} />
-                                            <span className="fs-11 ms-2">Нет</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div className="row align-items-center mt-4 mt-sm-5 mb-4">
-                                    <div className="col-md-3 fs-11 title mb-3 m-md-0">Обременения:</div>
-                                    <div className="col-md-9 d-flex">
-                                        <label className="me-5">
-                                            <input type="radio" name="difficulties" value="Да" />
-                                            <span className="fs-11 ms-2">Да</span>
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="difficulties" value="Нет" />
-                                            <span className="fs-11 ms-2">Нет</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* условия АРЕНДЫ */}
-                            <div className={(deal === "rent")? "d-block" : "d-none"}>
-                                <div className="row align-items-center mb-4">
-                                    <div className="col-md-3 mb-3 m-md-0">
-                                        <div className="fs-11 title-req">
-                                            <span data-for="rental">Арендная плата*:</span>
+                            {
+                                /* условия ПРОДАЖИ */
+                                (deal === "sale") &&
+                                <div>
+                                    <div className="row align-items-center mt-4 mt-sm-5 mb-4">
+                                        <div className="col-md-3 fs-11 title-req mb-3 m-md-0">
+                                            <span data-for="price" data-status={false}>Цена*:</span>
                                         </div>
-                                        <small className="gray-3 fs-08">Без коммунальных услуг</small>
+                                        <div className="col-md-9">
+                                            <input type="number" name="price" className="fs-11 price" onChange={(e) => validate(e.target)} />
+                                        </div>
                                     </div>
-                                    <div className="col-md-9">
-                                        <input type="number" name="rental" placeholder="0" className="fs-11 price" onChange={(e) => validate(e.target)} />
+                                    <div className="row align-items-center mt-4 mt-sm-5 mb-4">
+                                        <div className="col-md-3 fs-11 title-req mb-3 m-md-0">
+                                            <span data-for="hypothec" data-status={false}>Ипотека*:</span>
+                                        </div>
+                                        <div className="col-md-9 d-flex">
+                                            <label className="me-5">
+                                                <input type="radio" name="hypothec" value="Да" onChange={(e) => validate(e.target)} />
+                                                <span className="fs-11 ms-2">Да</span>
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="hypothec" value="Нет" onChange={(e) => validate(e.target)} />
+                                                <span className="fs-11 ms-2">Нет</span>
+                                            </label>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="row mb-4">
-                                    <div className="col-md-3 mb-3 m-md-0 fs-11 title-req">Коммунальные платежи:</div>
-                                    <div className="col-md-9">
-                                        <input type="number" className="fs-11 price"/>
-                                        <div className="d-flex mt-2">
-                                            <input type="checkbox" name="meter"/>
-                                            <span className="ms-2">Счетчики оплачиваются отдельно</span>
+                                    <div className="row align-items-center mt-4 mt-sm-5 mb-4">
+                                        <div className="col-md-3 fs-11 title mb-3 m-md-0">Обременения:</div>
+                                        <div className="col-md-9 d-flex">
+                                            <label className="me-5">
+                                                <input type="radio" name="difficulties" value="Да" />
+                                                <span className="fs-11 ms-2">Да</span>
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="difficulties" value="Нет" />
+                                                <span className="fs-11 ms-2">Нет</span>
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="row mb-4">
-                                    <div className="col-md-3 mb-3 m-md-0 fs-11 title-req">
-                                        <span data-for="deposit">Залог*:</span>
+                            }
+                            {
+                                /* условия АРЕНДЫ */
+                                (deal === "rent") &&
+                                <div>
+                                    <div className="row align-items-center mb-4">
+                                        <div className="col-md-3 mb-3 m-md-0">
+                                            <div className="fs-11 title-req">
+                                                <span data-for="rental" data-status={false}>Арендная плата*:</span>
+                                            </div>
+                                            <small className="gray-3 fs-08">Без коммунальных услуг</small>
+                                        </div>
+                                        <div className="col-md-9">
+                                            <input type="number" name="rental" placeholder="0" className="fs-11 price" onChange={(e) => validate(e.target)} />
+                                        </div>
                                     </div>
-                                    <div className="col-md-9">
-                                        <input type="number" name="deposit" placeholder="0" className="fs-11 price" onChange={(e) => validate(e.target)}/>
-                                        <div className="d-flex mt-2">
-                                            <input type="checkbox" name="no-deposit"/>
-                                            <span className="ms-2">Без залога</span>
+                                    <div className="row mb-4">
+                                        <div className="col-md-3 mb-3 m-md-0 fs-11 title-req">Коммунальные платежи:</div>
+                                        <div className="col-md-9">
+                                            <input type="number" className="fs-11 price"/>
+                                            <div className="d-flex mt-2">
+                                                <input type="checkbox" name="meter"/>
+                                                <span className="ms-2">Счетчики оплачиваются отдельно</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row mb-4">
+                                        <div className="col-md-3 mb-3 m-md-0 fs-11 title-req">
+                                            <span data-for="deposit" data-status={false}>Залог*:</span>
+                                        </div>
+                                        <div className="col-md-9">
+                                            <input type="number" name="deposit" placeholder="0" className="fs-11 price" onChange={(e) => validate(e.target)}/>
+                                            <div className="d-flex mt-2">
+                                                <input type="checkbox" name="no-deposit"/>
+                                                <span className="ms-2">Без залога</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row align-items-center mb-4">
+                                        <div className="col-md-3 mb-3 m-md-0 fs-11 title-req">
+                                            <span data-for="prepayment" data-status={false}>Предоплата*:</span>
+                                        </div>
+                                        <div className="col-md-9">
+                                            <CustomSelect btnClass="inp" name="prepayment" checkedOpt="1 месяц" options={['нет', '1 месяц', '3 месяца', 'полгода']} onChange={(e) => validate(e.target)}/>
+                                        </div>
+                                    </div>
+                                    <div className="row mb-4">
+                                        <div className="col-md-3 mb-3 m-md-0 fs-11 title-req">Комиссия агента:</div>
+                                        <div className="col-md-9">
+                                            <input type="number" className="percent fs-11"/>
+                                            <div className="d-flex mt-2">
+                                                <input type="checkbox" name="no-commissions"/>
+                                                <span className="ms-2">Без комиссии</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="row align-items-center mb-4">
-                                    <div className="col-md-3 mb-3 m-md-0 fs-11 title-req">
-                                        <span data-for="prepayment">Предоплата*:</span>
-                                    </div>
-                                    <div className="col-md-9">
-                                        <CustomSelect btnClass="inp" name="prepayment" checkedOpt="1 месяц" options={['нет', '1 месяц', '3 месяца', 'полгода']} onChange={(e) => validate(e.target)}/>
-                                    </div>
-                                </div>
-                                <div className="row mb-4">
-                                    <div className="col-md-3 mb-3 m-md-0 fs-11 title-req">Комиссия агента:</div>
-                                    <div className="col-md-9">
-                                        <input type="number" className="percent fs-11"/>
-                                        <div className="d-flex mt-2">
-                                            <input type="checkbox" name="no-commissions"/>
-                                            <span className="ms-2">Без комиссии</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            }
                             {/* для мобильных устроийств */}
                             <div className="d-lg-none row row-cols-2 row-cols-sm-3 justify-content-center gx-2 gx-sm-4 mt-4">
                                 <div>
