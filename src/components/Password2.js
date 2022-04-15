@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import InputPassword from './utilities/InputPassword';
 
-export default function Entrance() {
+export default function Password2() {
     return (
         <main className="account py-sm-3 py-md-4 py-lg-5">
             <section className="container">
@@ -16,13 +16,7 @@ export default function Entrance() {
                 <div className="row justify-content-center">
                     <div className="col-lg-9">
                         <form className="entrance">
-                            <h1 className="text-center mb-4 mb-xxl-5">Вход</h1>
-                            <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                                <div className="col-sm-3 fs-11 mb-1 mb-sm-0">Email:</div>
-                                <div className="col-sm-9">
-                                    <input placeholder="mail@mail.ru" className="fs-11"/>
-                                </div>
-                            </div>
+                            <h1 className="text-center mb-4 mb-xxl-5">Восстановление пароля</h1>
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                 <div className="col-sm-3 fs-11 mb-1 mb-sm-0">Пароль:</div>
                                 <div className="col-sm-9">
@@ -30,20 +24,16 @@ export default function Entrance() {
                                 </div>
                             </div>
                             <div className="row justify-content-end mb-3 mb-sm-4 mb-xxl-5">
-                                <div className="col-sm-9 d-flex justify-content-between">
-                                    <label className="fs-11">
+                                <div className="col-sm-9">
+                                    <label className="fs-11 mb-3">
                                         <input type="checkbox" name="remember"/>
                                         <span className="ms-3">Запомнить меня</span>
                                     </label>
-                                    <Link to="/password-1" className="color-1 fs-11 bb-1">Забыли пароль?</Link>
                                 </div>
                             </div>
                             <div className="row justify-content-center">
-                                <div className="col-sm-5">
-                                    <Link to="/personal-account" className="btn btn-1 fs-11 w-100 text-uppercase mb-4">Войти</Link>
-                                </div>
-                                <div className="col-12">
-                                    <div className="fs-11 text-center">У Вас еще нет аккаунта? <Link to="/registration" className="color-1 bb-1">Зарегистрироваться</Link></div>
+                                <div className="col-sm-6">
+                                    <button type='button' className="btn btn-1 fs-11 w-100 text-uppercase px-4 mb-4">Восстановить пароль</button>
                                 </div>
                             </div>
                         </form>
