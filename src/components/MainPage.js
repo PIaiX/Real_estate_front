@@ -4,6 +4,7 @@ import { Slider1 } from './Slider1';
 import Tile from './utilities/Tile';
 import { Link } from 'react-router-dom';
 import { animateScroll as scroll } from 'react-scroll';
+import { MainBanner } from './MainBanner';
 
 export default function MainPage() {
     const scrollToTop = () => {
@@ -13,6 +14,7 @@ export default function MainPage() {
     return (
         <main>
             <section id="sec-1">
+                <MainBanner />
                 <div className="container d-flex justify-content-center">
                     <h1 className="main">Мы подобрали для Вас лучшие варианты</h1>
                 </div>

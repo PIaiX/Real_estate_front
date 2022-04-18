@@ -890,8 +890,8 @@ main {
 #sec-1 {
     height: 650px;
     @include flex-center;
-    background: url(bg-imgs/bg1.png) no-repeat;
-    background-size: cover;
+    // background: url(bg-imgs/bg1.png) no-repeat;
+    // background-size: cover;
     position: relative;
     z-index: 1;
     padding-bottom: 5em;
@@ -914,6 +914,10 @@ main {
     }
     @media (max-width: 575px){
         height: 400px;
+    }
+    .container {
+        position: relative;
+        z-index: 2;
     }
 }
 
@@ -3283,6 +3287,26 @@ footer {
     @media (max-width: 767px){
         .swiper-button-prev, .swiper-button-next {display: none;}
     }
+}
+.swiper-home {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+    }
+    .swiper-pagination {
+        bottom: 6.5em;
+    }
+}
+.swiper-container-fade {
+    .swiper-slide {transition: opacity 1s ease-in;}
 }
 
 
