@@ -99,7 +99,7 @@ export default function MainPage() {
                         <Slider2 />
                     </div>
                     <div className="text-center mt-4">
-                        <Link to="/articles" onClick={() => scrollToTop()} className="fs-12 color-1 bb-1">Смотреть все статьи</Link>
+                        <Link to="/articles/page/1" onClick={() => scrollToTop()} className="fs-12 color-1 bb-1">Смотреть все статьи</Link>
                     </div>
                 </div>
             </section>
