@@ -11,6 +11,8 @@ import PersonalAccount from './PersonalAccount';
 import Entrance from './Entrance';
 import Registration from './Registration';
 import Articles from './Articles';
+import Password1 from './Password1';
+import Password2 from './Password2';
 
 import Article from "./Article";
 
@@ -30,6 +32,8 @@ export default function AppRouter() {
                 <Route path="/articles/page/:page/:slug" element={<ArticlePage/>}/>
                 <Route path="/articles/page/:page" element={<Articles/>}/>
                 <Route path="/articles" element={<Articles/>}/>
+                <Route path="/password-1" element={<Password1 />} />
+                <Route path="/password-2" element={<Password2 />} />
             </Routes>
     )
 }
