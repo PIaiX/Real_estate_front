@@ -12,7 +12,7 @@ const formValueDefault = {
   email: "",
   password: "",
   passwordConfirm: "",
-  remember: false,
+  remember: true,
   ownerType: 0,
 };
 
@@ -39,7 +39,6 @@ const schema = Joi.object({
   email: Joi.string()
     .email({ tlds: { allow: false } })
     .min(4)
-    .max(20)
     .required()
     .messages({
       "string.empty": "Email адрес не может быть пустым",
@@ -48,9 +47,8 @@ const schema = Joi.object({
       "string.email": `Введите Email адрес корректного формата`,
     }),
   password: Joi.string()
-    .pattern(/[a-z]+[A-Z]+[0-9]/)
+    .pattern(/^[a-zA-Z0-9]+$/)
     .min(8)
-    .max(20)
     .required()
     .messages({
       "string.empty": "Пароль не может быть пустым",
@@ -68,6 +66,7 @@ const schema = Joi.object({
 
 export default function Entrance() {
   const [formValue, setFormValue] = useState(formValueDefault);
+  const [ownerType, setOwnerType] = useState(formValueDefault.ownerType);
   const [formErrors, setFormErrors] = useState(formErrorDefault);
 
   const handleFormChange = (e) => {
@@ -97,11 +96,11 @@ export default function Entrance() {
     }
 
     try {
-      const response = await axios.post(
-        `${baseUrl}/api/auth/register`,
-        formValue
-      );
-      console.log(response);
+      const response = await axios.post(`${baseUrl}/api/auth/register`, {
+        ...formValue,
+        ownerType,
+      });
+      console.log(response.data.message);
     } catch (error) {
       console.log(error.message);
     }
@@ -149,6 +148,40 @@ export default function Entrance() {
           <div className="col-lg-9">
             <form className="entrance">
               <h1 className="text-center mb-4 mb-xxl-5">Регистрация</h1>
+              <div className="row">
+                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
+                  <span data-for="owner" data-status={false}>
+                    Владелец объявления*:
+                  </span>
+                </div>
+                <div className="col-md-9 mb-5">
+                  <div className="d-flex align-items-center">
+                    <div className="me-5">
+                      <label>
+                        <input
+                          type="radio"
+                          name="owner"
+                          value="0"
+                          defaultChecked={true}
+                          onChange={(e) => setOwnerType(e.target.value)}
+                        />
+                        <span className="fs-11 ms-2">Собственник</span>
+                      </label>
+                    </div>
+                    <div>
+                      <label>
+                        <input
+                          type="radio"
+                          name="owner"
+                          value="1"
+                          onChange={(e) => setOwnerType(e.target.value)}
+                        />
+                        <span className="fs-11 ms-2">Агент</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                 <div className="col-sm-3 fs-11 mb-1 mb-sm-0">Имя:</div>
                 <div className="col-sm-9">
@@ -222,6 +255,7 @@ export default function Entrance() {
                     <input
                       type="checkbox"
                       name="remember"
+                      defaultChecked={formValue.remember}
                       value={formValue.remember}
                       onChange={handleFormChange}
                     />

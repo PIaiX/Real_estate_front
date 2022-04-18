@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Joi from "joi";
 import axios from "axios";
+import fingerprint from "@fingerprintjs/fingerprintjs";
 
 import InputPassword from "./utilities/InputPassword";
 import FormErrorMessage from "./utilities/FormErrorMessage";
@@ -41,6 +42,19 @@ const schema = Joi.object({
 export default function Entrance() {
   const [formValue, setFormValue] = useState(formValueDefault);
   const [formErrors, setFormErrors] = useState(formErrorDefault);
+  const [userFingerprintId, setUserFingerprintId] = useState("");
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fingerprint
+      .load()
+      .then((fp) => fp.get())
+      .then((result) => {
+        const visitorID = result.visitorId;
+        setUserFingerprintId(visitorID);
+      });
+  }, []);
 
   const handleFormChange = (e) => {
     setFormValue((prev) => {
@@ -64,8 +78,18 @@ export default function Entrance() {
     }
 
     try {
-      const result = await axios.post(`${baseUrl}/api/auth/login`, formValue);
-      console.log(result);
+      const response = await axios.post(
+        `${baseUrl}/api/auth/login`,
+        formValue,
+        {
+          headers: {
+            "User-Fingerprint": userFingerprintId,
+          },
+        }
+      );
+      if (response.data.status === 200) {
+        navigate("/");
+      }
     } catch (error) {
       console.log(error.message);
     }
@@ -149,20 +173,13 @@ export default function Entrance() {
                     />
                     <span className="ms-3">Запомнить меня</span>
                   </label>
-                  <button type="button" className="color-1 fs-11 bb-1">
+                  <Link to="/password-1" className="color-1 fs-11 bb-1">
                     Забыли пароль?
-                  </button>
+                  </Link>
                 </div>
               </div>
               <div className="row justify-content-center">
                 <div className="col-sm-5">
-                  {/* <Link
-                    to="/personal-account"
-                    className="btn btn-1 fs-11 w-100 text-uppercase mb-4"
-                    onClick={handleFormSubmit}
-                  >
-                    Войти
-                  </Link> */}
                   <div
                     to="/personal-account"
                     className="btn btn-1 fs-11 w-100 text-uppercase mb-4"
