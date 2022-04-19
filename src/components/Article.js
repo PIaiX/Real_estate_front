@@ -3,6 +3,7 @@ import {NavLink} from 'react-router-dom';
 
 
 export default function Article(props) {
+
     const goToTop = () => {
         window.scrollTo({
             top: 0,
@@ -17,9 +18,12 @@ export default function Article(props) {
                 <h2 className="mb-2 mb-md-3">{props.title}</h2>
                 <div className="text">{props.text}</div>
                 <NavLink
-                    to={`/${props.articleUrl}`}
+                    to={`/articles/page/1/${props.articleUrl}`}
                     onClick={() => goToTop()}
-                    className="d-block text-center color-2 fs-11 fw-5 mt-1">Читать далее</NavLink>
+                    className="d-block text-center color-2 fs-11 fw-5 mt-1"
+                >
+                    Читать далее
+                </NavLink>
             </div>
         </article>
     )

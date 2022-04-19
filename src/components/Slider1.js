@@ -1,13 +1,55 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 import Card from './Card';
+import {useEffect} from "react";
+import {useParams} from "react-router-dom";
+import {getPopular} from "./API/mainpagereq";
 
 SwiperCore.use([Navigation, Pagination]);
 
 export const Slider1 = () => {
+
+    /*const {userId} = useParams();*/
+    const {page} = useParams();
+
+    /*const [recommend, setRecommend] = useState([]);*/
+    const [popular, setPopular] = useState([]);
+
+    /*useEffect(() => {
+        const fun = async () => {
+            try {
+                let result = await getRecommend(userId, 6)
+                if (result) {
+                    setRecommend(result)
+                }
+            } catch (err) {
+                console.log("err")
+            }
+        }
+        fun()
+    }, [userId])*/
+
+    useEffect(() => {
+        const fun = async () => {
+            try {
+                let result = await getPopular(page, 6)
+                if (result) {
+                    setPopular(result)
+                }
+            } catch (err) {
+                console.log("err")
+            }
+        }
+        fun()
+    }, [page])
+
+    /*console.log(recommend)*/
+    console.log(popular)
+
     return (
-        <Swiper className="swiper-4"
+        <Swiper
+            className="swiper-4"
             spaceBetween={10}
             slidesPerView={1}
             breakpoints={{
@@ -38,18 +80,25 @@ export const Slider1 = () => {
                 prevEl: '.swiper-button-prev',
             }}
         >
-            <SwiperSlide>
-                <Card 
-                    images={['/real_estate/img/img1.jpg', '/real_estate/img/img2.jpg', '/real_estate/img/img3.jpg', '/real_estate/img/img4.jpg']}
-                    title="1-к, квартира 52м2" 
-                    price="6 000 000" 
-                    addressName="ЖК “Столичный”" 
-                    address="Вахитовский район, ул. Четаева 32" 
-                    metro="Козья слобода, 7 минут"
-                    text='Сдается 1-комнатная квартира в строящемся доме (Дом 3.1), срок сдачи: IV-кв. 2021, общей площадью 51.82 кв.м., на 18 этаже. Жилой комплекс "Столичный"- это современный жилой комплекс, который находится в самом  центре Казани, состоящий из нескольких кварталов, органично сочетающий городской комфорт и природное окружение...'
-                    date="Вчера в 21:00"
-                />
-            </SwiperSlide>
+            {popular.map((popular) =>
+                <SwiperSlide key={popular.id}>
+                    <Card
+                        images={[
+                            '/real_estate/img/img1.jpg',
+                            '/real_estate/img/img2.jpg',
+                            '/real_estate/img/img3.jpg',
+                            '/real_estate/img/img4.jpg'
+                        ]}
+                        title={popular.title}
+                        price={popular.price}
+                        addressName={popular.residentComplexForUser}
+                        address={popular.address}
+                        metro={popular.metro}
+                        text={popular.description}
+                        date={popular.createdAtForUser}
+                    />
+                </SwiperSlide>
+            )}
             <SwiperSlide>
                 <Card 
                 images={['/real_estate/img/img3.jpg']} 

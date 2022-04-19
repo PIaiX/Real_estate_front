@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import { NavLink, Link } from 'react-router-dom';
-import { animateScroll as scroll } from 'react-scroll';
+import {NavLink, Link} from 'react-router-dom';
+import {animateScroll as scroll} from 'react-scroll';
 
 
 export default function Tile(props) {
+
     const [mob, setMob] = useState(false);
     const [visibility, setVisibility] = useState(false);
 
@@ -13,32 +14,34 @@ export default function Tile(props) {
 
     useEffect(() => {
         function changeTile() {
-            if(window.matchMedia("(max-width: 991px)").matches){
+            if (window.matchMedia("(max-width: 991px)").matches) {
                 setMob(true);
             } else {
                 setMob(false);
             }
         }
-          window.addEventListener('resize', changeTile);
-          changeTile();
-          return () => window.removeEventListener('resize', changeTile);
+
+        window.addEventListener('resize', changeTile);
+        changeTile();
+        return () => window.removeEventListener('resize', changeTile);
     }, []);
 
     const titles = props.titles;
     const hoverLinks = props.hoverLinks;
 
-    if(mob){
+    if (mob) {
         return (
             <div className="tile" onClick={() => setVisibility(true)}>
                 <img src={props.img} alt="иконка"/>
                 <div className="links">
                     {
-                        (props.simpleLink)&&
-                        <Link className="title" to={props.simpleLink.url} onClick={() => scrollToTop()}>{props.simpleLink.title}</Link>
+                        (props.simpleLink) &&
+                        <Link className="title" to={props.simpleLink.url}
+                              onClick={() => scrollToTop()}>{props.simpleLink.title}</Link>
                     }
                     {
-                        (titles)&&
-                        titles.map(function(item) {
+                        (titles) &&
+                        titles.map(function (item) {
                             return (
                                 <div key={item} className="title">{item}</div>
                             )
@@ -46,11 +49,11 @@ export default function Tile(props) {
                     }
                 </div>
                 {
-                    (hoverLinks)&&
+                    (hoverLinks) &&
                     <div className={(visibility) ? "click-links" : "click-links d-none"}>
                         <div className="titles mb-2 mb-sm-3">
                             {
-                                titles.map(function(item) {
+                                titles.map(function (item) {
                                     return (
                                         <div key={item} className="title">{item}</div>
                                     )
@@ -59,16 +62,20 @@ export default function Tile(props) {
                         </div>
                         <ul>
                             {
-                                hoverLinks.map(function(item) {
+                                hoverLinks.map(function (item, i) {
                                     return (
-                                        <li key={item.name}>
-                                            <NavLink to={item.link} onClick={() => scrollToTop()}>{item.name}</NavLink>
+                                        <li key={i}>
+                                            <NavLink
+                                                to={item.link}
+                                                onClick={() => scrollToTop()}
+                                            >
+                                                {item.name}
+                                            </NavLink>
                                         </li>
                                     )
                                 })
                             }
                         </ul>
-                        
                     </div>
                 }
             </div>
@@ -79,25 +86,27 @@ export default function Tile(props) {
                 <img src={props.img} alt="иконка"/>
                 <div className="links">
                     {
-                        (props.simpleLink)&&
-                        <Link className="title" to={props.simpleLink.url} onClick={() => scrollToTop()}>{props.simpleLink.title}</Link>
+                        (props.simpleLink) &&
+                        <Link className="title" to={props.simpleLink.url}
+                              onClick={() => scrollToTop()}>{props.simpleLink.title}</Link>
                     }
                     {
-                        (titles)&&
-                        titles.map(function(item) {
+                        (titles) &&
+                        titles.map(function (item) {
                             return (
                                 <div key={item} className="title">{item}</div>
                             )
                         })
                     }
                     {
-                        (hoverLinks)&&
+                        (hoverLinks) &&
                         <div className="hover-links">
                             {
-                                hoverLinks.map(function(item) {
+                                hoverLinks.map(function (item) {
                                     return (
                                         <div key={item.name}>
-                                            <NavLink to={item.link} onClick={() => scrollToTop()}>{item.name}</NavLink>
+                                            <NavLink to={item.link}
+                                                     onClick={() => scrollToTop()}>{item.name}</NavLink>
                                         </div>
                                     )
                                 })
@@ -108,6 +117,4 @@ export default function Tile(props) {
             </div>
         )
     }
-
-    
 }

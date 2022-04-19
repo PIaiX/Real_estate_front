@@ -213,7 +213,7 @@ export default function Catalog() {
                                     addressName="ЖК “Столичный”" 
                                     address="Вахитовский район, ул. Четаева 32" 
                                     text="Новый дом. Консьерж. Квартира после евро ремонта. Полы ламинат. Кондиционеры. Рядом школа и деский сад..."
-                                    date="Вчера в 21:00"authorName="Колесникова Ирина"
+                                    date="Вчера в 21:00" authorName="Колесникова Ирина"
                                     authorPhoto="/real_estate/img/photo.png"
                                     authorTimeSpan="сентября 2021"
                                     phone="+ 7 (952) 879 78 65"
@@ -843,7 +843,7 @@ export default function Catalog() {
                                 <span className="fs-11 ms-3">Можно с животными</span>
                             </label>
                     </fieldset>
-                    <div class="collapse" id="advanced-filter">
+                    <div className="collapse" id="advanced-filter">
                         <fieldset className="mb-4">
                             <legend className="title-font fs-12 fw-6 mb-3">Общая площадь:</legend>
                             <div className="d-flex align-items-baseline">
@@ -1028,7 +1028,7 @@ export default function Catalog() {
                             </label>
                         </fieldset>
                     </div>
-                    <button class="btn-filter color-1 mx-auto btn-collapse" type="button" data-bs-toggle="collapse" data-bs-target="#advanced-filter" aria-expanded="false">
+                    <button className="btn-filter color-1 mx-auto btn-collapse" type="button" data-bs-toggle="collapse" data-bs-target="#advanced-filter" aria-expanded="false">
                         <svg width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M15.4286 -3.0664e-08L9 6.25L2.57143 -1.83984e-07L1.04343e-07 1.25L9 10L18 1.25L15.4286 -3.0664e-08Z" fill="#146492"/>
                         </svg>

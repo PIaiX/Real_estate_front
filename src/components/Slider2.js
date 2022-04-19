@@ -26,10 +26,6 @@ export const Slider2 = () => {
         fin()
     }, [page])
 
-    console.log(data)
-
-
-
     return (
         <Swiper className="swiper-3"
             spaceBetween={0}

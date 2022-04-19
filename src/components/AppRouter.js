@@ -1,5 +1,5 @@
 import React from 'react';
-import {Routes, Route, Redirect} from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
 import CardPage from './CardPage';
 import ArticlePage from './ArticlePage';
 import Catalog from './Catalog';
@@ -14,15 +14,12 @@ import Articles from './Articles';
 import Password1 from './Password1';
 import Password2 from './Password2';
 
-import Article from "./Article";
-
 export default function AppRouter() {
     return (
             <Routes>
                 <Route exact path="/" element={<MainPage />} />
                 <Route path="/catalog" element={<Catalog />} />
                 <Route path="/card-page" element={<CardPage />} />
-                <Route path="/:slug" element={<ArticlePage />} />
                 <Route path="/service" element={<Services />} />
                 <Route path="/user" element={<UserPage />} />
                 <Route path="/advertise" element={<Advertise />} />

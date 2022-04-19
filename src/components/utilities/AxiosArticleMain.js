@@ -1,13 +1,16 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Article from "../Article";
 
 export default function AxiosArticleMain(props) {
+
     const [data, setData] = useState([]);
+
     useEffect(() => {
         if(props.data){
             setData(props.data.data)
         } else (console.log("error2"));
     }, [props.data])
+
     return (
         data ?
         <>

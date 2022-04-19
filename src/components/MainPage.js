@@ -7,6 +7,7 @@ import { animateScroll as scroll } from 'react-scroll';
 import { MainBanner } from './MainBanner';
 
 export default function MainPage() {
+
     const scrollToTop = () => {
         scroll.scrollToTop();
     };
@@ -21,21 +22,61 @@ export default function MainPage() {
             </section>
 
             <section id="sec-2" className="container tiles px-xxl-5 mb-6">
-                <Tile img="/real_estate/img/icons/icon-1.svg" titles={['Квартиры', 'Комнаты']} hoverLinks={[{name: 'Купить', link: '/catalog'}, {name: 'Сдать', link: '/catalog'}, {name: 'Продать', link: '/catalog'}, {name: 'Снять', link: '/catalog'}]}/>
+                <Tile
+                    img="/real_estate/img/icons/icon-1.svg"
+                    titles={['Квартиры', 'Комнаты']}
+                    hoverLinks={[
+                        {name: 'Купить', link: '/catalog'},
+                        {name: 'Сдать', link: '/catalog'},
+                        {name: 'Продать', link: '/catalog'},
+                        {name: 'Снять', link: '/catalog'}]}
+                />
 
-                <Tile img="/real_estate/img/icons/icon-2.svg" titles={['Дома', 'Дачи', 'Коттеджи']} hoverLinks={[{name: 'Купить', link: '/catalog'}, {name: 'Сдать', link: '/catalog'}, {name: 'Продать', link: '/catalog'}, {name: 'Снять', link: '/catalog'}]}/>
+                <Tile
+                    img="/real_estate/img/icons/icon-2.svg"
+                    titles={['Дома', 'Дачи', 'Коттеджи']}
+                    hoverLinks={[
+                        {name: 'Купить', link: '/catalog'},
+                        {name: 'Сдать', link: '/catalog'},
+                        {name: 'Продать', link: '/catalog'},
+                        {name: 'Снять', link: '/catalog'}]}
+                />
 
-                <Tile img="/real_estate/img/icons/icon-3.svg" titles={['Гараж', 'Паркинг']} hoverLinks={[{name: 'Купить', link: '/catalog'}, {name: 'Сдать', link: '/catalog'}, {name: 'Продать', link: '/catalog'}, {name: 'Снять', link: '/catalog'}]}/>
+                <Tile
+                    img="/real_estate/img/icons/icon-3.svg"
+                    titles={['Гараж', 'Паркинг']}
+                    hoverLinks={[
+                        {name: 'Купить', link: '/catalog'},
+                        {name: 'Сдать', link: '/catalog'},
+                        {name: 'Продать', link: '/catalog'},
+                        {name: 'Снять', link: '/catalog'}]}
+                />
 
-                <Tile img="/real_estate/img/icons/icon-4.svg" titles={['Земельные участки']} hoverLinks={[{name: 'Купить', link: '/catalog'}, {name: 'Сдать', link: '/catalog'}, {name: 'Продать', link: '/catalog'}, {name: 'Снять', link: '/catalog'}]}/>
+                <Tile
+                    img="/real_estate/img/icons/icon-4.svg"
+                    titles={['Земельные участки']}
+                    hoverLinks={[
+                        {name: 'Купить', link: '/catalog'},
+                        {name: 'Сдать', link: '/catalog'},
+                        {name: 'Продать', link: '/catalog'},
+                        {name: 'Снять', link: '/catalog'}]}
+                />
 
-                <Tile img="/real_estate/img/icons/icon-5.svg" titles={['Коммерческая недвижимость']} hoverLinks={[{name: 'Купить', link: '/catalog'}, {name: 'Сдать', link: '/catalog'}, {name: 'Продать', link: '/catalog'}, {name: 'Снять', link: '/catalog'}]}/>
+                <Tile
+                    img="/real_estate/img/icons/icon-5.svg"
+                    titles={['Коммерческая недвижимость']}
+                    hoverLinks={[
+                        {name: 'Купить', link: '/catalog'},
+                        {name: 'Сдать', link: '/catalog'},
+                        {name: 'Продать', link: '/catalog'},
+                        {name: 'Снять', link: '/catalog'}]}
+                />
 
-                <Tile img="/real_estate/img/icons/icon-6.svg" simpleLink={{title: 'Ипотека', url: '/service'}}/>
-                <Tile img="/real_estate/img/icons/icon-7.svg" simpleLink={{title: 'Дизайн', url: '/service'}}/>
-                <Tile img="/real_estate/img/icons/icon-8.svg" simpleLink={{title: 'Ремонт', url: '/service'}}/>
-                <Tile img="/real_estate/img/icons/icon-9.svg" simpleLink={{title: 'Грузоперевозки', url: '/service'}}/>
-                <Tile img="/real_estate/img/icons/icon-10.svg" simpleLink={{title: 'Услуги риелторов', url: '/service'}}/>
+                <Tile
+                    img="/real_estate/img/icons/icon-6.svg"
+                    simpleLink={{title: 'Ипотека', url: '/service'}}
+                />
+
             </section>
         
             <section id="sec-3" className="container mb-6">
@@ -56,7 +97,7 @@ export default function MainPage() {
             <section className="sec-4 container mb-6">
                 <h3>Часто просматриваемые</h3>
                 <div className="position-relative">
-                    <Slider1 />
+                    <Slider1/>
                 </div>
                 <div className="text-center mt-2">
                     <a href="/" className="fs-11 fw-5">Смотреть все</a>
@@ -66,7 +107,7 @@ export default function MainPage() {
             <section className="sec-4 container mb-6">
                 <h3>Рекомендованные Вам</h3>
                 <div className="position-relative">
-                    <Slider1 />
+                    <Slider1/>
                 </div>
                 <div className="text-center mt-2">
                     <a href="/" className="fs-11 fw-5">Смотреть все</a>

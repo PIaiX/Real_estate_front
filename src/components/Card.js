@@ -7,6 +7,7 @@ import { NavLink } from 'react-router-dom';
 import { animateScroll as scroll } from 'react-scroll';
 
 export default function Card(props) {
+
     const type = props.type;
     const images = props.images;
 
