@@ -3,9 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import Joi from "joi";
 import axios from "axios";
 import fingerprint from "@fingerprintjs/fingerprintjs";
+import { useDispatch } from "react-redux";
+import accessTokenActions from "../store/actions/accessToken";
 
 import InputPassword from "./utilities/InputPassword";
 import FormErrorMessage from "./utilities/FormErrorMessage";
+import { bindActionCreators } from "redux";
+
+import useAxiosPrivate from "./hooks/axiosPrivate";
 
 const formValueDefault = { email: "", password: "", remember: false };
 const formErrorDefault = { email: "", password: "" };
@@ -40,21 +45,25 @@ const schema = Joi.object({
 });
 
 export default function Entrance() {
+  const axiosPrivate = useAxiosPrivate();
+
   const [formValue, setFormValue] = useState(formValueDefault);
   const [formErrors, setFormErrors] = useState(formErrorDefault);
-  const [userFingerprintId, setUserFingerprintId] = useState("");
+  // const [userFingerprintId, setUserFingerprintId] = useState("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { setToken } = bindActionCreators(accessTokenActions, dispatch);
 
-  useEffect(() => {
-    fingerprint
-      .load()
-      .then((fp) => fp.get())
-      .then((result) => {
-        const visitorID = result.visitorId;
-        setUserFingerprintId(visitorID);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fingerprint
+  //     .load()
+  //     .then((fp) => fp.get())
+  //     .then((result) => {
+  //       const visitorID = result.visitorId;
+  //       setUserFingerprintId(visitorID);
+  //     });
+  // }, []);
 
   const handleFormChange = (e) => {
     setFormValue((prev) => {
@@ -78,16 +87,12 @@ export default function Entrance() {
     }
 
     try {
-      const response = await axios.post(
+      const response = await axiosPrivate.post(
         `${baseUrl}/api/auth/login`,
-        formValue,
-        {
-          headers: {
-            "User-Fingerprint": userFingerprintId,
-          },
-        }
+        formValue
       );
       if (response.data.status === 200) {
+        setToken(response.data.body.token);
         navigate("/");
       }
     } catch (error) {
@@ -101,6 +106,12 @@ export default function Entrance() {
         return { ...prev, [formField.path[0]]: formField.message };
       });
     });
+  };
+
+  const testRefreshToken = async () => {
+    const response = await axiosPrivate.post(`${baseUrl}/api/auth/refresh`);
+
+    console.log(response);
   };
 
   return (
@@ -186,6 +197,13 @@ export default function Entrance() {
                     onClick={handleFormSubmit}
                   >
                     Войти
+                  </div>
+                  <div
+                    to="/personal-account"
+                    className="btn btn-1 fs-11 w-100 text-uppercase mb-4"
+                    onClick={testRefreshToken}
+                  >
+                    Тест
                   </div>
                 </div>
                 <div className="col-12">
