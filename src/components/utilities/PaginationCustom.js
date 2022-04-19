@@ -4,11 +4,13 @@ import {Pagination} from "react-bootstrap";
 
 export default function PaginationCustom(props) {
 
+
     const [data, setData] = useState([]);
     const [prev, setPrev] = useState([]);
     const [next, setNext] = useState([]);
-    const [currentPage, onPageChange] = useState([]);
-    const [totalPages, setTotal] = useState([])
+    const [currentPage, onPageChange] = useState(1);
+    const [totalPages, setTotal] = useState([]);
+
     const goToTop = () => {
         window.scrollTo({
             top: 0,
@@ -21,6 +23,7 @@ export default function PaginationCustom(props) {
             setData(props.meta.meta)
         } else (console.log("error1"));
     }, [props.meta])
+
     useEffect( () => {
         if (data) {
             onPageChange(data.current_page)
@@ -42,7 +45,7 @@ export default function PaginationCustom(props) {
 
     const createPaginationItem = (i) => {
         return <Pagination.Item
-            href={`real_estate#/articles/page/${i}`}
+            href={`/real_estate#/${props.baseUrl}/page/${i}`}
             key={i}
             active={i === currentPage}
             onClick={() => {
@@ -102,7 +105,7 @@ export default function PaginationCustom(props) {
                 <ul className="pagination">
                     <li className={`page-item ${prev ? '' : 'disabled'}`}>
                         <NavLink
-                            to={`/articles/page/${prev}`}
+                            to={`/${props.baseUrl}/page/${prev}`}
                             className="page-link"
                             onClick={() => onPageChange(currentPage - 1)}
                             disabled={currentPage === 1}
@@ -115,7 +118,7 @@ export default function PaginationCustom(props) {
                     </Pagination>
                     <li className={`page-item ${next > data.last_page ? 'disabled' : ''}`}>
                         <NavLink
-                            to={`/articles/page/${next}`}
+                            to={`/${props.baseUrl}/page/${next}`}
                             className="page-link"
                             onClick={() => onPageChange(currentPage + 1)}
                             disabled={currentPage === totalPages}

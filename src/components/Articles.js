@@ -42,7 +42,7 @@ export default function Articles() {
                 <div className="row row-cols-sm-2 row-cols-lg-3 gx-4 gy-4 gy-md-5 g-xxl-5">
                     <AxiosArticleMain data={dataArticles}/>
                 </div>
-                <PaginationCustom meta={dataArticles}/>
+                <PaginationCustom meta={dataArticles} baseUrl="articles"/>
             </div>
 
         </main>
