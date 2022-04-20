@@ -60,10 +60,10 @@ export const Slider1 = (props) => {
                 <SwiperSlide key={popular.id}>
                     <Card
                         images={[
-                            '/real_estate/img/img1.jpg',
-                            '/real_estate/img/img2.jpg',
-                            '/real_estate/img/img3.jpg',
-                            '/real_estate/img/img4.jpg'
+                            '/Real_estate_front/img/img1.jpg',
+                            '/Real_estate_front/img/img2.jpg',
+                            '/Real_estate_front/img/img3.jpg',
+                            '/Real_estate_front/img/img4.jpg'
                         ]}
                         isVip={popular.isVip}
                         isHot={popular.isHot}
@@ -82,10 +82,10 @@ export const Slider1 = (props) => {
                 <SwiperSlide key={recommend.id}>
                     <Card
                         images={[
-                            '/real_estate/img/img1.jpg',
-                            '/real_estate/img/img2.jpg',
-                            '/real_estate/img/img3.jpg',
-                            '/real_estate/img/img4.jpg'
+                            '/Real_estate_front/img/img1.jpg',
+                            '/Real_estate_front/img/img2.jpg',
+                            '/Real_estate_front/img/img3.jpg',
+                            '/Real_estate_front/img/img4.jpg'
                         ]}
                         isVip={recommend.isVip}
                         isHot={recommend.isHot}
@@ -100,10 +100,10 @@ export const Slider1 = (props) => {
                 </SwiperSlide>
             )}
             <div className="swiper-button-prev">
-                <img src="/real_estate/img/icons/prev.svg" alt="предыдущий" className="w-100"/>
+                <img src="/Real_estate_front/img/icons/prev.svg" alt="предыдущий" className="w-100"/>
             </div>
             <div className="swiper-button-next">
-                <img src="/real_estate/img/icons/next.svg" alt="следующий" className="w-100"/>
+                <img src="/Real_estate_front/img/icons/next.svg" alt="следующий" className="w-100"/>
             </div>
             <div className="swiper-pagination"></div>
         </Swiper>

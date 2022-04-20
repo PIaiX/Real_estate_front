@@ -171,7 +171,7 @@ export default function Services() {
                     <div className="col-xl-8 col-xxl-9">
                         <div className="d-flex justify-content-between mb-3 mb-xl-2">
                             <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasServiceFilter" className="d-flex d-xl-none align-items-center">
-                                <img src="/real_estate/img/icons/filter.svg" alt="filter"/>
+                                <img src="/Real_estate_front/img/icons/filter.svg" alt="filter"/>
                                 <span className="ms-2 fs-11 fw-5 color-1">Фильтры</span>
                             </button>
                             <div className="d-flex flex-column-reverse flex-sm-row align-items-end justify-content-between flex-1 ms-4 ms-xl-0">
@@ -192,18 +192,18 @@ export default function Services() {
                                                 <NavLink to="/user" onClick={() => scrollToTop()}>Колесникова Ирина</NavLink>
                                             </h4>
                                             <div className="rating mb-1 mb-xl-2 ms-xxl-4">
-                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
                                                 <span>(3.35)</span>
                                             </div>
                                         </div>
                                         <h4 className="mb-1 mb-xl-2 mb-xxl-0">Дизайнер</h4>
                                     </div>
                                     <div className="photo mt-2 mt-md-3 mt-xxl-0">
-                                        <NavLink to="/user" onClick={() => scrollToTop()}><img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/></NavLink>
+                                        <NavLink to="/user" onClick={() => scrollToTop()}><img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/></NavLink>
                                     </div>
                                     <div className="desc mt-2 mt-md-3 mt-xxl-0">
                                         <div className="fs-11 gray-2 mb-1 mb-md-2 mb-xxl-3">Опыт работы от 1 года</div>
@@ -232,18 +232,18 @@ export default function Services() {
                                                 <NavLink to="/user" onClick={() => scrollToTop()}>Колесникова Ирина</NavLink>
                                             </h4>
                                             <div className="rating mb-1 mb-xl-2 ms-xxl-4">
-                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
                                                 <span>(3.35)</span>
                                             </div>
                                         </div>
                                         <h4 className="mb-1 mb-xl-2 mb-xxl-0">Дизайнер</h4>
                                     </div>
                                     <div className="photo mt-2 mt-md-3 mt-xxl-0">
-                                        <NavLink to="/user" onClick={() => scrollToTop()}><img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/></NavLink>
+                                        <NavLink to="/user" onClick={() => scrollToTop()}><img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/></NavLink>
                                     </div>
                                     <div className="desc mt-2 mt-md-3 mt-xxl-0">
                                         <div className="fs-11 gray-2 mb-1 mb-md-2 mb-xxl-3">Опыт работы от 1 года</div>
@@ -272,18 +272,18 @@ export default function Services() {
                                                 <NavLink to="/user" onClick={() => scrollToTop()}>Колесникова Ирина</NavLink>
                                             </h4>
                                             <div className="rating mb-1 mb-xl-2 ms-xxl-4">
-                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
                                                 <span>(3.35)</span>
                                             </div>
                                         </div>
                                         <h4 className="mb-1 mb-xl-2 mb-xxl-0">Дизайнер</h4>
                                     </div>
                                     <div className="photo mt-2 mt-md-3 mt-xxl-0">
-                                        <NavLink to="/user" onClick={() => scrollToTop()}><img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/></NavLink>
+                                        <NavLink to="/user" onClick={() => scrollToTop()}><img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/></NavLink>
                                     </div>
                                     <div className="desc mt-2 mt-md-3 mt-xxl-0">
                                         <div className="fs-11 gray-2 mb-1 mb-md-2 mb-xxl-3">Опыт работы от 1 года</div>
@@ -312,18 +312,18 @@ export default function Services() {
                                                 <NavLink to="/user" onClick={() => scrollToTop()}>Колесникова Ирина</NavLink>
                                             </h4>
                                             <div className="rating mb-1 mb-xl-2 ms-xxl-4">
-                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
                                                 <span>(3.35)</span>
                                             </div>
                                         </div>
                                         <h4 className="mb-1 mb-xl-2 mb-xxl-0">Дизайнер</h4>
                                     </div>
                                     <div className="photo mt-2 mt-md-3 mt-xxl-0">
-                                        <NavLink to="/user" onClick={() => scrollToTop()}><img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/></NavLink>
+                                        <NavLink to="/user" onClick={() => scrollToTop()}><img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/></NavLink>
                                     </div>
                                     <div className="desc mt-2 mt-md-3 mt-xxl-0">
                                         <div className="fs-11 gray-2 mb-1 mb-md-2 mb-xxl-3">Опыт работы от 1 года</div>
@@ -352,18 +352,18 @@ export default function Services() {
                                                 <NavLink to="/user" onClick={() => scrollToTop()}>Колесникова Ирина</NavLink>
                                             </h4>
                                             <div className="rating mb-1 mb-xl-2 ms-xxl-4">
-                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
                                                 <span>(3.35)</span>
                                             </div>
                                         </div>
                                         <h4 className="mb-1 mb-xl-2 mb-xxl-0">Дизайнер</h4>
                                     </div>
                                     <div className="photo mt-2 mt-md-3 mt-xxl-0">
-                                        <NavLink to="/user" onClick={() => scrollToTop()}><img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/></NavLink>
+                                        <NavLink to="/user" onClick={() => scrollToTop()}><img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/></NavLink>
                                     </div>
                                     <div className="desc mt-2 mt-md-3 mt-xxl-0">
                                         <div className="fs-11 gray-2 mb-1 mb-md-2 mb-xxl-3">Опыт работы от 1 года</div>
@@ -392,18 +392,18 @@ export default function Services() {
                                                 <NavLink to="/user" onClick={() => scrollToTop()}>Колесникова Ирина</NavLink>
                                             </h4>
                                             <div className="rating mb-1 mb-xl-2 ms-xxl-4">
-                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
-                                                <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
+                                                <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
                                                 <span>(3.35)</span>
                                             </div>
                                         </div>
                                         <h4 className="mb-1 mb-xl-2 mb-xxl-0">Дизайнер</h4>
                                     </div>
                                     <div className="photo mt-2 mt-md-3 mt-xxl-0">
-                                        <NavLink to="/user" onClick={() => scrollToTop()}><img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/></NavLink>
+                                        <NavLink to="/user" onClick={() => scrollToTop()}><img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/></NavLink>
                                     </div>
                                     <div className="desc mt-2 mt-md-3 mt-xxl-0">
                                         <div className="fs-11 gray-2 mb-1 mb-md-2 mb-xxl-3">Опыт работы от 1 года</div>
@@ -430,7 +430,7 @@ export default function Services() {
                             <ul className="pagination">
                                 <li className="page-item">
                                     <a className="page-link" href="/" aria-label="Previous">
-                                    <img src="/real_estate/img/icons/prev2.svg" alt="Previous"/>
+                                    <img src="/Real_estate_front/img/icons/prev2.svg" alt="Previous"/>
                                     </a>
                                 </li>
                                 <li className="page-item active"><a className="page-link" href="/">1</a></li>
@@ -440,7 +440,7 @@ export default function Services() {
                                 <li className="page-item"><a className="page-link" href="/">6</a></li>
                                 <li className="page-item">
                                     <a className="page-link" href="/" aria-label="Next">
-                                    <img src="/real_estate/img/icons/next2.svg" alt="Next"/>
+                                    <img src="/Real_estate_front/img/icons/next2.svg" alt="Next"/>
                                     </a>
                                 </li>
                             </ul>
@@ -462,7 +462,7 @@ export default function Services() {
                             <form className="message-form">
                                 <div className="d-flex align-items-center">
                                     <div className="photo me-2 me-sm-4">
-                                        <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
+                                        <img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/>
                                         <div className="indicator online"></div>
                                     </div>
                                     <div>

@@ -4,7 +4,7 @@ import ImageUploading from "react-images-uploading";
 import { Link } from 'react-router-dom';
 
 export default function UserProfile() {
-    const [images, setImages] = React.useState([{'data_url': '/real_estate/img/photo.png'}]);
+    const [images, setImages] = React.useState([{'data_url': '/Real_estate_front/img/photo.png'}]);
     const maxNumber = 24;
     const onChange = (imageList, addUpdateIndex) => {
         console.log(imageList, addUpdateIndex);
@@ -45,11 +45,11 @@ export default function UserProfile() {
                                                 <img src={image.data_url} alt=""/>
                                                 <div className="image-item__btn-wrapper">
                                                     <button type="button" onClick={() => onImageUpdate(index)}>
-                                                        <img src="/real_estate/img/icons/edit.svg" alt="Загрузить" />
+                                                        <img src="/Real_estate_front/img/icons/edit.svg" alt="Загрузить" />
                                                         Загрузить фото
                                                     </button>
                                                     <button type="button" onClick={() => onImageRemove(index)}>
-                                                        <img src="/real_estate/img/icons/delete2.svg" alt="Удалить" />
+                                                        <img src="/Real_estate_front/img/icons/delete2.svg" alt="Удалить" />
                                                         Удалить фото
                                                     </button>
                                                 </div>
@@ -77,11 +77,11 @@ export default function UserProfile() {
                             <div>
                                 <div className="fs-15 fw-7 text-center mt-3 mt-sm-4">Колесникова Ирина</div>
                                 <div className="rating justify-content-center mt-1 mt-sm-5">
-                                    <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                    <img src="/real_estate/img/icons/star-blue.svg" alt="2"/>
-                                    <img src="/real_estate/img/icons/star-blue.svg" alt="3"/>
-                                    <img src="/real_estate/img/icons/star-gray.svg" alt="4"/>
-                                    <img src="/real_estate/img/icons/star-gray.svg" alt="5"/>
+                                    <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                    <img src="/Real_estate_front/img/icons/star-blue.svg" alt="2"/>
+                                    <img src="/Real_estate_front/img/icons/star-blue.svg" alt="3"/>
+                                    <img src="/Real_estate_front/img/icons/star-gray.svg" alt="4"/>
+                                    <img src="/Real_estate_front/img/icons/star-gray.svg" alt="5"/>
                                 </div>
                                 <div className="gray-3 fs-11 text-center mt-1 mt-sm-4">На сайте с сентября 2019</div>
                             </div>

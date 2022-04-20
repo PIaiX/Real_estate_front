@@ -42,12 +42,12 @@ export default function ArticlePage() {
             <section id="sec-8" className="container pb-5">
                 <div className="row gx-xxl-5 mb-5">
                     <div className="col-xl-8 col-xxl-9 article-full">
-                        <img src="/real_estate/img/nophoto.jpg" alt={data.title} className="article-page-img order-3"/>
+                        <img src="/Real_estate_front/img/nophoto.jpg" alt={data.title} className="article-page-img order-3"/>
                         <h1 className="order-1 text-center text-md-left">{data.title}</h1>
                         <div className="d-flex gray-4 fs-12 mb-4 order-2">
-                            <img src="/real_estate/img/icons/bi_calendar-event-fill.svg" alt="дата"/>
+                            <img src="/Real_estate_front/img/icons/bi_calendar-event-fill.svg" alt="дата"/>
                             <div className="ms-2">{data.createdAtForUser}</div>
-                            <img src="/real_estate/img/icons/time.svg" alt="время" className="ms-4"/>
+                            <img src="/Real_estate_front/img/icons/time.svg" alt="время" className="ms-4"/>
                             <div className="ms-2">{data.readingTime} мин</div>
                         </div>
                         <div className="text fw-3 fs-11 order-4">
@@ -60,7 +60,7 @@ export default function ArticlePage() {
                         <Card
                             className="mb-4"
                             type="tiled"
-                            images={['/real_estate/img/img1.jpg', '/real_estate/img/img2.jpg', '/real_estate/img/img3.jpg', '/real_estate/img/img4.jpg']}
+                            images={['/Real_estate_front/img/img1.jpg', '/Real_estate_front/img/img2.jpg', '/Real_estate_front/img/img3.jpg', '/Real_estate_front/img/img4.jpg']}
                             title="1-к, квартира 52м2"
                             price="6 000 000"
                             addressName="ЖК “Столичный”"
@@ -69,7 +69,7 @@ export default function ArticlePage() {
                             text='Сдается 1-комнатная квартира в строящемся доме (Дом 3.1), срок сдачи: IV-кв. 2021, общей площадью 51.82 кв.м., на 18 этаже. Жилой комплекс "Столичный"- это современный жилой комплекс, который находится в самом  центре Казани, состоящий из нескольких кварталов, органично сочетающий городской комфорт и природное окружение...'
                             date="Вчера в 21:00"
                             authorName="Колесникова Ирина"
-                            authorPhoto="/real_estate/img/photo.png"
+                            authorPhoto="/Real_estate_front/img/photo.png"
                             authorTimeSpan="сентября 2021"
                             phone="+ 7 (952) 879 78 65"
                             communalPayments="Не включая коммунальные платежи"
@@ -81,7 +81,7 @@ export default function ArticlePage() {
                         <Card
                             className="mb-4"
                             type="tiled"
-                            images={['/real_estate/img/img1.jpg', '/real_estate/img/img2.jpg', '/real_estate/img/img3.jpg', '/real_estate/img/img4.jpg']}
+                            images={['/Real_estate_front/img/img1.jpg', '/Real_estate_front/img/img2.jpg', '/Real_estate_front/img/img3.jpg', '/Real_estate_front/img/img4.jpg']}
                             title="1-к, квартира 52м2"
                             price="6 000 000"
                             addressName="ЖК “Столичный”"
@@ -90,7 +90,7 @@ export default function ArticlePage() {
                             text='Сдается 1-комнатная квартира в строящемся доме (Дом 3.1), срок сдачи: IV-кв. 2021, общей площадью 51.82 кв.м., на 18 этаже. Жилой комплекс "Столичный"- это современный жилой комплекс, который находится в самом  центре Казани, состоящий из нескольких кварталов, органично сочетающий городской комфорт и природное окружение...'
                             date="Вчера в 21:00"
                             authorName="Колесникова Ирина"
-                            authorPhoto="/real_estate/img/photo.png"
+                            authorPhoto="/Real_estate_front/img/photo.png"
                             authorTimeSpan="сентября 2021"
                             phone="+ 7 (952) 879 78 65"
                             communalPayments="Не включая коммунальные платежи"

@@ -13,7 +13,7 @@ export default function Header() {
             <header>
                 <div className="container">
                     <Link to="/" onClick={() => scrollToTop()} className="order-1 me-lg-auto">
-                        <img src="/real_estate/img/Лого.png" alt="Название сайта" className="logo" />
+                        <img src="/Real_estate_front/img/Лого.png" alt="Название сайта" className="logo" />
                     </Link>
                     <nav className="d-none d-lg-flex order-2">
                         <NavLink to="/">Главная</NavLink>
@@ -39,13 +39,13 @@ export default function Header() {
                     </nav>
                     <div className="d-none d-md-flex order-4 order-lg-3">
                         <Link to="/personal-account/my-messages" onClick={() => scrollToTop()} className="ms-4">
-                            <img src="/real_estate/img/icons/email.svg" alt="email"/>
+                            <img src="/Real_estate_front/img/icons/email.svg" alt="email"/>
                         </Link>
                         <Link to="/personal-account/favorites" onClick={() => scrollToTop()} className="ms-3 ms-xl-4">
-                            <img src="/real_estate/img/icons/favorite.svg" alt="favorite"/>
+                            <img src="/Real_estate_front/img/icons/favorite.svg" alt="favorite"/>
                         </Link>
                         <Link to="/entrance" onClick={() => scrollToTop()} className="ms-3 ms-xl-4">
-                            <img src="/real_estate/img/icons/user.svg" alt="аккаунт"/>
+                            <img src="/Real_estate_front/img/icons/user.svg" alt="аккаунт"/>
                         </Link>
                     </div>
                     
@@ -55,7 +55,7 @@ export default function Header() {
                     <CustomSelect className="ms-md-3 ms-xl-4 order-2 order-lg-5" btnClass="color-2 text-uppercase" checkedOpt="Казань" options={['Казань', 'Москва', 'Санкт-Петербург']} alignment="right"/>
 
                     <button type="button" data-bs-toggle="offcanvas" data-bs-target="#header-menu" className="d-block d-lg-none order-5">
-                        <img src="/real_estate/img/icons/menu.svg" alt="меню"/>
+                        <img src="/Real_estate_front/img/icons/menu.svg" alt="меню"/>
                     </button>
                 </div> 
             </header>
@@ -96,7 +96,7 @@ export default function Header() {
                             <form className="message-form">
                                 <div className="d-flex align-items-center">
                                     <div className="photo me-2 me-sm-4">
-                                        <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
+                                        <img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/>
                                         <div className="indicator online"></div>
                                     </div>
                                     <div>

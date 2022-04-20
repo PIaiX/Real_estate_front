@@ -10,10 +10,10 @@ export default function UserReviews() {
             </nav>
             <h4 className="text-center color-1 mb-3 mb-sm-4 mb-xl-5">Отзывы</h4>
             <div className="review mb-3">
-                <img src="/real_estate/img/photo2.png" alt="Андрей Шевцов" className="photo d-none d-sm-block"/>
+                <img src="/Real_estate_front/img/photo2.png" alt="Андрей Шевцов" className="photo d-none d-sm-block"/>
                 <div className="ms-sm-4">
                     <div className="d-flex align-items-end align-items-sm-center d-sm-block mb-2 mb-sm-0">
-                        <img src="/real_estate/img/photo2.png" alt="Андрей Шевцов" className="photo d-block d-sm-none"/>
+                        <img src="/Real_estate_front/img/photo2.png" alt="Андрей Шевцов" className="photo d-block d-sm-none"/>
                         <div className="ms-3 ms-sm-0">
                             <h4>Андрей Шевцов</h4>
                             <h4 className="mb-0">Риелтор</h4>
@@ -25,30 +25,30 @@ export default function UserReviews() {
                     <div className="top">
                         <div className="fs-11 gray-3">21.09.21</div>
                         <div className="rating mt-1 mt-sm-2">
-                            <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                            <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                            <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                            <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
-                            <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                            <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                            <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                            <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                            <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
+                            <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
                         </div>
                     </div>
                     <div className="btns d-flex align-items-center fs-09">
                         <button type="button" data-bs-toggle="modal" data-bs-target="#write-review" className="color-1 d-flex align-items-center">
-                            <img src="/real_estate/img/icons/pa-9.svg" alt="Редактировать"/>
+                            <img src="/Real_estate_front/img/icons/pa-9.svg" alt="Редактировать"/>
                             <span className="ms-2">Редактировать</span>
                         </button>
                         <button type="button" data-bs-toggle="modal" data-bs-target="#delete-review" className="ms-4 color-1 d-flex align-items-center">
-                            <img src="/real_estate/img/icons/pa-10.svg" alt="Удалить"/>
+                            <img src="/Real_estate_front/img/icons/pa-10.svg" alt="Удалить"/>
                             <span className="ms-2">Удалить</span>
                         </button>
                     </div>
                 </div>
             </div>
             <div className="review mb-3">
-                <img src="/real_estate/img/photo2.png" alt="Андрей Шевцов" className="photo d-none d-sm-block"/>
+                <img src="/Real_estate_front/img/photo2.png" alt="Андрей Шевцов" className="photo d-none d-sm-block"/>
                 <div className="ms-sm-4">
                     <div className="d-flex align-items-end align-items-sm-center d-sm-block mb-2 mb-sm-0">
-                        <img src="/real_estate/img/photo2.png" alt="Андрей Шевцов" className="photo d-block d-sm-none"/>
+                        <img src="/Real_estate_front/img/photo2.png" alt="Андрей Шевцов" className="photo d-block d-sm-none"/>
                         <div className="ms-3 ms-sm-0">
                             <h4>Андрей Шевцов</h4>
                             <h4 className="mb-0">Риелтор</h4>
@@ -60,20 +60,20 @@ export default function UserReviews() {
                     <div className="top">
                         <div className="fs-11 gray-3">21.09.21</div>
                         <div className="rating mt-1 mt-sm-2">
-                            <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                            <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                            <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                            <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
-                            <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                            <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                            <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                            <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                            <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
+                            <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
                         </div>
                     </div>
                     <div className="btns d-flex align-items-center fs-09">
                         <button type="button" data-bs-toggle="modal" data-bs-target="#write-review" className="color-1 d-flex align-items-center">
-                            <img src="/real_estate/img/icons/pa-9.svg" alt="Редактировать"/>
+                            <img src="/Real_estate_front/img/icons/pa-9.svg" alt="Редактировать"/>
                             <span className="ms-2">Редактировать</span>
                         </button>
                         <button type="button" data-bs-toggle="modal" data-bs-target="#delete-review" className="ms-4 color-1 d-flex align-items-center">
-                            <img src="/real_estate/img/icons/pa-10.svg" alt="Удалить"/>
+                            <img src="/Real_estate_front/img/icons/pa-10.svg" alt="Удалить"/>
                             <span className="ms-2">Удалить</span>
                         </button>
                     </div>
@@ -95,7 +95,7 @@ export default function UserReviews() {
                                 <div className="row">
                                     <div className="col-lg-4 d-flex flex-lg-column align-items-center mb-2 mb-sm-4 mb-lg-0">
                                         <div className="photo me-3 me-lg-0 mb-lg-3">
-                                            <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
+                                            <img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/>
                                             <div className="indicator online"></div>
                                         </div>
                                         <div className="text-lg-center">

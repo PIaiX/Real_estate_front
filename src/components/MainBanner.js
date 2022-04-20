@@ -20,13 +20,13 @@ export const MainBanner = () => {
             }}
         >
             <SwiperSlide>
-                <img src="/real_estate/img/main-slider/bg1.png" alt="слайд 1"/>
+                <img src="/Real_estate_front/img/main-slider/bg1.png" alt="слайд 1"/>
             </SwiperSlide>
             <SwiperSlide>
-                <img src="/real_estate/img/main-slider/bg1.png" alt="слайд 2"/>
+                <img src="/Real_estate_front/img/main-slider/bg1.png" alt="слайд 2"/>
             </SwiperSlide>
             <SwiperSlide>
-                <img src="/real_estate/img/main-slider/bg1.png" alt="слайд 2"/>
+                <img src="/Real_estate_front/img/main-slider/bg1.png" alt="слайд 2"/>
             </SwiperSlide>
 
             <div className="swiper-pagination"></div>
