@@ -104,6 +104,12 @@ export default function Entrance() {
       console.log(response.data.message);
     } catch (error) {
       console.log(error.message);
+      setFormErrors((prev) => {
+        return {
+          ...prev,
+          email: "Пользователь с текущим адресом эл.почты уже существует",
+        };
+      });
     }
   };
 
