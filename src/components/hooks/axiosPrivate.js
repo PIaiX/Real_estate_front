@@ -34,7 +34,8 @@ export default function useAxiosPrivate() {
     withCredentials: true,
   });
 
-  axiosInstance.interceptors.request.use(
+  // useEffect(() => {
+  const requestInterceptor = axiosInstance.interceptors.request.use(
     (request) => {
       if (accessToken) {
         request.headers["Access-Token"] = accessToken;
@@ -46,7 +47,7 @@ export default function useAxiosPrivate() {
     }
   );
 
-  axiosInstance.interceptors.response.use(
+  const responseInterceptor = axiosInstance.interceptors.response.use(
     (response) => {
       return response;
     },
@@ -54,16 +55,27 @@ export default function useAxiosPrivate() {
       const originalRequest = error.config;
       if (error.response && error.response.status) {
         if (error.response.status === 401 && !originalRequest.retry) {
-          // const response = await axios.post(`${baseUrl}/api/auth/refresh`);
-          // const newAccessToken = response.data;
-          // setToken(newAccessToken);
+          originalRequest.retry = true;
+          const response = await axios.post(`${baseUrl}/api/auth/refresh`);
+          const newAccessToken = response.data;
+          setToken(newAccessToken);
+          originalRequest.headers["Access-Token"] = newAccessToken;
+          console.log("response interceptor works 401");
+          return axiosInstance(originalRequest);
         }
         if (error.response.status === 400) {
-          console.log("response interceptor works");
+          console.log("response interceptor works 400");
           return;
         }
       }
     }
   );
+
+  //   return () => {
+  //     axiosInstance.interceptors.request.eject(requestInterceptor);
+  //     axiosInstance.interceptors.response.eject(responseInterceptor);
+  //   };
+  // }, []);
+
   return axiosInstance;
 }

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Joi from "joi";
-import axios from "axios";
-import fingerprint from "@fingerprintjs/fingerprintjs";
 import { useDispatch } from "react-redux";
 import accessTokenActions from "../store/actions/accessToken";
+import currentUserActions from "../store/actions/currentUser";
 
 import InputPassword from "./utilities/InputPassword";
 import FormErrorMessage from "./utilities/FormErrorMessage";
@@ -30,7 +29,8 @@ const schema = Joi.object({
       "string.email": `Введите Email адрес корректного формата`,
     }),
   password: Joi.string()
-    .pattern(/^[a-zA-Z0-9]+$/)
+    .pattern(/.*[A-Z].*/)
+    .pattern(/.*[0-9].*/)
     .min(8)
     .max(20)
     .required()
@@ -49,21 +49,11 @@ export default function Entrance() {
 
   const [formValue, setFormValue] = useState(formValueDefault);
   const [formErrors, setFormErrors] = useState(formErrorDefault);
-  // const [userFingerprintId, setUserFingerprintId] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { setToken } = bindActionCreators(accessTokenActions, dispatch);
-
-  // useEffect(() => {
-  //   fingerprint
-  //     .load()
-  //     .then((fp) => fp.get())
-  //     .then((result) => {
-  //       const visitorID = result.visitorId;
-  //       setUserFingerprintId(visitorID);
-  //     });
-  // }, []);
+  const { setCurrentUser } = bindActionCreators(currentUserActions, dispatch);
 
   const handleFormChange = (e) => {
     setFormValue((prev) => {
@@ -93,6 +83,8 @@ export default function Entrance() {
       );
       if (response.data.status === 200) {
         setToken(response.data.body.token);
+        console.log(response.data.body.user);
+        setCurrentUser(response.data.body.user);
         navigate("/");
       }
     } catch (error) {

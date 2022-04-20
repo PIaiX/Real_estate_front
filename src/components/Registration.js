@@ -47,7 +47,8 @@ const schema = Joi.object({
       "string.email": `Введите Email адрес корректного формата`,
     }),
   password: Joi.string()
-    .pattern(/^[a-zA-Z0-9]+$/)
+    .pattern(/.*[A-Z].*/)
+    .pattern(/.*[0-9].*/)
     .min(8)
     .required()
     .messages({
