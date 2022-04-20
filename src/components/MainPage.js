@@ -2,11 +2,47 @@ import React from 'react';
 import { Slider2 } from './Slider2';
 import { Slider1 } from './Slider1';
 import Tile from './utilities/Tile';
-import { Link } from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import { animateScroll as scroll } from 'react-scroll';
 import { MainBanner } from './MainBanner';
+import {useEffect, useState} from "react";
+import {getPopular, getRecommend} from "./API/mainpagereq";
 
 export default function MainPage() {
+
+    const {userId} = useParams();
+    const {page} = useParams();
+
+    const [recommend, setRecommend] = useState([]);
+    const [popular, setPopular] = useState([]);
+
+    useEffect(() => {
+        const fun = async () => {
+            try {
+                let result = await getRecommend(userId, 6)
+                if (result) {
+                    setRecommend(result)
+                }
+            } catch (err) {
+                console.log("err")
+            }
+        }
+        fun()
+    }, [userId])
+
+    useEffect(() => {
+        const fun = async () => {
+            try {
+                let result = await getPopular(page, 6)
+                if (result) {
+                    setPopular(result)
+                }
+            } catch (err) {
+                console.log("err")
+            }
+        }
+        fun()
+    }, [page])
 
     const scrollToTop = () => {
         scroll.scrollToTop();
@@ -97,7 +133,7 @@ export default function MainPage() {
             <section className="sec-4 container mb-6">
                 <h3>Часто просматриваемые</h3>
                 <div className="position-relative">
-                    <Slider1/>
+                    <Slider1 popular={popular}/>
                 </div>
                 <div className="text-center mt-2">
                     <a href="/" className="fs-11 fw-5">Смотреть все</a>
@@ -107,7 +143,7 @@ export default function MainPage() {
             <section className="sec-4 container mb-6">
                 <h3>Рекомендованные Вам</h3>
                 <div className="position-relative">
-                    <Slider1/>
+                    <Slider1 recommend={recommend}/>
                 </div>
                 <div className="text-center mt-2">
                     <a href="/" className="fs-11 fw-5">Смотреть все</a>

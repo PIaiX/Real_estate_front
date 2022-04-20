@@ -1,13 +1,13 @@
 import axios from "axios";
 
-/*export async function getRecommend(userId= 1, limit = 10) {
+export async function getRecommend(userId= 2, limit = 6) {
     try {
         const response = await axios.post('http://45.90.35.82:3333/api/realEstates/recommended', { userId, limit })
         return response.data.body;
     } catch(err) {
         console.log(err)
     }
-}*/
+}
 
 export async function getPopular(page = 1, limit = 6) {
     try {

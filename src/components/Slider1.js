@@ -3,49 +3,25 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 import Card from './Card';
 import {useEffect} from "react";
-import {useParams} from "react-router-dom";
-import {getPopular} from "./API/mainpagereq";
 
 SwiperCore.use([Navigation, Pagination]);
 
-export const Slider1 = () => {
+export const Slider1 = (props) => {
 
-    /*const {userId} = useParams();*/
-    const {page} = useParams();
-
-    /*const [recommend, setRecommend] = useState([]);*/
     const [popular, setPopular] = useState([]);
+    const [recommend, setRecommend] = useState([]);
 
-    /*useEffect(() => {
-        const fun = async () => {
-            try {
-                let result = await getRecommend(userId, 6)
-                if (result) {
-                    setRecommend(result)
-                }
-            } catch (err) {
-                console.log("err")
-            }
+    useEffect(()=>{
+        if(props.popular){
+            setPopular(props.popular)
         }
-        fun()
-    }, [userId])*/
-
-    useEffect(() => {
-        const fun = async () => {
-            try {
-                let result = await getPopular(page, 6)
-                if (result) {
-                    setPopular(result)
-                }
-            } catch (err) {
-                console.log("err")
-            }
+        if(props.recommend){
+            setRecommend(props.recommend)
         }
-        fun()
-    }, [page])
+    },[props.popular, props.recommend])
 
-    /*console.log(recommend)*/
-    console.log(popular)
+    console.log("pop",popular)
+    console.log("rec",recommend)
 
     return (
         <Swiper
@@ -89,6 +65,8 @@ export const Slider1 = () => {
                             '/real_estate/img/img3.jpg',
                             '/real_estate/img/img4.jpg'
                         ]}
+                        isVip={popular.isVip}
+                        isHot={popular.isHot}
                         title={popular.title}
                         price={popular.price}
                         addressName={popular.residentComplexForUser}
@@ -96,64 +74,31 @@ export const Slider1 = () => {
                         metro={popular.metro}
                         text={popular.description}
                         date={popular.createdAtForUser}
+
                     />
                 </SwiperSlide>
             )}
-            <SwiperSlide>
-                <Card 
-                images={['/real_estate/img/img3.jpg']} 
-                title="1-к, квартира 52м2" 
-                price="6 000 000" 
-                addressName="ЖК “Столичный”" 
-                address="Вахитовский район, ул. Четаева 32" 
-                text="Новый дом. Консьерж. Квартира после евро ремонта. Полы ламинат. Кондиционеры. Рядом школа и деский сад..."
-                date="Вчера в 21:00"
-                />
-            </SwiperSlide>
-            <SwiperSlide>
-                <Card 
-                images={['/real_estate/img/img3.jpg']}
-                title="1-к, квартира 52м2" 
-                price="6 000 000" 
-                addressName="ЖК “Столичный”" 
-                address="Вахитовский район, ул. Четаева 32" 
-                text="Новый дом. Консьерж. Квартира после евро ремонта. Полы ламинат. Кондиционеры. Рядом школа и деский сад..."
-                date="Вчера в 21:00"
-                />
-            </SwiperSlide>
-            <SwiperSlide>
-                <Card 
-                images={['/real_estate/img/img3.jpg']}
-                title="1-к, квартира 52м2" 
-                price="6 000 000" 
-                addressName="ЖК “Столичный”" 
-                address="Вахитовский район, ул. Четаева 32" 
-                text="Новый дом. Консьерж. Квартира после евро ремонта. Полы ламинат. Кондиционеры. Рядом школа и деский сад..."
-                date="Вчера в 21:00"
-                />
-            </SwiperSlide>
-            <SwiperSlide>
-                <Card 
-                images={['/real_estate/img/img3.jpg']} 
-                title="1-к, квартира 52м2" 
-                price="6 000 000" 
-                addressName="ЖК “Столичный”" 
-                address="Вахитовский район, ул. Четаева 32" 
-                text="Новый дом. Консьерж. Квартира после евро ремонта. Полы ламинат. Кондиционеры. Рядом школа и деский сад..."
-                date="Вчера в 21:00"
-                />
-            </SwiperSlide>
-            <SwiperSlide>
-                <Card 
-                images={['/real_estate/img/img3.jpg']}
-                title="1-к, квартира 52м2" 
-                price="6 000 000" 
-                addressName="ЖК “Столичный”" 
-                address="Вахитовский район, ул. Четаева 32" 
-                text="Новый дом. Консьерж. Квартира после евро ремонта. Полы ламинат. Кондиционеры. Рядом школа и деский сад..."
-                date="Вчера в 21:00"
-                />
-            </SwiperSlide>
+            {recommend.map((recommend) =>
+                <SwiperSlide key={recommend.id}>
+                    <Card
+                        images={[
+                            '/real_estate/img/img1.jpg',
+                            '/real_estate/img/img2.jpg',
+                            '/real_estate/img/img3.jpg',
+                            '/real_estate/img/img4.jpg'
+                        ]}
+                        isVip={recommend.isVip}
+                        isHot={recommend.isHot}
+                        title={recommend.title}
+                        price={recommend.price}
+                        addressName={recommend.residentComplexForUser}
+                        address={recommend.address}
+                        metro={recommend.metro}
+                        text={recommend.description}
+                        date={recommend.createdAtForUser}
+                    />
+                </SwiperSlide>
+            )}
             <div className="swiper-button-prev">
                 <img src="/real_estate/img/icons/prev.svg" alt="предыдущий" className="w-100"/>
             </div>

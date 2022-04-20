@@ -1,9 +1,9 @@
-import {useEffect, useState} from "react";
+
+import React, {useEffect, useState} from "react";
 import {NavLink} from "react-router-dom";
 import {Pagination} from "react-bootstrap";
 
 export default function PaginationCustom(props) {
-
 
     const [data, setData] = useState([]);
     const [prev, setPrev] = useState([]);
@@ -56,7 +56,9 @@ export default function PaginationCustom(props) {
             {i}
         </Pagination.Item>
     };
+
     const paginationItems = [];
+
     if(totalPages >= 6) {
         paginationItems.push(createPaginationItem(1));
         if (currentPage >= 4) paginationItems.push(<Pagination.Ellipsis/>);
@@ -107,7 +109,10 @@ export default function PaginationCustom(props) {
                         <NavLink
                             to={`/${props.baseUrl}/page/${prev}`}
                             className="page-link"
-                            onClick={() => onPageChange(currentPage - 1)}
+                            onClick={() => {
+                                onPageChange(currentPage - 1);
+                                goToTop();
+                            }}
                             disabled={currentPage === 1}
                         >
                             <img src="/real_estate/img/icons/prev2.svg" alt="Previous"/>
@@ -120,7 +125,10 @@ export default function PaginationCustom(props) {
                         <NavLink
                             to={`/${props.baseUrl}/page/${next}`}
                             className="page-link"
-                            onClick={() => onPageChange(currentPage + 1)}
+                            onClick={() => {
+                                onPageChange(currentPage + 1);
+                                goToTop();
+                            }}
                             disabled={currentPage === totalPages}
                         >
                             <img src="/real_estate/img/icons/next2.svg" alt="Previous"/>

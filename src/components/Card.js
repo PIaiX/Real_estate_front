@@ -150,14 +150,15 @@ export default function Card(props) {
                     </div>
                 </div>
                 <div className="labels">
-                    <div className="vip">
+                    {props.isVip && <div className="vip">
                         <img src="/real_estate/img/icons/vip.svg" alt="vip"/>
                         <span>VIP</span>
-                    </div>
-                    <div className="hot">
+                    </div>}
+                    {props.isHot && <div className="hot">
                         <img src="/real_estate/img/icons/hot.svg" alt="hot"/>
                         <span>Hot</span>
-                    </div>
+                    </div>}
+
                 </div>
                 <BtnFav state={props.fav}/>
             </div>

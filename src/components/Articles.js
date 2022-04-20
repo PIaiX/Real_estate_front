@@ -23,6 +23,7 @@ export default function Articles() {
         }
         fin()
     }, [page])
+
     return (
         <main>
             <div className="container py-3 py-sm-4 py-lg-5">
@@ -44,7 +45,6 @@ export default function Articles() {
                 </div>
                 <PaginationCustom meta={dataArticles} baseUrl="articles"/>
             </div>
-
         </main>
     )
 }
