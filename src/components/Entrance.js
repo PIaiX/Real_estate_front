@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Joi from "joi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import accessTokenActions from "../store/actions/accessToken";
 import currentUserActions from "../store/actions/currentUser";
 
@@ -9,12 +9,12 @@ import InputPassword from "./utilities/InputPassword";
 import FormErrorMessage from "./utilities/FormErrorMessage";
 import { bindActionCreators } from "redux";
 
-import useAxiosPrivate from "./hooks/axiosPrivate";
+import useAxiosPrivate from "./hooks/useAxiosPrivate";
 
 const formValueDefault = { email: "", password: "", remember: false };
 const formErrorDefault = { email: "", password: "" };
 
-const baseUrl = "http://45.90.35.82:3333";
+const baseUrl = "https://api.antontig.beget.tech";
 
 const schema = Joi.object({
   email: Joi.string()
@@ -45,12 +45,18 @@ const schema = Joi.object({
 });
 
 export default function Entrance() {
+  const navigate = useNavigate();
+  const currentUser = useSelector((state) => state.accessToken);
+
+  useEffect(() => {
+    if (currentUser) navigate("/personal-account");
+  }, []);
+
   const axiosPrivate = useAxiosPrivate();
 
   const [formValue, setFormValue] = useState(formValueDefault);
   const [formErrors, setFormErrors] = useState(formErrorDefault);
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { setToken } = bindActionCreators(accessTokenActions, dispatch);
   const { setCurrentUser } = bindActionCreators(currentUserActions, dispatch);
@@ -83,12 +89,14 @@ export default function Entrance() {
       );
       if (response.data.status === 200) {
         setToken(response.data.body.token);
-        console.log(response.data.body.user);
         setCurrentUser(response.data.body.user);
         navigate("/");
       }
     } catch (error) {
       console.log(error.message);
+      setFormErrors((prev) => {
+        return { ...prev, password: "Пользователь не найден" };
+      });
     }
   };
 
@@ -98,12 +106,6 @@ export default function Entrance() {
         return { ...prev, [formField.path[0]]: formField.message };
       });
     });
-  };
-
-  const testRefreshToken = async () => {
-    const response = await axiosPrivate.post(`${baseUrl}/api/auth/refresh`);
-
-    console.log(response);
   };
 
   return (
@@ -189,13 +191,6 @@ export default function Entrance() {
                     onClick={handleFormSubmit}
                   >
                     Войти
-                  </div>
-                  <div
-                    to="/personal-account"
-                    className="btn btn-1 fs-11 w-100 text-uppercase mb-4"
-                    onClick={testRefreshToken}
-                  >
-                    Тест
                   </div>
                 </div>
                 <div className="col-12">

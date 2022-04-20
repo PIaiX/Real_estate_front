@@ -1,23 +1,28 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import accessTokenActions from "../../store/actions/accessToken";
+import currentUserActions from "../../store/actions/currentUser";
 import { bindActionCreators } from "redux";
-import useAxiosPrivate from "../hooks/axiosPrivate";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
-const baseUrl = "http://45.90.35.82:3333";
+const baseUrl = "https://api.antontig.beget.tech";
 
 export default function AccountMenu() {
+  const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
   const dispatch = useDispatch();
   const { resetToken } = bindActionCreators(accessTokenActions, dispatch);
+  const { resetCurrentUser } = bindActionCreators(currentUserActions, dispatch);
 
   const handleLogout = async () => {
     const response = await axiosPrivate.post(`${baseUrl}/api/auth/logout`);
     if (response && response.status === 200) {
       console.log("logout success");
       resetToken();
+      resetCurrentUser();
+      navigate("/");
     }
   };
 

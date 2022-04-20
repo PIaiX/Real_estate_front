@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
-const baseUrl = "http://45.90.35.82:3333";
+const baseUrl = "https://api.antontig.beget.tech";
 
 export default function Activate() {
   const navigate = useNavigate();
