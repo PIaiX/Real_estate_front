@@ -67,7 +67,6 @@ export default function MainPage() {
                         {name: 'Продать', link: '/catalog'},
                         {name: 'Снять', link: '/catalog'}]}
                 />
-
                 <Tile
                     img="/real_estate/img/icons/icon-2.svg"
                     titles={['Дома', 'Дачи', 'Коттеджи']}
@@ -77,7 +76,6 @@ export default function MainPage() {
                         {name: 'Продать', link: '/catalog'},
                         {name: 'Снять', link: '/catalog'}]}
                 />
-
                 <Tile
                     img="/real_estate/img/icons/icon-3.svg"
                     titles={['Гараж', 'Паркинг']}
@@ -87,7 +85,6 @@ export default function MainPage() {
                         {name: 'Продать', link: '/catalog'},
                         {name: 'Снять', link: '/catalog'}]}
                 />
-
                 <Tile
                     img="/real_estate/img/icons/icon-4.svg"
                     titles={['Земельные участки']}
@@ -97,7 +94,6 @@ export default function MainPage() {
                         {name: 'Продать', link: '/catalog'},
                         {name: 'Снять', link: '/catalog'}]}
                 />
-
                 <Tile
                     img="/real_estate/img/icons/icon-5.svg"
                     titles={['Коммерческая недвижимость']}
@@ -107,12 +103,10 @@ export default function MainPage() {
                         {name: 'Продать', link: '/catalog'},
                         {name: 'Снять', link: '/catalog'}]}
                 />
-
                 <Tile
                     img="/real_estate/img/icons/icon-6.svg"
                     simpleLink={{title: 'Ипотека', url: '/service'}}
                 />
-
             </section>
         
             <section id="sec-3" className="container mb-6">

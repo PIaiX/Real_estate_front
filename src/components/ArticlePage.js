@@ -7,6 +7,7 @@ import {getArticle} from "./API/news";
 export default function ArticlePage() {
 
     const {slug} = useParams();
+
     const [data, setData] = useState([])
 
     useEffect(() => {

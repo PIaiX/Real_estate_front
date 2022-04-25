@@ -31,6 +31,7 @@ export default function AppRouter() {
                 <Route path="/articles" element={<Articles/>}/>
                 <Route path="/password-1" element={<Password1 />} />
                 <Route path="/password-2" element={<Password2 />} />
+                <Route path="/articles/*" element={<MainPage />} />
             </Routes>
     )
 }
