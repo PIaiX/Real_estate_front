@@ -4,7 +4,7 @@ import { Slider1 } from './Slider1';
 import Tile from './utilities/Tile';
 import {Link, useParams} from 'react-router-dom';
 import { animateScroll as scroll } from 'react-scroll';
-import { MainBanner } from './MainBanner';
+import {MainBanner} from './MainBanner';
 import {useEffect, useState} from "react";
 import {getPopular, getRecommend} from "./API/mainpagereq";
 

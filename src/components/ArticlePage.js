@@ -3,8 +3,27 @@ import {Link, useParams} from 'react-router-dom';
 import {Slider2} from './Slider2';
 import Card from './Card';
 import {getArticle} from "./API/news";
+import {getPopular, getRecommend} from "./API/mainpagereq";
 
 export default function ArticlePage() {
+
+    const {userId} = useParams();
+
+    const [recommend, setRecommend] = useState([]);
+
+    useEffect(() => {
+        const fun = async () => {
+            try {
+                let result = await getRecommend(userId, 2)
+                if (result) {
+                    setRecommend(result)
+                }
+            } catch (err) {
+                console.log("err")
+            }
+        }
+        fun()
+    }, [userId])
 
     const {slug} = useParams();
     const [data, setData] = useState([])
@@ -22,6 +41,7 @@ export default function ArticlePage() {
         }
         fin()
     }, [slug])
+
     return (
         <main>
             <div className="container py-3 py-sm-4 py-lg-5">
@@ -55,50 +75,27 @@ export default function ArticlePage() {
                         </div>
 
                     </div>
-                    <div className="d-none d-xl-block col-xl-4 col-xxl-3">
+                    <div className="d-none d-xl-block col-xl-4 col-xxl-3" >
                         <h3>Объявления</h3>
-                        <Card
-                            className="mb-4"
-                            type="tiled"
-                            images={['/Real_estate_front/img/img1.jpg', '/Real_estate_front/img/img2.jpg', '/Real_estate_front/img/img3.jpg', '/Real_estate_front/img/img4.jpg']}
-                            title="1-к, квартира 52м2"
-                            price="6 000 000"
-                            addressName="ЖК “Столичный”"
-                            address="Вахитовский район, ул. Четаева 32"
-                            metro="Козья слобода, 7 минут"
-                            text='Сдается 1-комнатная квартира в строящемся доме (Дом 3.1), срок сдачи: IV-кв. 2021, общей площадью 51.82 кв.м., на 18 этаже. Жилой комплекс "Столичный"- это современный жилой комплекс, который находится в самом  центре Казани, состоящий из нескольких кварталов, органично сочетающий городской комфорт и природное окружение...'
-                            date="Вчера в 21:00"
-                            authorName="Колесникова Ирина"
-                            authorPhoto="/Real_estate_front/img/photo.png"
-                            authorTimeSpan="сентября 2021"
-                            phone="+ 7 (952) 879 78 65"
-                            communalPayments="Не включая коммунальные платежи"
-                            deposit="20 000"
-                            commission="50%"
-                            prepayment="без предоплаты"
-                            tenancy="аренда от года"
-                        />
-                        <Card
-                            className="mb-4"
-                            type="tiled"
-                            images={['/Real_estate_front/img/img1.jpg', '/Real_estate_front/img/img2.jpg', '/Real_estate_front/img/img3.jpg', '/Real_estate_front/img/img4.jpg']}
-                            title="1-к, квартира 52м2"
-                            price="6 000 000"
-                            addressName="ЖК “Столичный”"
-                            address="Вахитовский район, ул. Четаева 32"
-                            metro="Козья слобода, 7 минут"
-                            text='Сдается 1-комнатная квартира в строящемся доме (Дом 3.1), срок сдачи: IV-кв. 2021, общей площадью 51.82 кв.м., на 18 этаже. Жилой комплекс "Столичный"- это современный жилой комплекс, который находится в самом  центре Казани, состоящий из нескольких кварталов, органично сочетающий городской комфорт и природное окружение...'
-                            date="Вчера в 21:00"
-                            authorName="Колесникова Ирина"
-                            authorPhoto="/Real_estate_front/img/photo.png"
-                            authorTimeSpan="сентября 2021"
-                            phone="+ 7 (952) 879 78 65"
-                            communalPayments="Не включая коммунальные платежи"
-                            deposit="20 000"
-                            commission="50%"
-                            prepayment="без предоплаты"
-                            tenancy="аренда от года"
-                        />
+                        {recommend.map((i) =>
+                            <Card
+                                key={i.id}
+                                isVip={i.isVip}
+                                isHot={i.isHot}
+                                className="mb-4"
+                                type="tiled"
+                                images={['/Real_estate_front/img/img1.jpg', '/Real_estate_front/img/img2.jpg', '/Real_estate_front/img/img3.jpg', '/Real_estate_front/img/img4.jpg']}
+                                title={i.title}
+                                price={i.price}
+                                addressName={i.residentalComplexForUser}
+                                address={i.address}
+                                metro={i.metro}
+                                text={i.description}
+                                date={i.createdAtForUser}
+                                communalPayments={i.communalPriceForUser}
+                                commission={i.commissionForUser}
+                            />
+                        )}
                         <button type="button" className="mx-auto color-1 fw-5 fs-12 d-flex align-items-center">
                             <span className="me-3">Показать еще</span>
                             <svg width="23" height="12" viewBox="0 0 23 12" fill="none"

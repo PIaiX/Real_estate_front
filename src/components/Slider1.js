@@ -20,9 +20,6 @@ export const Slider1 = (props) => {
         }
     },[props.popular, props.recommend])
 
-    console.log("pop",popular)
-    console.log("rec",recommend)
-
     return (
         <Swiper
             className="swiper-4"
@@ -74,7 +71,6 @@ export const Slider1 = (props) => {
                         metro={popular.metro}
                         text={popular.description}
                         date={popular.createdAtForUser}
-
                     />
                 </SwiperSlide>
             )}
