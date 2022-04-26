@@ -31,7 +31,6 @@ export default function MainPage() {
         }
         fun()
     }, [])
-    console.log(banner)
     useEffect(() => {
         const fun = async () => {
             try {
@@ -64,13 +63,11 @@ export default function MainPage() {
         scroll.scrollToTop();
     };
 
-    const rawHTML = `${banner.description}`
-
     return (
         <main>
+
             <section id="sec-1">
                 <MainBanner banners={banner}/>
-
             </section>
 
             <section id="sec-2" className="container tiles px-xxl-5 mb-6">
