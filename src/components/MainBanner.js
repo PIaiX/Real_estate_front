@@ -43,7 +43,7 @@ export const MainBanner = (props) => {
                             />
                         </SwiperSlide>
                 )}
-                <div className="swiper-pagination"></div>
+                <div className="swiper-pagination"/>
             </Swiper>
     )
 }
