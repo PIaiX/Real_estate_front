@@ -6,7 +6,7 @@ import {Link, useParams} from 'react-router-dom';
 import { animateScroll as scroll } from 'react-scroll';
 import { MainBanner } from './MainBanner';
 import {useEffect, useState} from "react";
-import {getPopular, getRecommend} from "./API/mainpagereq";
+import {getBanner, getPopular, getRecommend} from "./API/mainpagereq";
 
 export default function MainPage() {
 
@@ -15,7 +15,23 @@ export default function MainPage() {
 
     const [recommend, setRecommend] = useState([]);
     const [popular, setPopular] = useState([]);
+    const [banner, setBanner] = useState([]);
 
+    useEffect(() => {
+        const fun = async () => {
+            try {
+                let result = await getBanner()
+                if (result) {
+                    setBanner(result)
+                }
+            } catch (err) {
+                console.log("err")
+            }
+
+        }
+        fun()
+    }, [])
+    console.log(banner)
     useEffect(() => {
         const fun = async () => {
             try {
@@ -48,13 +64,13 @@ export default function MainPage() {
         scroll.scrollToTop();
     };
 
+    const rawHTML = `${banner.description}`
+
     return (
         <main>
             <section id="sec-1">
-                <MainBanner />
-                <div className="container d-flex justify-content-center">
-                    <h1 className="main">Мы подобрали для Вас лучшие варианты</h1>
-                </div>
+                <MainBanner banners={banner}/>
+
             </section>
 
             <section id="sec-2" className="container tiles px-xxl-5 mb-6">

@@ -1,35 +1,50 @@
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper';
+import React, {useEffect, useState} from 'react';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import SwiperCore, {Navigation, Pagination, Autoplay} from 'swiper';
+import CardBanner from "./CardBanner";
 
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
-export const MainBanner = () => {
-    return (
-        <Swiper className="swiper-home"
-            loop={true}
-            slidesPerView={1}
-            effect='fade'
-            pagination={{
-                el: '.swiper-pagination',
-                type: 'bullets',
-                clickable: true,
-            }}
-            autoplay={{
-                delay: 5000
-            }}
-        >
-            <SwiperSlide>
-                <img src="/real_estate/img/main-slider/bg1.png" alt="слайд 1"/>
-            </SwiperSlide>
-            <SwiperSlide>
-                <img src="/real_estate/img/main-slider/bg1.png" alt="слайд 2"/>
-            </SwiperSlide>
-            <SwiperSlide>
-                <img src="/real_estate/img/main-slider/bg1.png" alt="слайд 2"/>
-            </SwiperSlide>
+export const MainBanner = (props) => {
 
-            <div className="swiper-pagination"></div>
-        </Swiper>
+    const [banners, setBanners] = useState([]);
+    useEffect(() => {
+        if (props.banners) {
+            setBanners(props.banners)
+            console.log(banners)
+        } else {
+            console.log("error")
+        }
+    }, [props.banners])
+
+    const url = 'https://api.antontig.beget.tech'
+
+    return (
+            <Swiper
+                className="swiper-home"
+                loop={true}
+                slidesPerView={1}
+                effect='fade'
+                pagination={
+                    {
+                        el: '.swiper-pagination',
+                        type: 'bullets',
+                        clickable: true,
+                    }}
+                autoplay={{
+                    delay: 5000
+                }}
+            >
+                {banners.map((i) =>
+                        <SwiperSlide key={i.id}>
+                            <CardBanner
+                                image={i.image}
+                                url={url}
+                                description={i.description}
+                            />
+                        </SwiperSlide>
+                )}
+                <div className="swiper-pagination"></div>
+            </Swiper>
     )
 }
