@@ -24,7 +24,6 @@ export default function UserProfile() {
     };
 
     const currentUser = useCurrentUser()
-    console.log(currentUser)
 
         return (
             <div className="px-2 px-sm-4 px-xxl-5 pb-3 pb-sm-4 pb-xxl-5">

@@ -54,9 +54,7 @@ export default function useAxiosPrivate() {
 
         const responseInterceptor = axiosInstance.interceptors.response.use(
             (response) => {
-                return response
-                console.log(response)
-                    ;
+                return response;
             },
             async (error) => {
                 const originalRequest = error.config;
@@ -67,11 +65,9 @@ export default function useAxiosPrivate() {
                         const newAccessToken = response.data;
                         setToken(newAccessToken);
                         originalRequest.headers["Access-Token"] = newAccessToken;
-                        console.log("response interceptor works 401");
                         return axiosInstance(originalRequest);
                     }
                     if (error.response.status === 400) {
-                        console.log("response interceptor works 400");
                         return;
                     }
                 }

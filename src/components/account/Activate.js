@@ -10,19 +10,16 @@ export default function Activate() {
 
   axios
     .post(`${baseUrl}/api/auth/refresh`)
-    .then((response) => response.data)
-    .then((data) => console.log(data));
+    .then((response) => response.data);
 
   try {
     const activate = async (id) => {
       const response = await axios.post(`${baseUrl}/api/auth/activate`, {
         user: id,
       });
-      console.log(response.data);
     };
     activate(params.id);
   } catch (error) {
-    console.log(error.message);
   }
 
   useNavigate("/entrance");

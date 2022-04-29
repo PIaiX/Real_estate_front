@@ -85,15 +85,12 @@ export default function Entrance() {
 
     try {
       const response = await axiosPrivate.post(`${baseUrl}/api/auth/login`, formValue);
-      console.log(response)
       if (response.data.status === 200) {
         setToken(response.data.body.token);
         setCurrentUser(response.data.body.user);
         navigate("/personal-account");
-        console.log(response)
       }
     } catch (error) {
-      console.log(error.message);
       setFormErrors((prev) => {
         return { ...prev, password: "Пользователь не найден" };
       });

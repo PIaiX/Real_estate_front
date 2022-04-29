@@ -47,10 +47,7 @@ export default function Password1() {
         `${baseUrl}/api/auth/rememberPassword/${formValue.email}`,
         formValue
       );
-
-      console.log(result);
     } catch (error) {
-      console.log(error.message);
     }
   };
 

@@ -17,15 +17,10 @@ export default function WaitAccountActivation() {
             try {
                 const result = await postUserActivation(uuid)
                 if (result) {
-                    console.log(uuid)
                     setToken(result)
-                    console.log(token)
                 }
             } catch (err) {
-                console.log(err)
             }
-            console.log(token)
-
         }
         checkToken();
     }, [uuid])

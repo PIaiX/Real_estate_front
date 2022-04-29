@@ -88,7 +88,6 @@ export default function Entrance() {
   const handleFormSubmit = async (e) => {
     e.preventDefault()
     const result = schema.validate(formValue, { abortEarly: false });
-    console.log(result)
     if (result.error) {
       handleFormErrors(result.error.details);
       return;
@@ -106,9 +105,7 @@ export default function Entrance() {
         ownerType,
       });
       alert("Форма отправлена")
-      console.log(response.data.message);
     } catch (error) {
-      console.log(error.message);
       setFormErrors((prev) => {
         return {
           ...prev,

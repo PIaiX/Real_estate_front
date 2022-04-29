@@ -19,12 +19,10 @@ export default function AccountMenu() {
   const handleLogout = async () => {
     const response = await axiosPrivate.post(`${baseUrl}/api/auth/logout`);
     if (response && response.status === 200) {
-      console.log("logout success");
       resetToken();
       resetCurrentUser();
       navigate("/");
     }
-    console.log(response)
   };
 
   return (
