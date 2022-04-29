@@ -65,9 +65,11 @@ export default function useAxiosPrivate() {
                         const newAccessToken = response.data;
                         setToken(newAccessToken);
                         originalRequest.headers["Access-Token"] = newAccessToken;
+                        console.log("response interceptor works 401")
                         return axiosInstance(originalRequest);
                     }
                     if (error.response.status === 400) {
+                        console.log("response interceptor works 400")
                         return;
                     }
                 }

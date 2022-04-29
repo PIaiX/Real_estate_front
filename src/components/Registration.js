@@ -106,6 +106,7 @@ export default function Entrance() {
       });
       alert("Форма отправлена")
     } catch (error) {
+      console.log(error.message)
       setFormErrors((prev) => {
         return {
           ...prev,

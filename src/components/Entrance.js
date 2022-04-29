@@ -91,6 +91,7 @@ export default function Entrance() {
         navigate("/personal-account");
       }
     } catch (error) {
+      console.log(error.message)
       setFormErrors((prev) => {
         return { ...prev, password: "Пользователь не найден" };
       });

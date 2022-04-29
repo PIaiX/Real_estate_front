@@ -20,6 +20,7 @@ export default function Activate() {
     };
     activate(params.id);
   } catch (error) {
+    console.log(error.message)
   }
 
   useNavigate("/entrance");

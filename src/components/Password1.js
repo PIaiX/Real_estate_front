@@ -48,6 +48,7 @@ export default function Password1() {
         formValue
       );
     } catch (error) {
+      console.log(error.message)
     }
   };
 

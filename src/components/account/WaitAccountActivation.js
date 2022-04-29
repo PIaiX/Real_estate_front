@@ -19,7 +19,8 @@ export default function WaitAccountActivation() {
                 if (result) {
                     setToken(result)
                 }
-            } catch (err) {
+            } catch (error) {
+                console.log(error.message)
             }
         }
         checkToken();
