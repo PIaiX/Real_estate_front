@@ -91,6 +91,7 @@ export default function UserProfile() {
                     setData(result)
                 }
             } catch (err) {
+                console.log(err)
             }
         }
         fun()

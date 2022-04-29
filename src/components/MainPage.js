@@ -25,6 +25,7 @@ export default function MainPage() {
                     setBanner(result)
                 }
             } catch (err) {
+                console.log(err)
             }
 
         }
@@ -38,6 +39,7 @@ export default function MainPage() {
                     setRecommend(result)
                 }
             } catch (err) {
+                console.log(err)
             }
         }
         fun()
@@ -51,6 +53,7 @@ export default function MainPage() {
                     setPopular(result)
                 }
             } catch (err) {
+                console.log(err)
             }
         }
         fun()

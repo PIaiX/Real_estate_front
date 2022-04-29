@@ -18,6 +18,7 @@ export default function Articles() {
                     setDataArticles(result)
                 }
             } catch (err) {
+                console.log(err)
             }
         }
         fin()
