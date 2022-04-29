@@ -21,7 +21,7 @@ export default function PaginationCustom(props) {
     useEffect(() => {
         if (props.meta) {
             setData(props.meta.meta)
-        } else (console.log("error1"));
+        }
     }, [props.meta])
 
     useEffect( () => {

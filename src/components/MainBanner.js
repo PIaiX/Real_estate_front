@@ -11,8 +11,6 @@ export const MainBanner = (props) => {
     useEffect(() => {
         if (props.banners) {
             setBanners(props.banners)
-        } else {
-            console.log("error")
         }
     }, [props.banners])
 

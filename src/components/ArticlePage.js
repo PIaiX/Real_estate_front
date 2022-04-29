@@ -18,7 +18,6 @@ export default function ArticlePage() {
                     setData(result)
                 }
             } catch (err) {
-                console.log("err")
             }
         }
         fin()

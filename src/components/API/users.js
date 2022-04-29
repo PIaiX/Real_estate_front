@@ -6,6 +6,5 @@ export async function editUser (userId, data) {
         const response = await axios.patch(`https://api.antontig.beget.tech/api/user/update/${userId}`, { data })
         return response;
     } catch(err) {
-        console.log(err)
     }
 }

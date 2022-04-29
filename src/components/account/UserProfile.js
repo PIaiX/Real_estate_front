@@ -62,7 +62,6 @@ export default function UserProfile() {
 
     const onSubmit = () => {
         const val = {firstName, lastName, sex, birthday, avatar, phone, isSubscribed, email}
-        console.log(val)
     }
 
     const month = [
@@ -92,11 +91,9 @@ export default function UserProfile() {
                     setData(result)
                 }
             } catch (err) {
-                console.log("err")
             }
         }
         fun()
-        console.log(data)
     }, [])
 
     let birthday = '';
