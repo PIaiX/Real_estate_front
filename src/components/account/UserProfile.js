@@ -1,20 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
 import CustomSelect from "../utilities/CustomSelect";
 import ImageUploading from "react-images-uploading";
 import {Link} from "react-router-dom";
 import {useCurrentUser} from "../../store/reducers";
-import axios from "axios";
-import {useDispatch} from "react-redux";
-import {bindActionCreators} from "redux";
-import accessTokenActions from "../../store/actions/accessToken";
-import currentUserActions from "../../store/actions/currentUser";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import InputMask from 'react-input-mask';
 import {useEffect} from "react";
+import {editUser} from "../API/users";
 
 
 export default function UserProfile() {
-    const [images, setImages] = React.useState([
-        {data_url: "/real_estate/img/photo.png"},
+    const [avatar, setAvatar] = React.useState([
+        {data_url: "/Real_estate_front/img/photo.png"},
     ]);
 
     const maxNumber = 24;
@@ -119,6 +115,8 @@ export default function UserProfile() {
         birthday = `${dey}.` + `${indexMonth + 1}.` + `${y}`
     }
 
+    const currentUser = useCurrentUser()
+
     return (
         redactor ?
             <div className="px-2 px-sm-4 px-xxl-5 pb-3 pb-sm-4 pb-xxl-5">
@@ -157,7 +155,7 @@ export default function UserProfile() {
                                                                         onClick={() => onImageUpdate(index)}
                                                                     >
                                                                         <img
-                                                                            src="/real_estate/img/icons/edit.svg"
+                                                                            src="/Real_estate_front/img/icons/edit.svg"
                                                                             alt="Загрузить"
                                                                         />
                                                                         Загрузить фото
@@ -167,7 +165,7 @@ export default function UserProfile() {
                                                                         onClick={() => onImageRemove(index)}
                                                                     >
                                                                         <img
-                                                                            src="/real_estate/img/icons/delete2.svg"
+                                                                            src="/Real_estate_front/img/icons/delete2.svg"
                                                                             alt="Удалить"
                                                                         />
                                                                         Удалить фото
@@ -218,11 +216,11 @@ export default function UserProfile() {
                                     {currentUser?.firstName} {currentUser?.lastName}
                                 </div>
                                 <div className="rating justify-content-center mt-1 mt-sm-5">
-                                    <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                    <img src="/real_estate/img/icons/star-blue.svg" alt="2"/>
-                                    <img src="/real_estate/img/icons/star-blue.svg" alt="3"/>
-                                    <img src="/real_estate/img/icons/star-gray.svg" alt="4"/>
-                                    <img src="/real_estate/img/icons/star-gray.svg" alt="5"/>
+                                    <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                    <img src="/Real_estate_front/img/icons/star-blue.svg" alt="2"/>
+                                    <img src="/Real_estate_front/img/icons/star-blue.svg" alt="3"/>
+                                    <img src="/Real_estate_front/img/icons/star-gray.svg" alt="4"/>
+                                    <img src="/Real_estate_front/img/icons/star-gray.svg" alt="5"/>
                                 </div>
                                 <div className="gray-3 fs-11 text-center mt-1 mt-sm-4">
                                     На сайте с сентября 2019
@@ -424,11 +422,11 @@ export default function UserProfile() {
                     <div>
                         <div className="fs-15 fw-7 text-center mt-3 mt-sm-4">Колесникова Ирина</div>
                         <div className="rating justify-content-center mt-1 mt-sm-5">
-                            <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                            <img src="/real_estate/img/icons/star-blue.svg" alt="2"/>
-                            <img src="/real_estate/img/icons/star-blue.svg" alt="3"/>
-                            <img src="/real_estate/img/icons/star-gray.svg" alt="4"/>
-                            <img src="/real_estate/img/icons/star-gray.svg" alt="5"/>
+                            <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                            <img src="/Real_estate_front/img/icons/star-blue.svg" alt="2"/>
+                            <img src="/Real_estate_front/img/icons/star-blue.svg" alt="3"/>
+                            <img src="/Real_estate_front/img/icons/star-gray.svg" alt="4"/>
+                            <img src="/Real_estate_front/img/icons/star-gray.svg" alt="5"/>
                         </div>
                         <div className="gray-3 fs-11 text-center mt-1 mt-sm-4">На сайте с сентября 2019
                         </div>

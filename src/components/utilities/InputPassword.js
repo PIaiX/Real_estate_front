@@ -21,9 +21,9 @@ export default function InputPassword(props) {
       />
       <button type="button" onClick={() => handleClick()}>
         {visible ? (
-          <img src="/real_estate/img/icons/eye-slash.svg" alt="скрыть" />
+          <img src="/Real_estate_front/img/icons/eye-slash.svg" alt="скрыть" />
         ) : (
-          <img src="/real_estate/img/icons/eye.svg" alt="показать" />
+          <img src="/Real_estate_front/img/icons/eye.svg" alt="показать" />
         )}
       </button>
     </div>

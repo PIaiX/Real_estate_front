@@ -41,32 +41,32 @@ export default function AccountMenu() {
       <nav className="menu">
         <ul>
           <li>
-            <img src="/real_estate/img/icons/pa-1.svg" alt="Профиль" />
+            <img src="/Real_estate_front/img/icons/pa-1.svg" alt="Профиль" />
             <NavLink to="profile">Профиль</NavLink>
           </li>
           <li>
-            <img src="/real_estate/img/icons/pa-2.svg" alt="Мои объявления" />
+            <img src="/Real_estate_front/img/icons/pa-2.svg" alt="Мои объявления" />
             <NavLink to="my-ads">Мои объявления</NavLink>
           </li>
           <li>
-            <img src="/real_estate/img/icons/pa-3.svg" alt="Мои услуги" />
+            <img src="/Real_estate_front/img/icons/pa-3.svg" alt="Мои услуги" />
             <NavLink to="my-services">Мои услуги</NavLink>
           </li>
           <li>
-            <img src="/real_estate/img/icons/pa-4.svg" alt="Избранное" />
+            <img src="/Real_estate_front/img/icons/pa-4.svg" alt="Избранное" />
             <NavLink to="favorites">Избранное</NavLink>
           </li>
           <li>
-            <img src="/real_estate/img/icons/pa-5.svg" alt="Сообщения" />
+            <img src="/Real_estate_front/img/icons/pa-5.svg" alt="Сообщения" />
             <NavLink to="my-messages">Сообщения</NavLink>
             <div className="count">2</div>
           </li>
           <li>
-            <img src="/real_estate/img/icons/pa-6.svg" alt="Отзывы" />
+            <img src="/Real_estate_front/img/icons/pa-6.svg" alt="Отзывы" />
             <NavLink to="my-reviews">Отзывы</NavLink>
           </li>
           <li>
-            <img src="/real_estate/img/icons/pa-7.svg" alt="Выйти" />
+            <img src="/Real_estate_front/img/icons/pa-7.svg" alt="Выйти" />
             <button onClick={handleLogout} type="button">
               Выйти
             </button>

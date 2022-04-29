@@ -13,6 +13,7 @@ import Registration from './Registration';
 import Articles from './Articles';
 import Password1 from './Password1';
 import Password2 from './Password2';
+import WaitAccountActivation from "./account/WaitAccountActivation";
 
 export default function AppRouter() {
     return (

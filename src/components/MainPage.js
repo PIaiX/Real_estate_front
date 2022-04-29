@@ -124,7 +124,7 @@ export default function MainPage() {
 
             <section id="sec-3" className="container mb-6">
                 <h3>Найти на карте</h3>
-                <img src="/real_estate/img/map.png" alt="Карта" className="w-100"/>
+                <img src="/Real_estate_front/img/map.png" alt="Карта" className="w-100"/>
             </section>
 
             <section className="sec-4 container mb-6">
