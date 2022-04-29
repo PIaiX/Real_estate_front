@@ -4,6 +4,8 @@
   "private": true,
   "homepage": "https://piaix.github.io/Real_estate_front/",
   "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^3.3.3",
+    "@redux-devtools/extension": "^3.2.2",
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
@@ -11,17 +13,26 @@
     "bootstrap": "^5.1.3",
     "bootstrap-icons": "^1.8.0",
     "gh-pages": "^3.2.3",
+    "git": "^0.1.5",
+    "joi": "^17.6.0",
     "react": "^17.0.2",
     "react-bootstrap": "^2.2.3",
     "react-dom": "^17.0.2",
     "react-images-uploading": "^3.1.3",
     "react-input-mask": "^3.0.0-alpha.2",
     "react-paginate": "^8.1.0",
+<<<<<<< HEAD
     "react-rating": "^2.0.5",
     "react-router-dom": "^6.3.0",
+=======
+    "react-redux": "^8.0.0",
+    "react-router-dom": "^6.0.2",
+>>>>>>> auth
     "react-scripts": "4.0.3",
     "react-scroll": "^1.8.4",
     "react-simple-image-viewer": "^1.1.1",
+    "redux": "^4.1.2",
+    "redux-thunk": "^2.4.1",
     "swiper": "^6.8.4",
     "web-vitals": "^1.1.2"
   },

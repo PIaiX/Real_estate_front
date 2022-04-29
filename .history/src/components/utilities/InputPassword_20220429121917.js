@@ -6,6 +6,20 @@ export default function InputPassword(props) {
     visible ? setVisibility(false) : setVisibility(true);
   };
 
+<<<<<<< HEAD
+    return (
+        <div className="password">
+            <input type={(visible) ? "text" : "password"} name={props.name} autocomplete="current-password" minlength="4" maxlength="8" size="8" required/>
+            <button type="button" onClick={() => handleClick()}>
+                {
+                    (visible) ?
+                    <img src="/Real_estate_front/img/icons/eye-slash.svg" alt="скрыть"/>
+                    : <img src="/Real_estate_front/img/icons/eye.svg" alt="показать"/>
+                }
+            </button>
+        </div>
+    )
+=======
   return (
     <div className="password">
       <input
@@ -28,4 +42,5 @@ export default function InputPassword(props) {
       </button>
     </div>
   );
+>>>>>>> auth
 }

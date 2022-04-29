@@ -350,143 +350,166 @@ export default function UserProfile() {
                                 <div className="col-sm-8">
                                     <label>
                                         <input
-                                          name="isSubscribed"
-                                          type="checkbox"
-                                          className="fs-11"
-                                          value={isSubscribed}
-                                          onChange={(e) =>
-                                              setIsSubscribed(e.target.type === 'checkbox' ? e.target.checked : e.target.value)
-                                          }
-                                          />
-                                          <span className="fs-11 ms-2">Получать уведомления на почту</span>
-                                          </label>
-                                          </div>
-                                          </div>
-                                          <button type="submit"
-                                          className="btn btn-1 fs-11 text-uppercase mt-4 mt-xxl-5 ms-auto me-auto me-xl-0"
-                                          onClick={() => {
-                                          redactorSwitcher();
-                                          }}
-                                          >Назад
-                                          </button>
-                                          <button type="submit"
-                                          className="btn btn-1 fs-11 text-uppercase mt-4 mt-xxl-5 ms-auto me-auto me-xl-0"
-                                          onClick={() => {
-                                          redactorSwitcher();
-                                          onSubmit();
-                                          }}
-                                          >Сохранить
+<<<<<<< HEAD
+                                            name="isSubscribed"
+                                            type="checkbox"
+                                            className="fs-11"
+                                            value={isSubscribed}
+                                            onChange={(e) =>
+                                                setIsSubscribed(e.target.type === 'checkbox' ? e.target.checked : e.target.value)
+                                            }
+                                        />
+                                        <span className="fs-11 ms-2">Получать уведомления на почту</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit"
+                                    className="btn btn-1 fs-11 text-uppercase mt-4 mt-xxl-5 ms-auto me-auto me-xl-0"
+                                    onClick={() => {
+                                        redactorSwitcher();
+                                    }}
+                            >Назад
+                            </button>
+                            <button type="submit"
+                                    className="btn btn-1 fs-11 text-uppercase mt-4 mt-xxl-5 ms-auto me-auto me-xl-0"
+                                    onClick={() => {
+                                        redactorSwitcher();
+                                        onSubmit();
+                                    }}
+                            >Сохранить
+=======
+                                            type="checkbox"
+                                            name="notifications"
+                                            value="Получать уведомления на почту"
+                                        />
+                                        <span className="fs-11 ms-2">
+                    Получать уведомления на почту
+                  </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <button
+                                type="submit"
+                                className="btn btn-1 fs-11 text-uppercase mt-4 mt-xxl-5 ms-auto me-auto me-xl-0"
+                            >
+                                Редактировать
+>>>>>>> auth
                             </button>
                         </div>
                     </div>
                 </form>
             </div>
-:
-<div className="px-2 px-sm-4 px-xxl-5 pb-3 pb-sm-4 pb-xxl-5">
-    <nav className="d-block d-lg-none mt-3 mb-3 mb-sm-5" aria-label="breadcrumb">
-        <Link to="/personal-account" className="gray-3">&#10094; Назад</Link>
-    </nav>
-    <h4 className="text-center color-1 mb-3 mb-sm-4 mb-xl-5">Профиль</h4>
-    <form className="form-profile">
-        <div className="row flex-xl-row-reverse">
-            <div className="col-xl-4 mb-4 mb-xl-0">
-                <div className="row row-cols-sm-2 row-cols-xl-1">
-                    <div>
-                        <ImageUploading
-                            multiple={false}
-                            value={avatar}
-                            onChange={onChange}
-                            maxNumber={maxNumber}
-                            dataURLKey="data_url"
-                        >
-                            {({
-                                  imageList,
-                                  onImageUpload,
-                                  onImageUpdate,
-                                  onImageRemove,
-                                  isDragging,
-                                  dragProps
-                              }) => (
-                                <div className="upload__image-wrapper">
-                                    <div className="imgs-box">
-                                        {
-                                            imageList.map((image, index) => (
-                                                <div key={index} className="image-item">
-                                                    <img src={image.data_url} alt=""/>
+<<<<<<< HEAD
+            :
+            <div className="px-2 px-sm-4 px-xxl-5 pb-3 pb-sm-4 pb-xxl-5">
+                <nav className="d-block d-lg-none mt-3 mb-3 mb-sm-5" aria-label="breadcrumb">
+                    <Link to="/personal-account" className="gray-3">&#10094; Назад</Link>
+                </nav>
+                <h4 className="text-center color-1 mb-3 mb-sm-4 mb-xl-5">Профиль</h4>
+                <form className="form-profile">
+                    <div className="row flex-xl-row-reverse">
+                        <div className="col-xl-4 mb-4 mb-xl-0">
+                            <div className="row row-cols-sm-2 row-cols-xl-1">
+                                <div>
+                                    <ImageUploading
+                                        multiple={false}
+                                        value={avatar}
+                                        onChange={onChange}
+                                        maxNumber={maxNumber}
+                                        dataURLKey="data_url"
+                                    >
+                                        {({
+                                              imageList,
+                                              onImageUpload,
+                                              onImageUpdate,
+                                              onImageRemove,
+                                              isDragging,
+                                              dragProps
+                                          }) => (
+                                            <div className="upload__image-wrapper">
+                                                <div className="imgs-box">
+                                                    {
+                                                        imageList.map((image, index) => (
+                                                            <div key={index} className="image-item">
+                                                                <img src={image.data_url} alt=""/>
+                                                            </div>
+                                                        ))
+                                                    }
                                                 </div>
-                                            ))
-                                        }
+                                            </div>
+                                        )}
+                                    </ImageUploading>
+                                </div>
+                                <div>
+                                    <div className="fs-15 fw-7 text-center mt-3 mt-sm-4">Колесникова Ирина</div>
+                                    <div className="rating justify-content-center mt-1 mt-sm-5">
+                                        <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
+                                        <img src="/real_estate/img/icons/star-blue.svg" alt="2"/>
+                                        <img src="/real_estate/img/icons/star-blue.svg" alt="3"/>
+                                        <img src="/real_estate/img/icons/star-gray.svg" alt="4"/>
+                                        <img src="/real_estate/img/icons/star-gray.svg" alt="5"/>
+                                    </div>
+                                    <div className="gray-3 fs-11 text-center mt-1 mt-sm-4">На сайте с сентября 2019
                                     </div>
                                 </div>
-                            )}
-                        </ImageUploading>
-                    </div>
-                    <div>
-                        <div className="fs-15 fw-7 text-center mt-3 mt-sm-4">Колесникова Ирина</div>
-                        <div className="rating justify-content-center mt-1 mt-sm-5">
-                            <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                            <img src="/real_estate/img/icons/star-blue.svg" alt="2"/>
-                            <img src="/real_estate/img/icons/star-blue.svg" alt="3"/>
-                            <img src="/real_estate/img/icons/star-gray.svg" alt="4"/>
-                            <img src="/real_estate/img/icons/star-gray.svg" alt="5"/>
+                            </div>
                         </div>
-                        <div className="gray-3 fs-11 text-center mt-1 mt-sm-4">На сайте с сентября 2019
+                        <div className="col-xl-8">
+                            <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
+                                <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Имя:</div>
+                                <div className="col-sm-8">
+                                    <input value={user.firstName} disabled className="fs-11"/>
+                                </div>
+                            </div>
+                            <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
+                                <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Фамилия:</div>
+                                <div className="col-sm-8">
+                                    <input value={user.lastName} disabled className="fs-11"/>
+                                </div>
+                            </div>
+                            <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
+                                <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Пол:</div>
+                                <div className="col-sm-8">
+                                    <input value={user.sex} disabled className="fs-11"/>
+                                </div>
+                            </div>
+                            <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
+                                <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Дата рождения:</div>
+                                <div className="col-sm-8 d-flex">
+                                    <input value={user.birthday} disabled className="fs-11"/>
+                                </div>
+                            </div>
+                            <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
+                                <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Телефон:</div>
+                                <div className="col-sm-8">
+                                    <input value={user.phone} className="fs-11" disabled/>
+                                </div>
+                            </div>
+                            <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
+                                <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Email:</div>
+                                <div className="col-sm-8">
+                                    <input value={user.email} className="fs-11" disabled/>
+                                </div>
+                            </div>
+                            <button
+                                type="submit"
+                                className="btn btn-1 fs-11 text-uppercase mt-4 mt-xxl-5 ms-auto me-auto me-xl-0"
+                                onClick={() => {
+                                    if (redactor === false) {
+                                        setRedactor(true)
+                                    } else {
+                                        setRedactor(false)
+                                    }
+                                }}
+                            >Редактировать
+                            </button>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
-            <div className="col-xl-8">
-                <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                    <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Имя:</div>
-                    <div className="col-sm-8">
-                        <input value={user.firstName} disabled className="fs-11"/>
-                    </div>
-                </div>
-                <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                    <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Фамилия:</div>
-                    <div className="col-sm-8">
-                        <input value={user.lastName} disabled className="fs-11"/>
-                    </div>
-                </div>
-                <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                    <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Пол:</div>
-                    <div className="col-sm-8">
-                        <input value={user.sex} disabled className="fs-11"/>
-                    </div>
-                </div>
-                <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                    <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Дата рождения:</div>
-                    <div className="col-sm-8 d-flex">
-                        <input value={user.birthday} disabled className="fs-11"/>
-                    </div>
-                </div>
-                <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                    <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Телефон:</div>
-                    <div className="col-sm-8">
-                        <input value={user.phone} className="fs-11" disabled/>
-                    </div>
-                </div>
-                <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                    <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Email:</div>
-                    <div className="col-sm-8">
-                        <input value={user.email} className="fs-11" disabled/>
-                    </div>
-                </div>
-                <button
-                    type="submit"
-                    className="btn btn-1 fs-11 text-uppercase mt-4 mt-xxl-5 ms-auto me-auto me-xl-0"
-                    onClick={() => {
-                        if (redactor === false) {
-                            setRedactor(true)
-                        } else {
-                            setRedactor(false)
-                        }
-                    }}
-                >Редактировать
-                </button>
-            </div>
-        </div>
-    </form>
-</div>
-)
+    )
 }
+=======
+        );
+    }
+>>>>>>> auth
