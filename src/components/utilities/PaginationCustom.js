@@ -45,7 +45,7 @@ export default function PaginationCustom(props) {
 
     const createPaginationItem = (i) => {
         return <Pagination.Item
-            href={`/real_estate#/${props.baseUrl}/page/${i}`}
+            href={`/Real_estate_front#/${props.baseUrl}/page/${i}`}
             key={i}
             active={i === currentPage}
             onClick={() => {
@@ -115,7 +115,7 @@ export default function PaginationCustom(props) {
                             }}
                             disabled={currentPage === 1}
                         >
-                            <img src="/real_estate/img/icons/prev2.svg" alt="Previous"/>
+                            <img src="/Real_estate_front/img/icons/prev2.svg" alt="Previous"/>
                         </NavLink>
                     </li>
                     <Pagination className="paginationInfo" >
@@ -131,7 +131,7 @@ export default function PaginationCustom(props) {
                             }}
                             disabled={currentPage === totalPages}
                         >
-                            <img src="/real_estate/img/icons/next2.svg" alt="Previous"/>
+                            <img src="/Real_estate_front/img/icons/next2.svg" alt="Previous"/>
                         </NavLink>
                     </li>
                 </ul>

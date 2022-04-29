@@ -55,7 +55,7 @@ export const Slider2 = () => {
             {data.map((data)=>
                 <SwiperSlide key={data.id}>
                     <Article
-                        imgUrl="/real_estate/img/nophoto.jpg"
+                        imgUrl="/Real_estate_front/img/nophoto.jpg"
                         title={data.title}
                         text={data.description}
                         articleUrl={data.slug}
@@ -63,10 +63,10 @@ export const Slider2 = () => {
                 </SwiperSlide>
             )}
             <div className="swiper-button-prev">
-                <img src="/real_estate/img/icons/prev.svg" alt="предыдущий" className="w-100"/>
+                <img src="/Real_estate_front/img/icons/prev.svg" alt="предыдущий" className="w-100"/>
             </div>
             <div className="swiper-button-next">
-                <img src="/real_estate/img/icons/next.svg" alt="следующий" className="w-100"/>
+                <img src="/Real_estate_front/img/icons/next.svg" alt="следующий" className="w-100"/>
             </div>
             <div className="swiper-pagination"></div>
         </Swiper>

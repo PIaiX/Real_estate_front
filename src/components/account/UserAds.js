@@ -28,7 +28,7 @@ export default function UserAds() {
                 <div className="mb-4 mb-md-5">
                     <Card 
                         type={view}
-                        images={['/real_estate/img/img1.jpg', '/real_estate/img/img2.jpg', '/real_estate/img/img3.jpg', '/real_estate/img/img4.jpg']}
+                        images={['/Real_estate_front/img/img1.jpg', '/Real_estate_front/img/img2.jpg', '/Real_estate_front/img/img3.jpg', '/Real_estate_front/img/img4.jpg']}
                         title="1-к, квартира 52м2" 
                         price="6 000 000" 
                         addressName="ЖК “Столичный”" 
@@ -37,7 +37,7 @@ export default function UserAds() {
                         text='Сдается 1-комнатная квартира в строящемся доме (Дом 3.1), срок сдачи: IV-кв. 2021, общей площадью 51.82 кв.м., на 18 этаже. Жилой комплекс "Столичный"- это современный жилой комплекс, который находится в самом  центре Казани, состоящий из нескольких кварталов, органично сочетающий городской комфорт и природное окружение...'
                         date="Вчера в 21:00"
                         authorName="Колесникова Ирина"
-                        authorPhoto="/real_estate/img/photo.png"
+                        authorPhoto="/Real_estate_front/img/photo.png"
                         authorTimeSpan="сентября 2021"
                         phone="+ 7 (952) 879 78 65"
                         communalPayments="Не включая коммунальные платежи"
@@ -48,15 +48,15 @@ export default function UserAds() {
                     />
                     <div className={(view === 'as-a-list') ? "d-flex justify-content-end align-items-center mt-2" : "mt-2"}>
                         <button type="button" className="color-1 d-flex align-items-center">
-                            <img src="/real_estate/img/icons/pa-8.svg" alt="Срочная продажа"/>
+                            <img src="/Real_estate_front/img/icons/pa-8.svg" alt="Срочная продажа"/>
                             <span className="ms-2">Срочная продажа</span>
                         </button>
                         <Link to="/advertise" className={(view === 'as-a-list') ? "ms-4 color-1 d-flex align-items-center" : "mt-2 color-1 d-flex align-items-center"}>
-                            <img src="/real_estate/img/icons/pa-9.svg" alt="Редактировать"/>
+                            <img src="/Real_estate_front/img/icons/pa-9.svg" alt="Редактировать"/>
                             <span className="ms-2">Редактировать</span>
                         </Link>
                         <button type="button" data-bs-toggle="modal" data-bs-target="#delete-ad" className={(view === 'as-a-list') ? "ms-4 color-1 d-flex align-items-center" : "mt-2 color-1 d-flex align-items-center"}>
-                            <img src="/real_estate/img/icons/pa-10.svg" alt="Удалить"/>
+                            <img src="/Real_estate_front/img/icons/pa-10.svg" alt="Удалить"/>
                             <span className="ms-2">Удалить</span>
                         </button>
                     </div>
@@ -64,7 +64,7 @@ export default function UserAds() {
                 <div className="mb-4 mb-md-5">
                     <Card 
                         type={view}
-                        images={['/real_estate/img/img1.jpg', '/real_estate/img/img2.jpg', '/real_estate/img/img3.jpg', '/real_estate/img/img4.jpg']}
+                        images={['/Real_estate_front/img/img1.jpg', '/Real_estate_front/img/img2.jpg', '/Real_estate_front/img/img3.jpg', '/Real_estate_front/img/img4.jpg']}
                         title="1-к, квартира 52м2" 
                         price="6 000 000" 
                         addressName="ЖК “Столичный”" 
@@ -73,7 +73,7 @@ export default function UserAds() {
                         text='Сдается 1-комнатная квартира в строящемся доме (Дом 3.1), срок сдачи: IV-кв. 2021, общей площадью 51.82 кв.м., на 18 этаже. Жилой комплекс "Столичный"- это современный жилой комплекс, который находится в самом  центре Казани, состоящий из нескольких кварталов, органично сочетающий городской комфорт и природное окружение...'
                         date="Вчера в 21:00"
                         authorName="Колесникова Ирина"
-                        authorPhoto="/real_estate/img/photo.png"
+                        authorPhoto="/Real_estate_front/img/photo.png"
                         authorTimeSpan="сентября 2021"
                         phone="+ 7 (952) 879 78 65"
                         communalPayments="Не включая коммунальные платежи"
@@ -84,15 +84,15 @@ export default function UserAds() {
                     />
                     <div className={(view === 'as-a-list') ? "d-flex justify-content-end align-items-center mt-2" : "mt-2"}>
                         <button type="button" className="color-1 d-flex align-items-center">
-                            <img src="/real_estate/img/icons/pa-8.svg" alt="Срочная продажа"/>
+                            <img src="/Real_estate_front/img/icons/pa-8.svg" alt="Срочная продажа"/>
                             <span className="ms-2">Срочная продажа</span>
                         </button>
                         <Link to="/advertise" className={(view === 'as-a-list') ? "ms-4 color-1 d-flex align-items-center" : "mt-2 color-1 d-flex align-items-center"}>
-                            <img src="/real_estate/img/icons/pa-9.svg" alt="Редактировать"/>
+                            <img src="/Real_estate_front/img/icons/pa-9.svg" alt="Редактировать"/>
                             <span className="ms-2">Редактировать</span>
                         </Link>
                         <button type="button" data-bs-toggle="modal" data-bs-target="#delete-ad" className={(view === 'as-a-list') ? "ms-4 color-1 d-flex align-items-center" : "mt-2 color-1 d-flex align-items-center"}>
-                            <img src="/real_estate/img/icons/pa-10.svg" alt="Удалить"/>
+                            <img src="/Real_estate_front/img/icons/pa-10.svg" alt="Удалить"/>
                             <span className="ms-2">Удалить</span>
                         </button>
                     </div>
@@ -100,7 +100,7 @@ export default function UserAds() {
                 <div className="mb-4 mb-md-5">
                     <Card 
                         type={view}
-                        images={['/real_estate/img/img1.jpg', '/real_estate/img/img2.jpg', '/real_estate/img/img3.jpg', '/real_estate/img/img4.jpg']}
+                        images={['/Real_estate_front/img/img1.jpg', '/Real_estate_front/img/img2.jpg', '/Real_estate_front/img/img3.jpg', '/Real_estate_front/img/img4.jpg']}
                         title="1-к, квартира 52м2" 
                         price="6 000 000" 
                         addressName="ЖК “Столичный”" 
@@ -109,7 +109,7 @@ export default function UserAds() {
                         text='Сдается 1-комнатная квартира в строящемся доме (Дом 3.1), срок сдачи: IV-кв. 2021, общей площадью 51.82 кв.м., на 18 этаже. Жилой комплекс "Столичный"- это современный жилой комплекс, который находится в самом  центре Казани, состоящий из нескольких кварталов, органично сочетающий городской комфорт и природное окружение...'
                         date="Вчера в 21:00"
                         authorName="Колесникова Ирина"
-                        authorPhoto="/real_estate/img/photo.png"
+                        authorPhoto="/Real_estate_front/img/photo.png"
                         authorTimeSpan="сентября 2021"
                         phone="+ 7 (952) 879 78 65"
                         communalPayments="Не включая коммунальные платежи"
@@ -120,15 +120,15 @@ export default function UserAds() {
                     />
                     <div className={(view === 'as-a-list') ? "d-flex justify-content-end align-items-center mt-2" : "mt-2"}>
                         <button type="button" className="color-1 d-flex align-items-center">
-                            <img src="/real_estate/img/icons/pa-8.svg" alt="Срочная продажа"/>
+                            <img src="/Real_estate_front/img/icons/pa-8.svg" alt="Срочная продажа"/>
                             <span className="ms-2">Срочная продажа</span>
                         </button>
                         <Link to="/advertise" className={(view === 'as-a-list') ? "ms-4 color-1 d-flex align-items-center" : "mt-2 color-1 d-flex align-items-center"}>
-                            <img src="/real_estate/img/icons/pa-9.svg" alt="Редактировать"/>
+                            <img src="/Real_estate_front/img/icons/pa-9.svg" alt="Редактировать"/>
                             <span className="ms-2">Редактировать</span>
                         </Link>
                         <button type="button" data-bs-toggle="modal" data-bs-target="#delete-ad" className={(view === 'as-a-list') ? "ms-4 color-1 d-flex align-items-center" : "mt-2 color-1 d-flex align-items-center"}>
-                            <img src="/real_estate/img/icons/pa-10.svg" alt="Удалить"/>
+                            <img src="/Real_estate_front/img/icons/pa-10.svg" alt="Удалить"/>
                             <span className="ms-2">Удалить</span>
                         </button>
                     </div>
@@ -136,7 +136,7 @@ export default function UserAds() {
                 <div className="mb-4 mb-md-5">
                     <Card 
                         type={view}
-                        images={['/real_estate/img/img1.jpg', '/real_estate/img/img2.jpg', '/real_estate/img/img3.jpg', '/real_estate/img/img4.jpg']}
+                        images={['/Real_estate_front/img/img1.jpg', '/Real_estate_front/img/img2.jpg', '/Real_estate_front/img/img3.jpg', '/Real_estate_front/img/img4.jpg']}
                         title="1-к, квартира 52м2" 
                         price="6 000 000" 
                         addressName="ЖК “Столичный”" 
@@ -145,7 +145,7 @@ export default function UserAds() {
                         text='Сдается 1-комнатная квартира в строящемся доме (Дом 3.1), срок сдачи: IV-кв. 2021, общей площадью 51.82 кв.м., на 18 этаже. Жилой комплекс "Столичный"- это современный жилой комплекс, который находится в самом  центре Казани, состоящий из нескольких кварталов, органично сочетающий городской комфорт и природное окружение...'
                         date="Вчера в 21:00"
                         authorName="Колесникова Ирина"
-                        authorPhoto="/real_estate/img/photo.png"
+                        authorPhoto="/Real_estate_front/img/photo.png"
                         authorTimeSpan="сентября 2021"
                         phone="+ 7 (952) 879 78 65"
                         communalPayments="Не включая коммунальные платежи"
@@ -156,15 +156,15 @@ export default function UserAds() {
                     />
                     <div className={(view === 'as-a-list') ? "d-flex justify-content-end align-items-center mt-2" : "mt-2"}>
                         <button type="button" className="color-1 d-flex align-items-center">
-                            <img src="/real_estate/img/icons/pa-8.svg" alt="Срочная продажа"/>
+                            <img src="/Real_estate_front/img/icons/pa-8.svg" alt="Срочная продажа"/>
                             <span className="ms-2">Срочная продажа</span>
                         </button>
                         <Link to="/advertise" className={(view === 'as-a-list') ? "ms-4 color-1 d-flex align-items-center" : "mt-2 color-1 d-flex align-items-center"}>
-                            <img src="/real_estate/img/icons/pa-9.svg" alt="Редактировать"/>
+                            <img src="/Real_estate_front/img/icons/pa-9.svg" alt="Редактировать"/>
                             <span className="ms-2">Редактировать</span>
                         </Link>
                         <button type="button" data-bs-toggle="modal" data-bs-target="#delete-ad" className={(view === 'as-a-list') ? "ms-4 color-1 d-flex align-items-center" : "mt-2 color-1 d-flex align-items-center"}>
-                            <img src="/real_estate/img/icons/pa-10.svg" alt="Удалить"/>
+                            <img src="/Real_estate_front/img/icons/pa-10.svg" alt="Удалить"/>
                             <span className="ms-2">Удалить</span>
                         </button>
                     </div>
@@ -174,7 +174,7 @@ export default function UserAds() {
                 <ul className="pagination">
                     <li className="page-item">
                         <a className="page-link" href="/" aria-label="Previous">
-                        <img src="/real_estate/img/icons/prev2.svg" alt="Previous"/>
+                        <img src="/Real_estate_front/img/icons/prev2.svg" alt="Previous"/>
                         </a>
                     </li>
                     <li className="page-item active"><a className="page-link" href="/">1</a></li>
@@ -184,7 +184,7 @@ export default function UserAds() {
                     <li className="page-item"><a className="page-link" href="/">6</a></li>
                     <li className="page-item">
                         <a className="page-link" href="/" aria-label="Next">
-                        <img src="/real_estate/img/icons/next2.svg" alt="Next"/>
+                        <img src="/Real_estate_front/img/icons/next2.svg" alt="Next"/>
                         </a>
                     </li>
                 </ul>

@@ -47,7 +47,7 @@ export default function UserPage() {
                             </div>
                             <div className="col-5 col-sm-4 col-md-3">
                                 <div className="user-photo">
-                                    <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
+                                    <img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/>
                                     <div className="indicator online"></div>
                                 </div>
                             </div>
@@ -60,11 +60,11 @@ export default function UserPage() {
                             <div className="title justify-content-md-start mb-2 mb-sm-4">
                                 <h4 className="mb-0">Дизайнер</h4>
                                 <div className="rating ms-4">
-                                    <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                    <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                    <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                    <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
-                                    <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                    <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                    <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                    <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                    <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
+                                    <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
                                     <span>(3.35)</span>
                                 </div>
                             </div>
@@ -95,19 +95,19 @@ export default function UserPage() {
                             <button type="button" data-bs-toggle="modal" data-bs-target="#write-review" className="mx-auto mx-sm-0 mt-3 mt-sm-0 btn btn-1 fs-11">Написать отзыв</button>
                         </div>
                         <div className="review mb-3">
-                            <img src="/real_estate/img/photo2.png" alt="Андрей Шевцов" className="photo d-none d-sm-block"/>
+                            <img src="/Real_estate_front/img/photo2.png" alt="Андрей Шевцов" className="photo d-none d-sm-block"/>
                             <div className="ms-sm-4">
                                 <div className="d-flex align-items-center d-sm-block mb-2 mb-sm-0">
-                                    <img src="/real_estate/img/photo2.png" alt="Андрей Шевцов" className="photo d-block d-sm-none"/>
+                                    <img src="/Real_estate_front/img/photo2.png" alt="Андрей Шевцов" className="photo d-block d-sm-none"/>
                                     <div className="ms-3 ms-sm-0">
                                         <h4>Андрей Шевцов</h4>
                                         <div className="rating mb-sm-3">
                                             <span className="fs-12 ms-0">Оценка:</span>
-                                            <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                            <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                            <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                            <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
-                                            <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                            <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                            <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                            <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                            <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
+                                            <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
                                         </div>
                                     </div>
                                 </div>
@@ -119,19 +119,19 @@ export default function UserPage() {
                             </div>
                         </div>
                         <div className="review mb-3">
-                            <img src="/real_estate/img/photo2.png" alt="Андрей Шевцов" className="photo d-none d-sm-block"/>
+                            <img src="/Real_estate_front/img/photo2.png" alt="Андрей Шевцов" className="photo d-none d-sm-block"/>
                             <div className="ms-sm-4">
                                 <div className="d-flex align-items-center d-sm-block mb-2 mb-sm-0">
-                                    <img src="/real_estate/img/photo2.png" alt="Андрей Шевцов" className="photo d-block d-sm-none"/>
+                                    <img src="/Real_estate_front/img/photo2.png" alt="Андрей Шевцов" className="photo d-block d-sm-none"/>
                                     <div className="ms-3 ms-sm-0">
                                         <h4>Андрей Шевцов</h4>
                                         <div className="rating mb-sm-3">
                                             <span className="fs-12 ms-0">Оценка:</span>
-                                            <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                            <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                            <img src="/real_estate/img/icons/star-blue.svg" alt="1"/>
-                                            <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
-                                            <img src="/real_estate/img/icons/star-gray.svg" alt="1"/>
+                                            <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                            <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                            <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                            <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
+                                            <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
                                         </div>
                                     </div>
                                 </div>
@@ -180,7 +180,7 @@ export default function UserPage() {
                             <form className="message-form">
                                 <div className="d-flex align-items-center">
                                     <div className="photo me-2 me-sm-4">
-                                        <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
+                                        <img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/>
                                         <div className="indicator online"></div>
                                     </div>
                                     <div>
@@ -214,7 +214,7 @@ export default function UserPage() {
                                 <div className="row">
                                     <div className="col-lg-4 d-flex flex-lg-column align-items-center mb-2 mb-sm-4 mb-lg-0">
                                         <div className="photo me-3 me-lg-0 mb-lg-3">
-                                            <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
+                                            <img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/>
                                             <div className="indicator online"></div>
                                         </div>
                                         <div className="text-lg-center">

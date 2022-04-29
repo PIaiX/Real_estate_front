@@ -32,15 +32,15 @@ export default function CardPage() {
     const [currentImage, setCurrentImage] = useState(0);
     const [isViewerOpen, setIsViewerOpen] = useState(false);
     const images = [
-        '/real_estate/img/img1.jpg',
-        '/real_estate/img/img2.jpg',
-        '/real_estate/img/img3.jpg',
-        '/real_estate/img/img1.jpg',
-        '/real_estate/img/img2.jpg',
-        '/real_estate/img/img3.jpg',
-        '/real_estate/img/img1.jpg',
-        '/real_estate/img/img2.jpg',
-        '/real_estate/img/img3.jpg',
+        '/Real_estate_front/img/img1.jpg',
+        '/Real_estate_front/img/img2.jpg',
+        '/Real_estate_front/img/img3.jpg',
+        '/Real_estate_front/img/img1.jpg',
+        '/Real_estate_front/img/img2.jpg',
+        '/Real_estate_front/img/img3.jpg',
+        '/Real_estate_front/img/img1.jpg',
+        '/Real_estate_front/img/img2.jpg',
+        '/Real_estate_front/img/img3.jpg',
     ];
 
     const openImageViewer = useCallback((index) => {
@@ -98,14 +98,14 @@ export default function CardPage() {
             <section id="sec-7" className="container pb-5">
                 <h1>1-к, квартира 52м<sup>2</sup></h1>
                 <div className="d-flex align-items-center mb-2 mb-xxl-3">
-                    <img src="/real_estate/img/icons/pin.svg" alt="адрес"/>
+                    <img src="/Real_estate_front/img/icons/pin.svg" alt="адрес"/>
                     <div className="fs-11 fw-6 ms-2 ms-sm-4">
                         <div>ЖК “Столичный”</div>
                         <div>Казань, Вахитовский район, ул. Четаева, 32</div>
                     </div>
                 </div>
                 <div className="d-flex align-items-center mb-2 mb-xxl-3">
-                    <img src="/real_estate/img/icons/metro.svg" alt="адрес"/>
+                    <img src="/Real_estate_front/img/icons/metro.svg" alt="адрес"/>
                     <div className="fs-11 fw-6 ms-2 ms-sm-4">
                         <div>Козья слобода, 7 минут</div>
                     </div>
@@ -129,7 +129,7 @@ export default function CardPage() {
                         <div className="d-flex fs-09">
                             <div className="color-2">Вчера в 21:00</div>
                             <div className="d-flex color-2 ms-4">
-                                <img src="/real_estate/img/icons/eye-fill.svg" alt="Просмотры"/>
+                                <img src="/Real_estate_front/img/icons/eye-fill.svg" alt="Просмотры"/>
                                 <span className="d-none d-md-block ms-2">Просмотры:</span>
                                 <span className="ms-1">24</span>
                                 <span className="d-none d-md-block ms-1">(7 за сегодня)</span>
@@ -159,7 +159,7 @@ export default function CardPage() {
                                             alt={'фото'+i}
                                             />
                                             <button type="button" data-target={i} onClick={ () => openImageViewer(i)}>
-                                                <img src="/real_estate/img/icons/img-full.svg" alt="увеличить фото" className="img-fluid"/>
+                                                <img src="/Real_estate_front/img/icons/img-full.svg" alt="увеличить фото" className="img-fluid"/>
                                             </button>
                                         </SwiperSlide>
                                     ))
@@ -179,11 +179,11 @@ export default function CardPage() {
                             </Swiper>
                             <div className="labels">
                                 <div className="vip">
-                                    <img src="/real_estate/img/icons/vip.svg" alt="vip"/>
+                                    <img src="/Real_estate_front/img/icons/vip.svg" alt="vip"/>
                                     <span>VIP</span>
                                 </div>
                                 <div className="hot">
-                                    <img src="/real_estate/img/icons/hot.svg" alt="hot"/>
+                                    <img src="/Real_estate_front/img/icons/hot.svg" alt="hot"/>
                                     <span>Hot</span>
                                 </div>
                             </div>
@@ -283,7 +283,7 @@ export default function CardPage() {
                                             <div className="gray-3 fs-11 mb-2">На сайте с июля 2021</div>
                                             <div className="color-1 fs-11"><a href="/">Еще 4 объекта</a></div>
                                         </div>
-                                        <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
+                                        <img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/>
                                     </div>
                                     <ShowPhone className="mt-4 fs-15" phone="+ 7 (952) 879 78 65"/>
                                     <button type="button" data-bs-toggle="modal" data-bs-target="#write-message" className="btn btn-1 w-100 fs-15 px-3 mt-2 mt-xl-3">Написать сообщение</button>
@@ -383,35 +383,35 @@ export default function CardPage() {
                         <h4 className="mt-4 mt-sm-5 mb-3">Дополнительная информация</h4>
                         <div className="row row-cols-2 row-cols-md-3 gx-2 gx-sm-4">
                             <div className="d-flex align-items-center fs-11 mb-2">
-                                <img src="/real_estate/img/icons/parking.svg" alt="Парковка" className="icon-mini"/>
+                                <img src="/Real_estate_front/img/icons/parking.svg" alt="Парковка" className="icon-mini"/>
                                 <span className="ms-2 ms-sm-3">Парковка</span>
                             </div>
                             <div className="d-flex align-items-center fs-11 mb-2">
-                                <img src="/real_estate/img/icons/air-conditioner.svg" alt="Кондиционер" className="icon-mini"/>
+                                <img src="/Real_estate_front/img/icons/air-conditioner.svg" alt="Кондиционер" className="icon-mini"/>
                                 <span className="ms-2 ms-sm-3">Кондиционер</span>
                             </div>
                             <div className="d-flex align-items-center fs-11 mb-2">
-                                <img src="/real_estate/img/icons/furniture.svg" alt="Мебель" className="icon-mini"/>
+                                <img src="/Real_estate_front/img/icons/furniture.svg" alt="Мебель" className="icon-mini"/>
                                 <span className="ms-2 ms-sm-3">Мебель</span>
                             </div>
                             <div className="d-flex align-items-center fs-11 mb-2">
-                                <img src="/real_estate/img/icons/bath.svg" alt="Ванна" className="icon-mini"/>
+                                <img src="/Real_estate_front/img/icons/bath.svg" alt="Ванна" className="icon-mini"/>
                                 <span className="ms-2 ms-sm-3">Ванна</span>
                             </div>   
                             <div className="d-flex align-items-center fs-11 mb-2">
-                                <img src="/real_estate/img/icons/fridge.svg" alt="Холодильник" className="icon-mini"/>
+                                <img src="/Real_estate_front/img/icons/fridge.svg" alt="Холодильник" className="icon-mini"/>
                                 <span className="ms-2 ms-sm-3">Холодильник</span>
                             </div>
                             <div className="d-flex align-items-center fs-11 mb-2">
-                                <img src="/real_estate/img/icons/washer.svg" alt="Стиральная машина" className="icon-mini"/>
+                                <img src="/Real_estate_front/img/icons/washer.svg" alt="Стиральная машина" className="icon-mini"/>
                                 <span className="ms-2 ms-sm-3">Стиральная машина</span>
                             </div>
                             <div className="d-flex align-items-center fs-11 mb-2">
-                                <img src="/real_estate/img/icons/pets.svg" alt="Можно с животными" className="icon-mini"/>
+                                <img src="/Real_estate_front/img/icons/pets.svg" alt="Можно с животными" className="icon-mini"/>
                                 <span className="ms-2 ms-sm-3">Можно с животными</span>
                             </div>
                             <div className="d-flex align-items-center fs-11 mb-2">
-                                <img src="/real_estate/img/icons/kids.svg" alt="Можно с детьми" className="icon-mini"/>
+                                <img src="/Real_estate_front/img/icons/kids.svg" alt="Можно с детьми" className="icon-mini"/>
                                 <span className="ms-2 ms-sm-3">Можно с детьми</span>
                             </div>
                         </div>
@@ -477,7 +477,7 @@ export default function CardPage() {
                         </div>
 
                         <h4 className="mt-4 mt-sm-5">На карте</h4>
-                        <img src="/real_estate/img/map.png" alt="Карта" className="w-100"/>
+                        <img src="/Real_estate_front/img/map.png" alt="Карта" className="w-100"/>
                     </div>
                 </div>
             </section>
@@ -522,7 +522,7 @@ export default function CardPage() {
                             <form className="message-form">
                                 <div className="d-flex align-items-center">
                                     <div className="photo me-2 me-sm-4">
-                                        <img src="/real_estate/img/photo.png" alt="Колесникова Ирина"/>
+                                        <img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/>
                                         <div className="indicator online"></div>
                                     </div>
                                     <div>

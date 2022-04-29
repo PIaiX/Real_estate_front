@@ -10,7 +10,7 @@ export default function InputFile(props) {
                 <input type="file" multiple onChange={(e) => setFiles(e.target.files.length)}/>
                 : <input type="file" onChange={(e) => setFiles(e.target.files.length)}/>
             }
-            <img src="/real_estate/img/icons/el_paper-clip.svg" alt="прикрепить файл"/>
+            <img src="/Real_estate_front/img/icons/el_paper-clip.svg" alt="прикрепить файл"/>
             <span className="ind">{ (files>0) && files }</span>
         </label>
     )

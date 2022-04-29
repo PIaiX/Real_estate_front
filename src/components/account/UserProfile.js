@@ -7,9 +7,7 @@ import Rating from 'react-rating';
 import InputMask from "react-input-mask";
 
 export default function UserProfile() {
-
     const [avatar, setAvatar] = React.useState([{'data_url': '/real_estate/img/photo.png'}]);
-
     const maxNumber = 24;
 
     const onChange = (imageList, addUpdateIndex) => {
