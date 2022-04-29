@@ -10,6 +10,7 @@ import FormErrorMessage from "./utilities/FormErrorMessage";
 import { bindActionCreators } from "redux";
 
 import useAxiosPrivate from "./hooks/useAxiosPrivate";
+import {resetToken} from "../store/actions/actionTypes";
 
 const formValueDefault = { email: "", password: "", remember: false };
 const formErrorDefault = { email: "", password: "" };
@@ -20,7 +21,7 @@ const schema = Joi.object({
   email: Joi.string()
     .email({ tlds: { allow: false } })
     .min(4)
-    .max(20)
+    .max(50)
     .required()
     .messages({
       "string.empty": "Email адрес не может быть пустым",
@@ -83,14 +84,13 @@ export default function Entrance() {
     }
 
     try {
-      const response = await axiosPrivate.post(
-        `${baseUrl}/api/auth/login`,
-        formValue
-      );
+      const response = await axiosPrivate.post(`${baseUrl}/api/auth/login`, formValue);
+      console.log(response)
       if (response.data.status === 200) {
         setToken(response.data.body.token);
         setCurrentUser(response.data.body.user);
-        navigate("/");
+        navigate("/personal-account");
+        console.log(response)
       }
     } catch (error) {
       console.log(error.message);
@@ -107,7 +107,6 @@ export default function Entrance() {
       });
     });
   };
-
   return (
     <main className="account py-sm-3 py-md-4 py-lg-5">
       <section className="container">

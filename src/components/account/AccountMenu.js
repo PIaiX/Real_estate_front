@@ -24,6 +24,7 @@ export default function AccountMenu() {
       resetCurrentUser();
       navigate("/");
     }
+    console.log(response)
   };
 
   return (

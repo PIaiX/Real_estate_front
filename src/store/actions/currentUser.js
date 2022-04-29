@@ -1,12 +1,12 @@
 import actionTypes from "./actionTypes";
 
-const setCurrentUser = (user) => {
+export const setCurrentUser = (user) => {
   return (dispatch) => {
     dispatch({ type: actionTypes.setCurrentUser, payload: user });
   };
 };
 
-const resetCurrentUser = () => {
+export const resetCurrentUser = () => {
   return (dispatch) => {
     dispatch({ type: actionTypes.resetCurrentUser });
   };

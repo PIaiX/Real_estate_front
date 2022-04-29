@@ -1,12 +1,12 @@
-import ActionTypes from "../actions/actionTypes";
+import actionTypes from "../actions/actionTypes";
 
 const initialState = null;
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ActionTypes.setToken:
+    case actionTypes.setToken:
       return action.payload;
-    case ActionTypes.resetToken:
+    case actionTypes.resetToken:
       return null;
     default:
       return state;

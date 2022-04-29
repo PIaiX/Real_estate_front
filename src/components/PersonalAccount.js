@@ -9,6 +9,8 @@ import UserMessages from "./account/UserMessages";
 import CreateService from "./account/CreateService";
 import ChatPage from "./account/ChatPage";
 import AccountMenu from "./account/AccountMenu";
+import currentUser from "../store/reducers/currentUser";
+import {useCurrentUser} from "../store/reducers";
 
 export default function PersonalAccount() {
   const [mob, setMob] = useState(false);
@@ -25,6 +27,8 @@ export default function PersonalAccount() {
     updateView();
     return () => window.removeEventListener("resize", updateView);
   }, []);
+
+
 
   return (
     <main className="account py-sm-3 py-md-4 py-lg-5">

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import Joi from "joi";
+import {Link, NavLink} from "react-router-dom";
+import Joi, {number} from "joi";
 import axios from "axios";
 
 import InputPassword from "./utilities/InputPassword";
 import FormErrorMessage from "./utilities/FormErrorMessage";
+import WaitAccountActivation from "./account/WaitAccountActivation";
+import Button from "bootstrap/js/src/button";
 
 const formValueDefault = {
   firstName: "",
@@ -23,7 +25,7 @@ const formErrorDefault = {
   password: "",
   passwordConfirm: "",
 };
-const baseUrl = "http://45.90.35.82:3333";
+const baseUrl = "https://api.antontig.beget.tech";
 
 const schema = Joi.object({
   firstName: Joi.string().min(4).max(20).required().messages({
@@ -75,7 +77,7 @@ export default function Entrance() {
       return {
         ...prev,
         [e.target.name]:
-          e.target.type !== "checkbox" ? e.target.value : e.target.checked,
+          e.target.type === "checkbox" ? e.target.checked : e.target.value,
       };
     });
     setFormErrors((prev) => {
@@ -83,8 +85,10 @@ export default function Entrance() {
     });
   };
 
-  const handleFormSubmit = async () => {
+  const handleFormSubmit = async (e) => {
+    e.preventDefault()
     const result = schema.validate(formValue, { abortEarly: false });
+    console.log(result)
     if (result.error) {
       handleFormErrors(result.error.details);
       return;
@@ -101,6 +105,7 @@ export default function Entrance() {
         ...formValue,
         ownerType,
       });
+      alert("Форма отправлена")
       console.log(response.data.message);
     } catch (error) {
       console.log(error.message);
@@ -167,10 +172,10 @@ export default function Entrance() {
                       <label>
                         <input
                           type="radio"
-                          name="owner"
+                          name="ownerType"
                           value="0"
                           defaultChecked={true}
-                          onChange={(e) => setOwnerType(e.target.value)}
+                          onChange={handleFormChange}
                         />
                         <span className="fs-11 ms-2">Собственник</span>
                       </label>
@@ -179,9 +184,9 @@ export default function Entrance() {
                       <label>
                         <input
                           type="radio"
-                          name="owner"
+                          name="ownerType"
                           value="1"
-                          onChange={(e) => setOwnerType(e.target.value)}
+                          onChange={handleFormChange}
                         />
                         <span className="fs-11 ms-2">Агент</span>
                       </label>
@@ -272,19 +277,12 @@ export default function Entrance() {
               </div>
               <div className="row justify-content-center">
                 <div className="col-sm-8 col-lg-6">
-                  {/* <Link
-                    to="/personal-account"
-                    className="btn btn-1 fs-11 w-100 text-uppercase mb-4"
-                  >
-                    Зарегистрироваться
-                  </Link> */}
-                  <div
-                    to="/personal-account"
+                   <button
                     className="btn btn-1 fs-11 w-100 text-uppercase mb-4"
                     onClick={handleFormSubmit}
                   >
-                    Зарегистрироваться
-                  </div>
+                     Зарегистрироваться
+                  </button>
                 </div>
                 <div className="col-12">
                   <div className="fs-09 text-center gray-3 mb-4">
