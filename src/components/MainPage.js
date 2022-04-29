@@ -6,7 +6,7 @@ import {Link, useParams} from 'react-router-dom';
 import { animateScroll as scroll } from 'react-scroll';
 import {MainBanner} from './MainBanner';
 import {useEffect, useState} from "react";
-import {getPopular, getRecommend} from "./API/mainpagereq";
+import {getBanner, getPopular, getRecommend} from "./API/mainpagereq";
 
 export default function MainPage() {
 
@@ -15,7 +15,22 @@ export default function MainPage() {
 
     const [recommend, setRecommend] = useState([]);
     const [popular, setPopular] = useState([]);
+    const [banner, setBanner] = useState([]);
 
+    useEffect(() => {
+        const fun = async () => {
+            try {
+                let result = await getBanner()
+                if (result) {
+                    setBanner(result)
+                }
+            } catch (err) {
+                console.log(err)
+            }
+
+        }
+        fun()
+    }, [])
     useEffect(() => {
         const fun = async () => {
             try {
@@ -24,7 +39,7 @@ export default function MainPage() {
                     setRecommend(result)
                 }
             } catch (err) {
-                console.log("err")
+                console.log(err)
             }
         }
         fun()
@@ -38,7 +53,7 @@ export default function MainPage() {
                     setPopular(result)
                 }
             } catch (err) {
-                console.log("err")
+                console.log(err)
             }
         }
         fun()
@@ -50,11 +65,9 @@ export default function MainPage() {
 
     return (
         <main>
+
             <section id="sec-1">
-                <MainBanner />
-                <div className="container d-flex justify-content-center">
-                    <h1 className="main">Мы подобрали для Вас лучшие варианты</h1>
-                </div>
+                <MainBanner banners={banner}/>
             </section>
 
             <section id="sec-2" className="container tiles px-xxl-5 mb-6">
@@ -67,7 +80,6 @@ export default function MainPage() {
                         {name: 'Продать', link: '/catalog'},
                         {name: 'Снять', link: '/catalog'}]}
                 />
-
                 <Tile
                     img="/Real_estate_front/img/icons/icon-2.svg"
                     titles={['Дома', 'Дачи', 'Коттеджи']}
@@ -77,7 +89,6 @@ export default function MainPage() {
                         {name: 'Продать', link: '/catalog'},
                         {name: 'Снять', link: '/catalog'}]}
                 />
-
                 <Tile
                     img="/Real_estate_front/img/icons/icon-3.svg"
                     titles={['Гараж', 'Паркинг']}
@@ -87,7 +98,6 @@ export default function MainPage() {
                         {name: 'Продать', link: '/catalog'},
                         {name: 'Снять', link: '/catalog'}]}
                 />
-
                 <Tile
                     img="/Real_estate_front/img/icons/icon-4.svg"
                     titles={['Земельные участки']}
@@ -97,7 +107,6 @@ export default function MainPage() {
                         {name: 'Продать', link: '/catalog'},
                         {name: 'Снять', link: '/catalog'}]}
                 />
-
                 <Tile
                     img="/Real_estate_front/img/icons/icon-5.svg"
                     titles={['Коммерческая недвижимость']}
@@ -107,12 +116,10 @@ export default function MainPage() {
                         {name: 'Продать', link: '/catalog'},
                         {name: 'Снять', link: '/catalog'}]}
                 />
-
                 <Tile
                     img="/Real_estate_front/img/icons/icon-6.svg"
                     simpleLink={{title: 'Ипотека', url: '/service'}}
                 />
-
             </section>
         
             <section id="sec-3" className="container mb-6">

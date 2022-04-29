@@ -20,7 +20,7 @@ export const Slider2 = () => {
                     setData(result)
                 }
             } catch (err) {
-                console.log("err")
+                console.log(err)
             }
         }
         fin()

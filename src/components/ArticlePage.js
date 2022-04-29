@@ -26,6 +26,7 @@ export default function ArticlePage() {
     }, [userId])
 
     const {slug} = useParams();
+
     const [data, setData] = useState([])
 
     useEffect(() => {
@@ -36,7 +37,7 @@ export default function ArticlePage() {
                     setData(result)
                 }
             } catch (err) {
-                console.log("err")
+                console.log(err)
             }
         }
         fin()

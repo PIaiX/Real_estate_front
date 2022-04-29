@@ -44,7 +44,6 @@ export default function CardPage() {
     ];
 
     const openImageViewer = useCallback((index) => {
-        console.log(index);
         setCurrentImage(index);
         setIsViewerOpen(true);
     }, []);

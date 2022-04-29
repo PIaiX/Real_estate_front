@@ -158,7 +158,6 @@ export default function Card(props) {
                         <img src="/Real_estate_front/img/icons/hot.svg" alt="hot"/>
                         <span>Hot</span>
                     </div>}
-
                 </div>
                 <BtnFav state={props.fav}/>
             </div>

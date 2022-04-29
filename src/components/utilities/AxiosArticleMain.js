@@ -8,7 +8,7 @@ export default function AxiosArticleMain(props) {
     useEffect(() => {
         if(props.data){
             setData(props.data.data)
-        } else (console.log("error2"));
+        }
     }, [props.data])
 
     return (
