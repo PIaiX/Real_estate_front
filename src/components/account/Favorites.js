@@ -1,22 +1,37 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
+import {Link, useParams} from 'react-router-dom';
+import useUpdateSize from '../hooks/useUpdateSize';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import Card from '../Card';
-import { Link } from 'react-router-dom';
+import PaginationCustom from '../utilities/PaginationCustom';
+
 
 export default function Favorites() {
-    const [view, setView] = useState('as-a-list');
+    const view = useUpdateSize('1399px');
+    const axiosPrivate = useAxiosPrivate();
+    const [meta, setMeta] = useState([])
+    const [wishlist, setWishlist] = useState([])
+    const userid = useSelector(state => state?.currentUser?.id)
+    const {page} = useParams()
+
+    console.log('wishlist', wishlist)
 
     useEffect(() => {
-        function updateSize() {
-            if(window.matchMedia("(max-width: 1399px)").matches){
-                setView('tiled');
-            } else {
-                setView('as-a-list');
+        const checkAuth = async (userid, page = 1, limit = 4) => {
+            try {
+                const response = userid ? await axiosPrivate.post(`https://api.antontig.beget.tech/api/user/wishlist/${userid}`, {page, limit}) : ''
+                if (response) {
+                    setWishlist(response?.data.body.data)
+                    setMeta(response?.data.body)
+                }
+            } catch (error) {
+                console.log(error)
             }
+
         }
-          window.addEventListener('resize', updateSize);
-          updateSize();
-          return () => window.removeEventListener('resize', updateSize);
-    }, []);
+        checkAuth(userid, page, 4);
+    }, [userid, page]);
 
     return (
         <div className="px-sm-3 px-md-4 px-xxl-5 pb-sm-4 pb-xxl-5">
@@ -25,138 +40,37 @@ export default function Favorites() {
             </nav>
             <h4 className="text-center color-1 mb-3 mb-sm-4 mb-xl-5">Избранное</h4>
             <div className={(view === 'as-a-list') ? "" : "row row-cols-sm-2 gx-2 gx-md-4"}>
-                <div className="mb-4 mb-md-5">
-                    <Card 
-                        type={view}
-                        images={['/Real_estate_front/img/img1.jpg', '/Real_estate_front/img/img2.jpg', '/Real_estate_front/img/img3.jpg', '/Real_estate_front/img/img4.jpg']}
-                        title="1-к, квартира 52м2" 
-                        price="6 000 000" 
-                        addressName="ЖК “Столичный”" 
-                        address="Вахитовский район, ул. Четаева 32" 
-                        metro="Козья слобода, 7 минут"
-                        text='Сдается 1-комнатная квартира в строящемся доме (Дом 3.1), срок сдачи: IV-кв. 2021, общей площадью 51.82 кв.м., на 18 этаже. Жилой комплекс "Столичный"- это современный жилой комплекс, который находится в самом  центре Казани, состоящий из нескольких кварталов, органично сочетающий городской комфорт и природное окружение...'
-                        date="Вчера в 21:00"
-                        authorName="Колесникова Ирина"
-                        authorPhoto="/Real_estate_front/img/photo.png"
-                        authorTimeSpan="сентября 2021"
-                        phone="+ 7 (952) 879 78 65"
-                        communalPayments="Не включая коммунальные платежи"
-                        deposit="20 000"
-                        commission="50%"
-                        prepayment="без предоплаты"
-                        tenancy="аренда от года"
-                        fav={true}
-                    />
-                    <div className="d-flex justify-content-end mt-2">
-                        <button type="button" className="ms-4 color-1 d-flex align-items-center">
-                            <img src="/Real_estate_front/img/icons/pa-10.svg" alt="Удалить"/>
-                            <span className="ms-2">Удалить из избранного</span>
-                        </button>
+                {wishlist.map(wishItem =>
+                    <div className="mb-4 mb-md-5" key={wishItem.id}>
+                        <Card
+                            type={view}
+                            images={[
+                                '/Real_estate_front/img/img1.jpg',
+                                '/Real_estate_front/img/img2.jpg',
+                                '/Real_estate_front/img/img3.jpg',
+                                '/Real_estate_front/img/img4.jpg'
+                            ]}
+                            isVip={wishItem.isVip}
+                            isHot={wishItem.isHot}
+                            title={wishItem.title}
+                            price={wishItem.price}
+                            addressName={wishItem.residentComplexForUser}
+                            address={wishItem.address}
+                            metro={wishItem.metro}
+                            text={wishItem.description}
+                            date={wishItem.createdAtForUser}
+                        />
+                        <div className="d-flex justify-content-end mt-2">
+                            <button type="button" className="ms-4 color-1 d-flex align-items-center">
+                                <img src="/Real_estate_front/img/icons/pa-10.svg" alt="Удалить"/>
+                                <span className="ms-2">Удалить из избранного</span>
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div className="mb-4 mb-md-5">
-                    <Card 
-                        type={view}
-                        images={['/Real_estate_front/img/img1.jpg', '/Real_estate_front/img/img2.jpg', '/Real_estate_front/img/img3.jpg', '/Real_estate_front/img/img4.jpg']}
-                        title="1-к, квартира 52м2" 
-                        price="6 000 000" 
-                        addressName="ЖК “Столичный”" 
-                        address="Вахитовский район, ул. Четаева 32" 
-                        metro="Козья слобода, 7 минут"
-                        text='Сдается 1-комнатная квартира в строящемся доме (Дом 3.1), срок сдачи: IV-кв. 2021, общей площадью 51.82 кв.м., на 18 этаже. Жилой комплекс "Столичный"- это современный жилой комплекс, который находится в самом  центре Казани, состоящий из нескольких кварталов, органично сочетающий городской комфорт и природное окружение...'
-                        date="Вчера в 21:00"
-                        authorName="Колесникова Ирина"
-                        authorPhoto="/Real_estate_front/img/photo.png"
-                        authorTimeSpan="сентября 2021"
-                        phone="+ 7 (952) 879 78 65"
-                        communalPayments="Не включая коммунальные платежи"
-                        deposit="20 000"
-                        commission="50%"
-                        prepayment="без предоплаты"
-                        tenancy="аренда от года"
-                    />
-                    <div className="d-flex justify-content-end mt-2">
-                        <button type="button" className="ms-4 color-1 d-flex align-items-center">
-                            <img src="/Real_estate_front/img/icons/pa-10.svg" alt="Удалить"/>
-                            <span className="ms-2">Удалить из избранного</span>
-                        </button>
-                    </div>
-                </div>
-                <div className="mb-4 mb-md-5">
-                    <Card 
-                        type={view}
-                        images={['/Real_estate_front/img/img1.jpg', '/Real_estate_front/img/img2.jpg', '/Real_estate_front/img/img3.jpg', '/Real_estate_front/img/img4.jpg']}
-                        title="1-к, квартира 52м2" 
-                        price="6 000 000" 
-                        addressName="ЖК “Столичный”" 
-                        address="Вахитовский район, ул. Четаева 32" 
-                        metro="Козья слобода, 7 минут"
-                        text='Сдается 1-комнатная квартира в строящемся доме (Дом 3.1), срок сдачи: IV-кв. 2021, общей площадью 51.82 кв.м., на 18 этаже. Жилой комплекс "Столичный"- это современный жилой комплекс, который находится в самом  центре Казани, состоящий из нескольких кварталов, органично сочетающий городской комфорт и природное окружение...'
-                        date="Вчера в 21:00"
-                        authorName="Колесникова Ирина"
-                        authorPhoto="/Real_estate_front/img/photo.png"
-                        authorTimeSpan="сентября 2021"
-                        phone="+ 7 (952) 879 78 65"
-                        communalPayments="Не включая коммунальные платежи"
-                        deposit="20 000"
-                        commission="50%"
-                        prepayment="без предоплаты"
-                        tenancy="аренда от года"
-                    />
-                    <div className="d-flex justify-content-end mt-2">
-                        <button type="button" className="ms-4 color-1 d-flex align-items-center">
-                            <img src="/Real_estate_front/img/icons/pa-10.svg" alt="Удалить"/>
-                            <span className="ms-2">Удалить из избранного</span>
-                        </button>
-                    </div>
-                </div>
-                <div className="mb-4 mb-md-5">
-                    <Card 
-                        type={view}
-                        images={['/Real_estate_front/img/img1.jpg', '/Real_estate_front/img/img2.jpg', '/Real_estate_front/img/img3.jpg', '/Real_estate_front/img/img4.jpg']}
-                        title="1-к, квартира 52м2" 
-                        price="6 000 000" 
-                        addressName="ЖК “Столичный”" 
-                        address="Вахитовский район, ул. Четаева 32" 
-                        metro="Козья слобода, 7 минут"
-                        text='Сдается 1-комнатная квартира в строящемся доме (Дом 3.1), срок сдачи: IV-кв. 2021, общей площадью 51.82 кв.м., на 18 этаже. Жилой комплекс "Столичный"- это современный жилой комплекс, который находится в самом  центре Казани, состоящий из нескольких кварталов, органично сочетающий городской комфорт и природное окружение...'
-                        date="Вчера в 21:00"
-                        authorName="Колесникова Ирина"
-                        authorPhoto="/Real_estate_front/img/photo.png"
-                        authorTimeSpan="сентября 2021"
-                        phone="+ 7 (952) 879 78 65"
-                        communalPayments="Не включая коммунальные платежи"
-                        deposit="20 000"
-                        commission="50%"
-                        prepayment="без предоплаты"
-                        tenancy="аренда от года"
-                    />
-                    <div className="d-flex justify-content-end mt-2">
-                        <button type="button" className="ms-4 color-1 d-flex align-items-center">
-                            <img src="/Real_estate_front/img/icons/pa-10.svg" alt="Удалить"/>
-                            <span className="ms-2">Удалить из избранного</span>
-                        </button>
-                    </div>
-                </div>
-            </div>    
+                )}
+            </div>
             <nav>
-                <ul className="pagination">
-                    <li className="page-item">
-                        <a className="page-link" href="/" aria-label="Previous">
-                        <img src="/Real_estate_front/img/icons/prev2.svg" alt="Previous"/>
-                        </a>
-                    </li>
-                    <li className="page-item active"><a className="page-link" href="/">1</a></li>
-                    <li className="page-item"><a className="page-link" href="/">2</a></li>
-                    <li className="page-item"><a className="page-link" href="/">3</a></li>
-                    <li className="page-item">...</li>
-                    <li className="page-item"><a className="page-link" href="/">6</a></li>
-                    <li className="page-item">
-                        <a className="page-link" href="/" aria-label="Next">
-                        <img src="/Real_estate_front/img/icons/next2.svg" alt="Next"/>
-                        </a>
-                    </li>
-                </ul>
+                <PaginationCustom meta={meta} baseUrl="personal-account/favorites"/>
             </nav>
         </div>
     )

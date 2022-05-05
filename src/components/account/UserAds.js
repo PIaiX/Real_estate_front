@@ -1,22 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import Card from '../Card';
 import { Link } from 'react-router-dom';
+import useUpdateSize from '../hooks/useUpdateSize';
 
 export default function UserAds() {
-    const [view, setView] = useState('as-a-list');
-
-    useEffect(() => {
-        function updateSize() {
-            if(window.matchMedia("(max-width: 1399px)").matches){
-                setView('tiled');
-            } else {
-                setView('as-a-list');
-            }
-        }
-          window.addEventListener('resize', updateSize);
-          updateSize();
-          return () => window.removeEventListener('resize', updateSize);
-    }, []);
+    const view = useUpdateSize('1399px')
 
     return (
         <div className="px-sm-3 px-md-4 px-xxl-5 pb-3 pb-sm-4 pb-xxl-5">

@@ -84,21 +84,21 @@ export default function UserProfile() {
         d.push(i)
     }
 
-    const [data, setData] = useState([])
-
-    useEffect(() => {
-        const fun = async () => {
-            try {
-                let result = await editUser(data)
-                if (result) {
-                    setData(result)
-                }
-            } catch (err) {
-                console.log(err)
-            }
-        }
-        fun()
-    }, [])
+    // const [data, setData] = useState([])
+    //
+    // useEffect(() => {
+    //     const fun = async () => {
+    //         try {
+    //             let result = await editUser(data)
+    //             if (result) {
+    //                 setData(result)
+    //             }
+    //         } catch (err) {
+    //             console.log(err)
+    //         }
+    //     }
+    //     fun()
+    // }, [])
 
     let birthday = '';
     let indexMonth = month.findIndex((item) => item === m);
