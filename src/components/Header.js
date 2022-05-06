@@ -107,19 +107,19 @@ export default function Header() {
                                 </div>
                                 <div className='row align-items-center fs-11 mt-3'>
                                     <div className='col-sm-3 mb-1 mb-sm-3'>
-                                        <label className='gray-3' for="name">Ваше имя:</label>
+                                        <label className='gray-3' htmlFor="name">Ваше имя:</label>
                                     </div>
                                     <div className='col-sm-9 mb-3'>
                                         <input type="text" placeholder="Имя" id="name"/>
                                     </div>
                                     <div className='col-sm-3 mb-1 mb-sm-3'>
-                                        <label className='gray-3' for="email">Ваш Email:</label>
+                                        <label className='gray-3' htmlFor="email">Ваш Email:</label>
                                     </div>
                                     <div className='col-sm-9 mb-3'>
                                         <input type="text" placeholder="Email" id="email"/>
                                     </div>
                                     <div className='col-sm-3 mb-1 mb-sm-3'>
-                                        <label className='gray-3' for="question">Ваш вопрос:</label>
+                                        <label className='gray-3' htmlFor="question">Ваш вопрос:</label>
                                     </div>
                                     <div className='col-sm-9 mb-sm-3'>
                                         <input type="text" placeholder="вопрос" id="question"/>

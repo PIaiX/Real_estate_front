@@ -9,8 +9,6 @@ import UserMessages from "./account/UserMessages";
 import CreateService from "./account/CreateService";
 import ChatPage from "./account/ChatPage";
 import AccountMenu from "./account/AccountMenu";
-import currentUser from "../store/reducers/currentUser";
-import {useCurrentUser} from "../store/reducers";
 
 export default function PersonalAccount() {
   const [mob, setMob] = useState(false);
