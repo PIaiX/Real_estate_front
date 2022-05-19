@@ -75,46 +75,46 @@ export default function MainPage() {
                   img="/Real_estate_front/img/icons/icon-1.svg"
                   titles={['Квартиры', 'Комнаты']}
                   hoverLinks={[
-                      {name: 'Купить', link: '/catalog'},
-                      {name: 'Сдать', link: '/catalog'},
-                      {name: 'Продать', link: '/catalog'},
-                      {name: 'Снять', link: '/catalog'}]}
+                      {name: 'Купить', link: '/catalog/page/1?transactionType=1&estateId=2'},
+                      {name: 'Сдать', link: '/advertise'},
+                      {name: 'Продать', link: '/advertise'},
+                      {name: 'Снять', link: '/catalog/page/1?transactionType=0&estateId=2'}]}
                   />
                   <Tile
                   img="/Real_estate_front/img/icons/icon-2.svg"
                   titles={['Дома', 'Дачи', 'Коттеджи']}
                   hoverLinks={[
-                      {name: 'Купить', link: '/catalog'},
-                      {name: 'Сдать', link: '/catalog'},
-                      {name: 'Продать', link: '/catalog'},
-                      {name: 'Снять', link: '/catalog'}]}
+                      {name: 'Купить', link: '/catalog/page/1?transactionType=1&estateId=2'},
+                      {name: 'Сдать', link: '/advertise'},
+                      {name: 'Продать', link: '/advertise'},
+                      {name: 'Снять', link: '/catalog/page/1?transactionType=0&estateId=2'}]}
                   />
                   <Tile
                   img="/Real_estate_front/img/icons/icon-3.svg"
                   titles={['Гараж', 'Паркинг']}
                   hoverLinks={[
-                      {name: 'Купить', link: '/catalog'},
-                      {name: 'Сдать', link: '/catalog'},
-                      {name: 'Продать', link: '/catalog'},
-                      {name: 'Снять', link: '/catalog'}]}
+                      {name: 'Купить', link: '/catalog/page/1?transactionType=1&estateId=8'},
+                      {name: 'Сдать', link: '/advertise'},
+                      {name: 'Продать', link: '/advertise'},
+                      {name: 'Снять', link: '/catalog/page/1?transactionType=0&estateId=8'}]}
                   />
                   <Tile
                   img="/Real_estate_front/img/icons/icon-4.svg"
                   titles={['Земельные участки']}
                   hoverLinks={[
-                      {name: 'Купить', link: '/catalog'},
-                      {name: 'Сдать', link: '/catalog'},
-                      {name: 'Продать', link: '/catalog'},
-                      {name: 'Снять', link: '/catalog'}]}
+                      {name: 'Купить', link: '/catalog/page/1?transactionType=1&estateId=1'},
+                      {name: 'Сдать', link: '/advertise'},
+                      {name: 'Продать', link: '/advertise'},
+                      {name: 'Снять', link: '/catalog/page/1?transactionType=0&estateId=1'}]}
                   />
                   <Tile
                   img="/Real_estate_front/img/icons/icon-5.svg"
                   titles={['Коммерческая недвижимость']}
                   hoverLinks={[
-                      {name: 'Купить', link: '/catalog'},
-                      {name: 'Сдать', link: '/catalog'},
-                      {name: 'Продать', link: '/catalog'},
-                      {name: 'Снять', link: '/catalog'}]}
+                      {name: 'Купить', link: '/catalog/page/1?transactionType=1&estateId=4'},
+                      {name: 'Сдать', link: '/advertise'},
+                      {name: 'Продать', link: '/advertise'},
+                      {name: 'Снять', link: '/catalog/page/1?transactionType=0&estateId=4'}]}
                   />
                   <Tile
                   img="/Real_estate_front/img/icons/icon-6.svg"

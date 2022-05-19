@@ -52,7 +52,7 @@ export default function useAxiosPrivate() {
             if (error.response && error.response.status) {
                 if (error.response.status === 401) {
                     console.log("response interceptor works 401")
-                    return;
+                    return ;
                 }
                 if (error.response.status === 400 && !originalRequest.retry) {
                     originalRequest.retry = true;

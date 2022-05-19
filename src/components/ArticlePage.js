@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import {Slider2} from './Slider2';
 import Card from './Card';
-import {getArticle} from "./API/news";
-import {getPopular, getRecommend} from "./API/mainpagereq";
+import {getNews} from "./API/news";
+import {getRecommend} from "./API/mainpagereq";
 
 export default function ArticlePage() {
 
@@ -32,7 +32,7 @@ export default function ArticlePage() {
     useEffect(() => {
         const fin = async () => {
             try {
-                let result = await getArticle(slug)
+                let result = await getNews(slug)
                 if (result) {
                     setData(result)
                 }

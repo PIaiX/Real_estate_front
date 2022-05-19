@@ -19,7 +19,9 @@ export default function AppRouter() {
     return (
             <Routes>
                 <Route exact path="/" element={<MainPage />} />
-                <Route path="/catalog" element={<Catalog />} />
+                <Route path="catalog" element={<Catalog />} >
+                    <Route path="page/:page" element={<Catalog />} />
+                </Route>
                 <Route path="/card-page" element={<CardPage />} />
                 <Route path="/service" element={<Services />} />
                 <Route path="/user" element={<UserPage />} />
