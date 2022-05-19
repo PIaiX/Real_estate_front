@@ -85,7 +85,7 @@ export default function Advertise() {
     const [activeField, setActiveField] = useState(1); //для мобильных устройств
 
     const f = imgs[0]
-    const file = f?.file
+    const image = f?.file
 
     const axiosPrivate = useAxiosPrivate();
     const token = useAccessToken()
@@ -110,6 +110,7 @@ export default function Advertise() {
         pledge: 0,
         commission: 0,
         isEncumbrances: 1,
+
     }
 
     const [data, setData] = useState({
@@ -142,13 +143,24 @@ export default function Advertise() {
         isInValidImage: false,
         isInValidPrice: false,
         isInvalidEstateTypeId: false,
+        isInValidYear: false,
+        isInValidCeilingHeight: false,
     }
+
+    console.log(data)
 
     const [valid, setValid] = useState(fields);
     const scroller = Scroll.scroller;
 
+    const years = []
+    let startYear = new Date().getFullYear();
+    for (startYear; startYear >= 1850; startYear--) {
+        years.push(startYear)
+    }
+    const findYear = years.find(i => i === +data?.yearOfConstruction)
+
     const handleSub = async (e) => {
-        e.preventDefault()
+e.preventDefault()
         const isInValidEstateId = data.estateId === undefined || data.estateId === 0
         const isInValidTransactionType = data.transactionType === undefined
         const isInValidAddress = data.address?.length < 5 || data.address === undefined
@@ -160,6 +172,8 @@ export default function Advertise() {
         const isInValidImage = imgs?.length === 0 || imgs === undefined
         const isInValidPrice = data.price === undefined
         const isInValidEstateTypeId = data.estateTypeId === undefined || data.estateTypeId === 0
+        const isInValidYear = data.yearOfConstruction?.length > 4 || data.yearOfConstruction?.length <=3 || findYear === undefined
+        const isInValidCeilingHeight = data.ceilingHeight < 3 || data.ceilingHeight > 100
 
         if (isInValidTransactionType) {
             scroll.scrollTo("anchor-1")
@@ -191,27 +205,39 @@ export default function Advertise() {
         } else if (isInValidImage) {
             scroller.scrollTo("anchor-3", {offset: -80})
             setValid({...valid, isInValidImage: true})
-        }  else if (isInValidPrice) {
+        } else if (isInValidYear) {
+            scroller.scrollTo("anchor-4", {offset: -80})
+            setValid({...valid, isInValidYear: true})
+        } else if(isInValidCeilingHeight){
+            scroller.scrollTo("anchor-4", {offset: -80})
+            setValid({...valid, isInValidCeilingHeight: true})
+        } else if (isInValidPrice) {
             scroller.scrollTo("anchor-5")
             setValid({...valid, isInValidPrice: true})
         } else {
-            e.preventDefault()
             const userId = currentUser.id;
             const formData = new FormData();
-            const image = file;
             const req = {...data, token, userId, image};
 
-            imgs.shift()
 
-            for (const key in req) {
-                formData.append(key, req[key]);
+            if (imgs.length > 1) {
+                for (const key in req) {
+                    formData.append(key, req[key]);
+                }
+                for (const item of imgs) {
+                    imgs.shift()
+                    formData.append('images', item.file)
+                }
+            } else {
+                for (const key in req) {
+                    formData.append(key, req[key]);
+                }
             }
-            for (const item of imgs) {
-                formData.append('images', item.file)
-            }
+
 
             try {
                 let result = await axiosPrivate.post("https://api.antontig.beget.tech/api/realEstates/create", formData)
+                console.log(result)
             } catch (err) {
                 console.log(err)
             }
@@ -1227,9 +1253,10 @@ export default function Advertise() {
                                   className="element frame p-lg-4 mb-4 mb-lg-5">
                             <legend className="title-font fw-7 fs-15 mb-4">О здании</legend>
                             <div className="row align-items-center">
-                                <div className="col-6 col-md-3 fs-11 title">Год постройки:</div>
+                                <div className="col-6 col-md-3 fs-11 title" style={{color: valid.isInValidYear ? '#DA1E2A' : ''}}>Год постройки:</div>
                                 <div className="col-6 col-md-9">
                                     <input
+                                        style={{borderColor: valid.isInValidYear ? '#DA1E2A' : ''}}
                                         type="number"
                                         className="fs-11"
                                         placeholder="Год"
@@ -1237,6 +1264,7 @@ export default function Advertise() {
                                             setData(prevData => {
                                                 return {...prevData, "yearOfConstruction": e.target.value}
                                             })
+                                            resetFieldVal(e, 'isInValidYear')
                                         }}
                                     />
                                 </div>
@@ -1378,15 +1406,18 @@ export default function Advertise() {
                             </div>
                             <hr className="d-none d-md-block my-4"/>
                             <div className="row align-items-center mt-4 mt-sm-5 mt-md-0">
-                                <div className="col-6 col-md-3 fs-11 title">Высота потолков:</div>
+                                <div className="col-6 col-md-3 fs-11 title" style={{color: valid.isInValidCeilingHeight ? '#DA1E2A' : ''}}>Высота потолков:</div>
                                 <div className="col-6 col-md-9">
                                     <input
+                                        style={{borderColor: valid.isInValidCeilingHeight ? '#DA1E2A' : ''}}
                                         type="number"
+                                        placeholder="3-100"
                                         className="fs-11"
                                         onChange={e => {
                                             setData(prevData => {
                                                 return {...prevData, "ceilingHeight": e.target.value}
                                             })
+                                            resetFieldVal(e, 'isInValidCeilingHeight')
                                         }}
                                     />
                                     <span className="ms-2">м</span>
@@ -1665,12 +1696,10 @@ export default function Advertise() {
                                     </div>
                                     <div className="row mb-4">
                                         <div className="col-md-3 mb-3 m-md-0 fs-11 title-req">
-                                            <span data-for="deposit" data-status={false}
-                                                  style={{color: valid.isInValidPledge ? '#DA1E2A' : ''}}>Залог*:</span>
+                                            <span data-for="deposit" data-status={false}>Залог*:</span>
                                         </div>
                                         <div className="col-md-9">
                                             <input
-                                                style={{borderColor: valid.isInValidPledge ? '#DA1E2A' : ''}}
                                                 type="number"
                                                 name="deposit"
                                                 placeholder="0"
@@ -1701,8 +1730,7 @@ export default function Advertise() {
                                     </div>
                                     <div className="row align-items-center mb-4">
                                         <div className="col-md-3 mb-3 m-md-0 fs-11 title-req">
-                                            <span data-for="prepayment" data-status={false}
-                                                  style={{color: valid.isInValidPrepaymentType ? '#DA1E2A' : ''}}>Предоплата*:</span>
+                                            <span data-for="prepayment" data-status={false}>Предоплата*:</span>
                                         </div>
                                         <div className="col-md-9">
                                             <CustomSelect
@@ -1714,7 +1742,6 @@ export default function Advertise() {
                                                     setData(prevData => {
                                                         return {...prevData, "prepaymentType": index}
                                                     })
-                                                    resetFieldVal(e, 'isInValidPrepaymentType')
                                                 }}
                                             />
                                         </div>
@@ -1764,7 +1791,6 @@ export default function Advertise() {
                                         className="btn btn-1 w-100"
                                         onClick={(e) => {
                                             handleSub(e)
-
                                         }}
                                     >
                                         Разместить
