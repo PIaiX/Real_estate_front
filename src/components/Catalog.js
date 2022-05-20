@@ -4,7 +4,7 @@ import CustomSelect from './utilities/CustomSelect';
 import CustomSelectMultyDual from './utilities/CustomSelectMultyDual';
 import Card from './Card';
 import {getCatalog} from './API/catalog';
-import {getTypesEstate} from './API/typesestate';
+import {getTypesEstate} from './API/typesEstate';
 import PaginationCustom from './utilities/PaginationCustom';
 import CatalogFilters from './CatalogFilters';
 import useUpdateSize from './hooks/useUpdateSize';
