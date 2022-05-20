@@ -5,6 +5,7 @@ import {Pagination} from "react-bootstrap";
 
 export default function PaginationCustom(props) {
 
+    const searchParams = props.searchParams
     const [data, setData] = useState([]);
     const [prev, setPrev] = useState([]);
     const [next, setNext] = useState([]);
@@ -17,6 +18,14 @@ export default function PaginationCustom(props) {
             behavior: 'smooth',
         });
     };
+
+    const getLink = (page) => {
+        if (searchParams) {
+            return `${props.baseUrl}/page/${page}?${searchParams.toString()}`
+        } else {
+            return `${props.baseUrl}/page/${page}`
+        }
+    }
 
     useEffect(() => {
         if (props.meta) {
@@ -45,7 +54,7 @@ export default function PaginationCustom(props) {
 
     const createPaginationItem = (i) => {
         return <Pagination.Item
-            href={`/Real_estate_front#/${props.baseUrl}/page/${i}`}
+            href={`/Real_estate_front#/${getLink(i)}`}
             key={i}
             active={i === currentPage}
             onClick={() => {
@@ -107,7 +116,7 @@ export default function PaginationCustom(props) {
                 <ul className="pagination">
                     <li className={`page-item ${prev ? '' : 'disabled'}`}>
                         <NavLink
-                            to={`/${props.baseUrl}/page/${prev}`}
+                            to={`/${getLink(prev)}`}
                             className="page-link"
                             onClick={() => {
                                 onPageChange(currentPage - 1);
@@ -123,7 +132,7 @@ export default function PaginationCustom(props) {
                     </Pagination>
                     <li className={`page-item ${next > data.last_page ? 'disabled' : ''}`}>
                         <NavLink
-                            to={`/${props.baseUrl}/page/${next}`}
+                            to={`/${getLink(next)}`}
                             className="page-link"
                             onClick={() => {
                                 onPageChange(currentPage + 1);

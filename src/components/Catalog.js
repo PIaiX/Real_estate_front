@@ -4,13 +4,14 @@ import CustomSelect from './utilities/CustomSelect';
 import CustomSelectMultyDual from './utilities/CustomSelectMultyDual';
 import Card from './Card';
 import {getCatalog} from './API/catalog';
-import {getTypesEstate} from './API/typesEstate';
+import {getTypesEstate} from './API/typesestate';
 import PaginationCustom from './utilities/PaginationCustom';
 import CatalogFilters from './CatalogFilters';
 import useUpdateSize from './hooks/useUpdateSize';
 
 export default function Catalog() {
     const [view, setView] = useUpdateSize('991px')
+    const {page} = useParams();
     const [searchParams, setSearchParams] = useSearchParams()
     const initialInstantFilters = {
         transactionType: +searchParams.get('transactionType'),
@@ -23,7 +24,6 @@ export default function Catalog() {
         rentalTypes: [],
         repairTypes: [],
     }
-    const {page} = useParams();
     const [meta, setMeta] = useState([])
     const [catalogList, setCatalogList] = useState([])
     const [instantFilters, setInstantFilters] = useState(initialInstantFilters)
@@ -31,6 +31,7 @@ export default function Catalog() {
     const [isClearFilters, setIsClearFilters] = useState(null)
     const [estates, setEstates] = useState([])
     const [requestBody, setRequestBody] = useState({})
+    const [foundCount, setFoundCount] = useState(null)
 
     useEffect(() => {
         const req = async () => {
@@ -38,8 +39,8 @@ export default function Catalog() {
             try {
                 const response = await getTypesEstate()
 
-                if (response.status === 200) {
-                    response.body.forEach(type => type.estates.forEach(estate => estates.push({
+                if (response) {
+                    response.forEach(type => type.estates.forEach(estate => estates.push({
                         index: estate.id,
                         value: estate.name
                     })))
@@ -57,14 +58,25 @@ export default function Catalog() {
         const tempRequestBody = {}
 
         for (const [key, value] of Object.entries(instantFilters)) {
-            if (Array.isArray(value)) {
-                if (value.length) {
+            switch (typeof value) {
+                case 'object':
+                    if (Array.isArray(value) && value.length) {
+                        tempRequestBody[key] = value
+                    }
+                    break
+                case 'string':
+                    if (value.length) {
+                        tempRequestBody[key] = value
+                    }
+                    break
+                case 'number':
                     tempRequestBody[key] = value
-                }
-            } else {
-                if (value.length || value) {
-                    tempRequestBody[key] = value
-                }
+                    break
+                case 'boolean':
+                    if (value) {
+                        tempRequestBody[key] = value
+                    }
+                    break
             }
         }
         setRequestBody(tempRequestBody)
@@ -80,6 +92,7 @@ export default function Catalog() {
                 if (response) {
                     setMeta(response.body)
                     setCatalogList(response.body.data)
+                    setFoundCount(response.body.meta.total)
                 }
             } catch (error) {
                 console.log(error)
@@ -99,6 +112,7 @@ export default function Catalog() {
         e.preventDefault()
         onSelectHandler(search.trim(), 'address', setInstantFilters)
         setSearch('')
+        setIsClearFilters(false)
     }
 
     const onSelectHandler = (value, stateProp, setFunction) => {
@@ -116,6 +130,7 @@ export default function Catalog() {
         const name = e.target.name
 
         setFunction(prevValues => ({...prevValues, [name]: !prevValues[name]}));
+        setIsClearFilters(false)
     }
 
     const onMultiCheckboxHandler = (array, number, setFunction) => {
@@ -138,14 +153,27 @@ export default function Catalog() {
             ...prevInstantFilters,
             ...filters
         }))
+        setIsClearFilters(false)
     }
 
     const onPopularQuery = (stateProp, value) => {
+        onResetInstantFilters()
+
         setInstantFilters({
             ...initialInstantFilters,
             [stateProp]: value
         })
-        setIsClearFilters(false)
+
+    }
+
+    const getImages = (item) => {
+        const url = 'https://api.antontig.beget.tech/uploads/'
+        const result = [].concat(item?.image, item?.images.map(i => i.image))
+
+        return result.map(item => item
+            ? `${url}${item}`
+            : '/Real_estate_front/img/nophoto.jpg'
+        )
     }
 
     return (
@@ -268,7 +296,7 @@ export default function Catalog() {
                     </div>
                 </form>
                 <div className="d-flex justify-content-between align-items-center mb-4">
-                    <div className="d-lg-none">Найдено 1 200 объявлений</div>
+                    <div className="d-lg-none">Найдено {foundCount} объявлений</div>
                     <div className="d-flex align-items-center">
                         <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter"
                                 className="d-none d-lg-flex d-xxl-none align-items-center me-4">
@@ -319,7 +347,7 @@ export default function Catalog() {
                 </div>
                 <div className="row">
                     <div className="d-none d-xxl-block col-xxl-3">
-                        <div className="fs-11 mb-4">Найдено 1 200 объявлений</div>
+                        <div className="fs-11 mb-4">Найдено {foundCount} объявлений</div>
                         <form className="shad-box p-4 mb-4">
                             <fieldset className="mb-4">
                                 <legend className="title-font fs-12 fw-6 mb-3">Количество комнат</legend>
@@ -505,28 +533,32 @@ export default function Catalog() {
                                     <div key={catalogItem.id}>
                                         <Card
                                             type={view}
-                                            images={[
-                                                '/Real_estate_front/img/img1.jpg',
-                                                '/Real_estate_front/img/img2.jpg',
-                                                '/Real_estate_front/img/img3.jpg',
-                                                '/Real_estate_front/img/img4.jpg'
-                                            ]}
+                                            images={getImages(catalogItem)}
                                             isVip={catalogItem.isVip}
                                             isHot={catalogItem.isHot}
                                             title={catalogItem.title}
                                             price={catalogItem.price}
+                                            transactionType={catalogItem.transactionType}
                                             addressName={catalogItem.residentComplexForUser}
                                             address={catalogItem.address}
                                             metro={catalogItem.metro}
                                             text={catalogItem.description}
                                             date={catalogItem.createdAtForUser}
+                                            uuid={catalogItem.uuid}
+                                            user={catalogItem.user}
+                                            communalPrice={catalogItem.communalPrice}
+                                            pledge={catalogItem.pledge}
+                                            commissionForUser={catalogItem.commissionForUser}
+                                            prepaymentTypeForUser={catalogItem.prepaymentTypeForUser}
+                                            rentalTypeForUser={catalogItem.rentalTypeForUser}
+
                                         />
                                     </div>
                                 ))
                             }
                         </div>
                         <nav className="mt-4">
-                            <PaginationCustom meta={meta} baseUrl='catalog'/>
+                            <PaginationCustom meta={meta} baseUrl='catalog' searchParams={searchParams}/>
                         </nav>
                     </div>
                 </div>
@@ -536,9 +568,10 @@ export default function Catalog() {
                 onInputHandler={onInputHandler}
                 onCheckboxHandler={onCheckboxHandler}
                 onMultiCheckboxHandler={onMultiCheckboxHandler}
-                clearInstantFilters={onResetInstantFilters}
+                onResetInstantFilters={onResetInstantFilters}
                 onApplyFilters={onApplyFilters}
                 isClearFilters={isClearFilters}
+                foundCount={foundCount}
             />
 
         </main>

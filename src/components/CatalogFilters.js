@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-const CatalogFilters = ({instantFilters, onInputHandler, onCheckboxHandler, onMultiCheckboxHandler, clearInstantFilters, onApplyFilters, isClearFilters}) => {
+const CatalogFilters = ({instantFilters, onInputHandler, onCheckboxHandler, onMultiCheckboxHandler, onResetInstantFilters, onApplyFilters, isClearFilters, foundCount}) => {
 
     const initialFilters = {
         ...instantFilters,
@@ -9,7 +9,7 @@ const CatalogFilters = ({instantFilters, onInputHandler, onCheckboxHandler, onMu
         hasRefrigerator: false,
         hasWashingMachine: false,
         hasDishWasher: false,
-        hasTV: false,
+        hasTv: false,
         hasConditioner: false,
         hasInternet: false,
         hasBathroom: false,
@@ -24,6 +24,8 @@ const CatalogFilters = ({instantFilters, onInputHandler, onCheckboxHandler, onMu
         isCountersSeparately: false,
         isMortgage: false,
         isEncumbrances: false,
+        notFirstFloor: false,
+        notLastFloor: false,
         startTotalArea: '',
         endTotalArea: '',
         startLivingArea: '',
@@ -51,6 +53,12 @@ const CatalogFilters = ({instantFilters, onInputHandler, onCheckboxHandler, onMu
     }
 
     useEffect(() => {
+        if (isClearFilters) {
+            setFilters(initialFilters)
+        }
+    }, [isClearFilters, instantFilters])
+
+    useEffect(() => {
         setFilters(prevFilters => {
             return {
                 ...prevFilters,
@@ -59,15 +67,8 @@ const CatalogFilters = ({instantFilters, onInputHandler, onCheckboxHandler, onMu
         })
     }, [instantFilters])
 
-    useEffect(() => {
-        if (isClearFilters) {
-            setFilters(initialFilters)
-        }
-    }, [isClearFilters])
-
     const onResetFilters = () => {
-        clearInstantFilters()
-        setFilters(initialFilters)
+        onResetInstantFilters()
     }
 
     return (
@@ -137,8 +138,8 @@ const CatalogFilters = ({instantFilters, onInputHandler, onCheckboxHandler, onMu
                                             <label className="mb-3">
                                                 <input
                                                     type="checkbox"
-                                                    name="hasTV"
-                                                    checked={filters.hasTV}
+                                                    name="hasTv"
+                                                    checked={filters.hasTv}
                                                     onChange={e => onCheckboxHandler(e, setFilters)}
                                                 />
                                                 <span className="fs-11 ms-3">Телевизор</span>
@@ -371,11 +372,21 @@ const CatalogFilters = ({instantFilters, onInputHandler, onCheckboxHandler, onMu
                                                 onChange={e => onInputHandler(e, 'endFloor', true, setFilters)}
                                             />
                                             <label className="ms-5">
-                                                <input type="checkbox" name="floor" value="Не первый"/>
+                                                <input
+                                                    type="checkbox"
+                                                    name="notFirstFloor"
+                                                    checked={filters.notFirstFloor}
+                                                    onChange={e => onCheckboxHandler(e, setFilters)}
+                                                />
                                                 <span className="fs-11 ms-3">Не первый</span>
                                             </label>
                                             <label className="ms-5">
-                                                <input type="checkbox" name="floor" value="Не последний"/>
+                                                <input
+                                                    type="checkbox"
+                                                    name="notLastFloor"
+                                                    checked={filters.notLastFloor}
+                                                    onChange={e => onCheckboxHandler(e, setFilters)}
+                                                />
                                                 <span className="fs-11 ms-3">Не последний</span>
                                             </label>
                                         </div>
@@ -644,7 +655,7 @@ const CatalogFilters = ({instantFilters, onInputHandler, onCheckboxHandler, onMu
                                     </div>
                                 </fieldset>
                                 <div className="fs-11 d-flex justify-content-between align-items-center mt-5">
-                                    <div className="fw-6 gray-3">Найденно 1 200 объявлений</div>
+                                    <div className="fw-6 gray-3">Найденно {foundCount} объявлений</div>
                                     <button
                                         type="submit"
                                         data-bs-dismiss="modal"
@@ -887,8 +898,8 @@ const CatalogFilters = ({instantFilters, onInputHandler, onCheckboxHandler, onMu
                         <label className="ps-2 mb-3">
                             <input
                                 type="checkbox"
-                                name="hasTV"
-                                checked={filters.hasTV}
+                                name="hasTv"
+                                checked={filters.hasTv}
                                 onChange={e => onCheckboxHandler(e, setFilters)}
                             />
                             <span className="fs-11 ms-3">Телевизор</span>
@@ -1092,11 +1103,21 @@ const CatalogFilters = ({instantFilters, onInputHandler, onCheckboxHandler, onMu
                             </div>
                             <div className="d-flex align-items-baseline mt-2">
                                 <label className="ps-2">
-                                    <input type="checkbox" name="floor" value="Не первый"/>
+                                    <input
+                                        type="checkbox"
+                                        name="notFirstFloor"
+                                        checked={filters.notFirstFloor}
+                                        onChange={e => onCheckboxHandler(e, setFilters)}
+                                    />
                                     <span className="fs-11 ms-3">Не первый</span>
                                 </label>
                                 <label className="ms-5">
-                                    <input type="checkbox" name="floor" value="Не последний"/>
+                                    <input
+                                        type="checkbox"
+                                        name="notLastFloor"
+                                        checked={filters.notLastFloor}
+                                        onChange={e => onCheckboxHandler(e, setFilters)}
+                                    />
                                     <span className="fs-11 ms-3">Не последний</span>
                                 </label>
                             </div>
@@ -1324,7 +1345,7 @@ const CatalogFilters = ({instantFilters, onInputHandler, onCheckboxHandler, onMu
                 </div>
                 <div className="offcanvas-footer">
                     <div className="d-flex justify-content-between mb-3">
-                        <div className="gray-3 fw-5">Найденно 1 200 объявлений</div>
+                        <div className="gray-3 fw-5">Найденно {foundCount} объявлений</div>
                         <button type="button" onClick={onResetFilters} className="color-1 fs-11 fw-5">Очистить фильтр</button>
                     </div>
                     <button

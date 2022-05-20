@@ -27,7 +27,7 @@ export default function Card(props) {
                         <div className="h-100 d-flex flex-column justify-content-between align-items-start">
                             <div>
                                 <div className="color-1 title-font fw-7 fs-15 mb-3 mb-xxl-4">
-                                    <NavLink to="/card-page" onClick={() => scrollToTop()}>{props.title}</NavLink>
+                                    <NavLink to={`/card-page/${props.uuid}`} onClick={() => scrollToTop()}>{props.title}</NavLink>
                                 </div>
                                 <div className="d-flex align-items-center mb-2 mb-xxl-3">
                                     <img src="/Real_estate_front/img/icons/pin.svg" alt="адрес"/>
@@ -45,7 +45,7 @@ export default function Card(props) {
                                         </div>
                                     </div>
                                 }
-                                <div className="text mb-3 mb-xxl-4">
+                                <div className="text mb-3 mb-xxl-4 text-break">
                                     {props.text}
                                 </div>
                             </div>
@@ -67,33 +67,37 @@ export default function Card(props) {
                         </div>
                     </div>
                     <div className="col-3">
-                        <div className="text-end title-font black fw-7 fs-15">{props.price} ₽</div>
+                        <div className="text-end title-font black fw-7 fs-15">
+                            {props.price}
+                            {props.transactionType === 0 ? ' ₽/мес' : ' ₽'}
+                        </div>
                         <div className="fs-08 gray-3 text-end mt-2">
                             {
-                                (props.communalPayments)?
-                                props.communalPayments
-                                : "Коммунальные платежи не указаны"
+                                props.communalPrice
+                                    ? `Коммунальные платежи: ${props.communalPrice}`
+                                    : 'Коммунальные платежи не указаны'
                             }
-                            <br />Залог 
+                            <br />
                             {
-                                (props.deposit)?
-                                ' '+props.deposit+' ₽'
-                                : ' не указан'
+                                props.pledge
+                                    ? `Залог: ${props.pledge} ₽, `
+                                    : 'Залог не указан, '
                             }
-                            , комиссия 
                             {
-                                (props.commission)?
-                                ' '+props.commission
-                                : ' не указана'
+                                props.commissionForUser
+                                    ? `комиссия: ${props.commissionForUser}, `
+                                    : 'комиссия не указана, '
                             }
-                            <br />{
-                                (props.prepayment)?
-                                props.prepayment
-                                : 'предоплата не указана'
-                            }, {
-                                (props.tenancy)?
-                                props.tenancy
-                                : 'срок аренды не указан'
+                            <br />
+                            {
+                                props.prepaymentTypeForUser
+                                    ? `предоплата: ${props.prepaymentTypeForUser}, `
+                                    : 'предоплата не указана, '
+                            }
+                            {
+                                props.rentalTypeForUser
+                                    ? `срок аренды: ${props.rentalTypeForUser.toLowerCase()}`
+                                    : 'срок аренды не указан'
                             }
                         </div>
                         <div className="author w-fit d-flex flex-column align-items-center ms-auto mt-4">
@@ -107,7 +111,7 @@ export default function Card(props) {
                                 (props.authorTimeSpan)&&
                                 <div className="gray-3 fs-08 mt-2">На сайте с {props.authorTimeSpan}</div>
                             }
-                            <ShowPhone className="fs-09 mt-3" phone={props.phone}/>
+                            <ShowPhone className="fs-09 mt-3" phone={props?.user?.phone}/>
                         </div>
                     </div>
                 </div>
@@ -131,9 +135,12 @@ export default function Card(props) {
                 <div className="p-3">
                     <div className="d-flex justify-content-between mb-3">
                         <div className="title color-1 title-font fw-7 fs-11">
-                            <NavLink to="/card-page" onClick={() => scrollToTop()}>{props.title}</NavLink>
+                            <NavLink to={`/card-page/${props.uuid}`} onClick={() => scrollToTop()}>{props.title}</NavLink>
                         </div>
-                        <div className="title-font black fw-7 fs-11">{props.price} ₽</div>
+                        <div className="title-font black fw-7 fs-11">
+                            {props.price}
+                            {props.transactionType === 0 ? ' ₽/мес' : ' ₽'}
+                        </div>
                     </div>
                     <div className="address d-flex align-items-start mb-3">
                         <img src="/Real_estate_front/img/icons/pin.svg" alt="адрес"/>
