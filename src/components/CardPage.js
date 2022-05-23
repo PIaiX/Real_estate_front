@@ -20,11 +20,10 @@ export default function CardPage() {
     const [ads, setAds] = useState({})
     const [recommend, setRecommend] = useState([])
     const axiosPrivate = useAxiosPrivate()
-    const uuid = "082aa782-02e9-499b-b6c4-ccea43ceeb0a";
+    const uuid = useParams()
     const token = useAccessToken()
     const user = useCurrentUser()
     const idUser = user?.id
-    console.log(idUser)
 
     useEffect(() => {
         const adsget = async () => {
@@ -114,13 +113,11 @@ export default function CardPage() {
     const reportAd = async () => {
         try {
             const result = await reportAds(axiosPrivate, report)
-            console.log(result)
         } catch (error) {
             console.log(error)
         }
     }
-    console.log(report)
-    console.log(reported)
+
     return (
         <main>
             <div className={(pageTop) ? "card-page-top py-2 d-md-none" : "card-page-top d-none py-2"}>
