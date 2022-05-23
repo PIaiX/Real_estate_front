@@ -2,7 +2,7 @@ import axios from "axios";
 
 const url = 'https://api.antontig.beget.tech'
 
-export async function getRecommend(userId= 2, limit = 6) {
+export async function getRecommend(userId, limit = 6) {
     try {
         const response = await axios.post(`${url}/api/realEstates/recommended`, { userId, limit })
         return response.data.body;

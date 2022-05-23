@@ -23,6 +23,8 @@ export default function AppRouter() {
                     <Route path="page/:page" element={<Catalog />} />
                 </Route>
                 <Route path="/card-page" element={<CardPage />} />
+                <Route path="/card-page/:uuid" element={<CardPage/>} />
+                <Route path="/card-page/:uuid/:idUser" element={<CardPage/>} />
                 <Route path="/service" element={<Services />} />
                 <Route path="/user" element={<UserPage />} />
                 <Route path="/advertise" element={<Advertise />} />

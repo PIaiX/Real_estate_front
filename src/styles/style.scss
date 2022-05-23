@@ -2726,6 +2726,9 @@ main.account {
             &:active {
                 i {color: $color-2;}
             }
+            &.reported > svg > path:first-child{
+                color: $color-1;
+            }
         }
     }
     &:hover {
