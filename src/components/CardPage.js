@@ -20,15 +20,15 @@ export default function CardPage() {
     const [ads, setAds] = useState({})
     const [recommend, setRecommend] = useState([])
     const axiosPrivate = useAxiosPrivate()
-    const uuid = "5256be1f-4a9e-49df-8854-9849b167e908"
+    const uuid = useParams()
     const token = useAccessToken()
     const user = useCurrentUser()
-    const idUser = user?.id
+    const userId = user?.id
 
     useEffect(() => {
         const adsget = async () => {
             try {
-                const result = await getAdsPage(uuid, idUser)
+                const result = await getAdsPage(uuid, userId)
                 if (result) {
                     setAds(result)
                 }
@@ -37,12 +37,12 @@ export default function CardPage() {
             }
         }
         adsget()
-    }, [idUser])
+    }, [userId])
 
     useEffect(() => {
         const recommend = async () => {
             try {
-                const result = await getRecommend()
+                const result = await getRecommend(userId)
                 if (result) {
                     setRecommend(result)
                 }
