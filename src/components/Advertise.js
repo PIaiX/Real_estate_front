@@ -146,9 +146,6 @@ export default function Advertise() {
         isInValidYear: false,
         isInValidCeilingHeight: false,
     }
-
-    console.log(data)
-
     const [valid, setValid] = useState(fields);
     const scroller = Scroll.scroller;
 
@@ -160,7 +157,7 @@ export default function Advertise() {
     const findYear = years.find(i => i === +data?.yearOfConstruction)
 
     const handleSub = async (e) => {
-e.preventDefault()
+        e.preventDefault()
         const isInValidEstateId = data.estateId === undefined || data.estateId === 0
         const isInValidTransactionType = data.transactionType === undefined
         const isInValidAddress = data.address?.length < 5 || data.address === undefined
@@ -405,8 +402,8 @@ e.preventDefault()
                                 <div className="col-md-9">
                                     <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
                                         {types.map((i) =>
-                                            <div>
-                                                <label key={i.id}>
+                                            <div key={i.id}>
+                                                <label>
                                                     <input
                                                         type="radio"
                                                         name="property-type"
@@ -440,7 +437,7 @@ e.preventDefault()
                                         <div className="col-md-9">
                                             <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
                                                 {es.map((i) =>
-                                                    <div>
+                                                    <div key={i.id}>
                                                         <label>
                                                             <input
                                                                 type="radio"
@@ -1054,7 +1051,7 @@ e.preventDefault()
                                             <label className="mb-3">
                                                 <input
                                                     type="checkbox"
-                                                    name="hasTV"
+                                                    name="hasTv"
                                                     onChange={e => handleCheckbox(e)}
                                                 />
                                                 <span className="fs-11 ms-3">Телевизор</span>

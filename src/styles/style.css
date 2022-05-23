@@ -813,6 +813,10 @@ button {
   fill: #146492;
 }
 
+.btn-notice.reported > svg > path:first-child {
+  fill: #146492;
+}
+
 h1, h2, h3 {
   font-family: "Gilroy";
 }

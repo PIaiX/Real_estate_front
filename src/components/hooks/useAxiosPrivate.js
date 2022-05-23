@@ -11,7 +11,6 @@ export default function useAxiosPrivate() {
 
     const dispatch = useDispatch();
     const {setToken} = bindActionCreators(accessTokenActions, dispatch);
-
     const accessToken = useSelector((state) => state.accessToken);
 
     /*fingerprint
