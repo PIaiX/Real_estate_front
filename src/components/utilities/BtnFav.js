@@ -4,8 +4,8 @@ import {useAccessToken, useCurrentUser} from "../../store/reducers";
 import {addWishList, deleteWishList} from "../API/adspage";
 
 export default function BtnFav(props) {
-    const axiosPrivate = useAxiosPrivate();
 
+    const axiosPrivate = useAxiosPrivate();
     const token = useAccessToken()
     const user = useCurrentUser()
     const [data, setData] = useState({})
@@ -34,7 +34,7 @@ export default function BtnFav(props) {
 
     const addInWishList = async () => {
         try {
-            await addWishList(data, axiosPrivate)
+            const eee = await addWishList(data, axiosPrivate)
             setWishList(wishlist => !wishlist)
         } catch (error) {
             console.log(error)
@@ -43,7 +43,7 @@ export default function BtnFav(props) {
 
     const deleteFromWishList = async () => {
         try {
-            await deleteWishList(data, axiosPrivate)
+            const qew = await deleteWishList(data, axiosPrivate)
             setWishList(wishlist => !wishlist)
         } catch (error) {
             console.log(error)
@@ -57,7 +57,6 @@ export default function BtnFav(props) {
                 (wishlist) ? deleteFromWishList() : addInWishList()
             }}
             className={`btn-fav ${wishlist ? 'clicked' : ''}`}
-
         >
             <svg viewBox="0 0 22 21" xmlns="http://www.w3.org/2000/svg">
                 <path

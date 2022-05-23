@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import BtnFav from './utilities/BtnFav';
 import HoverSlider from './utilities/HoverSlider';
 import ImgPreview from './utilities/ImgPreview';
 import ShowPhone from './utilities/ShowPhone';
-import { NavLink } from 'react-router-dom';
+import {NavLink, useParams} from 'react-router-dom';
 import { animateScroll as scroll } from 'react-scroll';
 
 export default function Card(props) {
@@ -55,7 +55,7 @@ export default function Card(props) {
                                         <path d="M7.5 18C7.5 18 15 11.6033 15 6.75C15 4.95979 14.2098 3.2429 12.8033 1.97703C11.3968 0.711159 9.48912 0 7.5 0C5.51088 0 3.60322 0.711159 2.1967 1.97703C0.790176 3.2429 2.96403e-08 4.95979 0 6.75C0 11.6033 7.5 18 7.5 18ZM7.5 10.125C6.50544 10.125 5.55161 9.76942 4.84835 9.13649C4.14509 8.50355 3.75 7.64511 3.75 6.75C3.75 5.85489 4.14509 4.99645 4.84835 4.36351C5.55161 3.73058 6.50544 3.375 7.5 3.375C8.49456 3.375 9.44839 3.73058 10.1517 4.36351C10.8549 4.99645 11.25 5.85489 11.25 6.75C11.25 7.64511 10.8549 8.50355 10.1517 9.13649C9.44839 9.76942 8.49456 10.125 7.5 10.125Z"/>
                                     </svg>
                                 </button>
-                                <BtnFav state={props.fav} />
+                                <BtnFav  realEstateId={props?.id} wishlist={props?.wishlistStatus} />
                                 <button type="button" className="btn-notice">
                                     <svg width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M8.4455 1.8619C9.23354 0.64323 11.0164 0.643231 11.8044 1.8619L19.2732 13.4121C20.1337 14.7429 19.1784 16.4981 17.5937 16.4981H2.65624C1.0715 16.4981 0.116258 14.7429 0.976768 13.4121L8.4455 1.8619Z" className="fill-color"/>
@@ -159,7 +159,7 @@ export default function Card(props) {
                         <span>Hot</span>
                     </div>}
                 </div>
-                <BtnFav state={props.fav}/>
+                <BtnFav realEstateId={props?.id} wishlist={props?.wishlistStatus}/>
             </div>
         )
     }
