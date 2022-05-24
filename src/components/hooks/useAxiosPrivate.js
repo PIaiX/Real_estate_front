@@ -11,7 +11,6 @@ export default function useAxiosPrivate() {
 
     const dispatch = useDispatch();
     const {setToken} = bindActionCreators(accessTokenActions, dispatch);
-
     const accessToken = useSelector((state) => state.accessToken);
 
     /*fingerprint
@@ -26,7 +25,9 @@ export default function useAxiosPrivate() {
         baseUrl: mainUrl,
         headers: {
             "Content-Type": "application/json",
-            "User-Fingerprint": "akdgkaks"
+            "User-Fingerprint": "akdgkaks",
+            "Access-Control-Allow-Origin": "https://api.antontig.beget.tech",
+            "Vary": "Origin",
         },
         withCredentials: true,
     });
@@ -50,9 +51,9 @@ export default function useAxiosPrivate() {
         async (error) => {
             const originalRequest = error.config;
             if (error.response && error.response.status) {
-                if (error.response.status === 401) {
+                if (error.response.status === 401 && !originalRequest.retry) {
                     console.log("response interceptor works 401")
-                    return;
+                    return ;
                 }
                 if (error.response.status === 400 && !originalRequest.retry) {
                     originalRequest.retry = true;

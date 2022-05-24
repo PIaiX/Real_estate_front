@@ -56,6 +56,9 @@ export const Slider1 = (props) => {
             {popular.map((popular) =>
                 <SwiperSlide key={popular.id}>
                     <Card
+                        id={recommend.id}
+                        wishlistStatus={recommend.wishlistStatus}
+                        uuid={recommend.uuid}
                         images={[
                             '/Real_estate_front/img/img1.jpg',
                             '/Real_estate_front/img/img2.jpg',
@@ -77,6 +80,9 @@ export const Slider1 = (props) => {
             {recommend.map((recommend) =>
                 <SwiperSlide key={recommend.id}>
                     <Card
+                        id={recommend.id}
+                        wishlistStatus={recommend.wishlistStatus}
+                        uuid={recommend.uuid}
                         images={[
                             '/Real_estate_front/img/img1.jpg',
                             '/Real_estate_front/img/img2.jpg',

@@ -24,15 +24,16 @@ export default function UserAds() {
 
     const axiosPrivate = useAxiosPrivate();
     const currentUser = useCurrentUser()
-    const userid = currentUser?.id
+    const userId = currentUser?.id
     const [myAds, setMyAds] = useState([])
     const [pages, setPages] = useState([])
     const {page} = useParams()
+    const sait = "https://api.antontig.beget.tech/"
 
     useEffect(() => {
-        const getMyAds = async (userid, page = 1, limit = 4) => {
+        const getMyAds = async (userId, page = 1, limit = 4) => {
             try {
-                const response = userid ? await axiosPrivate.post(`https://api.antontig.beget.tech/api/user/realEstates/${userid}`, {page, limit}) : ''
+                const response = userId ? await axiosPrivate.post(`${sait}api/user/realEstates/${userId}`, {page, limit}) : ''
                 if (response) {
                     setMyAds(response.data.body.data)
                     setPages(response.data.body)
@@ -41,8 +42,22 @@ export default function UserAds() {
                 console.log(error)
             }
         }
-        getMyAds(userid, page, 4);
-    }, [userid,page]);
+        getMyAds(userId, page, 4);
+    }, [userId,page]);
+
+    const getImages = (i) => {
+
+        const url = 'https://api.antontig.beget.tech/uploads/'
+        const result = [].concat(i?.image)
+
+        return result.map(item => item
+            ? `${url}${item}`
+            : '/Real_estate_front/img/nophoto.jpg'
+        )
+
+    }
+
+    console.log(myAds)
 
     return (
         <div className="px-sm-3 px-md-4 px-xxl-5 pb-3 pb-sm-4 pb-xxl-5">
@@ -55,23 +70,26 @@ export default function UserAds() {
                     <div className="mb-4 mb-md-5" key={i.id}>
                         <Card
                             type={view}
-                            images={['/Real_estate_front/img/img1.jpg', '/Real_estate_front/img/img2.jpg', '/Real_estate_front/img/img3.jpg', '/Real_estate_front/img/img4.jpg']}
+                            images={getImages(i)}
+                            isVip={i.isVip}
+                            isHot={i.isHot}
                             title={i.title}
                             price={i.price}
-                            addressName="ЖК “Столичный”"
+                            transactionType={i.transactionType}
+                            addressName={i.residentComplexForUser}
                             address={i.address}
                             metro={i.metro}
                             text={i.description}
                             date={i.createdAtForUser}
-                            authorName="Колесникова Ирина"
-                            authorPhoto="/Real_estate_front/img/photo.png"
-                            authorTimeSpan="сентября 2021"
-                            phone="+ 7 (952) 879 78 65"
-                            communalPayments={i.communalPriceForUser}
-                            deposit="20 000"
-                            commission={i.commissionForUser}
-                            prepayment={i.prepaymentTypeForUser}
-                            tenancy="аренда от года"
+                            uuid={i.uuid}
+                            user={i.user}
+                            communalPrice={i.communalPrice}
+                            pledge={i.pledge}
+                            commissionForUser={i.commissionForUser}
+                            prepaymentTypeForUser={i.prepaymentTypeForUser}
+                            rentalTypeForUser={i.rentalTypeForUser}
+                            realEstateId={i?.id}
+                            wishlist={i?.wishlistStatus}
                         />
                         <div className={(view === 'as-a-list') ? "d-flex justify-content-end align-items-center mt-2" : "mt-2"}>
                             <button type="button" className="color-1 d-flex align-items-center">
@@ -110,7 +128,6 @@ export default function UserAds() {
                                     <button type="button" className="btn btn-1 w-100 fs-11 text-uppercase">Удалить</button>
                                 </div>
                             </div>
-                            
                         </div>
                     </div>
                 </div>

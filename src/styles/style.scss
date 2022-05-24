@@ -1183,7 +1183,6 @@ main {
     background-color: #fff;
     filter: drop-shadow(0px 1px 10px rgba(0, 0, 0, 0.15));
     padding: 1em;
-    display: flex;
     align-items: flex-start;
     .text {
         display: -webkit-box;
@@ -2725,6 +2724,9 @@ main.account {
             }
             &:active {
                 i {color: $color-2;}
+            }
+            &.reported > svg > path:first-child{
+                color: $color-1;
             }
         }
     }
