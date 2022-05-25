@@ -184,7 +184,7 @@ export default function CardPage() {
                 <div className="d-flex align-items-center mb-2 mb-xxl-3">
                     <img src="/Real_estate_front/img/icons/pin.svg" alt="адрес"/>
                     <div className="fs-11 fw-6 ms-2 ms-sm-4">
-                        <div>{ads.residentalComplex}</div>
+                        <div>ЖК "{ads?.residentalComplexForUser}"</div>
                         <div>{ads.address}</div>
                     </div>
                 </div>

@@ -19,7 +19,7 @@ export default function ArticlePage() {
                     setRecommend(result)
                 }
             } catch (err) {
-                console.log("err")
+                console.log(err)
             }
         }
         fun()

@@ -1,11 +1,13 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {NavLink} from 'react-router-dom';
+import {NavLink, useParams} from 'react-router-dom';
 import ImageUploading from "react-images-uploading";
 import CustomSelect from './utilities/CustomSelect';
 import Scroll, {animateScroll as scroll, Link} from 'react-scroll';
 import useAxiosPrivate from "./hooks/useAxiosPrivate";
 import {useAccessToken, useCurrentUser} from "../store/reducers";
 import {getTypesEstate} from "./API/typesestate";
+import {getAdsPage} from "./API/adspage";
+import {updateAd} from "./API/users";
 
 export default function Advertise() {
 
@@ -90,40 +92,69 @@ export default function Advertise() {
     const axiosPrivate = useAxiosPrivate();
     const token = useAccessToken()
     const currentUser = useCurrentUser()
+    const {uuid} = useParams()
+    const userId = currentUser?.id
+
+    const [ad, setAd] = useState({})
+
+    useEffect(() => {
+        const adsget = async () => {
+            try {
+                const result = await getAdsPage(uuid, userId)
+                if (result) {
+                    setAd(result)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        adsget()
+    }, [userId, uuid])
+
+    console.log(ad)
 
     const [checked, setChecked] = useState(true)
-    const defaultForm = {
-        transactionType: 1,
-        rentalType: 0,
-        isPledge: false,
-        prepaymentType: 0,
-        houseType: 0,
-        WCType: 0,
-        balconyType: 0,
-        layoutType: 0,
-        repairType: 0,
-        houseBuildingType: 0,
-        elevatorType: 0,
-        roomType: 2,
-        hypothec: 1,
-        estateId: 0,
-        pledge: 0,
-        commission: 0,
-        isEncumbrances: 1,
+    const [defaultForm, setDefaultForm] =useState({})
+    useEffect(() => {
+        if(ad) {
+            setDefaultForm(defaultForm => {return {...defaultForm,
+                "transactionType": ad?.transactionType,
+                "rentalType": ad?.rentalType,
+                "isPledge": false,
+                "prepaymentType": ad?.prepaymentType,
+                "houseType": ad?.houseType,
+                "wcType": ad?.wcType,
+                "address": ad?.address,
+                "balconyType": ad?.balconyType,
+                "layoutType": ad?.layoutType,
+                "repairType": ad?.repairType,
+                "houseBuildingType": ad?.houseBuildingType,
+                "elevatorType": ad?.elevatorType,
+                "roomType": ad?.roomType,
+                "hypothec": ad?.hypothec,
+                "estateId": ad?.estateId,
+                "pledge": ad?.pledge,
+                "commission": ad?.commission,
+                "isEncumbrances": ad?.isEncumbrances,
+            }})
+        }
+    }, [ad])
 
-    }
-
-    const [data, setData] = useState({
-        ...defaultForm
-    })
+    const [data, setData] = useState({})
+    useEffect(() => {
+        if(defaultForm) {
+            setData(data => {return {...data, ...defaultForm}})
+        }
+    }, [defaultForm])
 
     const handleCheckbox = (e) => {
         const {target} = e;
         const value = target.type === 'checkbox' ? target.checked : target.value
         const {name} = target
         setData(prevData => {
-            return {...prevData, [name]: value}
+            return {...prevData, [name]: value};
         })
+
     }
 
     const resetForm = () => {
@@ -216,7 +247,6 @@ export default function Advertise() {
             const formData = new FormData();
             const req = {...data, token, userId, image};
 
-
             if (imgs.length > 1) {
                 for (const key in req) {
                     formData.append(key, req[key]);
@@ -230,10 +260,8 @@ export default function Advertise() {
                     formData.append(key, req[key]);
                 }
             }
-
-
             try {
-                let result = await axiosPrivate.post("https://api.antontig.beget.tech/api/realEstates/create", formData)
+                let result = await updateAd(axiosPrivate, uuid, formData)
             } catch (err) {
                 console.log(err)
             }
@@ -254,13 +282,13 @@ export default function Advertise() {
                             <NavLink to="/">Главная</NavLink>
                         </li>
                         <li className="breadcrumb-item active" aria-current="page">
-                            Подача объявления
+                            Редактирование
                         </li>
                     </ol>
                 </nav>
             </div>
             <section id="sec-11" className="container mb-6">
-                <h1 className="text-center text-lg-start">Подать объявление</h1>
+                <h1 className="text-center text-lg-start">Редактировать объявление</h1>
                 <form
                     ref={ref}
                     className="row gx-xxl-5 position-relative"
@@ -1789,7 +1817,7 @@ export default function Advertise() {
                                             handleSub(e)
                                         }}
                                     >
-                                        Разместить
+                                        Редактировать
                                     </button>
                                 </div>
                             </div>
@@ -1810,10 +1838,9 @@ export default function Advertise() {
                             className="d-none d-lg-block btn btn-1 fs-15 mx-auto"
                             onClick={(e) => {
                                 handleSub(e)
-
                             }}
                         >
-                            Разместить объявление
+                            Редактировать объявление
                         </button>
                         <div className="d-none d-lg-block gray-3 text-center mt-3">Нажимая кнопку “Разместить
                             объявление”, Вы соглашаетесь с <a href="/" className="color-1">условиями сайта</a></div>

@@ -23,17 +23,19 @@ function App() {
     const {setToken} = bindActionCreators(accessTokenActions, dispatch);
     const {setCurrentUser} = bindActionCreators(currentUserActions, dispatch);
     const axiosPrivate = useAxiosPrivate();
+    const user = useCurrentUser()
+    const token = useAccessToken()
 
     useEffect(() => {
         const checkAuth = async () => {
-            const response = await axiosPrivate.post(`${baseUrl}/api/auth/refresh`);
-            if (response?.data.status === 200) {
+            const response = await axiosPrivate.post(`${baseUrl}/api/auth/refresh`)
+            if (response?.data?.status === 200) {
                 setToken(response.data.body.token);
                 setCurrentUser(response.data.body.user)
             }
         }
         checkAuth();
-    }, []);
+    }, [token]);
 
     return (
         <HashRouter>
