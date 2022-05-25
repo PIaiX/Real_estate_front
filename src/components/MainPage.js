@@ -7,10 +7,12 @@ import { animateScroll as scroll } from 'react-scroll';
 import {MainBanner} from './MainBanner';
 import {useEffect, useState} from "react";
 import {getBanner, getPopular, getRecommend} from "./API/mainpagereq";
+import {useCurrentUser} from "../store/reducers";
 
 export default function MainPage() {
 
-    const {userId} = useParams();
+    const currentUser = useCurrentUser()
+    const userId = currentUser?.id
     const {page} = useParams();
 
     const [recommend, setRecommend] = useState([]);
@@ -34,7 +36,7 @@ export default function MainPage() {
     useEffect(() => {
         const fun = async () => {
             try {
-                let result = await getRecommend(userId, 6)
+                let result = userId ? await getRecommend(userId, 6) : ""
                 if (result) {
                     setRecommend(result)
                 }

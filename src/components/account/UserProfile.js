@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import CustomSelect from "../utilities/CustomSelect";
 import ImageUploading from "react-images-uploading";
 import {Link} from "react-router-dom";
@@ -6,26 +6,43 @@ import {useAccessToken, useCurrentUser} from "../../store/reducers";
 import InputMask from 'react-input-mask';
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import Rating from "react-rating";
+import {updateUser} from "../API/users";
 
 
 export default function UserProfile() {
 
     const axiosPrivate = useAxiosPrivate();
-
-    const currentUser = useCurrentUser()
     const token = useAccessToken()
+    const currentUser = useCurrentUser()
+    const sait = 'https://api.antontig.beget.tech/uploads/';
+    const [avatars, setAvatars] = useState([{data_url: "./Real_estates_front/public/img/img-photo.svg"}]);
+    const uuid = currentUser?.uuid;
 
-    const [avatars, setAvatars] = React.useState([
-        {data_url: "/Real_estate_front/img/photo.png"},
-    ]);
+    useEffect(() => {
+        if(currentUser){
+            setFirstName(currentUser?.firstName)
+            setLastName(currentUser?.lastName)
+            setPhone(currentUser?.phone)
+            setEmail(currentUser?.email)
+            setSex(currentUser?.sex)
+        }
+    },[currentUser])
+
+    const {file: avatar} = avatars[0]
+
+    useEffect(() => {
+        if(currentUser?.avatar) {
+            setAvatars([{data_url: `${sait}${currentUser?.avatar}`}])
+        }
+    },[currentUser])
 
     const maxNumber = 24;
-
     const onChange = (imageList, addUpdateIndex) => {
-        console.log(imageList, addUpdateIndex);
         setAvatars(imageList);
     };
+
     let [redactor, setRedactor] = useState(false);
+
     const redactorSwitcher = () => {
         if (redactor === false) {
             setRedactor(true)
@@ -33,34 +50,30 @@ export default function UserProfile() {
             setRedactor(false)
         }
     }
-
-    const [lastName, setLastName] = useState("");
-    const [firstName, setFirstName] = useState("");
+    console.log(currentUser)
+    const [lastName, setLastName] = useState('');
+    const [firstName, setFirstName] = useState('');
     const [sex, setSex] = useState("");
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [isSubscribed, setIsSubscribed] = useState(false);
+    const [day, setDay] = useState('')
+    const [month, setMonth] = useState('')
+    const [year, setYear] = useState('')
 
-    const [m, setM] = useState("")
-
-    const me = (e) => {
-        setM(e)
+    const callbackDay = (checkedIndex) => {
+        setDay(checkedIndex + 1)
     }
 
-    const [dey, setD] = useState("")
-    const de = (e) => {
-        setD(e)
+    const callbackMonth = (checkedIndex) => {
+        setMonth(checkedIndex + 1)
     }
 
-    const [y, setY] = useState("")
-    const ye = (e) => {
-        setY(e)
+    const callbackYear = (checkedVal) => {
+        setYear(checkedVal)
     }
 
-    const uuid = "5a7b042d-f7af-4b14-acbb-4b5d477849c8";
-    const {data_url: avatar} = avatars[0]
-
-    const month = [
+    const months = [
         "января", 'февраля', 'марта',
         'апреля', 'мая', 'июня',
         'июля', 'августа', 'сентября',
@@ -69,51 +82,43 @@ export default function UserProfile() {
     const years = [];
 
     let start = new Date().getFullYear();
-    for (start; start >= 1950; start--) {
-        years.push(start - 1)
+    for (start; start >= 1940; start--) {
+        years.push(start)
     }
 
-    let d = [];
+    let days = [];
     for (let i = 1; i <= 31; i++) {
-        d.push(i)
+        days.push(i)
     }
 
     let birthday = '';
-    let indexMonth = month.findIndex((item) => item === m);
-    let iM = indexMonth + 1;
-    if (iM === 0) {
+    if (month === 0) {
         birthday = '';
-    } else if (dey <= 9 && iM <= 9) {
-        birthday = `0${dey}.` + `0${indexMonth + 1}.` + `${y}`
-    } else if (dey <= 9 && iM <= 12) {
-        birthday = `0${dey}.` + `${indexMonth + 1}.` + `${y}`
-    } else if (dey >= 9 && iM <= 9) {
-        birthday = `${dey}.` + `0${indexMonth + 1}.` + `${y}`
+    } else if (day <= 9 && month <= 9) {
+        birthday = `0${day}.` + `0${month}.` + `${year}`
+    } else if (day <= 9 && month <= 12) {
+        birthday = `0${day}.` + `${month}.` + `${year}`
+    } else if (day >= 9 && month <= 9) {
+        birthday = `${day}.` + `0${month}.` + `${year}`
     } else {
-        birthday = `${dey}.` + `${indexMonth + 1}.` + `${y}`
+        birthday = `${day}.` + `${month}.` + `${year}`
     }
 
     const data = {firstName, lastName, avatar, sex, birthday, phone, isSubscribed, email, token};
 
-
-    /*let formData = new FormData();
-    formData.append("avatar", avatar)
-    console.log(formData.get("avatar"))*/
-
-    const config = {headers: {'content-type': 'multipart/form-data'}}
     const onSubmit = async () => {
         const formData = new FormData();
         for (const key in data) {
             formData.append(key, data[key])
         }
-        // Object.keys(data).map((key) => formData.append(key, data[key]));
         try {
-            const response = await axiosPrivate.patch(`https://api.antontig.beget.tech/api/user/update/${uuid}`, formData, config)
+            const result = await updateUser(uuid, formData, axiosPrivate)
         } catch (err) {
             console.log(err)
         }
     }
 
+    console.log(data)
     return (
         redactor ?
             <div className="px-2 px-sm-4 px-xxl-5 pb-3 pb-sm-4 pb-xxl-5">
@@ -146,7 +151,7 @@ export default function UserProfile() {
                                                 <div className="imgs-box">
                                                     {imageList.map((image, index) => (
                                                         <div key={index} className="image-item">
-                                                            <img src={image.data_url} alt=""/>
+                                                            <img src={image?.data_url} alt=""/>
                                                             <div className="image-item__btn-wrapper">
                                                                 <button
                                                                     type="button"
@@ -239,7 +244,6 @@ export default function UserProfile() {
                                         type="text"
                                         placeholder="Имя"
                                         className="fs-11"
-                                        value={firstName}
                                         onChange={(e) => setFirstName(e.target.value)}
                                     />
                                 </div>
@@ -252,7 +256,6 @@ export default function UserProfile() {
                                         type="text"
                                         placeholder="Фамилия"
                                         className="fs-11"
-                                        value={lastName}
                                         onChange={(e) => setLastName(e.target.value)}
                                     />
                                 </div>
@@ -266,7 +269,8 @@ export default function UserProfile() {
                                                 name="sex"
                                                 type="radio"
                                                 className="fs-11"
-                                                value="0"
+                                                value="1"
+                                                defaultChecked={(currentUser?.sex === 1)}
                                                 onChange={(e) => setSex(e.target.value)}
                                             />
                                             <span className="fs-11 ms-2">Женский</span>
@@ -276,7 +280,8 @@ export default function UserProfile() {
                                                 name="sex"
                                                 type="radio"
                                                 className="fs-11"
-                                                value="1"
+                                                value="0"
+                                                defaultChecked={(currentUser?.sex === 0)}
                                                 onChange={(e) => setSex(e.target.value)}
                                             />
                                             <span className="fs-11 ms-2">Мужской</span>
@@ -290,23 +295,23 @@ export default function UserProfile() {
                                     <CustomSelect
                                         className="flex-1"
                                         btnClass="inp"
-                                        checkedOpt={dey}
-                                        options={d}
-                                        de={de}
+                                        checkedOpt="День"
+                                        options={days}
+                                        callbackDay={callbackDay}
                                     />
                                     <CustomSelect
                                         className="flex-1 ms-2 ms-xxl-4"
                                         btnClass="inp"
-                                        checkedOpt={m}
-                                        options={month}
-                                        me={me}
+                                        checkedOpt="Месяц"
+                                        options={months}
+                                        callbackMonth={callbackMonth}
                                     />
                                     <CustomSelect
                                         className="flex-1 ms-2 ms-xxl-4"
                                         btnClass="inp"
-                                        checkedOpt={y}
+                                        checkedOpt="Год"
                                         options={years}
-                                        ye={ye}
+                                        callbackYear={callbackYear}
                                     />
                                 </div>
                             </div>
@@ -320,14 +325,6 @@ export default function UserProfile() {
                                         value={phone}
                                         onChange={(e) => setPhone(e.target.value)}
                                     />
-                                    {/*<input
-                                        name="phone"
-                                        type="text"
-                                        placeholder="Номер телефона"
-                                        className="fs-11"
-                                        value={phone}
-                                        onChange={(e) => setPhone(e.target.value)}
-                                    />*/}
                                     <div className="fs-09 gray-3 mt-1">Телефон будет виден в объявлениях другим
                                         пользователям
                                     </div>
@@ -341,7 +338,6 @@ export default function UserProfile() {
                                         type="text"
                                         placeholder="Email@mail.com"
                                         className="fs-11"
-                                        value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </div>
@@ -353,7 +349,6 @@ export default function UserProfile() {
                                             name="isSubscribed"
                                             type="checkbox"
                                             className="fs-11"
-                                            value={isSubscribed}
                                             onChange={(e) =>
                                                 setIsSubscribed(e.target.type === 'checkbox' ? e.target.checked : e.target.value)
                                             }
@@ -375,7 +370,8 @@ export default function UserProfile() {
                                         redactorSwitcher();
                                         onSubmit();
                                     }}
-                            >Сохранить
+                            >
+                                Сохранить
                             </button>
                         </div>
                     </div>
@@ -412,7 +408,7 @@ export default function UserProfile() {
                                                     {
                                                         imageList.map((image, index) => (
                                                             <div key={index} className="image-item">
-                                                                <img src={image.data_url} alt=""/>
+                                                                <img src={image?.data_url} alt=""/>
                                                             </div>
                                                         ))
                                                     }
@@ -434,7 +430,8 @@ export default function UserProfile() {
                                             fullSymbol={<img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>}
                                         />
                                     </div>
-                                    <div className="gray-3 fs-11 text-center mt-1 mt-sm-4">На сайте с {currentUser?.createdAtForUser}
+                                    <div className="gray-3 fs-11 text-center mt-1 mt-sm-4">
+                                        На сайте с {currentUser?.createdAtForUser}
                                     </div>
                                 </div>
                             </div>
@@ -443,37 +440,37 @@ export default function UserProfile() {
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                 <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Имя:</div>
                                 <div className="col-sm-8">
-                                    <input value={currentUser?.firstName} disabled className="fs-11"/>
+                                    <input defaultValue={currentUser?.firstName} disabled className="fs-11"/>
                                 </div>
                             </div>
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                 <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Фамилия:</div>
                                 <div className="col-sm-8">
-                                    <input value={currentUser?.lastName} disabled className="fs-11"/>
+                                    <input defaultValue={currentUser?.lastName} disabled className="fs-11"/>
                                 </div>
                             </div>
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                 <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Пол:</div>
                                 <div className="col-sm-8">
-                                    <input value={currentUser?.sex ? "мужской" : "женский"} disabled className="fs-11"/>
+                                    <input defaultValue={currentUser?.sexForUser} disabled className="fs-11"/>
                                 </div>
                             </div>
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                 <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Дата рождения:</div>
                                 <div className="col-sm-8 d-flex">
-                                    <input value={currentUser?.birthday} disabled className="fs-11"/>
+                                    <input defaultValue={currentUser?.birthday} disabled className="fs-11"/>
                                 </div>
                             </div>
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                 <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Телефон:</div>
                                 <div className="col-sm-8">
-                                    <InputMask disabled mask="+7 (999) 999 99 99" value={currentUser?.phone}/>
+                                    <InputMask disabled mask="+7 (999) 999 99 99" value={currentUser?.phone ? currentUser?.phone : ""}/>
                                 </div>
                             </div>
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                 <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Email:</div>
                                 <div className="col-sm-8">
-                                    <input value={currentUser?.email} className="fs-11" disabled/>
+                                    <input defaultValue={currentUser?.email} className="fs-11" disabled/>
                                 </div>
                             </div>
                             <button
@@ -486,7 +483,8 @@ export default function UserProfile() {
                                         setRedactor(false)
                                     }
                                 }}
-                            >Редактировать
+                            >
+                                Редактировать
                             </button>
                         </div>
                     </div>

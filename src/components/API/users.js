@@ -1,8 +1,6 @@
-import axios from "axios";
-
-export async function editUser (uuid, data) {
+export async function updateUser (uuid, formData, axiosPrivate) {
   try {
-      const response = await axios.patch(`https://api.antontig.beget.tech/api/user/update/${uuid}`, { ...data })
+      const response = await axiosPrivate.patch(`https://api.antontig.beget.tech/api/user/update/${uuid}`, formData)
         return response;
     } catch(err) {
         console.log(err)

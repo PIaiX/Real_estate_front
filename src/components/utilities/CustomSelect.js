@@ -12,6 +12,18 @@ export default function CustomSelect(props) {
         }
     }, [checkedIndex])
 
+    useEffect(() => {
+        if(props.callbackDay){
+            props.callbackDay(checkedIndex)
+        }
+        if(props.callbackMonth){
+            props.callbackMonth(checkedIndex)
+        }
+        if(props.callbackYear){
+            props.callbackYear(checkedVal)
+        }
+    }, [checkedIndex, checkedVal])
+
     const ref = useRef(null);
 
     const handleClickOutside = (event) => {
