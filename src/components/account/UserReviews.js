@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
-import InputRating from '../utilities/InputRating';
 import {getReviews} from "../API/users";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import {useCurrentUser} from "../../store/reducers";
