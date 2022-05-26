@@ -20,7 +20,7 @@ export default function CardPage() {
     const [ads, setAds] = useState({})
     const [recommend, setRecommend] = useState([])
     const axiosPrivate = useAxiosPrivate()
-    const uuid = useParams()
+    const {uuid} = useParams()
     const token = useAccessToken()
     const user = useCurrentUser()
     const userId = user?.id

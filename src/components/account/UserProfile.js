@@ -319,9 +319,9 @@ export default function UserProfile() {
                                 <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Телефон:</div>
                                 <div className="col-sm-8">
                                     <InputMask
-                                        mask="9999999999"
+                                        mask="79999999999"
                                         alwaysShowMask={true}
-                                        maskPlaceholder="__________"
+                                        maskPlaceholder="7__________"
                                         value={phone}
                                         onChange={(e) => setPhone(e.target.value)}
                                     />
