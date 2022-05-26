@@ -4,6 +4,7 @@ import {getReviews} from "../API/users";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import {useCurrentUser} from "../../store/reducers";
 import Rating from "react-rating";
+import PaginationCustom from "../utilities/PaginationCustom";
 
 export default function UserReviews() {
     const axiosPrivate = useAxiosPrivate()
@@ -11,13 +12,15 @@ export default function UserReviews() {
     const userId = user?.id
     const {page} = useParams()
     const [reviews, setReviews] = useState([])
+    const [pages, setPages] = useState({})
 
     useEffect(() => {
         const reviews = async () => {
             try {
                 const result = userId ? await getReviews(axiosPrivate, userId, 1) : ''
                 if (result) {
-                    setReviews(result)
+                    setReviews(result.data)
+                    setPages(result)
                 }
             } catch (error) {
                 console.log(error)
@@ -25,6 +28,8 @@ export default function UserReviews() {
         }
         reviews()
     }, [userId, page])
+
+    console.log(reviews, pages)
 
     return (
         <div className="px-2 px-sm-4 px-xxl-5 pb-4 pb-xxl-5">
@@ -34,15 +39,16 @@ export default function UserReviews() {
             <h4 className="text-center color-1 mb-3 mb-sm-4 mb-xl-5">Отзывы</h4>
             {reviews.map((i) =>
                 <div className="review mb-3" key={i?.id}>
-                    <img src="/Real_estate_front/img/photo2.png" alt="Андрей Шевцов"
-                         className="photo d-none d-sm-block"/>
+                    <img
+                        src={i?.from?.avatar ? i?.from?.avatar : "/Real_estate_front/img/img-photo.svg"}
+                        alt={i?.from?.fullName}
+                        className="photo d-none d-sm-block"
+                    />
                     <div className="ms-sm-4">
                         <div className="d-flex align-items-end align-items-sm-center d-sm-block mb-2 mb-sm-0">
-                            <img src="/Real_estate_front/img/photo2.png" alt="Андрей Шевцов"
-                                 className="photo d-block d-sm-none"/>
                             <div className="ms-3 ms-sm-0">
-                                <h4>Андрей Шевцов</h4>
-                                <h4 className="mb-0">Риелтор</h4>
+                                <h4>{i?.from?.fullName}</h4>
+                                <h4 className="mb-0">{i?.from?.ownerTypeForUser}</h4>
                             </div>
                         </div>
                         <div>
@@ -65,6 +71,7 @@ export default function UserReviews() {
                     </div>
                 </div>
             )}
+            <PaginationCustom meta={pages} baseUrl="reviews"/>
         </div>
     )
 }
