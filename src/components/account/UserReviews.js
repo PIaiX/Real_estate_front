@@ -17,7 +17,7 @@ export default function UserReviews() {
     useEffect(() => {
         const reviews = async () => {
             try {
-                const result = (userId && page) ? await getReviews(axiosPrivate, userId, page, 4) : ''
+                const result = (userId) ? await getReviews(axiosPrivate, userId, page, 4) : ''
                 if (result) {
                     setReviews(result.data)
                     setPages(result)
