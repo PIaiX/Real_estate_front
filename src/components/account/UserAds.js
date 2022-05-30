@@ -77,8 +77,6 @@ export default function UserAds() {
         return i ? `${url}${i.user?.avatar}` : '/Real_estate_front/img/nophoto.jpg'
     }
 
-    console.log(myAds)
-
     return (
         <div className="px-sm-3 px-md-4 px-xxl-5 pb-3 pb-sm-4 pb-xxl-5">
             <nav className="d-block d-lg-none mt-3 mb-3 mb-sm-5" aria-label="breadcrumb">

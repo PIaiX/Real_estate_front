@@ -24,7 +24,6 @@ export default function BtnFav(props) {
     const reportAd = async () => {
         try {
             const result = await reportAds(axiosPrivate, report)
-            console.log(result)
         } catch (error) {
             console.log(error)
         }

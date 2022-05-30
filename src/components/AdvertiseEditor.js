@@ -33,8 +33,6 @@ export default function Advertise() {
         adsget()
     }, [userId, uuid])
 
-    console.log("Объявление", ad)
-
     const [checked, setChecked] = useState(true)
     const [defaultForm, setDefaultForm] = useState({})
 
@@ -78,8 +76,6 @@ export default function Advertise() {
             setData({...defaultForm})
         }
     }, [defaultForm])
-
-    console.log("Дата", data)
 
     const ref = useRef(null); // Form
     const [deal, setDeal] = useState('1'); // тип сделки (по умолчанию - продажа)
@@ -293,7 +289,6 @@ export default function Advertise() {
             }
         }
     }
-    console.log(result)
     const resetFieldVal = (newState, field) => {
         setValid({...valid, [field]: false})
     }
