@@ -10,9 +10,9 @@ export async function updateUser (uuid, formData, axiosPrivate) {
     }
 }
 
-export async function getReviews (axiosPrivate, userId, page = 1) {
+export async function getReviews (axiosPrivate, userId, page = 1, limit) {
     try {
-        const response = await axiosPrivate.post(`${mainUrl}/user/reviews`, {page, userId})
+        const response = await axiosPrivate.post(`${mainUrl}/user/reviews`, {page, userId, limit})
         return response.data.body
     } catch (error) {
         console.log(error)

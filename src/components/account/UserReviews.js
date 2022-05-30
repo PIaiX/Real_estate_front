@@ -17,7 +17,7 @@ export default function UserReviews() {
     useEffect(() => {
         const reviews = async () => {
             try {
-                const result = userId ? await getReviews(axiosPrivate, userId, 1) : ''
+                const result = (userId && page) ? await getReviews(axiosPrivate, userId, page, 4) : ''
                 if (result) {
                     setReviews(result.data)
                     setPages(result)
@@ -29,7 +29,7 @@ export default function UserReviews() {
         reviews()
     }, [userId, page])
 
-    console.log(reviews, pages)
+    console.log(pages)
 
     return (
         <div className="px-2 px-sm-4 px-xxl-5 pb-4 pb-xxl-5">
@@ -71,7 +71,7 @@ export default function UserReviews() {
                     </div>
                 </div>
             )}
-            <PaginationCustom meta={pages} baseUrl="reviews"/>
+            <PaginationCustom meta={pages} baseUrl="personal-account/my-reviews"/>
         </div>
     )
 }
