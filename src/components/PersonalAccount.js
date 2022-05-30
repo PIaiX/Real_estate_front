@@ -54,7 +54,9 @@ export default function PersonalAccount() {
                     <Route path="favorites" element={<Favorites />} />
                     <Route path="my-messages" element={<UserMessages />} />
                     <Route path="my-messages/*" element={<ChatPage />} />
-                    <Route path="my-reviews" element={<UserReviews />} />
+                    <Route path="my-reviews" element={<UserReviews />} >
+                      <Route path='page/:page' element={<UserReviews />}/>
+                    </Route>
                   </Routes>
                 )}
               </div>
@@ -72,7 +74,9 @@ export default function PersonalAccount() {
               <Route path="favorites" element={<Favorites />} />
               <Route path="my-messages" element={<UserMessages />} />
               <Route path="my-messages/*" element={<ChatPage />} />
-              <Route path="my-reviews" element={<UserReviews />} />
+              <Route path="my-reviews" element={<UserReviews />} >
+                <Route path='page/:page' element={<UserReviews />}/>
+              </Route>
             </Routes>
           )}
         </div>
