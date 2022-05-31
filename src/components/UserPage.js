@@ -5,7 +5,13 @@ import InputFile from './utilities/InputFile';
 import {Slider1} from './Slider1';
 import {getReviews} from "./API/users";
 import useAxiosPrivate from "./hooks/useAxiosPrivate";
-import {CreateReview, getMyAds, usersPage} from "./API/userspage";
+import {
+    addReportReview,
+    addReportUser,
+    CreateReview,
+    deleteReportReview,
+    deleteReportUser, userInfo
+} from "./API/userspage";
 import {useAccessToken, useCurrentUser} from "../store/reducers";
 import Rating from "react-rating";
 
@@ -15,22 +21,27 @@ export default function UserPage() {
     const user = useCurrentUser()
     const token = useAccessToken()
     const axiosPrivate = useAxiosPrivate()
-    const userId = user?.id
+    const {userId} = useParams()
     const {page} = useParams()
     const [reviews, setReviews] = useState([])
-    const [userAds, setUserAds] = useState([])
     const [review, setReview] = useState({})
-    const [pages, setPages] = useState([])
     const [limit, setLimit] = useState(2)
+    const [userInformation, setUserInformation] = useState([])
     const imageUpload = 'https://api.antontig.beget.tech/uploads/'
     let rating;
+    const [data, setData] = useState({})
+
+    useEffect(() => {
+        if(userId && user?.id) {
+            setData(data => {return {...data, "toId": userId, "fromId": user?.id, token}})
+        }
+    }, [userId, user?.id, token])
 
     const reviewss = async () => {
         try {
-            const result = (userId) ? await getReviews(axiosPrivate, 1, page, limit) : ""
+            const result = userId ? await getReviews(axiosPrivate, userId, page, limit) : ''
             if (result) {
                 setReviews(result)
-                setPages(result.meta)
             }
         } catch (error) {
             console.log(error)
@@ -38,23 +49,22 @@ export default function UserPage() {
     }
 
     useEffect(() => {
-
-        reviewss()
-    }, [page, userId, limit])
-
-    useEffect(() => {
-        const usersAds = async () => {
+        const userInPage = async () =>{
             try {
-                const result = (userId) ? await getMyAds(userId, page, token, 10, axiosPrivate) : ""
+                const result = await userInfo(userId)
                 if (result) {
-                    setUserAds(result)
+                    setUserInformation(result?.body)
                 }
             } catch (error) {
                 console.log(error)
             }
         }
-        usersAds()
-    }, [page, userId])
+        userInPage()
+    }, [userId])
+
+    useEffect(() => {
+        reviewss()
+    }, [page, userId, limit])
 
     const nextReviews = () => {
         if (reviews?.data?.length === limit) {
@@ -65,22 +75,33 @@ export default function UserPage() {
     const createReview = async (e) => {
         e.preventDefault()
         const formData = new FormData()
-        const request = {...review, token, "toId": 1, "fromId": user?.id, rating}
+        const request = {...review, ...data, rating}
         try {
             for (const key in request) {
                 formData.append(key, request[key]);
             }
             const result = await CreateReview(axiosPrivate, formData)
-            if (result) {
-                reviewss()
-            }
-            console.log(result)
+            reviewss()
         } catch (error) {
             console.log(error)
         }
     }
 
-    console.log(reviews)
+    const addReportForUser = async () => {
+        const result = await addReportUser(axiosPrivate, data)
+    }
+
+    const deleteReportForUser = async () => {
+        const result = await deleteReportUser(axiosPrivate, data)
+    }
+
+    const addReportForReview = async () => {
+        const result = await addReportReview(axiosPrivate, token)
+    }
+
+    const deleteReportForReview = async () => {
+        const result = await deleteReportReview(axiosPrivate, data)
+    }
 
     return (
         <main>
@@ -94,7 +115,7 @@ export default function UserPage() {
                         <li className="breadcrumb-item">
                             <NavLink to="/service">Услуги</NavLink>
                         </li>
-                        <li className="breadcrumb-item active" aria-current="page">Колесникова Ирина</li>
+                        <li className="breadcrumb-item active" aria-current="page">{userInformation.fullName}</li>
                     </ol>
                 </nav>
             </div>
@@ -105,18 +126,23 @@ export default function UserPage() {
                         <div className="row flex-md-row-reverse gx-2 gx-sm-4 gx-xl-5">
                             <div className="col-7 col-sm-8 col-md-9">
                                 <div className="d-md-flex align-items-baseline mb-3">
-                                    <h1 className="mb-0 me-4">Колесникова Ирина</h1>
+                                    <h1 className="mb-0 me-4">{userInformation?.fullName}</h1>
                                     <div className="fs-11 gray-3">Сейчас онлайн</div>
                                 </div>
-                                <h4>Риелтор</h4>
-                                <div className="fs-11 gray-3">На сайте с сентября 2019</div>
+                                <h4>{userInformation?.ownerTypeForUser}</h4>
+                                <div className="fs-11 gray-3">На сайте с {userInformation?.createdAtForUser}</div>
                                 <div className="d-flex align-items-center mt-2 mt-sm-4">
                                     <ShowPhone className="d-none d-md-flex flex-1" phone="+ 7 (952) 879 78 65"/>
                                     <button type="button" data-bs-toggle="modal" data-bs-target="#write-message"
                                             className="d-none d-md-flex btn btn-1 px-3 w-100 flex-1 ms-4">Написать
                                         сообщение
                                     </button>
-                                    <button type="button" className="btn-notice ms-md-4" title="Пожаловаться">
+                                    <button
+                                        type="button"
+                                        className="btn-notice ms-md-4"
+                                        title="Пожаловаться"
+                                        onClick={deleteReportForUser}
+                                    >
                                         <svg width="20" height="17" viewBox="0 0 20 17" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -131,7 +157,7 @@ export default function UserPage() {
                             </div>
                             <div className="col-5 col-sm-4 col-md-3">
                                 <div className="user-photo">
-                                    <img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/>
+                                    <img src={userInformation?.avatar ? `${imageUpload}${userInformation?.avatar}` : "/Real_estate_front/img/img-photo.svg"} alt={userInformation?.fullName}/>
                                     <div className="indicator online"/>
                                 </div>
                             </div>
@@ -170,10 +196,10 @@ export default function UserPage() {
                     <div className="col-xl-10 col-xxl-9 mb-5">
                         {(reviews.data?.length === 0) ?
                             <>
-                                <h4 className="text-center text-md-start">Отзывы на Ирину (0)</h4>
+                                <h4 className="text-center text-md-start">Отзывы на {userInformation?.firstName} (0)</h4>
                                 <div className="fs-11 text-center text-md-start mb-4">Нет отзывов</div>
                                 <button
-                                    /*disabled={userId === user?.id}*/
+                                    disabled={userId === String(user?.id)}
                                     type="button"
                                     data-bs-toggle="modal"
                                     data-bs-target="#write-review"
@@ -186,10 +212,10 @@ export default function UserPage() {
                             <>
                                 <div className="d-sm-flex justify-content-between mb-4">
                                     <h4 className="text-center text-sm-start mb-0">
-                                        Отзывы на Ирину ({pages.total})
+                                        Отзывы на {userInformation?.firstName} ({reviews.meta?.total})
                                     </h4>
                                     <button
-                                        /*disabled={userId === user?.id}*/
+                                        disabled={userId === String(user?.id)}
                                         type="button"
                                         data-bs-toggle="modal"
                                         data-bs-target="#write-review"
@@ -211,8 +237,6 @@ export default function UserPage() {
                                                     <div className="rating mb-sm-3">
                                                         <span className="fs-12 ms-0">Оценка:</span>
                                                         <Rating
-                                                            start="0"
-                                                            stop="5"
                                                             readonly={true}
                                                             initialRating={i?.rating}
                                                             fractions={2}
@@ -232,7 +256,12 @@ export default function UserPage() {
                                                 </p>
                                             </div>
                                             <div className="date fs-11 gray-3">{i?.createdAtForUser}</div>
-                                            <button type="button" className="claiming color-1 fs-09">Пожаловаться
+                                            <button
+                                                type="button"
+                                                className="claiming color-1 fs-09"
+                                                onClick={addReportForReview}
+                                            >
+                                                Пожаловаться
                                             </button>
                                         </div>
                                     </div>
@@ -253,12 +282,12 @@ export default function UserPage() {
                     </div>
                     <div className="col-12 mb-5">
                         <h4 className="text-center text-md-start">Объявления пользователя</h4>
-                        {(userAds?.length === 0)
+                        {(userInformation?.realEstates?.length === 0)
                             ?
                             <div className="fs-11 text-center text-md-start">Нет актуальных объявлений</div>
                             :
                             <div className="position-relative">
-                                <Slider1 userAds={userAds?.body?.data}/>
+                                <Slider1 userAds={userInformation?.realEstates}/>
                             </div>
                         }
                     </div>
@@ -342,12 +371,15 @@ export default function UserPage() {
                                     <div
                                         className="col-lg-4 d-flex flex-lg-column align-items-center mb-2 mb-sm-4 mb-lg-0">
                                         <div className="photo me-3 me-lg-0 mb-lg-3">
-                                            <img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/>
+                                            <img
+                                                src={userInformation?.avatar ? `${imageUpload}${userInformation?.avatar}` : "/Real_estate_front/img/img-photo.svg"}
+                                                alt={userInformation?.fullName}
+                                            />
                                             <div className="indicator online"/>
                                         </div>
                                         <div className="text-lg-center">
-                                            <div className="fs-11 fw-5 mb-sm-2">Колесникова Ирина</div>
-                                            <div className="fs-11 fw-5">Риелтор</div>
+                                            <div className="fs-11 fw-5 mb-sm-2">{userInformation?.fullName}</div>
+                                            <div className="fs-11 fw-5">{userInformation?.ownerTypeForUser}</div>
                                         </div>
                                     </div>
                                     <div className="col-lg-8">

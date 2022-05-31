@@ -1,14 +1,44 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import CustomSelect from './utilities/CustomSelect';
 import ShowPhone from './utilities/ShowPhone';
 import InputFile from './utilities/InputFile';
 import { animateScroll as scroll } from 'react-scroll';
+import {usersPage} from "./API/userspage";
+import {useCurrentUser} from "../store/reducers";
 
 export default function Services() {
     const scrollToTop = () => {
         scroll.scrollToTop();
     };
+
+    const user = useCurrentUser()
+    const [catalog, setCatalog] = useState([])
+    const [userId, setUserId] = useState(null)
+
+    useEffect(() => {
+        if(user) {
+            setUserId(user?.id)
+        }
+    }, [user])
+
+    console.log(userId)
+
+    useEffect(() => {
+        const req = async () => {
+            try {
+                const result = (userId) ? await usersPage(1, userId, 5) : ''
+                if (result) {
+                    setCatalog(result.body?.data)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        req()
+    }, [userId])
+
+    console.log(catalog)
 
     return (
         <main>
@@ -184,47 +214,49 @@ export default function Services() {
                         </div>
 
                         <div className="row px-4 px-sm-0 row-cols-sm-2 row-cols-lg-3 row-cols-xl-2 row-cols-xxl-1 g-4">
-                            <div>
-                                <div className="user-card">
-                                    <div className="title">
-                                        <div className="d-xxl-flex">
-                                            <h4 className="color-1 mb-1 mb-xl-2 mb-xxl-0">
-                                                <NavLink to="/user" onClick={() => scrollToTop()}>Колесникова Ирина</NavLink>
-                                            </h4>
-                                            <div className="rating mb-1 mb-xl-2 ms-xxl-4">
-                                                <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
-                                                <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
-                                                <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
-                                                <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
-                                                <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
-                                                <span>(3.35)</span>
+                                {catalog.map(i =>
+                                    <div>
+                                    <div className="user-card">
+                                        <div className="title">
+                                            <div className="d-xxl-flex">
+                                                <h4 className="color-1 mb-1 mb-xl-2 mb-xxl-0">
+                                                    <NavLink to={`/user/${i?.userId}`} onClick={() => scrollToTop()}>{i.user?.fullName}</NavLink>
+                                                </h4>
+                                                <div className="rating mb-1 mb-xl-2 ms-xxl-4">
+                                                    <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                                    <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                                    <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
+                                                    <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
+                                                    <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
+                                                    <span>(3.35)</span>
+                                                </div>
+                                            </div>
+                                            <h4 className="mb-1 mb-xl-2 mb-xxl-0">Дизайнер</h4>
+                                        </div>
+                                        <div className="photo mt-2 mt-md-3 mt-xxl-0">
+                                            <NavLink to="/user" onClick={() => scrollToTop()}><img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/></NavLink>
+                                        </div>
+                                        <div className="desc mt-2 mt-md-3 mt-xxl-0">
+                                            <div className="fs-11 gray-2 mb-1 mb-md-2 mb-xxl-3">Опыт работы от 1 года</div>
+                                            <div className="text">
+                                                <p>Создание индивидуального дизайна по Вашим предпочтениям. Помощь в подброре отделочных материалов, мебели и текстиля. Примеры работ в личных сообщениях.</p>
                                             </div>
                                         </div>
-                                        <h4 className="mb-1 mb-xl-2 mb-xxl-0">Дизайнер</h4>
-                                    </div>
-                                    <div className="photo mt-2 mt-md-3 mt-xxl-0">
-                                        <NavLink to="/user" onClick={() => scrollToTop()}><img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/></NavLink>
-                                    </div>
-                                    <div className="desc mt-2 mt-md-3 mt-xxl-0">
-                                        <div className="fs-11 gray-2 mb-1 mb-md-2 mb-xxl-3">Опыт работы от 1 года</div>
-                                        <div className="text">
-                                            <p>Создание индивидуального дизайна по Вашим предпочтениям. Помощь в подброре отделочных материалов, мебели и текстиля. Примеры работ в личных сообщениях.</p>
+                                        <div className="serv-list mt-2 mt-md-3 mt-xxl-0">
+                                            <div className="serv">Проектирование</div>
+                                            <div className="serv">Курирование проекта</div>
+                                            <div className="serv">Создание макета</div>
+                                            <div className="serv">Визуализация</div>
+                                            <div className="serv">Освещение</div>
+                                        </div>
+                                        <div className="btns mt-2 mt-md-3 mt-xxl-0">
+                                            <ShowPhone phone="+ 7 (952) 879 78 65"/>
+                                            <button type="button" data-bs-toggle="modal" data-bs-target="#write-message" className="d-none d-xxl-block btn btn-1 w-100 px-3">Написать сообщение</button>
                                         </div>
                                     </div>
-                                    <div className="serv-list mt-2 mt-md-3 mt-xxl-0">
-                                        <div className="serv">Проектирование</div>
-                                        <div className="serv">Курирование проекта</div>
-                                        <div className="serv">Создание макета</div>
-                                        <div className="serv">Визуализация</div>
-                                        <div className="serv">Освещение</div>
                                     </div>
-                                    <div className="btns mt-2 mt-md-3 mt-xxl-0">
-                                        <ShowPhone phone="+ 7 (952) 879 78 65"/>
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#write-message" className="d-none d-xxl-block btn btn-1 w-100 px-3">Написать сообщение</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
+                                )}
+                            {/*<div>
                             <div className="user-card">
                                     <div className="title">
                                         <div className="d-xxl-flex">
@@ -423,7 +455,7 @@ export default function Services() {
                                         <button type="button" data-bs-toggle="modal" data-bs-target="#write-message" className="d-none d-xxl-block btn btn-1 w-100 px-3">Написать сообщение</button>
                                     </div>
                                 </div>
-                            </div>
+                            </div>*/}
                         </div>
 
                         <nav className="mt-4">
