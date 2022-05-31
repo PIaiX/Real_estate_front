@@ -7,6 +7,7 @@ import Rating from "react-rating";
 import PaginationCustom from "../utilities/PaginationCustom";
 
 export default function UserReviews() {
+
     const axiosPrivate = useAxiosPrivate()
     const user = useCurrentUser()
     const userId = user?.id
@@ -17,7 +18,7 @@ export default function UserReviews() {
     useEffect(() => {
         const reviews = async () => {
             try {
-                const result = userId ? await getReviews(axiosPrivate, userId, 1) : ''
+                const result = (userId) ? await getReviews(axiosPrivate, userId, page, 4) : ''
                 if (result) {
                     setReviews(result.data)
                     setPages(result)
@@ -28,8 +29,6 @@ export default function UserReviews() {
         }
         reviews()
     }, [userId, page])
-
-    console.log(reviews, pages)
 
     return (
         <div className="px-2 px-sm-4 px-xxl-5 pb-4 pb-xxl-5">
@@ -71,7 +70,7 @@ export default function UserReviews() {
                     </div>
                 </div>
             )}
-            <PaginationCustom meta={pages} baseUrl="reviews"/>
+            <PaginationCustom meta={pages} baseUrl="personal-account/my-reviews"/>
         </div>
     )
 }
