@@ -7,6 +7,7 @@ import Rating from "react-rating";
 import PaginationCustom from "../utilities/PaginationCustom";
 
 export default function UserReviews() {
+
     const axiosPrivate = useAxiosPrivate()
     const user = useCurrentUser()
     const userId = user?.id
@@ -28,8 +29,6 @@ export default function UserReviews() {
         }
         reviews()
     }, [userId, page])
-
-    console.log(pages)
 
     return (
         <div className="px-2 px-sm-4 px-xxl-5 pb-4 pb-xxl-5">
