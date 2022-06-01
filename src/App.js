@@ -3,7 +3,8 @@ import {HashRouter} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles/fonts.css';
-import './styles/style.min.css';
+import './styles/style.scss'
+// import './styles/style.min.css';
 import Header from './components/Header';
 import AppRouter from './components/AppRouter';
 import {Footer} from './components/Footer';
@@ -13,8 +14,7 @@ import accessTokenActions from "./store/actions/accessToken";
 import currentUserActions from "./store/actions/currentUser";
 import useAxiosPrivate from "./components/hooks/useAxiosPrivate";
 import {useEffect} from "react";
-import {useAccessToken, useCurrentUser} from "./store/reducers";
-
+import {YMaps} from 'react-yandex-maps';
 
 function App() {
 
@@ -37,9 +37,11 @@ function App() {
 
     return (
         <HashRouter>
-            <Header/>
-            <AppRouter/>
-            <Footer/>
+            <YMaps>
+                <Header/>
+                <AppRouter/>
+                <Footer/>
+            </YMaps>
         </HashRouter>
     );
 }

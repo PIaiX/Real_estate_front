@@ -7,22 +7,22 @@ export default function CustomSelectMultyDual(props) {
     const checkedDist = props.checkedDist;
     const distCount = checkedDist.length;
     const [count1, setCount1] = useState(distCount);
-    const [index1, setIndex1] = useState([]);
+    const [indexes1, setIndexes1] = useState([]);
 
     const stations = props.stations;
     const checkedSt = props.checkedSt;
     const stCount = checkedSt.length;
     const [count2, setCount2] = useState(stCount);
-    const [index2, setIndex2] = useState([]);
+    const [indexes2, setIndexes2] = useState([]);
 
 
     const ref = useRef(null);
 
     useEffect(() => {
         if (props.callback) {
-            props.callback(index1, index2)
+            props.callback(indexes1, indexes2)
         }
-    }, [index1, index2])
+    }, [indexes1, indexes2])
 
     const handleClickOutside = (event) => {
         if (ref.current && !ref.current.contains(event.target)) {
@@ -33,12 +33,12 @@ export default function CustomSelectMultyDual(props) {
     const handleChange = (e, index) => {
         if (e.target.checked){
             setCount1(count1 + 1);
-            setIndex1(prevIndex => {
+            setIndexes1(prevIndex => {
                 return [...prevIndex, index]
             })
         } else {
             setCount1(count1 - 1);
-            setIndex1(prevIndex => {
+            setIndexes1(prevIndex => {
                 return prevIndex.filter((_, ind) => ind === index)
             })
         }
@@ -47,12 +47,12 @@ export default function CustomSelectMultyDual(props) {
     const handleChange2 = (e, index) => {
         if (e.target.checked){
             setCount2(count2 + 1);
-            setIndex2(prevIndex => {
+            setIndexes2(prevIndex => {
                 return [...prevIndex, index]
             })
         } else {
             setCount2(count2 - 1);
-            setIndex2(prevIndex => {
+            setIndexes2(prevIndex => {
                 return prevIndex.filter((_, ind) => ind === index)
             })
         }

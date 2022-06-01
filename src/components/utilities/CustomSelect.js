@@ -1,31 +1,42 @@
 import React, {useState, useEffect, useRef} from 'react';
 
 export default function CustomSelect(props) {
-
     const [options, setOptions] = useState([])
     const [visible, setVisibility] = useState(false);
-    const [defaultIndex, setDefaultIndex] = useState(props.checkedOpt);
-    const qq = options.find(option => option.index === defaultIndex)
-    const [checkedVal, setCheckedVal] = useState(options.find(option => option.index === defaultIndex));
+    const [checkedOpt, setCheckedOpt] = useState(props.checkedOpt);
+    const [checkedIndex, setCheckedIndex] = useState(null)
+    const [checkedVal, setCheckedVal] = useState(null)
     const ref = useRef(null);
 
     useEffect(() => {
         if (props.options.length) {
             setOptions(props.options.map((item, ind) => item.index ? item : {index: ind, value: item}))
         }
-    }, [props.options])
+        if (props.checkedOpt) {
+            setCheckedOpt(props.checkedOpt)
+        }
+    }, [props.options, props.checkedOpt])
 
     useEffect(() => {
         if (options.length) {
-            setCheckedVal(qq)
+            if (typeof checkedOpt === 'number' || props.notDefaultIndexes) {
+                const {value} = options.find(option => option.index === checkedOpt)
+                setCheckedIndex(checkedOpt)
+                setCheckedVal(value)
+            }
+            if (typeof checkedOpt === 'string' && !props.notDefaultIndexes) {
+                const {index} = options.findIndex(option => option.value === checkedOpt)
+                setCheckedIndex(index)
+                setCheckedVal(checkedOpt)
+            }
         }
-    }, [options])
+    }, [options, checkedOpt, props.notDefaultIndexes])
 
     useEffect(() => {
         if (props.callback) {
-            props.callback(defaultIndex)
+            props.callback({checkedIndex, checkedVal})
         }
-    }, [defaultIndex])
+    }, [checkedIndex, checkedVal])
 
     const handleClickOutside = (event) => {
         if (ref.current && !ref.current.contains(event.target)) {
@@ -34,8 +45,8 @@ export default function CustomSelect(props) {
     };
 
     const handleChange = (e, index) => {
-        setCheckedVal({index, value: e.target.value});
-        setDefaultIndex(index)
+        setCheckedVal(e.target.value);
+        setCheckedIndex(index)
         setVisibility(false);
     };
 
@@ -50,7 +61,7 @@ export default function CustomSelect(props) {
         <div ref={ref} className={"custom-select " + props.className}>
             <button type="button" className={props.btnClass}
                     onClick={() => setVisibility((visible === false))}>
-                <div>{checkedVal?.value}</div>
+                <div>{checkedVal}</div>
                 <svg className="ms-2" viewBox="0 0 23 12" xmlns="http://www.w3.org/2000/svg">
                     <line x1="21.6832" y1="0.730271" x2="10.7468" y2="10.961"/>
                     <line y1="-1" x2="14.9757" y2="-1" transform="matrix(0.730271 0.683157 0.683157 -0.730271 2 0)"/>
@@ -65,7 +76,7 @@ export default function CustomSelect(props) {
                                 name="type"
                                 value={option.value}
                                 onChange={e => handleChange(e, option.index)}
-                                checked={option.index === defaultIndex}
+                                checked={option.index === checkedIndex}
                             />
                             <div>{option.value}</div>
                         </label>

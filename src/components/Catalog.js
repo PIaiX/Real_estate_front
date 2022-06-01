@@ -3,35 +3,46 @@ import {NavLink, Link, useParams, useSearchParams} from 'react-router-dom';
 import CustomSelect from './utilities/CustomSelect';
 import CustomSelectMultyDual from './utilities/CustomSelectMultyDual';
 import Card from './Card';
+import CatalogFilters from './CatalogFilters';
+import PaginationCustom from './utilities/PaginationCustom';
 import {getCatalog} from './API/catalog';
 import {getTypesEstate} from './API/typesEstate';
-import PaginationCustom from './utilities/PaginationCustom';
-import CatalogFilters from './CatalogFilters';
 import useUpdateSize from './hooks/useUpdateSize';
+import {useSelector} from 'react-redux';
+import useWindowDimensions from './hooks/useWindowDimensions';
+import useConnectionCity from './hooks/useConnectionCity';
+import useSearchForm from './hooks/useSearchForm';
+import {animateScroll as scroll} from 'react-scroll';
+import {onSelectHandler, onInputHandler, onMultiCheckboxHandler, onSingleParamQuery} from './utilities/collectDataFromForm'
+import YMap from './utilities/YMap';
+import CatalogOffcanvasCards from './utilities/CatalogOffcanvasCards';
 
-export default function Catalog() {
+const Catalog = () => {
+    const {width} = useWindowDimensions()
     const [view, setView] = useUpdateSize('991px')
     const {page} = useParams();
     const [searchParams, setSearchParams] = useSearchParams()
     const initialInstantFilters = {
         transactionType: +searchParams.get('transactionType'),
         estateId: +searchParams.get('estateId'),
-        orderBy: 'asc',
-        startPrice: '',
-        endPrice: '',
-        address: '',
-        roomTypes: [],
-        rentalTypes: [],
-        repairTypes: [],
+        orderBy: 'asc'
     }
-    const [meta, setMeta] = useState([])
-    const [catalogList, setCatalogList] = useState([])
     const [instantFilters, setInstantFilters] = useState(initialInstantFilters)
-    const [search, setSearch] = useState('')
-    const [isClearFilters, setIsClearFilters] = useState(null)
     const [estates, setEstates] = useState([])
-    const [requestBody, setRequestBody] = useState({})
-    const [foundCount, setFoundCount] = useState(null)
+    const [catalogData, setCatalogData] = useState({})
+    const [isClearFilters, setIsClearFilters] = useState(null)
+    const [isShowMap, setIsShowMap] = useState(false)
+    const [isShowCanvas, setIsShowCanvas] = useState(false)
+    const userId = useSelector(state => state.currentUser?.id)
+    const {selectedCity} = useConnectionCity()
+    const [offcanvasCards, setOffcanvasCards] = useState([])
+    const {search, setSearch, onSearch} = useSearchForm('')
+
+    useEffect(() => {
+        if (selectedCity) {
+            setIsShowMap(false)
+        }
+    }, [selectedCity])
 
     useEffect(() => {
         const req = async () => {
@@ -55,51 +66,23 @@ export default function Catalog() {
 
     useEffect(() => {
 
-        const tempRequestBody = {}
-
-        for (const [key, value] of Object.entries(instantFilters)) {
-            switch (typeof value) {
-                case 'object':
-                    if (Array.isArray(value) && value.length) {
-                        tempRequestBody[key] = value
-                    }
-                    break
-                case 'string':
-                    if (value.length) {
-                        tempRequestBody[key] = value
-                    }
-                    break
-                case 'number':
-                    tempRequestBody[key] = value
-                    break
-                case 'boolean':
-                    if (value) {
-                        tempRequestBody[key] = value
-                    }
-                    break
-            }
-        }
-        setRequestBody(tempRequestBody)
-
-    }, [instantFilters])
-
-    useEffect(() => {
-
         const req = async () => {
             try {
-                const response = await getCatalog(page, 12, requestBody)
+                const response = await getCatalog(page, 12, userId, instantFilters)
 
                 if (response) {
-                    setMeta(response.body)
-                    setCatalogList(response.body.data)
-                    setFoundCount(response.body.meta.total)
+                    setCatalogData({
+                        meta: response.body,
+                        catalog: response.body.data,
+                        foundCount: response.body.meta.total
+                    })
                 }
             } catch (error) {
                 console.log(error)
             }
         }
         req()
-    }, [page, requestBody])
+    }, [page, userId, instantFilters])
 
     useEffect(() => {
         setSearchParams({
@@ -107,41 +90,6 @@ export default function Catalog() {
             'estateId': instantFilters.estateId
         })
     }, [instantFilters.transactionType, instantFilters.estateId])
-
-    const onSearch = (e) => {
-        e.preventDefault()
-        onSelectHandler(search.trim(), 'address', setInstantFilters)
-        setSearch('')
-        setIsClearFilters(false)
-    }
-
-    const onSelectHandler = (value, stateProp, setFunction) => {
-        setFunction(prevValues => ({...prevValues, [stateProp]: value}))
-    }
-
-    const onInputHandler = (e, stateProp, isDigit = false, setFunction) => {
-        const text = e.target.value.trim()
-
-        setFunction(prevValues => ({...prevValues, [stateProp]: isDigit ? +text : text}))
-        setIsClearFilters(false)
-    }
-
-    const onCheckboxHandler = (e, setFunction) => {
-        const name = e.target.name
-
-        setFunction(prevValues => ({...prevValues, [name]: !prevValues[name]}));
-        setIsClearFilters(false)
-    }
-
-    const onMultiCheckboxHandler = (array, number, setFunction) => {
-        setFunction(prevValues => ({
-            ...prevValues,
-            [array]: prevValues[array].includes(number)
-                ? prevValues[array].filter(item => item !== number)
-                : prevValues[array].concat(number)
-        }))
-        setIsClearFilters(false)
-    }
 
     const onResetInstantFilters = () => {
         setInstantFilters(initialInstantFilters)
@@ -153,33 +101,24 @@ export default function Catalog() {
             ...prevInstantFilters,
             ...filters
         }))
-        setIsClearFilters(false)
     }
 
-    const onPopularQuery = (stateProp, value) => {
-        onResetInstantFilters()
+    useEffect(() => {
+        if (isShowMap) {
+            scroll.scrollToTop()
 
-        setInstantFilters({
-            ...initialInstantFilters,
-            [stateProp]: value
-        })
-
-    }
-
-    const getImages = (item) => {
-        const url = 'https://api.antontig.beget.tech/uploads/'
-        const result = [].concat(item?.image, item?.images.map(i => i.image))
-
-        return result.map(item => item
-            ? `${url}${item}`
-            : '/Real_estate_front/img/nophoto.jpg'
-        )
-    }
+            if (width > '991') {
+                setIsShowCanvas(true)
+            }
+        } else {
+            setIsShowCanvas(false)
+        }
+    }, [isShowMap, width])
 
     return (
-        <main>
-            <div className="container py-3 py-sm-4 py-lg-5">
-                <nav aria-label="breadcrumb">
+        <main className={`catalog ${isShowMap ? 'shown-map' : null}`}>
+            <nav aria-label="breadcrumb">
+                <div className="container py-3 py-sm-4 py-lg-5">
                     <Link to="/" className="d-block d-md-none gray-3">&#10094; Назад</Link>
                     <ol className="d-none d-md-flex breadcrumb">
                         <li className="breadcrumb-item">
@@ -187,18 +126,25 @@ export default function Catalog() {
                         </li>
                         <li className="breadcrumb-item active" aria-current="page">Аренда</li>
                     </ol>
-                </nav>
-            </div>
+                </div>
+            </nav>
             <section className="sec-6 container pb-5">
-                <h1>Каталог недвижимости</h1>
+                <h1 className='catalog__title'>Каталог недвижимости</h1>
                 <form className="form-search mb-4 mb-sm-5">
                     <div className="map-search">
-                        <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter"
-                                className="d-flex d-lg-none align-items-center">
+                        <button
+                            type="button"
+                            className="d-flex d-lg-none align-items-center"
+                            onClick={() => setIsShowCanvas(prevIsShowCanvas => !prevIsShowCanvas)}
+                        >
                             <img src="/Real_estate_front/img/icons/filter.svg" alt="filter"/>
                             <span className="ms-2 fs-11 fw-5 color-1">Фильтры</span>
                         </button>
-                        <button type="button" className="d-flex align-items-center">
+                        <button
+                            type="button"
+                            className="d-flex align-items-center"
+                            onClick={() => setIsShowMap(prevIsShowMap => !prevIsShowMap)}
+                        >
                             <img src="/Real_estate_front/img/icons/pin.svg" alt="map pin"/>
                             <span className="ms-2 fs-11 fw-5 color-2">Показать на карте</span>
                         </button>
@@ -208,14 +154,14 @@ export default function Catalog() {
                         btnClass="btn btn-2 px-2 px-sm-3"
                         options={['Снять', 'Купить']}
                         checkedOpt={instantFilters.transactionType}
-                        callback={(index) => onSelectHandler(index, 'transactionType', setInstantFilters)}
+                        callback={({checkedIndex}) => onSelectHandler(checkedIndex, 'transactionType', setInstantFilters)}
                     />
                     <CustomSelect
                         className="sel-2"
                         btnClass="btn btn-2 px-2 px-sm-3"
                         options={estates}
                         checkedOpt={instantFilters.estateId}
-                        callback={(index) => onSelectHandler(index, 'estateId', setInstantFilters)}
+                        callback={({checkedIndex}) => onSelectHandler(checkedIndex, 'estateId', setInstantFilters)}
                     />
                     <CustomSelectMultyDual
                         className="sel-3"
@@ -224,82 +170,91 @@ export default function Catalog() {
                         checkedSt={[]}
                         districts={['Авиастроительный', 'Вахитовский', 'Кировский', 'Московский', 'Ново-Савиновский', 'Приволжский', 'Советский']}
                         stations={['Авиастроительная', 'Северный вокзал', 'Яшьлек', 'Козья слобода', 'Кремлёвская', 'Площадь Габдуллы Тукая', 'Суконная слобода', 'Аметьево', 'Горки', 'Проспект Победы', 'Дубравная']}
-                        callback={(index1, index2) => {
+                        callback={(indexes1, indexes2) => {
                             setInstantFilters(prevInstantFilters => {
                                 return {
                                     ...prevInstantFilters,
-                                    district: [...index1],
-                                    metro: [...index2]
+                                    district: [...indexes1],
+                                    metro: [...indexes2]
                                 }
                             })
                         }}
                     />
                     <input type="search" placeholder="Адрес или ЖК" value={search}
                            onChange={e => setSearch(e.target.value)}/>
-                    <button type="submit" className="btn btn-1" onClick={onSearch}>Поиск</button>
+                    <button
+                        type="submit"
+                        className="btn btn-1"
+                        onClick={e => onSearch(e, 'addressOrResidentalComplex', setInstantFilters)}
+                    >
+                        Поиск
+                    </button>
                     <div className="popular-queries">
                         <div>Популярные запросы:</div>
                         <button
                             type="button"
-                            onClick={() => onPopularQuery('roomTypes', [0])}
+                            onClick={() => onSingleParamQuery('roomTypes', [0], setInstantFilters,initialInstantFilters)}
                         >
                             Студия
                         </button>
                         <button
                             type="button"
-                            onClick={() => onPopularQuery('roomTypes', [1])}
+                            onClick={() => onSingleParamQuery('roomTypes', [1], setInstantFilters,initialInstantFilters)}
                         >
                             1 комнатная
                         </button>
                         <button
                             type="button"
-                            onClick={() => onPopularQuery('roomTypes', [2])}
+                            onClick={() => onSingleParamQuery('roomTypes', [2], setInstantFilters,initialInstantFilters)}
                         >
                             2 комнатная
                         </button>
                         <button
                             type="button"
-                            onClick={() => onPopularQuery('roomTypes', [3])}
+                            onClick={() => onSingleParamQuery('roomTypes', [3], setInstantFilters,initialInstantFilters)}
                         >
                             3 комнатная
                         </button>
                         <button
                             type="button"
-                            onClick={() => onPopularQuery('hasFurniture', true)}
+                            onClick={() => onSingleParamQuery('hasFurniture', true, setInstantFilters,initialInstantFilters)}
                         >
                             С мебелью
                         </button>
                         <button
                             type="button"
-                            onClick={() => onPopularQuery('hasFurniture', false)}
+                            onClick={() => onSingleParamQuery('hasFurniture', false, setInstantFilters,initialInstantFilters)}
                         >
                             Без мебели
                         </button>
                         <button
                             type="button"
-                            onClick={() => onPopularQuery('elevatorTypes', [1, 2, 3])}
+                            onClick={() => onSingleParamQuery('elevatorTypes', [1, 2, 3], setInstantFilters,initialInstantFilters)}
                         >
                             Есть лифт
                         </button>
                         <button
                             type="button"
-                            onClick={() => onPopularQuery('withPets', true)}
+                            onClick={() => onSingleParamQuery('withPets', true, setInstantFilters,initialInstantFilters)}
                         >
                             Можно с животными
                         </button>
                         <button
                             type="button"
-                            onClick={() => onPopularQuery('withKids', true)}
+                            onClick={() => onSingleParamQuery('withKids', true, setInstantFilters,initialInstantFilters)}
                         >
                             Можно с детьми
                         </button>
                     </div>
                 </form>
                 <div className="d-flex justify-content-between align-items-center mb-4">
-                    <div className="d-lg-none">Найдено {foundCount} объявлений</div>
+                    <div className="d-lg-none">Найдено {catalogData.foundCount} объявлений</div>
                     <div className="d-flex align-items-center">
-                        <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter"
-                                className="d-none d-lg-flex d-xxl-none align-items-center me-4">
+                        <button
+                            type="button"
+                            className="d-none d-lg-flex d-xxl-none align-items-center me-4"
+                            onClick={() => setIsShowCanvas(prevIsShowCanvas => !prevIsShowCanvas)}
+                        >
                             <img src="/Real_estate_front/img/icons/filter.svg" alt="filter"/>
                             <span className="ms-2 fs-11 fw-5 color-1">Фильтры</span>
                         </button>
@@ -310,7 +265,8 @@ export default function Catalog() {
                             checkedOpt={instantFilters.orderBy}
                             // ['По популярности', 'Сначала новые', 'Сначала старые', 'Сначала дешевые', 'Сначала дорогие']
                             options={[{index: 'desc', value: 'Сначала новые'}, {index: 'asc', value: 'Сначала старые'}]}
-                            callback={(index) => onSelectHandler(index, 'orderBy', setInstantFilters)}
+                            callback={({checkedIndex}) => onSelectHandler(checkedIndex, 'orderBy', setInstantFilters)}
+                            notDefaultIndexes={true}
                         />
                     </div>
                     {
@@ -347,7 +303,7 @@ export default function Catalog() {
                 </div>
                 <div className="row">
                     <div className="d-none d-xxl-block col-xxl-3">
-                        <div className="fs-11 mb-4">Найдено {foundCount} объявлений</div>
+                        <div className="fs-11 mb-4">Найдено {catalogData.foundCount} объявлений</div>
                         <form className="shad-box p-4 mb-4">
                             <fieldset className="mb-4">
                                 <legend className="title-font fs-12 fw-6 mb-3">Количество комнат</legend>
@@ -356,7 +312,7 @@ export default function Catalog() {
                                         type="checkbox"
                                         name="rooms"
                                         value="1room"
-                                        checked={instantFilters.roomTypes.includes(1)}
+                                        checked={instantFilters.roomTypes?.includes(1) || false}
                                         onChange={() => onMultiCheckboxHandler('roomTypes', 1, setInstantFilters)}
                                     />
                                     <span className="fs-11 ms-3">1 комнатная</span>
@@ -366,7 +322,7 @@ export default function Catalog() {
                                         type="checkbox"
                                         name="rooms"
                                         value="2room"
-                                        checked={instantFilters.roomTypes.includes(2)}
+                                        checked={instantFilters.roomTypes?.includes(2) || false}
                                         onChange={() => onMultiCheckboxHandler('roomTypes', 2, setInstantFilters)}
                                     />
                                     <span className="fs-11 ms-3">2 комнатная</span>
@@ -376,7 +332,7 @@ export default function Catalog() {
                                         type="checkbox"
                                         name="rooms"
                                         value="3room"
-                                        checked={instantFilters.roomTypes.includes(3)}
+                                        checked={instantFilters.roomTypes?.includes(3) || false}
                                         onChange={() => onMultiCheckboxHandler('roomTypes', 3, setInstantFilters)}
                                     />
                                     <span className="fs-11 ms-3">3 комнатная</span>
@@ -386,7 +342,7 @@ export default function Catalog() {
                                         type="checkbox"
                                         name="rooms"
                                         value="4room"
-                                        checked={instantFilters.roomTypes.includes(4)}
+                                        checked={instantFilters.roomTypes?.includes(4) || false}
                                         onChange={() => onMultiCheckboxHandler('roomTypes', 4, setInstantFilters)}
                                     />
                                     <span className="fs-11 ms-3">4 комнатная</span>
@@ -396,7 +352,7 @@ export default function Catalog() {
                                         type="checkbox"
                                         name="rooms"
                                         value="5room"
-                                        checked={instantFilters.roomTypes.includes(5)}
+                                        checked={instantFilters.roomTypes?.includes(5) || false}
                                         onChange={() => onMultiCheckboxHandler('roomTypes', 5, setInstantFilters)}
                                     />
                                     <span className="fs-11 ms-3">5 комнатная</span>
@@ -406,7 +362,7 @@ export default function Catalog() {
                                         type="checkbox"
                                         name="rooms"
                                         value="6room"
-                                        checked={instantFilters.roomTypes.includes(6)}
+                                        checked={instantFilters.roomTypes?.includes(6) || false}
                                         onChange={() => onMultiCheckboxHandler('roomTypes', 6, setInstantFilters)}
                                     />
                                     <span className="fs-11 ms-3">6 комнатная</span>
@@ -416,7 +372,7 @@ export default function Catalog() {
                                         type="checkbox"
                                         name="rooms"
                                         value="studio"
-                                        checked={instantFilters.roomTypes.includes(0)}
+                                        checked={instantFilters.roomTypes?.includes(0) || false}
                                         onChange={() => onMultiCheckboxHandler('roomTypes', 0, setInstantFilters)}
                                     />
                                     <span className="fs-11 ms-3">Студия</span>
@@ -429,14 +385,14 @@ export default function Catalog() {
                                     <input
                                         type="number"
                                         className="w-100 price me-3"
-                                        value={instantFilters.startPrice}
+                                        value={instantFilters.startPrice || ''}
                                         onChange={(e) => onInputHandler(e, 'startPrice', true, setInstantFilters)}
                                     />
                                     <div className="fs-11 me-2">До</div>
                                     <input
                                         type="number"
                                         className="w-100 price"
-                                        value={instantFilters.endPrice}
+                                        value={instantFilters.endPrice || ''}
                                         onChange={(e) => onInputHandler(e, 'endPrice', true, setInstantFilters)}
                                     />
                                 </div>
@@ -448,7 +404,7 @@ export default function Catalog() {
                                         type="checkbox"
                                         name="lease"
                                         value="lease 1"
-                                        checked={instantFilters.rentalTypes.includes(2)}
+                                        checked={instantFilters.rentalTypes?.includes(2) || false}
                                         onChange={() => onMultiCheckboxHandler('rentalTypes', 2, setInstantFilters)}
                                     />
                                     <span className="fs-11 ms-3">Посуточно</span>
@@ -458,7 +414,7 @@ export default function Catalog() {
                                         type="checkbox"
                                         name="lease"
                                         value="lease 2"
-                                        checked={instantFilters.rentalTypes.includes(1)}
+                                        checked={instantFilters.rentalTypes?.includes(1) || false}
                                         onChange={() => onMultiCheckboxHandler('rentalTypes', 1, setInstantFilters)}
                                     />
                                     <span className="fs-11 ms-3">Несколько месяцев</span>
@@ -468,7 +424,7 @@ export default function Catalog() {
                                         type="checkbox"
                                         name="lease"
                                         value="lease 3"
-                                        checked={instantFilters.rentalTypes.includes(0)}
+                                        checked={instantFilters.rentalTypes?.includes(0) || false}
                                         onChange={() => onMultiCheckboxHandler('rentalTypes', 0, setInstantFilters)}
                                     />
                                     <span className="fs-11 ms-3">Длительная аренда</span>
@@ -481,7 +437,7 @@ export default function Catalog() {
                                         type="checkbox"
                                         name="repair"
                                         value="no repair"
-                                        checked={instantFilters.repairTypes.includes(3)}
+                                        checked={instantFilters.repairTypes?.includes(3) || false}
                                         onChange={() => onMultiCheckboxHandler('repairTypes', 3, setInstantFilters)}
                                     />
                                     <span className="fs-11 ms-3">Без ремонта</span>
@@ -491,7 +447,7 @@ export default function Catalog() {
                                         type="checkbox"
                                         name="repair"
                                         value="repair 1"
-                                        checked={instantFilters.repairTypes.includes(0)}
+                                        checked={instantFilters.repairTypes?.includes(0) || false}
                                         onChange={() => onMultiCheckboxHandler('repairTypes', 0, setInstantFilters)}
                                     />
                                     <span className="fs-11 ms-3">Косметический</span>
@@ -501,7 +457,7 @@ export default function Catalog() {
                                         type="checkbox"
                                         name="repair"
                                         value="repair 2"
-                                        checked={instantFilters.repairTypes.includes(1)}
+                                        checked={instantFilters.repairTypes?.includes(1) || false}
                                         onChange={() => onMultiCheckboxHandler('repairTypes', 1, setInstantFilters)}
                                     />
                                     <span className="fs-11 ms-3">Евроремонт</span>
@@ -511,7 +467,7 @@ export default function Catalog() {
                                         type="checkbox"
                                         name="repair"
                                         value="repair 3"
-                                        checked={instantFilters.repairTypes.includes(2)}
+                                        checked={instantFilters.repairTypes?.includes(2) || false}
                                         onChange={() => onMultiCheckboxHandler('repairTypes', 2, setInstantFilters)}
                                     />
                                     <span className="fs-11 ms-3">Дизайнерский</span>
@@ -524,16 +480,18 @@ export default function Catalog() {
                                     className="color-1 fs-11 fw-5 mx-auto mt-2">Очистить фильтр
                             </button>
                         </form>
+
+
                     </div>
                     <div className="col-12 col-xxl-9">
                         <div
                             className={(view === 'tiled') ? "row row-cols-sm-2 row-cols-lg-3 g-2 g-md-3 g-lg-4" : "row g-2 g-md-3 g-lg-4"}>
                             {
-                                catalogList.map(catalogItem => (
+                                catalogData.catalog?.map(catalogItem => (
                                     <div key={catalogItem.id}>
                                         <Card
                                             type={view}
-                                            images={getImages(catalogItem)}
+                                            pictures={[catalogItem.image, catalogItem.images]}
                                             isVip={catalogItem.isVip}
                                             isHot={catalogItem.isHot}
                                             title={catalogItem.title}
@@ -544,6 +502,7 @@ export default function Catalog() {
                                             metro={catalogItem.metro}
                                             text={catalogItem.description}
                                             date={catalogItem.createdAtForUser}
+                                            id={catalogItem.id}
                                             uuid={catalogItem.uuid}
                                             user={catalogItem.user}
                                             communalPrice={catalogItem.communalPrice}
@@ -551,6 +510,8 @@ export default function Catalog() {
                                             commissionForUser={catalogItem.commissionForUser}
                                             prepaymentTypeForUser={catalogItem.prepaymentTypeForUser}
                                             rentalTypeForUser={catalogItem.rentalTypeForUser}
+                                            wishlistStatus={catalogItem.wishlistStatus}
+                                            userAvatar={catalogItem.user?.avatar}
 
                                         />
                                     </div>
@@ -558,23 +519,34 @@ export default function Catalog() {
                             }
                         </div>
                         <nav className="mt-4">
-                            <PaginationCustom meta={meta} baseUrl='catalog' searchParams={searchParams}/>
+                            <PaginationCustom meta={catalogData.meta} baseUrl='catalog' searchParams={searchParams}/>
                         </nav>
                     </div>
                 </div>
             </section>
             <CatalogFilters
                 instantFilters={instantFilters}
-                onInputHandler={onInputHandler}
-                onCheckboxHandler={onCheckboxHandler}
-                onMultiCheckboxHandler={onMultiCheckboxHandler}
                 onResetInstantFilters={onResetInstantFilters}
                 onApplyFilters={onApplyFilters}
                 isClearFilters={isClearFilters}
-                foundCount={foundCount}
+                setIsClearFilters={setIsClearFilters}
+                foundCount={catalogData.foundCount}
+                isShowCanvas={isShowCanvas}
+                setIsShowCanvas={setIsShowCanvas}
+                isShowMap={isShowMap}
             />
-
+            <CatalogOffcanvasCards cards={offcanvasCards}/>
+            {
+                isShowMap
+                    ? <YMap
+                        className='y-maps-catalog'
+                        activeCity={selectedCity}
+                        callback={cards => setOffcanvasCards(cards)}
+                    />
+                    : null
+            }
         </main>
     )
 }
 
+export default Catalog

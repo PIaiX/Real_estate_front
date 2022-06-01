@@ -1,11 +1,13 @@
 import { combineReducers } from "redux";
 import accessToken from "./accessToken";
 import currentUser from "./currentUser";
+import connectionCity from "./connectionCity";
 import {useSelector} from "react-redux";
 
 const reducers = combineReducers({
   accessToken,
   currentUser,
+  connectionCity
 });
 
 export function useCurrentUser() {

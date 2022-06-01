@@ -7,9 +7,10 @@ import { animateScroll as scroll } from 'react-scroll';
 import {MainBanner} from './MainBanner';
 import {useEffect, useState} from "react";
 import {getBanner, getPopular, getRecommend} from "./API/mainpagereq";
+import useGeolocation from './hooks/useGeolocation';
+import useConnectionCity from './hooks/useConnectionCity';
 
 export default function MainPage() {
-
     const {userId} = useParams();
     const {page} = useParams();
 

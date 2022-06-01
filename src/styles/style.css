@@ -1733,7 +1733,7 @@ main {
   padding: 1em;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
+  /*display: flex;*/
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: flex-start;
