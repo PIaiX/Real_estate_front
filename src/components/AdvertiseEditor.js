@@ -1,32 +1,86 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {NavLink} from 'react-router-dom';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {NavLink, Route, useParams} from 'react-router-dom';
 import ImageUploading from "react-images-uploading";
 import CustomSelect from './utilities/CustomSelect';
 import Scroll, {animateScroll as scroll, Link} from 'react-scroll';
 import useAxiosPrivate from "./hooks/useAxiosPrivate";
 import {useAccessToken, useCurrentUser} from "../store/reducers";
 import {getTypesEstate} from "./API/typesEstate";
+import {getAdsPage} from "./API/adspage";
+import {updateAd} from "./API/users";
 
 export default function Advertise() {
+
+    const axiosPrivate = useAxiosPrivate();
+    const token = useAccessToken()
+    const currentUser = useCurrentUser()
+    const {uuid} = useParams()
+    const userId = currentUser?.id
+
+    const [ad, setAd] = useState({})
+
+    useEffect(() => {
+        const adsget = async () => {
+            try {
+                const result = (userId && uuid) ? await getAdsPage(uuid, userId) : ""
+                if (result) {
+                    setAd(result)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        adsget()
+    }, [userId, uuid])
+
+    const [checked, setChecked] = useState(true)
+    const [defaultForm, setDefaultForm] = useState({})
+
+    useEffect(() => {
+        if (ad) {
+            setDefaultForm(
+                {
+                    "address": ad?.address,
+                    "residentalComplex": ad?.residentalComplex,
+                    "totalArea": ad?.totalArea,
+                    "floor": ad["floor"],
+                    "hasBathroom": false,
+                    "hasConditioner": false,
+                    "hasDishWasher": false,
+                    "hasFurniture": false,
+                    "hasInternet": false,
+                    "hasKitchenFurniture": false,
+                    "hasRefrigerator": false,
+                    "hasShowerCabin": false,
+                    "hasTv": false,
+                    "hasWashingMachine": false,
+                    "description": ad?.description,
+                    "yearOfConstruction": ad?.yearOfConstructionForUser,
+                    "ceilingHeight": ad?.ceilingHeight,
+                    "hasGroundParking": false,
+                    "hasMoreLayerParking": false,
+                    "hasUnderGroundParking": false,
+                    "price": ad?.price,
+                    "communalPrice": ad?.communalPrice,
+                    "pledge": ad?.pledge,
+                    "commission": ad?.commission,
+                    "prepaymentType": ad?.prepaymentType
+                }
+            )
+        }
+    }, [ad])
+
+    const [data, setData] = useState({})
+    useEffect(() => {
+        if (defaultForm) {
+            setData({...defaultForm})
+        }
+    }, [defaultForm])
 
     const ref = useRef(null); // Form
     const [deal, setDeal] = useState('1'); // тип сделки (по умолчанию - продажа)
     const [proptype, setProptype] = useState('1'); // тип недвижимости (по умолчанию - Жилая)
     const [requiredElems, setRequired] = useState([]);
-
-    useEffect(() => {
-        function updateState() {
-            let arrNames = Array.from(ref.current.querySelectorAll(`[data-for]`)).map(
-                function (el) {
-                    if (el.dataset.status === 'false') {
-                        return el.dataset.for;
-                    }
-                }
-            )
-            setRequired(arrNames);
-        }
-        ref.current.addEventListener('change', updateState);
-    }, []);
 
     const [types, setTypes] = useState([]) // result require api
     const [es, setEs] = useState([]) // state estates in types
@@ -49,7 +103,7 @@ export default function Advertise() {
     useEffect(() => {
         const ids = types.map(i => i.id)
         setRes(ids.find((t) => t === +proptype))
-    }, [types,proptype])
+    }, [types, proptype])
 
     /* images upload */
     const [imgs, setImages] = useState([]);
@@ -87,43 +141,14 @@ export default function Advertise() {
     const f = imgs[0]
     const image = f?.file
 
-    const axiosPrivate = useAxiosPrivate();
-    const token = useAccessToken()
-    const currentUser = useCurrentUser()
-
-    const [checked, setChecked] = useState(true)
-    const defaultForm = {
-        transactionType: 1,
-        rentalType: 0,
-        isPledge: false,
-        prepaymentType: 0,
-        houseType: 0,
-        WCType: 0,
-        balconyType: 0,
-        layoutType: 0,
-        repairType: 0,
-        houseBuildingType: 0,
-        elevatorType: 0,
-        roomType: 2,
-        hypothec: 1,
-        estateId: 0,
-        pledge: 0,
-        commission: 0,
-        isEncumbrances: 1,
-
-    }
-
-    const [data, setData] = useState({
-        ...defaultForm
-    })
-
     const handleCheckbox = (e) => {
         const {target} = e;
         const value = target.type === 'checkbox' ? target.checked : target.value
         const {name} = target
         setData(prevData => {
-            return {...prevData, [name]: value}
+            return {...prevData, [name]: value};
         })
+
     }
 
     const resetForm = () => {
@@ -145,6 +170,12 @@ export default function Advertise() {
         isInvalidEstateTypeId: false,
         isInValidYear: false,
         isInValidCeilingHeight: false,
+        isInValidWC: false,
+        isInValidBalcony: false,
+        isInValidLayout: false,
+        isInValidRepair: false,
+        isInValidHouseBuilding: false,
+        isInValidElevator: false,
     }
     const [valid, setValid] = useState(fields);
     const scroller = Scroll.scroller;
@@ -154,7 +185,8 @@ export default function Advertise() {
     for (startYear; startYear >= 1850; startYear--) {
         years.push(startYear)
     }
-    const findYear = years.find(i => i === +data?.yearOfConstruction)
+    const findYear = years.find(i => i === +data?.yearOfConstruction);
+    const [result, setResult] = useState(false)
 
     const handleSub = async (e) => {
         e.preventDefault()
@@ -169,8 +201,14 @@ export default function Advertise() {
         const isInValidImage = imgs?.length === 0 || imgs === undefined
         const isInValidPrice = data.price === undefined
         const isInValidEstateTypeId = data.estateTypeId === undefined || data.estateTypeId === 0
-        const isInValidYear = data.yearOfConstruction?.length > 4 || data.yearOfConstruction?.length <=3 || findYear === undefined
+        const isInValidYear = data.yearOfConstruction?.length > 4 || data.yearOfConstruction?.length <= 3 || findYear === undefined
         const isInValidCeilingHeight = data.ceilingHeight < 3 || data.ceilingHeight > 100
+        const isInValidWC = data?.WCType === undefined
+        const isInValidBalcony = data?.balconyType === undefined
+        const isInValidLayout = data?.layoutType === undefined
+        const isInValidRepair = data?.repairType === undefined
+        const isInValidHouseBuilding = data?.houseBuildingType === undefined
+        const isInValidElevator = data?.elevatorType === undefined
 
         if (isInValidTransactionType) {
             scroll.scrollTo("anchor-1")
@@ -196,6 +234,18 @@ export default function Advertise() {
         } else if (isInValidFloor) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidFloor: true})
+        } else if (isInValidWC) {
+            scroller.scrollTo("anchor-2", {offset: 500})
+            setValid({...valid, isInValidWC: true})
+        } else if (isInValidBalcony) {
+            scroller.scrollTo("anchor-2", {offset: 500})
+            setValid({...valid, isInValidBalcony: true})
+        } else if (isInValidLayout) {
+            scroller.scrollTo("anchor-2", {offset: 500})
+            setValid({...valid, isInValidLayout: true})
+        } else if (isInValidRepair) {
+            scroller.scrollTo("anchor-2", {offset: 500})
+            setValid({...valid, isInValidRepair: true})
         } else if (isInValidDescription) {
             scroller.scrollTo("anchor-3", {offset: -80})
             setValid({...valid, isInValidDescription: true})
@@ -205,7 +255,13 @@ export default function Advertise() {
         } else if (isInValidYear) {
             scroller.scrollTo("anchor-4", {offset: -80})
             setValid({...valid, isInValidYear: true})
-        } else if(isInValidCeilingHeight){
+        } else if (isInValidHouseBuilding) {
+            scroller.scrollTo("anchor-4")
+            setValid({...valid, isInValidHouseBuilding: true})
+        } else if (isInValidElevator) {
+            scroller.scrollTo("anchor-4")
+            setValid({...valid, isInValidElevator: true})
+        } else if (isInValidCeilingHeight) {
             scroller.scrollTo("anchor-4", {offset: -80})
             setValid({...valid, isInValidCeilingHeight: true})
         } else if (isInValidPrice) {
@@ -215,31 +271,24 @@ export default function Advertise() {
             const userId = currentUser?.id;
             const formData = new FormData();
             const req = {...data, token, userId, image};
+            imgs.shift()
 
-
-            if (imgs.length > 1) {
-                for (const key in req) {
-                    formData.append(key, req[key]);
-                }
-                for (const item of imgs) {
-                    imgs.shift()
-                    formData.append('images', item.file)
-                }
-            } else {
-                for (const key in req) {
-                    formData.append(key, req[key]);
-                }
+            for (const key in req) {
+                formData.append(key, req[key]);
             }
-
-
+            for (const item of imgs) {
+                formData.append('images', item.file)
+            }
             try {
-                let result = await axiosPrivate.post("https://api.antontig.beget.tech/api/realEstates/create", formData)
+                let result = await updateAd(axiosPrivate, uuid, formData)
+                if (result.status === 200) {
+                    alert("Форма отправлена")
+                }
             } catch (err) {
                 console.log(err)
             }
         }
     }
-
     const resetFieldVal = (newState, field) => {
         setValid({...valid, [field]: false})
     }
@@ -248,19 +297,26 @@ export default function Advertise() {
         <main>
             <div className="container py-3 py-sm-4 py-lg-5">
                 <nav aria-label="breadcrumb">
-                    <Link to="/" className="d-block d-md-none gray-3">&#10094; Назад</Link>
+                    <Link to="/personal-account/my-ads" className="d-block d-md-none gray-3">&#10094; Назад</Link>
                     <ol className="d-none d-md-flex breadcrumb">
                         <li className="breadcrumb-item">
-                            <NavLink to="/">Главная</NavLink>
+                            <NavLink to="/">
+                                Главная /
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/personal-account/my-ads">
+                                Мои объявления /
+                            </NavLink>
                         </li>
                         <li className="breadcrumb-item active" aria-current="page">
-                            Подача объявления
+                            Редактирование
                         </li>
                     </ol>
                 </nav>
             </div>
             <section id="sec-11" className="container mb-6">
-                <h1 className="text-center text-lg-start">Подать объявление</h1>
+                <h1 className="text-center text-lg-start">Редактировать объявление</h1>
                 <form
                     ref={ref}
                     className="row gx-xxl-5 position-relative"
@@ -312,12 +368,12 @@ export default function Advertise() {
                                                     type="radio"
                                                     name="deal"
                                                     value="1"
-                                                    defaultChecked={true}
                                                     onChange={(e) => {
                                                         onSale(e)
                                                         setData(prevData => {
                                                             return {...prevData, "transactionType": e.target.value}
                                                         })
+                                                        resetFieldVal(e, 'isInValidTransactionType')
                                                     }}
                                                 />
                                                 <span className="fs-11 ms-2">Продажа</span>
@@ -343,9 +399,7 @@ export default function Advertise() {
                                                             type="radio"
                                                             name="rental-type"
                                                             value="0"
-                                                            defaultChecked={true}
                                                             onChange={(e) => {
-                                                                /*validate(e.target)*/
                                                                 setData(prevData => {
                                                                     return {...prevData, "rentalType": e.target.value}
                                                                 })
@@ -362,10 +416,10 @@ export default function Advertise() {
                                                             name="rental-type"
                                                             value="1"
                                                             onChange={(e) => {
-                                                                /*validate(e.target)*/
                                                                 setData(prevData => {
                                                                     return {...prevData, "rentalType": e.target.value}
                                                                 })
+                                                                resetFieldVal(e, 'isInValidRentalTypes')
                                                             }}
                                                         />
                                                         <span className="fs-11 ms-2">Несколько месяцев</span>
@@ -378,10 +432,10 @@ export default function Advertise() {
                                                             name="rental-type"
                                                             value="2"
                                                             onChange={(e) => {
-                                                                /*validate(e.target)*/
                                                                 setData(prevData => {
                                                                     return {...prevData, "rentalType": e.target.value}
                                                                 })
+                                                                resetFieldVal(e, 'isInValidRentalTypes')
                                                             }}
                                                         />
                                                         <span className="fs-11 ms-2">Посуточно</span>
@@ -400,7 +454,7 @@ export default function Advertise() {
                                 </div>
                                 <div className="col-md-9">
                                     <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
-                                        {types.map((i) =>
+                                        {types.map((i, ad) =>
                                             <div key={i.id}>
                                                 <label>
                                                     <input
@@ -408,7 +462,6 @@ export default function Advertise() {
                                                         name="property-type"
                                                         value={i.id}
                                                         onChange={(e) => {
-                                                            /*validate(e.target)*/;
                                                             setProptype(i.id);
                                                             setData(prevData => {
                                                                 return {...prevData, "estateTypeId": e.target.value}
@@ -443,7 +496,6 @@ export default function Advertise() {
                                                                 name="estate"
                                                                 value={i.id}
                                                                 onChange={(e) => {
-                                                                    /*validate(e.target)*/
                                                                     setData(prevData => {
                                                                         return {...prevData, "estateId": e.target.value}
                                                                     })
@@ -500,9 +552,9 @@ export default function Advertise() {
                                         type="text"
                                         name="address"
                                         className="fs-11"
+                                        defaultValue={ad?.address}
                                         placeholder="р. Татарстан, г. Казань"
                                         onChange={(e) => {
-                                            /*validate(e.target)*/
                                             setData(prevData => {
                                                 return {...prevData, "address": e.target.value}
                                             })
@@ -519,7 +571,8 @@ export default function Advertise() {
                                         type="text"
                                         name="housing-complex"
                                         className="fs-11"
-                                        placeholder="Например: “Центральный”"
+                                        placeholder="Например: Центральный"
+                                        defaultValue={ad?.residentalComplexForUser}
                                         onChange={(e) => {
                                             setData(prevData => {
                                                 return {...prevData, "residentalComplex": e.target.value}
@@ -537,14 +590,13 @@ export default function Advertise() {
                                 <div className="col-md-9">
                                     <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4">
                                         <div>
-                                            <label>
+                                            <label htmlFor="houseType">
                                                 <input
+                                                    id="houseType"
                                                     type="radio"
                                                     name="housing-type"
                                                     value="0"
-                                                    defaultChecked={true}
                                                     onChange={(e) => {
-                                                        /*validate(e.target)*/
                                                         setData(prevData => {
                                                             return {...prevData, "houseType": e.target.value}
                                                         })
@@ -555,16 +607,17 @@ export default function Advertise() {
                                             </label>
                                         </div>
                                         <div>
-                                            <label>
+                                            <label htmlFor="houseType">
                                                 <input
+                                                    id="houseType"
                                                     type="radio"
                                                     name="housing-type"
                                                     value="1"
                                                     onChange={(e) => {
-                                                        /*validate(e.target)*/
                                                         setData(prevData => {
                                                             return {...prevData, "houseType": e.target.value}
                                                         })
+                                                        resetFieldVal(e, 'isInValidHouseType')
                                                     }}
                                                 />
                                                 <span className="fs-11 ms-2">Апартаменты</span>
@@ -586,7 +639,6 @@ export default function Advertise() {
                                             name="rooms"
                                             value="0"
                                             onChange={(e) => {
-                                                /*validate(e.target)*/
                                                 setData(prevData => {
                                                     return {...prevData, "roomType": e.target.value}
                                                 })
@@ -601,10 +653,10 @@ export default function Advertise() {
                                             name="rooms"
                                             value="1"
                                             onChange={(e) => {
-                                                /*validate(e.target)*/
                                                 setData(prevData => {
                                                     return {...prevData, "roomType": e.target.value}
                                                 })
+                                                resetFieldVal(e, 'isInValidRoomType')
                                             }}
                                         />
                                         <div>1</div>
@@ -613,13 +665,12 @@ export default function Advertise() {
                                         <input
                                             type="radio"
                                             name="rooms"
-                                            defaultChecked={true}
                                             value="2"
                                             onChange={(e) => {
-                                                /*validate(e.target)*/
                                                 setData(prevData => {
                                                     return {...prevData, "roomType": e.target.value}
                                                 })
+                                                resetFieldVal(e, 'isInValidRoomType')
                                             }}
                                         />
                                         <div>2</div>
@@ -630,10 +681,10 @@ export default function Advertise() {
                                             name="rooms"
                                             value="3"
                                             onChange={(e) => {
-                                                /*validate(e.target)*/
                                                 setData(prevData => {
                                                     return {...prevData, "roomType": e.target.value}
                                                 })
+                                                resetFieldVal(e, 'isInValidRoomType')
                                             }}
                                         />
                                         <div>3</div>
@@ -644,10 +695,10 @@ export default function Advertise() {
                                             name="rooms"
                                             value="4"
                                             onChange={(e) => {
-                                                /*validate(e.target)*/
                                                 setData(prevData => {
                                                     return {...prevData, "roomType": e.target.value}
                                                 })
+                                                resetFieldVal(e, 'isInValidRoomType')
                                             }}
                                         />
                                         <div>4</div>
@@ -658,10 +709,10 @@ export default function Advertise() {
                                             name="rooms"
                                             value="5"
                                             onChange={(e) => {
-                                                /*validate(e.target)*/
                                                 setData(prevData => {
                                                     return {...prevData, "roomType": e.target.value}
                                                 })
+                                                resetFieldVal(e, 'isInValidRoomType')
                                             }}
                                         />
                                         <div>5</div>
@@ -672,10 +723,10 @@ export default function Advertise() {
                                             name="rooms"
                                             value="6"
                                             onChange={(e) => {
-                                                /*validate(e.target)*/
                                                 setData(prevData => {
                                                     return {...prevData, "roomType": e.target.value}
                                                 })
+                                                resetFieldVal(e, 'isInValidRoomType')
                                             }}
                                         />
                                         <div>5+</div>
@@ -694,9 +745,9 @@ export default function Advertise() {
                                         type="number"
                                         name="total-area"
                                         placeholder="0"
+                                        defaultValue={ad?.totalArea}
                                         className="fs-11 area w-100"
                                         onChange={(e) => {
-                                            /*validate(e.target)*/
                                             setData(prevData => {
                                                 return {...prevData, "totalArea": e.target.value}
                                             })
@@ -711,6 +762,7 @@ export default function Advertise() {
                                         name="living-space"
                                         placeholder="0"
                                         className="fs-11 area w-100"
+                                        defaultValue={ad?.livingArea}
                                         onChange={(e) => {
                                             setData(prevData => {
                                                 return {...prevData, "livingArea": e.target.value}
@@ -727,6 +779,7 @@ export default function Advertise() {
                                         type="number"
                                         name="kitchen-area"
                                         placeholder="0"
+                                        defaultValue={ad?.kitchenArea}
                                         className="fs-11 area w-100"
                                         onChange={(e) => {
                                             setData(prevData => {
@@ -748,6 +801,7 @@ export default function Advertise() {
                                         type="number"
                                         name="floor"
                                         placeholder="0"
+                                        defaultValue={ad["floor"]}
                                         className="fs-11 w-100"
                                         onChange={(e) => {
                                             setData(prevData => {
@@ -763,6 +817,7 @@ export default function Advertise() {
                                         type="number"
                                         name="floor"
                                         placeholder="0"
+                                        defaultValue={ad?.maxFloor}
                                         className="fs-11 w-100"
                                         onChange={(e) => {
                                             setData(prevData => {
@@ -774,7 +829,12 @@ export default function Advertise() {
                             </div>
                             <hr className="d-none d-md-block my-4"/>
                             <div className="row mt-4 mt-sm-5 mt-md-0">
-                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Санузел:</div>
+                                <div
+                                    className="col-md-3 fs-11 title mb-3 m-md-0"
+                                    style={{color: valid.isInValidWC ? '#DA1E2A' : ''}}
+                                >
+                                    Санузел*:
+                                </div>
                                 <div className="col-md-9">
                                     <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
                                         <div>
@@ -783,11 +843,11 @@ export default function Advertise() {
                                                     type="radio"
                                                     name="WCTypes"
                                                     value="0"
-                                                    defaultChecked={true}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "WCType": e.target.value}
                                                         })
+                                                        resetFieldVal(e, 'isInValidWC')
                                                     }}
                                                 />
                                                 <span className="fs-11 ms-2">Раздельный</span>
@@ -803,6 +863,7 @@ export default function Advertise() {
                                                         setData(prevData => {
                                                             return {...prevData, "WCType": e.target.value}
                                                         })
+                                                        resetFieldVal(e, 'isInValidWC')
                                                     }}
                                                 />
                                                 <span className="fs-11 ms-2">Совмещенный</span>
@@ -818,6 +879,7 @@ export default function Advertise() {
                                                         setData(prevData => {
                                                             return {...prevData, "WCType": e.target.value}
                                                         })
+                                                        resetFieldVal(e, 'isInValidWC')
                                                     }}
                                                 />
                                                 <span className="fs-11 ms-2">Два или более</span>
@@ -828,7 +890,12 @@ export default function Advertise() {
                             </div>
                             <hr className="d-none d-md-block my-4"/>
                             <div className="row mt-4 mt-sm-5 mt-md-0">
-                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Балкон/Лоджия:</div>
+                                <div
+                                    className="col-md-3 fs-11 title mb-3 m-md-0"
+                                    style={{color: valid.isInValidBalcony ? '#DA1E2A' : ''}}
+                                >
+                                    Балкон/Лоджия*:
+                                </div>
                                 <div className="col-md-9">
                                     <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
                                         <div>
@@ -841,6 +908,7 @@ export default function Advertise() {
                                                         setData(prevData => {
                                                             return {...prevData, "balconyType": e.target.value}
                                                         })
+                                                        resetFieldVal(e, 'isInValidBalcony')
                                                     }}
                                                 />
                                                 <span className="fs-11 ms-2">Балкон</span>
@@ -856,6 +924,7 @@ export default function Advertise() {
                                                         setData(prevData => {
                                                             return {...prevData, "balconyType": e.target.value}
                                                         })
+                                                        resetFieldVal(e, 'isInValidBalcony')
                                                     }}
                                                 />
                                                 <span className="fs-11 ms-2">Лоджия</span>
@@ -867,11 +936,11 @@ export default function Advertise() {
                                                     type="radio"
                                                     name="balconyTypes"
                                                     value="0"
-                                                    defaultChecked={true}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "balconyType": e.target.value}
                                                         })
+                                                        resetFieldVal(e, 'isInValidBalcony')
                                                     }}
                                                 />
                                                 <span className="fs-11 ms-2">Нет</span>
@@ -882,7 +951,12 @@ export default function Advertise() {
                             </div>
                             <hr className="d-none d-md-block my-4"/>
                             <div className="row mt-4 mt-sm-5 mt-md-0">
-                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Планировка:</div>
+                                <div
+                                    className="col-md-3 fs-11 title mb-3 m-md-0"
+                                    style={{color: valid.isInValidLayout ? '#DA1E2A' : ''}}
+                                >
+                                    Планировка*:
+                                </div>
                                 <div className="col-md-9">
                                     <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
                                         <div>
@@ -890,12 +964,12 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="layoutTypes"
-                                                    defaultChecked={true}
                                                     value="0"
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "layoutType": e.target.value}
                                                         })
+                                                        resetFieldVal(e, 'isInValidLayout')
                                                     }}
                                                 />
                                                 <span className="fs-11 ms-2">Изолированная</span>
@@ -911,6 +985,7 @@ export default function Advertise() {
                                                         setData(prevData => {
                                                             return {...prevData, "layoutType": e.target.value}
                                                         })
+                                                        resetFieldVal(e, 'isInValidLayout')
                                                     }}
                                                 />
                                                 <span className="fs-11 ms-2">Смежная</span>
@@ -926,6 +1001,7 @@ export default function Advertise() {
                                                         setData(prevData => {
                                                             return {...prevData, "layoutType": e.target.value}
                                                         })
+                                                        resetFieldVal(e, 'isInValidLayout')
                                                     }}
                                                 />
                                                 <span className="fs-11 ms-2">Свободная</span>
@@ -936,7 +1012,12 @@ export default function Advertise() {
                             </div>
                             <hr className="d-none d-md-block my-4"/>
                             <div className="row mt-4 mt-sm-5 mt-md-0">
-                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Ремонт:</div>
+                                <div
+                                    className="col-md-3 fs-11 title mb-3 m-md-0"
+                                    style={{color: valid.isInValidRepair ? '#DA1E2A' : ''}}
+                                >
+                                    Ремонт*:
+                                </div>
                                 <div className="col-md-9">
                                     <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
                                         <div>
@@ -944,12 +1025,12 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="repairTypes"
-                                                    defaultChecked={true}
                                                     value="0"
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "repairType": e.target.value}
                                                         })
+                                                        resetFieldVal(e, 'isInValidRepair')
                                                     }}
                                                 />
                                                 <span className="fs-11 ms-2">Косметический</span>
@@ -965,6 +1046,7 @@ export default function Advertise() {
                                                         setData(prevData => {
                                                             return {...prevData, "repairType": e.target.value}
                                                         })
+                                                        resetFieldVal(e, 'isInValidRepair')
                                                     }}
                                                 />
                                                 <span className="fs-11 ms-2">Евро</span>
@@ -980,6 +1062,7 @@ export default function Advertise() {
                                                         setData(prevData => {
                                                             return {...prevData, "repairType": e.target.value}
                                                         })
+                                                        resetFieldVal(e, 'isInValidRepair')
                                                     }}
                                                 />
                                                 <span className="fs-11 ms-2">Дизайнерский</span>
@@ -995,6 +1078,7 @@ export default function Advertise() {
                                                         setData(prevData => {
                                                             return {...prevData, "repairType": e.target.value}
                                                         })
+                                                        resetFieldVal(e, 'isInValidRepair')
                                                     }}
                                                 />
                                                 <span className="fs-11 ms-2">Без ремонта</span>
@@ -1139,6 +1223,7 @@ export default function Advertise() {
                                         name="description"
                                         rows="5"
                                         className="fs-11"
+                                        defaultValue={defaultForm?.description}
                                         placeholder="Расскажите подробне об объекте и условиях сделки."
                                         onChange={e => {
                                             setData(prevData => {
@@ -1249,16 +1334,19 @@ export default function Advertise() {
                                   className="element frame p-lg-4 mb-4 mb-lg-5">
                             <legend className="title-font fw-7 fs-15 mb-4">О здании</legend>
                             <div className="row align-items-center">
-                                <div className="col-6 col-md-3 fs-11 title" style={{color: valid.isInValidYear ? '#DA1E2A' : ''}}>Год постройки:</div>
+                                <div className="col-6 col-md-3 fs-11 title"
+                                     style={{color: valid.isInValidYear ? '#DA1E2A' : ''}}>Год постройки*:
+                                </div>
                                 <div className="col-6 col-md-9">
                                     <input
                                         style={{borderColor: valid.isInValidYear ? '#DA1E2A' : ''}}
                                         type="number"
                                         className="fs-11"
                                         placeholder="Год"
+                                        defaultValue={defaultForm?.yearOfConstruction}
                                         onChange={e => {
                                             setData(prevData => {
-                                                return {...prevData, "yearOfConstruction": e.target.value}
+                                                return {...prevData, "yearOfConstruction": +e.target.value}
                                             })
                                             resetFieldVal(e, 'isInValidYear')
                                         }}
@@ -1267,7 +1355,12 @@ export default function Advertise() {
                             </div>
                             <hr className="d-none d-md-block my-4"/>
                             <div className="row align-items-center mt-4 mt-sm-5 mt-md-0">
-                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Тип дома:</div>
+                                <div
+                                    className="col-md-3 fs-11 title mb-3 m-md-0"
+                                    style={{color: valid.isInValidHouseBuilding ? '#DA1E2A' : ''}}
+                                >
+                                    Тип дома*:
+                                </div>
                                 <div className="col-md-9">
                                     <div className="d-flex align-items-baseline flex-wrap">
                                         <label className="me-5 my-2">
@@ -1275,11 +1368,11 @@ export default function Advertise() {
                                                 type="radio"
                                                 name="house-type"
                                                 value="0"
-                                                defaultChecked={true}
                                                 onChange={e => {
                                                     setData(prevData => {
                                                         return {...prevData, "houseBuildingType": e.target.value}
                                                     })
+                                                    resetFieldVal(e, 'isInValidHouseBuilding')
                                                 }}
                                             />
                                             <span className="fs-11 ms-2">Кирпичный</span>
@@ -1293,6 +1386,7 @@ export default function Advertise() {
                                                     setData(prevData => {
                                                         return {...prevData, "houseBuildingType": e.target.value}
                                                     })
+                                                    resetFieldVal(e, 'isInValidHouseBuilding')
                                                 }}
                                             />
                                             <span className="fs-11 ms-2">Панельный</span>
@@ -1306,6 +1400,7 @@ export default function Advertise() {
                                                     setData(prevData => {
                                                         return {...prevData, "houseBuildingType": e.target.value}
                                                     })
+                                                    resetFieldVal(e, 'isInValidHouseBuilding')
                                                 }}
                                             />
                                             <span className="fs-11 ms-2">Монолитный</span>
@@ -1319,6 +1414,7 @@ export default function Advertise() {
                                                     setData(prevData => {
                                                         return {...prevData, "houseBuildingType": e.target.value}
                                                     })
+                                                    resetFieldVal(e, 'isInValidHouseBuilding')
                                                 }}
                                             />
                                             <span className="fs-11 ms-2">Блочный</span>
@@ -1332,6 +1428,7 @@ export default function Advertise() {
                                                     setData(prevData => {
                                                         return {...prevData, "houseBuildingType": e.target.value}
                                                     })
+                                                    resetFieldVal(e, 'isInValidHouseBuilding')
                                                 }}
                                             />
                                             <span className="fs-11 ms-2">Деревянный</span>
@@ -1341,7 +1438,12 @@ export default function Advertise() {
                             </div>
                             <hr className="d-none d-md-block my-4"/>
                             <div className="row align-items-center mt-4 mt-sm-5 mt-md-0">
-                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Лифт:</div>
+                                <div
+                                    className="col-md-3 fs-11 title mb-3 m-md-0"
+                                    style={{color: valid.isInValidElevator ? '#DA1E2A' : ''}}
+                                >
+                                    Лифт*:
+                                </div>
                                 <div className="col-md-9">
                                     <div className="d-flex align-items-baseline flex-wrap">
                                         <label className="me-5 my-2">
@@ -1349,11 +1451,11 @@ export default function Advertise() {
                                                 type="radio"
                                                 name="lift"
                                                 value="0"
-                                                defaultChecked={true}
                                                 onChange={e => {
                                                     setData(prevData => {
                                                         return {...prevData, "elevatorType": e.target.value}
                                                     })
+                                                    resetFieldVal(e, 'isInValidElevator')
                                                 }}
                                             />
                                             <span className="fs-11 ms-2">Нет</span>
@@ -1367,6 +1469,7 @@ export default function Advertise() {
                                                     setData(prevData => {
                                                         return {...prevData, "elevatorType": e.target.value}
                                                     })
+                                                    resetFieldVal(e, 'isInValidElevator')
                                                 }}
                                             />
                                             <span className="fs-11 ms-2">Пассажирский</span>
@@ -1380,6 +1483,7 @@ export default function Advertise() {
                                                     setData(prevData => {
                                                         return {...prevData, "elevatorType": e.target.value}
                                                     })
+                                                    resetFieldVal(e, 'isInValidElevator')
                                                 }}
                                             />
                                             <span className="fs-11 ms-2">Грузовой</span>
@@ -1393,6 +1497,7 @@ export default function Advertise() {
                                                     setData(prevData => {
                                                         return {...prevData, "elevatorType": e.target.value}
                                                     })
+                                                    resetFieldVal(e, 'isInValidElevator')
                                                 }}
                                             />
                                             <span className="fs-11 ms-2">Пассажирский/Грузовой</span>
@@ -1402,13 +1507,16 @@ export default function Advertise() {
                             </div>
                             <hr className="d-none d-md-block my-4"/>
                             <div className="row align-items-center mt-4 mt-sm-5 mt-md-0">
-                                <div className="col-6 col-md-3 fs-11 title" style={{color: valid.isInValidCeilingHeight ? '#DA1E2A' : ''}}>Высота потолков:</div>
+                                <div className="col-6 col-md-3 fs-11 title"
+                                     style={{color: valid.isInValidCeilingHeight ? '#DA1E2A' : ''}}>Высота потолков:
+                                </div>
                                 <div className="col-6 col-md-9">
                                     <input
                                         style={{borderColor: valid.isInValidCeilingHeight ? '#DA1E2A' : ''}}
                                         type="number"
                                         placeholder="3-100"
                                         className="fs-11"
+                                        defaultValue={defaultForm?.ceilingHeight}
                                         onChange={e => {
                                             setData(prevData => {
                                                 return {...prevData, "ceilingHeight": e.target.value}
@@ -1442,7 +1550,6 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="ramp"
-                                                defaultChecked={true}
                                                 onChange={e => {
                                                     setData(prevData => {
                                                         return {...prevData, "hasRamp": !checked}
@@ -1465,7 +1572,7 @@ export default function Advertise() {
                                                 name="chute"
                                                 onChange={e => {
                                                     setData(prevData => {
-                                                        return {...prevData, "hasGarbageСhute": checked}
+                                                        return {...prevData, "hasGarbage": checked}
                                                     })
                                                 }}
                                             />
@@ -1477,10 +1584,9 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="chute"
-                                                defaultChecked={true}
                                                 onChange={e => {
                                                     setData(prevData => {
-                                                        return {...prevData, "hasGarbageСhute": !checked}
+                                                        return {...prevData, "hasGarbageChute": !checked}
                                                     })
                                                 }}
                                             />
@@ -1558,6 +1664,7 @@ export default function Advertise() {
                                                 style={{borderColor: valid.isInValidPrice ? '#DA1E2A' : ''}}
                                                 type="number"
                                                 name="price"
+                                                defaultValue={defaultForm?.price}
                                                 className="fs-11 price"
                                                 onChange={e => {
                                                     setData(prevData => {
@@ -1581,7 +1688,7 @@ export default function Advertise() {
                                                     value="0"
                                                     onChange={e => {
                                                         setData(prevData => {
-                                                            return {...prevData, "hypothec": e.target.value}
+                                                            return {...prevData, "isMortgage": e.target.value}
                                                         })
                                                         resetFieldVal(e, 'isInValidHypothec')
                                                     }}
@@ -1593,7 +1700,6 @@ export default function Advertise() {
                                                     type="radio"
                                                     name="hypothec"
                                                     value="1"
-                                                    defaultChecked={true}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "hypothec": e.target.value}
@@ -1625,7 +1731,6 @@ export default function Advertise() {
                                                     type="radio"
                                                     name="difficulties"
                                                     value="1"
-                                                    defaultChecked={true}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "isEncumbrances": e.target.value}
@@ -1656,6 +1761,7 @@ export default function Advertise() {
                                                 type="number"
                                                 name="rental"
                                                 placeholder="0"
+                                                defaultValue={defaultForm?.price}
                                                 className="fs-11 price"
                                                 onChange={e => {
                                                     setData(prevData => {
@@ -1673,6 +1779,7 @@ export default function Advertise() {
                                             <input
                                                 type="number"
                                                 className="fs-11 price"
+                                                defaultValue={defaultForm?.communalPrice}
                                                 onChange={e => {
                                                     setData(prevData => {
                                                         return {...prevData, "communalPrice": e.target.value}
@@ -1684,7 +1791,6 @@ export default function Advertise() {
                                                     type="checkbox"
                                                     name="isCountersSeparately"
                                                     onChange={e => handleCheckbox(e)}
-
                                                 />
                                                 <span className="ms-2">Счетчики оплачиваются отдельно</span>
                                             </div>
@@ -1700,6 +1806,7 @@ export default function Advertise() {
                                                 name="deposit"
                                                 placeholder="0"
                                                 className="fs-11 price"
+                                                defaultValue={defaultForm?.pledge}
                                                 value={data.pledge}
                                                 disabled={data.isPledge}
                                                 onChange={e => {
@@ -1748,6 +1855,7 @@ export default function Advertise() {
                                             <input
                                                 type="number"
                                                 className="percent fs-11"
+                                                defaultValue={defaultForm?.commission}
                                                 value={data.commission}
                                                 disabled={data.isCommission}
                                                 onChange={e => {
@@ -1783,13 +1891,15 @@ export default function Advertise() {
                                 </div>
                                 <div>
                                     <button
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#good-request"
                                         type="submit"
                                         className="btn btn-1 w-100"
                                         onClick={(e) => {
                                             handleSub(e)
                                         }}
                                     >
-                                        Разместить
+                                        Редактировать
                                     </button>
                                 </div>
                             </div>
@@ -1805,15 +1915,15 @@ export default function Advertise() {
                                 Очистить форму
                             </button>
                         </div>
+
                         <button
                             type="submit"
                             className="d-none d-lg-block btn btn-1 fs-15 mx-auto"
                             onClick={(e) => {
                                 handleSub(e)
-
                             }}
                         >
-                            Разместить объявление
+                            Редактировать объявление
                         </button>
                         <div className="d-none d-lg-block gray-3 text-center mt-3">Нажимая кнопку “Разместить
                             объявление”, Вы соглашаетесь с <a href="/" className="color-1">условиями сайта</a></div>

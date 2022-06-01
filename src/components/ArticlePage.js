@@ -2,24 +2,26 @@ import React, {useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import {Slider2} from './Slider2';
 import Card from './Card';
-import {getNews} from "./API/news";
+import {getArticle} from "./API/news";
 import {getRecommend} from "./API/mainpagereq";
+import {useCurrentUser} from "../store/reducers";
 
 export default function ArticlePage() {
 
-    const {userId} = useParams();
+    const user = useCurrentUser()
+    const userId = user?.id
 
     const [recommend, setRecommend] = useState([]);
 
     useEffect(() => {
         const fun = async () => {
             try {
-                let result = await getRecommend(userId, 2)
+                let result = userId ? await getRecommend(userId, 2) : ""
                 if (result) {
                     setRecommend(result)
                 }
             } catch (err) {
-                console.log("err")
+                console.log(err)
             }
         }
         fun()
@@ -32,7 +34,7 @@ export default function ArticlePage() {
     useEffect(() => {
         const fin = async () => {
             try {
-                let result = await getNews(slug)
+                let result = await getArticle(slug)
                 if (result) {
                     setData(result)
                 }

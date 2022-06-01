@@ -14,10 +14,9 @@ import accessTokenActions from "./store/actions/accessToken";
 import currentUserActions from "./store/actions/currentUser";
 import useAxiosPrivate from "./components/hooks/useAxiosPrivate";
 import {useEffect} from "react";
-import {YMaps} from 'react-yandex-maps';
+import {YMaps} from 'react-yandex-maps'
 
 function App() {
-
     const baseUrl = "https://api.antontig.beget.tech";
     const dispatch = useDispatch();
     const {setToken} = bindActionCreators(accessTokenActions, dispatch);
@@ -26,8 +25,8 @@ function App() {
 
     useEffect(() => {
         const checkAuth = async () => {
-            const response = await axiosPrivate.post(`${baseUrl}/api/auth/refresh`);
-            if (response?.data.status === 200) {
+            const response = await axiosPrivate.post(`${baseUrl}/api/auth/refresh`)
+            if (response?.data?.status === 200) {
                 setToken(response.data.body.token);
                 setCurrentUser(response.data.body.user)
             }

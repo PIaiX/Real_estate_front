@@ -26,8 +26,6 @@ export default function PersonalAccount() {
     return () => window.removeEventListener("resize", updateView);
   }, []);
 
-
-
   return (
     <main className="account py-sm-3 py-md-4 py-lg-5">
       <section id="sec-12" className="container">
@@ -45,7 +43,9 @@ export default function PersonalAccount() {
                   <Routes>
                     <Route path="/" element={<UserProfile />} />
                     <Route path="profile" element={<UserProfile />} />
-                    <Route path="my-ads" element={<UserAds />} />
+                    <Route path="my-ads" element={<UserAds />} >
+                      <Route path='page/:page' element={<UserAds/>} />
+                    </Route>
                     <Route path="my-services" element={<UserServices />} />
                     <Route
                       path="my-services/create"
@@ -54,7 +54,9 @@ export default function PersonalAccount() {
                     <Route path="favorites" element={<Favorites />} />
                     <Route path="my-messages" element={<UserMessages />} />
                     <Route path="my-messages/*" element={<ChatPage />} />
-                    <Route path="my-reviews" element={<UserReviews />} />
+                    <Route path="my-reviews" element={<UserReviews />} >
+                      <Route path='page/:page' element={<UserReviews />}/>
+                    </Route>
                   </Routes>
                 )}
               </div>
@@ -66,13 +68,17 @@ export default function PersonalAccount() {
             <Routes>
               <Route path="/" element={<AccountMenu />} />
               <Route path="profile" element={<UserProfile />} />
-              <Route path="my-ads" element={<UserAds />} />
+              <Route path="my-ads" element={<UserAds />} >
+                <Route path='page/:page' element={<UserAds/>} />
+              </Route>
               <Route path="my-services" element={<UserServices />} />
               <Route path="my-services/create" element={<CreateService />} />
               <Route path="favorites" element={<Favorites />} />
               <Route path="my-messages" element={<UserMessages />} />
               <Route path="my-messages/*" element={<ChatPage />} />
-              <Route path="my-reviews" element={<UserReviews />} />
+              <Route path="my-reviews" element={<UserReviews />} >
+                <Route path='page/:page' element={<UserReviews />}/>
+              </Route>
             </Routes>
           )}
         </div>

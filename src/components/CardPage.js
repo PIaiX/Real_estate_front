@@ -11,6 +11,7 @@ import {getAdsPage, reportAds} from "./API/adspage";
 import {getRecommend} from "./API/mainpagereq";
 import useAxiosPrivate from "./hooks/useAxiosPrivate";
 import {useAccessToken, useCurrentUser} from "../store/reducers";
+import InputMask from 'react-input-mask';
 
 SwiperCore.use([Navigation, Thumbs, EffectFade]);
 
@@ -113,10 +114,23 @@ export default function CardPage() {
     const reportAd = async () => {
         try {
             const result = await reportAds(axiosPrivate, report)
+            setReported(true)
         } catch (error) {
             console.log(error)
         }
     }
+
+    const Words = () => {
+        if (ads?.user?.realEstatesCount < 1) {
+            return  'объект'
+        } else if (ads?.user?.realEstatesCount >= 1 && ads?.user?.realEstatesCount < 4){
+            return 'объекта'
+        } else {
+            return "объктов"
+        }
+    }
+
+    console.log(ads)
 
     return (
         <main>
@@ -184,7 +198,7 @@ export default function CardPage() {
                 <div className="d-flex align-items-center mb-2 mb-xxl-3">
                     <img src="/Real_estate_front/img/icons/pin.svg" alt="адрес"/>
                     <div className="fs-11 fw-6 ms-2 ms-sm-4">
-                        <div>{ads.residentalComplex}</div>
+                        <div>ЖК "{ads?.residentalComplexForUser}"</div>
                         <div>{ads.address}</div>
                     </div>
                 </div>
@@ -403,7 +417,7 @@ export default function CardPage() {
                                                 с {ads.user?.createdAtForUser}</div>
                                             <div className="color-1 fs-11">
                                                 <a href="/">
-                                                    Еще 4 объекта
+                                                    Еще {ads?.user?.realEstatesCount} <Words/>
                                                 </a>
                                             </div>
                                         </div>

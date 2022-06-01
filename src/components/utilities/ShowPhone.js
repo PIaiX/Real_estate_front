@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 
+
 export default function ShowPhone(props) {
     const [visible, setVisibility] = useState(false);
     return (
@@ -7,7 +8,7 @@ export default function ShowPhone(props) {
             <div className="phone fw-5">
                 {
                     (props.phone) ?
-                    <a href={"tel:"+props.phone}>{props.phone}</a>
+                    <a href={"tel:"+props.phone}>+{props.phone}</a>
                     : <span>Не указан</span>
                 }
             </div>
