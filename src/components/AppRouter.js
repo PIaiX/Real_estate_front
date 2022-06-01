@@ -7,6 +7,7 @@ import MainPage from './MainPage';
 import Services from './Services';
 import UserPage from './UserPage';
 import Advertise from './Advertise';
+import AdvertiseEditor from './AdvertiseEditor';
 import PersonalAccount from './PersonalAccount';
 import Entrance from './Entrance';
 import Registration from './Registration';
@@ -26,6 +27,7 @@ export default function AppRouter() {
                 <Route path="/service" element={<Services />} />
                 <Route path="/user/:userId" element={<UserPage />} />
                 <Route path="/advertise" element={<Advertise />} />
+                <Route path="/advertise-editor/:uuid" element={<AdvertiseEditor />} />
                 <Route path="/personal-account/*" element={<PersonalAccount />} />
                 <Route path="/entrance" element={<Entrance />} />
                 <Route path="/registration" element={<Registration />} />
