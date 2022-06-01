@@ -25,7 +25,7 @@ export default function AppRouter() {
                 <Route path="/card-page/:uuid" element={<CardPage/>} />
                 <Route path="/card-page/:uuid/:idUser" element={<CardPage/>} />
                 <Route path="/service" element={<Services />} />
-                <Route path="/user" element={<UserPage />} />
+                <Route path="/user/:userId" element={<UserPage />} />
                 <Route path="/advertise" element={<Advertise />} />
                 <Route path="/advertise-editor/:uuid" element={<AdvertiseEditor />} />
                 <Route path="/personal-account/*" element={<PersonalAccount />} />
