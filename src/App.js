@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {HashRouter} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -22,6 +22,11 @@ function App() {
     const {setToken} = bindActionCreators(accessTokenActions, dispatch);
     const {setCurrentUser} = bindActionCreators(currentUserActions, dispatch);
     const axiosPrivate = useAxiosPrivate();
+    const [ymaps, setYmaps] = useState(null)
+
+    useEffect(() => {
+        console.log(ymaps)
+    }, [ymaps])
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -36,7 +41,7 @@ function App() {
 
     return (
         <HashRouter>
-            <YMaps>
+            <YMaps instanceRef={ymaps => setYmaps(ymaps)}>
                 <Header/>
                 <AppRouter/>
                 <Footer/>
