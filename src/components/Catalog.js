@@ -51,7 +51,7 @@ const Catalog = () => {
                 const response = await getTypesEstate()
 
                 if (response) {
-                    response.body.forEach(type => type.estates.forEach(estate => estates.push({
+                    response.forEach(type => type.estates.forEach(estate => estates.push({
                         index: estate.id,
                         value: estate.name
                     })))

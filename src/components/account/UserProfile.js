@@ -50,7 +50,6 @@ export default function UserProfile() {
             setRedactor(false)
         }
     }
-    console.log(currentUser)
     const [lastName, setLastName] = useState('');
     const [firstName, setFirstName] = useState('');
     const [sex, setSex] = useState("");
@@ -118,7 +117,6 @@ export default function UserProfile() {
         }
     }
 
-    console.log(data)
     return (
         redactor ?
             <div className="px-2 px-sm-4 px-xxl-5 pb-3 pb-sm-4 pb-xxl-5">
