@@ -9,33 +9,33 @@ export default function BtnFav(props) {
     const token = useAccessToken()
     const user = useCurrentUser()
     const [data, setData] = useState({})
-    const [estate, setEstateId] = useState([])
-    const [wishlist, setWishList] = useState(false)
+    const [realEstateId, setRealEstateId] = useState([])
+    const [wishlistStatus, setWishlistStatus] = useState(false)
 
     useEffect(() => {
         if(props?.realEstateId){
-            setEstateId(props?.realEstateId)
+            setRealEstateId(props?.realEstateId)
             }
     }, [props?.realEstateId])
 
     useEffect(() => {
-        if (props?.wishlist) {
-            setWishList(props?.wishlist)
+        if (props?.wishlistStatus) {
+            setWishlistStatus(props?.wishlistStatus)
         }
-    }, [props?.wishlist])
+    }, [props?.wishlistStatus])
 
     useEffect(() => {
         const info = () => {
-            if (token && user?.id && estate)
-            setData(data => ({...data, "token": token, "userId": user?.id, "realEstateId": estate}))
+            if (token && user?.id && realEstateId)
+            setData(data => ({...data, token, userId: user?.id, realEstateId: realEstateId}))
         }
         info()
-    }, [token, estate, user?.id])
+    }, [token, realEstateId, user?.id])
 
     const addInWishList = async () => {
         try {
             const eee = await addWishList(data, axiosPrivate)
-            setWishList(wishlist => !wishlist)
+            setWishlistStatus(wishlist => !wishlist)
         } catch (error) {
             console.log(error)
         }
@@ -44,7 +44,7 @@ export default function BtnFav(props) {
     const deleteFromWishList = async () => {
         try {
             const qew = await deleteWishList(data, axiosPrivate)
-            setWishList(wishlist => !wishlist)
+            setWishlistStatus(wishlist => !wishlist)
         } catch (error) {
             console.log(error)
         }
@@ -54,9 +54,9 @@ export default function BtnFav(props) {
         <button
             type="button"
             onClick={() => {
-                (wishlist) ? deleteFromWishList() : addInWishList()
+                (wishlistStatus) ? deleteFromWishList() : addInWishList()
             }}
-            className={`btn-fav ${wishlist ? 'clicked' : ''}`}
+            className={`btn-fav ${wishlistStatus ? 'clicked' : ''}`}
         >
             <svg viewBox="0 0 22 21" xmlns="http://www.w3.org/2000/svg">
                 <path

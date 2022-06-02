@@ -616,6 +616,9 @@ button {
                 path.fill-color {fill: $color-1;}
             }
         }
+        &.reported > svg > path.fill-color {
+            fill: $color-1;
+        }
     }
 }
 
@@ -2724,9 +2727,6 @@ main.account {
             }
             &:active {
                 i {color: $color-2;}
-            }
-            &.reported > svg > path:first-child{
-                color: $color-1;
             }
         }
     }
