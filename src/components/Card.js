@@ -55,10 +55,10 @@ export default function Card(props) {
                         <div className="h-100 d-flex flex-column justify-content-between align-items-start">
                             <div>
                                 <div className="color-1 title-font fw-7 fs-15 mb-3 mb-xxl-4">
-                                  <NavLink 
-                                    to={`/card-page/${props?.uuid}`}
-                                    onClick={() => scrollToTop()}
-                                  >{props.title} м<sup>2</sup></NavLink>
+                                    <NavLink
+                                        to={`/card-page/${props?.uuid}`}
+                                        onClick={() => scrollToTop()}
+                                    >{props.title} м<sup>2</sup></NavLink>
                                 </div>
                                 <div className="d-flex align-items-center mb-2 mb-xxl-3">
                                     <img src="/Real_estate_front/img/icons/pin.svg" alt="адрес"/>
@@ -87,8 +87,8 @@ export default function Card(props) {
                                             d="M7.5 18C7.5 18 15 11.6033 15 6.75C15 4.95979 14.2098 3.2429 12.8033 1.97703C11.3968 0.711159 9.48912 0 7.5 0C5.51088 0 3.60322 0.711159 2.1967 1.97703C0.790176 3.2429 2.96403e-08 4.95979 0 6.75C0 11.6033 7.5 18 7.5 18ZM7.5 10.125C6.50544 10.125 5.55161 9.76942 4.84835 9.13649C4.14509 8.50355 3.75 7.64511 3.75 6.75C3.75 5.85489 4.14509 4.99645 4.84835 4.36351C5.55161 3.73058 6.50544 3.375 7.5 3.375C8.49456 3.375 9.44839 3.73058 10.1517 4.36351C10.8549 4.99645 11.25 5.85489 11.25 6.75C11.25 7.64511 10.8549 8.50355 10.1517 9.13649C9.44839 9.76942 8.49456 10.125 7.5 10.125Z"/>
                                     </svg>
                                 </button>
-                                <BtnFav realEstateId={props?.id} wishlist={props?.wishlist}/>
-                                <BtnRep realEstateId={props?.id} reportStatus={props?.reportStatus}/>
+                                <BtnFav realEstateId={props?.id} wishlistStatus={props?.wishlistStatus}/>
+                                <BtnRep realEstateId={props?.id} reportStatus={props?.reportStatus} type='reportAd'/>
                                 <div className="color-2 fs-09 fw-3">{props.date}</div>
                             </div>
                         </div>
@@ -167,9 +167,9 @@ export default function Card(props) {
                     <div className="d-flex justify-content-between mb-3">
                         <div className="title color-1 title-font fw-7 fs-11">
                             <NavLink
-                            to={`/card-page/${props?.uuid}`}
-                            onClick={() => scrollToTop()}
-                        >{props.title} м<sup>2</sup>
+                                to={`/card-page/${props?.uuid}`}
+                                onClick={() => scrollToTop()}
+                            >{props.title} м<sup>2</sup>
                             </NavLink>
                         </div>
                         <div className="title-font black fw-7 fs-11">

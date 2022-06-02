@@ -51,7 +51,9 @@ export default function PersonalAccount() {
                       path="my-services/create"
                       element={<CreateService />}
                     />
-                    <Route path="favorites" element={<Favorites />} />
+                    <Route path="favorites" element={<Favorites />} >
+                        <Route path="page/:page" element={<Favorites />} />
+                    </Route>
                     <Route path="my-messages" element={<UserMessages />} />
                     <Route path="my-messages/*" element={<ChatPage />} />
                     <Route path="my-reviews" element={<UserReviews />} >
@@ -73,7 +75,9 @@ export default function PersonalAccount() {
               </Route>
               <Route path="my-services" element={<UserServices />} />
               <Route path="my-services/create" element={<CreateService />} />
-              <Route path="favorites" element={<Favorites />} />
+              <Route path="favorites" element={<Favorites />} >
+                <Route path="page/:page" element={<Favorites />} />
+              </Route>
               <Route path="my-messages" element={<UserMessages />} />
               <Route path="my-messages/*" element={<ChatPage />} />
               <Route path="my-reviews" element={<UserReviews />} >

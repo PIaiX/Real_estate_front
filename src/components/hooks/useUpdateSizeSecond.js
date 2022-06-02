@@ -1,14 +1,12 @@
 import {useEffect, useState} from 'react';
 
 const useUpdateSize = (size) => {
-    const [view, setView] = useState('as-a-list');
+    const [view, setView] = useState('tiled');
 
     useEffect(() => {
         function updateSize() {
             if (window.matchMedia(`(max-width: ${size})`).matches) {
                 setView('tiled');
-            } else {
-                setView('as-a-list');
             }
         }
 
@@ -17,7 +15,7 @@ const useUpdateSize = (size) => {
         return () => window.removeEventListener('resize', updateSize);
     }, []);
 
-    return view;
+    return [view, setView]
 }
 
 export default useUpdateSize
