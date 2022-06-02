@@ -1727,12 +1727,12 @@ main {
   -webkit-filter: drop-shadow(0px 1px 10px rgba(0, 0, 0, 0.15));
           filter: drop-shadow(0px 1px 10px rgba(0, 0, 0, 0.15));
   padding: 1em;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start;
+  /*display: -webkit-box;*/
+  /*display: -ms-flexbox;*/
+  /*display: flex;*/
+  /*-webkit-box-align: start;*/
+  /*    -ms-flex-align: start;*/
+  /*        align-items: flex-start;*/
 }
 
 .card-midi .text {

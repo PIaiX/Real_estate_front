@@ -6,7 +6,6 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import Card from '../Card';
 import PaginationCustom from '../utilities/PaginationCustom';
 
-
 export default function Favorites() {
     const view = useUpdateSize('1399px');
     const axiosPrivate = useAxiosPrivate();
@@ -14,8 +13,6 @@ export default function Favorites() {
     const [wishlist, setWishlist] = useState([])
     const userid = useSelector(state => state?.currentUser?.id)
     const {page} = useParams()
-
-    console.log('wishlist', wishlist)
 
     useEffect(() => {
         const checkAuth = async (userid, page = 1, limit = 4) => {
@@ -33,6 +30,16 @@ export default function Favorites() {
         checkAuth(userid, page, 4);
     }, [userid, page]);
 
+    const getImagePaths = (item) => {
+        const url = 'https://api.antontig.beget.tech/uploads/'
+        const result = [].concat(item?.image, item?.images?.map(i => i.image))
+
+        return result.map(item => item
+            ? `${url}${item}`
+            : '/Real_estate_front/img/nophoto.jpg'
+        )
+    }
+
     return (
         <div className="px-sm-3 px-md-4 px-xxl-5 pb-sm-4 pb-xxl-5">
             <nav className="d-block d-lg-none mt-3 mb-3 mb-sm-5" aria-label="breadcrumb">
@@ -44,21 +51,24 @@ export default function Favorites() {
                     <div className="mb-4 mb-md-5" key={wishItem.id}>
                         <Card
                             type={view}
-                            images={[
-                                '/Real_estate_front/img/img1.jpg',
-                                '/Real_estate_front/img/img2.jpg',
-                                '/Real_estate_front/img/img3.jpg',
-                                '/Real_estate_front/img/img4.jpg'
-                            ]}
+                            images={getImagePaths(wishItem)}
                             isVip={wishItem.isVip}
                             isHot={wishItem.isHot}
                             title={wishItem.title}
                             price={wishItem.price}
+                            transactionType={wishItem.transactionType}
                             addressName={wishItem.residentComplexForUser}
                             address={wishItem.address}
                             metro={wishItem.metro}
                             text={wishItem.description}
                             date={wishItem.createdAtForUser}
+                            uuid={wishItem.uuid}
+                            user={wishItem.user}
+                            communalPrice={wishItem.communalPrice}
+                            pledge={wishItem.pledge}
+                            commissionForUser={wishItem.commissionForUser}
+                            prepaymentTypeForUser={wishItem.prepaymentTypeForUser}
+                            rentalTypeForUser={wishItem.rentalTypeForUser}
                         />
                         <div className="d-flex justify-content-end mt-2">
                             <button type="button" className="ms-4 color-1 d-flex align-items-center">
