@@ -616,6 +616,9 @@ button {
                 path.fill-color {fill: $color-1;}
             }
         }
+        &.reported > svg > path.fill-color {
+            fill: $color-1;
+        }
     }
 }
 
@@ -1183,7 +1186,6 @@ main {
     background-color: #fff;
     filter: drop-shadow(0px 1px 10px rgba(0, 0, 0, 0.15));
     padding: 1em;
-    //display: flex;
     align-items: flex-start;
     .text {
         display: -webkit-box;

@@ -2,43 +2,32 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {Link, useParams} from 'react-router-dom';
 import useUpdateSize from '../hooks/useUpdateSize';
-import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import Card from '../Card';
 import PaginationCustom from '../utilities/PaginationCustom';
+import {getWishlist} from '../API/wishlist';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import BtnDelFromFav from '../utilities/BtnDelFromFav';
 
 export default function Favorites() {
     const view = useUpdateSize('1399px');
-    const axiosPrivate = useAxiosPrivate();
-    const [meta, setMeta] = useState([])
-    const [wishlist, setWishlist] = useState([])
+    const [wishlistData, setWishlistData] = useState({})
     const userid = useSelector(state => state?.currentUser?.id)
-    const {page} = useParams()
+    const {page} = +useParams()
+    const axiosPrivate = useAxiosPrivate();
 
     useEffect(() => {
-        const checkAuth = async (userid, page = 1, limit = 4) => {
-            try {
-                const response = userid ? await axiosPrivate.post(`https://api.antontig.beget.tech/api/user/wishlist/${userid}`, {page, limit}) : ''
-                if (response) {
-                    setWishlist(response?.data.body.data)
-                    setMeta(response?.data.body)
-                }
-            } catch (error) {
-                console.log(error)
+        const req = async (userId, page, limit, axiosPrivate) => {
+            const response = await getWishlist(userId, page, limit, axiosPrivate)
+            if (response) {
+                console.log(response)
+                setWishlistData({
+                    meta: response,
+                    wishlist: response?.data
+                })
             }
-
         }
-        checkAuth(userid, page, 4);
-    }, [userid, page]);
-
-    const getImagePaths = (item) => {
-        const url = 'https://api.antontig.beget.tech/uploads/'
-        const result = [].concat(item?.image, item?.images?.map(i => i.image))
-
-        return result.map(item => item
-            ? `${url}${item}`
-            : '/Real_estate_front/img/nophoto.jpg'
-        )
-    }
+        req(userid, page, 4, axiosPrivate)
+    }, [userid, page])
 
     return (
         <div className="px-sm-3 px-md-4 px-xxl-5 pb-sm-4 pb-xxl-5">
@@ -47,40 +36,49 @@ export default function Favorites() {
             </nav>
             <h4 className="text-center color-1 mb-3 mb-sm-4 mb-xl-5">Избранное</h4>
             <div className={(view === 'as-a-list') ? "" : "row row-cols-sm-2 gx-2 gx-md-4"}>
-                {wishlist.map(wishItem =>
-                    <div className="mb-4 mb-md-5" key={wishItem.id}>
-                        <Card
-                            type={view}
-                            images={getImagePaths(wishItem)}
-                            isVip={wishItem.isVip}
-                            isHot={wishItem.isHot}
-                            title={wishItem.title}
-                            price={wishItem.price}
-                            transactionType={wishItem.transactionType}
-                            addressName={wishItem.residentComplexForUser}
-                            address={wishItem.address}
-                            metro={wishItem.metro}
-                            text={wishItem.description}
-                            date={wishItem.createdAtForUser}
-                            uuid={wishItem.uuid}
-                            user={wishItem.user}
-                            communalPrice={wishItem.communalPrice}
-                            pledge={wishItem.pledge}
-                            commissionForUser={wishItem.commissionForUser}
-                            prepaymentTypeForUser={wishItem.prepaymentTypeForUser}
-                            rentalTypeForUser={wishItem.rentalTypeForUser}
-                        />
-                        <div className="d-flex justify-content-end mt-2">
-                            <button type="button" className="ms-4 color-1 d-flex align-items-center">
-                                <img src="/Real_estate_front/img/icons/pa-10.svg" alt="Удалить"/>
-                                <span className="ms-2">Удалить из избранного</span>
-                            </button>
-                        </div>
-                    </div>
-                )}
+                {
+                    wishlistData.wishlist
+                        ? wishlistData.wishlist.map(wishItem => (
+                            <div key={wishItem.id}>
+                                <Card
+                                    type={view}
+                                    pictures={[wishItem.image, wishItem.images]}
+                                    isVip={wishItem.isVip}
+                                    isHot={wishItem.isHot}
+                                    title={wishItem.title}
+                                    price={wishItem.price}
+                                    transactionType={wishItem.transactionType}
+                                    addressName={wishItem.residentComplexForUser}
+                                    address={wishItem.address}
+                                    metro={wishItem.metro}
+                                    text={wishItem.description}
+                                    date={wishItem.createdAtForUser}
+                                    id={wishItem.id}
+                                    uuid={wishItem.uuid}
+                                    user={wishItem.user}
+                                    communalPrice={wishItem.communalPrice}
+                                    pledge={wishItem.pledge}
+                                    commissionForUser={wishItem.commissionForUser}
+                                    prepaymentTypeForUser={wishItem.prepaymentTypeForUser}
+                                    rentalTypeForUser={wishItem.rentalTypeForUser}
+                                    wishlistStatus={wishItem.wishlistStatus}
+                                    reportStatus={wishItem.reportStatus}
+                                    userAvatar={wishItem.user?.avatar}
+                                />
+                                <div className="d-flex justify-content-end mt-2">
+                                    <BtnDelFromFav realEstateId={wishItem.id} wishlistStatus={wishItem.wishlistStatus}/>
+                                </div>
+                            </div>
+                        ))
+                        : <div className='text-center m-auto p-5'>Объявлений нет</div>
+                }
             </div>
             <nav>
-                <PaginationCustom meta={meta} baseUrl="personal-account/favorites"/>
+                {
+                    wishlistData.wishlist
+                        ? <PaginationCustom meta={wishlistData.meta} baseUrl="personal-account/favorites"/>
+                        : null
+                }
             </nav>
         </div>
     )

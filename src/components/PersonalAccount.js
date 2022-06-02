@@ -9,8 +9,6 @@ import UserMessages from "./account/UserMessages";
 import CreateService from "./account/CreateService";
 import ChatPage from "./account/ChatPage";
 import AccountMenu from "./account/AccountMenu";
-import currentUser from "../store/reducers/currentUser";
-import {useCurrentUser} from "../store/reducers";
 
 export default function PersonalAccount() {
   const [mob, setMob] = useState(false);
@@ -27,8 +25,6 @@ export default function PersonalAccount() {
     updateView();
     return () => window.removeEventListener("resize", updateView);
   }, []);
-
-
 
   return (
     <main className="account py-sm-3 py-md-4 py-lg-5">
@@ -47,7 +43,9 @@ export default function PersonalAccount() {
                   <Routes>
                     <Route path="/" element={<UserProfile />} />
                     <Route path="profile" element={<UserProfile />} />
-                    <Route path="my-ads" element={<UserAds />} />
+                    <Route path="my-ads" element={<UserAds />} >
+                      <Route path='page/:page' element={<UserAds/>} />
+                    </Route>
                     <Route path="my-services" element={<UserServices />} />
                     <Route
                       path="my-services/create"
@@ -58,7 +56,9 @@ export default function PersonalAccount() {
                     </Route>
                     <Route path="my-messages" element={<UserMessages />} />
                     <Route path="my-messages/*" element={<ChatPage />} />
-                    <Route path="my-reviews" element={<UserReviews />} />
+                    <Route path="my-reviews" element={<UserReviews />} >
+                      <Route path='page/:page' element={<UserReviews />}/>
+                    </Route>
                   </Routes>
                 )}
               </div>
@@ -70,7 +70,9 @@ export default function PersonalAccount() {
             <Routes>
               <Route path="/" element={<AccountMenu />} />
               <Route path="profile" element={<UserProfile />} />
-              <Route path="my-ads" element={<UserAds />} />
+              <Route path="my-ads" element={<UserAds />} >
+                <Route path='page/:page' element={<UserAds/>} />
+              </Route>
               <Route path="my-services" element={<UserServices />} />
               <Route path="my-services/create" element={<CreateService />} />
               <Route path="favorites" element={<Favorites />} >
@@ -78,7 +80,9 @@ export default function PersonalAccount() {
               </Route>
               <Route path="my-messages" element={<UserMessages />} />
               <Route path="my-messages/*" element={<ChatPage />} />
-              <Route path="my-reviews" element={<UserReviews />} />
+              <Route path="my-reviews" element={<UserReviews />} >
+                <Route path='page/:page' element={<UserReviews />}/>
+              </Route>
             </Routes>
           )}
         </div>

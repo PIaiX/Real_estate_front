@@ -4,22 +4,24 @@ import {Slider2} from './Slider2';
 import Card from './Card';
 import {getArticle} from "./API/news";
 import {getPopular, getRecommend} from "./API/mainpagereq";
+import {useCurrentUser} from "../store/reducers";
 
 export default function ArticlePage() {
 
-    const {userId} = useParams();
+    const user = useCurrentUser()
+    const userId = user?.id
 
     const [recommend, setRecommend] = useState([]);
 
     useEffect(() => {
         const fun = async () => {
             try {
-                let result = await getRecommend(userId, 2)
+                let result = userId ? await getRecommend(userId, 2) : ""
                 if (result) {
                     setRecommend(result)
                 }
             } catch (err) {
-                console.log("err")
+                console.log(err)
             }
         }
         fun()

@@ -1,12 +1,58 @@
-import React from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import React, {useState} from 'react';
+import {Link, NavLink} from 'react-router-dom';
 import CustomSelect from './utilities/CustomSelect';
-import { animateScroll as scroll } from 'react-scroll';
+import {animateScroll as scroll} from 'react-scroll';
+import {getQuestion} from "./API/question";
 
 export default function Header() {
+
     const scrollToTop = () => {
         scroll.scrollToTop();
-    };
+    }
+
+    const [data, setData] = useState({})
+
+    const fields = {
+        isInValidName: false,
+        isInValidEmail: false,
+        isInValidQuestions: false,
+    }
+
+    const [valid, setValid] = useState(fields)
+    const mailSample = Object.values(data).find(i => i.match(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/))
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const isInValidName = data?.name === undefined || data.name?.length < 1 || data.name?.length > 55
+        const isInValidEmail = data?.email === undefined || mailSample === undefined
+        const {question} = data;
+        const isInValidQuestions = question?.length === undefined || question?.length < 5 || question?.length > 1024
+
+        if (isInValidName) {
+            setValid({...valid, isInValidName: true})
+        } else if (isInValidEmail) {
+            setValid({...valid, isInValidEmail: true})
+        } else if (isInValidQuestions) {
+            setValid({...valid, isInValidQuestions: true})
+        } else {
+            const formData = new FormData();
+            const req = {...data}
+            for (const key in req) {
+                formData.append(key, req[key])
+            }
+            try {
+                let result = await getQuestion(formData);
+                alert("Форма отправлена")
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
+
+    const resetFieldVal = (newState, field) => {
+        setValid({...valid, [field]: false})
+    }
 
     return (
         <>
@@ -49,7 +95,7 @@ export default function Header() {
                         </Link>
                     </div>
                     
-                    {/* <button type="button" className="ms-md-4 btn btn-1 text-uppercase p-2 order-3 order-lg-4">Подать объявление</button> */}
+
                     <NavLink to="/advertise" onClick={() => scrollToTop()} className="ms-md-4 btn btn-1 text-uppercase p-2 order-3 order-lg-4">Подать объявление</NavLink>
 
                     <CustomSelect className="ms-md-3 ms-xl-4 order-2 order-lg-5" btnClass="color-2 text-uppercase" checkedOpt="Казань" options={['Казань', 'Москва', 'Санкт-Петербург']} alignment="right"/>
@@ -97,7 +143,7 @@ export default function Header() {
                                 <div className="d-flex align-items-center">
                                     <div className="photo me-2 me-sm-4">
                                         <img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/>
-                                        <div className="indicator online"></div>
+                                        <div className="indicator online"/>
                                     </div>
                                     <div>
                                         <div className='fs-11 fw-5'>Вам ответит администратор</div> 
@@ -107,25 +153,65 @@ export default function Header() {
                                 </div>
                                 <div className='row align-items-center fs-11 mt-3'>
                                     <div className='col-sm-3 mb-1 mb-sm-3'>
-                                        <label className='gray-3' htmlFor="name">Ваше имя:</label>
+                                        <label className='gray-3' htmlFor="name" style={{color: valid.isInValidName? '#DA1E2A' : ''}}>Ваше имя:</label>
                                     </div>
                                     <div className='col-sm-9 mb-3'>
-                                        <input type="text" placeholder="Имя" id="name"/>
+                                        <input
+                                            style={{borderColor: valid.isInValidName ? '#DA1E2A' : ''}}
+                                            type="text"
+                                            placeholder="Имя"
+                                            id="name"
+                                            onChange={(e) => {
+                                                setData(data => {
+                                                    return {...data, "name": e.target.value}
+                                                })
+                                                resetFieldVal(e, 'isInValidName')
+                                            }}
+                                        />
                                     </div>
                                     <div className='col-sm-3 mb-1 mb-sm-3'>
-                                        <label className='gray-3' htmlFor="email">Ваш Email:</label>
+                                        <label className='gray-3' htmlFor="email" style={{color: valid.isInValidEmail? '#DA1E2A' : ''}}>Ваш Email:</label>
                                     </div>
                                     <div className='col-sm-9 mb-3'>
-                                        <input type="text" placeholder="Email" id="email"/>
+                                        <input
+                                            style={{borderColor: valid.isInValidEmail ? '#DA1E2A' : ''}}
+                                            type="text"
+                                            placeholder="Email"
+                                            id="email"
+                                            onChange={(e) => {
+                                                setData(data => {
+                                                    return {...data, "email": e.target.value}
+                                                })
+                                                resetFieldVal(e, 'isInValidEmail')
+                                            }}
+                                        />
                                     </div>
                                     <div className='col-sm-3 mb-1 mb-sm-3'>
-                                        <label className='gray-3' htmlFor="question">Ваш вопрос:</label>
+                                        <label className='gray-3' htmlFor="question"  style={{color: valid.isInValidQuestions? '#DA1E2A' : ''}}>Ваш вопрос:</label>
                                     </div>
                                     <div className='col-sm-9 mb-sm-3'>
-                                        <input type="text" placeholder="вопрос" id="question"/>
+                                        <input
+                                            style={{borderColor: valid.isInValidQuestions ? '#DA1E2A' : ''}}
+                                            type="text"
+                                            placeholder="Вопрос"
+                                            id="question"
+                                            onChange={(e) => {
+                                                setData(data => {
+                                                    return {...data, "question": e.target.value}
+                                                })
+                                                resetFieldVal(e, 'isInValidQuestions')
+                                            }}
+                                        />
                                     </div>
                                 </div>
-                                <button type="submit" className="btn btn-1 mx-auto fs-12 mt-4">ОТПРАВИТЬ</button>
+                                <button
+                                    data-bs-dismiss=""
+                                    type="submit"
+                                    className="btn btn-1 mx-auto fs-12 mt-4"
+                                    onClick={handleSubmit}
+                                >
+                                    ОТПРАВИТЬ
+                                </button>
                             </form>
                         </div>
                     </div>

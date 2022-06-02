@@ -6,6 +6,7 @@
   "dependencies": {
     "@fingerprintjs/fingerprintjs": "^3.3.3",
     "@redux-devtools/extension": "^3.2.2",
+    "@reduxjs/toolkit": "^1.8.1",
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
@@ -24,11 +25,13 @@
     "react-rating": "^2.0.5",
     "react-redux": "^8.0.0",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "4.0.3",
+    "react-scripts": "5.0.1",
     "react-scroll": "^1.8.4",
     "react-simple-image-viewer": "^1.1.1",
-    "redux": "^4.1.2",
+    "react-simple-star-rating": "^4.0.5",
+    "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
+    "sass": "^1.52.1",
     "swiper": "^6.8.4",
     "web-vitals": "^1.1.2"
   },

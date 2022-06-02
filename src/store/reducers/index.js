@@ -12,4 +12,8 @@ export function useCurrentUser() {
   return useSelector((state)=> state.currentUser)
 }
 
+export function useAccessToken() {
+  return useSelector((state)=> state.accessToken)
+}
+
 export default reducers;

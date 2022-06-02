@@ -10,6 +10,7 @@ export const Slider1 = (props) => {
 
     const [popular, setPopular] = useState([]);
     const [recommend, setRecommend] = useState([]);
+    const [userAds, setUserAds] = useState([]);
 
     useEffect(()=>{
         if(props.popular){
@@ -18,7 +19,10 @@ export const Slider1 = (props) => {
         if(props.recommend){
             setRecommend(props.recommend)
         }
-    },[props.popular, props.recommend])
+        if(props.userAds){
+            setUserAds(props.userAds)
+        }
+    },[props.popular, props.recommend, props.userAds])
 
     return (
         <Swiper
@@ -56,6 +60,9 @@ export const Slider1 = (props) => {
             {popular.map((popular) =>
                 <SwiperSlide key={popular.id}>
                     <Card
+                        id={recommend.id}
+                        wishlistStatus={recommend.wishlistStatus}
+                        uuid={recommend.uuid}
                         images={[
                             '/Real_estate_front/img/img1.jpg',
                             '/Real_estate_front/img/img2.jpg',
@@ -77,6 +84,9 @@ export const Slider1 = (props) => {
             {recommend.map((recommend) =>
                 <SwiperSlide key={recommend.id}>
                     <Card
+                        id={recommend.id}
+                        wishlistStatus={recommend.wishlistStatus}
+                        uuid={recommend.uuid}
                         images={[
                             '/Real_estate_front/img/img1.jpg',
                             '/Real_estate_front/img/img2.jpg',
@@ -92,6 +102,30 @@ export const Slider1 = (props) => {
                         metro={recommend.metro}
                         text={recommend.description}
                         date={recommend.createdAtForUser}
+                    />
+                </SwiperSlide>
+            )}
+            {userAds.map(userAds =>
+                <SwiperSlide key={userAds.id}>
+                    <Card
+                        id={userAds.id}
+                        wishlistStatus={userAds.wishlistStatus}
+                        uuid={userAds.uuid}
+                        images={[
+                            '/Real_estate_front/img/img1.jpg',
+                            '/Real_estate_front/img/img2.jpg',
+                            '/Real_estate_front/img/img3.jpg',
+                            '/Real_estate_front/img/img4.jpg'
+                        ]}
+                        isVip={userAds.isVip}
+                        isHot={userAds.isHot}
+                        title={userAds.title}
+                        price={userAds.price}
+                        addressName={userAds.residentalComplexForUser}
+                        address={userAds.address}
+                        metro={userAds.metro}
+                        text={userAds.description}
+                        date={userAds.createdAtForUser}
                     />
                 </SwiperSlide>
             )}
