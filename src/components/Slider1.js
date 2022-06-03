@@ -63,12 +63,7 @@ export const Slider1 = (props) => {
                         id={recommend.id}
                         wishlistStatus={recommend.wishlistStatus}
                         uuid={recommend.uuid}
-                        images={[
-                            '/Real_estate_front/img/img1.jpg',
-                            '/Real_estate_front/img/img2.jpg',
-                            '/Real_estate_front/img/img3.jpg',
-                            '/Real_estate_front/img/img4.jpg'
-                        ]}
+                        pictures={[popular.image, popular.images]}
                         isVip={popular.isVip}
                         isHot={popular.isHot}
                         title={popular.title}
@@ -87,12 +82,7 @@ export const Slider1 = (props) => {
                         id={recommend.id}
                         wishlistStatus={recommend.wishlistStatus}
                         uuid={recommend.uuid}
-                        images={[
-                            '/Real_estate_front/img/img1.jpg',
-                            '/Real_estate_front/img/img2.jpg',
-                            '/Real_estate_front/img/img3.jpg',
-                            '/Real_estate_front/img/img4.jpg'
-                        ]}
+                        pictures={[recommend.image, recommend.images]}
                         isVip={recommend.isVip}
                         isHot={recommend.isHot}
                         title={recommend.title}
@@ -111,12 +101,7 @@ export const Slider1 = (props) => {
                         id={userAds.id}
                         wishlistStatus={userAds.wishlistStatus}
                         uuid={userAds.uuid}
-                        images={[
-                            '/Real_estate_front/img/img1.jpg',
-                            '/Real_estate_front/img/img2.jpg',
-                            '/Real_estate_front/img/img3.jpg',
-                            '/Real_estate_front/img/img4.jpg'
-                        ]}
+                        pictures={[userAds.image, userAds.images]}
                         isVip={userAds.isVip}
                         isHot={userAds.isHot}
                         title={userAds.title}

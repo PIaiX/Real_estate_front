@@ -6,6 +6,7 @@ import Scroll, {animateScroll as scroll, Link} from 'react-scroll';
 import useAxiosPrivate from "./hooks/useAxiosPrivate";
 import {useAccessToken, useCurrentUser} from "../store/reducers";
 import {getTypesEstate} from "./API/typesestate";
+import {AddressSuggestions} from "react-dadata";
 
 
 export default function Advertise() {
@@ -245,6 +246,10 @@ export default function Advertise() {
     const resetFieldVal = (newState, field) => {
         setValid({...valid, [field]: false})
     }
+
+    console.log(data)
+
+    const [tt, setTT] = useState({})
 
     return (
         <main>
@@ -509,6 +514,14 @@ export default function Advertise() {
                                                 return {...prevData, "address": e.target.value}
                                             })
                                             resetFieldVal(e, 'isInValidAddress')
+                                        }}
+                                    />
+                                    <AddressSuggestions
+                                        token={process.env.REACT_APP_DADATA_TOKEN}
+                                        onChange={(e) => {
+                                            setData(prevData => {
+                                                return {...prevData, "address": {lon: e.data?.geo_lon, lat: e.data?.geo_lat}}
+                                            })
                                         }}
                                     />
                                 </div>
