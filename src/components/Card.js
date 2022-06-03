@@ -201,7 +201,7 @@ export default function Card(props) {
                         <span>Hot</span>
                     </div>}
                 </div>
-                <BtnFav realEstateId={props?.id} wishlist={props?.wishlist}/>
+                <BtnFav realEstateId={props?.id} wishlistStatus={props?.wishlistStatus}/>
             </div>
         )
     }

@@ -101,7 +101,7 @@ export default function UserAds() {
                                     <div className="mb-4 mb-md-5" key={i.id}>
                                         <Card
                                             type={view}
-                                            images={getImages(i)}
+                                            pictures={[i.image, i.images]}
                                             isVip={i.isVip}
                                             isHot={i.isHot}
                                             title={i.title}
@@ -120,8 +120,8 @@ export default function UserAds() {
                                             prepaymentTypeForUser={i.prepaymentTypeForUser}
                                             rentalTypeForUser={i.rentalTypeForUser}
                                             id={i?.id}
-                                            wishlist={i?.wishlistStatus}
-                                            avatar={avatar(i)}
+                                            wishlistStatus={i?.wishlistStatus}
+                                            userAvatar={i.user?.avatar}
                                             reportStatus={i.reportStatus}
                                         />
                                         <div
