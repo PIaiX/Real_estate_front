@@ -42,6 +42,15 @@ export default function BtnRep(props) {
         }
     }
 
+    const reportUser = async () => {
+        try {
+            const result = await addReportUser(axiosPrivate, data)
+            setLocalRep(true)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const addReportForUser = async () => {
             const result = await addReportUser(axiosPrivate, data)
             setReportUserStatus(reportUserStatus => !reportUserStatus)
@@ -78,11 +87,11 @@ export default function BtnRep(props) {
             {(type === "reportUser") &&
                 <button
                     type="button"
-                    className={`btn-notice ms-md-4 ${reportUserStatus ? 'reported' : ''}`}
+                    className={`btn-notice ms-md-4 ${localRep ? 'reported' : ""}`}
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
-                    title={reportUserStatus ? "Отозвать жалобу" : "Пожаловаться"}
-                    onClick={reportUserStatus ? deleteReportForUser : addReportForUser}
+                    title={localRep ? "Отозвать жалобу" : "Пожаловаться"}
+                    onClick={reportUser}
                 >
                     <svg width="20" height="17" viewBox="0 0 20 17" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
