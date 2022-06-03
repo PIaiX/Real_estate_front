@@ -130,8 +130,6 @@ export default function CardPage() {
         }
     }
 
-    console.log(ads)
-
     return (
         <main>
             <div className={(pageTop) ? "card-page-top py-2 d-md-none" : "card-page-top d-none py-2"}>
@@ -630,7 +628,7 @@ export default function CardPage() {
                                     <span>Высота потолков</span>
                                 </div>
                                 <div className="right">
-                                    <span>{ads.ceilingHeightForUser}</span>
+                                    <span>{ads.ceilingHeightForUser} м</span>
                                 </div>
                             </div>
                             <div className="specification fs-11">

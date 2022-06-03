@@ -35,26 +35,35 @@ export async function deleteReportUser (axiosPrivate, data) {
     }
 }
 
-export async function addReportReview (axiosPrivate, token) {
+export async function addReportReview (axiosPrivate, token, usersReviewId, userId) {
     try {
-        const report = await axiosPrivate.post(`${mainUrl}/user/reviewReports`, {token})
+        const report = await axiosPrivate.post(`${mainUrl}/user/reviewsReports`, {token, usersReviewId, userId})
     } catch (error) {
         console.log(error)
     }
 }
 
-export async function deleteReportReview (axiosPrivate, data) {
+export async function deleteReportReview (axiosPrivate, token, usersReviewId, userId) {
     try {
-        const report = await axiosPrivate.delete(`${mainUrl}/user/reports`, {data: {...data}})
+        const report = await axiosPrivate.delete(`${mainUrl}/user/reviewsReports`, {token, usersReviewId, userId})
     } catch (error) {
         console.log(error)
     }
 }
 
-export async function userInfo (userId) {
+export async function userInfoInUserPage (userId,currentUserId) {
     try {
-        const response = await axios.post(`${mainUrl}/user/${userId}`)
+        const response = await axios.post(`${mainUrl}/user/${userId}/${currentUserId}`)
         return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getReviewsInUsersPage (axiosPrivate, userId, page = 1, limit, currentUserId) {
+    try {
+        const response = await axiosPrivate.post(`${mainUrl}/user/reviews/${currentUserId}`, {page, userId, limit, orderBy:'desc'})
+        return response.data.body
     } catch (error) {
         console.log(error)
     }

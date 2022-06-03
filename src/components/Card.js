@@ -62,7 +62,7 @@ export default function Card(props) {
                                     </svg>
                                 </button>
                                 <BtnFav realEstateId={props?.id} wishlist={props?.wishlist}/>
-                                <BtnRep realEstateId={props?.id} reportStatus={props?.reportStatus}/>
+                                <BtnRep realEstateId={props?.id} reportStatus={props?.reportStatus} type="reportAd"/>
                                 <div className="color-2 fs-09 fw-3">{props.date}</div>
                             </div>
                         </div>

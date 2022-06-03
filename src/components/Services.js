@@ -22,8 +22,6 @@ export default function Services() {
         }
     }, [user])
 
-    console.log(userId)
-
     useEffect(() => {
         const req = async () => {
             try {
@@ -37,8 +35,6 @@ export default function Services() {
         }
         req()
     }, [userId])
-
-    console.log(catalog)
 
     return (
         <main>

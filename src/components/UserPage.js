@@ -1,19 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {NavLink, Link, useParams} from 'react-router-dom';
 import ShowPhone from './utilities/ShowPhone';
 import InputFile from './utilities/InputFile';
 import {Slider1} from './Slider1';
-import {getReviews} from "./API/users";
 import useAxiosPrivate from "./hooks/useAxiosPrivate";
 import {
     addReportReview,
-    addReportUser,
     CreateReview,
-    deleteReportReview,
-    deleteReportUser, userInfo
+    deleteReportReview, getReviewsInUsersPage,
+    userInfoInUserPage,
 } from "./API/userspage";
 import {useAccessToken, useCurrentUser} from "../store/reducers";
 import Rating from "react-rating";
+import BtnRep from "./utilities/BtnRep";
 
 
 export default function UserPage() {
@@ -27,31 +26,35 @@ export default function UserPage() {
     const [review, setReview] = useState({})
     const [limit, setLimit] = useState(2)
     const [userInformation, setUserInformation] = useState([])
+    const [reviewReport, setReviewReport] = useState('')
     const imageUpload = 'https://api.antontig.beget.tech/uploads/'
     let rating;
     const [data, setData] = useState({})
+    const currentUserId = user?.id
 
     useEffect(() => {
-        if(userId && user?.id) {
-            setData(data => {return {...data, "toId": userId, "fromId": user?.id, token}})
+        if (userId && user?.id) {
+            setData(data => {
+                return {...data, "toId": userId, "fromId": user?.id, token, userReport: userInformation?.reportStatus}
+            })
         }
-    }, [userId, user?.id, token])
+    }, [userId, user?.id, token, userInformation])
 
-    const reviewss = async () => {
-        try {
-            const result = userId ? await getReviews(axiosPrivate, userId, page, limit) : ''
-            if (result) {
-                setReviews(result)
-            }
-        } catch (error) {
-            console.log(error)
+    const reviewsPage = async () => {
+        const result = (currentUserId && userId) ? await getReviewsInUsersPage(axiosPrivate, userId, page, limit, currentUserId) : ""
+        if (result) {
+            setReviews(result)
         }
     }
 
     useEffect(() => {
-        const userInPage = async () =>{
+        reviewsPage()
+    }, [currentUserId, userId])
+
+    useEffect(() => {
+        const userInPage = async () => {
             try {
-                const result = await userInfo(userId)
+                const result = await userInfoInUserPage(userId, currentUserId)
                 if (result) {
                     setUserInformation(result?.body)
                 }
@@ -60,11 +63,7 @@ export default function UserPage() {
             }
         }
         userInPage()
-    }, [userId])
-
-    useEffect(() => {
-        reviewss()
-    }, [page, userId, limit])
+    }, [userId, currentUserId])
 
     const nextReviews = () => {
         if (reviews?.data?.length === limit) {
@@ -81,26 +80,24 @@ export default function UserPage() {
                 formData.append(key, request[key]);
             }
             const result = await CreateReview(axiosPrivate, formData)
-            reviewss()
+            reviewsPage()
         } catch (error) {
             console.log(error)
         }
     }
 
-    const addReportForUser = async () => {
-        const result = await addReportUser(axiosPrivate, data)
+    const addReportForReview = async (usersReviewId) => {
+        const result = await addReportReview(axiosPrivate, token, usersReviewId, userId)
+        if (result) {
+            reviewsPage()
+        }
     }
 
-    const deleteReportForUser = async () => {
-        const result = await deleteReportUser(axiosPrivate, data)
-    }
-
-    const addReportForReview = async () => {
-        const result = await addReportReview(axiosPrivate, token)
-    }
-
-    const deleteReportForReview = async () => {
-        const result = await deleteReportReview(axiosPrivate, data)
+    const deleteReportForReview = async (usersReviewId) => {
+        const result = await deleteReportReview(axiosPrivate, token, usersReviewId, userId)
+        if (result) {
+            reviewsPage()
+        }
     }
 
     return (
@@ -132,32 +129,21 @@ export default function UserPage() {
                                 <h4>{userInformation?.ownerTypeForUser}</h4>
                                 <div className="fs-11 gray-3">На сайте с {userInformation?.createdAtForUser}</div>
                                 <div className="d-flex align-items-center mt-2 mt-sm-4">
-                                    <ShowPhone className="d-none d-md-flex flex-1" phone="+ 7 (952) 879 78 65"/>
+                                    <ShowPhone className="d-none d-md-flex flex-1"
+                                               phone={userInformation?.phone ? userInformation?.phoneForUser : "Отсутствует"}/>
                                     <button type="button" data-bs-toggle="modal" data-bs-target="#write-message"
                                             className="d-none d-md-flex btn btn-1 px-3 w-100 flex-1 ms-4">Написать
                                         сообщение
                                     </button>
-                                    <button
-                                        type="button"
-                                        className="btn-notice ms-md-4"
-                                        title="Пожаловаться"
-                                        onClick={deleteReportForUser}
-                                    >
-                                        <svg width="20" height="17" viewBox="0 0 20 17" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M8.4455 1.8619C9.23354 0.64323 11.0164 0.643231 11.8044 1.8619L19.2732 13.4121C20.1337 14.7429 19.1784 16.4981 17.5937 16.4981H2.65624C1.0715 16.4981 0.116258 14.7429 0.976768 13.4121L8.4455 1.8619Z"
-                                                className="fill-color"/>
-                                            <path
-                                                d="M10.8489 4.96997V8.97397C10.8489 9.18397 10.8442 9.38931 10.8349 9.58997C10.8255 9.79064 10.8115 9.99364 10.7929 10.199C10.7789 10.3996 10.7602 10.6073 10.7369 10.822C10.7135 11.0366 10.6879 11.263 10.6599 11.501H9.73587C9.70787 11.263 9.6822 11.0366 9.65887 10.822C9.63553 10.6073 9.61453 10.3996 9.59587 10.199C9.58187 9.99364 9.5702 9.79064 9.56087 9.58997C9.55153 9.38931 9.54687 9.18397 9.54687 8.97397V4.96997H10.8489ZM9.25287 14.203C9.25287 14.077 9.2762 13.958 9.32287 13.846C9.36953 13.734 9.43487 13.636 9.51887 13.552C9.60287 13.468 9.70087 13.4026 9.81287 13.356C9.92487 13.3046 10.0462 13.279 10.1769 13.279C10.3029 13.279 10.4219 13.3046 10.5339 13.356C10.6459 13.4026 10.7439 13.468 10.8279 13.552C10.9119 13.636 10.9772 13.734 11.0239 13.846C11.0752 13.958 11.1009 14.077 11.1009 14.203C11.1009 14.3336 11.0752 14.455 11.0239 14.567C10.9772 14.679 10.9119 14.777 10.8279 14.861C10.7439 14.945 10.6459 15.0103 10.5339 15.057C10.4219 15.1036 10.3029 15.127 10.1769 15.127C10.0462 15.127 9.92487 15.1036 9.81287 15.057C9.70087 15.0103 9.60287 14.945 9.51887 14.861C9.43487 14.777 9.36953 14.679 9.32287 14.567C9.2762 14.455 9.25287 14.3336 9.25287 14.203Z"
-                                                fill="#fff"/>
-                                        </svg>
-                                    </button>
+                                    <BtnRep userinfo={data} reportUserStatus={userInformation?.reportStatus}
+                                            type="reportUser"/>
                                 </div>
                             </div>
                             <div className="col-5 col-sm-4 col-md-3">
                                 <div className="user-photo">
-                                    <img src={userInformation?.avatar ? `${imageUpload}${userInformation?.avatar}` : "/Real_estate_front/img/img-photo.svg"} alt={userInformation?.fullName}/>
+                                    <img
+                                        src={userInformation?.avatar ? `${imageUpload}${userInformation?.avatar}` : "/Real_estate_front/img/img-photo.svg"}
+                                        alt={userInformation?.fullName}/>
                                     <div className="indicator online"/>
                                 </div>
                             </div>
@@ -196,7 +182,8 @@ export default function UserPage() {
                     <div className="col-xl-10 col-xxl-9 mb-5">
                         {(reviews.data?.length === 0) ?
                             <>
-                                <h4 className="text-center text-md-start">Отзывы на {userInformation?.firstName} (0)</h4>
+                                <h4 className="text-center text-md-start">Отзывы
+                                    на {userInformation?.firstName} (0)</h4>
                                 <div className="fs-11 text-center text-md-start mb-4">Нет отзывов</div>
                                 <button
                                     disabled={userId === String(user?.id)}
@@ -215,7 +202,7 @@ export default function UserPage() {
                                         Отзывы на {userInformation?.firstName} ({reviews.meta?.total})
                                     </h4>
                                     <button
-                                        disabled={userId === String(user?.id)}
+                                        disabled={(userId === String(user?.id)) || userInformation?.reviewStatus}
                                         type="button"
                                         data-bs-toggle="modal"
                                         data-bs-target="#write-review"
@@ -259,9 +246,14 @@ export default function UserPage() {
                                             <button
                                                 type="button"
                                                 className="claiming color-1 fs-09"
-                                                onClick={addReportForReview}
+                                                onClick={() => {
+                                                    (i?.reportStatus) ?
+                                                        deleteReportForReview(i?.id)
+                                                        :
+                                                        addReportForReview(i?.id)
+                                                }}
                                             >
-                                                Пожаловаться
+                                                {i?.reportStatus ? "Разжаловать" : "Пожаловаться"}
                                             </button>
                                         </div>
                                     </div>
@@ -404,6 +396,7 @@ export default function UserPage() {
                                             })}
                                         />
                                         <button
+                                            disabled={userInformation?.reviewStatus}
                                             type="submit"
                                             className="btn btn-1 fs-12 ms-auto mt-3"
                                             onClick={createReview}

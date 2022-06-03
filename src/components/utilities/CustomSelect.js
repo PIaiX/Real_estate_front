@@ -1,30 +1,43 @@
 import React, {useState, useEffect, useRef} from 'react';
 
 export default function CustomSelect(props) {
-    const options = props.options;
+    const [options, setOptions] = useState([])
     const [visible, setVisibility] = useState(false);
-    const [checkedVal, setCheckedVal] = useState(props.checkedOpt);
-    const [checkedIndex, setCheckedIndex] = useState(options.findIndex(index => index === checkedVal))
+    const [checkedOpt, setCheckedOpt] = useState(props.checkedOpt);
+    const [checkedIndex, setCheckedIndex] = useState(null)
+    const [checkedVal, setCheckedVal] = useState(null)
+    const ref = useRef(null);
 
     useEffect(() => {
-        if (props.callback){
-            props.callback(checkedIndex)
+        if (props.options.length) {
+            setOptions(props.options.map((item, ind) => item.index ? item : {index: ind, value: item}))
         }
-    }, [checkedIndex])
+        if (props.checkedOpt) {
+            setCheckedOpt(props.checkedOpt)
+        }
+    }, [props.options, props.checkedOpt])
+
 
     useEffect(() => {
-        if(props.callbackDay){
-            props.callbackDay(checkedIndex)
+        if (options.length) {
+            if (typeof checkedOpt === 'number' || props.notDefaultIndexes) {
+                const {value} = options.find(option => option.index === checkedOpt)
+                setCheckedIndex(checkedOpt)
+                setCheckedVal(value)
+            }
+            if (typeof checkedOpt === 'string' && !props.notDefaultIndexes) {
+                const {index} = options.findIndex(option => option.value === checkedOpt)
+                setCheckedIndex(index)
+                setCheckedVal(checkedOpt)
+            }
         }
-        if(props.callbackMonth){
-            props.callbackMonth(checkedIndex)
-        }
-        if(props.callbackYear){
-            props.callbackYear(checkedVal)
+    }, [options, checkedOpt, props.notDefaultIndexes])
+
+    useEffect(() => {
+        if (props.callback) {
+            props.callback({checkedIndex, checkedVal})
         }
     }, [checkedIndex, checkedVal])
-
-    const ref = useRef(null);
 
     const handleClickOutside = (event) => {
         if (ref.current && !ref.current.contains(event.target)) {
@@ -44,10 +57,11 @@ export default function CustomSelect(props) {
             document.removeEventListener('click', handleClickOutside, true);
         };
     });
-    
+
     return (
         <div ref={ref} className={"custom-select " + props.className}>
-            <button type="button" className={props.btnClass} onClick={() => setVisibility((visible === false) ? true : false)}>
+            <button type="button" className={props.btnClass}
+                    onClick={() => setVisibility((visible === false))}>
                 <div>{checkedVal}</div>
                 <svg className="ms-2" viewBox="0 0 23 12" xmlns="http://www.w3.org/2000/svg">
                     <line x1="21.6832" y1="0.730271" x2="10.7468" y2="10.961"/>
@@ -55,19 +69,17 @@ export default function CustomSelect(props) {
                 </svg>
             </button>
             <div className={visible ? 'options py-2' : 'options d-none py-2'} data-alignment={props.alignment}>
-                {options.map(function(item, index) {
+                {options.map(option => {
                     return (
-                        <label className="radio-line" key={item}>
+                        <label className="radio-line" key={option.index}>
                             <input
                                 type="radio"
                                 name="type"
-                                value={item}
-                                onChange={e => {
-                                    handleChange(e, index)
-                                }}
-                                checked={(index === checkedIndex)}
+                                value={option.value}
+                                onChange={e => handleChange(e, option.index)}
+                                checked={option.index === checkedIndex}
                             />
-                            <div>{item}</div>
+                            <div>{option.value}</div>
                         </label>
                     )
                 })}

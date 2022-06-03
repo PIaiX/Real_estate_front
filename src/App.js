@@ -14,6 +14,7 @@ import currentUserActions from "./store/actions/currentUser";
 import useAxiosPrivate from "./components/hooks/useAxiosPrivate";
 import {useEffect} from "react";
 
+
 function App() {
 
     const baseUrl = "https://api.antontig.beget.tech";
@@ -21,8 +22,6 @@ function App() {
     const {setToken} = bindActionCreators(accessTokenActions, dispatch);
     const {setCurrentUser} = bindActionCreators(currentUserActions, dispatch);
     const axiosPrivate = useAxiosPrivate();
-    const user = useCurrentUser()
-    const token = useAccessToken()
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -33,7 +32,7 @@ function App() {
             }
         }
         checkAuth();
-    }, [token]);
+    }, []);
 
     return (
         <HashRouter>

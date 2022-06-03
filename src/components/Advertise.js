@@ -7,6 +7,7 @@ import useAxiosPrivate from "./hooks/useAxiosPrivate";
 import {useAccessToken, useCurrentUser} from "../store/reducers";
 import {getTypesEstate} from "./API/typesestate";
 
+
 export default function Advertise() {
 
     const ref = useRef(null); // Form
@@ -84,7 +85,9 @@ export default function Advertise() {
 
     const [activeField, setActiveField] = useState(1); //для мобильных устройств
 
-    const f = imgs[0]
+
+
+    const f = imgs[mainImg]
     const image = f?.file
 
     const axiosPrivate = useAxiosPrivate();
@@ -110,7 +113,6 @@ export default function Advertise() {
         pledge: 0,
         commission: 0,
         isEncumbrances: 1,
-
     }
 
     const [data, setData] = useState({
@@ -212,28 +214,28 @@ export default function Advertise() {
             scroller.scrollTo("anchor-5")
             setValid({...valid, isInValidPrice: true})
         } else {
+
             const userId = currentUser?.id;
             const formData = new FormData();
             const req = {...data, token, userId, image};
 
-
-            if (imgs.length > 1) {
-                for (const key in req) {
-                    formData.append(key, req[key]);
-                }
-                for (const item of imgs) {
-                    imgs.shift()
-                    formData.append('images', item.file)
-                }
-            } else {
-                for (const key in req) {
-                    formData.append(key, req[key]);
-                }
+            for (const key in req) {
+                formData.append(key, req[key]);
             }
 
+            if(imgs?.length >= 1) {
+                imgs.forEach((i, index) => {
+                    if(i.file?.name !== image.name) {
+                        formData.append('images', i.file)
+                    }
+                })
+            }
 
             try {
                 let result = await axiosPrivate.post("https://api.antontig.beget.tech/api/realEstates/create", formData)
+                if(result) {
+                    alert("FORMA OTPRAWLENA")
+                }
             } catch (err) {
                 console.log(err)
             }

@@ -624,6 +624,9 @@ button {
 .btn-notice:hover svg path.fill-color, .btn-notice:focus svg path.fill-color {
   fill: #146492;
 }
+.btn-notice.reported > svg > path.fill-color {
+  fill: #146492;
+}
 
 h1, h2, h3 {
   font-family: "Gilroy";
@@ -3161,9 +3164,6 @@ main.account {
 }
 .chat .end .btn-notice:active i {
   color: #C59C7E;
-}
-.chat .end .btn-notice.reported > svg > path:first-child {
-  color: #146492;
 }
 .chat:hover {
   background-color: #F1F7FA;

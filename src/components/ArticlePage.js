@@ -3,7 +3,7 @@ import {Link, useParams} from 'react-router-dom';
 import {Slider2} from './Slider2';
 import Card from './Card';
 import {getArticle} from "./API/news";
-import {getPopular, getRecommend} from "./API/mainpagereq";
+import {getRecommend} from "./API/mainpagereq";
 import {useCurrentUser} from "../store/reducers";
 
 export default function ArticlePage() {

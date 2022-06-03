@@ -61,10 +61,12 @@ export default function Advertise() {
                     "hasMoreLayerParking": false,
                     "hasUnderGroundParking": false,
                     "price": ad?.price,
-                    "communalPrice": ad?.communalPrice,
+                    "communalPrice": 0,
                     "pledge": ad?.pledge,
                     "commission": ad?.commission,
-                    "prepaymentType": ad?.prepaymentType
+                    "prepaymentType": ad?.prepaymentType,
+                    "withKids": false,
+                    "withPets": false,
                 }
             )
         }
@@ -138,7 +140,7 @@ export default function Advertise() {
 
     const [activeField, setActiveField] = useState(1); //для мобильных устройств
 
-    const f = imgs[0]
+    const f = imgs[mainImg]
     const image = f?.file
 
     const handleCheckbox = (e) => {
@@ -271,14 +273,19 @@ export default function Advertise() {
             const userId = currentUser?.id;
             const formData = new FormData();
             const req = {...data, token, userId, image};
-            imgs.shift()
 
             for (const key in req) {
                 formData.append(key, req[key]);
             }
-            for (const item of imgs) {
-                formData.append('images', item.file)
+
+            if(imgs?.length >= 1) {
+                imgs.forEach((i, index) => {
+                    if(i.file?.name !== image.name) {
+                        formData.append('images', i.file)
+                    }
+                })
             }
+
             try {
                 let result = await updateAd(axiosPrivate, uuid, formData)
                 if (result.status === 200) {
