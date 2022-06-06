@@ -23,6 +23,7 @@ export default function Card(props) {
     }, [props.pictures, props.userAvatar])
 
     const getPictures = (image, images) => {
+
         const result = [].concat(image, images.map(i => i.image))
 
         return result.map(item => item
@@ -32,12 +33,10 @@ export default function Card(props) {
     }
 
     const getUserAvatar = (avatar) => {
-
         return avatar
             ? `https://api.antontig.beget.tech/uploads/${avatar}`
             : '/Real_estate_front/img/img-photo.svg'
     }
-
 
     const scrollToTop = () => {
         scroll.scrollToTop();

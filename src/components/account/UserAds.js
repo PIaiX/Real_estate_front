@@ -37,8 +37,6 @@ export default function UserAds() {
     const [pages, setPages] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const {page} = useParams()
-    const sait = "https://api.antontig.beget.tech/"
-    const url = 'https://api.antontig.beget.tech/uploads/'
 
     const ads = async () => {
         try {
@@ -57,14 +55,6 @@ export default function UserAds() {
         ads()
     }, [userId, page])
 
-    const getImages = (item) => {
-        const result = [].concat(item?.image, item?.images.map(i => i.image))
-        return result.map(item => item
-            ? `${url}${item}`
-            : '/Real_estate_front/img/nophoto.jpg'
-        )
-    }
-
     const deleteAd = async (uuid) => {
         try {
             await deleteAds(axiosPrivate, uuid, token);
@@ -72,10 +62,6 @@ export default function UserAds() {
         } catch (error) {
             console.log(error)
         }
-    }
-
-    const avatar = (i) => {
-        return i ? `${url}${i.user?.avatar}` : '/Real_estate_front/img/nophoto.jpg'
     }
 
     return (

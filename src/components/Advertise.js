@@ -520,7 +520,7 @@ export default function Advertise() {
                                         token={process.env.REACT_APP_DADATA_TOKEN}
                                         onChange={(e) => {
                                             setData(prevData => {
-                                                return {...prevData, "address": {lon: e.data?.geo_lon, lat: e.data?.geo_lat}}
+                                                return {...prevData, "address": e.data}
                                             })
                                         }}
                                     />

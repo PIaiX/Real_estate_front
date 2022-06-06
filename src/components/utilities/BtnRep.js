@@ -18,6 +18,7 @@ export default function BtnRep(props) {
     const [localRep, setLocalRep] = useState(reportStatus)
     const [reportUserStatus, setReportUserStatus] = useState(false)
 
+
     useEffect(() => {
         const info = () => {
             if (userId && realEstateId) {
@@ -29,7 +30,7 @@ export default function BtnRep(props) {
 
     useEffect(() => {
         if (props?.reportUserStatus) {
-            setReportUserStatus(props?.reportUserStatus)
+            setReportUserStatus(data?.userReport)
         }
     }, [props?.reportUserStatus,data])
 
@@ -42,22 +43,13 @@ export default function BtnRep(props) {
         }
     }
 
-    const reportUser = async () => {
-        try {
-            const result = await addReportUser(axiosPrivate, data)
-            setLocalRep(true)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
     const addReportForUser = async () => {
-            const result = await addReportUser(axiosPrivate, data)
+            await addReportUser(axiosPrivate, data)
             setReportUserStatus(reportUserStatus => !reportUserStatus)
     }
 
     const deleteReportForUser = async () => {
-            const result = await deleteReportUser(axiosPrivate, data)
+            await deleteReportUser(axiosPrivate, data)
             setReportUserStatus(reportUserStatus => !reportUserStatus)
     }
 
@@ -87,11 +79,16 @@ export default function BtnRep(props) {
             {(type === "reportUser") &&
                 <button
                     type="button"
-                    className={`btn-notice ms-md-4 ${localRep ? 'reported' : ""}`}
+                    className={`btn-notice ms-md-4 ${reportUserStatus ? 'reported' : ""}`}
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
-                    title={localRep ? "Отозвать жалобу" : "Пожаловаться"}
-                    onClick={reportUser}
+                    title={reportUserStatus ? "Отозвать жалобу" : "Пожаловаться"}
+                    onClick={() => {
+                        (reportUserStatus) ?
+                            deleteReportForUser()
+                            :
+                            addReportForUser()
+                    }}
                 >
                     <svg width="20" height="17" viewBox="0 0 20 17" fill="none"
                          xmlns="http://www.w3.org/2000/svg">

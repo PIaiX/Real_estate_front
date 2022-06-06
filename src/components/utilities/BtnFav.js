@@ -24,8 +24,6 @@ export default function BtnFav(props) {
         }
     }, [props?.wishlistStatus])
 
-    console.log(wishlistStatus)
-
     useEffect(() => {
         const info = () => {
             if (token && user?.id && realEstateId)
