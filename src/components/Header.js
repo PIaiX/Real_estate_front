@@ -1,15 +1,14 @@
 import React, {useState} from 'react';
 import {Link, NavLink} from 'react-router-dom';
-import CustomSelect from './utilities/CustomSelect';
 import {animateScroll as scroll} from 'react-scroll';
 import {getQuestion} from "./API/question";
-import {onSelectHandler} from './utilities/collectDataFromForm';
-import useConnectionCity from './hooks/useConnectionCity';
-import useGeolocation from './hooks/useGeolocation';
+import useSelectedCity from './hooks/useSelectedCity';
+import CityPopup from './utilities/CityPopup';
+import CustomSelect from './utilities/CustomSelect';
 
 export default function Header() {
-    const {position} = useGeolocation()
-    const {selectedCity, setSelectedCity} = useConnectionCity(position)
+    const [isShowCities, setIsShowCities] = useState(false)
+    const {city, setCity, isDefinedCity} = useSelectedCity()
 
     const scrollToTop = () => {
         scroll.scrollToTop();
@@ -103,13 +102,32 @@ export default function Header() {
 
                     <NavLink to="/advertise" onClick={() => scrollToTop()} className="ms-md-4 btn btn-1 text-uppercase p-2 order-3 order-lg-4">Подать объявление</NavLink>
 
-                    <CustomSelect
-                        className="ms-md-3 ms-xl-4 order-2 order-lg-5"
-                        btnClass="color-2 text-uppercase"
-                        checkedOpt={selectedCity}
-                        options={['Москва', 'Казань', 'Санкт-Петербург']}
-                        callback={({_, checkedVal}) => onSelectHandler(checkedVal, null, setSelectedCity)}
-                        alignment="right"/>
+                    <div className="city-container ms-md-3 ms-xl-4 order-2 order-lg-5 align-self-center">
+                        <CustomSelect
+                            btnClass="color-2 text-uppercase"
+                            visible={isShowCities}
+                            // setIsShowCities={setIsShowCities}
+                            checkedOpt={city}
+                            // setCity={setCity}
+                            options={['Москва', 'Казань', 'Санкт-Петербург']}
+                            callback={({checkedVal}) => {
+                                if (isShowCities) {
+                                    localStorage.setItem('userCity', checkedVal)
+                                    setCity(checkedVal)
+                                    setIsShowCities(false)
+                                } else {
+                                    setCity(checkedVal)
+                                }
+                            }}
+                            alignment="right"
+                        />
+                        <CityPopup
+                            city={city}
+                            isDefinedCity={isDefinedCity}
+                            setIsShowCities={setIsShowCities}
+                        />
+                    </div>
+
 
                     <button type="button" data-bs-toggle="offcanvas" data-bs-target="#header-menu" className="d-block d-lg-none order-5">
                         <img src="/Real_estate_front/img/icons/menu.svg" alt="меню"/>

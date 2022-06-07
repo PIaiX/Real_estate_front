@@ -7,19 +7,20 @@ import CatalogFilters from './CatalogFilters';
 import PaginationCustom from './utilities/PaginationCustom';
 import {getCatalog} from './API/catalog';
 import {getTypesEstate} from './API/typesEstate';
-import useUpdateSize from './hooks/useUpdateSize';
+import useUpdateSizeSecond from './hooks/useUpdateSizeSecond';
 import {useSelector} from 'react-redux';
 import useWindowDimensions from './hooks/useWindowDimensions';
-import useConnectionCity from './hooks/useConnectionCity';
 import useSearchForm from './hooks/useSearchForm';
 import {animateScroll as scroll} from 'react-scroll';
 import {onSelectHandler, onInputHandler, onMultiCheckboxHandler, onSingleParamQuery} from './utilities/collectDataFromForm'
 import YMap from './utilities/YMap';
 import CatalogOffcanvasCards from './utilities/CatalogOffcanvasCards';
+import {withYMaps} from 'react-yandex-maps';
+import useDefineMapCenter from './hooks/useDefineMapCenter';
 
-const Catalog = () => {
+const Catalog = (props) => {
     const {width} = useWindowDimensions()
-    const [view, setView] = useUpdateSize('991px')
+    const [view, setView] = useUpdateSizeSecond('991px')
     const {page} = useParams();
     const [searchParams, setSearchParams] = useSearchParams()
     const initialInstantFilters = {
@@ -34,15 +35,10 @@ const Catalog = () => {
     const [isShowMap, setIsShowMap] = useState(false)
     const [isShowCanvas, setIsShowCanvas] = useState(false)
     const userId = useSelector(state => state.currentUser?.id)
-    const {selectedCity} = useConnectionCity()
     const [offcanvasCards, setOffcanvasCards] = useState([])
     const {search, setSearch, onSearch} = useSearchForm('')
 
-    useEffect(() => {
-        if (selectedCity) {
-            setIsShowMap(false)
-        }
-    }, [selectedCity])
+    const mapCenter = useDefineMapCenter(props.ymaps)
 
     useEffect(() => {
         const req = async () => {
@@ -537,10 +533,10 @@ const Catalog = () => {
             />
             <CatalogOffcanvasCards cards={offcanvasCards}/>
             {
-                isShowMap
+                isShowMap && mapCenter
                     ? <YMap
                         className='y-maps-catalog'
-                        activeCity={selectedCity}
+                        mapCenter={mapCenter}
                         callback={cards => setOffcanvasCards(cards)}
                     />
                     : null
@@ -549,4 +545,4 @@ const Catalog = () => {
     )
 }
 
-export default Catalog
+export default withYMaps(Catalog)

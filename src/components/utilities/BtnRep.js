@@ -16,7 +16,6 @@ export default function BtnRep(props) {
     const type = props?.type
     const [report, setReport] = useState({})
     const [localRep, setLocalRep] = useState(reportStatus)
-    console.log(type)
 
     useEffect(() => {
         const info = () => {

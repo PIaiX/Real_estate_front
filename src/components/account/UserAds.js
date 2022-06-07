@@ -73,10 +73,6 @@ export default function UserAds() {
         }
     }
 
-    const avatar = (i) => {
-        return i ? `${url}${i.user?.avatar}` : '/Real_estate_front/img/nophoto.jpg'
-    }
-
     return (
         <div className="px-sm-3 px-md-4 px-xxl-5 pb-3 pb-sm-4 pb-xxl-5">
             <nav className="d-block d-lg-none mt-3 mb-3 mb-sm-5" aria-label="breadcrumb">
@@ -88,17 +84,18 @@ export default function UserAds() {
                     <div className="mb-4 mb-md-5" key={i.id}>
                         <Card
                             type={view}
-                            images={getImages(i)}
+                            pictures={[i.image, i.images]}
                             isVip={i.isVip}
                             isHot={i.isHot}
                             title={i.title}
                             price={i.price}
                             transactionType={i.transactionType}
-                            residentalComplex={i.residentalComplexForUser}
+                            addressName={i.residentComplexForUser}
                             address={i.address}
                             metro={i.metro}
                             text={i.description}
                             date={i.createdAtForUser}
+                            id={i.id}
                             uuid={i.uuid}
                             user={i.user}
                             communalPrice={i.communalPrice}
@@ -106,10 +103,9 @@ export default function UserAds() {
                             commissionForUser={i.commissionForUser}
                             prepaymentTypeForUser={i.prepaymentTypeForUser}
                             rentalTypeForUser={i.rentalTypeForUser}
-                            id={i?.id}
-                            wishlist={i?.wishlistStatus}
-                            avatar={avatar(i)}
+                            wishlistStatus={i.wishlistStatus}
                             reportStatus={i.reportStatus}
+                            userAvatar={i.user?.avatar}
                         />
                         <div
                             className={(view === 'as-a-list') ? "d-flex justify-content-end align-items-center mt-2" : "mt-2"}>

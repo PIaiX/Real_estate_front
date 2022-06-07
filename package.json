@@ -34,7 +34,6 @@
     "react-yandex-maps": "^4.6.0",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
-    "sass": "^1.52.1",
     "swiper": "^6.8.4",
     "web-vitals": "^1.1.2"
   },
@@ -62,5 +61,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "sass": "^1.52.2"
   }
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {HashRouter} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -14,6 +14,7 @@ import currentUserActions from "./store/actions/currentUser";
 import useAxiosPrivate from "./components/hooks/useAxiosPrivate";
 import {useEffect} from "react";
 import {YMaps} from 'react-yandex-maps'
+import useDefineMapCenter from './components/hooks/useDefineMapCenter';
 
 function App() {
     const baseUrl = "https://api.antontig.beget.tech";
@@ -35,7 +36,7 @@ function App() {
 
     return (
         <HashRouter>
-            <YMaps>
+            <YMaps query={{ apikey: 'e02e5994-293e-40f6-8702-8fe9d1243699', load: 'package.full'}}>
                 <Header/>
                 <AppRouter/>
                 <Footer/>

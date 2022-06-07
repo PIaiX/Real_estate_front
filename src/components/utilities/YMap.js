@@ -3,7 +3,6 @@ import {GeolocationControl, Map, ObjectManager, ZoomControl} from 'react-yandex-
 
 const YMap = (props) => {
     const [objectManager, setObjectManager] = useState(null)
-    const [coords, setCoords] = useState(null)
     const [selectedCluster, setSelectedCluster] = useState(null)
     const [selectedPoint, setSelectedPoint] = useState(null)
     const dataArr = [
@@ -622,20 +621,6 @@ const YMap = (props) => {
     }, [selectedPoint])
 
     useEffect(() => {
-        switch (props.activeCity) {
-            case 'Москва':
-                setCoords([55.755819, 37.617644])
-                break
-            case 'Санкт-Петербург':
-                setCoords([59.939099, 30.315877])
-                break
-            case 'Казань':
-                setCoords([55.796127, 49.106414])
-                break
-        }
-    }, [props.activeCity])
-
-    useEffect(() => {
         if (objectManager) {
             initObjectManager()
         }
@@ -671,7 +656,6 @@ const YMap = (props) => {
                     options: {
                         iconLayout: 'default#image',
                         iconImageHref: 'Real_estate_front/img/icons/Ymaps/hot-placemark.svg',
-                        // Размеры метки.
                         iconImageSize: [46, 47],
                     }
                 }
@@ -701,13 +685,14 @@ const YMap = (props) => {
             <Map
                 className='y-maps'
                 defaultState={{
-                    center: coords,
+                    center: props.mapCenter,
                     zoom: 9,
                     controls: [],
                 }}
                 options={{
                     restrictMapArea: true,
-                    autoFitToViewport: 'always'
+                    autoFitToViewport: 'always',
+                    yandexMapDisablePoiInteractivity: false
                 }}
                 modules={["geolocation", "geocode"]}
             >
@@ -746,18 +731,7 @@ const YMap = (props) => {
                         // iconImageOffset: [-5, -38]
                     }}
                     clusters={{
-                        // preset: 'islands#redClusterIcons',
-                        // iconLayout: 'default#pieChart',
-                        // data: [
-                        //     // Вес красного сектора.
-                        //     {weight: 52, color: 'red'},
-                        //     // Вес зеленого сектора.
-                        //     {weight: 42, color: '#880011'},
-                        //     // Вес желтого сектора.
-                        //     {weight: 23, color: '#035201'},
-                        //     // Вес синего сектора.
-                        //     {weight: 12, color: '#002f55'}
-                        // ]
+                        openBalloonOnClick: false,
                         clusterIcons: [
                             {
                                 href: 'Real_estate_front/img/icons/Ymaps/default-cluster.svg',
@@ -771,7 +745,6 @@ const YMap = (props) => {
                             }
                         ]
                     }}
-                    // features={dataArr}
                     instanceRef={ref => setObjectManager(ref)}
                 />
             </Map>

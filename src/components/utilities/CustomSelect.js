@@ -2,11 +2,17 @@ import React, {useState, useEffect, useRef} from 'react';
 
 export default function CustomSelect(props) {
     const [options, setOptions] = useState([])
-    const [visible, setVisibility] = useState(false);
+    const [visible, setVisibility] = useState(props.visible || false);
     const [checkedOpt, setCheckedOpt] = useState(props.checkedOpt);
     const [checkedIndex, setCheckedIndex] = useState(null)
     const [checkedVal, setCheckedVal] = useState(null)
     const ref = useRef(null);
+
+    useEffect(() => {
+        if (props.visible) {
+            setVisibility(true)
+        }
+    }, [props.visible])
 
     useEffect(() => {
         if (props.options.length) {

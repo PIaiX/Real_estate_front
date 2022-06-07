@@ -19,7 +19,6 @@ export default function Favorites() {
         const req = async (userId, page, limit, axiosPrivate) => {
             const response = await getWishlist(userId, page, limit, axiosPrivate)
             if (response) {
-                console.log(response)
                 setWishlistData({
                     meta: response,
                     wishlist: response?.data
