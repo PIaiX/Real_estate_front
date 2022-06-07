@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {NavLink} from 'react-router-dom';
+import {NavLink, useNavigate} from 'react-router-dom';
 import ImageUploading from "react-images-uploading";
 import CustomSelect from './utilities/CustomSelect';
 import Scroll, {animateScroll as scroll, Link} from 'react-scroll';
@@ -7,6 +7,7 @@ import useAxiosPrivate from "./hooks/useAxiosPrivate";
 import {useAccessToken, useCurrentUser} from "../store/reducers";
 import {getTypesEstate} from "./API/typesestate";
 import {AddressSuggestions} from "react-dadata";
+import AuthError from "./utilities/AuthError"
 
 
 export default function Advertise() {
@@ -15,6 +16,7 @@ export default function Advertise() {
     const [deal, setDeal] = useState('1'); // тип сделки (по умолчанию - продажа)
     const [proptype, setProptype] = useState('1'); // тип недвижимости (по умолчанию - Жилая)
     const [requiredElems, setRequired] = useState([]);
+    let navigate = useNavigate();
 
     useEffect(() => {
         function updateState() {
@@ -27,7 +29,7 @@ export default function Advertise() {
             )
             setRequired(arrNames);
         }
-        ref.current.addEventListener('change', updateState);
+        ref?.current?.addEventListener('change', updateState);
     }, []);
 
     const [types, setTypes] = useState([]) // result require api
@@ -85,8 +87,6 @@ export default function Advertise() {
     };
 
     const [activeField, setActiveField] = useState(1); //для мобильных устройств
-
-
 
     const f = imgs[mainImg]
     const image = f?.file
@@ -235,7 +235,7 @@ export default function Advertise() {
             try {
                 let result = await axiosPrivate.post("https://api.antontig.beget.tech/api/realEstates/create", formData)
                 if(result) {
-                    alert("FORMA OTPRAWLENA")
+                    navigate("/personal-account/my-ads", {replace: true})
                 }
             } catch (err) {
                 console.log(err)
@@ -246,10 +246,6 @@ export default function Advertise() {
     const resetFieldVal = (newState, field) => {
         setValid({...valid, [field]: false})
     }
-
-    console.log(data)
-
-    const [tt, setTT] = useState({})
 
     return (
         <main>
@@ -268,7 +264,8 @@ export default function Advertise() {
             </div>
             <section id="sec-11" className="container mb-6">
                 <h1 className="text-center text-lg-start">Подать объявление</h1>
-                <form
+                {(currentUser && token) ?
+                    <form
                     ref={ref}
                     className="row gx-xxl-5 position-relative"
                     name="postingAd"
@@ -415,7 +412,8 @@ export default function Advertise() {
                                                         name="property-type"
                                                         value={i.id}
                                                         onChange={(e) => {
-                                                            /*validate(e.target)*/;
+                                                            /*validate(e.target)*/
+                                                            ;
                                                             setProptype(i.id);
                                                             setData(prevData => {
                                                                 return {...prevData, "estateTypeId": e.target.value}
@@ -520,7 +518,10 @@ export default function Advertise() {
                                         token={process.env.REACT_APP_DADATA_TOKEN}
                                         onChange={(e) => {
                                             setData(prevData => {
-                                                return {...prevData, "address": e.data}
+                                                return {
+                                                    ...prevData,
+                                                    "address": {lon: e.data?.geo_lon, lat: e.data?.geo_lat}
+                                                }
                                             })
                                         }}
                                     />
@@ -1264,7 +1265,9 @@ export default function Advertise() {
                                   className="element frame p-lg-4 mb-4 mb-lg-5">
                             <legend className="title-font fw-7 fs-15 mb-4">О здании</legend>
                             <div className="row align-items-center">
-                                <div className="col-6 col-md-3 fs-11 title" style={{color: valid.isInValidYear ? '#DA1E2A' : ''}}>Год постройки:</div>
+                                <div className="col-6 col-md-3 fs-11 title"
+                                     style={{color: valid.isInValidYear ? '#DA1E2A' : ''}}>Год постройки:
+                                </div>
                                 <div className="col-6 col-md-9">
                                     <input
                                         style={{borderColor: valid.isInValidYear ? '#DA1E2A' : ''}}
@@ -1417,7 +1420,9 @@ export default function Advertise() {
                             </div>
                             <hr className="d-none d-md-block my-4"/>
                             <div className="row align-items-center mt-4 mt-sm-5 mt-md-0">
-                                <div className="col-6 col-md-3 fs-11 title" style={{color: valid.isInValidCeilingHeight ? '#DA1E2A' : ''}}>Высота потолков:</div>
+                                <div className="col-6 col-md-3 fs-11 title"
+                                     style={{color: valid.isInValidCeilingHeight ? '#DA1E2A' : ''}}>Высота потолков:
+                                </div>
                                 <div className="col-6 col-md-9">
                                     <input
                                         style={{borderColor: valid.isInValidCeilingHeight ? '#DA1E2A' : ''}}
@@ -1872,6 +1877,9 @@ export default function Advertise() {
                         </aside>
                     </div>
                 </form>
+                :
+                    <AuthError/>
+                }
             </section>
         </main>
     )

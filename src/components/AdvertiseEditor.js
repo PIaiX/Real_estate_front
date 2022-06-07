@@ -8,6 +8,7 @@ import {useAccessToken, useCurrentUser} from "../store/reducers";
 import {getTypesEstate} from "./API/typesestate";
 import {getAdsPage} from "./API/adspage";
 import {updateAd} from "./API/users";
+import AuthError from "./utilities/AuthError";
 
 export default function Advertise() {
 
@@ -324,7 +325,8 @@ export default function Advertise() {
             </div>
             <section id="sec-11" className="container mb-6">
                 <h1 className="text-center text-lg-start">Редактировать объявление</h1>
-                <form
+                { (currentUser && token) ?
+                    <form
                     ref={ref}
                     className="row gx-xxl-5 position-relative"
                     name="postingAd"
@@ -1974,6 +1976,9 @@ export default function Advertise() {
                         </aside>
                     </div>
                 </form>
+                    :
+                    <AuthError/>
+                }
             </section>
         </main>
     )

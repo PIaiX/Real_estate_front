@@ -7,6 +7,7 @@ import InputMask from 'react-input-mask';
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import Rating from "react-rating";
 import {DeleteUserPhoto, updateUser, userInfo} from "../API/users";
+import AuthError from "../utilities/AuthError"
 
 export default function UserProfile() {
 
@@ -19,20 +20,20 @@ export default function UserProfile() {
     const userId = currentUser?.id
 
     useEffect(() => {
-        if(currentUser){
+        if (currentUser) {
             setFirstName(currentUser?.firstName)
             setLastName(currentUser?.lastName)
             setPhone(currentUser?.phone)
             setEmail(currentUser?.email)
             setSex(currentUser?.sex)
         }
-    },[currentUser])
+    }, [currentUser])
 
     useEffect(() => {
-        if(currentUser?.avatar) {
+        if (currentUser?.avatar) {
             setAvatars([{data_url: `${sait}${currentUser?.avatar}`}])
         }
-    },[currentUser])
+    }, [currentUser])
 
     const maxNumber = 24;
     const onChange = (imageList, addUpdateIndex) => {
@@ -78,9 +79,9 @@ export default function UserProfile() {
         days.push(i)
     }
 
-    const convert = (day,month, year) => {
+    const convert = (day, month, year) => {
         let birthday = '';
-        if(day || month || year){
+        if (day || month || year) {
             if (month === 0) {
                 birthday = '';
             } else if (day <= 9 && month <= 9) {
@@ -97,7 +98,7 @@ export default function UserProfile() {
     }
 
     useEffect(() => {
-        if(day || month || year) {
+        if (day || month || year) {
             convert(day, month, year)
         }
     }, [day, month, year])
@@ -117,7 +118,7 @@ export default function UserProfile() {
 
     useEffect(() => {
         setAvatar(avatars[0]?.file)
-        if(avatar === undefined) {
+        if (avatar === undefined) {
             delete data.avatar
         } else {
             data.avatar = avatar
@@ -142,7 +143,7 @@ export default function UserProfile() {
 
         try {
             const result = await updateUser(uuid, formData, axiosPrivate)
-            if(result) {
+            if (result) {
                 requestUserInfo()
             }
         } catch (err) {
@@ -267,7 +268,8 @@ export default function UserProfile() {
                                             readonly={true}
                                             initialRating={currentUser?.rating}
                                             fractions={2}
-                                            emptySymbol={<img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>}
+                                            emptySymbol={<img src="/Real_estate_front/img/icons/star-gray.svg"
+                                                              alt="1"/>}
                                             fullSymbol={<img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>}
                                         />
                                     </div>
@@ -424,111 +426,122 @@ export default function UserProfile() {
                 <nav className="d-block d-lg-none mt-3 mb-3 mb-sm-5" aria-label="breadcrumb">
                     <Link to="/personal-account" className="gray-3">&#10094; Назад</Link>
                 </nav>
-                <h4 className="text-center color-1 mb-3 mb-sm-4 mb-xl-5">Профиль</h4>
-                <form className="form-profile">
-                    <div className="row flex-xl-row-reverse">
-                        <div className="col-xl-4 mb-4 mb-xl-0">
-                            <div className="row row-cols-sm-2 row-cols-xl-1">
-                                <div>
-                                    <ImageUploading
-                                        multiple={false}
-                                        value={avatars}
-                                        onChange={onChange}
-                                        maxNumber={maxNumber}
-                                        dataURLKey="data_url"
-                                    >
-                                        {({
-                                              imageList,
-                                              onImageUpload,
-                                              onImageUpdate,
-                                              onImageRemove,
-                                              isDragging,
-                                              dragProps
-                                          }) => (
-                                            <div className="upload__image-wrapper">
-                                                <div className="imgs-box">
-                                                    {
-                                                        imageList.map((image, index) => (
-                                                            <div key={index} className="image-item">
-                                                                <img src={image?.data_url} alt=""/>
-                                                            </div>
-                                                        ))
-                                                    }
-                                                </div>
+                {(currentUser && token) ?
+                    <>
+                        <h4 className="text-center color-1 mb-3 mb-sm-4 mb-xl-5">Профиль</h4>
+                        <form className="form-profile">
+                            <div className="row flex-xl-row-reverse">
+                                <div className="col-xl-4 mb-4 mb-xl-0">
+                                    <div className="row row-cols-sm-2 row-cols-xl-1">
+                                        <div>
+                                            <ImageUploading
+                                                multiple={false}
+                                                value={avatars}
+                                                onChange={onChange}
+                                                maxNumber={maxNumber}
+                                                dataURLKey="data_url"
+                                            >
+                                                {({
+                                                      imageList,
+                                                      onImageUpload,
+                                                      onImageUpdate,
+                                                      onImageRemove,
+                                                      isDragging,
+                                                      dragProps
+                                                  }) => (
+                                                    <div className="upload__image-wrapper">
+                                                        <div className="imgs-box">
+                                                            {
+                                                                imageList.map((image, index) => (
+                                                                    <div key={index} className="image-item">
+                                                                        <img src={image?.data_url} alt=""/>
+                                                                    </div>
+                                                                ))
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </ImageUploading>
+                                        </div>
+                                        <div>
+                                            <div
+                                                className="fs-15 fw-7 text-center mt-3 mt-sm-4">{currentUser?.firstName} {currentUser?.lastName}</div>
+                                            <div className="rating justify-content-center mt-1 mt-sm-5">
+                                                <Rating
+                                                    readonly={true}
+                                                    initialRating={currentUser?.rating}
+                                                    fractions={2}
+                                                    emptySymbol={<img src="/Real_estate_front/img/icons/star-gray.svg"
+                                                                      alt="1"/>}
+                                                    fullSymbol={<img src="/Real_estate_front/img/icons/star-blue.svg"
+                                                                     alt="1"/>}
+                                                />
                                             </div>
-                                        )}
-                                    </ImageUploading>
-                                </div>
-                                <div>
-                                    <div className="fs-15 fw-7 text-center mt-3 mt-sm-4">{currentUser?.firstName} {currentUser?.lastName}</div>
-                                    <div className="rating justify-content-center mt-1 mt-sm-5">
-                                        <Rating
-                                            readonly={true}
-                                            initialRating={currentUser?.rating}
-                                            fractions={2}
-                                            emptySymbol={<img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>}
-                                            fullSymbol={<img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>}
-                                        />
-                                    </div>
-                                    <div className="gray-3 fs-11 text-center mt-1 mt-sm-4">
-                                        На сайте с {currentUser?.createdAtForUser}
+                                            <div className="gray-3 fs-11 text-center mt-1 mt-sm-4">
+                                                На сайте с {currentUser?.createdAtForUser}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-8">
-                            <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                                <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Имя:</div>
-                                <div className="col-sm-8">
-                                    <input defaultValue={reqUserInfo?.firstName} disabled className="fs-11"/>
+                                <div className="col-xl-8">
+                                    <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
+                                        <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Имя:</div>
+                                        <div className="col-sm-8">
+                                            <input defaultValue={reqUserInfo?.firstName} disabled className="fs-11"/>
+                                        </div>
+                                    </div>
+                                    <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
+                                        <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Фамилия:</div>
+                                        <div className="col-sm-8">
+                                            <input defaultValue={reqUserInfo?.lastName} disabled className="fs-11"/>
+                                        </div>
+                                    </div>
+                                    <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
+                                        <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Пол:</div>
+                                        <div className="col-sm-8">
+                                            <input defaultValue={reqUserInfo?.sexForUser} disabled className="fs-11"/>
+                                        </div>
+                                    </div>
+                                    <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
+                                        <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Дата рождения:</div>
+                                        <div className="col-sm-8 d-flex">
+                                            <input defaultValue={reqUserInfo?.birthdayForUser} disabled
+                                                   className="fs-11"/>
+                                        </div>
+                                    </div>
+                                    <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
+                                        <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Телефон:</div>
+                                        <div className="col-sm-8">
+                                            <InputMask disabled mask="+7 (999) 999 99 99"
+                                                       value={reqUserInfo?.phone ? reqUserInfo?.phone : ""}/>
+                                        </div>
+                                    </div>
+                                    <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
+                                        <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Email:</div>
+                                        <div className="col-sm-8">
+                                            <input defaultValue={reqUserInfo?.email} className="fs-11" disabled/>
+                                        </div>
+                                    </div>
+                                    <button
+                                        type="submit"
+                                        className="btn btn-1 fs-11 text-uppercase mt-4 mt-xxl-5 ms-auto me-auto me-xl-0"
+                                        onClick={() => {
+                                            if (redactor === false) {
+                                                setRedactor(true)
+                                            } else {
+                                                setRedactor(false)
+                                            }
+                                        }}
+                                    >
+                                        Редактировать
+                                    </button>
                                 </div>
                             </div>
-                            <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                                <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Фамилия:</div>
-                                <div className="col-sm-8">
-                                    <input defaultValue={reqUserInfo?.lastName} disabled className="fs-11"/>
-                                </div>
-                            </div>
-                            <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                                <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Пол:</div>
-                                <div className="col-sm-8">
-                                    <input defaultValue={reqUserInfo?.sexForUser} disabled className="fs-11"/>
-                                </div>
-                            </div>
-                            <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                                <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Дата рождения:</div>
-                                <div className="col-sm-8 d-flex">
-                                    <input defaultValue={reqUserInfo?.birthdayForUser} disabled className="fs-11"/>
-                                </div>
-                            </div>
-                            <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                                <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Телефон:</div>
-                                <div className="col-sm-8">
-                                    <InputMask disabled mask="+7 (999) 999 99 99" value={reqUserInfo?.phone ? reqUserInfo?.phone : ""}/>
-                                </div>
-                            </div>
-                            <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                                <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Email:</div>
-                                <div className="col-sm-8">
-                                    <input defaultValue={reqUserInfo?.email} className="fs-11" disabled/>
-                                </div>
-                            </div>
-                            <button
-                                type="submit"
-                                className="btn btn-1 fs-11 text-uppercase mt-4 mt-xxl-5 ms-auto me-auto me-xl-0"
-                                onClick={() => {
-                                    if (redactor === false) {
-                                        setRedactor(true)
-                                    } else {
-                                        setRedactor(false)
-                                    }
-                                }}
-                            >
-                                Редактировать
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                        </form>
+                    </>
+                    :
+                    <AuthError/>
+                }
             </div>
     )
 }

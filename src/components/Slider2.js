@@ -10,14 +10,14 @@ SwiperCore.use([Navigation, Pagination]);
 
 export const Slider2 = () => {
     const {page} = useParams()
-    const [data, setData] = useState([])
+    const [randomArticle, setRandomArticles] = useState([])
 
     useEffect(() => {
         const fin = async () => {
             try {
                 let result = await getRandomArticle(page, 5)
                 if (result) {
-                    setData(result)
+                    setRandomArticles(result)
                 }
             } catch (err) {
                 console.log(err)
@@ -52,13 +52,13 @@ export const Slider2 = () => {
                 prevEl: '.swiper-button-prev',
             }}
             >
-            {data.map((data)=>
-                <SwiperSlide key={data.id}>
+            {randomArticle.map((randomArticle)=>
+                <SwiperSlide key={randomArticle.id}>
                     <Article
                         imgUrl="/Real_estate_front/img/nophoto.jpg"
-                        title={data.title}
-                        text={data.description}
-                        articleUrl={data.slug}
+                        title={randomArticle.title}
+                        text={randomArticle.description}
+                        articleUrl={randomArticle.slug}
                     />
                 </SwiperSlide>
             )}

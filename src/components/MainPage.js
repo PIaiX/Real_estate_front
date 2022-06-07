@@ -8,6 +8,7 @@ import {MainBanner} from './MainBanner';
 import {useEffect, useState} from "react";
 import {getBanner, getPopular, getRecommend} from "./API/mainpagereq";
 import {useCurrentUser} from "../store/reducers";
+import AuthError from "./utilities/AuthError"
 
 export default function MainPage() {
 
@@ -15,9 +16,9 @@ export default function MainPage() {
     const userId = currentUser?.id
     const {page} = useParams();
 
-    const [recommend, setRecommend] = useState([]);
-    const [popular, setPopular] = useState([]);
     const [banner, setBanner] = useState([]);
+    const [popular, setPopular] = useState([]);
+    const [recommend, setRecommend] = useState([]);
 
     useEffect(() => {
         const fun = async () => {
@@ -33,6 +34,7 @@ export default function MainPage() {
         }
         fun()
     }, [])
+
     useEffect(() => {
         const fun = async () => {
             try {
