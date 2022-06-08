@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useCurrentUser} from "../../store/reducers";
+import {useAccessToken, useCurrentUser} from "../../store/reducers";
 import {reportAds} from "../API/adspage";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import {addReportUser, deleteReportUser} from "../API/userspage";
@@ -8,25 +8,30 @@ import {addReportUser, deleteReportUser} from "../API/userspage";
 export default function BtnRep(props) {
 
     const user = useCurrentUser()
+    const token = useAccessToken()
     const userId = user?.id
     const axiosPrivate = useAxiosPrivate()
-    const reportStatus = props?.reportStatus
     const realEstateId = props?.realEstateId
     const data = props?.userinfo
     const type = props?.type
     const [report, setReport] = useState({})
-    const [localRep, setLocalRep] = useState(reportStatus)
     const [reportUserStatus, setReportUserStatus] = useState(false)
-
+    const [reportAdStatus, setReportAdStatus] = useState(false)
 
     useEffect(() => {
         const info = () => {
             if (userId && realEstateId) {
-                setReport({"userId": userId, "realEstateId": realEstateId})
+                setReport({"userId": userId, "realEstateId": realEstateId, "token":token})
             }
         }
         info()
     }, [userId, realEstateId])
+
+    useEffect(() => {
+        if (props?.reportStatus) {
+            setReportAdStatus(props?.reportStatus)
+        }
+    }, [props?.reportStatus])
 
     useEffect(() => {
         if (props?.reportUserStatus) {
@@ -35,12 +40,8 @@ export default function BtnRep(props) {
     }, [props?.reportUserStatus,data])
 
     const reportAd = async () => {
-        try {
-            const result = await reportAds(axiosPrivate, report)
-            setLocalRep(true)
-        } catch (error) {
-            console.log(error)
-        }
+            await reportAds(axiosPrivate, report)
+            setReportAdStatus(reportAdStatus => !reportAdStatus)
     }
 
     const addReportForUser = async () => {
@@ -58,12 +59,12 @@ export default function BtnRep(props) {
             {(type === "reportAd") &&
                 <button
                     type="button"
-                    className={`btn-notice ${localRep ? 'reported' : ''}`}
+                    className={`btn-notice ${reportAdStatus ? 'reported' : ''}`}
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
                     title="Пожаловаться"
                     onClick={reportAd}
-                    disabled={localRep}
+                    disabled={reportAdStatus}
                 >
                     <svg width="20" height="17" viewBox="0 0 20 17" fill="none"
                          xmlns="http://www.w3.org/2000/svg">

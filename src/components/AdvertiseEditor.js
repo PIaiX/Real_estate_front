@@ -305,7 +305,7 @@ export default function Advertise() {
         <main>
             <div className="container py-3 py-sm-4 py-lg-5">
                 <nav aria-label="breadcrumb">
-                    <Link to="/personal-account/my-ads" className="d-block d-md-none gray-3">&#10094; Назад</Link>
+                    <NavLink to="/personal-account/my-ads" className="d-block d-md-none gray-3">&#10094; Назад</NavLink>
                     <ol className="d-none d-md-flex breadcrumb">
                         <li className="breadcrumb-item">
                             <NavLink to="/">
@@ -1900,8 +1900,6 @@ export default function Advertise() {
                                 </div>
                                 <div>
                                     <button
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#good-request"
                                         type="submit"
                                         className="btn btn-1 w-100"
                                         onClick={(e) => {

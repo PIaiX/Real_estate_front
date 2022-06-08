@@ -33,21 +33,13 @@ export default function BtnFav(props) {
     }, [token, realEstateId, user?.id])
 
     const addInWishList = async () => {
-        try {
-            const eee = await addWishList(data, axiosPrivate)
+            await addWishList(data, axiosPrivate)
             setWishlistStatus(wishlist => !wishlist)
-        } catch (error) {
-            console.log(error)
-        }
     }
 
     const deleteFromWishList = async () => {
-        try {
-            const qew = await deleteWishList(data, axiosPrivate)
+            await deleteWishList(data, axiosPrivate)
             setWishlistStatus(wishlist => !wishlist)
-        } catch (error) {
-            console.log(error)
-        }
     }
 
     return (
