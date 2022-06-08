@@ -18,7 +18,7 @@ export default function AccountMenu() {
 
   const handleLogout = async () => {
     const response = await axiosPrivate.post(`${baseUrl}/api/auth/logout`);
-    if (response && response.status === 200) {
+    if (response && response.status === 200 && localStorage.getItem("fingerprint")) {
       resetToken();
       resetCurrentUser();
       navigate("/");

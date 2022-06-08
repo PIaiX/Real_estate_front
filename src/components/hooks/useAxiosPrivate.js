@@ -3,15 +3,16 @@ import axios from "axios";
 import {useDispatch} from "react-redux";
 import {bindActionCreators} from "redux";
 import accessTokenActions from "../../store/actions/accessToken";
-import {useAccessToken} from "../../store/reducers";
+import {useAccessToken, useCurrentUser} from "../../store/reducers";
+
 
 export default function useAxiosPrivate() {
 
     const mainUrl = "https://api.antontig.beget.tech";
-
     const dispatch = useDispatch();
     const {setToken} = bindActionCreators(accessTokenActions, dispatch);
     const accessToken = useAccessToken()
+    const currentUser = useCurrentUser()
 
     const axiosInstance = axios.create({
         baseUrl: mainUrl,
@@ -28,8 +29,8 @@ export default function useAxiosPrivate() {
         (request) => {
             if (accessToken) {
                 request.headers["Access-Token"] = accessToken;
+                request.headers["User-Fingerprint"] = localStorage.getItem('fingerprint')
             }
-            console.log(request)
             return request;
         },
         (error) => {
@@ -44,19 +45,18 @@ export default function useAxiosPrivate() {
         async (error) => {
             const originalRequest = error.config;
             if (error.response && error.response.status) {
-                console.log(error.response)
-                if (error.response.status === 401 && !originalRequest.retry) {
+                if (error.response.status === 401 && originalRequest.retry) {
                     console.log("response interceptor works 401")
-                    return ;
+                    return;
                 }
-                if (error.response.status === 400 && !originalRequest.retry) {
-                    originalRequest.retry = true;
+                if (error.response.status === 400 && originalRequest.retry) {
+                    originalRequest.retry = true
                     const response = await axiosInstance.post(`${mainUrl}/api/auth/refresh`);
                     const token = response.data.body.token;
                     setToken(token);
-                    let dataAxios = JSON.parse(originalRequest.data)
+                    /*let dataAxios = JSON.parse(originalRequest.data)
                     dataAxios['token'] = token;
-                    originalRequest.data = JSON.stringify(dataAxios);
+                    originalRequest.data = JSON.stringify(dataAxios);*/
                     console.log("response interceptor works 400")
                     return axiosInstance(originalRequest);
                 }

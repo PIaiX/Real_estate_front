@@ -49,6 +49,7 @@ export default function UserProfile() {
             setRedactor(false)
         }
     }
+
     const [lastName, setLastName] = useState('');
     const [firstName, setFirstName] = useState('');
     const [sex, setSex] = useState("");
@@ -128,7 +129,7 @@ export default function UserProfile() {
     const [reqUserInfo, setReqUserInfo] = useState({})
 
     const requestUserInfo = async () => {
-        const result = await userInfo(userId)
+        const result = (userId) ? await userInfo(userId) : ""
         if (result) {
             setReqUserInfo(result.body)
         }

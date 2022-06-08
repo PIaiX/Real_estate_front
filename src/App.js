@@ -37,8 +37,6 @@ function App() {
     const {setToken} = bindActionCreators(accessTokenActions, dispatch);
     const {setCurrentUser} = bindActionCreators(currentUserActions, dispatch);
     const axiosPrivate = useAxiosPrivate();
-    const user = useCurrentUser()
-    const token = useAccessToken()
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -46,10 +44,6 @@ function App() {
             if (response?.data?.status === 200) {
                 setToken(response.data.body.token);
                 setCurrentUser(response.data.body.user)
-            } else if(response?.data?.status === 400) {
-                console.log("400")
-            } else if(response?.data?.status === 401) {
-                console.log("401")
             }
         }
         checkAuth();

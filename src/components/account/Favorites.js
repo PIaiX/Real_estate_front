@@ -11,27 +11,27 @@ import {useAccessToken, useCurrentUser} from "../../store/reducers";
 import AuthError from "../utilities/AuthError"
 
 export default function Favorites() {
+
     const token = useAccessToken()
     const currentUser = useCurrentUser()
+    const userId = currentUser?.id
     const view = useUpdateSize('1399px');
     const [wishlistData, setWishlistData] = useState({})
-    const userid = useSelector(state => state?.currentUser?.id)
-    const {page} = +useParams()
+    const {page} = useParams()
     const axiosPrivate = useAxiosPrivate();
 
     useEffect(() => {
-        const req = async (userId, page, limit, axiosPrivate) => {
-            const response = await getWishlist(userId, page, limit, axiosPrivate)
+        const req = async () => {
+            const response = (currentUser && token) ? await getWishlist(userId, page, 4, axiosPrivate, token) : ""
             if (response) {
-                console.log(response)
                 setWishlistData({
                     meta: response,
                     wishlist: response?.data
                 })
             }
         }
-        req(userid, page, 4, axiosPrivate)
-    }, [userid, page])
+        req()
+    }, [currentUser, page])
 
     return (
         <div className="px-sm-3 px-md-4 px-xxl-5 pb-sm-4 pb-xxl-5">

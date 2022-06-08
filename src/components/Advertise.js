@@ -515,6 +515,7 @@ export default function Advertise() {
                                         }}
                                     />
                                     <AddressSuggestions
+                                        inputProps={{placeholder: "Адрес или жк"}}
                                         token={process.env.REACT_APP_DADATA_TOKEN}
                                         onChange={(e) => {
                                             setData(prevData => {
