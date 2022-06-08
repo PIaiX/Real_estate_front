@@ -1111,7 +1111,8 @@ export default function Advertise() {
                             <div
                                 className="d-lg-none row row-cols-2 row-cols-md-3 gx-2 gx-sm-4 justify-content-center mt-4 mt-sm-5">
                                 <div>
-                                    <button type="button" className="btn btn-2 w-100"
+                                    <button type="button" className="btn
+"
                                             onClick={() => setActiveField(1)}>Назад
                                     </button>
                                 </div>

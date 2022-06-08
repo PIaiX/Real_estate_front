@@ -1499,7 +1499,8 @@ article {
         }
         label {font-size: var(--size);}
     }
-    input[type="search"]{
+    input[type="search"],
+    .catalog__search input{
         grid-column: 4/5;
         grid-row: 2/3;
         width: 100%;
@@ -3512,6 +3513,7 @@ footer {
     display: none;
     padding: 20px;
     width: 340px;
+    background-color: #FFF;
     position: absolute;
     right: 0;
     top: 55px;

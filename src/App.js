@@ -36,7 +36,7 @@ function App() {
 
     return (
         <HashRouter>
-            <YMaps query={{ apikey: 'e02e5994-293e-40f6-8702-8fe9d1243699', load: 'package.full'}}>
+            <YMaps query={{ apikey: process.env.REACT_APP_YMAPS_TOKEN, load: 'package.full'}}>
                 <Header/>
                 <AppRouter/>
                 <Footer/>

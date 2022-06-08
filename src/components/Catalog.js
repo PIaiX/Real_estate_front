@@ -17,8 +17,9 @@ import YMap from './utilities/YMap';
 import CatalogOffcanvasCards from './utilities/CatalogOffcanvasCards';
 import {withYMaps} from 'react-yandex-maps';
 import useDefineMapCenter from './hooks/useDefineMapCenter';
+import {AddressSuggestions} from 'react-dadata';
 
-const Catalog = (props) => {
+const Catalog = React.memo(function Catalog({ymaps}) {
     const {width} = useWindowDimensions()
     const [view, setView] = useUpdateSizeSecond('991px')
     const {page} = useParams();
@@ -38,23 +39,19 @@ const Catalog = (props) => {
     const [offcanvasCards, setOffcanvasCards] = useState([])
     const {search, setSearch, onSearch} = useSearchForm('')
 
-    const mapCenter = useDefineMapCenter(props.ymaps)
+    const mapCenter = useDefineMapCenter(ymaps)
 
     useEffect(() => {
         const req = async () => {
             const estates = []
-            try {
-                const response = await getTypesEstate()
+            const response = await getTypesEstate()
 
-                if (response) {
-                    response.forEach(type => type.estates.forEach(estate => estates.push({
-                        index: estate.id,
-                        value: estate.name
-                    })))
-                    setEstates(estates)
-                }
-            } catch (error) {
-                console.log(error)
+            if (response) {
+                response.forEach(type => type.estates.forEach(estate => estates.push({
+                    index: estate.id,
+                    value: estate.name
+                })))
+                setEstates(estates)
             }
         }
         req()
@@ -176,8 +173,12 @@ const Catalog = (props) => {
                             })
                         }}
                     />
-                    <input type="search" placeholder="Адрес или ЖК" value={search}
-                           onChange={e => setSearch(e.target.value)}/>
+                    <AddressSuggestions
+                        token={process.env.REACT_APP_DADATA_TOKEN}
+                        value={search} onChange={setSearch}
+                        containerClassName='catalog__search'
+                        inputProps={{placeholder: 'Адрес или ЖК'}}
+                    />
                     <button
                         type="submit"
                         className="btn btn-1"
@@ -189,55 +190,55 @@ const Catalog = (props) => {
                         <div>Популярные запросы:</div>
                         <button
                             type="button"
-                            onClick={() => onSingleParamQuery('roomTypes', [0], setInstantFilters,initialInstantFilters)}
+                            onClick={() => onSingleParamQuery('roomTypes', [0], setInstantFilters, initialInstantFilters)}
                         >
                             Студия
                         </button>
                         <button
                             type="button"
-                            onClick={() => onSingleParamQuery('roomTypes', [1], setInstantFilters,initialInstantFilters)}
+                            onClick={() => onSingleParamQuery('roomTypes', [1], setInstantFilters, initialInstantFilters)}
                         >
                             1 комнатная
                         </button>
                         <button
                             type="button"
-                            onClick={() => onSingleParamQuery('roomTypes', [2], setInstantFilters,initialInstantFilters)}
+                            onClick={() => onSingleParamQuery('roomTypes', [2], setInstantFilters, initialInstantFilters)}
                         >
                             2 комнатная
                         </button>
                         <button
                             type="button"
-                            onClick={() => onSingleParamQuery('roomTypes', [3], setInstantFilters,initialInstantFilters)}
+                            onClick={() => onSingleParamQuery('roomTypes', [3], setInstantFilters, initialInstantFilters)}
                         >
                             3 комнатная
                         </button>
                         <button
                             type="button"
-                            onClick={() => onSingleParamQuery('hasFurniture', true, setInstantFilters,initialInstantFilters)}
+                            onClick={() => onSingleParamQuery('hasFurniture', true, setInstantFilters, initialInstantFilters)}
                         >
                             С мебелью
                         </button>
                         <button
                             type="button"
-                            onClick={() => onSingleParamQuery('hasFurniture', false, setInstantFilters,initialInstantFilters)}
+                            onClick={() => onSingleParamQuery('hasFurniture', false, setInstantFilters, initialInstantFilters)}
                         >
                             Без мебели
                         </button>
                         <button
                             type="button"
-                            onClick={() => onSingleParamQuery('elevatorTypes', [1, 2, 3], setInstantFilters,initialInstantFilters)}
+                            onClick={() => onSingleParamQuery('elevatorTypes', [1, 2, 3], setInstantFilters, initialInstantFilters)}
                         >
                             Есть лифт
                         </button>
                         <button
                             type="button"
-                            onClick={() => onSingleParamQuery('withPets', true, setInstantFilters,initialInstantFilters)}
+                            onClick={() => onSingleParamQuery('withPets', true, setInstantFilters, initialInstantFilters)}
                         >
                             Можно с животными
                         </button>
                         <button
                             type="button"
-                            onClick={() => onSingleParamQuery('withKids', true, setInstantFilters,initialInstantFilters)}
+                            onClick={() => onSingleParamQuery('withKids', true, setInstantFilters, initialInstantFilters)}
                         >
                             Можно с детьми
                         </button>
@@ -543,6 +544,6 @@ const Catalog = (props) => {
             }
         </main>
     )
-}
+})
 
 export default withYMaps(Catalog)
