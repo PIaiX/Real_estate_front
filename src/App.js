@@ -14,7 +14,6 @@ import currentUserActions from "./store/actions/currentUser";
 import useAxiosPrivate from "./components/hooks/useAxiosPrivate";
 import {useEffect} from "react";
 import fingerprint from "@fingerprintjs/fingerprintjs";
-import {useAccessToken, useCurrentUser} from "./store/reducers";
 
 
 function App() {

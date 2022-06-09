@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, NavLink} from 'react-router-dom';
 import CustomSelect from './utilities/CustomSelect';
 import {animateScroll as scroll} from 'react-scroll';
 import {getQuestion} from "./API/question";
+import CustomModal from "./utilities/CustomModal";
 
 export default function Header() {
 
@@ -18,12 +19,13 @@ export default function Header() {
         isInValidQuestions: false,
     }
 
+    const [isShow, setIsShow] = useState(false)
     const [valid, setValid] = useState(fields)
     const mailSample = Object.values(data).find(i => i.match(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/))
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
 
+        e.preventDefault();
         const isInValidName = data?.name === undefined || data.name?.length < 1 || data.name?.length > 55
         const isInValidEmail = data?.email === undefined || mailSample === undefined
         const {question} = data;
@@ -42,8 +44,11 @@ export default function Header() {
                 formData.append(key, req[key])
             }
             try {
-                let result = await getQuestion(formData);
-                alert("Форма отправлена")
+                const result = await getQuestion(formData);
+                if (result) {
+                    setIsShow(isShow => !isShow)
+                    e.target.closest("form").reset()
+                }
             } catch (error) {
                 console.log(error)
             }
@@ -64,7 +69,7 @@ export default function Header() {
                     <nav className="d-none d-lg-flex order-2">
                         <NavLink to="/">Главная</NavLink>
                         <div className="dropdown">
-                            <a href="/" className="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Услуги</a>
+                            <a to="/" className="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Услуги</a>
                             <ul className="dropdown-menu py-2">
                                 <li>
                                     <NavLink to="/service" className="dropdown-item">Дизайн</NavLink>
@@ -80,8 +85,8 @@ export default function Header() {
                                 </li>
                             </ul>
                         </div>
-                        <a href="/">Ипотека</a>
-                        <a href="" role="button" data-bs-toggle="modal" data-bs-target="#ask">Задать вопрос</a>
+                        <Link to="/">Ипотека</Link>
+                        <Link to="" role="button" data-bs-toggle="modal" data-bs-target="#ask">Задать вопрос</Link>
                     </nav>
                     <div className="d-none d-md-flex order-4 order-lg-3">
                         <Link to="/personal-account/my-messages" onClick={() => scrollToTop()} className="ms-4">
@@ -112,7 +117,7 @@ export default function Header() {
                         <ul data-bs-dismiss="offcanvas">
                             <li><Link to="/" onClick={() => scrollToTop()}>Главная</Link></li>
                             <li><Link to="/service" onClick={() => scrollToTop()}>Услуги</Link></li>
-                            <li><a href="/">Задать вопрос</a></li>
+                            <li><Link to="" role="button" data-bs-toggle="modal" data-bs-target="#ask">Задать вопрос</Link></li>
                             <li><Link to="/personal-account" onClick={() => scrollToTop()}>Личный кабинет</Link></li>
                             <li><Link to="/personal-account/favorites/page/1" onClick={() => scrollToTop()}>Избранное</Link></li>
                             <li><Link to="/personal-account/my-messages" onClick={() => scrollToTop()}>Сообщения</Link></li>
@@ -146,7 +151,7 @@ export default function Header() {
                                         <div className="indicator online"/>
                                     </div>
                                     <div>
-                                        <div className='fs-11 fw-5'>Вам ответит администратор</div> 
+                                        <div className='fs-11 fw-5'>Вам ответит администратор</div>
                                         <div className='fs-11 fw-5 mt-1'>Колесникова Ирина</div>
                                         <div className="gray-2 fs-09 mt-2">Сейчас онлайн</div>
                                     </div>
@@ -213,6 +218,13 @@ export default function Header() {
                                     ОТПРАВИТЬ
                                 </button>
                             </form>
+                            <CustomModal
+                                isShow={isShow}
+                                closeButton={false}
+                                centre={true}
+                            >
+                                <p>Вопрос отправлен, ждите ответа.</p>
+                            </CustomModal>
                         </div>
                     </div>
                 </div>

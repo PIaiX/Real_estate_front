@@ -3362,6 +3362,11 @@ footer {
         }
     }
 }
+
+.modal-header {
+    border: none;
+}
+
 .offcanvas {
     width: 450px;
     @media (max-width: 575px){width: 100%;}

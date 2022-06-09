@@ -1,5 +1,5 @@
-import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
-import {NavLink, Route, useParams} from 'react-router-dom';
+import React, {useEffect, useRef, useState} from 'react';
+import {NavLink, useNavigate, useParams} from 'react-router-dom';
 import ImageUploading from "react-images-uploading";
 import CustomSelect from './utilities/CustomSelect';
 import Scroll, {animateScroll as scroll, Link} from 'react-scroll';
@@ -9,15 +9,16 @@ import {getTypesEstate} from "./API/typesestate";
 import {getAdsPage} from "./API/adspage";
 import {updateAd} from "./API/users";
 import AuthError from "./utilities/AuthError";
+import CustomModal from "./utilities/CustomModal";
 
 export default function Advertise() {
-
+    const navigate = useNavigate()
     const axiosPrivate = useAxiosPrivate();
     const token = useAccessToken()
     const currentUser = useCurrentUser()
     const {uuid} = useParams()
     const userId = currentUser?.id
-
+    const [isShow, setIsShow] = useState(false)
     const [ad, setAd] = useState({})
 
     useEffect(() => {
@@ -289,8 +290,11 @@ export default function Advertise() {
 
             try {
                 let result = await updateAd(axiosPrivate, uuid, formData)
-                if (result.status === 200) {
-                    alert("Форма отправлена")
+                if (result) {
+                    setIsShow(true)
+                    setTimeout(() => {
+                        navigate("/personal-account/my-ads", {replace: true})
+                    }, 2000)
                 }
             } catch (err) {
                 console.log(err)
@@ -1911,6 +1915,17 @@ export default function Advertise() {
                                 </div>
                             </div>
                         </fieldset>
+
+                        <CustomModal
+                            isShow={isShow}
+                            closeButton={false}
+                            backdrop="static"
+                            centre={true}
+                        >
+                            <div style={{textAlign: "center"}}>
+                                <p>Редакция прошла успешно! Переход в "Мои объявления"</p>
+                            </div>
+                        </CustomModal>
 
                         <div className="d-flex justify-content-between mb-4">
                             <div>*- поля обязательные для заполнения</div>

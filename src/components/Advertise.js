@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {NavLink, useMatch, useNavigate} from 'react-router-dom';
+import {NavLink, useNavigate} from 'react-router-dom';
 import ImageUploading from "react-images-uploading";
 import CustomSelect from './utilities/CustomSelect';
 import Scroll, {animateScroll as scroll, Link} from 'react-scroll';
@@ -8,18 +8,17 @@ import {useAccessToken, useCurrentUser} from "../store/reducers";
 import {getTypesEstate} from "./API/typesestate";
 import {AddressSuggestions} from "react-dadata";
 import AuthError from "./utilities/AuthError"
+import CustomModal from "./utilities/CustomModal";
 
 
 export default function Advertise() {
-
-    const his = useMatch("/advertise")
-    console.log(his)
 
     const ref = useRef(null); // Form
     const [deal, setDeal] = useState('1'); // тип сделки (по умолчанию - продажа)
     const [proptype, setProptype] = useState('1'); // тип недвижимости (по умолчанию - Жилая)
     const [requiredElems, setRequired] = useState([]);
     let navigate = useNavigate();
+    const [isShow, setIsShow] = useState(false)
 
     useEffect(() => {
         function updateState() {
@@ -175,7 +174,7 @@ export default function Advertise() {
         const isInValidTotalArea = data.totalArea === undefined || data.totalArea?.length < 1
         const isInValidFloor = data["floor"] === undefined
         const isInValidDescription = data.description?.length < 30 || data.description === undefined
-        const isInValidImage = imgs?.length === 0 || imgs === undefined
+        const isInValidImage = imgs?.length === 0 || imgs === undefined || imgs?.length === 2
         const isInValidPrice = data.price === undefined
         const isInValidEstateTypeId = data.estateTypeId === undefined || data.estateTypeId === 0
         const isInValidYear = data.yearOfConstruction?.length > 4 || data.yearOfConstruction?.length <= 3 || yearsForValidation() === undefined
@@ -240,9 +239,13 @@ export default function Advertise() {
 
             try {
                 let result = await axiosPrivate.post("https://api.antontig.beget.tech/api/realEstates/create", formData)
-                /*if (result) {
-                    navigate("/personal-account/my-ads", {replace: true})
-                }*/
+                if (result) {
+                    setIsShow(true)
+                    setTimeout(() => {
+                        navigate("/personal-account/my-ads", {replace: true})
+                    }, 2000)
+                }
+
             } catch (err) {
                 console.log(err)
             }
@@ -252,6 +255,8 @@ export default function Advertise() {
     const resetFieldVal = (newState, field) => {
         setValid({...valid, [field]: false})
     }
+
+    console.log(data)
 
     return (
         <main>
@@ -1775,11 +1780,11 @@ export default function Advertise() {
                                                 <CustomSelect
                                                     btnClass="inp"
                                                     name="prepayment"
-                                                    checkedOpt="нет"
+                                                    checkedOpt={['нет']}
                                                     options={['нет', '1 месяц', '3 месяца', 'полгода']}
-                                                    callback={(index, e) => {
+                                                    callback={({checkedIndex}) => {
                                                         setData(prevData => {
-                                                            return {...prevData, "prepaymentType": index}
+                                                            return {...prevData, "prepaymentType": checkedIndex}
                                                         })
                                                     }}
                                                 />
@@ -1837,6 +1842,17 @@ export default function Advertise() {
                                     </div>
                                 </div>
                             </fieldset>
+
+                            <CustomModal
+                                isShow={isShow}
+                                closeButton={false}
+                                backdrop="static"
+                                centre={true}
+                            >
+                                <div style={{textAlign: "center"}}>
+                                    <p>Объявление создано, переход в "Мои объявления"</p>
+                                </div>
+                            </CustomModal>
 
                             <div className="d-flex justify-content-between mb-4">
                                 <div>*- поля обязательные для заполнения</div>

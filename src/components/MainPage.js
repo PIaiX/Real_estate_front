@@ -9,6 +9,7 @@ import {useEffect, useState} from "react";
 import {getBanner, getPopular, getRecommend} from "./API/mainpagereq";
 import {useCurrentUser} from "../store/reducers";
 import AuthError from "./utilities/AuthError"
+import CustomModal from "./utilities/CustomModal";
 
 export default function MainPage() {
 
@@ -69,9 +70,8 @@ export default function MainPage() {
 
     return (
         <main>
-
             <section id="sec-1">
-                <MainBanner banners={banner}/>
+                <MainBanner banners={banner} />
             </section>
 
             <section id="sec-2" className="container tiles px-xxl-5 mb-6">

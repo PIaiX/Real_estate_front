@@ -3881,6 +3881,10 @@ footer nav ul li a.active svg.type-2 path {
   padding: 2em;
 }
 
+.modal-header {
+  border: none;
+}
+
 .offcanvas {
   width: 450px;
 }
