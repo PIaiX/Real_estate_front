@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Profiler, useMemo} from 'react';
 import {Slider2} from './Slider2';
 import {Slider1} from './Slider1';
 import Tile from './utilities/Tile';
@@ -8,8 +8,6 @@ import {MainBanner} from './MainBanner';
 import {useEffect, useState} from "react";
 import {getBanner, getPopular, getRecommend} from "./API/mainpagereq";
 import {useCurrentUser} from "../store/reducers";
-import AuthError from "./utilities/AuthError"
-import CustomModal from "./utilities/CustomModal";
 
 export default function MainPage() {
 
@@ -22,56 +20,37 @@ export default function MainPage() {
     const [recommend, setRecommend] = useState([]);
 
     useEffect(() => {
-        const fun = async () => {
-            try {
-                let result = await getBanner()
-                if (result) {
-                    setBanner(result)
-                }
-            } catch (err) {
-                console.log(err)
-            }
-
-        }
-        fun()
+        getBanner()
+            .then(data => setBanner(data))
+            .catch(error => console.log(error))
     }, [])
 
     useEffect(() => {
-        const fun = async () => {
-            try {
-                let result = userId ? await getRecommend(userId, 6) : ""
-                if (result) {
-                    setRecommend(result)
-                }
-            } catch (err) {
-                console.log(err)
-            }
+        if (userId) {
+            getRecommend(userId, 6)
+                .then(data => setRecommend(data))
+                .catch(error => console.log(error))
         }
-        fun()
     }, [userId])
 
     useEffect(() => {
-        const fun = async () => {
-            try {
-                let result = await getPopular(page, 6)
-                if (result) {
-                    setPopular(result)
-                }
-            } catch (err) {
-                console.log(err)
-            }
-        }
-        fun()
+        getPopular(page, 6)
+            .then(data => setPopular(data))
+            .catch(error => console.log(error))
     }, [page])
 
     const scrollToTop = () => {
         scroll.scrollToTop();
     };
 
+    const callBack = (id,phase) => {
+        console.log(id,phase)
+    }
+
     return (
         <main>
             <section id="sec-1">
-                <MainBanner banners={banner} />
+                <MainBanner banners={banner}/>
             </section>
 
             <section id="sec-2" className="container tiles px-xxl-5 mb-6">
@@ -146,7 +125,9 @@ export default function MainPage() {
             <section className="sec-4 container mb-6">
                 <h3>Часто просматриваемые</h3>
                 <div className="position-relative">
+                    <Profiler id="Slider1" onRender={callBack}>
                     <Slider1 popular={popular}/>
+                    </Profiler>
                 </div>
                 <div className="text-center mt-2">
                     <a href="/" className="fs-11 fw-5">

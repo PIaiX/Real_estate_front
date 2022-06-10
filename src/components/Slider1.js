@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { Navigation, Pagination } from 'swiper';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import SwiperCore, {Navigation, Pagination} from 'swiper';
 import Card from './Card';
 import {useEffect} from "react";
 
@@ -12,17 +12,23 @@ export const Slider1 = (props) => {
     const [recommend, setRecommend] = useState([]);
     const [userAds, setUserAds] = useState([]);
 
-    useEffect(()=>{
-        if(props.popular){
-            setPopular(props.popular)
-        }
-        if(props.recommend){
+    useEffect(() => {
+        if (props.recommend) {
             setRecommend(props.recommend)
         }
-        if(props.userAds){
+    }, [props.recommend])
+
+    useEffect(() => {
+        if (props.userAds) {
             setUserAds(props.userAds)
         }
-    },[props.popular, props.recommend, props.userAds])
+    }, [props.userAds])
+
+    useEffect(() => {
+        if (props.popular) {
+            setPopular(props.popular)
+        }
+    }, [props.popular])
 
     return (
         <Swiper

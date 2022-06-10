@@ -11,7 +11,14 @@ export default function Header() {
         scroll.scrollToTop();
     }
 
-    const [data, setData] = useState({})
+    const initialData = {
+        name: '',
+        email: '',
+        question: ''
+    }
+
+    const [data, setData] = useState({...initialData})
+    const [isShow, setIsShow] = useState(false)
 
     const fields = {
         isInValidName: false,
@@ -19,12 +26,11 @@ export default function Header() {
         isInValidQuestions: false,
     }
 
-    const [isShow, setIsShow] = useState(false)
     const [valid, setValid] = useState(fields)
-    const mailSample = Object.values(data).find(i => i.match(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/))
+
+    const mailSample = Object.values(data).find(i => i?.match(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/))
 
     const handleSubmit = async (e) => {
-
         e.preventDefault();
         const isInValidName = data?.name === undefined || data.name?.length < 1 || data.name?.length > 55
         const isInValidEmail = data?.email === undefined || mailSample === undefined
@@ -43,14 +49,14 @@ export default function Header() {
             for (const key in req) {
                 formData.append(key, req[key])
             }
-            try {
-                const result = await getQuestion(formData);
-                if (result) {
+            const result = await getQuestion(formData);
+            if (result) {
+                setIsShow(isShow => !isShow)
+                setData(initialData)
+                e.target.closest("form").reset()
+                setTimeout(() => {
                     setIsShow(isShow => !isShow)
-                    e.target.closest("form").reset()
-                }
-            } catch (error) {
-                console.log(error)
+                }, 500)
             }
         }
     }
@@ -64,12 +70,13 @@ export default function Header() {
             <header>
                 <div className="container">
                     <Link to="/" onClick={() => scrollToTop()} className="order-1 me-lg-auto">
-                        <img src="/Real_estate_front/img/Лого.png" alt="Название сайта" className="logo" />
+                        <img src="/Real_estate_front/img/Лого.png" alt="Название сайта" className="logo"/>
                     </Link>
                     <nav className="d-none d-lg-flex order-2">
                         <NavLink to="/">Главная</NavLink>
                         <div className="dropdown">
-                            <a to="/" className="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Услуги</a>
+                            <a href="/" className="dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false">Услуги</a>
                             <ul className="dropdown-menu py-2">
                                 <li>
                                     <NavLink to="/service" className="dropdown-item">Дизайн</NavLink>
@@ -86,29 +93,35 @@ export default function Header() {
                             </ul>
                         </div>
                         <Link to="/">Ипотека</Link>
-                        <Link to="" role="button" data-bs-toggle="modal" data-bs-target="#ask">Задать вопрос</Link>
+                        <a href="" role="button" data-bs-toggle="modal" data-bs-target="#ask">Задать вопрос</a>
                     </nav>
                     <div className="d-none d-md-flex order-4 order-lg-3">
                         <Link to="/personal-account/my-messages" onClick={() => scrollToTop()} className="ms-4">
                             <img src="/Real_estate_front/img/icons/email.svg" alt="email"/>
                         </Link>
-                        <Link to="/personal-account/favorites/page/1" onClick={() => scrollToTop()} className="ms-3 ms-xl-4">
+                        <Link to="/personal-account/favorites/page/1" onClick={() => scrollToTop()}
+                              className="ms-3 ms-xl-4">
                             <img src="/Real_estate_front/img/icons/favorite.svg" alt="favorite"/>
                         </Link>
                         <Link to="/entrance" onClick={() => scrollToTop()} className="ms-3 ms-xl-4">
                             <img src="/Real_estate_front/img/icons/user.svg" alt="аккаунт"/>
                         </Link>
                     </div>
-                    
 
-                    <NavLink to="/advertise" onClick={() => scrollToTop()} className="ms-md-4 btn btn-1 text-uppercase p-2 order-3 order-lg-4">Подать объявление</NavLink>
 
-                    <CustomSelect className="ms-md-3 ms-xl-4 order-2 order-lg-5" btnClass="color-2 text-uppercase" checkedOpt="Казань" options={['Казань', 'Москва', 'Санкт-Петербург']} alignment="right"/>
+                    <NavLink to="/advertise" onClick={() => scrollToTop()}
+                             className="ms-md-4 btn btn-1 text-uppercase p-2 order-3 order-lg-4">Подать
+                        объявление</NavLink>
 
-                    <button type="button" data-bs-toggle="offcanvas" data-bs-target="#header-menu" className="d-block d-lg-none order-5">
+                    <CustomSelect className="ms-md-3 ms-xl-4 order-2 order-lg-5" btnClass="color-2 text-uppercase"
+                                  checkedOpt="Казань" options={['Казань', 'Москва', 'Санкт-Петербург']}
+                                  alignment="right"/>
+
+                    <button type="button" data-bs-toggle="offcanvas" data-bs-target="#header-menu"
+                            className="d-block d-lg-none order-5">
                         <img src="/Real_estate_front/img/icons/menu.svg" alt="меню"/>
                     </button>
-                </div> 
+                </div>
             </header>
 
             <div className="offcanvas offcanvas-end" tabIndex="-1" id="header-menu">
@@ -117,10 +130,13 @@ export default function Header() {
                         <ul data-bs-dismiss="offcanvas">
                             <li><Link to="/" onClick={() => scrollToTop()}>Главная</Link></li>
                             <li><Link to="/service" onClick={() => scrollToTop()}>Услуги</Link></li>
-                            <li><Link to="" role="button" data-bs-toggle="modal" data-bs-target="#ask">Задать вопрос</Link></li>
+                            <li><Link to="" role="button" data-bs-toggle="modal" data-bs-target="#ask">Задать
+                                вопрос</Link></li>
                             <li><Link to="/personal-account" onClick={() => scrollToTop()}>Личный кабинет</Link></li>
-                            <li><Link to="/personal-account/favorites/page/1" onClick={() => scrollToTop()}>Избранное</Link></li>
-                            <li><Link to="/personal-account/my-messages" onClick={() => scrollToTop()}>Сообщения</Link></li>
+                            <li><Link to="/personal-account/favorites/page/1"
+                                      onClick={() => scrollToTop()}>Избранное</Link></li>
+                            <li><Link to="/personal-account/my-messages" onClick={() => scrollToTop()}>Сообщения</Link>
+                            </li>
                             <li><Link to="/articles" onClick={() => scrollToTop()}>Статьи</Link></li>
                         </ul>
                     </nav>
@@ -158,59 +174,59 @@ export default function Header() {
                                 </div>
                                 <div className='row align-items-center fs-11 mt-3'>
                                     <div className='col-sm-3 mb-1 mb-sm-3'>
-                                        <label className='gray-3' htmlFor="name" style={{color: valid.isInValidName? '#DA1E2A' : ''}}>Ваше имя:</label>
+                                        <label className='gray-3' htmlFor="name"
+                                               style={{color: valid.isInValidName ? '#DA1E2A' : ''}}>Ваше имя:</label>
                                     </div>
                                     <div className='col-sm-9 mb-3'>
                                         <input
                                             style={{borderColor: valid.isInValidName ? '#DA1E2A' : ''}}
                                             type="text"
                                             placeholder="Имя"
+                                            value={data.name}
                                             id="name"
                                             onChange={(e) => {
-                                                setData(data => {
-                                                    return {...data, "name": e.target.value}
-                                                })
+                                                setData({...data, name: e.target.value})
                                                 resetFieldVal(e, 'isInValidName')
                                             }}
                                         />
                                     </div>
                                     <div className='col-sm-3 mb-1 mb-sm-3'>
-                                        <label className='gray-3' htmlFor="email" style={{color: valid.isInValidEmail? '#DA1E2A' : ''}}>Ваш Email:</label>
+                                        <label className='gray-3' htmlFor="email"
+                                               style={{color: valid.isInValidEmail ? '#DA1E2A' : ''}}>Ваш Email:</label>
                                     </div>
                                     <div className='col-sm-9 mb-3'>
                                         <input
                                             style={{borderColor: valid.isInValidEmail ? '#DA1E2A' : ''}}
                                             type="text"
                                             placeholder="Email"
+                                            value={data.email}
                                             id="email"
                                             onChange={(e) => {
-                                                setData(data => {
-                                                    return {...data, "email": e.target.value}
-                                                })
+                                                setData({...data, email: e.target.value})
                                                 resetFieldVal(e, 'isInValidEmail')
                                             }}
                                         />
                                     </div>
                                     <div className='col-sm-3 mb-1 mb-sm-3'>
-                                        <label className='gray-3' htmlFor="question"  style={{color: valid.isInValidQuestions? '#DA1E2A' : ''}}>Ваш вопрос:</label>
+                                        <label className='gray-3' htmlFor="question"
+                                               style={{color: valid.isInValidQuestions ? '#DA1E2A' : ''}}>Ваш
+                                            вопрос:</label>
                                     </div>
                                     <div className='col-sm-9 mb-sm-3'>
                                         <input
                                             style={{borderColor: valid.isInValidQuestions ? '#DA1E2A' : ''}}
                                             type="text"
                                             placeholder="Вопрос"
+                                            value={data.question}
                                             id="question"
                                             onChange={(e) => {
-                                                setData(data => {
-                                                    return {...data, "question": e.target.value}
-                                                })
+                                                setData({...data, question: e.target.value})
                                                 resetFieldVal(e, 'isInValidQuestions')
                                             }}
                                         />
                                     </div>
                                 </div>
                                 <button
-                                    data-bs-dismiss=""
                                     type="submit"
                                     className="btn btn-1 mx-auto fs-12 mt-4"
                                     onClick={handleSubmit}

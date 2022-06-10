@@ -13,6 +13,7 @@ import {
 import {useAccessToken, useCurrentUser} from "../store/reducers";
 import Rating from "react-rating";
 import BtnRep from "./utilities/BtnRep";
+import CustomModal from "./utilities/CustomModal";
 
 
 export default function UserPage() {
@@ -31,6 +32,7 @@ export default function UserPage() {
     let rating;
     const [data, setData] = useState({})
     const currentUserId = user?.id
+    const [reviewStatus, setReviewStatus] = useState(false)
 
     useEffect(() => {
         if (userId && user?.id) {
@@ -54,7 +56,7 @@ export default function UserPage() {
     useEffect(() => {
         const userInPage = async () => {
             try {
-                const result = await userInfoInUserPage(userId, currentUserId)
+                const result = (currentUserId && userId) ? await userInfoInUserPage(userId, currentUserId) : null
                 if (result) {
                     setUserInformation(result?.body)
                 }
@@ -75,12 +77,13 @@ export default function UserPage() {
         e.preventDefault()
         const formData = new FormData()
         const request = {...review, ...data, rating}
+        for (const key in request) {
+            formData.append(key, request[key]);
+        }
         try {
-            for (const key in request) {
-                formData.append(key, request[key]);
-            }
             const result = await CreateReview(axiosPrivate, formData)
             reviewsPage()
+            return result
         } catch (error) {
             console.log(error)
         }
@@ -202,7 +205,7 @@ export default function UserPage() {
                                         Отзывы на {userInformation?.firstName} ({reviews.meta?.total})
                                     </h4>
                                     <button
-                                        disabled={(userId === String(user?.id)) || userInformation?.reviewStatus}
+                                        disabled={(userId === String(user?.id)) || reviewStatus || userInformation?.reviewStatus}
                                         type="button"
                                         data-bs-toggle="modal"
                                         data-bs-target="#write-review"
@@ -396,10 +399,10 @@ export default function UserPage() {
                                             })}
                                         />
                                         <button
-                                            disabled={userInformation?.reviewStatus}
+                                            disabled={userInformation?.reviewStatus || reviewStatus}
                                             type="submit"
                                             className="btn btn-1 fs-12 ms-auto mt-3"
-                                            onClick={createReview}
+                                            onClick={(e) => createReview(e) ? setReviewStatus(true) : ""}
                                         >
                                             ОТПРАВИТЬ
                                         </button>
