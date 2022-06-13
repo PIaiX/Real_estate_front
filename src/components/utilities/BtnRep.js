@@ -62,7 +62,7 @@ export default function BtnRep(props) {
                     className={`btn-notice ${reportAdStatus ? 'reported' : ''}`}
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
-                    title="Пожаловаться"
+                    title={reportAdStatus ? "Жалоба отправлена" : "Пожаловаться"}
                     onClick={reportAd}
                     disabled={reportAdStatus}
                 >

@@ -25,13 +25,9 @@ export default function CardPage() {
 
     useEffect(() => {
         const adsget = async () => {
-            try {
-                const result = await getAdsPage(uuid, userId)
-                if (result) {
-                    setAds(result)
-                }
-            } catch (error) {
-                console.log(error)
+            const result = userId ? await getAdsPage(uuid, userId) : null
+            if (result) {
+                setAds(result)
             }
         }
         adsget()
@@ -68,7 +64,7 @@ export default function CardPage() {
 
     const sait = 'https://api.antontig.beget.tech/uploads/';
 
-    const images = [].concat(ads?.image, ads?.images?.map(i => i?.image)).map(i => `${sait}${i}`)
+    const images = [].concat(ads?.image, ads?.images?.map(i => i?.image)).map(i => i ? `${sait}${i}` : null)
 
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const [currentImage, setCurrentImage] = useState(0);
@@ -94,7 +90,7 @@ export default function CardPage() {
     const Words = () => {
         if (ads?.user?.realEstatesCount < 1) {
             return 'объект'
-        } else if (ads?.user?.realEstatesCount >= 1 && ads?.user?.realEstatesCount < 4){
+        } else if (ads?.user?.realEstatesCount >= 1 && ads?.user?.realEstatesCount < 4) {
             return 'объекта'
         } else {
             return "объктов"
@@ -145,7 +141,7 @@ export default function CardPage() {
                 </nav>
             </div>
             <section id="sec-7" className="container pb-5">
-                <h1>{ads.title}<sup>2</sup></h1>
+                <h1>{ads.title} м<sup>2</sup></h1>
                 <div className="d-flex align-items-center mb-2 mb-xxl-3">
                     <img src="/Real_estate_front/img/icons/pin.svg" alt="адрес"/>
                     <div className="fs-11 fw-6 ms-2 ms-sm-4">
@@ -337,7 +333,8 @@ export default function CardPage() {
                                         <div className="fs-11 gray-3">
                                             {ads?.communalPrice ? `Коммунальные платежи: ${ads?.communalPrice} ₽` : "Не включая коммунальные платежи"}
                                             <br/>Залог {ads?.pledge} ₽, коммисия: {ads?.commissionForUser}
-                                            <br/>Предоплата: {ads?.prepaymentTypeForUser}, аренда {ads?.rentalType}
+                                            <br/>Предоплата: {ads?.prepaymentTypeForUser},
+                                            аренда {ads?.rentalTypeForUser}
                                         </div>
                                     </div>}
                             </div>
@@ -574,7 +571,11 @@ export default function CardPage() {
                                     <div className="right">
                                         <span>Есть</span>
                                     </div>
-                                    : ''}
+                                    :
+                                    <div className="right">
+                                        <span>Нет</span>
+                                    </div>
+                                }
                             </div>
                             <div className="specification fs-11">
                                 <div className="left">
@@ -593,7 +594,7 @@ export default function CardPage() {
                                         <span>Наземная</span>
                                     </div>
                                     :
-                                    ""}
+                                    ''}
                                 {ads?.hasMoreLayerParking ?
                                     <div className="right">
                                         <span>Многоуровневая</span>
@@ -606,74 +607,73 @@ export default function CardPage() {
                                     </div>
                                     :
                                     ''}
+                        </div>
+                    </div>
+                    <h4 className="mt-4 mt-sm-5">На карте</h4>
+                    <img src="/Real_estate_front/img/map.png" alt="Карта" className="w-100"/>
+                </div>
+            </div>
+        </section>
+
+    <section className="sec-4 container mb-6">
+        <h3>Похожие объявления</h3>
+        <div className="position-relative">
+            <Slider1/>
+        </div>
+    </section>
+
+    <section className="sec-4 container mb-6">
+        <h3>Рекомендованные Вам</h3>
+        <div className="position-relative">
+            <Slider1 recommend={recommend}/>
+        </div>
+    </section>
+
+    <div className="mobile-btns d-block d-md-none py-2 py-sm-3">
+        <div className="container">
+            <div className="row row-cols-2 gx-2 gx-sm-3">
+                <div>
+                    <ShowPhone className="fs-12" phone={ads.user?.phoneForUser}/>
+                </div>
+                <div>
+                    <button type="button" className="fs-12 btn btn-1 w-100 px-2">Написать сообщение</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div className="modal fade" id="write-message" tabIndex="-1" aria-hidden="true">
+        <div className="modal-dialog">
+            <div className="modal-content">
+                <div className="modal-body">
+                    <button type="button" className="btn-close" data-bs-dismiss="modal">
+                        <svg viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1.00006 1.18237L15 15.9049"/>
+                            <path d="M14.9999 1.18237L1.00001 15.9049"/>
+                        </svg>
+                    </button>
+                    <form className="message-form">
+                        <div className="d-flex align-items-center">
+                            <div className="photo me-2 me-sm-4">
+                                <img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/>
+                                <div className="indicator online"/>
+                            </div>
+                            <div>
+                                <h4>Колесникова Ирина</h4>
+                                <div className="gray-2 fs-09">Сейчас онлайн</div>
                             </div>
                         </div>
-
-                        <h4 className="mt-4 mt-sm-5">На карте</h4>
-                        <img src="/Real_estate_front/img/map.png" alt="Карта" className="w-100"/>
-                    </div>
-                </div>
-            </section>
-
-            <section className="sec-4 container mb-6">
-                <h3>Похожие объявления</h3>
-                <div className="position-relative">
-                    <Slider1/>
-                </div>
-            </section>
-
-            <section className="sec-4 container mb-6">
-                <h3>Рекомендованные Вам</h3>
-                <div className="position-relative">
-                    <Slider1 recommend={recommend}/>
-                </div>
-            </section>
-
-            <div className="mobile-btns d-block d-md-none py-2 py-sm-3">
-                <div className="container">
-                    <div className="row row-cols-2 gx-2 gx-sm-3">
-                        <div>
-                            <ShowPhone className="fs-12" phone="+ 7 (952) 879 78 65"/>
-                        </div>
-                        <div>
-                            <button type="button" className="fs-12 btn btn-1 w-100 px-2">Написать сообщение</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div className="modal fade" id="write-message" tabIndex="-1" aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-body">
-                            <button type="button" className="btn-close" data-bs-dismiss="modal">
-                                <svg viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1.00006 1.18237L15 15.9049"/>
-                                    <path d="M14.9999 1.18237L1.00001 15.9049"/>
-                                </svg>
+                        <textarea className="mt-3" rows="4" placeholder="Введите сообщение"/>
+                        <div className="d-flex align-items-center mt-3">
+                            <InputFile multiple={false}/>
+                            <button type="submit" className="btn btn-1 w-100 flex-1 fs-12 ms-4">ОТПРАВИТЬ
                             </button>
-                            <form className="message-form">
-                                <div className="d-flex align-items-center">
-                                    <div className="photo me-2 me-sm-4">
-                                        <img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/>
-                                        <div className="indicator online"></div>
-                                    </div>
-                                    <div>
-                                        <h4>Колесникова Ирина</h4>
-                                        <div className="gray-2 fs-09">Сейчас онлайн</div>
-                                    </div>
-                                </div>
-                                <textarea className="mt-3" rows="4" placeholder="Введите сообщение"></textarea>
-                                <div className="d-flex align-items-center mt-3">
-                                    <InputFile multiple={false}/>
-                                    <button type="submit" className="btn btn-1 w-100 flex-1 fs-12 ms-4">ОТПРАВИТЬ
-                                    </button>
-                                </div>
-                            </form>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
-        </main>
-    )
+        </div>
+    </div>
+</main>
+)
 }

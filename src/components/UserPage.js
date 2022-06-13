@@ -27,7 +27,7 @@ export default function UserPage() {
     const [review, setReview] = useState({})
     const [limit, setLimit] = useState(2)
     const [userInformation, setUserInformation] = useState([])
-    const [reviewReport, setReviewReport] = useState('')
+    const [reviewReportStatus, setReviewReportStatus] = useState(false)
     const imageUpload = 'https://api.antontig.beget.tech/uploads/'
     let rating;
     const [data, setData] = useState({})
@@ -90,17 +90,13 @@ export default function UserPage() {
     }
 
     const addReportForReview = async (usersReviewId) => {
-        const result = await addReportReview(axiosPrivate, token, usersReviewId, userId)
-        if (result) {
-            reviewsPage()
-        }
+        await addReportReview(axiosPrivate, token, usersReviewId, currentUserId)
+        reviewsPage()
     }
 
     const deleteReportForReview = async (usersReviewId) => {
-        const result = await deleteReportReview(axiosPrivate, token, usersReviewId, userId)
-        if (result) {
-            reviewsPage()
-        }
+        await deleteReportReview(axiosPrivate, token, usersReviewId, currentUserId)
+        reviewsPage()
     }
 
     return (

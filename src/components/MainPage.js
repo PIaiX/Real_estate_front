@@ -1,6 +1,6 @@
-import React, {Profiler, useMemo} from 'react';
+import React from 'react';
 import {Slider2} from './Slider2';
-import {Slider1} from './Slider1';
+import {Slider1} from "./Slider1";
 import Tile from './utilities/Tile';
 import {Link, useParams} from 'react-router-dom';
 import {animateScroll as scroll} from 'react-scroll';
@@ -8,6 +8,7 @@ import {MainBanner} from './MainBanner';
 import {useEffect, useState} from "react";
 import {getBanner, getPopular, getRecommend} from "./API/mainpagereq";
 import {useCurrentUser} from "../store/reducers";
+
 
 export default function MainPage() {
 
@@ -34,21 +35,20 @@ export default function MainPage() {
     }, [userId])
 
     useEffect(() => {
-        getPopular(page, 6)
-            .then(data => setPopular(data))
-            .catch(error => console.log(error))
-    }, [page])
+        if (userId) {
+            getPopular(page, 6, userId)
+                .then(data => setPopular(data))
+                .catch(error => console.log(error))
+        }
+    }, [page, userId])
 
     const scrollToTop = () => {
         scroll.scrollToTop();
     };
 
-    const callBack = (id,phase) => {
-        console.log(id,phase)
-    }
-
     return (
         <main>
+
             <section id="sec-1">
                 <MainBanner banners={banner}/>
             </section>
@@ -125,9 +125,7 @@ export default function MainPage() {
             <section className="sec-4 container mb-6">
                 <h3>Часто просматриваемые</h3>
                 <div className="position-relative">
-                    <Profiler id="Slider1" onRender={callBack}>
                     <Slider1 popular={popular}/>
-                    </Profiler>
                 </div>
                 <div className="text-center mt-2">
                     <a href="/" className="fs-11 fw-5">
@@ -188,5 +186,6 @@ export default function MainPage() {
                 </div>
             </section>
         </main>
+
     );
 }
