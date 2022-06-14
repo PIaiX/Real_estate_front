@@ -7,7 +7,6 @@ const useSearchForm = (initialValue) => {
     const onSearch = (e, stateProp, setFunction) => {
         e.preventDefault()
         onSelectHandler(search.trim(), stateProp, setFunction)
-        setSearch('')
     }
     return {search, setSearch, onSearch}
 }

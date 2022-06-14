@@ -67,6 +67,10 @@ export default function CustomSelect(props) {
         setCheckedVal(e.target.value);
         setCheckedIndex(index)
         setVisibility(false);
+
+        if (props.handleCallback) {
+            props.handleCallback({checkedIndex: index, checkedVal: e.target.value})
+        }
     };
 
     useEffect(() => {

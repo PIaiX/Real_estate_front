@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {GeolocationControl, Map, ObjectManager, ZoomControl} from 'react-yandex-maps';
+import {useSelector} from 'react-redux';
 
 const YMap = (props) => {
     const [objectManager, setObjectManager] = useState(null)
     const [selectedCluster, setSelectedCluster] = useState(null)
     const [selectedPoint, setSelectedPoint] = useState(null)
+    const mapCenter = useSelector(state => state.mapCenter)
     const dataArr = [
         {
             type: 'Feature',
@@ -684,8 +686,8 @@ const YMap = (props) => {
         <div className={`y-maps-container ${props.className || ''}`}>
             <Map
                 className='y-maps'
-                defaultState={{
-                    center: props.mapCenter,
+                state={{
+                    center: mapCenter,
                     zoom: 9,
                     controls: [],
                 }}

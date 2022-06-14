@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {NavLink, Link, useParams, useSearchParams} from 'react-router-dom';
+import {useParams, useSearchParams} from 'react-router-dom';
 import CustomSelect from './utilities/CustomSelect';
 import CustomSelectMultyDual from './utilities/CustomSelectMultyDual';
 import Card from './Card';
@@ -9,118 +9,82 @@ import {getCatalog} from './API/catalog';
 import {getTypesEstate} from './API/typesEstate';
 import useUpdateSizeSecond from './hooks/useUpdateSizeSecond';
 import {useSelector} from 'react-redux';
-import useWindowDimensions from './hooks/useWindowDimensions';
 import useSearchForm from './hooks/useSearchForm';
-import {animateScroll as scroll} from 'react-scroll';
 import {onSelectHandler, onInputHandler, onMultiCheckboxHandler, onSingleParamQuery} from './utilities/collectDataFromForm'
-import YMap from './utilities/YMap';
-import CatalogOffcanvasCards from './utilities/CatalogOffcanvasCards';
-import {withYMaps} from 'react-yandex-maps';
-import useDefineMapCenter from './hooks/useDefineMapCenter';
 import {AddressSuggestions} from 'react-dadata';
+import Breadcrumb from './Breadcrumb';
+import YMapContainer from './YMapContainer';
 
-const Catalog = React.memo(function Catalog({ymaps}) {
-    const {width} = useWindowDimensions()
+const Catalog = () => {
     const [view, setView] = useUpdateSizeSecond('991px')
     const {page} = useParams();
     const [searchParams, setSearchParams] = useSearchParams()
-    const initialInstantFilters = {
+
+    const initialFilters = {
         transactionType: +searchParams.get('transactionType'),
         estateId: +searchParams.get('estateId'),
         orderBy: 'asc'
     }
-    const [instantFilters, setInstantFilters] = useState(initialInstantFilters)
+    const [filters, setFilters] = useState(initialFilters)
+    const [additionalFilters, setAdditionalFilters] = useState({})
+
     const [estates, setEstates] = useState([])
     const [catalogData, setCatalogData] = useState({})
-    const [isClearFilters, setIsClearFilters] = useState(null)
     const [isShowMap, setIsShowMap] = useState(false)
-    const [isShowCanvas, setIsShowCanvas] = useState(false)
+    const [isShowOffcanvasFilters, setIsShowOffcanvasFilters] = useState(false)
     const userId = useSelector(state => state.currentUser?.id)
-    const [offcanvasCards, setOffcanvasCards] = useState([])
     const {search, setSearch, onSearch} = useSearchForm('')
+    const selectedCity = useSelector(state => state.selectedCity)
 
-    const mapCenter = useDefineMapCenter(ymaps)
 
     useEffect(() => {
-        const req = async () => {
-            const estates = []
-            const response = await getTypesEstate()
-
-            if (response) {
+        getTypesEstate()
+            .then(response => {
+                const estates = []
                 response.forEach(type => type.estates.forEach(estate => estates.push({
                     index: estate.id,
                     value: estate.name
                 })))
-                setEstates(estates)
-            }
-        }
-        req()
+                return estates
+            })
+            .then(result => setEstates(result))
     }, [])
 
     useEffect(() => {
-
-        const req = async () => {
-            try {
-                const response = await getCatalog(page, 12, userId, instantFilters)
-
-                if (response) {
-                    setCatalogData({
-                        meta: response.body,
-                        catalog: response.body.data,
-                        foundCount: response.body.meta.total
-                    })
-                }
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        req()
-    }, [page, userId, instantFilters])
+        getCatalog(page, 12, userId, filters)
+            .then(response => setCatalogData({
+                    meta: response.body,
+                    catalog: response.body.data,
+                    foundCount: response.body.meta.total
+                })
+            )
+    }, [page, userId, filters])
 
     useEffect(() => {
         setSearchParams({
-            'transactionType': instantFilters.transactionType,
-            'estateId': instantFilters.estateId
+            'transactionType': filters.transactionType,
+            'estateId': filters.estateId
         })
-    }, [instantFilters.transactionType, instantFilters.estateId])
+    }, [filters.transactionType, filters.estateId])
 
-    const onResetInstantFilters = () => {
-        setInstantFilters(initialInstantFilters)
-        setIsClearFilters(true)
+    const onResetFilters = () => {
+        setFilters(initialFilters)
+        setAdditionalFilters({})
     }
 
-    const onApplyFilters = (filters) => {
-        setInstantFilters(prevInstantFilters => ({
-            ...prevInstantFilters,
-            ...filters
-        }))
-    }
+    const onApplyFilters = () => setFilters(prevFilters => ({...prevFilters, ...additionalFilters}))
 
     useEffect(() => {
-        if (isShowMap) {
-            scroll.scrollToTop()
+        setAdditionalFilters(prevAdditionalFilters => ({...prevAdditionalFilters, ...filters}))
+    }, [filters])
 
-            if (width > '991') {
-                setIsShowCanvas(true)
-            }
-        } else {
-            setIsShowCanvas(false)
-        }
-    }, [isShowMap, width])
+    useEffect(() => {
+        setIsShowMap(false)
+    }, [selectedCity])
 
     return (
-        <main className={`catalog ${isShowMap ? 'shown-map' : null}`}>
-            <nav aria-label="breadcrumb">
-                <div className="container py-3 py-sm-4 py-lg-5">
-                    <Link to="/" className="d-block d-md-none gray-3">&#10094; Назад</Link>
-                    <ol className="d-none d-md-flex breadcrumb">
-                        <li className="breadcrumb-item">
-                            <NavLink to="/">Недвижимость в Казани</NavLink>
-                        </li>
-                        <li className="breadcrumb-item active" aria-current="page">Аренда</li>
-                    </ol>
-                </div>
-            </nav>
+        <main className={`catalog${isShowMap ? 'shown-map' : ''}`}>
+            <Breadcrumb />
             <section className="sec-6 container pb-5">
                 <h1 className='catalog__title'>Каталог недвижимости</h1>
                 <form className="form-search mb-4 mb-sm-5">
@@ -128,7 +92,7 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                         <button
                             type="button"
                             className="d-flex d-lg-none align-items-center"
-                            onClick={() => setIsShowCanvas(prevIsShowCanvas => !prevIsShowCanvas)}
+                            onClick={() => setIsShowOffcanvasFilters(prevIsShowOffcanvasFilters => !prevIsShowOffcanvasFilters)}
                         >
                             <img src="/Real_estate_front/img/icons/filter.svg" alt="filter"/>
                             <span className="ms-2 fs-11 fw-5 color-1">Фильтры</span>
@@ -146,15 +110,15 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                         className="sel-1"
                         btnClass="btn btn-2 px-2 px-sm-3"
                         options={['Снять', 'Купить']}
-                        checkedOpt={instantFilters.transactionType}
-                        callback={({checkedIndex}) => onSelectHandler(checkedIndex, 'transactionType', setInstantFilters)}
+                        checkedOpt={filters.transactionType}
+                        callback={({checkedIndex}) => onSelectHandler(checkedIndex, 'transactionType', setFilters)}
                     />
                     <CustomSelect
                         className="sel-2"
                         btnClass="btn btn-2 px-2 px-sm-3"
                         options={estates}
-                        checkedOpt={instantFilters.estateId}
-                        callback={({checkedIndex}) => onSelectHandler(checkedIndex, 'estateId', setInstantFilters)}
+                        checkedOpt={filters.estateId}
+                        callback={({checkedIndex}) => onSelectHandler(checkedIndex, 'estateId', setFilters)}
                     />
                     <CustomSelectMultyDual
                         className="sel-3"
@@ -164,9 +128,9 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                         districts={['Авиастроительный', 'Вахитовский', 'Кировский', 'Московский', 'Ново-Савиновский', 'Приволжский', 'Советский']}
                         stations={['Авиастроительная', 'Северный вокзал', 'Яшьлек', 'Козья слобода', 'Кремлёвская', 'Площадь Габдуллы Тукая', 'Суконная слобода', 'Аметьево', 'Горки', 'Проспект Победы', 'Дубравная']}
                         callback={(indexes1, indexes2) => {
-                            setInstantFilters(prevInstantFilters => {
+                            setFilters(prevFilters => {
                                 return {
-                                    ...prevInstantFilters,
+                                    ...prevFilters,
                                     district: [...indexes1],
                                     metro: [...indexes2]
                                 }
@@ -177,12 +141,14 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                         token={process.env.REACT_APP_DADATA_TOKEN}
                         value={search} onChange={setSearch}
                         containerClassName='catalog__search'
+                        suggestionClassName='catalog__search-suggestion'
                         inputProps={{placeholder: 'Адрес или ЖК'}}
+                        delay={300}
                     />
                     <button
                         type="submit"
                         className="btn btn-1"
-                        onClick={e => onSearch(e, 'addressOrResidentalComplex', setInstantFilters)}
+                        onClick={e => onSearch(e, 'addressOrResidentalComplex', setFilters)}
                     >
                         Поиск
                     </button>
@@ -190,55 +156,55 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                         <div>Популярные запросы:</div>
                         <button
                             type="button"
-                            onClick={() => onSingleParamQuery('roomTypes', [0], setInstantFilters, initialInstantFilters)}
+                            onClick={() => onSingleParamQuery('roomTypes', [0], setFilters, initialFilters)}
                         >
                             Студия
                         </button>
                         <button
                             type="button"
-                            onClick={() => onSingleParamQuery('roomTypes', [1], setInstantFilters, initialInstantFilters)}
+                            onClick={() => onSingleParamQuery('roomTypes', [1], setFilters, initialFilters)}
                         >
                             1 комнатная
                         </button>
                         <button
                             type="button"
-                            onClick={() => onSingleParamQuery('roomTypes', [2], setInstantFilters, initialInstantFilters)}
+                            onClick={() => onSingleParamQuery('roomTypes', [2], setFilters, initialFilters)}
                         >
                             2 комнатная
                         </button>
                         <button
                             type="button"
-                            onClick={() => onSingleParamQuery('roomTypes', [3], setInstantFilters, initialInstantFilters)}
+                            onClick={() => onSingleParamQuery('roomTypes', [3], setFilters, initialFilters)}
                         >
                             3 комнатная
                         </button>
                         <button
                             type="button"
-                            onClick={() => onSingleParamQuery('hasFurniture', true, setInstantFilters, initialInstantFilters)}
+                            onClick={() => onSingleParamQuery('hasFurniture', true, setFilters, initialFilters)}
                         >
                             С мебелью
                         </button>
                         <button
                             type="button"
-                            onClick={() => onSingleParamQuery('hasFurniture', false, setInstantFilters, initialInstantFilters)}
+                            onClick={() => onSingleParamQuery('hasFurniture', false, setFilters, initialFilters)}
                         >
                             Без мебели
                         </button>
                         <button
                             type="button"
-                            onClick={() => onSingleParamQuery('elevatorTypes', [1, 2, 3], setInstantFilters, initialInstantFilters)}
+                            onClick={() => onSingleParamQuery('elevatorTypes', [1, 2, 3], setFilters, initialFilters)}
                         >
                             Есть лифт
                         </button>
                         <button
                             type="button"
-                            onClick={() => onSingleParamQuery('withPets', true, setInstantFilters, initialInstantFilters)}
+                            onClick={() => onSingleParamQuery('withPets', true, setFilters, initialFilters)}
                         >
                             Можно с животными
                         </button>
                         <button
                             type="button"
-                            onClick={() => onSingleParamQuery('withKids', true, setInstantFilters, initialInstantFilters)}
+                            onClick={() => onSingleParamQuery('withKids', true, setFilters, initialFilters)}
                         >
                             Можно с детьми
                         </button>
@@ -250,7 +216,7 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                         <button
                             type="button"
                             className="d-none d-lg-flex d-xxl-none align-items-center me-4"
-                            onClick={() => setIsShowCanvas(prevIsShowCanvas => !prevIsShowCanvas)}
+                            onClick={() => setIsShowOffcanvasFilters(prevIsShowCanvas => !prevIsShowCanvas)}
                         >
                             <img src="/Real_estate_front/img/icons/filter.svg" alt="filter"/>
                             <span className="ms-2 fs-11 fw-5 color-1">Фильтры</span>
@@ -259,10 +225,10 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                         <CustomSelect
                             className="gray-2"
                             btnClass="fs-11"
-                            checkedOpt={instantFilters.orderBy}
+                            checkedOpt={filters.orderBy}
                             // ['По популярности', 'Сначала новые', 'Сначала старые', 'Сначала дешевые', 'Сначала дорогие']
                             options={[{index: 'desc', value: 'Сначала новые'}, {index: 'asc', value: 'Сначала старые'}]}
-                            callback={({checkedIndex}) => onSelectHandler(checkedIndex, 'orderBy', setInstantFilters)}
+                            callback={({checkedIndex}) => onSelectHandler(checkedIndex, 'orderBy', setFilters)}
                             notDefaultIndexes={true}
                         />
                     </div>
@@ -309,8 +275,8 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                                         type="checkbox"
                                         name="rooms"
                                         value="1room"
-                                        checked={instantFilters.roomTypes?.includes(1) || false}
-                                        onChange={() => onMultiCheckboxHandler('roomTypes', 1, setInstantFilters)}
+                                        checked={filters?.roomTypes?.includes(1) || false}
+                                        onChange={() => onMultiCheckboxHandler('roomTypes', 1, setFilters)}
                                     />
                                     <span className="fs-11 ms-3">1 комнатная</span>
                                 </label>
@@ -319,8 +285,8 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                                         type="checkbox"
                                         name="rooms"
                                         value="2room"
-                                        checked={instantFilters.roomTypes?.includes(2) || false}
-                                        onChange={() => onMultiCheckboxHandler('roomTypes', 2, setInstantFilters)}
+                                        checked={filters?.roomTypes?.includes(2) || false}
+                                        onChange={() => onMultiCheckboxHandler('roomTypes', 2, setFilters)}
                                     />
                                     <span className="fs-11 ms-3">2 комнатная</span>
                                 </label>
@@ -329,8 +295,8 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                                         type="checkbox"
                                         name="rooms"
                                         value="3room"
-                                        checked={instantFilters.roomTypes?.includes(3) || false}
-                                        onChange={() => onMultiCheckboxHandler('roomTypes', 3, setInstantFilters)}
+                                        checked={filters?.roomTypes?.includes(3) || false}
+                                        onChange={() => onMultiCheckboxHandler('roomTypes', 3, setFilters)}
                                     />
                                     <span className="fs-11 ms-3">3 комнатная</span>
                                 </label>
@@ -339,8 +305,8 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                                         type="checkbox"
                                         name="rooms"
                                         value="4room"
-                                        checked={instantFilters.roomTypes?.includes(4) || false}
-                                        onChange={() => onMultiCheckboxHandler('roomTypes', 4, setInstantFilters)}
+                                        checked={filters?.roomTypes?.includes(4) || false}
+                                        onChange={() => onMultiCheckboxHandler('roomTypes', 4, setFilters)}
                                     />
                                     <span className="fs-11 ms-3">4 комнатная</span>
                                 </label>
@@ -349,8 +315,8 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                                         type="checkbox"
                                         name="rooms"
                                         value="5room"
-                                        checked={instantFilters.roomTypes?.includes(5) || false}
-                                        onChange={() => onMultiCheckboxHandler('roomTypes', 5, setInstantFilters)}
+                                        checked={filters?.roomTypes?.includes(5) || false}
+                                        onChange={() => onMultiCheckboxHandler('roomTypes', 5, setFilters)}
                                     />
                                     <span className="fs-11 ms-3">5 комнатная</span>
                                 </label>
@@ -359,8 +325,8 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                                         type="checkbox"
                                         name="rooms"
                                         value="6room"
-                                        checked={instantFilters.roomTypes?.includes(6) || false}
-                                        onChange={() => onMultiCheckboxHandler('roomTypes', 6, setInstantFilters)}
+                                        checked={filters?.roomTypes?.includes(6) || false}
+                                        onChange={() => onMultiCheckboxHandler('roomTypes', 6, setFilters)}
                                     />
                                     <span className="fs-11 ms-3">6 комнатная</span>
                                 </label>
@@ -369,8 +335,8 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                                         type="checkbox"
                                         name="rooms"
                                         value="studio"
-                                        checked={instantFilters.roomTypes?.includes(0) || false}
-                                        onChange={() => onMultiCheckboxHandler('roomTypes', 0, setInstantFilters)}
+                                        checked={filters?.roomTypes?.includes(0) || false}
+                                        onChange={() => onMultiCheckboxHandler('roomTypes', 0, setFilters)}
                                     />
                                     <span className="fs-11 ms-3">Студия</span>
                                 </label>
@@ -382,15 +348,15 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                                     <input
                                         type="number"
                                         className="w-100 price me-3"
-                                        value={instantFilters.startPrice || ''}
-                                        onChange={(e) => onInputHandler(e, 'startPrice', true, setInstantFilters)}
+                                        value={filters?.startPrice || ''}
+                                        onChange={(e) => onInputHandler(e, 'startPrice', true, setFilters)}
                                     />
                                     <div className="fs-11 me-2">До</div>
                                     <input
                                         type="number"
                                         className="w-100 price"
-                                        value={instantFilters.endPrice || ''}
-                                        onChange={(e) => onInputHandler(e, 'endPrice', true, setInstantFilters)}
+                                        value={filters?.endPrice || ''}
+                                        onChange={(e) => onInputHandler(e, 'endPrice', true, setFilters)}
                                     />
                                 </div>
                             </fieldset>
@@ -401,8 +367,8 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                                         type="checkbox"
                                         name="lease"
                                         value="lease 1"
-                                        checked={instantFilters.rentalTypes?.includes(2) || false}
-                                        onChange={() => onMultiCheckboxHandler('rentalTypes', 2, setInstantFilters)}
+                                        checked={filters?.rentalTypes?.includes(2) || false}
+                                        onChange={() => onMultiCheckboxHandler('rentalTypes', 2, setFilters)}
                                     />
                                     <span className="fs-11 ms-3">Посуточно</span>
                                 </label>
@@ -411,8 +377,8 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                                         type="checkbox"
                                         name="lease"
                                         value="lease 2"
-                                        checked={instantFilters.rentalTypes?.includes(1) || false}
-                                        onChange={() => onMultiCheckboxHandler('rentalTypes', 1, setInstantFilters)}
+                                        checked={filters?.rentalTypes?.includes(1) || false}
+                                        onChange={() => onMultiCheckboxHandler('rentalTypes', 1, setFilters)}
                                     />
                                     <span className="fs-11 ms-3">Несколько месяцев</span>
                                 </label>
@@ -421,8 +387,8 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                                         type="checkbox"
                                         name="lease"
                                         value="lease 3"
-                                        checked={instantFilters.rentalTypes?.includes(0) || false}
-                                        onChange={() => onMultiCheckboxHandler('rentalTypes', 0, setInstantFilters)}
+                                        checked={filters?.rentalTypes?.includes(0) || false}
+                                        onChange={() => onMultiCheckboxHandler('rentalTypes', 0, setFilters)}
                                     />
                                     <span className="fs-11 ms-3">Длительная аренда</span>
                                 </label>
@@ -434,8 +400,8 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                                         type="checkbox"
                                         name="repair"
                                         value="no repair"
-                                        checked={instantFilters.repairTypes?.includes(3) || false}
-                                        onChange={() => onMultiCheckboxHandler('repairTypes', 3, setInstantFilters)}
+                                        checked={filters?.repairTypes?.includes(3) || false}
+                                        onChange={() => onMultiCheckboxHandler('repairTypes', 3, setFilters)}
                                     />
                                     <span className="fs-11 ms-3">Без ремонта</span>
                                 </label>
@@ -444,8 +410,8 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                                         type="checkbox"
                                         name="repair"
                                         value="repair 1"
-                                        checked={instantFilters.repairTypes?.includes(0) || false}
-                                        onChange={() => onMultiCheckboxHandler('repairTypes', 0, setInstantFilters)}
+                                        checked={filters?.repairTypes?.includes(0) || false}
+                                        onChange={() => onMultiCheckboxHandler('repairTypes', 0, setFilters)}
                                     />
                                     <span className="fs-11 ms-3">Косметический</span>
                                 </label>
@@ -454,8 +420,8 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                                         type="checkbox"
                                         name="repair"
                                         value="repair 2"
-                                        checked={instantFilters.repairTypes?.includes(1) || false}
-                                        onChange={() => onMultiCheckboxHandler('repairTypes', 1, setInstantFilters)}
+                                        checked={filters?.repairTypes?.includes(1) || false}
+                                        onChange={() => onMultiCheckboxHandler('repairTypes', 1, setFilters)}
                                     />
                                     <span className="fs-11 ms-3">Евроремонт</span>
                                 </label>
@@ -464,8 +430,8 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                                         type="checkbox"
                                         name="repair"
                                         value="repair 3"
-                                        checked={instantFilters.repairTypes?.includes(2) || false}
-                                        onChange={() => onMultiCheckboxHandler('repairTypes', 2, setInstantFilters)}
+                                        checked={filters?.repairTypes?.includes(2) || false}
+                                        onChange={() => onMultiCheckboxHandler('repairTypes', 2, setFilters)}
                                     />
                                     <span className="fs-11 ms-3">Дизайнерский</span>
                                 </label>
@@ -473,7 +439,7 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                             <button type="button" className="btn btn-1 w-100 fs-15" data-bs-toggle="modal"
                                     data-bs-target="#desktopFilters">Еще фильтры
                             </button>
-                            <button type="button" onClick={onResetInstantFilters}
+                            <button type="button" onClick={onResetFilters}
                                     className="color-1 fs-11 fw-5 mx-auto mt-2">Очистить фильтр
                             </button>
                         </form>
@@ -481,8 +447,7 @@ const Catalog = React.memo(function Catalog({ymaps}) {
 
                     </div>
                     <div className="col-12 col-xxl-9">
-                        <div
-                            className={(view === 'tiled') ? "row row-cols-sm-2 row-cols-lg-3 g-2 g-md-3 g-lg-4" : "row g-2 g-md-3 g-lg-4"}>
+                        <div className={(view === 'tiled') ? "row row-cols-sm-2 row-cols-lg-3 g-2 g-md-3 g-lg-4" : "row g-2 g-md-3 g-lg-4"}>
                             {
                                 catalogData.catalog?.map(catalogItem => (
                                     <div key={catalogItem.id}>
@@ -522,28 +487,28 @@ const Catalog = React.memo(function Catalog({ymaps}) {
                 </div>
             </section>
             <CatalogFilters
-                instantFilters={instantFilters}
-                onResetInstantFilters={onResetInstantFilters}
+                filters={additionalFilters}
+                setFilters={setAdditionalFilters}
+                onResetFilters={onResetFilters}
                 onApplyFilters={onApplyFilters}
-                isClearFilters={isClearFilters}
-                setIsClearFilters={setIsClearFilters}
                 foundCount={catalogData.foundCount}
-                isShowCanvas={isShowCanvas}
-                setIsShowCanvas={setIsShowCanvas}
-                isShowMap={isShowMap}
+                isShowOffcanvasFilters={isShowOffcanvasFilters}
+                setIsShowOffcanvasFilters={setIsShowOffcanvasFilters}
             />
-            <CatalogOffcanvasCards cards={offcanvasCards}/>
             {
-                isShowMap && mapCenter
-                    ? <YMap
-                        className='y-maps-catalog'
-                        mapCenter={mapCenter}
-                        callback={cards => setOffcanvasCards(cards)}
+                isShowMap
+                    ? <YMapContainer
+                        isShowMap={isShowMap}
+                        filters={filters}
+                        setFilters={setFilters}
+                        onResetFilters={onResetFilters}
+                        onApplyFilters={onApplyFilters}
+                        foundCount={catalogData.foundCount}
                     />
                     : null
             }
         </main>
     )
-})
+}
 
-export default withYMaps(Catalog)
+export default Catalog

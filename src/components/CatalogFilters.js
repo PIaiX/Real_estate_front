@@ -1,36 +1,9 @@
 import React, {useEffect, useState} from 'react'
-import CatalogOffcanvasFilters from './utilities/CatalogOffcanvasFilters'
 import {onInputHandler, onCheckboxHandler, onMultiCheckboxHandler} from './utilities/collectDataFromForm'
+import useWindowDimensions from './hooks/useWindowDimensions';
+import OffcanvasFilters from './OffcanvasFilters';
 
-const CatalogFilters = ({instantFilters, onResetInstantFilters, onApplyFilters, isClearFilters, setIsClearFilters, foundCount, isShowCanvas, setIsShowCanvas, isShowMap}) => {
-    const [filters, setFilters] = useState({...instantFilters})
-
-    const onSumbitHandler = (e) => {
-        e.preventDefault()
-        onApplyFilters(filters)
-    }
-
-    useEffect(() => {
-        if (isClearFilters) {
-            setFilters({...instantFilters})
-            setIsClearFilters(false)
-        }
-
-    }, [isClearFilters])
-
-    useEffect(() => {
-        setFilters(prevFilters => {
-            return {
-                ...prevFilters,
-                ...instantFilters
-            }
-        })
-    }, [instantFilters])
-
-    const onResetFilters = () => {
-        onResetInstantFilters()
-    }
-
+const CatalogFilters = ({filters, setFilters, onResetFilters, onApplyFilters, foundCount, isShowOffcanvasFilters, setIsShowOffcanvasFilters}) => {
     return (
         <>
             <div className="modal fade" id="desktopFilters" tabIndex="-1" aria-hidden="true">
@@ -620,7 +593,10 @@ const CatalogFilters = ({instantFilters, onResetInstantFilters, onApplyFilters, 
                                         type="submit"
                                         data-bs-dismiss="modal"
                                         className="btn btn-1"
-                                        onClick={e => onSumbitHandler(e)}
+                                        onClick={e => {
+                                            e.preventDefault()
+                                            onApplyFilters()
+                                        }}
                                     >
                                         ПОКАЗАТЬ
                                     </button>
@@ -633,15 +609,18 @@ const CatalogFilters = ({instantFilters, onResetInstantFilters, onApplyFilters, 
                 </div>
             </div>
 
-            <CatalogOffcanvasFilters
+            <OffcanvasFilters
+                bsPrefix='offcanvas-catalog'
+                isShow={isShowOffcanvasFilters}
+                setIsShow={setIsShowOffcanvasFilters}
+                scroll={true}
+                backdrop={true}
+                closeButton={true}
                 filters={filters}
                 setFilters={setFilters}
-                foundCount={foundCount}
                 onResetFilters={onResetFilters}
-                onSumbitHandler={onSumbitHandler}
-                isShowCanvas={isShowCanvas}
-                setIsShowCanvas={setIsShowCanvas}
-                isShowMap={isShowMap}
+                onApplyFilters={onApplyFilters}
+                foundCount={foundCount}
             />
         </>
     );

@@ -44,7 +44,7 @@ export default function Card(props) {
 
     if (type === 'as-a-list') {
         return (
-            <div className={"card-midi " + props.className}>
+            <div className={`card-midi${props.className || ''}`}>
                 <div className="row">
                     <div className="col-4">
                         <HoverSlider urls={pictures}/>

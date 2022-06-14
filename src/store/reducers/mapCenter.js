@@ -1,10 +1,10 @@
 import actionTypes from "../actions/actionTypes";
 
-const initialState = null;
+const initialState = +localStorage.getItem('mapCenter');
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.setSelectedCity:
+        case actionTypes.setMapCenter:
             return action.payload;
         default:
             return state;

@@ -1,14 +1,49 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, NavLink} from 'react-router-dom';
 import {animateScroll as scroll} from 'react-scroll';
 import {getQuestion} from "./API/question";
 import useSelectedCity from './hooks/useSelectedCity';
 import CityPopup from './utilities/CityPopup';
 import CustomSelect from './utilities/CustomSelect';
+import useMapCenter from './hooks/useMapCenter';
+import {withYMaps} from 'react-yandex-maps';
+import defineMapCenter from './API/defineMapCenter';
 
-export default function Header() {
+const Header = ({ymaps}) => {
     const [isShowCities, setIsShowCities] = useState(false)
     const {city, setCity, isDefinedCity} = useSelectedCity()
+    const {setMapCenter} = useMapCenter(ymaps, city)
+
+    const changeDefinedCity = (checkedVal) => {
+        localStorage.setItem('userCity', checkedVal)
+        setCity(checkedVal)
+        ymaps
+            ? defineMapCenter(ymaps, checkedVal).then(coords => {
+                localStorage.setItem('mapCenter', coords)
+                setMapCenter(coords)
+            })
+            : null
+        setIsShowCities(false)
+    }
+
+    const changeCity = (checkedVal) => {
+        const localStorageUserCity = localStorage.getItem('userCity')
+        const localStorageMapCenter = typeof(localStorage.getItem('mapCenter')) === 'string'
+            ? localStorage.getItem('mapCenter').split(',')
+            : localStorage.getItem('mapCenter')
+
+        if (checkedVal !== localStorageUserCity) {
+            setCity(checkedVal)
+            ymaps
+                ? defineMapCenter(ymaps, checkedVal).then(coords => {
+                    setMapCenter(coords)
+                })
+                : null
+        } else {
+            setCity(localStorageUserCity)
+            setMapCenter(localStorageMapCenter)
+        }
+    }
 
     const scrollToTop = () => {
         scroll.scrollToTop();
@@ -63,12 +98,13 @@ export default function Header() {
             <header>
                 <div className="container">
                     <Link to="/" onClick={() => scrollToTop()} className="order-1 me-lg-auto">
-                        <img src="/Real_estate_front/img/Лого.png" alt="Название сайта" className="logo" />
+                        <img src="/Real_estate_front/img/Лого.png" alt="Название сайта" className="logo"/>
                     </Link>
                     <nav className="d-none d-lg-flex order-2">
                         <NavLink to="/">Главная</NavLink>
                         <div className="dropdown">
-                            <a href="/" className="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Услуги</a>
+                            <a href="/" className="dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false">Услуги</a>
                             <ul className="dropdown-menu py-2">
                                 <li>
                                     <NavLink to="/service" className="dropdown-item">Дизайн</NavLink>
@@ -91,32 +127,31 @@ export default function Header() {
                         <Link to="/personal-account/my-messages" onClick={() => scrollToTop()} className="ms-4">
                             <img src="/Real_estate_front/img/icons/email.svg" alt="email"/>
                         </Link>
-                        <Link to="/personal-account/favorites/page/1" onClick={() => scrollToTop()} className="ms-3 ms-xl-4">
+                        <Link to="/personal-account/favorites/page/1" onClick={() => scrollToTop()}
+                              className="ms-3 ms-xl-4">
                             <img src="/Real_estate_front/img/icons/favorite.svg" alt="favorite"/>
                         </Link>
                         <Link to="/entrance" onClick={() => scrollToTop()} className="ms-3 ms-xl-4">
                             <img src="/Real_estate_front/img/icons/user.svg" alt="аккаунт"/>
                         </Link>
                     </div>
-                    
 
-                    <NavLink to="/advertise" onClick={() => scrollToTop()} className="ms-md-4 btn btn-1 text-uppercase p-2 order-3 order-lg-4">Подать объявление</NavLink>
+
+                    <NavLink to="/advertise" onClick={() => scrollToTop()}
+                             className="ms-md-4 btn btn-1 text-uppercase p-2 order-3 order-lg-4">Подать
+                        объявление</NavLink>
 
                     <div className="city-container ms-md-3 ms-xl-4 order-2 order-lg-5 align-self-center">
                         <CustomSelect
                             btnClass="color-2 text-uppercase"
                             visible={isShowCities}
-                            // setIsShowCities={setIsShowCities}
                             checkedOpt={city}
-                            // setCity={setCity}
                             options={['Москва', 'Казань', 'Санкт-Петербург']}
-                            callback={({checkedVal}) => {
+                            handleCallback={({checkedVal}) => {
                                 if (isShowCities) {
-                                    localStorage.setItem('userCity', checkedVal)
-                                    setCity(checkedVal)
-                                    setIsShowCities(false)
+                                    changeDefinedCity(checkedVal)
                                 } else {
-                                    setCity(checkedVal)
+                                    changeCity(checkedVal)
                                 }
                             }}
                             alignment="right"
@@ -129,10 +164,11 @@ export default function Header() {
                     </div>
 
 
-                    <button type="button" data-bs-toggle="offcanvas" data-bs-target="#header-menu" className="d-block d-lg-none order-5">
+                    <button type="button" data-bs-toggle="offcanvas" data-bs-target="#header-menu"
+                            className="d-block d-lg-none order-5">
                         <img src="/Real_estate_front/img/icons/menu.svg" alt="меню"/>
                     </button>
-                </div> 
+                </div>
             </header>
 
             <div className="offcanvas offcanvas-end" tabIndex="-1" id="header-menu">
@@ -143,8 +179,10 @@ export default function Header() {
                             <li><Link to="/service" onClick={() => scrollToTop()}>Услуги</Link></li>
                             <li><a href="/">Задать вопрос</a></li>
                             <li><Link to="/personal-account" onClick={() => scrollToTop()}>Личный кабинет</Link></li>
-                            <li><Link to="/personal-account/favorites/page/1" onClick={() => scrollToTop()}>Избранное</Link></li>
-                            <li><Link to="/personal-account/my-messages" onClick={() => scrollToTop()}>Сообщения</Link></li>
+                            <li><Link to="/personal-account/favorites/page/1"
+                                      onClick={() => scrollToTop()}>Избранное</Link></li>
+                            <li><Link to="/personal-account/my-messages" onClick={() => scrollToTop()}>Сообщения</Link>
+                            </li>
                             <li><Link to="/articles" onClick={() => scrollToTop()}>Статьи</Link></li>
                         </ul>
                     </nav>
@@ -175,14 +213,15 @@ export default function Header() {
                                         <div className="indicator online"/>
                                     </div>
                                     <div>
-                                        <div className='fs-11 fw-5'>Вам ответит администратор</div> 
+                                        <div className='fs-11 fw-5'>Вам ответит администратор</div>
                                         <div className='fs-11 fw-5 mt-1'>Колесникова Ирина</div>
                                         <div className="gray-2 fs-09 mt-2">Сейчас онлайн</div>
                                     </div>
                                 </div>
                                 <div className='row align-items-center fs-11 mt-3'>
                                     <div className='col-sm-3 mb-1 mb-sm-3'>
-                                        <label className='gray-3' htmlFor="name" style={{color: valid.isInValidName? '#DA1E2A' : ''}}>Ваше имя:</label>
+                                        <label className='gray-3' htmlFor="name"
+                                               style={{color: valid.isInValidName ? '#DA1E2A' : ''}}>Ваше имя:</label>
                                     </div>
                                     <div className='col-sm-9 mb-3'>
                                         <input
@@ -199,7 +238,8 @@ export default function Header() {
                                         />
                                     </div>
                                     <div className='col-sm-3 mb-1 mb-sm-3'>
-                                        <label className='gray-3' htmlFor="email" style={{color: valid.isInValidEmail? '#DA1E2A' : ''}}>Ваш Email:</label>
+                                        <label className='gray-3' htmlFor="email"
+                                               style={{color: valid.isInValidEmail ? '#DA1E2A' : ''}}>Ваш Email:</label>
                                     </div>
                                     <div className='col-sm-9 mb-3'>
                                         <input
@@ -216,7 +256,9 @@ export default function Header() {
                                         />
                                     </div>
                                     <div className='col-sm-3 mb-1 mb-sm-3'>
-                                        <label className='gray-3' htmlFor="question"  style={{color: valid.isInValidQuestions? '#DA1E2A' : ''}}>Ваш вопрос:</label>
+                                        <label className='gray-3' htmlFor="question"
+                                               style={{color: valid.isInValidQuestions ? '#DA1E2A' : ''}}>Ваш
+                                            вопрос:</label>
                                     </div>
                                     <div className='col-sm-9 mb-sm-3'>
                                         <input
@@ -249,3 +291,5 @@ export default function Header() {
         </>
     )
 }
+
+export default withYMaps(Header)

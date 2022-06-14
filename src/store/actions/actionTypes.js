@@ -6,4 +6,6 @@ export const resetCurrentUser = "RESET_CURRENT_USER";
 
 export const setSelectedCity = "SET_SELECTED_CITY";
 
-export default { setToken, resetToken, setCurrentUser, resetCurrentUser, setSelectedCity };
+export const setMapCenter = "SET_MAP_CENTER";
+
+export default { setToken, resetToken, setCurrentUser, resetCurrentUser, setSelectedCity, setMapCenter };
