@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/Real_estate_front/static/css/main.c5821826.css",
-    "main.js": "/Real_estate_front/static/js/main.c4f6acf4.js",
+    "main.css": "/Real_estate_front/static/css/main.aba691f4.css",
+    "main.js": "/Real_estate_front/static/js/main.ef0b0bd4.js",
     "static/media/bg2.png": "/Real_estate_front/static/media/bg2.6696cde382d78113ca67.png",
-    "static/media/bootstrap-icons.woff?": "/Real_estate_front/static/media/bootstrap-icons.c1d7432ee75fa194e499.woff",
-    "static/media/bootstrap-icons.woff2?": "/Real_estate_front/static/media/bootstrap-icons.a13b815539b49de48d23.woff2",
+    "static/media/bootstrap-icons.woff?": "/Real_estate_front/static/media/bootstrap-icons.7ff3ca6fa798de3f8ac2.woff",
+    "static/media/bootstrap-icons.woff2?": "/Real_estate_front/static/media/bootstrap-icons.f2539a501be3a673de05.woff2",
     "static/media/Gilroy-UltraLightItalic.eot": "/Real_estate_front/static/media/Gilroy-UltraLightItalic.0eaf6ee1ff3eea926e17.eot",
     "static/media/Gilroy-UltraLightItalic.ttf": "/Real_estate_front/static/media/Gilroy-UltraLightItalic.8c3864ffd690ca16c188.ttf",
     "static/media/Gilroy-MediumItalic.eot": "/Real_estate_front/static/media/Gilroy-MediumItalic.656d4f138a8b7faa650b.eot",
@@ -77,11 +77,11 @@
     "static/media/mark3.svg": "/Real_estate_front/static/media/mark3.a96cbc418c155a20b2b2.svg",
     "static/media/radio-ch.svg": "/Real_estate_front/static/media/radio-ch.610a32af8e1da7533bc6.svg",
     "static/media/radio.svg": "/Real_estate_front/static/media/radio.1f52713a7eec9090f133.svg",
-    "main.c5821826.css.map": "/Real_estate_front/static/css/main.c5821826.css.map",
-    "main.c4f6acf4.js.map": "/Real_estate_front/static/js/main.c4f6acf4.js.map"
+    "main.aba691f4.css.map": "/Real_estate_front/static/css/main.aba691f4.css.map",
+    "main.ef0b0bd4.js.map": "/Real_estate_front/static/js/main.ef0b0bd4.js.map"
   },
   "entrypoints": [
-    "static/css/main.c5821826.css",
-    "static/js/main.c4f6acf4.js"
+    "static/css/main.aba691f4.css",
+    "static/js/main.ef0b0bd4.js"
   ]
 }

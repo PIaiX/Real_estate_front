@@ -2,11 +2,17 @@ import React, {useState, useEffect, useRef} from 'react';
 
 export default function CustomSelect(props) {
     const [options, setOptions] = useState([])
-    const [visible, setVisibility] = useState(false);
+    const [visible, setVisibility] = useState(props.visible || false);
     const [checkedOpt, setCheckedOpt] = useState(props.checkedOpt);
     const [checkedIndex, setCheckedIndex] = useState(null)
     const [checkedVal, setCheckedVal] = useState(null)
     const ref = useRef(null);
+
+    useEffect(() => {
+        if (props.visible) {
+            setVisibility(true)
+        }
+    }, [props.visible])
 
     useEffect(() => {
         if (props.options.length) {
@@ -16,7 +22,6 @@ export default function CustomSelect(props) {
             setCheckedOpt(props.checkedOpt)
         }
     }, [props.options, props.checkedOpt])
-
 
     useEffect(() => {
         if (options.length) {
@@ -39,6 +44,19 @@ export default function CustomSelect(props) {
         }
     }, [checkedIndex, checkedVal])
 
+    useEffect(() => {
+        if(props.callbackDay){
+            props.callbackDay(checkedIndex)
+        }
+        if(props.callbackMonth){
+            props.callbackMonth(checkedIndex)
+        }
+        if(props.callbackYear){
+            props.callbackYear(checkedVal)
+        }
+    }, [checkedIndex, checkedVal])
+
+
     const handleClickOutside = (event) => {
         if (ref.current && !ref.current.contains(event.target)) {
             setVisibility(false);
@@ -49,6 +67,10 @@ export default function CustomSelect(props) {
         setCheckedVal(e.target.value);
         setCheckedIndex(index)
         setVisibility(false);
+
+        if (props.handleCallback) {
+            props.handleCallback({checkedIndex: index, checkedVal: e.target.value})
+        }
     };
 
     useEffect(() => {

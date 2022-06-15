@@ -14,28 +14,28 @@ import currentUserActions from "./store/actions/currentUser";
 import useAxiosPrivate from "./components/hooks/useAxiosPrivate";
 import {useEffect} from "react";
 import fingerprint from "@fingerprintjs/fingerprintjs";
-
+import {YMaps} from 'react-yandex-maps'
 
 function App() {
-
-    const [visitor, setVisitor] = useState('')
-
-    fingerprint
-        .load()
-        .then((fp) => fp.get())
-        .then((result) => {
-            setVisitor(result.visitorId);
-        })
-
-    useEffect(() => {
-        localStorage.setItem('fingerprint', visitor)
-    }, [visitor])
-
     const baseUrl = "https://api.antontig.beget.tech";
     const dispatch = useDispatch();
     const {setToken} = bindActionCreators(accessTokenActions, dispatch);
     const {setCurrentUser} = bindActionCreators(currentUserActions, dispatch);
     const axiosPrivate = useAxiosPrivate();
+    const [visitor, setVisitor] = useState('')
+
+    useEffect(() => {
+        fingerprint
+            .load()
+            .then((fp) => fp.get())
+            .then((result) => {
+                setVisitor(result.visitorId);
+            })
+    }, [])
+
+    useEffect(() => {
+        localStorage.setItem('fingerprint', visitor)
+    }, [visitor])
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -50,9 +50,11 @@ function App() {
 
     return (
         <HashRouter>
-            <Header/>
-            <AppRouter/>
-            <Footer/>
+            <YMaps query={{ apikey: process.env.REACT_APP_YMAPS_TOKEN, load: 'package.full' }}>
+                <Header/>
+                <AppRouter/>
+                <Footer/>
+            </YMaps>
         </HashRouter>
     );
 }

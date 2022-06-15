@@ -5,7 +5,7 @@ import CustomSelect from './utilities/CustomSelect';
 import Scroll, {animateScroll as scroll, Link} from 'react-scroll';
 import useAxiosPrivate from "./hooks/useAxiosPrivate";
 import {useAccessToken, useCurrentUser} from "../store/reducers";
-import {getTypesEstate} from "./API/typesestate";
+import {getTypesEstate} from "./API/typesEstate";
 import {AddressSuggestions} from "react-dadata";
 import AuthError from "./utilities/AuthError"
 import CustomModal from "./utilities/CustomModal";

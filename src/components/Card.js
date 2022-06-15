@@ -44,7 +44,7 @@ export default function Card(props) {
 
     if (type === 'as-a-list') {
         return (
-            <div className={"card-midi " + props.className}>
+            <div className={`card-midi${props.className || ''}`}>
                 <div className="row">
                     <div className="col-4">
                         <HoverSlider urls={pictures}/>
@@ -132,11 +132,7 @@ export default function Card(props) {
                             </>
                         }
                         <div className="author w-fit d-flex flex-column align-items-center ms-auto mt-4">
-                            {
-                                (userAvatar) ?
-                                    <img src={userAvatar} alt="Фото"/>
-                                    : <img src="/Real_estate_front/img/img-photo.svg" alt="Фото"/>
-                            }
+                            <img src={userAvatar} alt="Фото"/>
                             <div className="gray-2 fw-5 fs-09 mt-2">{props.user?.fullName}</div>
                             {
                                 (props.user?.createdAtForUser) &&
@@ -183,7 +179,7 @@ export default function Card(props) {
                             <div>{props.address}</div>
                         </div>
                     </div>
-                    <div className="text mb-4 text-break" >
+                    <div className="text mb-4 text-break">
                         {props.text}
                     </div>
                     <div className="text-end color-2 fs-09 fw-3">

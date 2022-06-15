@@ -7,14 +7,22 @@ export default function CustomSelectMultyDual(props) {
     const checkedDist = props.checkedDist;
     const distCount = checkedDist.length;
     const [count1, setCount1] = useState(distCount);
+    const [indexes1, setIndexes1] = useState([]);
 
     const stations = props.stations;
     const checkedSt = props.checkedSt;
     const stCount = checkedSt.length;
     const [count2, setCount2] = useState(stCount);
-    
+    const [indexes2, setIndexes2] = useState([]);
+
 
     const ref = useRef(null);
+
+    useEffect(() => {
+        if (props.callback) {
+            props.callback(indexes1, indexes2)
+        }
+    }, [indexes1, indexes2])
 
     const handleClickOutside = (event) => {
         if (ref.current && !ref.current.contains(event.target)) {
@@ -22,20 +30,33 @@ export default function CustomSelectMultyDual(props) {
         }
     };
 
-    const handleChange = e => {
+    const handleChange = (e, index) => {
         if (e.target.checked){
             setCount1(count1 + 1);
+            setIndexes1(prevIndex => {
+                return [...prevIndex, index]
+            })
         } else {
             setCount1(count1 - 1);
+            setIndexes1(prevIndex => {
+                return prevIndex.filter((_, ind) => ind === index)
+            })
         }
     };
 
-    const handleChange2 = e => {
+    const handleChange2 = (e, index) => {
         if (e.target.checked){
             setCount2(count2 + 1);
+            setIndexes2(prevIndex => {
+                return [...prevIndex, index]
+            })
         } else {
             setCount2(count2 - 1);
+            setIndexes2(prevIndex => {
+                return prevIndex.filter((_, ind) => ind === index)
+            })
         }
+
     };
 
     useEffect(() => {
@@ -65,20 +86,20 @@ export default function CustomSelectMultyDual(props) {
                 </ul>
                 <div className="tab-content" id="myTabContent">
                     <div className="tab-pane fade show active" id="districts" role="tabpanel">
-                        {districts.map(function(item) {
+                        {districts.map(function(item, index) {
                             return (
                                 <label key={item}>
-                                    <input type="checkbox" name="district" value={item} defaultChecked={(checkedDist.includes(item)) ? true : false} onChange={handleChange}/>
+                                    <input type="checkbox" name="district" value={item} defaultChecked={(checkedDist.includes(index)) ? true : false} onChange={e => handleChange(e, index)}/>
                                     <span className="ms-3">{item}</span>
                                 </label>
                             )
                         })}
                     </div>
                     <div className="tab-pane fade" id="stations" role="tabpanel">
-                        {stations.map(function(item) {
+                        {stations.map(function(item, index) {
                             return (
                                 <label key={item}>
-                                    <input type="checkbox" name="station" value={item} defaultChecked={(checkedSt.includes(item)) ? true : false} onChange={handleChange2}/>
+                                    <input type="checkbox" name="station" value={item} defaultChecked={(checkedSt.includes(index)) ? true : false} onChange={e => handleChange2(e, index)}/>
                                     <span className="ms-3">{item}</span>
                                 </label>
                             )
