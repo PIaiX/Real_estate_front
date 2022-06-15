@@ -1,47 +1,57 @@
 import React, {useEffect, useState} from 'react';
-import {useCurrentUser} from "../../store/reducers";
+import {useAccessToken, useCurrentUser} from "../../store/reducers";
 import {reportAds} from "../API/adspage";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import {addReportUser} from "../API/userspage";
+import {addReportUser, deleteReportUser} from "../API/userspage";
 
 
 export default function BtnRep(props) {
 
     const user = useCurrentUser()
+    const token = useAccessToken()
     const userId = user?.id
     const axiosPrivate = useAxiosPrivate()
-    const reportStatus = props?.reportStatus
     const realEstateId = props?.realEstateId
     const data = props?.userinfo
     const type = props?.type
     const [report, setReport] = useState({})
-    const [localRep, setLocalRep] = useState(reportStatus)
+    const [reportUserStatus, setReportUserStatus] = useState(false)
+    const [reportAdStatus, setReportAdStatus] = useState(false)
 
     useEffect(() => {
         const info = () => {
             if (userId && realEstateId) {
-                setReport({"userId": userId, "realEstateId": realEstateId})
+                setReport({"userId": userId, "realEstateId": realEstateId, "token":token})
             }
         }
         info()
     }, [userId, realEstateId])
 
-    const reportAd = async () => {
-        try {
-            const result = await reportAds(axiosPrivate, report)
-            setLocalRep(true)
-        } catch (error) {
-            console.log(error)
+    useEffect(() => {
+        if (props?.reportStatus) {
+            setReportAdStatus(props?.reportStatus)
         }
+    }, [props?.reportStatus])
+
+    useEffect(() => {
+        if (props?.reportUserStatus) {
+            setReportUserStatus(data?.userReport)
+        }
+    }, [props?.reportUserStatus,data])
+
+    const reportAd = async () => {
+            await reportAds(axiosPrivate, report)
+            setReportAdStatus(reportAdStatus => !reportAdStatus)
     }
 
-    const reportUser = async () => {
-        try {
-            const result = await addReportUser(axiosPrivate, data)
-            setLocalRep(true)
-        } catch (error) {
-            console.log(error)
-        }
+    const addReportForUser = async () => {
+            await addReportUser(axiosPrivate, data)
+            setReportUserStatus(reportUserStatus => !reportUserStatus)
+    }
+
+    const deleteReportForUser = async () => {
+            await deleteReportUser(axiosPrivate, data)
+            setReportUserStatus(reportUserStatus => !reportUserStatus)
     }
 
     return (
@@ -49,12 +59,12 @@ export default function BtnRep(props) {
             {(type === "reportAd") &&
                 <button
                     type="button"
-                    className={`btn-notice ${localRep ? 'reported' : ""}`}
+                    className={`btn-notice ${reportAdStatus ? 'reported' : ''}`}
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
-                    title="Пожаловаться"
+                    title={reportAdStatus ? "Жалоба отправлена" : "Пожаловаться"}
                     onClick={reportAd}
-                    disabled={localRep}
+                    disabled={reportAdStatus}
                 >
                     <svg width="20" height="17" viewBox="0 0 20 17" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
@@ -70,11 +80,16 @@ export default function BtnRep(props) {
             {(type === "reportUser") &&
                 <button
                     type="button"
-                    className={`btn-notice ms-md-4 ${localRep ? 'reported' : ""}`}
+                    className={`btn-notice ms-md-4 ${reportUserStatus ? 'reported' : ""}`}
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
-                    title={localRep ? "Отозвать жалобу" : "Пожаловаться"}
-                    onClick={reportUser}
+                    title={reportUserStatus ? "Отозвать жалобу" : "Пожаловаться"}
+                    onClick={() => {
+                        (reportUserStatus) ?
+                            deleteReportForUser()
+                            :
+                            addReportForUser()
+                    }}
                 >
                     <svg width="20" height="17" viewBox="0 0 20 17" fill="none"
                          xmlns="http://www.w3.org/2000/svg">

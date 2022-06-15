@@ -1,15 +1,24 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Card from '../Card';
 import CustomOffcanvas from './CustomOffcanvas';
 
 const OffcanvasCards = ({cards}) => {
+    const [isShow, setIsShow] = useState(false)
+
+    useEffect(() => {
+        if (cards.length) {
+            setIsShow(true)
+        }
+    }, [cards])
 
     return (
         <CustomOffcanvas
-            bsPrefix='offcanvas-cards'
+            className='offcanvas-cards'
             placement='start'
-            isShow={cards.length}
+            isShow={isShow}
+            setIsShow={setIsShow}
             backdrop={false}
+            closeButton={true}
         >
             {
                 cards.map(card => (

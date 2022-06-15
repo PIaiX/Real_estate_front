@@ -1,4 +1,4 @@
-import { combineReducers } from "redux";
+import {combineReducers} from "redux";
 import accessToken from "./accessToken";
 import currentUser from "./currentUser";
 import selectedCity from './selectedCity';
@@ -13,11 +13,11 @@ const reducers = combineReducers({
 });
 
 export function useCurrentUser() {
-  return useSelector((state)=> state.currentUser)
+    return useSelector((state) => state.currentUser)
 }
 
 export function useAccessToken() {
-  return useSelector((state)=> state.accessToken)
+    return useSelector((state) => state.accessToken)
 }
 
 export default reducers;

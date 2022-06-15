@@ -8,6 +8,7 @@ import CustomSelect from './utilities/CustomSelect';
 import useMapCenter from './hooks/useMapCenter';
 import {withYMaps} from 'react-yandex-maps';
 import defineMapCenter from './API/defineMapCenter';
+import CustomModal from "./utilities/CustomModal";
 
 const Header = ({ymaps}) => {
     const [isShowCities, setIsShowCities] = useState(false)
@@ -49,7 +50,14 @@ const Header = ({ymaps}) => {
         scroll.scrollToTop();
     }
 
-    const [data, setData] = useState({})
+    const initialData = {
+        name: '',
+        email: '',
+        question: ''
+    }
+
+    const [data, setData] = useState({...initialData})
+    const [isShow, setIsShow] = useState(false)
 
     const fields = {
         isInValidName: false,
@@ -58,11 +66,11 @@ const Header = ({ymaps}) => {
     }
 
     const [valid, setValid] = useState(fields)
-    const mailSample = Object.values(data).find(i => i.match(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/))
+
+    const mailSample = Object.values(data).find(i => i?.match(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/))
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const isInValidName = data?.name === undefined || data.name?.length < 1 || data.name?.length > 55
         const isInValidEmail = data?.email === undefined || mailSample === undefined
         const {question} = data;
@@ -80,11 +88,14 @@ const Header = ({ymaps}) => {
             for (const key in req) {
                 formData.append(key, req[key])
             }
-            try {
-                let result = await getQuestion(formData);
-                alert("Форма отправлена")
-            } catch (error) {
-                console.log(error)
+            const result = await getQuestion(formData);
+            if (result) {
+                setIsShow(isShow => !isShow)
+                setData(initialData)
+                e.target.closest("form").reset()
+                setTimeout(() => {
+                    setIsShow(isShow => !isShow)
+                }, 500)
             }
         }
     }
@@ -120,7 +131,7 @@ const Header = ({ymaps}) => {
                                 </li>
                             </ul>
                         </div>
-                        <a href="/">Ипотека</a>
+                        <Link to="/">Ипотека</Link>
                         <a href="" role="button" data-bs-toggle="modal" data-bs-target="#ask">Задать вопрос</a>
                     </nav>
                     <div className="d-none d-md-flex order-4 order-lg-3">
@@ -135,12 +146,9 @@ const Header = ({ymaps}) => {
                             <img src="/Real_estate_front/img/icons/user.svg" alt="аккаунт"/>
                         </Link>
                     </div>
-
-
                     <NavLink to="/advertise" onClick={() => scrollToTop()}
                              className="ms-md-4 btn btn-1 text-uppercase p-2 order-3 order-lg-4">Подать
                         объявление</NavLink>
-
                     <div className="city-container ms-md-3 ms-xl-4 order-2 order-lg-5 align-self-center">
                         <CustomSelect
                             btnClass="color-2 text-uppercase"
@@ -162,8 +170,6 @@ const Header = ({ymaps}) => {
                             setIsShowCities={setIsShowCities}
                         />
                     </div>
-
-
                     <button type="button" data-bs-toggle="offcanvas" data-bs-target="#header-menu"
                             className="d-block d-lg-none order-5">
                         <img src="/Real_estate_front/img/icons/menu.svg" alt="меню"/>
@@ -177,7 +183,8 @@ const Header = ({ymaps}) => {
                         <ul data-bs-dismiss="offcanvas">
                             <li><Link to="/" onClick={() => scrollToTop()}>Главная</Link></li>
                             <li><Link to="/service" onClick={() => scrollToTop()}>Услуги</Link></li>
-                            <li><a href="/">Задать вопрос</a></li>
+                            <li><Link to="" role="button" data-bs-toggle="modal" data-bs-target="#ask">Задать
+                                вопрос</Link></li>
                             <li><Link to="/personal-account" onClick={() => scrollToTop()}>Личный кабинет</Link></li>
                             <li><Link to="/personal-account/favorites/page/1"
                                       onClick={() => scrollToTop()}>Избранное</Link></li>
@@ -228,11 +235,10 @@ const Header = ({ymaps}) => {
                                             style={{borderColor: valid.isInValidName ? '#DA1E2A' : ''}}
                                             type="text"
                                             placeholder="Имя"
+                                            value={data.name}
                                             id="name"
                                             onChange={(e) => {
-                                                setData(data => {
-                                                    return {...data, "name": e.target.value}
-                                                })
+                                                setData({...data, name: e.target.value})
                                                 resetFieldVal(e, 'isInValidName')
                                             }}
                                         />
@@ -246,11 +252,10 @@ const Header = ({ymaps}) => {
                                             style={{borderColor: valid.isInValidEmail ? '#DA1E2A' : ''}}
                                             type="text"
                                             placeholder="Email"
+                                            value={data.email}
                                             id="email"
                                             onChange={(e) => {
-                                                setData(data => {
-                                                    return {...data, "email": e.target.value}
-                                                })
+                                                setData({...data, email: e.target.value})
                                                 resetFieldVal(e, 'isInValidEmail')
                                             }}
                                         />
@@ -265,18 +270,16 @@ const Header = ({ymaps}) => {
                                             style={{borderColor: valid.isInValidQuestions ? '#DA1E2A' : ''}}
                                             type="text"
                                             placeholder="Вопрос"
+                                            value={data.question}
                                             id="question"
                                             onChange={(e) => {
-                                                setData(data => {
-                                                    return {...data, "question": e.target.value}
-                                                })
+                                                setData({...data, question: e.target.value})
                                                 resetFieldVal(e, 'isInValidQuestions')
                                             }}
                                         />
                                     </div>
                                 </div>
                                 <button
-                                    data-bs-dismiss=""
                                     type="submit"
                                     className="btn btn-1 mx-auto fs-12 mt-4"
                                     onClick={handleSubmit}
@@ -284,6 +287,13 @@ const Header = ({ymaps}) => {
                                     ОТПРАВИТЬ
                                 </button>
                             </form>
+                            <CustomModal
+                                isShow={isShow}
+                                closeButton={false}
+                                centre={true}
+                            >
+                                <p>Вопрос отправлен, ждите ответа.</p>
+                            </CustomModal>
                         </div>
                     </div>
                 </div>

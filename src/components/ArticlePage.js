@@ -87,7 +87,7 @@ export default function ArticlePage() {
                                 isHot={i.isHot}
                                 className="mb-4"
                                 type="tiled"
-                                images={['/Real_estate_front/img/img1.jpg', '/Real_estate_front/img/img2.jpg', '/Real_estate_front/img/img3.jpg', '/Real_estate_front/img/img4.jpg']}
+                                pictures={[i.image, i.images]}
                                 title={i.title}
                                 price={i.price}
                                 addressName={i.residentalComplexForUser}

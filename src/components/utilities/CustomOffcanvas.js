@@ -1,20 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import {Offcanvas} from 'react-bootstrap';
 
-const CustomOffcanvas = ({isShow, setIsShow, bsPrefix, placement, scroll, backdrop, closeButton, children, ...props}) => {
+const CustomOffcanvas = ({isShow, setIsShow, className, placement, scroll, backdrop, closeButton, children}) => {
 
     const handleClose = () => setIsShow(false)
 
     return (
         <Offcanvas
-            bsPrefix={bsPrefix ? `offcanvas ${bsPrefix}` : 'offcanvas'}
+            className={className}
             placement={placement}
             show={isShow}
             onHide={handleClose}
             scroll={scroll}
             backdrop={backdrop}
-            data-bs-backdrop={false}
-            {...props}
+            data-bs-backdrop={backdrop}
         >
             {
                 closeButton

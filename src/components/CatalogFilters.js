@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import {onInputHandler, onCheckboxHandler, onMultiCheckboxHandler} from './utilities/collectDataFromForm'
-import useWindowDimensions from './hooks/useWindowDimensions';
 import OffcanvasFilters from './OffcanvasFilters';
 
 const CatalogFilters = ({filters, setFilters, onResetFilters, onApplyFilters, foundCount, isShowOffcanvasFilters, setIsShowOffcanvasFilters}) => {
@@ -610,7 +609,7 @@ const CatalogFilters = ({filters, setFilters, onResetFilters, onApplyFilters, fo
             </div>
 
             <OffcanvasFilters
-                bsPrefix='offcanvas-catalog'
+                className='offcanvas-catalog'
                 isShow={isShowOffcanvasFilters}
                 setIsShow={setIsShowOffcanvasFilters}
                 scroll={true}

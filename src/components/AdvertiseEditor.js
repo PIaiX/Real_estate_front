@@ -1,5 +1,5 @@
-import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
-import {NavLink, Route, useParams} from 'react-router-dom';
+import React, {useEffect, useRef, useState} from 'react';
+import {NavLink, useNavigate, useParams} from 'react-router-dom';
 import ImageUploading from "react-images-uploading";
 import CustomSelect from './utilities/CustomSelect';
 import Scroll, {animateScroll as scroll, Link} from 'react-scroll';
@@ -8,15 +8,17 @@ import {useAccessToken, useCurrentUser} from "../store/reducers";
 import {getTypesEstate} from "./API/typesEstate";
 import {getAdsPage} from "./API/adspage";
 import {updateAd} from "./API/users";
+import AuthError from "./utilities/AuthError";
+import CustomModal from "./utilities/CustomModal";
 
 export default function Advertise() {
-
+    const navigate = useNavigate()
     const axiosPrivate = useAxiosPrivate();
     const token = useAccessToken()
     const currentUser = useCurrentUser()
     const {uuid} = useParams()
     const userId = currentUser?.id
-
+    const [isShow, setIsShow] = useState(false)
     const [ad, setAd] = useState({})
 
     useEffect(() => {
@@ -61,10 +63,12 @@ export default function Advertise() {
                     "hasMoreLayerParking": false,
                     "hasUnderGroundParking": false,
                     "price": ad?.price,
-                    "communalPrice": ad?.communalPrice,
+                    "communalPrice": 0,
                     "pledge": ad?.pledge,
                     "commission": ad?.commission,
-                    "prepaymentType": ad?.prepaymentType
+                    "prepaymentType": ad?.prepaymentType,
+                    "withKids": false,
+                    "withPets": false,
                 }
             )
         }
@@ -138,7 +142,7 @@ export default function Advertise() {
 
     const [activeField, setActiveField] = useState(1); //для мобильных устройств
 
-    const f = imgs[0]
+    const f = imgs[mainImg]
     const image = f?.file
 
     const handleCheckbox = (e) => {
@@ -271,18 +275,26 @@ export default function Advertise() {
             const userId = currentUser?.id;
             const formData = new FormData();
             const req = {...data, token, userId, image};
-            imgs.shift()
 
             for (const key in req) {
                 formData.append(key, req[key]);
             }
-            for (const item of imgs) {
-                formData.append('images', item.file)
+
+            if(imgs?.length >= 1) {
+                imgs.forEach((i, index) => {
+                    if(i.file?.name !== image.name) {
+                        formData.append('images', i.file)
+                    }
+                })
             }
+
             try {
                 let result = await updateAd(axiosPrivate, uuid, formData)
-                if (result.status === 200) {
-                    alert("Форма отправлена")
+                if (result) {
+                    setIsShow(true)
+                    setTimeout(() => {
+                        navigate("/personal-account/my-ads", {replace: true})
+                    }, 2000)
                 }
             } catch (err) {
                 console.log(err)
@@ -297,7 +309,7 @@ export default function Advertise() {
         <main>
             <div className="container py-3 py-sm-4 py-lg-5">
                 <nav aria-label="breadcrumb">
-                    <Link to="/personal-account/my-ads" className="d-block d-md-none gray-3">&#10094; Назад</Link>
+                    <NavLink to="/personal-account/my-ads" className="d-block d-md-none gray-3">&#10094; Назад</NavLink>
                     <ol className="d-none d-md-flex breadcrumb">
                         <li className="breadcrumb-item">
                             <NavLink to="/">
@@ -317,7 +329,8 @@ export default function Advertise() {
             </div>
             <section id="sec-11" className="container mb-6">
                 <h1 className="text-center text-lg-start">Редактировать объявление</h1>
-                <form
+                { (currentUser && token) ?
+                    <form
                     ref={ref}
                     className="row gx-xxl-5 position-relative"
                     name="postingAd"
@@ -1891,8 +1904,6 @@ export default function Advertise() {
                                 </div>
                                 <div>
                                     <button
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#good-request"
                                         type="submit"
                                         className="btn btn-1 w-100"
                                         onClick={(e) => {
@@ -1904,6 +1915,17 @@ export default function Advertise() {
                                 </div>
                             </div>
                         </fieldset>
+
+                        <CustomModal
+                            isShow={isShow}
+                            closeButton={false}
+                            backdrop="static"
+                            centre={true}
+                        >
+                            <div style={{textAlign: "center"}}>
+                                <p>Редакция прошла успешно! Переход в "Мои объявления"</p>
+                            </div>
+                        </CustomModal>
 
                         <div className="d-flex justify-content-between mb-4">
                             <div>*- поля обязательные для заполнения</div>
@@ -1967,6 +1989,9 @@ export default function Advertise() {
                         </aside>
                     </div>
                 </form>
+                    :
+                    <AuthError/>
+                }
             </section>
         </main>
     )

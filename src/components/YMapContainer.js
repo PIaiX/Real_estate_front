@@ -28,7 +28,7 @@ const YMapContainer = ({isShowMap, filters, setFilters, onResetFilters, onApplyF
                 callback={cards => setOffcanvasCards(cards)}
             />
             <OffcanvasFilters
-                bsPrefix='offcanvas-ymap'
+                className='offcanvas-ymap'
                 isShow={isShowFilters}
                 scroll={false}
                 backdrop={false}

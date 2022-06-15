@@ -11,13 +11,6 @@ const useSelectedCity = () => {
     const [isDefinedCity, setIsDefinedCity] = useState(false)
     const localStorageUserCity = localStorage.getItem('userCity')
 
-    // const req = async () => {
-    //     const result = await defineCity()
-    //     if (result) {
-    //         return result
-    //     }
-    // }
-
     useEffect(() => {
         if (localStorageUserCity) {
             setActiveCity(localStorageUserCity)
