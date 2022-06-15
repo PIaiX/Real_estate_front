@@ -23,13 +23,13 @@ const Catalog = () => {
 
     const initialFilters = {
         transactionType: +searchParams.get('transactionType'),
-        estateId: +searchParams.get('estateId'),
+        typesEstate: +searchParams.get('typesEstate'),
         orderBy: 'asc'
     }
     const [filters, setFilters] = useState(initialFilters)
     const [additionalFilters, setAdditionalFilters] = useState({})
 
-    const [estates, setEstates] = useState([])
+    const [estateIds, setEstateIds] = useState([])
     const [catalogData, setCatalogData] = useState({})
     const [isShowMap, setIsShowMap] = useState(false)
     const [isShowOffcanvasFilters, setIsShowOffcanvasFilters] = useState(false)
@@ -40,15 +40,13 @@ const Catalog = () => {
 
     useEffect(() => {
         getTypesEstate()
-            .then(response => {
-                const estates = []
-                response.forEach(type => type.estates.forEach(estate => estates.push({
-                    index: estate.id,
-                    value: estate.name
-                })))
-                return estates
+            .then(response => response.find(type => type.id === filters.typesEstate))
+            .then(result => {
+                setEstateIds(result
+                    ? result.estates.map(item => ({index: item.id, value: item.name}))
+                    : []
+                )
             })
-            .then(result => setEstates(result))
     }, [])
 
     useEffect(() => {
@@ -64,9 +62,9 @@ const Catalog = () => {
     useEffect(() => {
         setSearchParams({
             'transactionType': filters.transactionType,
-            'estateId': filters.estateId
+            'typesEstate': filters.typesEstate
         })
-    }, [filters.transactionType, filters.estateId])
+    }, [filters.transactionType, filters.typesEstate])
 
     const onResetFilters = () => {
         setFilters(initialFilters)
@@ -84,8 +82,8 @@ const Catalog = () => {
     }, [selectedCity])
 
     return (
-        <main className={`catalog${isShowMap ? 'shown-map' : ''}`}>
-            <Breadcrumb />
+        <main className={`catalog ${isShowMap ? 'shown-map' : ''}`}>
+            <Breadcrumb/>
             <section className="sec-6 container pb-5">
                 <h1 className='catalog__title'>Каталог недвижимости</h1>
                 <form className="form-search mb-4 mb-sm-5">
@@ -117,8 +115,8 @@ const Catalog = () => {
                     <CustomSelect
                         className="sel-2"
                         btnClass="btn btn-2 px-2 px-sm-3"
-                        options={estates}
-                        checkedOpt={filters.estateId}
+                        options={estateIds}
+                        checkedOpt={estateIds.length ? estateIds[0].index : 0}
                         callback={({checkedIndex}) => onSelectHandler(checkedIndex, 'estateId', setFilters)}
                     />
                     <CustomSelectMultyDual
@@ -448,7 +446,8 @@ const Catalog = () => {
 
                     </div>
                     <div className="col-12 col-xxl-9">
-                        <div className={(view === 'tiled') ? "row row-cols-sm-2 row-cols-lg-3 g-2 g-md-3 g-lg-4" : "row g-2 g-md-3 g-lg-4"}>
+                        <div
+                            className={(view === 'tiled') ? "row row-cols-sm-2 row-cols-lg-3 g-2 g-md-3 g-lg-4" : "row g-2 g-md-3 g-lg-4"}>
                             {
                                 catalogData.catalog?.map(catalogItem => (
                                     <div key={catalogItem.id}>

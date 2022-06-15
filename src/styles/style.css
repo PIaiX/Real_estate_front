@@ -1758,7 +1758,8 @@ article .text {
   flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: center;
-  overflow: hidden;
+  overflow-x: scroll;
+  overflow-y: hidden;
   font-size: 1.1em;
 }
 @media (max-width: 991px) {

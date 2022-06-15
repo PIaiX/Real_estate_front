@@ -8,7 +8,7 @@ import {MainBanner} from './MainBanner';
 import {useEffect, useState} from "react";
 import {getBanner, getPopular, getRecommend} from "./API/mainpagereq";
 import {useCurrentUser} from '../store/reducers';
-
+import {getTypesEstate} from './API/typesEstate';
 
 export default function MainPage() {
     const currentUser = useCurrentUser()
@@ -17,6 +17,7 @@ export default function MainPage() {
     const [recommend, setRecommend] = useState([]);
     const [banner, setBanner] = useState([]);
     const [popular, setPopular] = useState([]);
+    const [typesEstate, setTypesEstate] = useState([])
 
     useEffect(() => {
         getBanner()
@@ -40,6 +41,10 @@ export default function MainPage() {
         }
     }, [page, userId])
 
+    useEffect(() => {
+        getTypesEstate().then(result => setTypesEstate(result))
+    }, [])
+
     const scrollToTop = () => {
         scroll.scrollToTop();
     };
@@ -52,51 +57,21 @@ export default function MainPage() {
             </section>
 
             <section id="sec-2" className="container tiles px-xxl-5 mb-6">
-                <Tile
-                    img="/Real_estate_front/img/icons/icon-1.svg"
-                    titles={['Квартиры', 'Комнаты']}
-                    hoverLinks={[
-                        {name: 'Купить', link: '/catalog/page/1?transactionType=1&estateId=2'},
-                        {name: 'Сдать', link: '/advertise'},
-                        {name: 'Продать', link: '/advertise'},
-                        {name: 'Снять', link: '/catalog/page/1?transactionType=0&estateId=2'}]}
-                />
-                <Tile
-                    img="/Real_estate_front/img/icons/icon-2.svg"
-                    titles={['Дома', 'Дачи', 'Коттеджи']}
-                    hoverLinks={[
-                        {name: 'Купить', link: '/catalog/page/1?transactionType=1&estateId=2'},
-                        {name: 'Сдать', link: '/advertise'},
-                        {name: 'Продать', link: '/advertise'},
-                        {name: 'Снять', link: '/catalog/page/1?transactionType=0&estateId=2'}]}
-                />
-                <Tile
-                    img="/Real_estate_front/img/icons/icon-3.svg"
-                    titles={['Гараж', 'Паркинг']}
-                    hoverLinks={[
-                        {name: 'Купить', link: '/catalog/page/1?transactionType=1&estateId=8'},
-                        {name: 'Сдать', link: '/advertise'},
-                        {name: 'Продать', link: '/advertise'},
-                        {name: 'Снять', link: '/catalog/page/1?transactionType=0&estateId=8'}]}
-                />
-                <Tile
-                    img="/Real_estate_front/img/icons/icon-4.svg"
-                    titles={['Земельные участки']}
-                    hoverLinks={[
-                        {name: 'Купить', link: '/catalog/page/1?transactionType=1&estateId=1'},
-                        {name: 'Сдать', link: '/advertise'},
-                        {name: 'Продать', link: '/advertise'},
-                        {name: 'Снять', link: '/catalog/page/1?transactionType=0&estateId=1'}]}
-                />
-                <Tile
-                    img="/Real_estate_front/img/icons/icon-5.svg"
-                    titles={['Коммерческая недвижимость']}
-                    hoverLinks={[
-                        {name: 'Купить', link: '/catalog/page/1?transactionType=1&estateId=4'},
-                        {name: 'Сдать', link: '/advertise'},
-                        {name: 'Продать', link: '/advertise'},
-                        {name: 'Снять', link: '/catalog/page/1?transactionType=0&estateId=4'}]}
-                />
+                {
+                    typesEstate &&
+                    typesEstate.map(type => (
+                        <Tile
+                            key={type.id}
+                            img={`/Real_estate_front/img/icons/${type.slug}.svg`}
+                            titles={[type.name]}
+                            hoverLinks={[
+                                {name: 'Купить', link: `/catalog/page/1?transactionType=1&typesEstate=${type.id}`},
+                                {name: 'Сдать', link: '/advertise'},
+                                {name: 'Продать', link: '/advertise'},
+                                {name: 'Снять', link: `/catalog/page/1?transactionType=0&typesEstate=${type.id}`}]}
+                        />
+                    ))
+                }
             </section>
 
             <section id="sec-3" className="container mb-6">
@@ -181,5 +156,5 @@ export default function MainPage() {
             </section>
         </main>
 
-);
+    );
 }
