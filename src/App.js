@@ -15,6 +15,7 @@ import useAxiosPrivate from "./components/hooks/useAxiosPrivate";
 import {useEffect} from "react";
 import fingerprint from "@fingerprintjs/fingerprintjs";
 import {YMaps} from 'react-yandex-maps'
+import env from './config/env'
 
 function App() {
     const baseUrl = "https://api.antontig.beget.tech";
@@ -50,7 +51,7 @@ function App() {
 
     return (
         <HashRouter>
-            <YMaps query={{ apikey: process.env.REACT_APP_YMAPS_TOKEN, load: 'package.full' }}>
+            <YMaps query={{ apikey: env.YMAPS_TOKEN, load: 'package.full' }}>
                 <Header/>
                 <AppRouter/>
                 <Footer/>

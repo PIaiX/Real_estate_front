@@ -14,6 +14,7 @@ import {onSelectHandler, onInputHandler, onMultiCheckboxHandler, onSingleParamQu
 import {AddressSuggestions} from 'react-dadata';
 import Breadcrumb from './Breadcrumb';
 import YMapContainer from './YMapContainer';
+import env from '../config/env'
 
 const Catalog = () => {
     const [view, setView] = useUpdateSizeSecond('991px')
@@ -138,7 +139,7 @@ const Catalog = () => {
                         }}
                     />
                     <AddressSuggestions
-                        token={process.env.REACT_APP_DADATA_TOKEN}
+                        token={env.DADATA_TOKEN}
                         value={search} onChange={setSearch}
                         containerClassName='catalog__search'
                         suggestionClassName='catalog__search-suggestion'
