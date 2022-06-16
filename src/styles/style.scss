@@ -15,6 +15,10 @@ $white: #fff;
 $black: #000;
 $green: #15A672;
 
+$offcanvas-z-index: 1045;
+$ymaps-z-index: 1045;
+$select-z-index: 1050;
+
 a, a:hover, a:focus, a:active {
   color: inherit;
   outline: none;
@@ -234,6 +238,7 @@ select {
     width: fit-content;
     max-width: 100%;
     position: relative;
+    z-index: $select-z-index;
     >button {
         width: 100%;
         position: relative;
@@ -362,6 +367,10 @@ select {
             }
             
         }
+    }
+
+    &_orderby {
+        z-index: 100;
     }
 }
 
@@ -3372,6 +3381,7 @@ footer {
 
 .offcanvas {
     width: 450px;
+    z-index: $offcanvas-z-index;
 
     @media (max-width: 575px) {
         width: 100%;
@@ -3504,7 +3514,7 @@ footer {
         bottom: 0;
         width: 100%;
         height: calc(100vh - 410px);
-        z-index: 100;
+        z-index: $ymaps-z-index;
 
         @media (max-width: 1659px) {
             height: calc(100vh - 395px);

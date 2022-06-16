@@ -81,7 +81,7 @@ export default function CustomSelect(props) {
     });
 
     return (
-        <div ref={ref} className={"custom-select " + props.className}>
+        <div ref={ref} className={`custom-select ${props.className || ''}`}>
             <button type="button" className={props.btnClass}
                     onClick={() => setVisibility((visible === false))}>
                 <div>{checkedVal}</div>

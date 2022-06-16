@@ -222,7 +222,7 @@ const Catalog = () => {
                         </button>
                         <span className="gray-2">Сортировать: </span>
                         <CustomSelect
-                            className="gray-2"
+                            className="gray-2 custom-select_orderby"
                             btnClass="fs-11"
                             checkedOpt={filters.orderBy}
                             // ['По популярности', 'Сначала новые', 'Сначала старые', 'Сначала дешевые', 'Сначала дорогие']

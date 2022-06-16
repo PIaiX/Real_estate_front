@@ -215,6 +215,7 @@ select {
   width: fit-content;
   max-width: 100%;
   position: relative;
+  z-index: 1050;
 }
 .custom-select > button {
   width: 100%;
@@ -349,6 +350,9 @@ select {
 }
 .custom-select.dual .tab-content .tab-pane label:not(:last-child) {
   margin-bottom: 0.5em;
+}
+.custom-select_orderby {
+  z-index: 100;
 }
 
 .input-file {
@@ -3891,6 +3895,7 @@ footer nav ul li a.active svg.type-2 path {
 
 .offcanvas {
   width: 450px;
+  z-index: 1045;
 }
 @media (max-width: 575px) {
   .offcanvas {
@@ -4016,7 +4021,7 @@ footer nav ul li a.active svg.type-2 path {
   bottom: 0;
   width: 100%;
   height: calc(100vh - 410px);
-  z-index: 100;
+  z-index: 1045;
 }
 @media (max-width: 1659px) {
   .catalog__ymaps-container {
