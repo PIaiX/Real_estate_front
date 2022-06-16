@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 import Article from './Article';
 import {useEffect, useState} from "react";
-import { getRandomArticle} from "./API/news";
+import { getRandomArticle} from "../API/news";
 import {useParams} from "react-router-dom";
 
 SwiperCore.use([Navigation, Pagination]);

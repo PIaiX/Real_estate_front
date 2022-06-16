@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import BtnFav from './utilities/BtnFav';
-import BtnRep from './utilities/BtnRep';
-import HoverSlider from './utilities/HoverSlider';
-import ImgPreview from './utilities/ImgPreview';
-import ShowPhone from './utilities/ShowPhone';
+import BtnFav from './BtnFav';
+import BtnRep from './BtnRep';
+import HoverSlider from './HoverSlider';
+import ImgPreview from './ImgPreview';
+import ShowPhone from './ShowPhone';
 import {NavLink} from 'react-router-dom';
 import {animateScroll as scroll} from 'react-scroll';
 
