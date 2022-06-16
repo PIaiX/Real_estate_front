@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {HashRouter} from "react-router-dom";
+import {BrowserRouter} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles/fonts.css';
@@ -50,13 +50,13 @@ function App() {
     }, []);
 
     return (
-        <HashRouter>
+        <BrowserRouter>
             <YMaps query={{ apikey: env.YMAPS_TOKEN, load: 'package.full' }}>
                 <Header/>
                 <AppRouter/>
                 <Footer/>
             </YMaps>
-        </HashRouter>
+        </BrowserRouter>
     );
 }
 
