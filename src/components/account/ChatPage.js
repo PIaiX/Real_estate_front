@@ -15,7 +15,7 @@ export default function ChatPage() {
                 </Link>
                 <div className="d-flex align-items-center">
                     <div className="photo d-block d-lg-none me-1 me-sm-3">
-                        <img src="/Real_estate_front/img/photo2.png" alt="Шевцов Андрей"/>
+                        <img src="/img/photo2.png" alt="Шевцов Андрей"/>
                         <div className="indicator online"></div>
                     </div>
                     <div className="text-lg-center">
@@ -44,7 +44,7 @@ export default function ChatPage() {
                 <div className="chat-date">14.01.22</div>
                 <div className="message my">
                     <div className="photo">
-                        <img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/>
+                        <img src="/img/photo.png" alt="Колесникова Ирина"/>
                         <div className="indicator online"></div>
                     </div>
                     <div className="main">
@@ -69,7 +69,7 @@ export default function ChatPage() {
                 </div>
                 <div className="message">
                     <div className="photo">
-                        <img src="/Real_estate_front/img/photo2.png" alt="Шевцов Андрей"/>
+                        <img src="/img/photo2.png" alt="Шевцов Андрей"/>
                         <div className="indicator"></div>
                     </div>
                     <div className="main">
@@ -89,7 +89,7 @@ export default function ChatPage() {
                 <div className="chat-date">Сегодня</div>
                 <div className="message my">
                     <div className="photo">
-                        <img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/>
+                        <img src="/img/photo.png" alt="Колесникова Ирина"/>
                         <div className="indicator online"></div>
                     </div>
                     <div className="main">
@@ -114,7 +114,7 @@ export default function ChatPage() {
                 </div>
                 <div className="message unread">
                     <div className="photo">
-                        <img src="/Real_estate_front/img/photo2.png" alt="Шевцов Андрей"/>
+                        <img src="/img/photo2.png" alt="Шевцов Андрей"/>
                         <div className="indicator"></div>
                     </div>
                     <div className="main">
@@ -138,7 +138,7 @@ export default function ChatPage() {
                 <InputFile multiple={false}/>
                 <textarea placeholder="Введите сообщение" rows="2" className="ms-2 ms-md-4"></textarea>
                 <button type="submit" className="ms-2 ms-md-4">
-                    <img src="/Real_estate_front/img/icons/send.svg" alt="отправить"/>
+                    <img src="/img/icons/send.svg" alt="отправить"/>
                 </button>
             </form>
         </div>

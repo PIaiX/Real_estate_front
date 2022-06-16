@@ -65,12 +65,12 @@ export default function ArticlePage() {
             <section id="sec-8" className="container pb-5">
                 <div className="row gx-xxl-5 mb-5">
                     <div className="col-xl-8 col-xxl-9 article-full">
-                        <img src="/Real_estate_front/img/nophoto.jpg" alt={data.title} className="article-page-img order-3"/>
+                        <img src="/img/nophoto.jpg" alt={data.title} className="article-page-img order-3"/>
                         <h1 className="order-1 text-center text-md-left">{data.title}</h1>
                         <div className="d-flex gray-4 fs-12 mb-4 order-2">
-                            <img src="/Real_estate_front/img/icons/bi_calendar-event-fill.svg" alt="дата"/>
+                            <img src="/img/icons/bi_calendar-event-fill.svg" alt="дата"/>
                             <div className="ms-2">{data.createdAtForUser}</div>
-                            <img src="/Real_estate_front/img/icons/time.svg" alt="время" className="ms-4"/>
+                            <img src="/img/icons/time.svg" alt="время" className="ms-4"/>
                             <div className="ms-2">{data.readingTime} мин</div>
                         </div>
                         <div className="text fw-3 fs-11 order-4">

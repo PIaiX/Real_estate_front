@@ -10,7 +10,7 @@ export default function UserServices() {
             <h4 className="text-center color-1 mb-3 mb-sm-4 mb-xl-5">Мои услуги</h4>
             {/* если НЕ указаны услуги */}
             <div>
-                <img src="/Real_estate_front/img/services-gray.svg" alt="услуги" className="img-fluid d-block mx-auto mb-4 mb-xl-5"/>
+                <img src="/img/services-gray.svg" alt="услуги" className="img-fluid d-block mx-auto mb-4 mb-xl-5"/>
                 <div className="fs-12 text-center">Предоставляете услуги реилтора, дизайнера, ремонтного рабочего или гузоперевозчика? <br /> Создайте объявление об услугах и находите заказчиков. </div>
                 <Link to="create" className="btn btn-1 fs-12 mx-auto mt-4 mt-xl-5">Создать</Link>
             </div>

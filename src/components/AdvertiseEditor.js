@@ -1276,12 +1276,12 @@ export default function Advertise() {
                                                             <div className="image-item__btn-wrapper">
                                                                 <button type="button"
                                                                         onClick={() => onImageUpdate(index)}>
-                                                                    <img src="/Real_estate_front/img/icons/update.svg"
+                                                                    <img src="/img/icons/update.svg"
                                                                          alt="Обновить"/>
                                                                 </button>
                                                                 <button type="button"
                                                                         onClick={() => onImageRemove(index)}>
-                                                                    <img src="/Real_estate_front/img/icons/delete.svg"
+                                                                    <img src="/img/icons/delete.svg"
                                                                          alt="Удалить"/>
                                                                 </button>
                                                                 {
@@ -1982,7 +1982,7 @@ export default function Advertise() {
                                 </ol>
                             </nav>
                             <div className="faster">
-                                <img src="/Real_estate_front/img/img5.jpg" alt="" className="img-fluid"/>
+                                <img src="/img/img5.jpg" alt="" className="img-fluid"/>
                                 <div className="title">Хотите найти покупателя/арендатора быстрее?</div>
                                 <button type="button" className="btn btn-1 px-3">Узнать о преимуществах</button>
                             </div>

@@ -121,10 +121,10 @@ export const Slider1 = (props) => {
                 </SwiperSlide>
             )}
             <div className="swiper-button-prev">
-                <img src="/Real_estate_front/img/icons/prev.svg" alt="предыдущий" className="w-100"/>
+                <img src="/img/icons/prev.svg" alt="предыдущий" className="w-100"/>
             </div>
             <div className="swiper-button-next">
-                <img src="/Real_estate_front/img/icons/next.svg" alt="следующий" className="w-100"/>
+                <img src="/img/icons/next.svg" alt="следующий" className="w-100"/>
             </div>
             <div className="swiper-pagination"></div>
         </Swiper>

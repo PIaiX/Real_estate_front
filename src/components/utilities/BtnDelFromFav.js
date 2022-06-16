@@ -44,7 +44,7 @@ const BtnDelFromFav = (props) => {
             className="ms-4 color-1 d-flex align-items-center"
             onClick={() => wishlistStatus ? deleteFromWishList() : null}
         >
-            <img src="/Real_estate_front/img/icons/pa-10.svg" alt="Удалить"/>
+            <img src="/img/icons/pa-10.svg" alt="Удалить"/>
             <span className="ms-2">Удалить из избранного</span>
         </button>
     );

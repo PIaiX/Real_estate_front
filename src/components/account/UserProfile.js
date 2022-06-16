@@ -269,9 +269,9 @@ export default function UserProfile() {
                                             readonly={true}
                                             initialRating={currentUser?.rating}
                                             fractions={2}
-                                            emptySymbol={<img src="/Real_estate_front/img/icons/star-gray.svg"
+                                            emptySymbol={<img src="/img/icons/star-gray.svg"
                                                               alt="1"/>}
-                                            fullSymbol={<img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>}
+                                            fullSymbol={<img src="/img/icons/star-blue.svg" alt="1"/>}
                                         />
                                     </div>
                                     <div className="gray-3 fs-11 text-center mt-1 mt-sm-4">
@@ -472,9 +472,9 @@ export default function UserProfile() {
                                                     readonly={true}
                                                     initialRating={currentUser?.rating}
                                                     fractions={2}
-                                                    emptySymbol={<img src="/Real_estate_front/img/icons/star-gray.svg"
+                                                    emptySymbol={<img src="/img/icons/star-gray.svg"
                                                                       alt="1"/>}
-                                                    fullSymbol={<img src="/Real_estate_front/img/icons/star-blue.svg"
+                                                    fullSymbol={<img src="/img/icons/star-blue.svg"
                                                                      alt="1"/>}
                                                 />
                                             </div>

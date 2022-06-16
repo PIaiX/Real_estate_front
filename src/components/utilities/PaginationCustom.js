@@ -124,7 +124,7 @@ export default function PaginationCustom(props) {
                             }}
                             disabled={currentPage === 1}
                         >
-                            <img src="/Real_estate_front/img/icons/prev2.svg" alt="Previous"/>
+                            <img src="/img/icons/prev2.svg" alt="Previous"/>
                         </NavLink>
                     </li>
                     <Pagination className="paginationInfo" >
@@ -140,7 +140,7 @@ export default function PaginationCustom(props) {
                             }}
                             disabled={currentPage === totalPages}
                         >
-                            <img src="/Real_estate_front/img/icons/next2.svg" alt="Previous"/>
+                            <img src="/img/icons/next2.svg" alt="Previous"/>
                         </NavLink>
                     </li>
                 </ul>

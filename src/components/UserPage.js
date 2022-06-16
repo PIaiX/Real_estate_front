@@ -155,11 +155,11 @@ export default function UserPage() {
                             <div className="title justify-content-md-start mb-2 mb-sm-4">
                                 <h4 className="mb-0">Дизайнер</h4>
                                 <div className="rating ms-4">
-                                    <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
-                                    <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
-                                    <img src="/Real_estate_front/img/icons/star-blue.svg" alt="1"/>
-                                    <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
-                                    <img src="/Real_estate_front/img/icons/star-gray.svg" alt="1"/>
+                                    <img src="/img/icons/star-blue.svg" alt="1"/>
+                                    <img src="/img/icons/star-blue.svg" alt="1"/>
+                                    <img src="/img/icons/star-blue.svg" alt="1"/>
+                                    <img src="/img/icons/star-gray.svg" alt="1"/>
+                                    <img src="/img/icons/star-gray.svg" alt="1"/>
                                     <span>(3.35)</span>
                                 </div>
                             </div>
@@ -318,7 +318,7 @@ export default function UserPage() {
                             <form className="message-form">
                                 <div className="d-flex align-items-center">
                                     <div className="photo me-2 me-sm-4">
-                                        <img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/>
+                                        <img src="/img/photo.png" alt="Колесникова Ирина"/>
                                         <div className="indicator online"/>
                                     </div>
                                     <div>
@@ -379,9 +379,9 @@ export default function UserPage() {
                                             <Rating
                                                 stop={5}
                                                 fractions={2}
-                                                emptySymbol={<img src="/Real_estate_front/img/icons/star-gray.svg"
+                                                emptySymbol={<img src="/img/icons/star-gray.svg"
                                                                   alt="1"/>}
-                                                fullSymbol={<img src="/Real_estate_front/img/icons/star-blue.svg"
+                                                fullSymbol={<img src="/img/icons/star-blue.svg"
                                                                  alt="1"/>}
                                                 onChange={rate => rating = rate}
                                             />

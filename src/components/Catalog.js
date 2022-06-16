@@ -93,7 +93,7 @@ const Catalog = () => {
                             className="d-flex d-lg-none align-items-center"
                             onClick={() => setIsShowOffcanvasFilters(prevIsShowOffcanvasFilters => !prevIsShowOffcanvasFilters)}
                         >
-                            <img src="/Real_estate_front/img/icons/filter.svg" alt="filter"/>
+                            <img src="/img/icons/filter.svg" alt="filter"/>
                             <span className="ms-2 fs-11 fw-5 color-1">Фильтры</span>
                         </button>
                         <button
@@ -101,7 +101,7 @@ const Catalog = () => {
                             className="d-flex align-items-center"
                             onClick={() => setIsShowMap(prevIsShowMap => !prevIsShowMap)}
                         >
-                            <img src="/Real_estate_front/img/icons/pin.svg" alt="map pin"/>
+                            <img src="/img/icons/pin.svg" alt="map pin"/>
                             <span className="ms-2 fs-11 fw-5 color-2">Показать на карте</span>
                         </button>
                     </div>
@@ -217,7 +217,7 @@ const Catalog = () => {
                             className="d-none d-lg-flex d-xxl-none align-items-center me-4"
                             onClick={() => setIsShowOffcanvasFilters(prevIsShowCanvas => !prevIsShowCanvas)}
                         >
-                            <img src="/Real_estate_front/img/icons/filter.svg" alt="filter"/>
+                            <img src="/img/icons/filter.svg" alt="filter"/>
                             <span className="ms-2 fs-11 fw-5 color-1">Фильтры</span>
                         </button>
                         <span className="gray-2">Сортировать: </span>

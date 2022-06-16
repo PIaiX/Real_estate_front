@@ -116,7 +116,7 @@ export default function UserAds() {
                                                 <div
                                                     className={(view === 'as-a-list') ? "d-flex justify-content-end align-items-center mt-2" : "mt-2"}>
                                                     <button type="button" className="color-1 d-flex align-items-center">
-                                                        <img src="/Real_estate_front/img/icons/pa-8.svg"
+                                                        <img src="/img/icons/pa-8.svg"
                                                              alt="Срочная продажа"/>
                                                         <span className="ms-2">Срочная продажа</span>
                                                     </button>
@@ -124,14 +124,14 @@ export default function UserAds() {
                                                           className={(view === 'as-a-list') ? "ms-4 color-1 d-flex align-items-center" : "mt-2 color-1 d-flex align-items-center"}
                                                           onClick={scrollToTop}
                                                     >
-                                                        <img src="/Real_estate_front/img/icons/pa-9.svg"
+                                                        <img src="/img/icons/pa-9.svg"
                                                              alt="Редактировать"/>
                                                         <span className="ms-2">Редактировать</span>
                                                     </Link>
                                                     <button type="button" data-bs-toggle="modal"
                                                             data-bs-target="#delete-ad"
                                                             className={(view === 'as-a-list') ? "ms-4 color-1 d-flex align-items-center" : "mt-2 color-1 d-flex align-items-center"}>
-                                                        <img src="/Real_estate_front/img/icons/pa-10.svg"
+                                                        <img src="/img/icons/pa-10.svg"
                                                              alt="Удалить"/>
                                                         <span className="ms-2">Удалить</span>
                                                     </button>

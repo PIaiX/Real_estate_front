@@ -2,7 +2,6 @@
   "name": "project",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://piaix.github.io/Real_estate_front/",
   "dependencies": {
     "@fingerprintjs/fingerprintjs": "^3.3.3",
     "@fingerprintjs/fingerprintjs-pro": "^3.6.3",

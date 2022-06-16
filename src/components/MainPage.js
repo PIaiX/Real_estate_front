@@ -62,7 +62,7 @@ export default function MainPage() {
                     typesEstate.map(type => (
                         <Tile
                             key={type.id}
-                            img={`/Real_estate_front/img/icons/${type.slug}.svg`}
+                            img={`/img/icons/${type.slug}.svg`}
                             titles={[type.name]}
                             hoverLinks={[
                                 {name: 'Купить', link: `/catalog/page/1?transactionType=1&typesEstate=${type.id}`},
@@ -76,7 +76,7 @@ export default function MainPage() {
 
             <section id="sec-3" className="container mb-6">
                 <h3>Найти на карте</h3>
-                <img src="/Real_estate_front/img/map.png" alt="Карта" className="w-100"/>
+                <img src="/img/map.png" alt="Карта" className="w-100"/>
             </section>
 
             <section className="sec-4 container mb-6">
@@ -119,20 +119,20 @@ export default function MainPage() {
                 <div className="container pb-5">
                     <div className="row gx-xxl-5 mb-6">
                         <div className="col-lg-7 col-xl-8">
-                            <img src="/Real_estate_front/img/img4.jpg" alt="" className="w-100"/>
+                            <img src="/img/img4.jpg" alt="" className="w-100"/>
                         </div>
                         <div className="info col-lg-5 col-xl-4 pt-xxl-5 mt-4 mt-lg-0">
                             <h2>Продаете или покупаете недвижимость?</h2>
                             <div className="d-flex align-items-baseline mt-2 mt-sm-4">
-                                <img src="/Real_estate_front/img/icons/mark.svg" alt=""/>
+                                <img src="/img/icons/mark.svg" alt=""/>
                                 <div className="color-2 fs-15 ms-2 ms-sm-3">Юридическая консультация</div>
                             </div>
                             <div className="d-flex align-items-baseline mt-2 mt-sm-4">
-                                <img src="/Real_estate_front/img/icons/mark.svg" alt=""/>
+                                <img src="/img/icons/mark.svg" alt=""/>
                                 <div className="color-2 fs-15 ms-2 ms-sm-3">Сопровождение сделок</div>
                             </div>
                             <div className="d-flex align-items-baseline mt-2 mt-sm-4">
-                                <img src="/Real_estate_front/img/icons/mark.svg" alt=""/>
+                                <img src="/img/icons/mark.svg" alt=""/>
                                 <div className="color-2 fs-15 ms-2 ms-sm-3">Оформление ипотеки на выгодных условиях
                                 </div>
                             </div>

@@ -10,7 +10,7 @@ export default function UserMessages() {
             <h4 className="text-center color-1 mb-3 mb-sm-4 mb-xl-5">Сообщения</h4>
             <div className="chat unread">
                 <div className="photo">
-                    <img src="/Real_estate_front/img/photo2.png" alt="Шевцов Андрей"/>
+                    <img src="/img/photo2.png" alt="Шевцов Андрей"/>
                     <div className="indicator online"></div>
                 </div>
                 <div className="main">
@@ -34,7 +34,7 @@ export default function UserMessages() {
             </div>
             <div className="chat">
                 <div className="photo">
-                    <img src="/Real_estate_front/img/photo3.png" alt="Наумова Кристина"/>
+                    <img src="/img/photo3.png" alt="Наумова Кристина"/>
                     <div className="indicator"></div>
                 </div>
                 <div className="main">
@@ -57,14 +57,14 @@ export default function UserMessages() {
             </div>
             <div className="chat">
                 <div className="photo">
-                    <img src="/Real_estate_front/img/photo4.png" alt="Калинина Татьяна"/>
+                    <img src="/img/photo4.png" alt="Калинина Татьяна"/>
                     <div className="indicator"></div>
                 </div>
                 <div className="main">
                     <div className="title-font fs-11 fw-7 mb-1">Калинина Татьяна</div>
                     <div className="fs-09 fw-5 mb-3 mb-sm-4">Тема: 1-к, квартира 52м2, ЖК “Столичный”</div>
                     <div className="reply">
-                        <img src="/Real_estate_front/img/photo.png" alt="Ирина Колесникова"/>
+                        <img src="/img/photo.png" alt="Ирина Колесникова"/>
                         <div className="message">Добрый день. Когда можно будет приехать на просмотр? Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
                         <div className="mark">
                             <i class="bi bi-check2" title="Отправлено"></i>
@@ -87,14 +87,14 @@ export default function UserMessages() {
             </div>
             <div className="chat">
                 <div className="photo">
-                    <img src="/Real_estate_front/img/photo5.png" alt="Баженов Илья"/>
+                    <img src="/img/photo5.png" alt="Баженов Илья"/>
                     <div className="indicator"></div>
                 </div>
                 <div className="main">
                     <div className="title-font fs-11 fw-7 mb-1">Баженов Илья</div>
                     <div className="fs-09 fw-5 mb-3 mb-sm-4">Тема: 1-к, квартира 52м2, Четаева 32</div>
                     <div className="reply">
-                        <img src="/Real_estate_front/img/photo.png" alt="Ирина Колесникова"/>
+                        <img src="/img/photo.png" alt="Ирина Колесникова"/>
                         <div className="message">Звоните мне на рабочий телефоен. Отвечаю с 9 до 19:00.</div>
                         <div className="mark">
                             {/* <i class="bi bi-check2" title="Отправлено"></i> */}

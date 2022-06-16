@@ -28,14 +28,14 @@ export default function Card(props) {
 
         return result.map(item => item
             ? `https://api.antontig.beget.tech/uploads/${item}`
-            : '/Real_estate_front/img/nophoto.jpg'
+            : '/img/nophoto.jpg'
         )
     }
 
     const getUserAvatar = (avatar) => {
         return avatar
             ? `https://api.antontig.beget.tech/uploads/${avatar}`
-            : '/Real_estate_front/img/img-photo.svg'
+            : '/img/img-photo.svg'
     }
 
     const scrollToTop = () => {
@@ -60,7 +60,7 @@ export default function Card(props) {
                                     >{props.title} м<sup>2</sup></NavLink>
                                 </div>
                                 <div className="d-flex align-items-center mb-2 mb-xxl-3">
-                                    <img src="/Real_estate_front/img/icons/pin.svg" alt="адрес"/>
+                                    <img src="/img/icons/pin.svg" alt="адрес"/>
                                     <div className="fs-09 ms-2">
                                         <div>{props.address}</div>
                                         <div>{props?.residentalComplex}</div>
@@ -69,7 +69,7 @@ export default function Card(props) {
                                 {
                                     (props.metro) &&
                                     <div className="d-flex align-items-center mb-2 mb-xxl-3">
-                                        <img src="/Real_estate_front/img/icons/metro.svg" alt="адрес"/>
+                                        <img src="/img/icons/metro.svg" alt="адрес"/>
                                         <div className="fs-09 ms-2">
                                             <div>{props.metro}</div>
                                         </div>
@@ -144,11 +144,11 @@ export default function Card(props) {
                 </div>
                 <div className="labels">
                     {props.isVip && <div className="vip">
-                        <img src="/Real_estate_front/img/icons/vip.svg" alt="vip"/>
+                        <img src="/img/icons/vip.svg" alt="vip"/>
                         <span>VIP</span>
                     </div>}
                     {props.isHot && <div className="hot">
-                        <img src="/Real_estate_front/img/icons/hot.svg" alt="hot"/>
+                        <img src="/img/icons/hot.svg" alt="hot"/>
                         <span>Hot</span>
                     </div>}
                 </div>
@@ -173,7 +173,7 @@ export default function Card(props) {
                         </div>
                     </div>
                     <div className="address d-flex align-items-start mb-3">
-                        <img src="/Real_estate_front/img/icons/pin.svg" alt="адрес"/>
+                        <img src="/img/icons/pin.svg" alt="адрес"/>
                         <div className="fs-09 ms-2">
                             <div className="mb-1">ЖК "{props.residentalComplex}"</div>
                             <div>{props.address}</div>
@@ -188,11 +188,11 @@ export default function Card(props) {
                 </div>
                 <div className="labels">
                     {props.isVip && <div className="vip">
-                        <img src="/Real_estate_front/img/icons/vip.svg" alt="vip"/>
+                        <img src="/img/icons/vip.svg" alt="vip"/>
                         <span>VIP</span>
                     </div>}
                     {props.isHot && <div className="hot">
-                        <img src="/Real_estate_front/img/icons/hot.svg" alt="hot"/>
+                        <img src="/img/icons/hot.svg" alt="hot"/>
                         <span>Hot</span>
                     </div>}
                 </div>

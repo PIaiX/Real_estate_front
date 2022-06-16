@@ -44,7 +44,7 @@ export default function InputTags(props) {
                                 }
                             }))}
                             >
-                                <img src="/Real_estate_front/img/icons/delete3.svg" alt="удалить" />
+                                <img src="/img/icons/delete3.svg" alt="удалить" />
                             </button>
                         </div>
                     )
