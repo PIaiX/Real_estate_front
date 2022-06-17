@@ -326,6 +326,14 @@ select {
                 }
             }
         }
+
+        &.searched {
+            width: 200px;
+
+            @media (max-width: 991px){
+                left: 0;
+            }
+        }
     }
     &.dual {
         .options {
@@ -371,6 +379,20 @@ select {
 
     &_orderby {
         z-index: 100;
+    }
+
+    &__search {
+        outline: none;
+        margin-top: -8px;
+        border-radius: 0;
+        border: none;
+        border-bottom: 1px solid rgb(224, 224, 224);
+
+        &:hover,
+        &:focus {
+            border: none;
+            border-bottom: 1px solid rgb(224, 224, 224);
+        }
     }
 }
 

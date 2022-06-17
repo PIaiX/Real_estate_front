@@ -1,12 +1,14 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
+import CustomDropdown from './CustomDropdown';
 
 export default function CustomSelect(props) {
+    const ref = useRef(null);
     const [options, setOptions] = useState([])
     const [visible, setVisibility] = useState(props.visible || false);
     const [checkedOpt, setCheckedOpt] = useState(props.checkedOpt);
     const [checkedIndex, setCheckedIndex] = useState(null)
     const [checkedVal, setCheckedVal] = useState(null)
-    const ref = useRef(null);
+    const [citySearch, setCitySearch] = useState('')
 
     useEffect(() => {
         if (props.visible) {
@@ -70,29 +72,21 @@ export default function CustomSelect(props) {
     return (
         <div ref={ref} className={`custom-select ${props.className || ''}`}>
             <button type="button" className={props.btnClass}
-                    onClick={() => setVisibility((visible === false))}>
+                    onClick={() => setVisibility(prevVisible => !prevVisible)}>
                 <div>{checkedVal}</div>
                 <svg className="ms-2" viewBox="0 0 23 12" xmlns="http://www.w3.org/2000/svg">
                     <line x1="21.6832" y1="0.730271" x2="10.7468" y2="10.961"/>
                     <line y1="-1" x2="14.9757" y2="-1" transform="matrix(0.730271 0.683157 0.683157 -0.730271 2 0)"/>
                 </svg>
             </button>
-            <div className={visible ? 'options py-2' : 'options d-none py-2'} data-alignment={props.alignment}>
-                {options.map(option => {
-                    return (
-                        <label className="radio-line" key={option.index}>
-                            <input
-                                type="radio"
-                                name="type"
-                                value={option.value}
-                                onChange={e => handleChange(e, option.index)}
-                                checked={option.index === checkedIndex}
-                            />
-                            <div>{option.value}</div>
-                        </label>
-                    )
-                })}
-            </div>
+            <CustomDropdown
+                options={options}
+                checkedIndex={checkedIndex}
+                isSearch={true}
+                visible={visible}
+                handleChange={handleChange}
+                alignment={props.alignment}
+            />
         </div>
     )
 }

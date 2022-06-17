@@ -57,6 +57,7 @@ const CityContainer = React.memo(({ymaps}) => {
                     }
                 }}
                 alignment="right"
+                isSearch={true}
             />
             <CityPopup
                 city={city}

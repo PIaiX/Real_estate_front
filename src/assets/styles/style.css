@@ -311,6 +311,14 @@ select {
 .custom-select .options label.radio-line input:checked {
   background: #ECECEC;
 }
+.custom-select .options.searched {
+  width: 200px;
+}
+@media (max-width: 991px) {
+  .custom-select .options.searched {
+    left: 0;
+  }
+}
 .custom-select.dual .options {
   max-width: calc(100vw - 24px);
 }
@@ -353,6 +361,17 @@ select {
 }
 .custom-select_orderby {
   z-index: 100;
+}
+.custom-select__search {
+  outline: none;
+  margin-top: -8px;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid rgb(224, 224, 224);
+}
+.custom-select__search:hover, .custom-select__search:focus {
+  border: none;
+  border-bottom: 1px solid rgb(224, 224, 224);
 }
 
 .input-file {
