@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
-import AxiosArticleMain from "./utilities/AxiosArticleMain";
-import {getNews} from "./API/news";
-import PaginationCustom from "./utilities/PaginationCustom";
+import AxiosArticleMain from "./AxiosArticleMain";
+import {getNews} from "../API/news";
+import PaginationCustom from "./PaginationCustom";
 
 export default function Articles() {
 

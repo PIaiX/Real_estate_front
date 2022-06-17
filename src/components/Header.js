@@ -1,50 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Link, NavLink} from 'react-router-dom';
 import {animateScroll as scroll} from 'react-scroll';
-import {getQuestion} from "./API/question";
-import useSelectedCity from './hooks/useSelectedCity';
-import CityPopup from './utilities/CityPopup';
-import CustomSelect from './utilities/CustomSelect';
-import useMapCenter from './hooks/useMapCenter';
+import {getQuestion} from "../API/question";
+import useSelectedCity from '../hooks/useSelectedCity';
+import useMapCenter from '../hooks/useMapCenter';
 import {withYMaps} from 'react-yandex-maps';
-import defineMapCenter from './API/defineMapCenter';
-import CustomModal from "./utilities/CustomModal";
+import defineMapCenter from '../API/defineMapCenter';
+import CustomModal from "./CustomModal";
+import City from './CityContainer';
 
-const Header = ({ymaps}) => {
-    const [isShowCities, setIsShowCities] = useState(false)
-    const {city, setCity, isDefinedCity} = useSelectedCity()
-    const {setMapCenter} = useMapCenter(ymaps, city)
-
-    const changeDefinedCity = (checkedVal) => {
-        localStorage.setItem('userCity', checkedVal)
-        setCity(checkedVal)
-        ymaps
-            ? defineMapCenter(ymaps, checkedVal).then(coords => {
-                localStorage.setItem('mapCenter', coords)
-                setMapCenter(coords)
-            })
-            : null
-        setIsShowCities(false)
-    }
-
-    const changeCity = (checkedVal) => {
-        const localStorageUserCity = localStorage.getItem('userCity')
-        const localStorageMapCenter = typeof(localStorage.getItem('mapCenter')) === 'string'
-            ? localStorage.getItem('mapCenter').split(',')
-            : localStorage.getItem('mapCenter')
-
-        if (checkedVal !== localStorageUserCity) {
-            setCity(checkedVal)
-            ymaps
-                ? defineMapCenter(ymaps, checkedVal).then(coords => {
-                    setMapCenter(coords)
-                })
-                : null
-        } else {
-            setCity(localStorageUserCity)
-            setMapCenter(localStorageMapCenter)
-        }
-    }
+const Header = () => {
 
     const scrollToTop = () => {
         scroll.scrollToTop();
@@ -109,7 +74,7 @@ const Header = ({ymaps}) => {
             <header>
                 <div className="container">
                     <Link to="/" onClick={() => scrollToTop()} className="order-1 me-lg-auto">
-                        <img src="/Real_estate_front/img/Лого.png" alt="Название сайта" className="logo"/>
+                        <img src="/img/Лого.png" alt="Название сайта" className="logo"/>
                     </Link>
                     <nav className="d-none d-lg-flex order-2">
                         <NavLink to="/">Главная</NavLink>
@@ -136,43 +101,23 @@ const Header = ({ymaps}) => {
                     </nav>
                     <div className="d-none d-md-flex order-4 order-lg-3">
                         <Link to="/personal-account/my-messages" onClick={() => scrollToTop()} className="ms-4">
-                            <img src="/Real_estate_front/img/icons/email.svg" alt="email"/>
+                            <img src="/img/icons/email.svg" alt="email"/>
                         </Link>
                         <Link to="/personal-account/favorites/page/1" onClick={() => scrollToTop()}
                               className="ms-3 ms-xl-4">
-                            <img src="/Real_estate_front/img/icons/favorite.svg" alt="favorite"/>
+                            <img src="/img/icons/favorite.svg" alt="favorite"/>
                         </Link>
                         <Link to="/entrance" onClick={() => scrollToTop()} className="ms-3 ms-xl-4">
-                            <img src="/Real_estate_front/img/icons/user.svg" alt="аккаунт"/>
+                            <img src="/img/icons/user.svg" alt="аккаунт"/>
                         </Link>
                     </div>
                     <NavLink to="/advertise" onClick={() => scrollToTop()}
                              className="ms-md-4 btn btn-1 text-uppercase p-2 order-3 order-lg-4">Подать
                         объявление</NavLink>
-                    <div className="city-container ms-md-3 ms-xl-4 order-2 order-lg-5 align-self-center">
-                        <CustomSelect
-                            btnClass="color-2 text-uppercase"
-                            visible={isShowCities}
-                            checkedOpt={city}
-                            options={['Москва', 'Казань', 'Санкт-Петербург']}
-                            handleCallback={({checkedVal}) => {
-                                if (isShowCities) {
-                                    changeDefinedCity(checkedVal)
-                                } else {
-                                    changeCity(checkedVal)
-                                }
-                            }}
-                            alignment="right"
-                        />
-                        <CityPopup
-                            city={city}
-                            isDefinedCity={isDefinedCity}
-                            setIsShowCities={setIsShowCities}
-                        />
-                    </div>
+                    <City />
                     <button type="button" data-bs-toggle="offcanvas" data-bs-target="#header-menu"
                             className="d-block d-lg-none order-5">
-                        <img src="/Real_estate_front/img/icons/menu.svg" alt="меню"/>
+                        <img src="/img/icons/menu.svg" alt="меню"/>
                     </button>
                 </div>
             </header>
@@ -216,7 +161,7 @@ const Header = ({ymaps}) => {
                             <form className="message-form">
                                 <div className="d-flex align-items-center">
                                     <div className="photo me-2 me-sm-4">
-                                        <img src="/Real_estate_front/img/photo.png" alt="Колесникова Ирина"/>
+                                        <img src="/img/photo.png" alt="Колесникова Ирина"/>
                                         <div className="indicator online"/>
                                     </div>
                                     <div>
@@ -302,4 +247,4 @@ const Header = ({ymaps}) => {
     )
 }
 
-export default withYMaps(Header)
+export default Header

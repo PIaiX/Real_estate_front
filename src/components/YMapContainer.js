@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import YMap from './utilities/YMap';
-import OffcanvasCards from './utilities/OffcanvasCards';
+import YMap from './YMap';
+import OffcanvasCards from './OffcanvasCards';
 import OffcanvasFilters from './OffcanvasFilters';
 import {animateScroll as scroll} from 'react-scroll';
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import {onInputHandler, onCheckboxHandler, onMultiCheckboxHandler} from './utilities/collectDataFromForm'
+import {onInputHandler, onCheckboxHandler, onMultiCheckboxHandler} from '../helpers/collectDataFromForm'
 import OffcanvasFilters from './OffcanvasFilters';
 
 const CatalogFilters = ({filters, setFilters, onResetFilters, onApplyFilters, foundCount, isShowOffcanvasFilters, setIsShowOffcanvasFilters}) => {
