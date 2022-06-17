@@ -242,7 +242,7 @@ export default function Advertise() {
                 if (result) {
                     setIsShow(true)
                     setTimeout(() => {
-                        navigate("/personal-PersonalAccount/my-ads", {replace: true})
+                        navigate("/personal-account/my-ads", {replace: true})
                     }, 2000)
                 }
 

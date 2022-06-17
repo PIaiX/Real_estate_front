@@ -44,19 +44,6 @@ export default function CustomSelect(props) {
         }
     }, [checkedIndex, checkedVal])
 
-    useEffect(() => {
-        if(props.callbackDay){
-            props.callbackDay(checkedIndex)
-        }
-        if(props.callbackMonth){
-            props.callbackMonth(checkedIndex)
-        }
-        if(props.callbackYear){
-            props.callbackYear(checkedVal)
-        }
-    }, [checkedIndex, checkedVal])
-
-
     const handleClickOutside = (event) => {
         if (ref.current && !ref.current.contains(event.target)) {
             setVisibility(false);

@@ -88,7 +88,7 @@ export default function Entrance() {
       if (response.data.status === 200) {
         setToken(response.data.body.token);
         setCurrentUser(response.data.body.user);
-        navigate("/personal-PersonalAccount");
+        navigate("/personal-account");
       }
     } catch (error) {
       console.log(error.message)
