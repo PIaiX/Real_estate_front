@@ -9,6 +9,7 @@ import {getTypesEstate} from "../API/typesEstate";
 import {AddressSuggestions} from "react-dadata";
 import AuthError from "../components/AuthError"
 import CustomModal from "../components/CustomModal";
+import env from '../config/env'
 
 
 export default function Advertise() {
@@ -540,7 +541,7 @@ export default function Advertise() {
                                         />
                                         <AddressSuggestions
                                             inputProps={{placeholder: "Адрес"}}
-                                            token={process.env.REACT_APP_DADATA_TOKEN}
+                                            token={env.DADATA_TOKEN}
                                             onChange={(e) => {
                                                 setData(prevData => {
                                                     return {

@@ -5,6 +5,7 @@ import useSelectedCity from '../hooks/useSelectedCity'
 import useMapCenter from '../hooks/useMapCenter'
 import defineMapCenter from '../API/defineMapCenter'
 import {withYMaps} from 'react-yandex-maps'
+import SearchDropdown from './SearchDropdown';
 
 const CityContainer = React.memo(({ymaps}) => {
     const [isShowCities, setIsShowCities] = useState(false)
@@ -57,7 +58,7 @@ const CityContainer = React.memo(({ymaps}) => {
                     }
                 }}
                 alignment="right"
-                isSearch={true}
+                child={SearchDropdown}
             />
             <CityPopup
                 city={city}
