@@ -71,7 +71,7 @@ export default function CustomSelect(props) {
     });
 
     return (
-        <div ref={ref} className={`custom-select ${props.className ?? ''}`}>
+        <div ref={ref} className={`custom-select custom-select_${props.modificator ?? ''}`}>
             <button type="button" className={props.btnClass}
                     onClick={() => setIsShow(prevIsShow => !prevIsShow)}>
                 <div>{checkedVal}</div>
@@ -85,6 +85,7 @@ export default function CustomSelect(props) {
                     options={options}
                     checkedIndex={checkedIndex}
                     handleChange={handleChange}
+                    modificator={props.modificator}
                 />
             </div>
                 

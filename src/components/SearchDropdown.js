@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import DefaultDropdown from './DefaultDropdown';
 
-const SearchDropdown = ({options, checkedIndex, handleChange, alignment}) => {
+const SearchDropdown = ({options, checkedIndex, handleChange, modificator}) => {
     const [optionsSearch, setOptionsSearch] = useState('')
     const [filteredOptions, setFilteredOptions] = useState([])
 
@@ -16,7 +16,7 @@ const SearchDropdown = ({options, checkedIndex, handleChange, alignment}) => {
     }, [options, optionsSearch])
 
     return (
-        <div className="search-dropdown">
+        <div className={`search-dropdown search-dropdown_${modificator ?? ''}`}>
             <input
                 className='custom-select__search'
                 type="text"

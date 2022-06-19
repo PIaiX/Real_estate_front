@@ -47,6 +47,7 @@ const CityContainer = React.memo(({ymaps}) => {
         <div className="city-container ms-md-3 ms-xl-4 order-2 order-lg-5 align-self-center">
             <CustomSelect
                 btnClass="color-2 text-uppercase"
+                modificator="city"
                 visible={isShowCities}
                 checkedOpt={city}
                 options={['Москва', 'Казань', 'Санкт-Петербург']}
