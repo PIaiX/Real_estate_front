@@ -657,7 +657,7 @@ const YMap = (props) => {
                     ...item,
                     options: {
                         iconLayout: 'default#image',
-                        iconImageHref: 'Real_estate_front/img/icons/Ymaps/hot-placemark.svg',
+                        iconImageHref: '/img/icons/Ymaps/hot-placemark.svg',
                         iconImageSize: [46, 47],
                     }
                 }
@@ -667,7 +667,7 @@ const YMap = (props) => {
                     ...item,
                     options: {
                         iconLayout: 'default#image',
-                        iconImageHref: 'Real_estate_front/img/icons/Ymaps/vip-placemark.svg',
+                        iconImageHref: '/img/icons/Ymaps/vip-placemark.svg',
                         iconImageSize: [43, 60],
                     }
                 }
@@ -725,7 +725,7 @@ const YMap = (props) => {
                         // preset: 'islands#greenDotIcon',
                         iconLayout: 'default#image',
                         // Своё изображение иконки метки.
-                        iconImageHref: 'Real_estate_front/img/icons/Ymaps/default-placemark.svg',
+                        iconImageHref: '/img/icons/Ymaps/default-placemark.svg',
                         // Размеры метки.
                         iconImageSize: [36, 55],
                         // Смещение левого верхнего угла иконки относительно
@@ -736,12 +736,12 @@ const YMap = (props) => {
                         openBalloonOnClick: false,
                         clusterIcons: [
                             {
-                                href: 'Real_estate_front/img/icons/Ymaps/default-cluster.svg',
+                                href: '/img/icons/Ymaps/default-cluster.svg',
                                 size: [40, 40],
                                 offset: [-20, -20]
                             },
                             {
-                                href: 'Real_estate_front/img/icons/Ymaps/default-cluster.svg',
+                                href: '/img/icons/Ymaps/default-cluster.svg',
                                 size: [60, 60],
                                 offset: [-30, -30]
                             }

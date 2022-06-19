@@ -15,9 +15,11 @@ $white: #fff;
 $black: #000;
 $green: #15A672;
 
-$offcanvas-z-index: 1045;
-$ymaps-z-index: 1045;
-$select-z-index: 1050;
+$header-z-index: 2000;
+$offcanvas-z-index: 2005;
+$ymaps-z-index: 2005;
+$select-z-index: 2010;
+$dropdown-z-index: 2010;
 
 a, a:hover, a:focus, a:active {
   color: inherit;
@@ -292,7 +294,11 @@ select {
         background: #FFFFFF;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
         border-radius: 4px;
-        z-index: 2;
+        z-index: $dropdown-z-index;
+
+        @media (max-width: 991px) {
+            z-index: calc($offcanvas-z-index + 1);
+        }
         &[data-alignment="right"]{
             left: unset;
             right: 0;
@@ -833,7 +839,7 @@ header {
     top: 0px;
     width: 100%;
     height: 70px;
-    z-index: 1000;
+    z-index: $header-z-index;
     @media (max-width: 1199px){
         padding: .5em 0;
         height: 55px;
@@ -1451,6 +1457,8 @@ article {
 
 /* SECTION 6 - catalog */
 .form-search {
+    position: relative;
+    z-index: calc($offcanvas-z-index + 1);
     --title-size: 1.5em;
     --size: 1.1em;
     display: grid;
@@ -1473,6 +1481,7 @@ article {
     @media (max-width: 991px){
         grid-template-columns: 30% 30% 4fr;
         grid-template-rows: repeat(3, 1fr);
+        z-index: calc($ymaps-z-index + 1);
     }
     @media (max-width: 767px){
         grid-gap: .75em .5em;
@@ -3409,6 +3418,10 @@ footer {
         width: 100%;
     }
 
+    &-header {
+        margin-bottom: 25px;
+    }
+
     &-body {
         padding: 2em;
         nav {
@@ -3454,12 +3467,6 @@ footer {
         }
     }
 
-    &-catalog {
-        @media (max-width: 767px) {
-            bottom: 50px;
-        }
-    }
-
     &-ymap {
         @media (max-width: 991px) {
             display: none;
@@ -3492,6 +3499,12 @@ footer {
         right: 0.5em;
         width: 1.25em;
         height: 1.25em;
+    }
+    @media (max-width: 767px) {
+        top: 1em;
+        right: 1em;
+        width: 3em;
+        height: 3em;
     }
     svg {
         width: 100%;
@@ -3527,6 +3540,11 @@ footer {
         & .catalog__title {
             margin-top: 72px;
             margin-bottom: 0;
+
+            @media (max-width: 991px) {
+                margin-top: 22px;
+                margin-bottom: 10px;
+            }
         }
     }
 
@@ -3548,14 +3566,14 @@ footer {
             height: calc(100vh - 361px);
         }
         @media (max-width: 991px) {
-            height: calc(100vh - 336px);
+            height: calc(100vh - 270px);
             padding-left: 0;
         }
         @media (max-width: 767px) {
-            height: calc(100vh - 329px);
+            height: calc(100vh - 260px);
         }
         @media (max-width: 575px) {
-            height: calc(100vh - 300px);
+            height: calc(100vh - 210px);
         }
     }
 
@@ -3628,4 +3646,19 @@ footer {
         display: flex;
         justify-content: space-between;
     }
+}
+
+.custom-select_catalog-filter {
+    width: 100%;
+
+    & > .btn {
+        height: 100%;
+    }
+}
+.shown-map .custom-select_orderby {
+    z-index: -1;
+}
+
+.offcanvas-catalog {
+    z-index: calc($offcanvas-z-index + 1);
 }

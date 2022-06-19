@@ -106,6 +106,7 @@ const Catalog = () => {
                         </button>
                     </div>
                     <CustomSelect
+                        modificator="catalog-filter"
                         className="sel-1"
                         btnClass="btn btn-2 px-2 px-sm-3"
                         options={['Снять', 'Купить']}
@@ -113,6 +114,7 @@ const Catalog = () => {
                         callback={({checkedIndex}) => onSelectHandler(checkedIndex, 'transactionType', setFilters)}
                     />
                     <CustomSelect
+                        modificator="catalog-filter"
                         className="sel-2"
                         btnClass="btn btn-2 px-2 px-sm-3"
                         options={estateIds}
@@ -222,7 +224,8 @@ const Catalog = () => {
                         </button>
                         <span className="gray-2">Сортировать: </span>
                         <CustomSelect
-                            className="gray-2 custom-select_orderby"
+                            modificator="orderby"
+                            className="gray-2"
                             btnClass="fs-11"
                             checkedOpt={filters.orderBy}
                             // ['По популярности', 'Сначала новые', 'Сначала старые', 'Сначала дешевые', 'Сначала дорогие']
