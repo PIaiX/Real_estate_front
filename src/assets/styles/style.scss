@@ -15,7 +15,7 @@ $white: #fff;
 $black: #000;
 $green: #15A672;
 
-$header-z-index: 2000;
+$header-z-index: 3000;
 $offcanvas-z-index: 2005;
 $ymaps-z-index: 2005;
 $select-z-index: 2010;
@@ -297,7 +297,7 @@ select {
         z-index: $dropdown-z-index;
 
         @media (max-width: 991px) {
-            z-index: calc($offcanvas-z-index + 1);
+            z-index: $offcanvas-z-index + 1;
         }
         &[data-alignment="right"]{
             left: unset;
@@ -1458,7 +1458,7 @@ article {
 /* SECTION 6 - catalog */
 .form-search {
     position: relative;
-    z-index: calc($offcanvas-z-index + 1);
+    z-index: $offcanvas-z-index + 1;
     --title-size: 1.5em;
     --size: 1.1em;
     display: grid;
@@ -1481,7 +1481,7 @@ article {
     @media (max-width: 991px){
         grid-template-columns: 30% 30% 4fr;
         grid-template-rows: repeat(3, 1fr);
-        z-index: calc($ymaps-z-index + 1);
+        z-index: $ymaps-z-index + 1;
     }
     @media (max-width: 767px){
         grid-gap: .75em .5em;
@@ -1562,15 +1562,18 @@ article {
         }
     }
     .popular-queries {
+        scroll-direction: horizontal;
+        position: relative;
         grid-column: 1/6;
         grid-row: 3/4;
         display: flex;
         flex-wrap: nowrap;
         justify-content: flex-start;
         align-items: center;
-        overflow-x: scroll;
+        overflow-x: auto;
         overflow-y: hidden;
         font-size: 1.1em;
+        -ms-overflow-style: none;
         @media (max-width: 991px){display: none;}
         div {white-space: nowrap;}
         button {
@@ -1579,6 +1582,10 @@ article {
             font-weight: 500;
             border-bottom: 1px solid $color-1;
             white-space: nowrap;
+        }
+
+        &::-webkit-scrollbar {
+            //height: 0;
         }
     }
 }
@@ -3660,5 +3667,33 @@ footer {
 }
 
 .offcanvas-catalog {
-    z-index: calc($offcanvas-z-index + 1);
+    z-index: $offcanvas-z-index + 1;
+}
+
+.catalog__search {
+    position: relative;
+    grid-column: 3/5;
+    grid-row: 2/3;
+
+    & input {
+        width: 100%;
+    }
+}
+
+.advertise__address {
+    position: relative;
+}
+
+.react-dadata__suggestions {
+    position: absolute;
+    background-color: white;
+    width: 100%;
+    top: 44px;
+    left: 0;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border: 1px solid rgb(224, 224, 224);
+    border-top: none;
 }

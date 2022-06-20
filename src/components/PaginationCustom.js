@@ -54,7 +54,7 @@ export default function PaginationCustom(props) {
 
     const createPaginationItem = (i) => {
         return <Pagination.Item
-            href={`/Real_estate_front#/${getLink(i)}`}
+            href={`/${getLink(i)}`}
             key={i}
             active={i === currentPage}
             onClick={() => {

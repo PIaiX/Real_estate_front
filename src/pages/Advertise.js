@@ -118,6 +118,8 @@ export default function Advertise() {
         pledge: 0,
         commission: 0,
         isEncumbrances: 1,
+        metro: 'test',
+        district: 'test'
     }
 
     const [data, setData] = useState({
@@ -243,7 +245,7 @@ export default function Advertise() {
                 if (result) {
                     setIsShow(true)
                     setTimeout(() => {
-                        navigate("/personal-account/my-ads", {replace: true})
+                        navigate("/personal-account/my-ads/page/1", {replace: true})
                     }, 2000)
                 }
 
@@ -256,8 +258,6 @@ export default function Advertise() {
     const resetFieldVal = (newState, field) => {
         setValid({...valid, [field]: false})
     }
-
-    console.log(data)
 
     return (
         <main>
@@ -525,31 +525,19 @@ export default function Advertise() {
                                     </span>
                                     </div>
                                     <div className="col-md-9">
-                                        <input
-                                            style={{borderColor: valid.isInValidAddress ? '#DA1E2A' : ''}}
-                                            type="text"
-                                            name="address"
-                                            className="fs-11"
-                                            placeholder="р. Татарстан, г. Казань"
-                                            onChange={(e) => {
-                                                /*validate(e.target)*/
-                                                setData(prevData => {
-                                                    return {...prevData, "address": e.target.value}
-                                                })
-                                                resetFieldVal(e, 'isInValidAddress')
-                                            }}
-                                        />
+                                        {/* input style: style={{borderColor: valid.isInValidAddress ? '#DA1E2A' : ''}}*/}
                                         <AddressSuggestions
+                                            containerClassName='advertise__address'
+                                            value={data.address || ''}
                                             inputProps={{placeholder: "Адрес"}}
                                             token={env.DADATA_TOKEN}
-                                            onChange={(e) => {
-                                                setData(prevData => {
-                                                    return {
-                                                        ...prevData,
-                                                        "address": {lon: e.data?.geo_lon, lat: e.data?.geo_lat}
-                                                    }
-                                                })
-                                            }}
+                                            onChange={e => setData(prevData => ({
+                                                ...prevData,
+                                                "address": e.value,
+                                                "latitude": e.data?.geo_lat,
+                                                "longitude": e.data?.geo_lon
+                                            }))
+                                            }
                                         />
                                     </div>
                                 </div>

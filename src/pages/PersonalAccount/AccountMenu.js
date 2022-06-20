@@ -46,7 +46,7 @@ export default function AccountMenu() {
           </li>
           <li>
             <img src="/img/icons/pa-2.svg" alt="Мои объявления" />
-            <NavLink to="my-ads">Мои объявления</NavLink>
+            <NavLink to="my-ads/page/1">Мои объявления</NavLink>
           </li>
           <li>
             <img src="/img/icons/pa-3.svg" alt="Мои услуги" />

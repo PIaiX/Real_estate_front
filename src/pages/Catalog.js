@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {useParams, useSearchParams} from 'react-router-dom';
 import CustomSelect from '../components/CustomSelect';
 import CustomSelectMultyDual from '../components/CustomSelectMultyDual';
@@ -36,7 +36,6 @@ const Catalog = () => {
     const userId = useSelector(state => state.currentUser?.id)
     const {search, setSearch, onSearch} = useSearchForm('')
     const selectedCity = useSelector(state => state.selectedCity)
-
 
     useEffect(() => {
         getTypesEstate()
@@ -121,28 +120,27 @@ const Catalog = () => {
                         checkedOpt={estateIds.length ? estateIds[0].index : 0}
                         callback={({checkedIndex}) => onSelectHandler(checkedIndex, 'estateId', setFilters)}
                     />
-                    <CustomSelectMultyDual
-                        className="sel-3"
-                        btnClass="btn btn-2 px-2 px-sm-3"
-                        checkedDist={[]}
-                        checkedSt={[]}
-                        districts={['Авиастроительный', 'Вахитовский', 'Кировский', 'Московский', 'Ново-Савиновский', 'Приволжский', 'Советский']}
-                        stations={['Авиастроительная', 'Северный вокзал', 'Яшьлек', 'Козья слобода', 'Кремлёвская', 'Площадь Габдуллы Тукая', 'Суконная слобода', 'Аметьево', 'Горки', 'Проспект Победы', 'Дубравная']}
-                        callback={(indexes1, indexes2) => {
-                            setFilters(prevFilters => {
-                                return {
-                                    ...prevFilters,
-                                    district: [...indexes1],
-                                    metro: [...indexes2]
-                                }
-                            })
-                        }}
-                    />
+                    {/*<CustomSelectMultyDual*/}
+                    {/*    className="sel-3"*/}
+                    {/*    btnClass="btn btn-2 px-2 px-sm-3"*/}
+                    {/*    checkedDist={[]}*/}
+                    {/*    checkedSt={[]}*/}
+                    {/*    districts={['Авиастроительный', 'Вахитовский', 'Кировский', 'Московский', 'Ново-Савиновский', 'Приволжский', 'Советский']}*/}
+                    {/*    stations={['Авиастроительная', 'Северный вокзал', 'Яшьлек', 'Козья слобода', 'Кремлёвская', 'Площадь Габдуллы Тукая', 'Суконная слобода', 'Аметьево', 'Горки', 'Проспект Победы', 'Дубравная']}*/}
+                    {/*    callback={(indexes1, indexes2) => {*/}
+                    {/*        setFilters(prevFilters => {*/}
+                    {/*            return {*/}
+                    {/*                ...prevFilters,*/}
+                    {/*                district: [...indexes1],*/}
+                    {/*                metro: [...indexes2]*/}
+                    {/*            }*/}
+                    {/*        })*/}
+                    {/*    }}*/}
+                    {/*/>*/}
                     <AddressSuggestions
                         token={env.DADATA_TOKEN}
                         value={search} onChange={setSearch}
                         containerClassName='catalog__search'
-                        suggestionClassName='catalog__search-suggestion'
                         inputProps={{placeholder: 'Адрес или ЖК'}}
                         delay={300}
                     />
@@ -153,7 +151,9 @@ const Catalog = () => {
                     >
                         Поиск
                     </button>
-                    <div className="popular-queries">
+                    <div
+                        className="popular-queries"
+                    >
                         <div>Популярные запросы:</div>
                         <button
                             type="button"
@@ -501,6 +501,7 @@ const Catalog = () => {
             {
                 isShowMap
                     ? <YMapContainer
+                        catalog={catalogData.catalog}
                         isShowMap={isShowMap}
                         filters={filters}
                         setFilters={setFilters}
