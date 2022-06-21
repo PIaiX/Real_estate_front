@@ -9,6 +9,7 @@ import Favorites from '../pages/PersonalAccount/Favorites';
 import UserMessages from '../pages/PersonalAccount/UserMessages';
 import ChatPage from '../pages/PersonalAccount/ChatPage';
 import UserReviews from '../pages/PersonalAccount/UserReviews';
+import Catalog from '../pages/Catalog';
 
 
 const PersonalAccountRouter = ({isMobile}) => {
@@ -17,30 +18,36 @@ const PersonalAccountRouter = ({isMobile}) => {
             ? <Routes>
                 <Route path="/" element={<AccountMenu />}/>
                 <Route path="profile" element={<UserProfile />}/>
-                <Route path="my-ads" element={<UserAds />} />
-                <Route path='page/:page' element={<UserAds />} />
+                <Route path="my-ads" element={<UserAds />}>
+                    <Route path='page/:page' element={<UserAds />} />
+                </Route>
                 <Route path="my-services" element={<UserServices />} />
                 <Route path="my-services/create" element={<CreateService />} />
-                <Route path="favorites" element={<Favorites />} />
-                <Route path="page/:page" element={<Favorites />} />
+                <Route path="favorites" element={<Favorites />}>
+                    <Route path="page/:page" element={<Favorites />} />
+                </Route>
                 <Route path="my-messages" element={<UserMessages />} />
                 <Route path="my-messages/*" element={<ChatPage />} />
-                <Route path="my-reviews" element={<UserReviews />} />
-                <Route path='page/:page' element={<UserReviews />} />
+                <Route path="my-reviews" element={<UserReviews />}>
+                    <Route path='page/:page' element={<UserReviews />} />
+                </Route>
             </Routes>
             : <Routes>
                 <Route path="/" element={<UserProfile />} />
                 <Route path="profile" element={<UserProfile />} />
-                <Route path="my-ads" element={<UserAds />} />
-                <Route path='page/:page' element={<UserAds/>} />
+                <Route path="my-ads" element={<UserAds />}>
+                    <Route path="page/:page" element={<UserAds />} />
+                </Route>
                 <Route path="my-services" element={<UserServices />} />
                 <Route path="my-services/create" element={<CreateService />} />
-                <Route path="favorites" element={<Favorites />} />
-                <Route path="page/:page" element={<Favorites />} />
+                <Route path="favorites" element={<Favorites />}>
+                    <Route path="page/:page" element={<Favorites />} />
+                </Route>
                 <Route path="my-messages" element={<UserMessages />} />
                 <Route path="my-messages/*" element={<ChatPage />} />
-                <Route path="my-reviews" element={<UserReviews />} />
-                <Route path='page/:page' element={<UserReviews />}/>
+                <Route path="my-reviews" element={<UserReviews />}>
+                    <Route path='page/:page' element={<UserReviews />}/>
+                </Route>
             </Routes>
     )
 }

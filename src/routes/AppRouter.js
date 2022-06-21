@@ -9,7 +9,7 @@ import UserPage from '../pages/UserPage';
 import Advertise from '../pages/Advertise';
 import AdvertiseEditor from '../pages/AdvertiseEditor';
 import PersonalAccount from '../pages/PersonalAccount';
-import Entrance from '../pages/Entrance';
+import Login from '../pages/Login';
 import Registration from '../pages/Registration';
 import Articles from '../components/Articles';
 import Password1 from '../pages/Password1';
@@ -31,7 +31,7 @@ export default function AppRouter() {
                 <Route path="/advertise" element={<Advertise />} />
                 <Route path="/advertise-editor/:uuid" element={<AdvertiseEditor />} />
                 <Route path="/personal-account/*" element={<PersonalAccount />} />
-                <Route path="/entrance" element={<Entrance />} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/registration" element={<Registration />} />
                 <Route path="/articles/page/:page/:slug" element={<ArticlePage/>}/>
                 <Route path="/articles/page/:page" element={<Articles/>}/>

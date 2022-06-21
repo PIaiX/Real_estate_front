@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import CustomSelect from './CustomSelect'
 import CityPopup from './CityPopup'
 import useSelectedCity from '../hooks/useSelectedCity'
@@ -6,11 +6,21 @@ import useMapCenter from '../hooks/useMapCenter'
 import defineMapCenter from '../API/defineMapCenter'
 import {withYMaps} from 'react-yandex-maps'
 import SearchDropdown from './SearchDropdown';
+import {getCities} from '../API/cities';
 
 const CityContainer = React.memo(({ymaps}) => {
     const [isShowCities, setIsShowCities] = useState(false)
     const {city, setCity, isDefinedCity} = useSelectedCity()
     const {setMapCenter} = useMapCenter(ymaps, city)
+    const [cities, setCities] = useState([])
+
+    useEffect(() => {
+        getCities().then(res => {
+            if (res.status === 200) {
+                setCities(res.body)
+            }
+        })
+    }, [])
 
     const changeDefinedCity = (checkedVal) => {
         localStorage.setItem('userCity', checkedVal)
@@ -50,7 +60,7 @@ const CityContainer = React.memo(({ymaps}) => {
                 modificator="city"
                 visible={isShowCities}
                 checkedOpt={city}
-                options={['Москва', 'Казань', 'Санкт-Петербург']}
+                options={cities}
                 handleCallback={({checkedVal}) => {
                     if (isShowCities) {
                         changeDefinedCity(checkedVal)

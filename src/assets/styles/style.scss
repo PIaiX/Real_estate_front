@@ -15,11 +15,11 @@ $white: #fff;
 $black: #000;
 $green: #15A672;
 
-$header-z-index: 3000;
-$offcanvas-z-index: 2005;
-$ymaps-z-index: 2005;
-$select-z-index: 2010;
-$dropdown-z-index: 2010;
+$offcanvas-z-index: 2000;
+$header-z-index: 1900;
+$select-z-index: 1800;
+$dropdown-z-index: 1800;
+$ymaps-z-index: 1700;
 
 a, a:hover, a:focus, a:active {
   color: inherit;
@@ -1458,7 +1458,7 @@ article {
 /* SECTION 6 - catalog */
 .form-search {
     position: relative;
-    z-index: $offcanvas-z-index + 1;
+    z-index: $ymaps-z-index;
     --title-size: 1.5em;
     --size: 1.1em;
     display: grid;
@@ -3078,7 +3078,7 @@ main.account {
 }
 
 
-/* Entrance & Registration */
+/* Login & Registration */
 form.entrance {
     background-color: #fff;
     border: 1px solid $gray-5;
@@ -3475,6 +3475,8 @@ footer {
     }
 
     &-ymap {
+        z-index: $ymaps-z-index;
+
         @media (max-width: 991px) {
             display: none;
         }
@@ -3672,8 +3674,8 @@ footer {
 
 .catalog__search {
     position: relative;
-    grid-column: 3/5;
-    grid-row: 2/3;
+    //grid-column: 3/5;
+    //grid-row: 2/3;
 
     & input {
         width: 100%;
@@ -3696,4 +3698,5 @@ footer {
     gap: 5px;
     border: 1px solid rgb(224, 224, 224);
     border-top: none;
+    z-index: $select-z-index;
 }

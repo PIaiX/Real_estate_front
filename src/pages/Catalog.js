@@ -49,7 +49,7 @@ const Catalog = () => {
     }, [])
 
     useEffect(() => {
-        getCatalog(page, 12, userId, filters)
+        getCatalog(page, 4, userId, filters)
             .then(response => setCatalogData({
                     meta: response.body,
                     catalog: response.body.data,
@@ -120,23 +120,23 @@ const Catalog = () => {
                         checkedOpt={estateIds.length ? estateIds[0].index : 0}
                         callback={({checkedIndex}) => onSelectHandler(checkedIndex, 'estateId', setFilters)}
                     />
-                    {/*<CustomSelectMultyDual*/}
-                    {/*    className="sel-3"*/}
-                    {/*    btnClass="btn btn-2 px-2 px-sm-3"*/}
-                    {/*    checkedDist={[]}*/}
-                    {/*    checkedSt={[]}*/}
-                    {/*    districts={['Авиастроительный', 'Вахитовский', 'Кировский', 'Московский', 'Ново-Савиновский', 'Приволжский', 'Советский']}*/}
-                    {/*    stations={['Авиастроительная', 'Северный вокзал', 'Яшьлек', 'Козья слобода', 'Кремлёвская', 'Площадь Габдуллы Тукая', 'Суконная слобода', 'Аметьево', 'Горки', 'Проспект Победы', 'Дубравная']}*/}
-                    {/*    callback={(indexes1, indexes2) => {*/}
-                    {/*        setFilters(prevFilters => {*/}
-                    {/*            return {*/}
-                    {/*                ...prevFilters,*/}
-                    {/*                district: [...indexes1],*/}
-                    {/*                metro: [...indexes2]*/}
-                    {/*            }*/}
-                    {/*        })*/}
-                    {/*    }}*/}
-                    {/*/>*/}
+                    <CustomSelectMultyDual
+                        className="sel-3"
+                        btnClass="btn btn-2 px-2 px-sm-3"
+                        checkedDist={[]}
+                        checkedSt={[]}
+                        districts={['Авиастроительный', 'Вахитовский', 'Кировский', 'Московский', 'Ново-Савиновский', 'Приволжский', 'Советский']}
+                        stations={['Авиастроительная', 'Северный вокзал', 'Яшьлек', 'Козья слобода', 'Кремлёвская', 'Площадь Габдуллы Тукая', 'Суконная слобода', 'Аметьево', 'Горки', 'Проспект Победы', 'Дубравная']}
+                        callback={(indexes1, indexes2) => {
+                            setFilters(prevFilters => {
+                                return {
+                                    ...prevFilters,
+                                    district: [...indexes1],
+                                    metro: [...indexes2]
+                                }
+                            })
+                        }}
+                    />
                     <AddressSuggestions
                         token={env.DADATA_TOKEN}
                         value={search} onChange={setSearch}
@@ -498,19 +498,15 @@ const Catalog = () => {
                 isShowOffcanvasFilters={isShowOffcanvasFilters}
                 setIsShowOffcanvasFilters={setIsShowOffcanvasFilters}
             />
-            {
-                isShowMap
-                    ? <YMapContainer
-                        catalog={catalogData.catalog}
-                        isShowMap={isShowMap}
-                        filters={filters}
-                        setFilters={setFilters}
-                        onResetFilters={onResetFilters}
-                        onApplyFilters={onApplyFilters}
-                        foundCount={catalogData.foundCount}
-                    />
-                    : null
-            }
+            {isShowMap && <YMapContainer
+                catalog={catalogData.catalog}
+                isShowMap={isShowMap}
+                filters={filters}
+                setFilters={setFilters}
+                onResetFilters={onResetFilters}
+                onApplyFilters={onApplyFilters}
+                foundCount={catalogData.foundCount}
+            />}
         </main>
     )
 }

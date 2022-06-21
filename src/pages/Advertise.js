@@ -10,6 +10,7 @@ import {AddressSuggestions} from "react-dadata";
 import AuthError from "../components/AuthError"
 import CustomModal from "../components/CustomModal";
 import env from '../config/env'
+import {dadataFias, dadataGeocode, dadataMetro} from '../API/dadata';
 
 
 export default function Advertise() {
@@ -119,12 +120,12 @@ export default function Advertise() {
         commission: 0,
         isEncumbrances: 1,
         metro: 'test',
-        district: 'test'
+        district: 'test',
+        address: ''
     }
 
-    const [data, setData] = useState({
-        ...defaultForm
-    })
+    const [data, setData] = useState(defaultForm)
+    const [address, setAddress] = useState('')
 
     const handleCheckbox = (e) => {
         const {target} = e;
@@ -258,6 +259,10 @@ export default function Advertise() {
     const resetFieldVal = (newState, field) => {
         setValid({...valid, [field]: false})
     }
+
+    useEffect(() => {
+        data['fias_id'] && dadataFias(data['fias_id']).then(res => setData(prevData => ({...prevData, district: res?.suggestions[0]?.data?.city_district})))
+    }, [data.address])
 
     return (
         <main>
@@ -527,17 +532,21 @@ export default function Advertise() {
                                     <div className="col-md-9">
                                         {/* input style: style={{borderColor: valid.isInValidAddress ? '#DA1E2A' : ''}}*/}
                                         <AddressSuggestions
+                                            delay={300}
                                             containerClassName='advertise__address'
-                                            value={data.address || ''}
-                                            inputProps={{placeholder: "Адрес"}}
+                                            value={data.address && ''}
+                                            inputProps={{
+                                                style: {borderColor: valid.isInValidAddress ? '#DA1E2A' : ''},
+                                                placeholder: "Адрес"
+                                            }}
                                             token={env.DADATA_TOKEN}
                                             onChange={e => setData(prevData => ({
                                                 ...prevData,
                                                 "address": e.value,
                                                 "latitude": e.data?.geo_lat,
-                                                "longitude": e.data?.geo_lon
-                                            }))
-                                            }
+                                                "longitude": e.data?.geo_lon,
+                                                "fias_id": e.data?.fias_id
+                                            }))}
                                         />
                                     </div>
                                 </div>

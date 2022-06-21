@@ -8,7 +8,6 @@ export default function CustomSelect(props) {
     const [checkedOpt, setCheckedOpt] = useState(props.checkedOpt);
     const [checkedIndex, setCheckedIndex] = useState(null)
     const [checkedVal, setCheckedVal] = useState(null)
-    const [citySearch, setCitySearch] = useState('')
     const Dropdown = props.child ?? DefaultDropdown
 
     useEffect(() => {

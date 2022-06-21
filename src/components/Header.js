@@ -2,10 +2,6 @@ import React, {useState} from 'react';
 import {Link, NavLink} from 'react-router-dom';
 import {animateScroll as scroll} from 'react-scroll';
 import {getQuestion} from "../API/question";
-import useSelectedCity from '../hooks/useSelectedCity';
-import useMapCenter from '../hooks/useMapCenter';
-import {withYMaps} from 'react-yandex-maps';
-import defineMapCenter from '../API/defineMapCenter';
 import CustomModal from "./CustomModal";
 import City from './CityContainer';
 
@@ -107,7 +103,7 @@ const Header = () => {
                               className="ms-3 ms-xl-4">
                             <img src="/img/icons/favorite.svg" alt="favorite"/>
                         </Link>
-                        <Link to="/entrance" onClick={() => scrollToTop()} className="ms-3 ms-xl-4">
+                        <Link to="/login" onClick={() => scrollToTop()} className="ms-3 ms-xl-4">
                             <img src="/img/icons/user.svg" alt="аккаунт"/>
                         </Link>
                     </div>

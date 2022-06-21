@@ -27,14 +27,12 @@ const YMap = (props) => {
 
     useEffect(() => {
         if (props.callback && selectedCluster) {
-            // console.log('sc ', selectedCluster)
             props.callback(selectedCluster.features?.map(item => item.properties?.data?.id))
         }
     }, [selectedCluster])
 
     useEffect(() => {
         if (props.callback && selectedPoint) {
-            // console.log('SP ', selectedPoint)
             props.callback([selectedPoint.properties?.data?.id])
         }
     }, [selectedPoint])

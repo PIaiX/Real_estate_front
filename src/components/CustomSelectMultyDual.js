@@ -89,7 +89,7 @@ export default function CustomSelectMultyDual(props) {
                         {districts.map(function(item, index) {
                             return (
                                 <label key={item}>
-                                    <input type="checkbox" name="district" value={item} defaultChecked={(checkedDist.includes(index)) ? true : false} onChange={e => handleChange(e, index)}/>
+                                    <input type="checkbox" name="district" value={item} defaultChecked={!!(checkedDist.includes(index))} onChange={e => handleChange(e, index)}/>
                                     <span className="ms-3">{item}</span>
                                 </label>
                             )
@@ -99,14 +99,13 @@ export default function CustomSelectMultyDual(props) {
                         {stations.map(function(item, index) {
                             return (
                                 <label key={item}>
-                                    <input type="checkbox" name="station" value={item} defaultChecked={(checkedSt.includes(index)) ? true : false} onChange={e => handleChange2(e, index)}/>
+                                    <input type="checkbox" name="station" value={item} defaultChecked={!!(checkedSt.includes(index))} onChange={e => handleChange2(e, index)}/>
                                     <span className="ms-3">{item}</span>
                                 </label>
                             )
                         })}
                     </div>
                 </div>
-                
             </div>
         </div>
     )

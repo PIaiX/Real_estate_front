@@ -15,7 +15,7 @@ export default function UserProfile() {
     const token = useAccessToken()
     const currentUser = useCurrentUser()
     const sait = 'https://api.antontig.beget.tech/uploads/';
-    const [avatars, setAvatars] = useState([{data_url: "./Real_estates_front/public/img/img-photo.svg"}]);
+    const [avatars, setAvatars] = useState([{data_url: "/img/img-photo.svg"}]);
     const uuid = currentUser?.uuid;
     const userId = currentUser?.id
 

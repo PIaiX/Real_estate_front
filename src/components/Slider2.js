@@ -55,7 +55,7 @@ export const Slider2 = () => {
             {randomArticle.map((randomArticle)=>
                 <SwiperSlide key={randomArticle.id}>
                     <Article
-                        imgUrl="/Real_estate_front/img/nophoto.jpg"
+                        imgUrl="/img/nophoto.jpg"
                         title={randomArticle.title}
                         text={randomArticle.description}
                         articleUrl={randomArticle.slug}
