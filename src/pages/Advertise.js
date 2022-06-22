@@ -261,8 +261,15 @@ export default function Advertise() {
     }
 
     useEffect(() => {
-        data['fias_id'] && dadataFias(data['fias_id']).then(res => setData(prevData => ({...prevData, district: res?.suggestions[0]?.data?.city_district})))
+        data['fias_id'] && dadataFias(data['fias_id']).then(res => {
+            console.log('res ', res)
+            setData(prevData => ({...prevData, district: res?.suggestions[0]?.data?.city_district}))
+        })
     }, [data.address])
+
+    useEffect(() => {
+        console.log(data)
+    }, [data])
 
     return (
         <main>
@@ -540,13 +547,14 @@ export default function Advertise() {
                                                 placeholder: "Адрес"
                                             }}
                                             token={env.DADATA_TOKEN}
-                                            onChange={e => setData(prevData => ({
-                                                ...prevData,
-                                                "address": e.value,
-                                                "latitude": e.data?.geo_lat,
-                                                "longitude": e.data?.geo_lon,
-                                                "fias_id": e.data?.fias_id
-                                            }))}
+                                            onChange={e =>
+                                                setData(prevData => ({
+                                                    ...prevData,
+                                                    "address": e.value,
+                                                    "latitude": e.data?.geo_lat,
+                                                    "longitude": e.data?.geo_lon,
+                                                    "fias_id": e.data?.fias_id
+                                                }))}
                                         />
                                     </div>
                                 </div>

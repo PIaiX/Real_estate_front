@@ -272,7 +272,7 @@ select {
   min-width: 100%;
   max-width: 500px;
   max-height: 300px;
-  overflow-y: auto;
+  overflow: hidden;
   background: #FFFFFF;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
@@ -366,17 +366,6 @@ select {
 }
 .custom-select_orderby {
   z-index: 100;
-}
-.custom-select__search {
-  outline: none;
-  margin-top: -8px;
-  border-radius: 0;
-  border: none;
-  border-bottom: 1px solid rgb(224, 224, 224);
-}
-.custom-select__search:hover, .custom-select__search:focus {
-  border: none;
-  border-bottom: 1px solid rgb(224, 224, 224);
 }
 
 .input-file {
@@ -4206,6 +4195,32 @@ footer nav ul li a.active svg.type-2 path {
   border: 1px solid rgb(224, 224, 224);
   border-top: none;
   z-index: 1800;
+}
+
+.search-dropdown {
+  width: 260px;
+}
+.search-dropdown__input {
+  width: 100%;
+  outline: none;
+  margin-top: -8px;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid rgb(224, 224, 224);
+}
+.search-dropdown__input:hover, .search-dropdown__input:focus {
+  border: none;
+  border-bottom: 1px solid rgb(224, 224, 224);
+}
+
+.my-dropdown {
+  min-width: 100%;
+  max-width: inherit;
+  max-height: inherit;
+}
+
+.default-dropdown {
+  overflow-y: scroll;
 }
 
 /*# sourceMappingURL=style.css.map */

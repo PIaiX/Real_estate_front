@@ -52,9 +52,7 @@ function App() {
     return (
         <BrowserRouter>
             <YMaps query={{ apikey: env.YMAPS_TOKEN, load: 'package.full' }}>
-                <Header/>
                 <AppRouter/>
-                <Footer/>
             </YMaps>
         </BrowserRouter>
     );

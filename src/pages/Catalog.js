@@ -12,7 +12,7 @@ import {useSelector} from 'react-redux';
 import useSearchForm from '../hooks/useSearchForm';
 import {onSelectHandler, onInputHandler, onMultiCheckboxHandler, onSingleParamQuery} from '../helpers/collectDataFromForm'
 import {AddressSuggestions} from 'react-dadata';
-import Breadcrumb from '../components/Breadcrumb';
+import Breadcrumbs from '../components/Breadcrumbs';
 import YMapContainer from '../components/YMapContainer';
 import env from '../config/env'
 
@@ -20,7 +20,6 @@ const Catalog = () => {
     const [view, setView] = useUpdateSizeSecond('991px')
     const {page} = useParams();
     const [searchParams, setSearchParams] = useSearchParams()
-
     const initialFilters = {
         transactionType: +searchParams.get('transactionType'),
         typesEstate: +searchParams.get('typesEstate'),
@@ -28,7 +27,6 @@ const Catalog = () => {
     }
     const [filters, setFilters] = useState(initialFilters)
     const [additionalFilters, setAdditionalFilters] = useState({})
-
     const [estateIds, setEstateIds] = useState([])
     const [catalogData, setCatalogData] = useState({})
     const [isShowMap, setIsShowMap] = useState(false)
@@ -82,7 +80,7 @@ const Catalog = () => {
 
     return (
         <main className={`catalog ${isShowMap ? 'shown-map' : ''}`}>
-            <Breadcrumb/>
+            <Breadcrumbs/>
             <section className="sec-6 container pb-5">
                 <h1 className='catalog__title'>Каталог недвижимости</h1>
                 <form className="form-search mb-4 mb-sm-5">
@@ -139,7 +137,8 @@ const Catalog = () => {
                     />
                     <AddressSuggestions
                         token={env.DADATA_TOKEN}
-                        value={search} onChange={setSearch}
+                        value={search && ''}
+                        onChange={e => setSearch(e.value)}
                         containerClassName='catalog__search'
                         inputProps={{placeholder: 'Адрес или ЖК'}}
                         delay={300}

@@ -1,13 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {GeolocationControl, Map, ObjectManager, ZoomControl} from 'react-yandex-maps';
+import {GeolocationControl, Map, ObjectManager, withYMaps, ZoomControl} from 'react-yandex-maps';
 import {useSelector} from 'react-redux';
 
-const YMap = (props) => {
+const YMap = ({ymaps, ...props}) => {
     const [objectManager, setObjectManager] = useState(null)
     const [selectedCluster, setSelectedCluster] = useState(null)
     const [selectedPoint, setSelectedPoint] = useState(null)
     const mapCenter = useSelector(state => state.mapCenter)
     const catalog = props.catalog
+
+    useEffect(() => {
+        objectManager && objectManager.removeAll() && initObjectManager()
+
+    }, [props.catalog])
 
     const feature = catalog && catalog.map(item => ({
         type: 'Feature',
@@ -189,4 +194,4 @@ const YMap = (props) => {
     );
 };
 
-export default YMap;
+export default withYMaps(YMap);

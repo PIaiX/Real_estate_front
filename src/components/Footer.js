@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { animateScroll as scroll } from 'react-scroll';
 
-export const Footer = () => {
+const Footer = () => {
     const scrollToTop = () => {
         scroll.scrollToTop();
     };
@@ -51,3 +51,5 @@ export const Footer = () => {
         </footer>
     )
 }
+
+export default Footer

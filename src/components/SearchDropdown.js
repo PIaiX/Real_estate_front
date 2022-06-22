@@ -16,9 +16,9 @@ const SearchDropdown = ({options, checkedIndex, handleChange, modificator}) => {
     }, [options, optionsSearch])
 
     return (
-        <div className={`search-dropdown search-dropdown_${modificator ?? ''}`}>
+        <div className={`my-dropdown search-dropdown search-dropdown_${modificator ?? ''}`}>
             <input
-                className='custom-select__search'
+                className='search-dropdown__input'
                 type="text"
                 value={optionsSearch}
                 onChange={e => setOptionsSearch(e.target.value)}

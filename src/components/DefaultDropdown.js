@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 const DefaultDropdown = ({options, checkedIndex, handleChange, modificator}) => {
 
     return (
-        <div className={`default-dropdown default-dropdown_${modificator ?? ''}`}>
+        <div className={`my-dropdown default-dropdown default-dropdown_${modificator ?? ''}`}>
             {options && options?.map(option => (
                 <label className="radio-line" key={option.index}>
                     <input

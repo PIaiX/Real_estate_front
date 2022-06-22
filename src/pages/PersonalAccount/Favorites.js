@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useLocation, useMatch, useParams} from 'react-router-dom';
 import useUpdateSize from '../../hooks/useUpdateSize';
 import Card from '../../components/Card';
 import PaginationCustom from '../../components/PaginationCustom';

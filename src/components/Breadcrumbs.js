@@ -1,7 +1,11 @@
 import React from 'react';
-import {Link, NavLink} from 'react-router-dom';
+import {Link, NavLink, useHistory, useLocation} from 'react-router-dom';
 
-const Breadcrumb = () => {
+const Breadcrumbs = () => {
+    const hist = useLocation()
+
+    // console.log(hist)
+
     return (
         <nav aria-label="breadcrumb">
             <div className="container py-3 py-sm-4 py-lg-5">
@@ -17,4 +21,4 @@ const Breadcrumb = () => {
     );
 };
 
-export default Breadcrumb;
+export default Breadcrumbs;

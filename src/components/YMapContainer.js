@@ -35,7 +35,6 @@ const YMapContainer = ({catalog, isShowMap, filters, setFilters, onResetFilters,
         setCards(result)
     }, [ids])
 
-
     return (
         <div className='catalog__ymaps-container'>
             <YMap
