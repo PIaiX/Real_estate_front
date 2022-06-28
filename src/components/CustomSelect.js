@@ -1,101 +1,123 @@
 import React, {useEffect, useRef, useState} from 'react';
 import DefaultDropdown from './DefaultDropdown';
 
-export default function CustomSelect(props) {
-    const ref = useRef(null);
-    const [options, setOptions] = useState([])
-    const [isShow, setIsShow] = useState(props.visible || false);
-    const [checkedOpt, setCheckedOpt] = useState(props.checkedOpt);
-    const [checkedIndex, setCheckedIndex] = useState(null)
-    const [checkedVal, setCheckedVal] = useState(null)
-    const Dropdown = props.child ?? DefaultDropdown
+// mode = titles(default) -> если в checkedOptions передаются titles(значения отображаемые в dropdown items)
+// mode = values -> если в checkedOptions передаются values(значения которые нужны для вычислений и логики, прикрепляются к dropdown items, но не отображаются в UI)
+const CustomSelect = React.memo(({mode = 'titles', options = [], checkedOptions, btnClass, className, title, isShow, modificator, callback, child, placeholder, align}) => {
+    const [dropdownItems, setDropdownItems] = useState([])
+    const [checkedValues, setCheckedValues] = useState([])
+    const [checkedTitles, setCheckedTitles] = useState([])
+    const [isShowDropdown, setIsShowDropdown] = useState(isShow || false)
+    const [isChangedOptions, setIsChangedOptions] = useState(false)
+    const customSelect = useRef(null)
+    const DropdownChild = child ?? DefaultDropdown
 
-    useEffect(() => {
-        if (props.visible) {
-            setIsShow(true)
-        }
-    }, [props.visible])
+    const DropdownItem = ({item}) => (
+        <label className="radio-line" key={item.value}>
+            <input
+                type="radio"
+                name="type"
+                value={item.value}
+                onChange={() => onSelectItem(item.title, item.value)}
+                checked={checkedValues.includes(item.value)}
+            />
+            <div>{item.title}</div>
+        </label>
+    )
 
-    useEffect(() => {
-        if (props.options.length) {
-            setOptions(props.options.map((item, ind) => item.index ? item : {index: ind, value: item}))
+    const onSelectCallback = (titles, values) => {
+        if (callback) {
+            (titles.length === 1 && values.length === 1)
+                ? callback({title: titles[0], value: values[0]})
+                : callback({titles: titles, values: values})
         }
-        if (props.checkedOpt) {
-            setCheckedOpt(props.checkedOpt)
-        }
-    }, [props.options, props.checkedOpt])
+    }
 
-    useEffect(() => {
-        if (options.length) {
-            if (typeof checkedOpt === 'number' || props.notDefaultIndexes) {
-                const {value} = options.find(option => option.index === checkedOpt)
-                setCheckedIndex(checkedOpt)
-                setCheckedVal(value)
-            }
-            if (typeof checkedOpt === 'string' && !props.notDefaultIndexes) {
-                const {index} = options.findIndex(option => option.value === checkedOpt)
-                setCheckedIndex(index)
-                setCheckedVal(checkedOpt)
-            }
-        }
-    }, [options, checkedOpt, props.notDefaultIndexes])
+    const onSelectItem = (title, value) => {
+        setCheckedValues(prevValues => prevValues.length && (typeof prevValues[0]) === 'number' ? [+value] : [value])
+        setCheckedTitles([title])
+        setIsChangedOptions(true)
+    }
 
-    useEffect(() => {
-        if (props.callback) {
-            props.callback({checkedIndex, checkedVal})
-        }
-    }, [checkedIndex, checkedVal])
+    const closeDropdown = () => setIsShowDropdown(false)
 
     const handleClickOutside = (event) => {
-        if (ref.current && !ref.current.contains(event.target)) {
-            setIsShow(false);
+        if (customSelect.current && !customSelect.current.contains(event.target)) {
+            closeDropdown()
         }
-    };
+    }
 
-    const handleChange = (e, index) => {
-        setCheckedVal(e.target.value);
-        setCheckedIndex(index)
-        setIsShow(false);
-
-        if (props.handleCallback) {
-            props.handleCallback({checkedIndex: index, checkedVal: e.target.value})
+    useEffect(() => {
+        if (isChangedOptions) {
+            onSelectCallback(checkedTitles, checkedValues)
+            setIsChangedOptions(false)
         }
-    };
+
+    }, [isChangedOptions])
+
+    useEffect(() => isShow && setIsShowDropdown(isShow), [isShow])
+
+    useEffect(() => {
+        options.length && setDropdownItems(options.map((option, index) => option.value ? option : ({
+            title: option,
+            value: index
+        })))
+    }, [options])
+
+    useEffect(() => {
+        if (dropdownItems.length && checkedOptions && mode === 'titles') {
+            const filteredValues = dropdownItems.filter(item => checkedOptions.includes(item.title))
+            setCheckedTitles(checkedOptions)
+            setCheckedValues(filteredValues.map(item => item.value))
+        }
+        if (dropdownItems.length && checkedOptions && mode === 'values') {
+            const filteredTitles = dropdownItems.filter(item => checkedOptions.includes(item.value))
+            setCheckedValues(checkedOptions)
+            setCheckedTitles(filteredTitles.map(item => item.title))
+        }
+    }, [dropdownItems, checkedOptions])
 
     useEffect(() => {
         document.addEventListener('click', handleClickOutside, true);
         return () => {
             document.removeEventListener('click', handleClickOutside, true);
-        };
-    });
+        }
+    })
 
     return (
-        <div ref={ref} className={`custom-select custom-select_${props.modificator ?? ''}`}>
-            <button type="button" className={props.btnClass}
-                    onClick={() => setIsShow(prevIsShow => !prevIsShow)}>
-                <div>{checkedVal}</div>
+        <div
+            className={`custom-select ${modificator ? 'custom-select_' + modificator : ''} ${className ?? ''} ${isShowDropdown ? 'show' : ''}`}
+            ref={customSelect}
+        >
+            <button
+                type="button"
+                className={`custom-select__toggle ${modificator ? 'custom-select__toggle_' + modificator : ''} ${btnClass ? btnClass : ''}`}
+                onClick={() => setIsShowDropdown(prevIsShowDropdown => !prevIsShowDropdown)}
+            >
+                {
+                    dropdownItems.length
+                        ? <div>{title || (checkedTitles.length === 1 && checkedTitles) || 'Выберите значение'}</div>
+                        : <div>Пусто</div>
+                }
                 <svg className="ms-2" viewBox="0 0 23 12" xmlns="http://www.w3.org/2000/svg">
                     <line x1="21.6832" y1="0.730271" x2="10.7468" y2="10.961"/>
                     <line y1="-1" x2="14.9757" y2="-1" transform="matrix(0.730271 0.683157 0.683157 -0.730271 2 0)"/>
                 </svg>
             </button>
-            <div className={`options py-2 ${isShow ? '' : 'd-none'}`} data-alignment={props.alignment}>
-                <Dropdown 
-                    options={options}
-                    checkedIndex={checkedIndex}
-                    handleChange={handleChange}
-                    modificator={props.modificator}
+            <div
+                className={`dropdown-list ${modificator ? 'dropdown-list_' + modificator : ''} options`}
+                data-alignment={align}
+            >
+                <DropdownChild
+                    options={dropdownItems}
+                    onSelectItem={onSelectItem}
+                    closeDropdown={closeDropdown}
+                    checkedValues={checkedValues}
+                    placeholder={placeholder}
                 />
             </div>
-                
-            {/* <DefaultDropdown
-                options={options}
-                checkedIndex={checkedIndex}
-                isSearch={true}
-                visible={visible}
-                handleChange={handleChange}
-                alignment={props.alignment}
-            /> */}
         </div>
     )
-}
+})
+
+export default CustomSelect;

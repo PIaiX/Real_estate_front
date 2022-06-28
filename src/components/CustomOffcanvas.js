@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Offcanvas} from 'react-bootstrap';
 
 const CustomOffcanvas = ({isShow, setIsShow, className, placement, scroll, backdrop, closeButton, children}) => {

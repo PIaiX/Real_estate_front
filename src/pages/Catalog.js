@@ -1,11 +1,9 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {useParams, useSearchParams} from 'react-router-dom';
-import CustomSelect from '../components/CustomSelect';
-import CustomSelectMultyDual from '../components/CustomSelectMultyDual';
 import Card from '../components/Card';
 import CatalogFilters from '../components/CatalogFilters';
 import PaginationCustom from '../components/PaginationCustom';
-import {getCatalog} from '../API/catalog';
+import {getCatalog, getDistricts} from '../API/catalog';
 import {getTypesEstate} from '../API/typesEstate';
 import useUpdateSizeSecond from '../hooks/useUpdateSizeSecond';
 import {useSelector} from 'react-redux';
@@ -15,11 +13,14 @@ import {AddressSuggestions} from 'react-dadata';
 import Breadcrumbs from '../components/Breadcrumbs';
 import YMapContainer from '../components/YMapContainer';
 import env from '../config/env'
+import CustomSelect from '../components/CustomSelect';
+import useDebounce from '../hooks/useDebounce';
 
 const Catalog = () => {
     const [view, setView] = useUpdateSizeSecond('991px')
     const {page} = useParams();
     const [searchParams, setSearchParams] = useSearchParams()
+    const [districts, setDistricts] = useState([])
     const initialFilters = {
         transactionType: +searchParams.get('transactionType'),
         typesEstate: +searchParams.get('typesEstate'),
@@ -28,40 +29,44 @@ const Catalog = () => {
     const [filters, setFilters] = useState(initialFilters)
     const [additionalFilters, setAdditionalFilters] = useState({})
     const [estateIds, setEstateIds] = useState([])
-    const [catalogData, setCatalogData] = useState({})
+    const [catalogData, setCatalogData] = useState({isLoaded: false, foundCount: 0, catalog: []})
     const [isShowMap, setIsShowMap] = useState(false)
     const [isShowOffcanvasFilters, setIsShowOffcanvasFilters] = useState(false)
     const userId = useSelector(state => state.currentUser?.id)
     const {search, setSearch, onSearch} = useSearchForm('')
     const selectedCity = useSelector(state => state.selectedCity)
+    const debouncedFilters = useDebounce(filters, 500)
 
     useEffect(() => {
         getTypesEstate()
             .then(response => response.find(type => type.id === filters.typesEstate))
-            .then(result => {
-                setEstateIds(result
-                    ? result.estates.map(item => ({index: item.id, value: item.name}))
-                    : []
-                )
+            .then(result => result && result.estates.map(item => ({title: item.name, value: item.id})))
+            .then(estateIds => {
+                setEstateIds(estateIds)
+                estateIds.length && onSelectHandler(estateIds[0].value, 'estateId', setFilters)
             })
     }, [])
 
+
     useEffect(() => {
-        getCatalog(page, 4, userId, filters)
+        (userId && selectedCity && page) &&
+        getCatalog(page, 4, userId, selectedCity, debouncedFilters)
             .then(response => setCatalogData({
+                    isLoaded: true,
                     meta: response.body,
                     catalog: response.body.data,
                     foundCount: response.body.meta.total
                 })
             )
-    }, [page, userId, filters])
+            .catch((err) => {
+                return err.message
+            })
+    }, [page, userId, selectedCity, debouncedFilters])
 
-    useEffect(() => {
-        setSearchParams({
-            'transactionType': filters.transactionType,
-            'typesEstate': filters.typesEstate
-        })
-    }, [filters.transactionType, filters.typesEstate])
+    useEffect(() => setSearchParams({
+        'transactionType': filters.transactionType,
+        'typesEstate': filters.typesEstate
+    }), [filters.transactionType, filters.typesEstate])
 
     const onResetFilters = () => {
         setFilters(initialFilters)
@@ -76,6 +81,10 @@ const Catalog = () => {
 
     useEffect(() => {
         setIsShowMap(false)
+
+        selectedCity && getDistricts(selectedCity)
+            .then(result => result && result.body?.map(item => ({title: item.name, value: item.id})))
+            .then(result => setDistricts(result))
     }, [selectedCity])
 
     return (
@@ -103,37 +112,27 @@ const Catalog = () => {
                         </button>
                     </div>
                     <CustomSelect
-                        modificator="catalog-filter"
                         className="sel-1"
                         btnClass="btn btn-2 px-2 px-sm-3"
                         options={['Снять', 'Купить']}
-                        checkedOpt={filters.transactionType}
-                        callback={({checkedIndex}) => onSelectHandler(checkedIndex, 'transactionType', setFilters)}
+                        checkedOptions={[filters.transactionType]}
+                        mode='values'
+                        callback={({value}) => onSelectHandler(value, 'transactionType', setFilters)}
                     />
                     <CustomSelect
-                        modificator="catalog-filter"
                         className="sel-2"
                         btnClass="btn btn-2 px-2 px-sm-3"
                         options={estateIds}
-                        checkedOpt={estateIds.length ? estateIds[0].index : 0}
-                        callback={({checkedIndex}) => onSelectHandler(checkedIndex, 'estateId', setFilters)}
+                        checkedOptions={[filters.estateId]}
+                        mode='values'
+                        callback={({value}) => onSelectHandler(value, 'estateId', setFilters)}
                     />
-                    <CustomSelectMultyDual
-                        className="sel-3"
-                        btnClass="btn btn-2 px-2 px-sm-3"
-                        checkedDist={[]}
-                        checkedSt={[]}
-                        districts={['Авиастроительный', 'Вахитовский', 'Кировский', 'Московский', 'Ново-Савиновский', 'Приволжский', 'Советский']}
-                        stations={['Авиастроительная', 'Северный вокзал', 'Яшьлек', 'Козья слобода', 'Кремлёвская', 'Площадь Габдуллы Тукая', 'Суконная слобода', 'Аметьево', 'Горки', 'Проспект Победы', 'Дубравная']}
-                        callback={(indexes1, indexes2) => {
-                            setFilters(prevFilters => {
-                                return {
-                                    ...prevFilters,
-                                    district: [...indexes1],
-                                    metro: [...indexes2]
-                                }
-                            })
-                        }}
+                    <CustomSelect
+                        className='sel-3'
+                        btnClass='btn btn-2 px-2 px-sm-3'
+                        checkedOptions={['московский']}
+                        options={districts}
+                        // callback={({title, value}) => onBootstrapSelect(title, value)}
                     />
                     <AddressSuggestions
                         token={env.DADATA_TOKEN}
@@ -224,13 +223,11 @@ const Catalog = () => {
                         <span className="gray-2">Сортировать: </span>
                         <CustomSelect
                             modificator="orderby"
-                            className="gray-2"
                             btnClass="fs-11"
-                            checkedOpt={filters.orderBy}
-                            // ['По популярности', 'Сначала новые', 'Сначала старые', 'Сначала дешевые', 'Сначала дорогие']
-                            options={[{index: 'desc', value: 'Сначала новые'}, {index: 'asc', value: 'Сначала старые'}]}
-                            callback={({checkedIndex}) => onSelectHandler(checkedIndex, 'orderBy', setFilters)}
-                            notDefaultIndexes={true}
+                            checkedOptions={[filters.orderBy]}
+                            options={[{title: 'Сначала новые', value: 'desc'}, {title: 'Сначала старые', value: 'asc'}]}
+                            mode='values'
+                            callback={({value}) => onSelectHandler(value, 'orderBy', setFilters)}
                         />
                     </div>
                     {
@@ -451,35 +448,37 @@ const Catalog = () => {
                         <div
                             className={(view === 'tiled') ? "row row-cols-sm-2 row-cols-lg-3 g-2 g-md-3 g-lg-4" : "row g-2 g-md-3 g-lg-4"}>
                             {
-                                catalogData.catalog?.map(catalogItem => (
-                                    <div key={catalogItem.id}>
-                                        <Card
-                                            type={view}
-                                            pictures={[catalogItem.image, catalogItem.images]}
-                                            isVip={catalogItem.isVip}
-                                            isHot={catalogItem.isHot}
-                                            title={catalogItem.title}
-                                            price={catalogItem.price}
-                                            transactionType={catalogItem.transactionType}
-                                            addressName={catalogItem.residentComplexForUser}
-                                            address={catalogItem.address}
-                                            metro={catalogItem.metro}
-                                            text={catalogItem.description}
-                                            date={catalogItem.createdAtForUser}
-                                            id={catalogItem.id}
-                                            uuid={catalogItem.uuid}
-                                            user={catalogItem.user}
-                                            communalPrice={catalogItem.communalPrice}
-                                            pledge={catalogItem.pledge}
-                                            commissionForUser={catalogItem.commissionForUser}
-                                            prepaymentTypeForUser={catalogItem.prepaymentTypeForUser}
-                                            rentalTypeForUser={catalogItem.rentalTypeForUser}
-                                            wishlistStatus={catalogItem.wishlistStatus}
-                                            userAvatar={catalogItem.user?.avatar}
+                                catalogData.isLoaded
+                                    ? catalogData.catalog?.map(catalogItem => (
+                                        <div key={catalogItem.id}>
+                                            <Card
+                                                type={view}
+                                                pictures={[catalogItem.image, catalogItem.images]}
+                                                isVip={catalogItem.isVip}
+                                                isHot={catalogItem.isHot}
+                                                title={catalogItem.title}
+                                                price={catalogItem.price}
+                                                transactionType={catalogItem.transactionType}
+                                                addressName={catalogItem.residentComplexForUser}
+                                                address={catalogItem.address}
+                                                metro={catalogItem.metro}
+                                                text={catalogItem.description}
+                                                date={catalogItem.createdAtForUser}
+                                                id={catalogItem.id}
+                                                uuid={catalogItem.uuid}
+                                                user={catalogItem.user}
+                                                communalPrice={catalogItem.communalPrice}
+                                                pledge={catalogItem.pledge}
+                                                commissionForUser={catalogItem.commissionForUser}
+                                                prepaymentTypeForUser={catalogItem.prepaymentTypeForUser}
+                                                rentalTypeForUser={catalogItem.rentalTypeForUser}
+                                                wishlistStatus={catalogItem.wishlistStatus}
+                                                userAvatar={catalogItem.user?.avatar}
 
-                                        />
-                                    </div>
-                                ))
+                                            />
+                                        </div>
+                                    ))
+                                    : <h5 className='m-auto p-5 text-center'>Загрузка...</h5>
                             }
                         </div>
                         <nav className="mt-4">

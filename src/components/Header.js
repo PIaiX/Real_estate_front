@@ -3,9 +3,11 @@ import {Link, NavLink} from 'react-router-dom';
 import {animateScroll as scroll} from 'react-scroll';
 import {getQuestion} from "../API/question";
 import CustomModal from "./CustomModal";
-import City from './CityContainer';
+import CityContainer from './CityContainer';
+import CustomOffcanvas from './CustomOffcanvas';
 
 const Header = () => {
+    const [isShowMenu, setIsShowMenu] = useState(false)
 
     const scrollToTop = () => {
         scroll.scrollToTop();
@@ -110,39 +112,41 @@ const Header = () => {
                     <NavLink to="/advertise" onClick={() => scrollToTop()}
                              className="ms-md-4 btn btn-1 text-uppercase p-2 order-3 order-lg-4">Подать
                         объявление</NavLink>
-                    <City />
-                    <button type="button" data-bs-toggle="offcanvas" data-bs-target="#header-menu"
-                            className="d-block d-lg-none order-5">
+                    <CityContainer />
+                    <button
+                        type="button"
+                        className="d-block d-lg-none order-5"
+                        onClick={() => setIsShowMenu(prevIsShowMenu => !prevIsShowMenu)}
+                    >
                         <img src="/img/icons/menu.svg" alt="меню"/>
                     </button>
                 </div>
             </header>
 
-            <div className="offcanvas offcanvas-end" tabIndex="-1" id="header-menu">
-                <div className="offcanvas-body">
-                    <nav>
-                        <ul data-bs-dismiss="offcanvas">
-                            <li><Link to="/" onClick={() => scrollToTop()}>Главная</Link></li>
-                            <li><Link to="/service" onClick={() => scrollToTop()}>Услуги</Link></li>
-                            <li><Link to="" role="button" data-bs-toggle="modal" data-bs-target="#ask">Задать
-                                вопрос</Link></li>
-                            <li><Link to="/personal-account" onClick={() => scrollToTop()}>Личный кабинет</Link></li>
-                            <li><Link to="/personal-account/favorites/page/1"
-                                      onClick={() => scrollToTop()}>Избранное</Link></li>
-                            <li><Link to="/personal-account/my-messages" onClick={() => scrollToTop()}>Сообщения</Link>
-                            </li>
-                            <li><Link to="/articles" onClick={() => scrollToTop()}>Статьи</Link></li>
-                        </ul>
-                    </nav>
-                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas">
-                        <svg viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1.00006 1.18237L15 15.9049"/>
-                            <path d="M14.9999 1.18237L1.00001 15.9049"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-
+            <CustomOffcanvas
+                isShow={isShowMenu}
+                setIsShow={setIsShowMenu}
+                className='offcanvas-menu'
+                placement='end'
+                scroll={true}
+                backdrop={true}
+                closeButton={true}
+            >
+                <nav>
+                    <ul className='offcanvas-menu__list'>
+                        <li><Link to="/" onClick={() => scrollToTop()}>Главная</Link></li>
+                        <li><Link to="/service" onClick={() => scrollToTop()}>Услуги</Link></li>
+                        <li><Link to="" role="button" data-bs-toggle="modal" data-bs-target="#ask">Задать
+                            вопрос</Link></li>
+                        <li><Link to="/personal-account" onClick={() => scrollToTop()}>Личный кабинет</Link></li>
+                        <li><Link to="/personal-account/favorites/page/1"
+                                  onClick={() => scrollToTop()}>Избранное</Link></li>
+                        <li><Link to="/personal-account/my-messages" onClick={() => scrollToTop()}>Сообщения</Link>
+                        </li>
+                        <li><Link to="/articles" onClick={() => scrollToTop()}>Статьи</Link></li>
+                    </ul>
+                </nav>
+            </CustomOffcanvas>
             <div className="modal fade" id="ask" tabIndex="-1" aria-hidden="true">
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">

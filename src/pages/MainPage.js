@@ -9,6 +9,7 @@ import {useEffect, useState} from "react";
 import {getBanner, getPopular, getRecommend} from "../API/mainpagereq";
 import {useCurrentUser} from '../store/reducers';
 import {getTypesEstate} from '../API/typesEstate';
+import {useSelector} from 'react-redux';
 
 export default function MainPage() {
     const currentUser = useCurrentUser()
@@ -18,6 +19,7 @@ export default function MainPage() {
     const [banner, setBanner] = useState([]);
     const [popular, setPopular] = useState([]);
     const [typesEstate, setTypesEstate] = useState([])
+    const city = useSelector(state => state?.selectedCity)
 
     useEffect(() => {
         getBanner()
@@ -26,20 +28,21 @@ export default function MainPage() {
     }, [])
 
     useEffect(() => {
-        if (userId) {
-            getRecommend(userId, 6)
+        if (userId && city) {
+            console.log(city)
+            getRecommend(userId, 6, city)
                 .then(data => setRecommend(data))
                 .catch(error => console.log(error))
         }
-    }, [userId])
+    }, [userId, city])
 
     useEffect(() => {
-        if (userId) {
-            getPopular(page, 6, userId)
+        if (userId && city) {
+            getPopular(page, 6, userId, city)
                 .then(data => setPopular(data))
                 .catch(error => console.log(error))
         }
-    }, [page, userId])
+    }, [page, userId, city])
 
     useEffect(() => {
         getTypesEstate().then(result => setTypesEstate(result))

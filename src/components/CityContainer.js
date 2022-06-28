@@ -22,11 +22,11 @@ const CityContainer = React.memo(({ymaps}) => {
         })
     }, [])
 
-    const changeDefinedCity = (checkedVal) => {
-        localStorage.setItem('userCity', checkedVal)
-        setCity(checkedVal)
+    const changeDefinedCity = (title) => {
+        localStorage.setItem('userCity', title)
+        setCity(title)
         ymaps
-            ? defineMapCenter(ymaps, checkedVal).then(coords => {
+            ? defineMapCenter(ymaps, title).then(coords => {
                 localStorage.setItem('mapCenter', coords)
                 setMapCenter(coords)
             })
@@ -34,16 +34,16 @@ const CityContainer = React.memo(({ymaps}) => {
         setIsShowCities(false)
     }
 
-    const changeCity = (checkedVal) => {
+    const changeCity = (title) => {
         const localStorageUserCity = localStorage.getItem('userCity')
         const localStorageMapCenter = typeof(localStorage.getItem('mapCenter')) === 'string'
             ? localStorage.getItem('mapCenter').split(',')
             : localStorage.getItem('mapCenter')
 
-        if (checkedVal !== localStorageUserCity) {
-            setCity(checkedVal)
+        if (title !== localStorageUserCity) {
+            setCity(title)
             ymaps
-                ? defineMapCenter(ymaps, checkedVal).then(coords => {
+                ? defineMapCenter(ymaps, title).then(coords => {
                     setMapCenter(coords)
                 })
                 : null
@@ -58,18 +58,19 @@ const CityContainer = React.memo(({ymaps}) => {
             <CustomSelect
                 btnClass="color-2 text-uppercase"
                 modificator="city"
-                visible={isShowCities}
-                checkedOpt={city}
+                isShow={isShowCities}
+                checkedOptions={[city]}
                 options={cities}
-                handleCallback={({checkedVal}) => {
+                callback={({title}) => {
                     if (isShowCities) {
-                        changeDefinedCity(checkedVal)
+                        changeDefinedCity(title)
                     } else {
-                        changeCity(checkedVal)
+                        changeCity(title)
                     }
                 }}
-                alignment="right"
                 child={SearchDropdown}
+                placeholder='Find your city'
+                align='right'
             />
             <CityPopup
                 city={city}

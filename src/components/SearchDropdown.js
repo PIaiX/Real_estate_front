@@ -1,35 +1,38 @@
 import React, {useEffect, useState} from 'react'
+import useDebounce from '../hooks/useDebounce';
 import DefaultDropdown from './DefaultDropdown';
 
-const SearchDropdown = ({options, checkedIndex, handleChange, modificator}) => {
+const SearchDropdown = ({options, onSelectItem, closeDropdown, checkedValues, placeholder}) => {
     const [optionsSearch, setOptionsSearch] = useState('')
-    const [filteredOptions, setFilteredOptions] = useState([])
+    const debouncedOptionsSearch = useDebounce(optionsSearch, 300)
+    const [foundOptions, setFoundOptions] = useState([])
 
     useEffect(() => {
-        if (options && !optionsSearch) {
-            setFilteredOptions(options)
-        } else if (options && optionsSearch) {
-            const value = optionsSearch.trim().toLowerCase()
+        const value = debouncedOptionsSearch.toLowerCase().trim()
 
-            setFilteredOptions(options.filter(item => item.value.toLowerCase().startsWith(value)))
-        }
-    }, [options, optionsSearch])
+        const result = options && options.filter(option => !debouncedOptionsSearch || option.title.toLowerCase().startsWith(value))
+        setFoundOptions(result)
+    }, [options, debouncedOptionsSearch])
 
     return (
-        <div className={`my-dropdown search-dropdown search-dropdown_${modificator ?? ''}`}>
-            <input
-                className='search-dropdown__input'
-                type="text"
-                value={optionsSearch}
-                onChange={e => setOptionsSearch(e.target.value)}
-                placeholder='Введите ваш город'
+        <>
+            <form>
+                <input
+                    className="dropdown-list__search"
+                    autoFocus
+                    type="text"
+                    placeholder={placeholder}
+                    onChange={(e) => setOptionsSearch(e.target.value)}
+                    value={optionsSearch}
+                />
+            </form>
+            <DefaultDropdown
+                options={foundOptions}
+                onSelectItem={onSelectItem}
+                closeDropdown={closeDropdown}
+                checkedValues={checkedValues}
             />
-            <DefaultDropdown 
-                options={filteredOptions}
-                checkedIndex={checkedIndex}
-                handleChange={handleChange}
-            />
-        </div>
+        </>
     )
 }
 

@@ -1,23 +1,29 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
-const DefaultDropdown = ({options, checkedIndex, handleChange, modificator}) => {
+const DefaultDropdown = ({options, onSelectItem, closeDropdown, checkedValues}) => {
+    const DropdownItem = ({item}) => (
+        <label className="radio-line" key={item.value}>
+            <input
+                type="radio"
+                name="type"
+                value={item.value}
+                onClick={closeDropdown}
+                onChange={() => onSelectItem(item.title, item.value)}
+                checked={checkedValues.includes(item.value)}
+            />
+            <div>{item.title}</div>
+        </label>
+    )
 
     return (
-        <div className={`my-dropdown default-dropdown default-dropdown_${modificator ?? ''}`}>
-            {options && options?.map(option => (
-                <label className="radio-line" key={option.index}>
-                    <input
-                        type="radio"
-                        name="type"
-                        value={option.value}
-                        onChange={e => handleChange(e, option.index)}
-                        checked={option.index === checkedIndex}
-                    />
-                    <div>{option.value}</div>
-                </label>
-            ))}
+        <div className='dropdown-list__inner'>
+            {
+                options?.length
+                    ? options.map(item => <DropdownItem key={item.value} item={item}/>)
+                    : <div className='p-2'>Нет доступных значений</div>
+            }
         </div>
-    );
-};
+    )
+}
 
 export default DefaultDropdown;
