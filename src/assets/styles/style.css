@@ -1614,8 +1614,8 @@ article .text {
   }
 }
 .form-search .popular-queries {
-  scroll-direction: horizontal;
   position: relative;
+  scroll-direction: horizontal;
   grid-column: 1/6;
   grid-row: 3/4;
   display: flex;
@@ -1633,7 +1633,17 @@ article .text {
   }
 }
 .form-search .popular-queries div {
+  position: sticky;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  background-color: white;
+  height: 100%;
+  display: flex;
+  align-items: center;
   white-space: nowrap;
+  padding-right: 10px;
+  box-shadow: 10px 0 5px 2px white;
 }
 .form-search .popular-queries button {
   color: #146492;
@@ -4168,6 +4178,15 @@ footer nav ul li a.active svg.type-2 path {
 }
 .custom-select_orderby .dropdown-list {
   z-index: 1699;
+}
+.custom-select_district .dropdown-list__inner {
+  padding: 0.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.custom-select_district .dropdown-list__inner .checkbox-line {
+  gap: 10px;
 }
 .custom-select.show .dropdown-list {
   display: block;

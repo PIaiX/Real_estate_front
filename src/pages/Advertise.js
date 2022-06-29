@@ -11,10 +11,11 @@ import AuthError from "../components/AuthError"
 import CustomModal from "../components/CustomModal";
 import env from '../config/env'
 import {dadataFias, dadataGeocode, dadataMetro} from '../API/dadata';
+import {useSelector} from 'react-redux';
 
 
 export default function Advertise() {
-
+    const city = useSelector(state => state.selectedCity)
     const ref = useRef(null); // Form
     const [deal, setDeal] = useState('1'); // тип сделки (по умолчанию - продажа)
     const [proptype, setProptype] = useState('1'); // тип недвижимости (по умолчанию - Жилая)
@@ -261,15 +262,9 @@ export default function Advertise() {
     }
 
     useEffect(() => {
-        data['fias_id'] && dadataFias(data['fias_id']).then(res => {
-            console.log('res ', res)
-            setData(prevData => ({...prevData, district: res?.suggestions[0]?.data?.city_district}))
-        })
+        data['fias_id'] && dadataFias(data['fias_id'])
+            .then(res => setData(prevData => ({...prevData, district: res?.suggestions[0]?.data?.city_district})))
     }, [data.address])
-
-    useEffect(() => {
-        console.log(data)
-    }, [data])
 
     return (
         <main>
@@ -541,7 +536,7 @@ export default function Advertise() {
                                         <AddressSuggestions
                                             delay={300}
                                             containerClassName='advertise__address'
-                                            value={data.address && ''}
+                                            value={data.address || ''}
                                             inputProps={{
                                                 style: {borderColor: valid.isInValidAddress ? '#DA1E2A' : ''},
                                                 placeholder: "Адрес"

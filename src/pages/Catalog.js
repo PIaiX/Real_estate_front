@@ -8,13 +8,15 @@ import {getTypesEstate} from '../API/typesEstate';
 import useUpdateSizeSecond from '../hooks/useUpdateSizeSecond';
 import {useSelector} from 'react-redux';
 import useSearchForm from '../hooks/useSearchForm';
-import {onSelectHandler, onInputHandler, onMultiCheckboxHandler, onSingleParamQuery} from '../helpers/collectDataFromForm'
+import {onSelectHandler, onInputHandler, onMultiCheckboxHandler} from '../helpers/collectDataFromForm'
 import {AddressSuggestions} from 'react-dadata';
 import Breadcrumbs from '../components/Breadcrumbs';
 import YMapContainer from '../components/YMapContainer';
 import env from '../config/env'
 import CustomSelect from '../components/CustomSelect';
 import useDebounce from '../hooks/useDebounce';
+import PopularQueries from '../components/PopularQueries';
+import MultiCheckboxSelect from '../components/MultiCheckboxSelect';
 
 const Catalog = () => {
     const [view, setView] = useUpdateSizeSecond('991px')
@@ -24,6 +26,7 @@ const Catalog = () => {
     const initialFilters = {
         transactionType: +searchParams.get('transactionType'),
         typesEstate: +searchParams.get('typesEstate'),
+        districts: [],
         orderBy: 'asc'
     }
     const [filters, setFilters] = useState(initialFilters)
@@ -46,7 +49,6 @@ const Catalog = () => {
                 estateIds.length && onSelectHandler(estateIds[0].value, 'estateId', setFilters)
             })
     }, [])
-
 
     useEffect(() => {
         (userId && selectedCity && page) &&
@@ -83,7 +85,7 @@ const Catalog = () => {
         setIsShowMap(false)
 
         selectedCity && getDistricts(selectedCity)
-            .then(result => result && result.body?.map(item => ({title: item.name, value: item.id})))
+            .then(result => result && result.map(item => ({title: item.name, value: item.id})))
             .then(result => setDistricts(result))
     }, [selectedCity])
 
@@ -127,12 +129,15 @@ const Catalog = () => {
                         mode='values'
                         callback={({value}) => onSelectHandler(value, 'estateId', setFilters)}
                     />
-                    <CustomSelect
+                    <MultiCheckboxSelect
+                        modificator='district'
                         className='sel-3'
                         btnClass='btn btn-2 px-2 px-sm-3'
-                        checkedOptions={['московский']}
+                        checkedOptions={filters.districts}
+                        title='Районы'
+                        mode='values'
                         options={districts}
-                        // callback={({title, value}) => onBootstrapSelect(title, value)}
+                        callback={({value}) => onMultiCheckboxHandler('districts', value, setFilters)}
                     />
                     <AddressSuggestions
                         token={env.DADATA_TOKEN}
@@ -149,65 +154,7 @@ const Catalog = () => {
                     >
                         Поиск
                     </button>
-                    <div
-                        className="popular-queries"
-                    >
-                        <div>Популярные запросы:</div>
-                        <button
-                            type="button"
-                            onClick={() => onSingleParamQuery('roomTypes', [0], setFilters, initialFilters)}
-                        >
-                            Студия
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => onSingleParamQuery('roomTypes', [1], setFilters, initialFilters)}
-                        >
-                            1 комнатная
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => onSingleParamQuery('roomTypes', [2], setFilters, initialFilters)}
-                        >
-                            2 комнатная
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => onSingleParamQuery('roomTypes', [3], setFilters, initialFilters)}
-                        >
-                            3 комнатная
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => onSingleParamQuery('hasFurniture', true, setFilters, initialFilters)}
-                        >
-                            С мебелью
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => onSingleParamQuery('hasFurniture', false, setFilters, initialFilters)}
-                        >
-                            Без мебели
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => onSingleParamQuery('elevatorTypes', [1, 2, 3], setFilters, initialFilters)}
-                        >
-                            Есть лифт
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => onSingleParamQuery('withPets', true, setFilters, initialFilters)}
-                        >
-                            Можно с животными
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => onSingleParamQuery('withKids', true, setFilters, initialFilters)}
-                        >
-                            Можно с детьми
-                        </button>
-                    </div>
+                    <PopularQueries initialFilters={initialFilters} setFilters={setFilters}/>
                 </form>
                 <div className="d-flex justify-content-between align-items-center mb-4">
                     <div className="d-lg-none">Найдено {catalogData.foundCount} объявлений</div>
@@ -482,7 +429,7 @@ const Catalog = () => {
                             }
                         </div>
                         <nav className="mt-4">
-                            <PaginationCustom meta={catalogData.meta} baseUrl='catalog' searchParams={searchParams}/>
+                            {catalogData.meta && <PaginationCustom meta={catalogData.meta} baseUrl='catalog' searchParams={searchParams}/>}
                         </nav>
                     </div>
                 </div>

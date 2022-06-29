@@ -29,7 +29,6 @@ export default function MainPage() {
 
     useEffect(() => {
         if (userId && city) {
-            console.log(city)
             getRecommend(userId, 6, city)
                 .then(data => setRecommend(data))
                 .catch(error => console.log(error))

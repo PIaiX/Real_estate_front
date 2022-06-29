@@ -1,15 +1,13 @@
 import React from 'react';
 
-const DefaultDropdown = ({options, onSelectItem, closeDropdown, checkedValues}) => {
+const DefaultDropdown = ({options, onSelectItem, closeDropdown}) => {
     const DropdownItem = ({item}) => (
-        <label className="radio-line" key={item.value}>
+        <label className="radio-line">
             <input
                 type="radio"
-                name="type"
                 value={item.value}
                 onClick={closeDropdown}
                 onChange={() => onSelectItem(item.title, item.value)}
-                checked={checkedValues.includes(item.value)}
             />
             <div>{item.title}</div>
         </label>

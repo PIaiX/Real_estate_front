@@ -21,7 +21,7 @@ export async function getForMap(city = '', payloads = {}) {
 export async function getDistricts(city = '') {
     try {
         const response = await axios.post(`https://api.antontig.beget.tech/api/districts/${city.toLowerCase()}`)
-        return response.data;
+        return response.data.body;
     } catch(err) {
         console.log(err.message)
     }

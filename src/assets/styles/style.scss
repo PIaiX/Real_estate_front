@@ -1702,8 +1702,8 @@ article {
   }
 
   .popular-queries {
-    scroll-direction: horizontal;
     position: relative;
+    scroll-direction: horizontal;
     grid-column: 1/6;
     grid-row: 3/4;
     display: flex;
@@ -1714,12 +1714,23 @@ article {
     overflow-y: hidden;
     font-size: 1.1em;
     -ms-overflow-style: none;
+
     @media (max-width: 991px) {
       display: none;
     }
 
     div {
+      position: sticky;
+      left: 0;
+      top: 0;
+      z-index: 1;
+      background-color: white;
+      height: 100%;
+      display: flex;
+      align-items: center;
       white-space: nowrap;
+      padding-right: 10px;
+      box-shadow: 10px 0 5px 2px white;
     }
 
     button {
@@ -4396,6 +4407,21 @@ footer {
 
     .dropdown-list {
       z-index: $ymaps-z-index - 1
+    }
+  }
+
+  &_district {
+    .dropdown-list {
+      &__inner {
+        padding: 0.5rem 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        .checkbox-line {
+          gap: 10px;
+        }
+      }
     }
   }
 
