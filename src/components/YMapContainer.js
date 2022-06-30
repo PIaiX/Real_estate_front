@@ -53,6 +53,7 @@ const YMapContainer = ({catalog, isShowMap, filters, setFilters, onResetFilters,
                 onResetFilters={onResetFilters}
                 onApplyFilters={onApplyFilters}
                 foundCount={foundCount}
+                enforceFocus={false}
             />
             <OffcanvasCards cards={cards}/>
         </div>

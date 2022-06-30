@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import useDebounce from '../hooks/useDebounce';
 import DefaultDropdown from './DefaultDropdown';
 
-const SearchDropdown = ({options, onSelectItem, closeDropdown, checkedValues, placeholder}) => {
+const SearchDropdown = ({isShow, options, onSelectItem, closeDropdown, checkedValues, placeholder}) => {
     const [optionsSearch, setOptionsSearch] = useState('')
     const debouncedOptionsSearch = useDebounce(optionsSearch, 300)
     const [foundOptions, setFoundOptions] = useState([])
+    const inputRef = useRef()
 
     useEffect(() => {
         const value = debouncedOptionsSearch.toLowerCase().trim()
@@ -14,18 +15,23 @@ const SearchDropdown = ({options, onSelectItem, closeDropdown, checkedValues, pl
         setFoundOptions(result)
     }, [options, debouncedOptionsSearch])
 
+    useEffect(() => {
+        inputRef && (isShow
+            ? inputRef.current.focus()
+            : inputRef.current.blur()
+        )
+    }, [isShow, inputRef])
+
     return (
         <>
-            <form>
-                <input
-                    className="dropdown-list__search"
-                    autoFocus
-                    type="text"
-                    placeholder={placeholder}
-                    onChange={(e) => setOptionsSearch(e.target.value)}
-                    value={optionsSearch}
-                />
-            </form>
+            <input
+                ref={inputRef}
+                className="dropdown-list__search"
+                type="text"
+                placeholder={placeholder}
+                onChange={(e) => setOptionsSearch(e.target.value)}
+                value={optionsSearch}
+            />
             <DefaultDropdown
                 options={foundOptions}
                 onSelectItem={onSelectItem}

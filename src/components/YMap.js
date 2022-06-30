@@ -134,7 +134,8 @@ const YMap = ({ymaps, ...props}) => {
                 options={{
                     restrictMapArea: true,
                     autoFitToViewport: 'always',
-                    yandexMapDisablePoiInteractivity: false
+                    yandexMapDisablePoiInteractivity: false,
+                    mapAutoFocus: false
                 }}
                 modules={["geolocation", "geocode"]}
             >

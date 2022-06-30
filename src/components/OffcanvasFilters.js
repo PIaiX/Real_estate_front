@@ -2,7 +2,7 @@ import React from 'react';
 import {onCheckboxHandler, onInputHandler, onMultiCheckboxHandler} from '../helpers/collectDataFromForm';
 import CustomOffcanvas from './CustomOffcanvas';
 
-const OffcanvasFilters = ({className, isShow, setIsShow, scroll, backdrop, closeButton, filters, setFilters, onResetFilters, onApplyFilters, foundCount}) => {
+const OffcanvasFilters = ({className, isShow, setIsShow, scroll, backdrop, closeButton, filters, setFilters, onResetFilters, onApplyFilters, foundCount, enforceFocus}) => {
     return (
         <CustomOffcanvas
             className={className}
@@ -12,6 +12,7 @@ const OffcanvasFilters = ({className, isShow, setIsShow, scroll, backdrop, close
             scroll={scroll}
             backdrop={backdrop}
             closeButton={closeButton}
+            enforceFocus={enforceFocus}
         >
             <fieldset className="mb-4">
                 <legend className="title-font fs-12 fw-6 mb-3">Количество комнат</legend>

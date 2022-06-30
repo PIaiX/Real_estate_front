@@ -1,7 +1,7 @@
 import React from 'react';
 import {Offcanvas} from 'react-bootstrap';
 
-const CustomOffcanvas = ({isShow, setIsShow, className, placement, scroll, backdrop, closeButton, children}) => {
+const CustomOffcanvas = ({isShow, setIsShow, className, placement, scroll, backdrop, closeButton, enforceFocus, children}) => {
 
     const handleClose = () => setIsShow(false)
 
@@ -14,6 +14,7 @@ const CustomOffcanvas = ({isShow, setIsShow, className, placement, scroll, backd
             scroll={scroll}
             backdrop={backdrop}
             data-bs-backdrop={backdrop}
+            enforceFocus={enforceFocus}
         >
             {
                 closeButton

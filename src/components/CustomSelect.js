@@ -63,6 +63,7 @@ const CustomSelect = React.memo(({mode = 'titles', options = [], checkedOptions,
                 data-alignment={align}
             >
                 <DropdownChild
+                    isShow={isShowDropdown}
                     options={dropdownItems}
                     onSelectItem={onSelectItem}
                     closeDropdown={closeDropdown}
