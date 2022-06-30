@@ -12,6 +12,27 @@ p, label, span, a, form, select, div, blockquote, cite, figure, figcaption, tabl
   margin-bottom: 0px;
 }
 
+html,
+body,
+#root {
+  height: 100%;
+}
+
+.root-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.root-wrapper header {
+  flex: 0 0 auto;
+}
+.root-wrapper__content {
+  flex: 1 0 auto;
+}
+.root-wrapper footer {
+  flex: 0 0 auto;
+}
+
 /*****************
 SCROLL STYLIZATION
 ******************/
@@ -4190,6 +4211,24 @@ footer nav ul li a.active svg.type-2 path {
 }
 .custom-select.show .dropdown-list {
   display: block;
+}
+
+.not-found {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  padding: 3rem;
+}
+.not-found__title {
+  text-align: center;
+  margin: 0;
+}
+.not-found__link {
+  text-align: center;
+  padding: 0;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -32,6 +32,31 @@ p, label, span, a, form, select, div, blockquote, cite, figure, figcaption, tabl
   margin-bottom: 0px;
 }
 
+html,
+body,
+#root {
+  height: 100%;
+}
+
+// прижать футер к низу страницы
+.root-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  header {
+    flex: 0 0 auto;
+  }
+
+  &__content {
+    flex: 1 0 auto;
+  }
+
+  footer {
+    flex: 0 0 auto;
+  }
+}
+
 /*****************
 SCROLL STYLIZATION
 ******************/
@@ -4427,5 +4452,25 @@ footer {
 
   &.show .dropdown-list {
     display: block;
+  }
+}
+
+.not-found {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  padding: 3rem;
+
+  &__title {
+    text-align: center;
+    margin: 0;
+  }
+
+  &__link {
+    text-align: center;
+    padding: 0;
   }
 }

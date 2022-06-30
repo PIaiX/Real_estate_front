@@ -17,19 +17,9 @@ import Password1 from '../pages/Password1';
 import Password2 from '../pages/Password2';
 import WaitAccountActivation from "../pages/WaitAccountActivation";
 import Layout from '../components/Layout';
+import NotFound from '../pages/NotFound';
 
 const AppRouter = () => {
-
-    const routes = [
-        {
-            path: "/",
-            element: <MainPage />,
-            breadcrumb: 'MainPage'
-        },
-
-    ];
-
-
 
     return (
             <Routes>
@@ -54,6 +44,7 @@ const AppRouter = () => {
                     <Route path="password-2" element={<Password2 />} />
                     <Route path="articles/*" element={<MainPage />} />
                     <Route path="WaitAccountActivation/:uuid" element={<WaitAccountActivation/>}/>
+                    <Route path="*" element={<NotFound />} />
                 </Route>
             </Routes>
     )
