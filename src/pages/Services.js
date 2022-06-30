@@ -6,6 +6,7 @@ import InputFile from '../components/InputFile';
 import { animateScroll as scroll } from 'react-scroll';
 import {usersPage} from "../API/userspage";
 import {useCurrentUser} from "../store/reducers";
+import Breadcrumbs from '../components/Breadcrumbs';
 
 export default function Services() {
     const scrollToTop = () => {
@@ -39,15 +40,7 @@ export default function Services() {
     return (
         <main>
             <div className="container py-3 py-sm-4 py-lg-5">
-                <nav aria-label="breadcrumb">
-                    <Link to="/" className="d-block d-md-none gray-3">&#10094; Назад</Link>
-                    <ol className="d-none d-md-flex breadcrumb">
-                        <li className="breadcrumb-item">
-                            <NavLink to="/">Главная</NavLink>
-                        </li>
-                        <li className="breadcrumb-item active" aria-current="page">Дизайн</li>
-                    </ol>
-                </nav>
+                <Breadcrumbs currentRouteName="Услуги"/>
             </div>
 
             <div className="sec-9 container">
@@ -203,7 +196,12 @@ export default function Services() {
                             <div className="d-flex flex-column-reverse flex-sm-row align-items-end justify-content-between flex-1 ms-4 ms-xl-0">
                                 <div className="d-flex">
                                     <div className="d-none d-md-block fs-11 me-1">Сортировать:</div>
-                                    <CustomSelect className="gray-2" btnClass="fs-11" alignment="right" checkedOpt="По рейтингу" options={['По рейтингу', 'По опыту']}/>
+                                    <CustomSelect
+                                        className="gray-2"
+                                        btnClass="fs-11"
+                                        align="right" checkedOptions={['По рейтингу']}
+                                        options={['По рейтингу', 'По опыту']}
+                                    />
                                 </div>
                                 <div className="fs-11">Найдено 15 объявлений</div>
                             </div>

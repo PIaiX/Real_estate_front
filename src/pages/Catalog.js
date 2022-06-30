@@ -18,7 +18,7 @@ import useDebounce from '../hooks/useDebounce';
 import PopularQueries from '../components/PopularQueries';
 import MultiCheckboxSelect from '../components/MultiCheckboxSelect';
 
-const Catalog = () => {
+const Catalog = ({routeName}) => {
     const [view, setView] = useUpdateSizeSecond('991px')
     const {page} = useParams();
     const [searchParams, setSearchParams] = useSearchParams()
@@ -91,7 +91,7 @@ const Catalog = () => {
 
     return (
         <main className={`catalog ${isShowMap ? 'shown-map' : ''}`}>
-            <Breadcrumbs/>
+            <Breadcrumbs currentRouteName={'Каталог'}/>
             <section className="sec-6 container pb-5">
                 <h1 className='catalog__title'>Каталог недвижимости</h1>
                 <form className="form-search mb-4 mb-sm-5">
@@ -421,6 +421,7 @@ const Catalog = () => {
                                                 rentalTypeForUser={catalogItem.rentalTypeForUser}
                                                 wishlistStatus={catalogItem.wishlistStatus}
                                                 userAvatar={catalogItem.user?.avatar}
+                                                routeName={routeName}
 
                                             />
                                         </div>

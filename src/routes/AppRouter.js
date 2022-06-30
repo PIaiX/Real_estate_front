@@ -35,12 +35,11 @@ const AppRouter = () => {
             <Routes>
                 <Route exact path="/" element={<Layout />} >
                     <Route index element={<MainPage />} />
-                    <Route path="catalog" element={<Catalog />} >
-                        <Route path="page/:page" element={<Catalog />} />
+                    <Route path="catalog" element={<Catalog routeName='Каталог'/>} >
+                        <Route path="page/:page" element={<Catalog/>} />
                     </Route>
                     <Route path="card-page" element={<CardPage />} />
                     <Route path="card-page/:uuid" element={<CardPage/>} />
-                    <Route path="card-page/:uuid/:idUser" element={<CardPage/>} />
                     <Route path="service" element={<Services />} />
                     <Route path="user/:userId" element={<UserPage />} />
                     <Route path="advertise" element={<Advertise />} />

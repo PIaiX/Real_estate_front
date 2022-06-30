@@ -9,8 +9,6 @@ import Favorites from '../pages/PersonalAccount/Favorites';
 import UserMessages from '../pages/PersonalAccount/UserMessages';
 import ChatPage from '../pages/PersonalAccount/ChatPage';
 import UserReviews from '../pages/PersonalAccount/UserReviews';
-import Catalog from '../pages/Catalog';
-
 
 const PersonalAccountRouter = ({isMobile}) => {
     return (
@@ -18,8 +16,8 @@ const PersonalAccountRouter = ({isMobile}) => {
             ? <Routes>
                 <Route path="/" element={<AccountMenu />}/>
                 <Route path="profile" element={<UserProfile />}/>
-                <Route path="my-ads" element={<UserAds />}>
-                    <Route path='page/:page' element={<UserAds />} />
+                <Route path="my-ads" element={<UserAds routeName='Мои объявления'/>}>
+                    <Route path='page/:page' element={<UserAds/>} />
                 </Route>
                 <Route path="my-services" element={<UserServices />} />
                 <Route path="my-services/create" element={<CreateService />} />
@@ -35,7 +33,7 @@ const PersonalAccountRouter = ({isMobile}) => {
             : <Routes>
                 <Route path="/" element={<UserProfile />} />
                 <Route path="profile" element={<UserProfile />} />
-                <Route path="my-ads" element={<UserAds />}>
+                <Route path="my-ads" element={<UserAds routeName='Мои объявления'/>}>
                     <Route path="page/:page" element={<UserAds />} />
                 </Route>
                 <Route path="my-services" element={<UserServices />} />
