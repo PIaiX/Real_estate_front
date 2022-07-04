@@ -1,18 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useCustomSelect from '../hooks/useCustomSelect';
 
-const MultiCheckboxSelect = ({
-                                 mode = 'titles',
-                                 options = [],
-                                 checkedOptions,
-                                 btnClass,
-                                 className,
-                                 title,
-                                 isShow,
-                                 modificator,
-                                 callback,
-                                 align
-                             }) => {
+const MultiCheckboxSelect = ({mode = 'titles', options = [], checkedOptions, btnClass, className, title, isShow, modificator, callback, align}) => {
     const [dropdownItems, setDropdownItems] = useState([])
     const [checkedCount, setCheckedCount] = useState(checkedOptions.length)
     const {isShowDropdown, toggleDropdown, ref} = useCustomSelect(isShow)

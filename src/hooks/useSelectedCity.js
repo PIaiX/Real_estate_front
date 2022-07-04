@@ -16,7 +16,6 @@ const useSelectedCity = () => {
             setActiveCity(localStorageUserCity)
         } else {
             defineCity().then(city => {
-                localStorage.setItem('userCity', city)
                 setActiveCity(city)
                 setIsDefinedCity(true)
             })

@@ -15,6 +15,7 @@ $white: #fff;
 $black: #000;
 $green: #15A672;
 
+$modal-z-index: 2000;
 $offcanvas-z-index: 2000;
 $header-z-index: 1900;
 $select-z-index: 1800;
@@ -3965,6 +3966,12 @@ footer {
 }
 
 .modal {
+  z-index: $modal-z-index;
+
+  &-backdrop {
+    z-index: $modal-z-index - 1;
+  }
+
   .modal-content {
     background-color: #fff;
     border-radius: 0px;

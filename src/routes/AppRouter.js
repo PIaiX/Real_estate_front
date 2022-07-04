@@ -1,5 +1,4 @@
 import React from 'react';
-import useBreadcrumbs from 'use-react-router-breadcrumbs';
 import {Routes, Route} from 'react-router-dom';
 import CardPage from '../pages/CardPage';
 import ArticlePage from '../pages/ArticlePage';

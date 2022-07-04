@@ -11,7 +11,7 @@ import {getCities} from '../API/cities';
 const CityContainer = React.memo(({ymaps}) => {
     const [isShowCities, setIsShowCities] = useState(false)
     const {city, setCity, isDefinedCity} = useSelectedCity()
-    const {setMapCenter} = useMapCenter(ymaps, city)
+    const {mapCenter, setMapCenter} = useMapCenter(ymaps)
     const [cities, setCities] = useState([])
 
     useEffect(() => {
@@ -22,35 +22,25 @@ const CityContainer = React.memo(({ymaps}) => {
         })
     }, [])
 
-    const changeDefinedCity = (title) => {
-        localStorage.setItem('userCity', title)
-        setCity(title)
-        ymaps
-            ? defineMapCenter(ymaps, title).then(coords => {
-                localStorage.setItem('mapCenter', coords)
-                setMapCenter(coords)
-            })
-            : null
-        setIsShowCities(false)
-    }
-
     const changeCity = (title) => {
         const localStorageUserCity = localStorage.getItem('userCity')
-        const localStorageMapCenter = typeof(localStorage.getItem('mapCenter')) === 'string'
+        const localStorageMapCenter = typeof (localStorage.getItem('mapCenter')) === 'string'
             ? localStorage.getItem('mapCenter').split(',')
             : localStorage.getItem('mapCenter')
 
         if (title !== localStorageUserCity) {
+            localStorage.setItem('userCity', title)
             setCity(title)
-            ymaps
-                ? defineMapCenter(ymaps, title).then(coords => {
-                    setMapCenter(coords)
-                })
-                : null
+            ymaps && defineMapCenter(ymaps, title).then(coords => {
+                localStorage.setItem('mapCenter', coords)
+                setMapCenter(coords)
+            })
         } else {
             setCity(localStorageUserCity)
             setMapCenter(localStorageMapCenter)
         }
+
+        setIsShowCities(false)
     }
 
     return (
@@ -61,19 +51,14 @@ const CityContainer = React.memo(({ymaps}) => {
                 isShow={isShowCities}
                 checkedOptions={[city]}
                 options={cities}
-                callback={({title}) => {
-                    if (isShowCities) {
-                        changeDefinedCity(title)
-                    } else {
-                        changeCity(title)
-                    }
-                }}
+                callback={({title}) => changeCity(title)}
                 child={SearchDropdown}
                 placeholder='Find your city'
                 align='right'
             />
             <CityPopup
                 city={city}
+                mapCenter={mapCenter}
                 isDefinedCity={isDefinedCity}
                 setIsShowCities={setIsShowCities}
             />

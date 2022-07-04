@@ -2,7 +2,6 @@ import React from 'react';
 import {NavLink} from 'react-router-dom';
 
 const NotFound = () => {
-
     return (
         <div className="not-found">
             <h1 className="not-found__title">К сожалению, такой страницы не существует</h1>

@@ -118,12 +118,6 @@ export default function Password1() {
                       >
                         Восстановить пароль
                       </button>
-                      {/* <Link
-                        to="/password-2"
-                        className="btn btn-1 fs-11 w-100 text-uppercase px-2 mb-3 mb-sm-0"
-                      >
-                        Восстановить пароль
-                      </Link> */}
                     </div>
                     <div className="col-sm-5 text-center text-sm-start">
                       <Link to="/entrance" className="color-1 bb-1">

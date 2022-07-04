@@ -109,9 +109,14 @@ const Header = () => {
                             <img src="/img/icons/user.svg" alt="аккаунт"/>
                         </Link>
                     </div>
-                    <NavLink to="/advertise" onClick={() => scrollToTop()}
-                             className="ms-md-4 btn btn-1 text-uppercase p-2 order-3 order-lg-4">Подать
-                        объявление</NavLink>
+                    <NavLink
+                        to="/advertise"
+                        onClick={() => scrollToTop()}
+                        className="ms-md-4 btn btn-1 text-uppercase p-2 order-3 order-lg-4"
+                        style={{whiteSpace: 'nowrap'}}
+                    >
+                        Подать объявление
+                    </NavLink>
                     <CityContainer />
                     <button
                         type="button"
