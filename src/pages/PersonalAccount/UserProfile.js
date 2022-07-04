@@ -58,6 +58,7 @@ export default function UserProfile() {
     const [isSubscribed, setIsSubscribed] = useState(false);
     const [day, setDay] = useState('')
     const [month, setMonth] = useState('')
+    const [monthText, setMonthText] = useState('')
     const [year, setYear] = useState('')
 
     const months = [
@@ -80,7 +81,7 @@ export default function UserProfile() {
         days.push(i)
     }
 
-    const convert = (day, month, year) => {
+    /*const convert = (day, month, year) => {
         let birthday = '';
         if (day || month || year) {
             if (month === 0) {
@@ -102,18 +103,29 @@ export default function UserProfile() {
         if (day || month || year) {
             convert(day, month, year)
         }
-    }, [day, month, year])
+    }, [day, month, year])*/
+
+    const formatDate = (date) => {
+        let dd = date.getDate()
+        if(dd < 10) dd = '0' + dd
+        let mm = date.getMonth() + 1
+        if(mm < 10) mm = '0' + mm
+        return dd + '.' + mm + '.' + year
+    }
+
+    let rr = new Date(+year, +month, +day)
 
     const data = {
         firstName,
         lastName,
         sex,
-        birthday: (day == null || year == null) ? currentUser?.birthdayForUser : convert(day, month, year),
+        birthday: (day == null || year == null) ? currentUser?.birthdayForUser :  formatDate(rr),
         phone,
         isSubscribed,
         email,
         token,
     }
+    console.log(data)
 
     const [avatar, setAvatar] = useState([])
 
@@ -338,7 +350,7 @@ export default function UserProfile() {
                                 <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Дата рождения:</div>
                                 <div className="col-sm-8 d-flex">
                                     <CustomSelect
-                                        title=' '
+                                        title={!day ? ' ' : null}
                                         className="flex-1"
                                         btnClass="inp"
                                         checkedOptions={[day]}
@@ -346,15 +358,18 @@ export default function UserProfile() {
                                         callback={({title}) => setDay(title)}
                                     />
                                     <CustomSelect
-                                        title=' '
+                                        title={!monthText ? ' ' : null}
                                         className="flex-1 ms-2 ms-xxl-4"
                                         btnClass="inp"
-                                        checkedOptions={[month]}
+                                        checkedOptions={[monthText]}
                                         options={months}
-                                        callback={({title}) => setMonth(title)}
+                                        callback={({title, value}) => {
+                                            setMonth(value)
+                                            setMonthText(title)
+                                        }}
                                     />
                                     <CustomSelect
-                                        title=' '
+                                        title={!year ? ' ' : null}
                                         className="flex-1 ms-2 ms-xxl-4"
                                         btnClass="inp"
                                         checkedOptions={[year]}

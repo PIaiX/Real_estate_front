@@ -4,7 +4,7 @@ const url = 'https://api.antontig.beget.tech'
 
 export async function getRecommend(userId, limit = 6, city) {
     try {
-        const response = await axios.post(`${url}/api/realEstates/recommended/${city}/${userId}`, { limit })
+        const response = await axios.post(`${url}/api/realEstates/recommended/${city}/${userId}`, { limit, userId })
         return response.data.body;
     } catch(error) {
         console.log(error)
@@ -13,7 +13,7 @@ export async function getRecommend(userId, limit = 6, city) {
 
 export async function getPopular(page = 1, limit = 6, userId, city) {
     try {
-        const response = await axios.post(`${url}/api/realEstates/popular/${city}/${userId}`, { page, limit })
+        const response = await axios.post(`${url}/api/realEstates/popular/${city}/${userId}`, { page, limit, userId })
         return response.data.body;
     } catch(error) {
         console.log(error)
