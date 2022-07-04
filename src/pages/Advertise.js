@@ -10,9 +10,8 @@ import {AddressSuggestions} from "react-dadata";
 import AuthError from "../components/AuthError"
 import CustomModal from "../components/CustomModal";
 import env from '../config/env'
-import {dadataFias, dadataGeocode, dadataMetro} from '../API/dadata';
+import {dadataFias} from '../API/dadata';
 import {useSelector} from 'react-redux';
-
 
 export default function Advertise() {
     const city = useSelector(state => state.selectedCity)
@@ -121,9 +120,10 @@ export default function Advertise() {
         commission: 0,
         isEncumbrances: 1,
         metro: 'test',
-        district: 'test',
         address: ''
     }
+
+    const [district, setDistrict] = useState({})
 
     const [data, setData] = useState(defaultForm)
     const [address, setAddress] = useState('')
@@ -231,8 +231,10 @@ export default function Advertise() {
             const req = {...data, token, userId, image};
 
             for (const key in req) {
-                formData.append(key, req[key]);
+                formData.append(key, req[key])
             }
+            formData.append('district[][city]', district['city'])
+            formData.append('district[][name]', district['name'])
 
             if (imgs?.length >= 1) {
                 imgs.forEach((i, index) => {
@@ -263,9 +265,15 @@ export default function Advertise() {
 
     useEffect(() => {
         data['fias_id'] && dadataFias(data['fias_id'])
-            .then(res => setData(prevData => ({...prevData, district: res?.suggestions[0]?.data?.city_district})))
+            .then(res => setDistrict({
+                city,
+                name: res?.suggestions[0]?.data?.city_district
+            }))
     }, [data.address])
 
+    useEffect(() => {
+        console.log(data)
+    }, [data])
     return (
         <main>
             <div className="container py-3 py-sm-4 py-lg-5">

@@ -15,15 +15,16 @@ export default function Favorites() {
     const currentUser = useCurrentUser()
     const userId = currentUser?.id
     const view = useUpdateSize('1399px');
-    const [wishlistData, setWishlistData] = useState({})
+    const [wishlistData, setWishlistData] = useState({isLoaded: false})
     const {page} = useParams()
     const axiosPrivate = useAxiosPrivate();
 
     useEffect(() => {
         const req = async () => {
-            const response = (currentUser && token) ? await getWishlist(userId, page, 4, axiosPrivate, token) : ""
+            const response = (currentUser && token) && await getWishlist(userId, page, 4, axiosPrivate, token)
             if (response) {
                 setWishlistData({
+                    isLoaded: true,
                     meta: response,
                     wishlist: response?.data
                 })
@@ -42,41 +43,42 @@ export default function Favorites() {
                     <h4 className="text-center color-1 mb-3 mb-sm-4 mb-xl-5">Избранное</h4>
                     <div className={(view === 'as-a-list') ? "" : "row row-cols-sm-2 gx-2 gx-md-4"}>
                         {
-                            wishlistData.wishlist
-                                ? wishlistData.wishlist.map(wishItem => (
-                                    <div key={wishItem.id}>
-                                        <Card
-                                            type={view}
-                                            pictures={[wishItem.image, wishItem.images]}
-                                            isVip={wishItem.isVip}
-                                            isHot={wishItem.isHot}
-                                            title={wishItem.title}
-                                            price={wishItem.price}
-                                            transactionType={wishItem.transactionType}
-                                            addressName={wishItem.residentComplexForUser}
-                                            address={wishItem.address}
-                                            metro={wishItem.metro}
-                                            text={wishItem.description}
-                                            date={wishItem.createdAtForUser}
-                                            id={wishItem.id}
-                                            uuid={wishItem.uuid}
-                                            user={wishItem.user}
-                                            communalPrice={wishItem.communalPrice}
-                                            pledge={wishItem.pledge}
-                                            commissionForUser={wishItem.commissionForUser}
-                                            prepaymentTypeForUser={wishItem.prepaymentTypeForUser}
-                                            rentalTypeForUser={wishItem.rentalTypeForUser}
-                                            wishlistStatus={wishItem.wishlistStatus}
-                                            reportStatus={wishItem.reportStatus}
-                                            userAvatar={wishItem.user?.avatar}
-                                        />
-                                        <div className="d-flex justify-content-end mt-2">
-                                            <BtnDelFromFav realEstateId={wishItem.id}
-                                                           wishlistStatus={wishItem.wishlistStatus}/>
+                            wishlistData?.isLoaded
+                                ? wishlistData?.wishlist?.length
+                                    ? wishlistData?.wishlist?.map(wishItem => (
+                                        <div key={wishItem.id}>
+                                            <Card
+                                                type={view}
+                                                pictures={[wishItem.image, wishItem.images]}
+                                                isVip={wishItem.isVip}
+                                                isHot={wishItem.isHot}
+                                                title={wishItem.title}
+                                                price={wishItem.price}
+                                                transactionType={wishItem.transactionType}
+                                                addressName={wishItem.residentComplexForUser}
+                                                address={wishItem.address}
+                                                metro={wishItem.metro}
+                                                text={wishItem.description}
+                                                date={wishItem.createdAtForUser}
+                                                id={wishItem.id}
+                                                uuid={wishItem.uuid}
+                                                user={wishItem.user}
+                                                communalPrice={wishItem.communalPrice}
+                                                pledge={wishItem.pledge}
+                                                commissionForUser={wishItem.commissionForUser}
+                                                prepaymentTypeForUser={wishItem.prepaymentTypeForUser}
+                                                rentalTypeForUser={wishItem.rentalTypeForUser}
+                                                wishlistStatus={wishItem.wishlistStatus}
+                                                reportStatus={wishItem.reportStatus}
+                                                userAvatar={wishItem.user?.avatar}
+                                            />
+                                            <div className="d-flex justify-content-end mt-2">
+                                                <BtnDelFromFav realEstateId={wishItem.id} wishlistStatus={wishItem.wishlistStatus}/>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))
-                                : <div className='text-center m-auto p-5'>Объявлений нет</div>
+                                    ))
+                                    : <h6 className='m-auto p-5 text-center'>Объявлений нет</h6>
+                                : <h6 className='m-auto p-5 text-center'>Загрузка...</h6>
                         }
                     </div>
                 </>
@@ -84,7 +86,7 @@ export default function Favorites() {
                 <AuthError/>
             }
             <nav>
-                {wishlistData.wishlist && <PaginationCustom meta={wishlistData.meta} baseUrl="personal-account/favorites"/>}
+                {wishlistData?.wishlist?.length ? <PaginationCustom meta={wishlistData.meta} baseUrl="personal-account/favorites"/> : null}
             </nav>
         </div>
     )

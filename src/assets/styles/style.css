@@ -3771,6 +3771,12 @@ footer nav ul li a.active svg.type-2 path {
   padding-left: 0px;
 }
 
+.modal {
+  z-index: 2000;
+}
+.modal-backdrop {
+  z-index: 1999;
+}
 .modal .modal-content {
   background-color: #fff;
   border-radius: 0px;

@@ -4,13 +4,10 @@ import Joi from "joi";
 import { useDispatch, useSelector } from "react-redux";
 import accessTokenActions from "../store/actions/accessToken";
 import currentUserActions from "../store/actions/currentUser";
-
 import InputPassword from "../components/InputPassword";
 import FormErrorMessage from "../components/FormErrorMessage";
 import { bindActionCreators } from "redux";
-
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import {resetToken} from "../store/actions/actionTypes";
 
 const formValueDefault = { email: "", password: "", remember: false };
 const formErrorDefault = { email: "", password: "" };

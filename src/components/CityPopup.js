@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-const CityPopup = ({city, isDefinedCity, setIsShowCities}) => {
+const CityPopup = ({city, mapCenter, isDefinedCity, setIsShowCities}) => {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -14,6 +14,7 @@ const CityPopup = ({city, isDefinedCity, setIsShowCities}) => {
 
     const onApplyCity = () => {
         localStorage.setItem('userCity', city)
+        localStorage.setItem('mapCenter', mapCenter)
         handleClose()
     }
 

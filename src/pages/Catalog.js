@@ -138,6 +138,7 @@ const Catalog = ({routeName}) => {
                         mode='values'
                         options={districts}
                         callback={({value}) => onMultiCheckboxHandler('districts', value, setFilters)}
+                        align='right'
                     />
                     <AddressSuggestions
                         token={env.DADATA_TOKEN}
@@ -395,42 +396,44 @@ const Catalog = ({routeName}) => {
                         <div
                             className={(view === 'tiled') ? "row row-cols-sm-2 row-cols-lg-3 g-2 g-md-3 g-lg-4" : "row g-2 g-md-3 g-lg-4"}>
                             {
-                                catalogData.isLoaded
-                                    ? catalogData.catalog?.map(catalogItem => (
-                                        <div key={catalogItem.id}>
-                                            <Card
-                                                type={view}
-                                                pictures={[catalogItem.image, catalogItem.images]}
-                                                isVip={catalogItem.isVip}
-                                                isHot={catalogItem.isHot}
-                                                title={catalogItem.title}
-                                                price={catalogItem.price}
-                                                transactionType={catalogItem.transactionType}
-                                                addressName={catalogItem.residentComplexForUser}
-                                                address={catalogItem.address}
-                                                metro={catalogItem.metro}
-                                                text={catalogItem.description}
-                                                date={catalogItem.createdAtForUser}
-                                                id={catalogItem.id}
-                                                uuid={catalogItem.uuid}
-                                                user={catalogItem.user}
-                                                communalPrice={catalogItem.communalPrice}
-                                                pledge={catalogItem.pledge}
-                                                commissionForUser={catalogItem.commissionForUser}
-                                                prepaymentTypeForUser={catalogItem.prepaymentTypeForUser}
-                                                rentalTypeForUser={catalogItem.rentalTypeForUser}
-                                                wishlistStatus={catalogItem.wishlistStatus}
-                                                userAvatar={catalogItem.user?.avatar}
-                                                routeName={routeName}
+                                catalogData?.isLoaded
+                                    ? catalogData?.catalog?.length
+                                        ? catalogData?.catalog?.map(catalogItem => (
+                                            <div key={catalogItem.id}>
+                                                <Card
+                                                    type={view}
+                                                    pictures={[catalogItem.image, catalogItem.images]}
+                                                    isVip={catalogItem.isVip}
+                                                    isHot={catalogItem.isHot}
+                                                    title={catalogItem.title}
+                                                    price={catalogItem.price}
+                                                    transactionType={catalogItem.transactionType}
+                                                    addressName={catalogItem.residentComplexForUser}
+                                                    address={catalogItem.address}
+                                                    metro={catalogItem.metro}
+                                                    text={catalogItem.description}
+                                                    date={catalogItem.createdAtForUser}
+                                                    id={catalogItem.id}
+                                                    uuid={catalogItem.uuid}
+                                                    user={catalogItem.user}
+                                                    communalPrice={catalogItem.communalPrice}
+                                                    pledge={catalogItem.pledge}
+                                                    commissionForUser={catalogItem.commissionForUser}
+                                                    prepaymentTypeForUser={catalogItem.prepaymentTypeForUser}
+                                                    rentalTypeForUser={catalogItem.rentalTypeForUser}
+                                                    wishlistStatus={catalogItem.wishlistStatus}
+                                                    userAvatar={catalogItem.user?.avatar}
+                                                    routeName={routeName}
 
-                                            />
-                                        </div>
-                                    ))
-                                    : <h5 className='m-auto p-5 text-center'>Загрузка...</h5>
+                                                />
+                                            </div>
+                                        ))
+                                        : <h6 className='m-auto p-5 text-center'>Объявлений нет</h6>
+                                    : <h6 className='m-auto p-5 text-center'>Загрузка...</h6>
                             }
                         </div>
                         <nav className="mt-4">
-                            {catalogData.meta && <PaginationCustom meta={catalogData.meta} baseUrl='catalog' searchParams={searchParams}/>}
+                            {catalogData?.catalog?.length ? <PaginationCustom meta={catalogData.meta} baseUrl='catalog' searchParams={searchParams}/> : null}
                         </nav>
                     </div>
                 </div>
