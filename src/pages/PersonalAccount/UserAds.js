@@ -8,7 +8,7 @@ import {deleteAds, getMyAds} from "../../API/users";
 import {animateScroll as scroll} from "react-scroll";
 import AuthError from "../../components/AuthError"
 
-export default function UserAds() {
+export default function UserAds({routeName}) {
 
     const [view, setView] = useState('as-a-list');
 
@@ -41,7 +41,7 @@ export default function UserAds() {
 
     const ads = async () => {
         try {
-            const res = (userId) ? await getMyAds(userId, page, token, 4, axiosPrivate) : ""
+            const res = userId && await getMyAds(userId, page, token, 4, axiosPrivate)
             if (res) {
                 setMyAds(res?.body?.data)
                 setPages(res?.body)
@@ -112,6 +112,7 @@ export default function UserAds() {
                                                     wishlistStatus={i?.wishlistStatus}
                                                     userAvatar={i.user?.avatar}
                                                     reportStatus={i.reportStatus}
+                                                    routeName={routeName}
                                                 />
                                                 <div
                                                     className={(view === 'as-a-list') ? "d-flex justify-content-end align-items-center mt-2" : "mt-2"}>

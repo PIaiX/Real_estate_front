@@ -8,14 +8,14 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Rating from "react-rating";
 import {DeleteUserPhoto, updateUser, userInfo} from "../../API/users";
 import AuthError from "../../components/AuthError"
+import {useSelector} from 'react-redux';
 
 export default function UserProfile() {
-
     const axiosPrivate = useAxiosPrivate();
     const token = useAccessToken()
     const currentUser = useCurrentUser()
     const sait = 'https://api.antontig.beget.tech/uploads/';
-    const [avatars, setAvatars] = useState([{data_url: "./Real_estates_front/public/img/img-photo.svg"}]);
+    const [avatars, setAvatars] = useState([{data_url: "/img/img-photo.svg"}]);
     const uuid = currentUser?.uuid;
     const userId = currentUser?.id
 
@@ -338,25 +338,28 @@ export default function UserProfile() {
                                 <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Дата рождения:</div>
                                 <div className="col-sm-8 d-flex">
                                     <CustomSelect
+                                        title=' '
                                         className="flex-1"
                                         btnClass="inp"
-                                        checkedOpt={[day]}
-                                        options={days.map(i => ({index: i, value: `${i}`}))}
-                                        callback={({checkedIndex}) => setDay(checkedIndex)}
+                                        checkedOptions={[day]}
+                                        options={days}
+                                        callback={({title}) => setDay(title)}
                                     />
                                     <CustomSelect
+                                        title=' '
                                         className="flex-1 ms-2 ms-xxl-4"
                                         btnClass="inp"
-                                        checkedOpt={[month]}
+                                        checkedOptions={[month]}
                                         options={months}
-                                        callback={({checkedIndex}) => setMonth(checkedIndex + 1)}
+                                        callback={({title}) => setMonth(title)}
                                     />
                                     <CustomSelect
+                                        title=' '
                                         className="flex-1 ms-2 ms-xxl-4"
                                         btnClass="inp"
-                                        checkedOpt={[year]}
-                                        options={years.map(i => ({index: i, value: `${i}`}))}
-                                        callback={({checkedIndex}) => setYear(checkedIndex)}
+                                        checkedOptions={[year]}
+                                        options={years}
+                                        callback={({title}) => setYear(title)}
                                     />
                                 </div>
                             </div>

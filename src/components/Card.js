@@ -4,13 +4,14 @@ import BtnRep from './BtnRep';
 import HoverSlider from './HoverSlider';
 import ImgPreview from './ImgPreview';
 import ShowPhone from './ShowPhone';
-import {NavLink} from 'react-router-dom';
+import {NavLink, useLocation} from 'react-router-dom';
 import {animateScroll as scroll} from 'react-scroll';
 
 export default function Card(props) {
     const type = props.type
     const [pictures, setPictures] = useState(null)
     const [userAvatar, setUserAvatar] = useState(null)
+    const {pathname} = useLocation()
 
     useEffect(() => {
         if (props.pictures) {
@@ -56,6 +57,7 @@ export default function Card(props) {
                                 <div className="color-1 title-font fw-7 fs-15 mb-3 mb-xxl-4">
                                     <NavLink
                                         to={`/card-page/${props?.uuid}`}
+                                        state={{prevRoute: pathname, routeName: props.routeName}}
                                         onClick={() => scrollToTop()}
                                     >{props.title} м<sup>2</sup></NavLink>
                                 </div>

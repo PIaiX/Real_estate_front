@@ -9,10 +9,13 @@ import {getTypesEstate} from "../API/typesEstate";
 import {AddressSuggestions} from "react-dadata";
 import AuthError from "../components/AuthError"
 import CustomModal from "../components/CustomModal";
+import env from '../config/env'
+import {dadataFias, dadataGeocode, dadataMetro} from '../API/dadata';
+import {useSelector} from 'react-redux';
 
 
 export default function Advertise() {
-
+    const city = useSelector(state => state.selectedCity)
     const ref = useRef(null); // Form
     const [deal, setDeal] = useState('1'); // тип сделки (по умолчанию - продажа)
     const [proptype, setProptype] = useState('1'); // тип недвижимости (по умолчанию - Жилая)
@@ -117,11 +120,13 @@ export default function Advertise() {
         pledge: 0,
         commission: 0,
         isEncumbrances: 1,
+        metro: 'test',
+        district: 'test',
+        address: ''
     }
 
-    const [data, setData] = useState({
-        ...defaultForm
-    })
+    const [data, setData] = useState(defaultForm)
+    const [address, setAddress] = useState('')
 
     const handleCheckbox = (e) => {
         const {target} = e;
@@ -242,7 +247,7 @@ export default function Advertise() {
                 if (result) {
                     setIsShow(true)
                     setTimeout(() => {
-                        navigate("/personal-account/my-ads", {replace: true})
+                        navigate("/personal-account/my-ads/page/1", {replace: true})
                     }, 2000)
                 }
 
@@ -256,7 +261,10 @@ export default function Advertise() {
         setValid({...valid, [field]: false})
     }
 
-    console.log(data)
+    useEffect(() => {
+        data['fias_id'] && dadataFias(data['fias_id'])
+            .then(res => setData(prevData => ({...prevData, district: res?.suggestions[0]?.data?.city_district})))
+    }, [data.address])
 
     return (
         <main>
@@ -524,31 +532,24 @@ export default function Advertise() {
                                     </span>
                                     </div>
                                     <div className="col-md-9">
-                                        <input
-                                            style={{borderColor: valid.isInValidAddress ? '#DA1E2A' : ''}}
-                                            type="text"
-                                            name="address"
-                                            className="fs-11"
-                                            placeholder="р. Татарстан, г. Казань"
-                                            onChange={(e) => {
-                                                /*validate(e.target)*/
-                                                setData(prevData => {
-                                                    return {...prevData, "address": e.target.value}
-                                                })
-                                                resetFieldVal(e, 'isInValidAddress')
-                                            }}
-                                        />
+                                        {/* input style: style={{borderColor: valid.isInValidAddress ? '#DA1E2A' : ''}}*/}
                                         <AddressSuggestions
-                                            inputProps={{placeholder: "Адрес"}}
-                                            token={process.env.REACT_APP_DADATA_TOKEN}
-                                            onChange={(e) => {
-                                                setData(prevData => {
-                                                    return {
-                                                        ...prevData,
-                                                        "address": {lon: e.data?.geo_lon, lat: e.data?.geo_lat}
-                                                    }
-                                                })
+                                            delay={300}
+                                            containerClassName='advertise__address'
+                                            value={data.address || ''}
+                                            inputProps={{
+                                                style: {borderColor: valid.isInValidAddress ? '#DA1E2A' : ''},
+                                                placeholder: "Адрес"
                                             }}
+                                            token={env.DADATA_TOKEN}
+                                            onChange={e =>
+                                                setData(prevData => ({
+                                                    ...prevData,
+                                                    "address": e.value,
+                                                    "latitude": e.data?.geo_lat,
+                                                    "longitude": e.data?.geo_lon,
+                                                    "fias_id": e.data?.fias_id
+                                                }))}
                                         />
                                     </div>
                                 </div>

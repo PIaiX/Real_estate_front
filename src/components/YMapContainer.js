@@ -4,8 +4,9 @@ import OffcanvasCards from './OffcanvasCards';
 import OffcanvasFilters from './OffcanvasFilters';
 import {animateScroll as scroll} from 'react-scroll';
 
-const YMapContainer = ({isShowMap, filters, setFilters, onResetFilters, onApplyFilters, foundCount}) => {
-    const [offcanvasCards, setOffcanvasCards] = useState([])
+const YMapContainer = ({catalog, isShowMap, filters, setFilters, onResetFilters, onApplyFilters, foundCount}) => {
+    const [ids, setIds] = useState([])
+    const [cards, setCards] = useState([])
     const [isShowFilters, setIsShowFilters] = useState(false)
 
     useEffect(() => {
@@ -20,12 +21,26 @@ const YMapContainer = ({isShowMap, filters, setFilters, onResetFilters, onApplyF
         scroll.scrollToTop()
     }, [])
 
+    useEffect(() => {
+        const result = []
+
+        catalog.forEach(item => {
+            ids.forEach(id => {
+                if (id === item.id) {
+                    result.push(item)
+                }
+            })
+        })
+
+        setCards(result)
+    }, [ids])
 
     return (
         <div className='catalog__ymaps-container'>
             <YMap
+                catalog={catalog}
                 className='catalog__ymaps'
-                callback={cards => setOffcanvasCards(cards)}
+                callback={ids => setIds(ids)}
             />
             <OffcanvasFilters
                 className='offcanvas-ymap'
@@ -38,8 +53,9 @@ const YMapContainer = ({isShowMap, filters, setFilters, onResetFilters, onApplyF
                 onResetFilters={onResetFilters}
                 onApplyFilters={onApplyFilters}
                 foundCount={foundCount}
+                enforceFocus={false}
             />
-            <OffcanvasCards cards={offcanvasCards}/>
+            <OffcanvasCards cards={cards}/>
         </div>
     );
 };

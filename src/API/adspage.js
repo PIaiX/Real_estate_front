@@ -4,9 +4,9 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 const url = 'https://api.antontig.beget.tech'
 
 
-export async function getAdsPage(uuid, idUser) {
+export async function getAdsPage(uuid) {
     try {
-        const response = await axios.post(`${url}/api/realEstates/${uuid}/${idUser}`)
+        const response = await axios.post(`${url}/api/realEstates/${uuid}`)
         return response.data.body;
     } catch(error) {
         console.log(error)

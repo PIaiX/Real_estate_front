@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useSelector} from 'react-redux';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useLocation, useMatch, useParams} from 'react-router-dom';
 import useUpdateSize from '../../hooks/useUpdateSize';
 import Card from '../../components/Card';
 import PaginationCustom from '../../components/PaginationCustom';
@@ -85,11 +84,7 @@ export default function Favorites() {
                 <AuthError/>
             }
             <nav>
-                {
-                    wishlistData.wishlist
-                        ? <PaginationCustom meta={wishlistData.meta} baseUrl="personal-account/favorites"/>
-                        : null
-                }
+                {wishlistData.wishlist && <PaginationCustom meta={wishlistData.meta} baseUrl="personal-account/favorites"/>}
             </nav>
         </div>
     )

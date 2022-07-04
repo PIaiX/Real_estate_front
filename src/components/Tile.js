@@ -36,8 +36,11 @@ export default function Tile(props) {
                 <div className="links">
                     {
                         (props.simpleLink) &&
-                        <Link className="title" to={props.simpleLink.url}
-                              onClick={() => scrollToTop()}>{props.simpleLink.title}</Link>
+                        <Link
+                            className="title"
+                            to={props.simpleLink.url}
+                            onClick={() => scrollToTop()}>{props.simpleLink.title}
+                        </Link>
                     }
                     {
                         (titles) &&
@@ -105,8 +108,12 @@ export default function Tile(props) {
                                 hoverLinks.map(function (item) {
                                     return (
                                         <div key={item.name}>
-                                            <NavLink to={item.link}
-                                                     onClick={() => scrollToTop()}>{item.name}</NavLink>
+                                            <NavLink
+                                                to={item.link}
+                                                onClick={() => scrollToTop()}
+                                            >
+                                                {item.name}
+                                            </NavLink>
                                         </div>
                                     )
                                 })

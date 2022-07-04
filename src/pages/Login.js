@@ -45,7 +45,7 @@ const schema = Joi.object({
   remember: Joi.boolean(),
 });
 
-export default function Entrance() {
+export default function Login() {
   const navigate = useNavigate();
   const currentUser = useSelector((state) => state.accessToken);
 

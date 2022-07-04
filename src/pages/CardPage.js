@@ -11,6 +11,7 @@ import {getAdsPage} from "../API/adspage";
 import {getRecommend} from "../API/mainpagereq";
 import {useCurrentUser} from "../store/reducers";
 import BtnRep from "../components/BtnRep";
+import Breadcrumbs from '../components/Breadcrumbs';
 
 SwiperCore.use([Navigation, Thumbs, EffectFade]);
 
@@ -25,13 +26,14 @@ export default function CardPage() {
 
     useEffect(() => {
         const adsget = async () => {
-            const result = userId ? await getAdsPage(uuid, userId) : null
+            const result = userId && await getAdsPage(uuid)
             if (result) {
+                console.log(result)
                 setAds(result)
             }
         }
         adsget()
-    }, [userId, uuid])
+    }, [uuid])
 
     useEffect(() => {
         const recommend = async () => {
@@ -115,30 +117,7 @@ export default function CardPage() {
                 </div>
             </div>
             <div className="container py-3 py-sm-4 py-lg-5">
-                <nav aria-label="breadcrumb">
-                    <Link to="/" className="d-block d-md-none gray-3">&#10094; Назад</Link>
-                    <ol className="d-none d-md-flex breadcrumb">
-                        <li className="breadcrumb-item">
-                            <NavLink to="/catalog">Недвижимость в Казани</NavLink>
-                        </li>
-                        {(ads?.transactionType === 0) ?
-                            <li className="breadcrumb-item">
-                                <NavLink to="/catalog/">Аренда</NavLink>
-                            </li>
-                            :
-                            <li className="breadcrumb-item">
-                                <NavLink to="/catalog/">Покупка</NavLink>
-                            </li>
-                        }
-                        {ads?.roomType === roomsType ?
-                            <li className="breadcrumb-item">
-                                <NavLink to="/catalog">{ads?.roomsForUser}</NavLink>
-                            </li>
-                            :
-                            ""
-                        }
-                    </ol>
-                </nav>
+                <Breadcrumbs currentRouteName={ads.title || 'Объявление'}/>
             </div>
             <section id="sec-7" className="container pb-5">
                 <h1>{ads.title} м<sup>2</sup></h1>
