@@ -7,14 +7,14 @@ const YMap = ({ymaps, ...props}) => {
     const [selectedCluster, setSelectedCluster] = useState(null)
     const [selectedPoint, setSelectedPoint] = useState(null)
     const mapCenter = useSelector(state => state.mapCenter)
-    const catalog = props.catalog
+    const items = props.items
 
     useEffect(() => {
         objectManager && objectManager.removeAll() && initObjectManager()
 
-    }, [props.catalog])
+    }, [items])
 
-    const feature = catalog && catalog.map(item => ({
+    const feature = items && items.map(item => ({
         type: 'Feature',
         id: item.id,
         geometry: {
