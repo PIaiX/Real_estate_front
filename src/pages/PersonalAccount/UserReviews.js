@@ -57,7 +57,7 @@ export default function UserReviews() {
                                     {reviews.map((i) =>
                                         <div className="review mb-3" key={i?.id}>
                                             <img
-                                                src={i?.from?.avatar ? i?.from?.avatar : "/Real_estate_front/img/img-photo.svg"}
+                                                src={i?.from?.avatar ? i?.from?.avatar : "/img/img-photo.svg"}
                                                 alt={i?.from?.fullName}
                                                 className="photo d-none d-sm-block"
                                             />
@@ -82,10 +82,10 @@ export default function UserReviews() {
                                                             initialRating={i?.rating}
                                                             fractions={2}
                                                             emptySymbol={<img
-                                                                src="/Real_estate_front/img/icons/star-gray.svg"
+                                                                src="/img/icons/star-gray.svg"
                                                                 alt="1"/>}
                                                             fullSymbol={<img
-                                                                src="/Real_estate_front/img/icons/star-blue.svg"
+                                                                src="/img/icons/star-blue.svg"
                                                                 alt="1"/>}
                                                         />
                                                     </div>

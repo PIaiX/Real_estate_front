@@ -126,7 +126,8 @@ export default function Advertise() {
     const [district, setDistrict] = useState({})
 
     const [data, setData] = useState(defaultForm)
-    const [address, setAddress] = useState('')
+
+    const [prepTypeText, setPrepTypeText] = useState('')
 
     const handleCheckbox = (e) => {
         const {target} = e;
@@ -274,6 +275,7 @@ export default function Advertise() {
     useEffect(() => {
         console.log(data)
     }, [data])
+
     return (
         <main>
             <div className="container py-3 py-sm-4 py-lg-5">
@@ -377,7 +379,6 @@ export default function Advertise() {
                                                                 value="0"
                                                                 defaultChecked={true}
                                                                 onChange={(e) => {
-                                                                    /*validate(e.target)*/
                                                                     setData(prevData => {
                                                                         return {
                                                                             ...prevData,
@@ -397,7 +398,6 @@ export default function Advertise() {
                                                                 name="rental-type"
                                                                 value="1"
                                                                 onChange={(e) => {
-                                                                    /*validate(e.target)*/
                                                                     setData(prevData => {
                                                                         return {
                                                                             ...prevData,
@@ -416,7 +416,6 @@ export default function Advertise() {
                                                                 name="rental-type"
                                                                 value="2"
                                                                 onChange={(e) => {
-                                                                    /*validate(e.target)*/
                                                                     setData(prevData => {
                                                                         return {
                                                                             ...prevData,
@@ -449,7 +448,6 @@ export default function Advertise() {
                                                             name="property-type"
                                                             value={i.id}
                                                             onChange={(e) => {
-                                                                /*validate(e.target)*/
                                                                 ;
                                                                 setProptype(i.id);
                                                                 setData(prevData => {
@@ -472,8 +470,13 @@ export default function Advertise() {
                                         <hr className="d-none d-md-block my-4"/>
                                         <div className="row">
                                             <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
-                                            <span data-for="estate" data-status={false}
-                                                  style={{color: valid.isInValidEstateId ? '#DA1E2A' : ''}}>Объект*:</span>
+                                            <span
+                                                data-for="estate"
+                                                data-status={false}
+                                                style={{color: valid.isInValidEstateId ? '#DA1E2A' : ''}}
+                                            >
+                                                Объект*:
+                                            </span>
                                             </div>
                                             <div className="col-md-9">
                                                 <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
@@ -483,9 +486,9 @@ export default function Advertise() {
                                                                 <input
                                                                     type="radio"
                                                                     name="estate"
+
                                                                     value={i.id}
                                                                     onChange={(e) => {
-                                                                        /*validate(e.target)*/
                                                                         setData(prevData => {
                                                                             return {
                                                                                 ...prevData,
@@ -594,7 +597,6 @@ export default function Advertise() {
                                                         value="0"
                                                         defaultChecked={true}
                                                         onChange={(e) => {
-                                                            /*validate(e.target)*/
                                                             setData(prevData => {
                                                                 return {...prevData, "houseType": e.target.value}
                                                             })
@@ -611,7 +613,6 @@ export default function Advertise() {
                                                         name="housing-type"
                                                         value="1"
                                                         onChange={(e) => {
-                                                            /*validate(e.target)*/
                                                             setData(prevData => {
                                                                 return {...prevData, "houseType": e.target.value}
                                                             })
@@ -636,7 +637,6 @@ export default function Advertise() {
                                                 name="rooms"
                                                 value="0"
                                                 onChange={(e) => {
-                                                    /*validate(e.target)*/
                                                     setData(prevData => {
                                                         return {...prevData, "roomType": e.target.value}
                                                     })
@@ -651,7 +651,6 @@ export default function Advertise() {
                                                 name="rooms"
                                                 value="1"
                                                 onChange={(e) => {
-                                                    /*validate(e.target)*/
                                                     setData(prevData => {
                                                         return {...prevData, "roomType": e.target.value}
                                                     })
@@ -666,7 +665,6 @@ export default function Advertise() {
                                                 defaultChecked={true}
                                                 value="2"
                                                 onChange={(e) => {
-                                                    /*validate(e.target)*/
                                                     setData(prevData => {
                                                         return {...prevData, "roomType": e.target.value}
                                                     })
@@ -680,7 +678,6 @@ export default function Advertise() {
                                                 name="rooms"
                                                 value="3"
                                                 onChange={(e) => {
-                                                    /*validate(e.target)*/
                                                     setData(prevData => {
                                                         return {...prevData, "roomType": e.target.value}
                                                     })
@@ -694,7 +691,6 @@ export default function Advertise() {
                                                 name="rooms"
                                                 value="4"
                                                 onChange={(e) => {
-                                                    /*validate(e.target)*/
                                                     setData(prevData => {
                                                         return {...prevData, "roomType": e.target.value}
                                                     })
@@ -708,7 +704,6 @@ export default function Advertise() {
                                                 name="rooms"
                                                 value="5"
                                                 onChange={(e) => {
-                                                    /*validate(e.target)*/
                                                     setData(prevData => {
                                                         return {...prevData, "roomType": e.target.value}
                                                     })
@@ -722,7 +717,6 @@ export default function Advertise() {
                                                 name="rooms"
                                                 value="6"
                                                 onChange={(e) => {
-                                                    /*validate(e.target)*/
                                                     setData(prevData => {
                                                         return {...prevData, "roomType": e.target.value}
                                                     })
@@ -746,7 +740,6 @@ export default function Advertise() {
                                             placeholder="0"
                                             className="fs-11 area w-100"
                                             onChange={(e) => {
-                                                /*validate(e.target)*/
                                                 setData(prevData => {
                                                     return {...prevData, "totalArea": e.target.value}
                                                 })
@@ -1303,7 +1296,7 @@ export default function Advertise() {
                                 <legend className="title-font fw-7 fs-15 mb-4">О здании</legend>
                                 <div className="row align-items-center">
                                     <div className="col-6 col-md-3 fs-11 title"
-                                         style={{color: valid.isInValidYear ? '#DA1E2A' : ''}}>Год постройки:
+                                         style={{color: valid.isInValidYear ? '#DA1E2A' : ''}}>Год постройки*:
                                     </div>
                                     <div className="col-6 col-md-9">
                                         <input
@@ -1787,14 +1780,16 @@ export default function Advertise() {
                                             </div>
                                             <div className="col-md-9">
                                                 <CustomSelect
+                                                    modificator="prepayment"
                                                     btnClass="inp"
                                                     name="prepayment"
-                                                    checkedOpt={['нет']}
+                                                    checkedOptions={[prepTypeText]}
                                                     options={['нет', '1 месяц', '3 месяца', 'полгода']}
-                                                    callback={({checkedIndex}) => {
+                                                    callback={({title, value}) => {
                                                         setData(prevData => {
-                                                            return {...prevData, "prepaymentType": checkedIndex}
+                                                            return {...prevData, "prepaymentType": value}
                                                         })
+                                                        setPrepTypeText(title)
                                                     }}
                                                 />
                                             </div>

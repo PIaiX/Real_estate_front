@@ -17,7 +17,7 @@ export default function AxiosArticleMain(props) {
             {data.map((data) =>
                         <div key={data.id}>
                             <Article
-                                imgUrl="/Real_estate_front/img/nophoto.jpg"
+                                imgUrl="/img/nophoto.jpg"
                                 title={data.title}
                                 text={data.description}
                                 articleUrl={data.slug}

@@ -23,7 +23,7 @@ const CustomSelect = React.memo(({mode = 'titles', options = [], checkedOptions,
     }, [options])
 
     useEffect(() => {
-        if (dropdownItems.length && checkedOptions.length === 1) {
+        if (dropdownItems?.length && checkedOptions?.length === 1) {
             if (mode === 'titles') {
                 const title = checkedOptions[0]
                 setCheckedTitle(title)

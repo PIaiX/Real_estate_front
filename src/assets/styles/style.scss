@@ -4334,6 +4334,12 @@ footer {
         }
       }
     }
+
+  }
+
+
+  &_prepayment {
+    max-width: 13em;
   }
 
   .dropdown-toggle::after {
@@ -4414,6 +4420,8 @@ footer {
   }
 
   &_city {
+
+
 
     .custom-select__toggle_city {
       div {

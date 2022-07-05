@@ -43,6 +43,8 @@ export default function Card(props) {
         scroll.scrollToTop();
     };
 
+    console.log(userAvatar)
+
     if (type === 'as-a-list') {
         return (
             <div className={`card-midi${props.className || ''}`}>
@@ -134,7 +136,7 @@ export default function Card(props) {
                             </>
                         }
                         <div className="author w-fit d-flex flex-column align-items-center ms-auto mt-4">
-                            <img src={userAvatar} alt="Фото"/>
+                            <img src={userAvatar ? userAvatar : '/img/img-photo.svg'} alt="Фото"/>
                             <div className="gray-2 fw-5 fs-09 mt-2">{props.user?.fullName}</div>
                             {
                                 (props.user?.createdAtForUser) &&

@@ -4122,6 +4122,9 @@ footer nav ul li a.active svg.type-2 path {
 .custom-select__toggle.btn svg line {
   stroke: #fff;
 }
+.custom-select_prepayment {
+  max-width: 13em;
+}
 .custom-select .dropdown-toggle::after {
   content: unset;
 }

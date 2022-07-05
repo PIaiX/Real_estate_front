@@ -6,18 +6,20 @@ import {useAccessToken, useCurrentUser} from "../../store/reducers";
 import InputMask from 'react-input-mask';
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Rating from "react-rating";
-import {DeleteUserPhoto, updateUser, userInfo} from "../../API/users";
+import {DeleteUserPhoto, updateUser} from "../../API/users";
 import AuthError from "../../components/AuthError"
-import {useSelector} from 'react-redux';
 
 export default function UserProfile() {
+
     const axiosPrivate = useAxiosPrivate();
     const token = useAccessToken()
     const currentUser = useCurrentUser()
     const sait = 'https://api.antontig.beget.tech/uploads/';
     const [avatars, setAvatars] = useState([{data_url: "/img/img-photo.svg"}]);
     const uuid = currentUser?.uuid;
-    const userId = currentUser?.id
+    const currentBirthDayDay = (currentUser?.birthdayForUser)?.split('.')[0]
+    const currentBirthDayMonth = (currentUser?.birthdayForUser)?.split('.')[1]
+    const currentBirthDayYear = (currentUser?.birthdayForUser)?.split('.')[2]
 
     useEffect(() => {
         if (currentUser) {
@@ -26,6 +28,10 @@ export default function UserProfile() {
             setPhone(currentUser?.phone)
             setEmail(currentUser?.email)
             setSex(currentUser?.sex)
+            setDay(+currentBirthDayDay)
+            setMonth(+currentBirthDayMonth-1)
+            setYear(currentBirthDayYear)
+            setAvatar(currentUser?.avatar)
         }
     }, [currentUser])
 
@@ -68,66 +74,58 @@ export default function UserProfile() {
         'октября', 'ноября', 'декабря'
     ]
 
-    const years = [];
-
-    let start = new Date().getFullYear();
-    for (start; start >= 1940; start--) {
-        years.push(start)
-    }
-
-    let days = [];
-
-    for (let i = 1; i <= 31; i++) {
-        days.push(i)
-    }
-
-    /*const convert = (day, month, year) => {
-        let birthday = '';
-        if (day || month || year) {
-            if (month === 0) {
-                birthday = '';
-            } else if (day <= 9 && month <= 9) {
-                birthday = `0${day}.` + `0${month}.` + `${year}`
-            } else if (day <= 9 && month <= 12) {
-                birthday = `0${day}.` + `${month}.` + `${year}`
-            } else if (day >= 9 && month <= 9) {
-                birthday = `${day}.` + `0${month}.` + `${year}`
-            } else {
-                birthday = `${day}.` + `${month}.` + `${year}`
-            }
+     const createYears = () => {
+        let years = [];
+        let start = new Date().getFullYear();
+        for (start; start >= 1940; start--) {
+            years.push(start)
         }
-        return birthday
+        return years
     }
 
-    useEffect(() => {
-        if (day || month || year) {
-            convert(day, month, year)
+    const createDays = () => {
+        let days = [];
+        for (let i = 1; i <= 31; i++) {
+            days.push(i)
         }
-    }, [day, month, year])*/
-
-    const formatDate = (date) => {
-        let dd = date.getDate()
-        if(dd < 10) dd = '0' + dd
-        let mm = date.getMonth() + 1
-        if(mm < 10) mm = '0' + mm
-        return dd + '.' + mm + '.' + year
+        return days
     }
 
-    let rr = new Date(+year, +month, +day)
+    const birthday = (year, month, day) => {
+        const formatDate = new Intl.DateTimeFormat('ru', {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+        })
+        const date = new Date(year, month, day)
+        return formatDate.format(date)
+    }
+
+    const [avatar, setAvatar] = useState([])
 
     const data = {
+        avatar,
         firstName,
         lastName,
         sex,
-        birthday: (day == null || year == null) ? currentUser?.birthdayForUser :  formatDate(rr),
+        birthday: birthday(year, month, day),
         phone,
         isSubscribed,
         email,
         token,
     }
-    console.log(data)
 
-    const [avatar, setAvatar] = useState([])
+    useEffect(() => {
+        console.log(data)
+    }, [data])
+
+    const findMonth = (month) => {
+        return months.find((i, index) => month === index)
+    }
+
+    useEffect(() => {
+        setMonthText(findMonth(month))
+    }, [month])
 
     useEffect(() => {
         setAvatar(avatars[0]?.file)
@@ -138,38 +136,21 @@ export default function UserProfile() {
         }
     }, [data, avatars])
 
-    const [reqUserInfo, setReqUserInfo] = useState({})
-
-    const requestUserInfo = async () => {
-        const result = (userId) ? await userInfo(userId) : ""
-        if (result) {
-            setReqUserInfo(result.body)
-        }
-    }
-
     const onSubmit = async () => {
 
         const formData = new FormData();
         for (const key in data) {
             formData.append(key, data[key])
         }
-
         try {
-            const result = await updateUser(uuid, formData, axiosPrivate)
-            if (result) {
-                requestUserInfo()
-            }
+            await updateUser(uuid, formData, axiosPrivate)
         } catch (err) {
             console.log(err)
         }
     }
 
-    useEffect(() => {
-        requestUserInfo()
-    }, [userId, currentUser])
-
     const deleteUserPhoto = async () => {
-        const result = await DeleteUserPhoto(axiosPrivate, uuid, token)
+        await DeleteUserPhoto(axiosPrivate, uuid, token)
     }
 
     return (
@@ -211,7 +192,7 @@ export default function UserProfile() {
                                                                     onClick={() => onImageUpdate(index)}
                                                                 >
                                                                     <img
-                                                                        src="/Real_estate_front/img/icons/edit.svg"
+                                                                        src="/img/icons/edit.svg"
                                                                         alt="Загрузить"
                                                                     />
                                                                     Загрузить фото
@@ -224,7 +205,7 @@ export default function UserProfile() {
                                                                     }}
                                                                 >
                                                                     <img
-                                                                        src="/Real_estate_front/img/icons/delete2.svg"
+                                                                        src="/img/icons/delete2.svg"
                                                                         alt="Удалить"
                                                                     />
                                                                     Удалить фото
@@ -299,6 +280,7 @@ export default function UserProfile() {
                                     <input
                                         name="firstName"
                                         type="text"
+                                        value={data.firstName}
                                         placeholder="Имя"
                                         className="fs-11"
                                         onChange={(e) => setFirstName(e.target.value)}
@@ -311,6 +293,7 @@ export default function UserProfile() {
                                     <input
                                         name="lastName"
                                         type="text"
+                                        value={data.lastName}
                                         placeholder="Фамилия"
                                         className="fs-11"
                                         onChange={(e) => setLastName(e.target.value)}
@@ -354,7 +337,7 @@ export default function UserProfile() {
                                         className="flex-1"
                                         btnClass="inp"
                                         checkedOptions={[day]}
-                                        options={days}
+                                        options={createDays()}
                                         callback={({title}) => setDay(title)}
                                     />
                                     <CustomSelect
@@ -373,7 +356,7 @@ export default function UserProfile() {
                                         className="flex-1 ms-2 ms-xxl-4"
                                         btnClass="inp"
                                         checkedOptions={[year]}
-                                        options={years}
+                                        options={createYears()}
                                         callback={({title}) => setYear(title)}
                                     />
                                 </div>
@@ -399,6 +382,7 @@ export default function UserProfile() {
                                     <input
                                         name="email"
                                         type="text"
+                                        value={data.email}
                                         placeholder="Email@mail.com"
                                         className="fs-11"
                                         onChange={(e) => setEmail(e.target.value)}
@@ -420,19 +404,22 @@ export default function UserProfile() {
                                     </label>
                                 </div>
                             </div>
-                            <button type="submit"
-                                    className="btn btn-1 fs-11 text-uppercase mt-4 mt-xxl-5 ms-auto me-auto me-xl-0"
-                                    onClick={() => {
-                                        redactorSwitcher();
-                                    }}
-                            >Назад
+                            <button
+                                type="button"
+                                className="btn btn-1 fs-11 text-uppercase mt-4 mt-xxl-5 ms-auto me-auto me-xl-0"
+                                onClick={() => {
+                                    redactorSwitcher();
+                                }}
+                            >
+                                Назад
                             </button>
-                            <button type="submit"
-                                    className="btn btn-1 fs-11 text-uppercase mt-4 mt-xxl-5 ms-auto me-auto me-xl-0"
-                                    onClick={() => {
-                                        redactorSwitcher();
-                                        onSubmit();
-                                    }}
+                            <button
+                                type="submit"
+                                className="btn btn-1 fs-11 text-uppercase mt-4 mt-xxl-5 ms-auto me-auto me-xl-0"
+                                onClick={() => {
+                                    redactorSwitcher();
+                                    onSubmit();
+                                }}
                             >
                                 Сохранить
                             </button>
@@ -506,25 +493,25 @@ export default function UserProfile() {
                                     <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                         <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Имя:</div>
                                         <div className="col-sm-8">
-                                            <input defaultValue={reqUserInfo?.firstName} disabled className="fs-11"/>
+                                            <input defaultValue={currentUser?.firstName} disabled className="fs-11"/>
                                         </div>
                                     </div>
                                     <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                         <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Фамилия:</div>
                                         <div className="col-sm-8">
-                                            <input defaultValue={reqUserInfo?.lastName} disabled className="fs-11"/>
+                                            <input defaultValue={currentUser?.lastName} disabled className="fs-11"/>
                                         </div>
                                     </div>
                                     <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                         <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Пол:</div>
                                         <div className="col-sm-8">
-                                            <input defaultValue={reqUserInfo?.sexForUser} disabled className="fs-11"/>
+                                            <input defaultValue={currentUser?.sexForUser} disabled className="fs-11"/>
                                         </div>
                                     </div>
                                     <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                         <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Дата рождения:</div>
                                         <div className="col-sm-8 d-flex">
-                                            <input defaultValue={reqUserInfo?.birthdayForUser} disabled
+                                            <input defaultValue={currentUser?.birthdayForUser} disabled
                                                    className="fs-11"/>
                                         </div>
                                     </div>
@@ -532,17 +519,17 @@ export default function UserProfile() {
                                         <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Телефон:</div>
                                         <div className="col-sm-8">
                                             <InputMask disabled mask="+7 (999) 999 99 99"
-                                                       value={reqUserInfo?.phone ? reqUserInfo?.phone : ""}/>
+                                                       value={currentUser?.phone ? currentUser?.phone : ""}/>
                                         </div>
                                     </div>
                                     <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                         <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Email:</div>
                                         <div className="col-sm-8">
-                                            <input defaultValue={reqUserInfo?.email} className="fs-11" disabled/>
+                                            <input defaultValue={currentUser?.email} className="fs-11" disabled/>
                                         </div>
                                     </div>
                                     <button
-                                        type="submit"
+                                        type="button"
                                         className="btn btn-1 fs-11 text-uppercase mt-4 mt-xxl-5 ms-auto me-auto me-xl-0"
                                         onClick={() => {
                                             if (redactor === false) {
