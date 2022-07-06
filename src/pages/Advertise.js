@@ -272,10 +272,6 @@ export default function Advertise() {
             }))
     }, [data.address])
 
-    useEffect(() => {
-        console.log(data)
-    }, [data])
-
     return (
         <main>
             <div className="container py-3 py-sm-4 py-lg-5">

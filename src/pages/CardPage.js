@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {NavLink, Link, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import {Slider1} from '../components/Slider1';
 import BtnFav from '../components/BtnFav';
 import ShowPhone from '../components/ShowPhone';
@@ -12,6 +12,7 @@ import {getRecommend} from "../API/mainpagereq";
 import {useCurrentUser} from "../store/reducers";
 import BtnRep from "../components/BtnRep";
 import Breadcrumbs from '../components/Breadcrumbs';
+import {useSelector} from "react-redux";
 
 SwiperCore.use([Navigation, Thumbs, EffectFade]);
 
@@ -23,12 +24,12 @@ export default function CardPage() {
     const {uuid} = useParams()
     const user = useCurrentUser()
     const userId = user?.id
+    const city = useSelector(state => state?.selectedCity)
 
     useEffect(() => {
         const adsget = async () => {
-            const result = userId && await getAdsPage(uuid)
+            const result = uuid && await getAdsPage(uuid)
             if (result) {
-                console.log(result)
                 setAds(result)
             }
         }
@@ -38,7 +39,7 @@ export default function CardPage() {
     useEffect(() => {
         const recommend = async () => {
             try {
-                const result = await getRecommend(userId)
+                const result = userId && await getRecommend(userId, 6, city)
                 if (result) {
                     setRecommend(result)
                 }
@@ -66,7 +67,7 @@ export default function CardPage() {
 
     const sait = 'https://api.antontig.beget.tech/uploads/';
 
-    const images = [].concat(ads?.image, ads?.images?.map(i => i?.image)).map(i => i ? `${sait}${i}` : null)
+    const images = [].concat(ads?.image, ads?.images?.map(i => i?.image)).map(i => i ? `${sait}${i}` : '/img/nophoto.jpg')
 
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const [currentImage, setCurrentImage] = useState(0);

@@ -21,7 +21,7 @@ const PersonalAccountRouter = ({isMobile}) => {
                 </Route>
                 <Route path="my-services" element={<UserServices/>}/>
                 <Route path="my-services/create" element={<CreateService/>}/>
-                <Route path="favorites" element={<Favorites/>}>
+                <Route path="favorites" element={<Favorites routeName='Избранное'/>}>
                     <Route path="page/:page" element={<Favorites/>}/>
                 </Route>
                 <Route path="my-messages" element={<UserMessages/>}/>
@@ -38,7 +38,7 @@ const PersonalAccountRouter = ({isMobile}) => {
                 </Route>
                 <Route path="my-services" element={<UserServices/>}/>
                 <Route path="my-services/create" element={<CreateService/>}/>
-                <Route path="favorites" element={<Favorites/>}>
+                <Route path="favorites" element={<Favorites routeName='Избранное'/>}>
                     <Route path="page/:page" element={<Favorites/>}/>
                 </Route>
                 <Route path="my-messages" element={<UserMessages/>}/>

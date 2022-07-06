@@ -115,10 +115,6 @@ export default function UserProfile() {
         token,
     }
 
-    useEffect(() => {
-        console.log(data)
-    }, [data])
-
     const findMonth = (month) => {
         return months.find((i, index) => month === index)
     }

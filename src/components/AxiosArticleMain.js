@@ -21,6 +21,8 @@ export default function AxiosArticleMain(props) {
                                 title={data.title}
                                 text={data.description}
                                 articleUrl={data.slug}
+                                pathname={props?.pathname}
+                                routeName={props?.routeName}
                             />
                         </div>
                 )}

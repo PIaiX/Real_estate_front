@@ -27,21 +27,26 @@ const AppRouter = () => {
                     <Route path="catalog" element={<Catalog routeName='Каталог'/>} >
                         <Route path="page/:page" element={<Catalog/>} />
                     </Route>
-                    <Route path="card-page" element={<CardPage />} />
-                    <Route path="card-page/:uuid" element={<CardPage/>} />
-                    <Route path="service" element={<Services />} />
-                    <Route path="user/:userId" element={<UserPage />} />
+                    <Route path="card-page" element={<CardPage/>} >
+                        <Route path=":uuid" element={<CardPage/>}/>
+                    </Route>
+                    <Route path="service" element={<Services routeName='Услуги' />} />
+                    <Route path="user" element={<UserPage />} >
+                        <Route path=":userId" element={<UserPage />}/>
+                    </Route>
                     <Route path="advertise" element={<Advertise />} />
-                    <Route path="advertise-editor/:uuid" element={<AdvertiseEditor />} />
+                    <Route path="advertise-editor" element={<AdvertiseEditor />} >
+                        <Route path=":uuid" element={<AdvertiseEditor />} />
+                    </Route>
                     <Route path="personal-account/*" element={<PersonalAccount />} />
                     <Route path="login" element={<Login />} />
                     <Route path="registration" element={<Registration />} />
-                    <Route path="articles/page/:page/:slug" element={<ArticlePage/>}/>
-                    <Route path="articles/page/:page" element={<Articles/>}/>
-                    <Route path="articles" element={<Articles/>}/>
+                    <Route path="articles/page/:page/:slug" element={<ArticlePage routeName='Название статьи'/>}/>
+                    <Route path="articles/page" element={<Articles routeName='Статьи'/>}>
+                        <Route path=":page" element={<Articles/>}/>
+                    </Route>
                     <Route path="password-1" element={<Password1 />} />
                     <Route path="password-2" element={<Password2 />} />
-                    <Route path="articles/*" element={<MainPage />} />
                     <Route path="WaitAccountActivation/:uuid" element={<WaitAccountActivation/>}/>
                     <Route path="*" element={<NotFound />} />
                 </Route>

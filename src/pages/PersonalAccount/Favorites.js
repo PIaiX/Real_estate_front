@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useLocation, useMatch, useParams} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import useUpdateSize from '../../hooks/useUpdateSize';
 import Card from '../../components/Card';
 import PaginationCustom from '../../components/PaginationCustom';
@@ -9,7 +9,7 @@ import BtnDelFromFav from '../../components/BtnDelFromFav';
 import {useAccessToken, useCurrentUser} from "../../store/reducers";
 import AuthError from "../../components/AuthError"
 
-export default function Favorites() {
+export default function Favorites({routeName}) {
 
     const token = useAccessToken()
     const currentUser = useCurrentUser()
@@ -71,6 +71,7 @@ export default function Favorites() {
                                                 wishlistStatus={wishItem.wishlistStatus}
                                                 reportStatus={wishItem.reportStatus}
                                                 userAvatar={wishItem.user?.avatar}
+                                                routeName={routeName}
                                             />
                                             <div className="d-flex justify-content-end mt-2">
                                                 <BtnDelFromFav realEstateId={wishItem.id} wishlistStatus={wishItem.wishlistStatus}/>

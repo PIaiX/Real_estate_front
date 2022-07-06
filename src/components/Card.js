@@ -12,6 +12,7 @@ export default function Card(props) {
     const [pictures, setPictures] = useState(null)
     const [userAvatar, setUserAvatar] = useState(null)
     const {pathname} = useLocation()
+    const {search} = useLocation()
 
     useEffect(() => {
         if (props.pictures) {
@@ -43,8 +44,6 @@ export default function Card(props) {
         scroll.scrollToTop();
     };
 
-    console.log(userAvatar)
-
     if (type === 'as-a-list') {
         return (
             <div className={`card-midi${props.className || ''}`}>
@@ -59,9 +58,11 @@ export default function Card(props) {
                                 <div className="color-1 title-font fw-7 fs-15 mb-3 mb-xxl-4">
                                     <NavLink
                                         to={`/card-page/${props?.uuid}`}
-                                        state={{prevRoute: pathname, routeName: props.routeName}}
+                                        state={{prevRoute: pathname, routeName: props?.routeName, prevSearch: search}}
                                         onClick={() => scrollToTop()}
-                                    >{props.title} м<sup>2</sup></NavLink>
+                                    >
+                                        {props.title} м<sup>2</sup>
+                                    </NavLink>
                                 </div>
                                 <div className="d-flex align-items-center mb-2 mb-xxl-3">
                                     <img src="/img/icons/pin.svg" alt="адрес"/>
@@ -167,8 +168,10 @@ export default function Card(props) {
                         <div className="title color-1 title-font fw-7 fs-11">
                             <NavLink
                                 to={`/card-page/${props?.uuid}`}
+                                state={{prevRoute: pathname, routeName: props?.routeName, prevSearch: search}}
                                 onClick={() => scrollToTop()}
-                            >{props.title} м<sup>2</sup>
+                            >
+                                {props.title} м<sup>2</sup>
                             </NavLink>
                         </div>
                         <div className="title-font black fw-7 fs-11">

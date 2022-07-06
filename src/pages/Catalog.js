@@ -91,7 +91,7 @@ const Catalog = ({routeName}) => {
 
     return (
         <main className={`catalog ${isShowMap ? 'shown-map' : ''}`}>
-            <Breadcrumbs currentRouteName={'Каталог'}/>
+            <Breadcrumbs currentRouteName={routeName}/>
             <section className="sec-6 container pb-5">
                 <h1 className='catalog__title'>Каталог недвижимости</h1>
                 <form className="form-search mb-4 mb-sm-5">
@@ -424,7 +424,6 @@ const Catalog = ({routeName}) => {
                                                     wishlistStatus={catalogItem.wishlistStatus}
                                                     userAvatar={catalogItem.user?.avatar}
                                                     routeName={routeName}
-
                                                 />
                                             </div>
                                         ))

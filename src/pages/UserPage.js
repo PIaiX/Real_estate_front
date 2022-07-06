@@ -1,5 +1,5 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {NavLink, Link, useParams} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
 import ShowPhone from '../components/ShowPhone';
 import InputFile from '../components/InputFile';
 import {Slider1} from '../components/Slider1';
@@ -13,7 +13,7 @@ import {
 import {useAccessToken, useCurrentUser} from "../store/reducers";
 import Rating from "react-rating";
 import BtnRep from "../components/BtnRep";
-import CustomModal from "../components/CustomModal";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 
 export default function UserPage() {
@@ -27,7 +27,6 @@ export default function UserPage() {
     const [review, setReview] = useState({})
     const [limit, setLimit] = useState(2)
     const [userInformation, setUserInformation] = useState([])
-    const [reviewReportStatus, setReviewReportStatus] = useState(false)
     const imageUpload = 'https://api.antontig.beget.tech/uploads/'
     let rating;
     const [data, setData] = useState({})
@@ -56,7 +55,7 @@ export default function UserPage() {
     useEffect(() => {
         const userInPage = async () => {
             try {
-                const result = (currentUserId && userId) ? await userInfoInUserPage(userId, currentUserId) : null
+                const result = (currentUserId && userId) && await userInfoInUserPage(userId, currentUserId)
                 if (result) {
                     setUserInformation(result?.body)
                 }
@@ -101,20 +100,8 @@ export default function UserPage() {
 
     return (
         <main>
-            <div className="container py-3 py-sm-4 py-lg-5">
-                <nav aria-label="breadcrumb">
-                    <Link to="/" className="d-block d-md-none gray-3">&#10094; Назад</Link>
-                    <ol className="d-none d-md-flex breadcrumb">
-                        <li className="breadcrumb-item">
-                            <NavLink to="/">Главная</NavLink>
-                        </li>
-                        <li className="breadcrumb-item">
-                            <NavLink to="/service">Услуги</NavLink>
-                        </li>
-                        <li className="breadcrumb-item active" aria-current="page">{userInformation.fullName}</li>
-                    </ol>
-                </nav>
-            </div>
+
+            <Breadcrumbs currentRouteName={userInformation?.fullName || 'Имя пользователя'} />
 
             <section id="sec-10" className="container">
                 <div className="row">
@@ -141,7 +128,7 @@ export default function UserPage() {
                             <div className="col-5 col-sm-4 col-md-3">
                                 <div className="user-photo">
                                     <img
-                                        src={userInformation?.avatar ? `${imageUpload}${userInformation?.avatar}` : "/Real_estate_front/img/img-photo.svg"}
+                                        src={userInformation?.avatar ? `${imageUpload}${userInformation?.avatar}` : "/img/img-photo.svg"}
                                         alt={userInformation?.fullName}/>
                                     <div className="indicator online"/>
                                 </div>
@@ -213,7 +200,7 @@ export default function UserPage() {
                                 {reviews.data?.map(i =>
                                     <div className="review mb-3" key={i.id}>
                                         <img
-                                            src={i.from?.avatar ? (`${imageUpload}${i.from?.avatar}`) : "/Real_estate_front/img/img-photo.svg"}
+                                            src={i.from?.avatar ? (`${imageUpload}${i.from?.avatar}`) : "/img/img-photo.svg"}
                                             alt={i.from?.fullName}
                                             className="photo d-none d-sm-block"/>
                                         <div className="ms-sm-4">
@@ -227,10 +214,10 @@ export default function UserPage() {
                                                             initialRating={i?.rating}
                                                             fractions={2}
                                                             emptySymbol={<img
-                                                                src="/Real_estate_front/img/icons/star-gray.svg"
+                                                                src="/img/icons/star-gray.svg"
                                                                 alt="1"/>}
                                                             fullSymbol={<img
-                                                                src="/Real_estate_front/img/icons/star-blue.svg"
+                                                                src="/img/icons/star-blue.svg"
                                                                 alt="1"/>}
                                                         />
                                                     </div>
@@ -363,7 +350,7 @@ export default function UserPage() {
                                         className="col-lg-4 d-flex flex-lg-column align-items-center mb-2 mb-sm-4 mb-lg-0">
                                         <div className="photo me-3 me-lg-0 mb-lg-3">
                                             <img
-                                                src={userInformation?.avatar ? `${imageUpload}${userInformation?.avatar}` : "/Real_estate_front/img/img-photo.svg"}
+                                                src={userInformation?.avatar ? `${imageUpload}${userInformation?.avatar}` : "/img/img-photo.svg"}
                                                 alt={userInformation?.fullName}
                                             />
                                             <div className="indicator online"/>
@@ -389,6 +376,7 @@ export default function UserPage() {
                                         <textarea
                                             className="mt-3"
                                             rows="6"
+                                            value={review?.description}
                                             placeholder="Напишите отзвыв"
                                             onChange={e => setReview(review => {
                                                 return {...review, "description": e.target.value}

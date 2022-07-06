@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import {Slider2} from '../components/Slider2';
 import Card from '../components/Card';
 import {getArticle} from "../API/news";
 import {getRecommend} from "../API/mainpagereq";
 import {useCurrentUser} from "../store/reducers";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 export default function ArticlePage() {
 
@@ -47,20 +48,8 @@ export default function ArticlePage() {
 
     return (
         <main>
-            <div className="container py-3 py-sm-4 py-lg-5">
-                <nav aria-label="breadcrumb">
-                    <Link to="/articles" className="d-block d-md-none gray-3">&#10094; Назад</Link>
-                    <ol className="d-none d-md-flex breadcrumb">
-                        <li className="breadcrumb-item">
-                            <Link to="/">Главная</Link>
-                        </li>
-                        <li className="breadcrumb-item">
-                            <Link to="/articles/page/1">Статьи</Link>
-                        </li>
-                        <li className="breadcrumb-item active" aria-current="page">{data.title}</li>
-                    </ol>
-                </nav>
-            </div>
+
+            <Breadcrumbs currentRouteName={data.title || 'Название статьи'}/>
 
             <section id="sec-8" className="container pb-5">
                 <div className="row gx-xxl-5 mb-5">

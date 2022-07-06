@@ -20,6 +20,7 @@ export default function Article(props) {
                 <NavLink
                     to={`/articles/page/1/${props.articleUrl}`}
                     onClick={() => goToTop()}
+                    state={{prevRoute: props?.pathname, routeName: props?.routeName}}
                     className="d-block text-center color-2 fs-11 fw-5 mt-1"
                 >
                     Читать далее

@@ -1,19 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useLocation, useParams} from 'react-router-dom';
 import AxiosArticleMain from "./AxiosArticleMain";
 import {getNews} from "../API/news";
 import PaginationCustom from "./PaginationCustom";
 
-export default function Articles() {
+export default function Articles({routeName}) {
 
     const {page} = useParams();
+    const {pathname} = useLocation()
 
     const [dataArticles, setDataArticles] = useState([]);
 
     useEffect(() => {
         const fin = async () => {
             try {
-                let result = await getNews(page, 15)
+                let result = await getNews(page, 6)
                 if (result) {
                     setDataArticles(result)
                 }
@@ -41,7 +42,7 @@ export default function Articles() {
             <div className="container pb-4 pb-sm-5">
                 <h1 className="text-center text-md-start">Статьи</h1>
                 <div className="row row-cols-sm-2 row-cols-lg-3 gx-4 gy-4 gy-md-5 g-xxl-5">
-                    <AxiosArticleMain data={dataArticles}/>
+                    <AxiosArticleMain data={dataArticles} pathname={pathname} routeName={routeName}/>
                 </div>
                 <PaginationCustom meta={dataArticles} baseUrl="articles"/>
             </div>
