@@ -22,25 +22,31 @@ export default function PersonalAccount() {
     return (
         <main className="account py-sm-3 py-md-4 py-lg-5">
             <section id="sec-12" className="container">
-                <div className="d-none d-lg-block">
-                    <h1 className="text-center text-lg-start">Личный кабинет</h1>
-                    <div className="row ">
-                        <div className="col-lg-4 col-xl-3">
-                            <div className="frame p-4">
-                                <AccountMenu/>
+                {mob === false &&
+                    (
+                        <div className="d-none d-lg-block">
+                            <h1 className="text-center text-lg-start">Личный кабинет</h1>
+                            <div className="row ">
+                                <div className="col-lg-4 col-xl-3">
+                                    <div className="frame p-4">
+                                        <AccountMenu/>
+                                    </div>
+                                </div>
+                                <div className="col-lg-8 col-xl-9">
+                                    <div className="frame pt-4 pt-xxl-5">
+                                        <PersonalAccountRouter isMobile={mob}/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div className="col-lg-8 col-xl-9">
-                            <div className="frame pt-4 pt-xxl-5">
-                                <PersonalAccountRouter isMobile={mob}/>
-                            </div>
+                    )}
+                {mob === true &&
+                    (
+                        <div className="d-block d-lg-none">
+                            <PersonalAccountRouter isMobile={mob}/>
                         </div>
-                    </div>
-                </div>
-                <div className="d-block d-lg-none">
-                    <PersonalAccountRouter isMobile={mob}/>
-                </div>
+                    )}
             </section>
         </main>
-    );
+    )
 }

@@ -17,6 +17,9 @@ export default function UserProfile() {
     const sait = 'https://api.antontig.beget.tech/uploads/';
     const [avatars, setAvatars] = useState([{data_url: "/img/img-photo.svg"}]);
     const uuid = currentUser?.uuid;
+    let startYear = new Date().getFullYear();
+    let startMonth = new Date().getMonth()
+    let startDay = new Date().getDate()
     const currentBirthDayDay = (currentUser?.birthdayForUser)?.split('.')[0]
     const currentBirthDayMonth = (currentUser?.birthdayForUser)?.split('.')[1]
     const currentBirthDayYear = (currentUser?.birthdayForUser)?.split('.')[2]
@@ -28,9 +31,9 @@ export default function UserProfile() {
             setPhone(currentUser?.phone)
             setEmail(currentUser?.email)
             setSex(currentUser?.sex)
-            setDay(+currentBirthDayDay)
-            setMonth(+currentBirthDayMonth-1)
-            setYear(currentBirthDayYear)
+            setDay(+currentBirthDayDay || startDay-1)
+            setMonth(+currentBirthDayMonth-1 || startMonth)
+            setYear(currentBirthDayYear || startYear)
             setAvatar(currentUser?.avatar)
         }
     }, [currentUser])
@@ -66,7 +69,6 @@ export default function UserProfile() {
     const [month, setMonth] = useState('')
     const [monthText, setMonthText] = useState('')
     const [year, setYear] = useState('')
-
     const months = [
         "января", 'февраля', 'марта',
         'апреля', 'мая', 'июня',
@@ -74,11 +76,12 @@ export default function UserProfile() {
         'октября', 'ноября', 'декабря'
     ]
 
+    console.log(startYear)
+
      const createYears = () => {
         let years = [];
-        let start = new Date().getFullYear();
-        for (start; start >= 1940; start--) {
-            years.push(start)
+        for (startYear; startYear >= 1940; startYear--) {
+            years.push(startYear)
         }
         return years
     }
