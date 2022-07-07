@@ -2,14 +2,13 @@ import React, {useEffect, useState} from 'react';
 import Card from './Card';
 import CustomOffcanvas from './CustomOffcanvas';
 
-const OffcanvasCards = ({cards}) => {
+const OffcanvasCards = (props) => {
+    const [cards, setCards] = useState([])
     const [isShow, setIsShow] = useState(false)
 
-    useEffect(() => {
-        if (cards.length) {
-            setIsShow(true)
-        }
-    }, [cards])
+    useEffect(() => props?.cards?.length && setCards(props.cards), [props.cards])
+    useEffect(() => cards.length && setIsShow(true), [cards])
+    useEffect(() => !isShow && setCards([]), [isShow])
 
     return (
         <CustomOffcanvas

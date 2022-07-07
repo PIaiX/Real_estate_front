@@ -11,7 +11,7 @@ import {getCities} from '../API/cities';
 const CityContainer = React.memo(({ymaps}) => {
     const [isShowCities, setIsShowCities] = useState(false)
     const {city, setCity, isDefinedCity} = useSelectedCity()
-    const {mapCenter, setMapCenter} = useMapCenter(ymaps)
+    const {setMapCenter} = useMapCenter(ymaps)
     const [cities, setCities] = useState([])
 
     useEffect(() => {
@@ -24,9 +24,8 @@ const CityContainer = React.memo(({ymaps}) => {
 
     const changeCity = (title) => {
         const localStorageUserCity = localStorage.getItem('userCity')
-        const localStorageMapCenter = typeof (localStorage.getItem('mapCenter')) === 'string'
-            ? localStorage.getItem('mapCenter').split(',')
-            : localStorage.getItem('mapCenter')
+        const localStorageMapCenter = localStorage.getItem('mapCenter') && localStorage.getItem('mapCenter').split(',')
+
 
         if (title !== localStorageUserCity) {
             localStorage.setItem('userCity', title)
@@ -58,7 +57,6 @@ const CityContainer = React.memo(({ymaps}) => {
             />
             <CityPopup
                 city={city}
-                mapCenter={mapCenter}
                 isDefinedCity={isDefinedCity}
                 setIsShowCities={setIsShowCities}
             />

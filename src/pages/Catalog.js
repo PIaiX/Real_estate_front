@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useCallback} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useParams, useSearchParams} from 'react-router-dom';
 import Card from '../components/Card';
 import CatalogFilters from '../components/CatalogFilters';
@@ -51,7 +51,7 @@ const Catalog = ({routeName}) => {
     }, [])
 
     useEffect(() => {
-        (userId && selectedCity && page) &&
+        (selectedCity && page) &&
         getCatalog(page, 4, userId, selectedCity, debouncedFilters)
             .then(response => setCatalogData({
                     isLoaded: true,

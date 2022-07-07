@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './assets/styles/fonts.css';
 import './assets/styles/style.css';
-import Header from './components/Header';
 import AppRouter from './routes/AppRouter';
 import {Footer} from './components/Footer';
 import {useDispatch} from "react-redux";
@@ -22,8 +21,26 @@ function App() {
     const dispatch = useDispatch();
     const {setToken} = bindActionCreators(accessTokenActions, dispatch);
     const {setCurrentUser} = bindActionCreators(currentUserActions, dispatch);
+    const { resetToken } = bindActionCreators(accessTokenActions, dispatch);
+    const { resetCurrentUser } = bindActionCreators(currentUserActions, dispatch);
     const axiosPrivate = useAxiosPrivate();
     const [visitor, setVisitor] = useState('')
+
+    const handleLogout = async () => {
+        const response = await axiosPrivate.post(`${baseUrl}/api/auth/logout`);
+        if (response && response.status === 200 && localStorage.getItem("fingerprint")) {
+            resetToken();
+            resetCurrentUser();
+        }
+    };
+
+    const onUnloadHandler = () => {
+        const isNotRemember = localStorage.getItem('isNotRemember')
+        if (isNotRemember === 'true') {
+            handleLogout()
+            localStorage.removeItem('isNotRemember')
+        }
+    }
 
     useEffect(() => {
         fingerprint
@@ -48,6 +65,10 @@ function App() {
         }
         checkAuth();
     }, []);
+
+    useEffect(() => {
+        window.addEventListener('beforeunload', onUnloadHandler)
+    }, [])
 
     return (
         <BrowserRouter>

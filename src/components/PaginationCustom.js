@@ -127,7 +127,7 @@ export default function PaginationCustom(props) {
                         </NavLink>
                     </li>
                     <Pagination className="paginationInfo" >
-                        {paginationItems}
+                        {paginationItems.map((item, index) => <span key={index}>{item}</span>)}
                     </Pagination>
                     <li className={`page-item ${next > data.last_page ? 'disabled' : ''}`}>
                         <NavLink

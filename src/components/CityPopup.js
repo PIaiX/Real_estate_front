@@ -14,7 +14,6 @@ const CityPopup = ({city, mapCenter, isDefinedCity, setIsShowCities}) => {
 
     const onApplyCity = () => {
         localStorage.setItem('userCity', city)
-        localStorage.setItem('mapCenter', mapCenter)
         handleClose()
     }
 
