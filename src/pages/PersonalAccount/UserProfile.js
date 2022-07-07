@@ -76,8 +76,6 @@ export default function UserProfile() {
         'октября', 'ноября', 'декабря'
     ]
 
-    console.log(startYear)
-
      const createYears = () => {
         let years = [];
         for (startYear; startYear >= 1940; startYear--) {

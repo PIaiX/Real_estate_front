@@ -11,7 +11,6 @@ import ChatPage from '../pages/PersonalAccount/ChatPage';
 import UserReviews from '../pages/PersonalAccount/UserReviews';
 
 const PersonalAccountRouter = ({isMobile}) => {
-    console.log(isMobile)
     return (
         isMobile
             ? <Routes>

@@ -6,13 +6,17 @@ export default function ShowPhone(props) {
     return (
         <div className={"show-phone " + props.className}>
             <div className="phone fw-5">
-                {
-                    (props.phone) ?
-                    <a href={"tel:"+props.phone}>+{props.phone}</a>
-                    : <span>Не указан</span>
-                }
+                <a href={"tel:" + props.phone}>
+                    {(props?.phone?.length > 11) ? props?.phone : `+${props?.phone}`}
+                </a>
             </div>
-            <button type="button" onClick={() => setVisibility(true)} className={visible ? "invisible btn btn-1 px-3" : "btn btn-1 px-3"}>Показать телефон</button>
+            <button
+                type="button"
+                onClick={() => setVisibility(true)}
+                className={visible ? "invisible btn btn-1 px-3" : "btn btn-1 px-3"}
+            >
+                Показать телефон
+            </button>
         </div>
     )
 }

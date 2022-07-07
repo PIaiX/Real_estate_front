@@ -93,29 +93,34 @@ export default function MainPage() {
                 </div>
             </section>
 
-            <section className="sec-4 container mb-6">
-                <h3>Часто просматриваемые</h3>
-                <div className="position-relative">
-                    <Slider1 popular={popular}/>
-                </div>
-                <div className="text-center mt-2">
-                    <a href="/" className="fs-11 fw-5">
-                        Смотреть все
-                    </a>
-                </div>
-            </section>
 
-            <section className="sec-4 container mb-6">
-                <h3>Рекомендованные Вам</h3>
-                <div className="position-relative">
-                    <Slider1 recommend={recommend}/>
-                </div>
-                <div className="text-center mt-2">
-                    <a href="/" className="fs-11 fw-5">
-                        Смотреть все
-                    </a>
-                </div>
-            </section>
+            {!(popular === undefined || popular?.length === 0) &&
+                <section className="sec-4 container mb-6">
+                    <h3>Часто просматриваемые</h3>
+                    <div className="position-relative">
+                        <Slider1 popular={popular}/>
+                    </div>
+                    <div className="text-center mt-2">
+                        <a href="/" className="fs-11 fw-5">
+                            Смотреть все
+                        </a>
+                    </div>
+                </section>
+            }
+
+            {!(recommend === undefined || recommend?.length === 0) &&
+                <section className="sec-4 container mb-6">
+                    <h3>Рекомендованные Вам</h3>
+                    <div className="position-relative">
+                        <Slider1 recommend={recommend}/>
+                    </div>
+                    <div className="text-center mt-2">
+                        <a href="/" className="fs-11 fw-5">
+                            Смотреть все
+                        </a>
+                    </div>
+                </section>
+            }
 
             <section id="sec-5">
                 <div className="container pb-5">

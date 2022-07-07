@@ -127,7 +127,7 @@ const YMap = ({ymaps, ...props}) => {
             <Map
                 className='y-maps'
                 state={{
-                    center: mapCenter,
+                    center: mapCenter || [0, 0],
                     zoom: 10,
                     controls: [],
                 }}

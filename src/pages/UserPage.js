@@ -50,7 +50,7 @@ export default function UserPage() {
 
     useEffect(() => {
         reviewsPage()
-    }, [currentUserId, userId])
+    }, [currentUserId, userId, limit])
 
     useEffect(() => {
         const userInPage = async () => {
@@ -115,8 +115,10 @@ export default function UserPage() {
                                 <h4>{userInformation?.ownerTypeForUser}</h4>
                                 <div className="fs-11 gray-3">На сайте с {userInformation?.createdAtForUser}</div>
                                 <div className="d-flex align-items-center mt-2 mt-sm-4">
-                                    <ShowPhone className="d-none d-md-flex flex-1"
-                                               phone={userInformation?.phone ? userInformation?.phoneForUser : "Отсутствует"}/>
+                                    <ShowPhone
+                                        className="d-none d-md-flex flex-1"
+                                        phone={userInformation?.phoneForUser}
+                                    />
                                     <button type="button" data-bs-toggle="modal" data-bs-target="#write-message"
                                             className="d-none d-md-flex btn btn-1 px-3 w-100 flex-1 ms-4">Написать
                                         сообщение

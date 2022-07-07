@@ -17,6 +17,7 @@ export default function UserReviews() {
     const [reviews, setReviews] = useState([])
     const [pages, setPages] = useState({})
     const [isLoading, setIsLoading] = useState(true)
+    const url = 'https://api.antontig.beget.tech/uploads/'
 
     useEffect(() => {
         const reviews = async () => {
@@ -33,6 +34,8 @@ export default function UserReviews() {
         }
         reviews()
     }, [userId, page])
+
+    const avatarReviewer = (avatar) => `${url}${avatar}`
 
     return (
         <div className="px-2 px-sm-4 px-xxl-5 pb-4 pb-xxl-5">
@@ -57,7 +60,7 @@ export default function UserReviews() {
                                     {reviews.map((i) =>
                                         <div className="review mb-3" key={i?.id}>
                                             <img
-                                                src={i?.from?.avatar ? i?.from?.avatar : "/img/img-photo.svg"}
+                                                src={i?.from?.avatar ? avatarReviewer(i?.from?.avatar) : "/img/img-photo.svg"}
                                                 alt={i?.from?.fullName}
                                                 className="photo d-none d-sm-block"
                                             />
