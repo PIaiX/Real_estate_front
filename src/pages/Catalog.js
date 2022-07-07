@@ -17,6 +17,7 @@ import CustomSelect from '../components/CustomSelect';
 import useDebounce from '../hooks/useDebounce';
 import PopularQueries from '../components/PopularQueries';
 import MultiCheckboxSelect from '../components/MultiCheckboxSelect';
+import Loader from '../components/Loader';
 
 const Catalog = ({routeName}) => {
     const [view, setView] = useUpdateSizeSecond('991px')
@@ -428,7 +429,7 @@ const Catalog = ({routeName}) => {
                                             </div>
                                         ))
                                         : <h6 className='m-auto p-5 text-center'>Объявлений нет</h6>
-                                    : <h6 className='m-auto p-5 text-center'>Загрузка...</h6>
+                                    : <div className='p-5 w-100 d-flex justify-content-center'><Loader color='#146492'/></div>
                             }
                         </div>
                         <nav className="mt-4">
