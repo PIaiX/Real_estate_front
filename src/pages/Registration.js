@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import {Link, NavLink} from "react-router-dom";
-import Joi, {number} from "joi";
+import {Link} from "react-router-dom";
+import Joi from "joi";
 import axios from "axios";
 
 import InputPassword from "../components/InputPassword";
 import FormErrorMessage from "../components/FormErrorMessage";
-import WaitAccountActivation from "./WaitAccountActivation";
-import Button from "bootstrap/js/src/button";
 
 const formValueDefault = {
   firstName: "",
@@ -257,20 +255,6 @@ export default function Entrance() {
                   <FormErrorMessage>
                     {formErrors.passwordConfirm}
                   </FormErrorMessage>
-                </div>
-              </div>
-              <div className="row justify-content-end mb-3 mb-sm-4 mb-xxl-5">
-                <div className="col-sm-9">
-                  <label className="fs-11">
-                    <input
-                      type="checkbox"
-                      name="remember"
-                      defaultChecked={formValue.remember}
-                      value={formValue.remember}
-                      onChange={handleFormChange}
-                    />
-                    <span className="ms-3">Запомнить меня</span>
-                  </label>
                 </div>
               </div>
               <div className="row justify-content-center">

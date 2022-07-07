@@ -20,8 +20,26 @@ function App() {
     const dispatch = useDispatch();
     const {setToken} = bindActionCreators(accessTokenActions, dispatch);
     const {setCurrentUser} = bindActionCreators(currentUserActions, dispatch);
+    const { resetToken } = bindActionCreators(accessTokenActions, dispatch);
+    const { resetCurrentUser } = bindActionCreators(currentUserActions, dispatch);
     const axiosPrivate = useAxiosPrivate();
     const [visitor, setVisitor] = useState('')
+
+    const handleLogout = async () => {
+        const response = await axiosPrivate.post(`${baseUrl}/api/auth/logout`);
+        if (response && response.status === 200 && localStorage.getItem("fingerprint")) {
+            resetToken();
+            resetCurrentUser();
+        }
+    };
+
+    const onUnloadHandler = () => {
+        const isNotRemember = localStorage.getItem('isNotRemember')
+        if (isNotRemember === 'true') {
+            handleLogout()
+            localStorage.removeItem('isNotRemember')
+        }
+    }
 
     useEffect(() => {
         fingerprint
@@ -46,6 +64,10 @@ function App() {
         }
         checkAuth();
     }, []);
+
+    useEffect(() => {
+        window.addEventListener('beforeunload', onUnloadHandler)
+    }, [])
 
     return (
         <BrowserRouter>

@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import accessTokenActions from "../../store/actions/accessToken";
 import currentUserActions from "../../store/actions/currentUser";

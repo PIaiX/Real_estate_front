@@ -9,9 +9,7 @@ const useMapCenter = (ymaps) => {
     const {setMapCenter} = bindActionCreators(mapCenterActions, dispatch)
     const [coords, setCoords] = useState(null)
     const city = useSelector(state => state.selectedCity)
-    const localStorageMapCenter = typeof(localStorage.getItem('mapCenter')) === 'string'
-        ? localStorage.getItem('mapCenter').split(',')
-        : localStorage.getItem('mapCenter')
+    const localStorageMapCenter = localStorage.getItem('mapCenter') && localStorage.getItem('mapCenter').split(',')
 
     useEffect(() => {
         if (localStorageMapCenter) {

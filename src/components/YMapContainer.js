@@ -3,11 +3,19 @@ import YMap from './YMap';
 import OffcanvasCards from './OffcanvasCards';
 import OffcanvasFilters from './OffcanvasFilters';
 import {animateScroll as scroll} from 'react-scroll';
+import getForMap from '../API/ymap';
+import {useSelector} from 'react-redux';
 
-const YMapContainer = ({catalog, isShowMap, filters, setFilters, onResetFilters, onApplyFilters, foundCount}) => {
+const YMapContainer = ({isShowMap, filters, setFilters, onResetFilters, onApplyFilters, foundCount}) => {
+    const city = useSelector(state => state.selectedCity)
     const [ids, setIds] = useState([])
     const [cards, setCards] = useState([])
     const [isShowFilters, setIsShowFilters] = useState(false)
+    const [mapData, setMapData] = useState([])
+
+    useEffect(() => {
+        getForMap(city, filters).then(items => setMapData(items))
+    }, [city, filters])
 
     useEffect(() => {
         if (isShowMap) {
@@ -24,7 +32,7 @@ const YMapContainer = ({catalog, isShowMap, filters, setFilters, onResetFilters,
     useEffect(() => {
         const result = []
 
-        catalog.forEach(item => {
+        mapData.forEach(item => {
             ids.forEach(id => {
                 if (id === item.id) {
                     result.push(item)
@@ -35,10 +43,15 @@ const YMapContainer = ({catalog, isShowMap, filters, setFilters, onResetFilters,
         setCards(result)
     }, [ids])
 
+    useEffect(() => {
+        console.log('items: ', mapData)
+        console.log('filters: ', filters)
+    }, [mapData, filters])
+
     return (
         <div className='catalog__ymaps-container'>
             <YMap
-                catalog={catalog}
+                items={mapData}
                 className='catalog__ymaps'
                 callback={ids => setIds(ids)}
             />
