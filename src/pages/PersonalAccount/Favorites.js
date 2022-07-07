@@ -79,11 +79,8 @@ export default function Favorites({routeName}) {
                             : <h6 className='m-auto p-5 text-center'>Объявлений нет</h6>
                         : <h6 className='m-auto p-5 text-center'>Загрузка...</h6>
                 }
-                <nav>
-                    {wishlistData?.wishlist?.length ?
-                        <PaginationCustom meta={wishlistData.meta} baseUrl="personal-account/favorites"/> : null}
-                </nav>
             </div>
+            { wishlistData?.wishlist?.length ? <PaginationCustom meta={wishlistData.meta} baseUrl="personal-account/favorites"/> : null }
         </div>
     )
 }

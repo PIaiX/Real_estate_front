@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {Link, NavLink, useNavigate} from "react-router-dom";
 import Joi from "joi";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import accessTokenActions from "../store/actions/accessToken";
 import currentUserActions from "../store/actions/currentUser";
 import InputPassword from "../components/InputPassword";
 import FormErrorMessage from "../components/FormErrorMessage";
 import { bindActionCreators } from "redux";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import {useAccessToken} from "../store/reducers";
 
 export default function Login() {
   const formValueDefault = { email: "", password: "", isNotRemember: false };
   const formErrorDefault = { email: "", password: "" };
   const [formValue, setFormValue] = useState(formValueDefault);
   const [formErrors, setFormErrors] = useState(formErrorDefault);
-
   const baseUrl = "https://api.antontig.beget.tech";
+  const token = useAccessToken()
 
   const schema = Joi.object({
     email: Joi.string()
@@ -46,15 +47,12 @@ export default function Login() {
   });
 
   const navigate = useNavigate();
-  const currentUser = useSelector((state) => state.accessToken);
 
   useEffect(() => {
-    if (currentUser) navigate("/personal-account");
-  }, []);
+    token && navigate("/personal-account")
+  }, [token]);
 
   const axiosPrivate = useAxiosPrivate();
-
-
 
   const dispatch = useDispatch();
   const { setToken } = bindActionCreators(accessTokenActions, dispatch);
@@ -185,13 +183,13 @@ export default function Login() {
               </div>
               <div className="row justify-content-center">
                 <div className="col-sm-5">
-                  <div
+                  <NavLink
                     to="/personal-account"
                     className="btn btn-1 fs-11 w-100 text-uppercase mb-4"
                     onClick={handleFormSubmit}
                   >
                     Войти
-                  </div>
+                  </NavLink>
                 </div>
                 <div className="col-12">
                   <div className="fs-11 text-center">

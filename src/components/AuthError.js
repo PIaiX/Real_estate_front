@@ -16,7 +16,7 @@ export default function AuthError() {
                     <button
                         type="submit"
                         className="btn btn-1 mx-auto fs-12"
-                        onClick={() => navigate("/entrance")}
+                        onClick={() => navigate("/login")}
                     >
                         Войти
                     </button>

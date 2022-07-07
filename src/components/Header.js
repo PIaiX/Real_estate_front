@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Link, NavLink} from 'react-router-dom';
+import {Link, NavLink, useLocation} from 'react-router-dom';
 import {animateScroll as scroll} from 'react-scroll';
 import {getQuestion} from "../API/question";
 import CustomModal from "./CustomModal";
@@ -7,7 +7,12 @@ import CityContainer from './CityContainer';
 import CustomOffcanvas from './CustomOffcanvas';
 
 const Header = () => {
+
     const [isShowMenu, setIsShowMenu] = useState(false)
+    const location = useLocation()
+    const pathname = location.pathname
+    console.log(location)
+    console.log(pathname)
 
     const scrollToTop = () => {
         scroll.scrollToTop();
@@ -67,6 +72,10 @@ const Header = () => {
         setValid({...valid, [field]: false})
     }
 
+    const closeConvas = () => {
+        setIsShowMenu(prevIsShowMenu => !prevIsShowMenu)
+    }
+
     return (
         <>
             <header>
@@ -75,26 +84,9 @@ const Header = () => {
                         <img src="/img/Лого.png" alt="Название сайта" className="logo"/>
                     </Link>
                     <nav className="d-none d-lg-flex order-2">
-                        <NavLink to="/">Главная</NavLink>
-                        <div className="dropdown">
-                            <a href="/" className="dropdown-toggle" role="button" data-bs-toggle="dropdown"
-                               aria-expanded="false">Услуги</a>
-                            <ul className="dropdown-menu py-2">
-                                <li>
-                                    <NavLink to="/service" className="dropdown-item">Дизайн</NavLink>
-                                </li>
-                                <li>
-                                    <NavLink to="/service" className="dropdown-item">Ремонт</NavLink>
-                                </li>
-                                <li>
-                                    <NavLink to="/service" className="dropdown-item">Грузоперевозки</NavLink>
-                                </li>
-                                <li>
-                                    <NavLink to="/service" className="dropdown-item">Услуги риелторов</NavLink>
-                                </li>
-                            </ul>
-                        </div>
-                        <Link to="/">Ипотека</Link>
+                        <NavLink to="/" className={`${(pathname === '/') ? 'active' : ''}`}>Главная</NavLink>
+                        <NavLink to="/service">Услуги</NavLink>
+                        <NavLink to="/ipoteka">Ипотека</NavLink>
                         <a href="" role="button" data-bs-toggle="modal" data-bs-target="#ask">Задать вопрос</a>
                     </nav>
                     <div className="d-none d-md-flex order-4 order-lg-3">
@@ -117,7 +109,7 @@ const Header = () => {
                     >
                         Подать объявление
                     </NavLink>
-                    <CityContainer />
+                    <CityContainer/>
                     <button
                         type="button"
                         className="d-block d-lg-none order-5"
@@ -139,16 +131,65 @@ const Header = () => {
             >
                 <nav>
                     <ul className='offcanvas-menu__list'>
-                        <li><Link to="/" onClick={() => scrollToTop()}>Главная</Link></li>
-                        <li><Link to="/service" onClick={() => scrollToTop()}>Услуги</Link></li>
-                        <li><Link to="" role="button" data-bs-toggle="modal" data-bs-target="#ask">Задать
-                            вопрос</Link></li>
-                        <li><Link to="/personal-account" onClick={() => scrollToTop()}>Личный кабинет</Link></li>
-                        <li><Link to="/personal-account/favorites/page/1"
-                                  onClick={() => scrollToTop()}>Избранное</Link></li>
-                        <li><Link to="/personal-account/my-messages" onClick={() => scrollToTop()}>Сообщения</Link>
+                        <li>
+                            <NavLink
+                                to="/"
+                                className={`${(pathname === '/') ? 'active' : ''}`}
+                                onClick={() => {
+                                    scrollToTop()
+                                    closeConvas()
+                                }}
+                            >
+                                Главная
+                            </NavLink>
                         </li>
-                        <li><Link to="/articles" onClick={() => scrollToTop()}>Статьи</Link></li>
+                        <li>
+                            <NavLink
+                                to="/service"
+                                className={`${(pathname === '/service') ? 'active' : ''}`}
+                                onClick={() => {
+                                    scrollToTop()
+                                    closeConvas()
+                                }}
+                            >
+                                Услуги
+                            </NavLink>
+                        </li>
+                        <li>
+                            <a
+                                href=""
+                                role="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#ask"
+                                onClick={() => closeConvas()}
+                            >
+                                Задать вопрос
+                            </a>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/personal-account/favorites"
+                                className={`${(pathname === '/personal-account/favorites') ? 'active' : ''}`}
+                                onClick={() => {
+                                    scrollToTop()
+                                    closeConvas()
+                                }}
+                            >
+                                Избранное
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/articles/page/1"
+                                className={`${(pathname === '/articles/page/1') ? 'active' : ''}`}
+                                onClick={() => {
+                                    scrollToTop()
+                                    closeConvas()
+                                }}
+                            >
+                                Статьи
+                            </NavLink>
+                        </li>
                     </ul>
                 </nav>
             </CustomOffcanvas>

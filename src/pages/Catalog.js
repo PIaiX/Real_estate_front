@@ -47,7 +47,7 @@ const Catalog = ({routeName}) => {
             .then(result => result && result.estates.map(item => ({title: item.name, value: item.id})))
             .then(estateIds => {
                 setEstateIds(estateIds)
-                estateIds.length && onSelectHandler(estateIds[0].value, 'estateId', setFilters)
+                estateIds?.length && onSelectHandler(estateIds[0].value, 'estateId', setFilters)
             })
     }, [])
 
