@@ -32,7 +32,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-scroll": "^1.8.4",
-    "react-simple-image-viewer": "^1.1.1",
+    "react-simple-image-viewer": "1.1.1",
     "react-simple-star-rating": "^4.0.5",
     "react-yandex-maps": "^4.6.0",
     "redux": "^4.2.0",
@@ -47,6 +47,12 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "gh-pages -d build"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
