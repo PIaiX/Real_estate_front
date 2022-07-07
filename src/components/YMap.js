@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {GeolocationControl, Map, ObjectManager, withYMaps, ZoomControl} from 'react-yandex-maps';
 import {useSelector} from 'react-redux';
 
-const YMap = ({ymaps, ...props}) => {
+const YMap = (props) => {
     const [objectManager, setObjectManager] = useState(null)
     const [selectedCluster, setSelectedCluster] = useState(null)
     const [selectedPoint, setSelectedPoint] = useState(null)
@@ -195,4 +195,4 @@ const YMap = ({ymaps, ...props}) => {
     );
 };
 
-export default withYMaps(YMap);
+export default YMap;

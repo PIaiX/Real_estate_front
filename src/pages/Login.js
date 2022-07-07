@@ -9,40 +9,42 @@ import FormErrorMessage from "../components/FormErrorMessage";
 import { bindActionCreators } from "redux";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
-const formValueDefault = { email: "", password: "", remember: false };
-const formErrorDefault = { email: "", password: "" };
-
-const baseUrl = "https://api.antontig.beget.tech";
-
-const schema = Joi.object({
-  email: Joi.string()
-    .email({ tlds: { allow: false } })
-    .min(4)
-    .max(50)
-    .required()
-    .messages({
-      "string.empty": "Email адрес не может быть пустым",
-      "string.min": `Email адрес не может быть короче 4 символов`,
-      "string.max": `Email адрес не может быть длиннее 20 символов`,
-      "string.email": `Введите Email адрес корректного формата`,
-    }),
-  password: Joi.string()
-    .pattern(/.*[A-Z].*/)
-    .pattern(/.*[0-9].*/)
-    .min(8)
-    .max(20)
-    .required()
-    .messages({
-      "string.empty": "Пароль не может быть пустым",
-      "string.pattern.base":
-        "Пароль должен содержать одну заглавную букву и одну цифру",
-      "string.min": `Пароль не может быть короче 8 символов`,
-      "string.max": `Пароль не может быть длиннее 20 символов`,
-    }),
-  remember: Joi.boolean(),
-});
-
 export default function Login() {
+  const formValueDefault = { email: "", password: "", isNotRemember: false };
+  const formErrorDefault = { email: "", password: "" };
+  const [formValue, setFormValue] = useState(formValueDefault);
+  const [formErrors, setFormErrors] = useState(formErrorDefault);
+
+  const baseUrl = "https://api.antontig.beget.tech";
+
+  const schema = Joi.object({
+    email: Joi.string()
+        .email({ tlds: { allow: false } })
+        .min(4)
+        .max(50)
+        .required()
+        .messages({
+          "string.empty": "Email адрес не может быть пустым",
+          "string.min": `Email адрес не может быть короче 4 символов`,
+          "string.max": `Email адрес не может быть длиннее 20 символов`,
+          "string.email": `Введите Email адрес корректного формата`,
+        }),
+    password: Joi.string()
+        .pattern(/.*[A-Z].*/)
+        .pattern(/.*[0-9].*/)
+        .min(8)
+        .max(20)
+        .required()
+        .messages({
+          "string.empty": "Пароль не может быть пустым",
+          "string.pattern.base":
+              "Пароль должен содержать одну заглавную букву и одну цифру",
+          "string.min": `Пароль не может быть короче 8 символов`,
+          "string.max": `Пароль не может быть длиннее 20 символов`,
+        }),
+    isNotRemember: Joi.boolean(),
+  });
+
   const navigate = useNavigate();
   const currentUser = useSelector((state) => state.accessToken);
 
@@ -52,8 +54,7 @@ export default function Login() {
 
   const axiosPrivate = useAxiosPrivate();
 
-  const [formValue, setFormValue] = useState(formValueDefault);
-  const [formErrors, setFormErrors] = useState(formErrorDefault);
+
 
   const dispatch = useDispatch();
   const { setToken } = bindActionCreators(accessTokenActions, dispatch);
@@ -102,6 +103,11 @@ export default function Login() {
       });
     });
   };
+
+  useEffect(() => {
+    localStorage.setItem('isNotRemember', formValue.isNotRemember)
+  }, [formValue.isNotRemember])
+
   return (
     <main className="account py-sm-3 py-md-4 py-lg-5">
       <section className="container">
@@ -166,11 +172,11 @@ export default function Login() {
                   <label className="fs-11">
                     <input
                       type="checkbox"
-                      name="remember"
-                      value={formValue.remember}
+                      name="isNotRemember"
+                      checked={formValue.isNotRemember}
                       onChange={handleFormChange}
                     />
-                    <span className="ms-3">Запомнить меня</span>
+                    <span className="ms-3">Чужой компьютер</span>
                   </label>
                   <Link to="/password-1" className="color-1 fs-11 bb-1">
                     Забыли пароль?
