@@ -587,73 +587,75 @@ export default function CardPage() {
                                     </div>
                                     :
                                     ''}
+                            </div>
+                        </div>
+                        <h4 className="mt-4 mt-sm-5">На карте</h4>
+                        <img src="/img/map.png" alt="Карта" className="w-100"/>
+                    </div>
+                </div>
+            </section>
+
+            <section className="sec-4 container mb-6">
+                <h3>Похожие объявления</h3>
+                <div className="position-relative">
+                    <Slider1/>
+                </div>
+            </section>
+
+            {!(recommend === undefined || recommend?.length === 0) &&
+                <section className="sec-4 container mb-6">
+                    <h3>Рекомендованные Вам</h3>
+                    <div className="position-relative">
+                        <Slider1 recommend={recommend}/>
+                    </div>
+                </section>
+            }
+
+            <div className="mobile-btns d-block d-md-none py-2 py-sm-3">
+                <div className="container">
+                    <div className="row row-cols-2 gx-2 gx-sm-3">
+                        <div>
+                            <ShowPhone className="fs-12" phone={ads.user?.phoneForUser}/>
+                        </div>
+                        <div>
+                            <button type="button" className="fs-12 btn btn-1 w-100 px-2">Написать сообщение</button>
                         </div>
                     </div>
-                    <h4 className="mt-4 mt-sm-5">На карте</h4>
-                    <img src="/img/map.png" alt="Карта" className="w-100"/>
                 </div>
             </div>
-        </section>
 
-    <section className="sec-4 container mb-6">
-        <h3>Похожие объявления</h3>
-        <div className="position-relative">
-            <Slider1/>
-        </div>
-    </section>
-
-    <section className="sec-4 container mb-6">
-        <h3>Рекомендованные Вам</h3>
-        <div className="position-relative">
-            <Slider1 recommend={recommend}/>
-        </div>
-    </section>
-
-    <div className="mobile-btns d-block d-md-none py-2 py-sm-3">
-        <div className="container">
-            <div className="row row-cols-2 gx-2 gx-sm-3">
-                <div>
-                    <ShowPhone className="fs-12" phone={ads.user?.phoneForUser}/>
-                </div>
-                <div>
-                    <button type="button" className="fs-12 btn btn-1 w-100 px-2">Написать сообщение</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div className="modal fade" id="write-message" tabIndex="-1" aria-hidden="true">
-        <div className="modal-dialog">
-            <div className="modal-content">
-                <div className="modal-body">
-                    <button type="button" className="btn-close" data-bs-dismiss="modal">
-                        <svg viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1.00006 1.18237L15 15.9049"/>
-                            <path d="M14.9999 1.18237L1.00001 15.9049"/>
-                        </svg>
-                    </button>
-                    <form className="message-form">
-                        <div className="d-flex align-items-center">
-                            <div className="photo me-2 me-sm-4">
-                                <img src="/img/photo.png" alt="Колесникова Ирина"/>
-                                <div className="indicator online"/>
-                            </div>
-                            <div>
-                                <h4>Колесникова Ирина</h4>
-                                <div className="gray-2 fs-09">Сейчас онлайн</div>
-                            </div>
-                        </div>
-                        <textarea className="mt-3" rows="4" placeholder="Введите сообщение"/>
-                        <div className="d-flex align-items-center mt-3">
-                            <InputFile multiple={false}/>
-                            <button type="submit" className="btn btn-1 w-100 flex-1 fs-12 ms-4">ОТПРАВИТЬ
+            <div className="modal fade" id="write-message" tabIndex="-1" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-body">
+                            <button type="button" className="btn-close" data-bs-dismiss="modal">
+                                <svg viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1.00006 1.18237L15 15.9049"/>
+                                    <path d="M14.9999 1.18237L1.00001 15.9049"/>
+                                </svg>
                             </button>
+                            <form className="message-form">
+                                <div className="d-flex align-items-center">
+                                    <div className="photo me-2 me-sm-4">
+                                        <img src="/img/photo.png" alt="Колесникова Ирина"/>
+                                        <div className="indicator online"/>
+                                    </div>
+                                    <div>
+                                        <h4>Колесникова Ирина</h4>
+                                        <div className="gray-2 fs-09">Сейчас онлайн</div>
+                                    </div>
+                                </div>
+                                <textarea className="mt-3" rows="4" placeholder="Введите сообщение"/>
+                                <div className="d-flex align-items-center mt-3">
+                                    <InputFile multiple={false}/>
+                                    <button type="submit" className="btn btn-1 w-100 flex-1 fs-12 ms-4">ОТПРАВИТЬ
+                                    </button>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</main>
-)
+        </main>
+    )
 }

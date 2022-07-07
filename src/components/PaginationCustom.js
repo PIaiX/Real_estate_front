@@ -5,7 +5,7 @@ import {Pagination} from "react-bootstrap";
 export default function PaginationCustom(props) {
 
     const searchParams = props.searchParams
-    const [data, setData] = useState([]);
+    const [data, setData] = useState({});
     const [prev, setPrev] = useState([]);
     const [next, setNext] = useState([]);
     const [currentPage, onPageChange] = useState(1);
@@ -32,7 +32,7 @@ export default function PaginationCustom(props) {
         }
     }, [props.meta])
 
-    useEffect( () => {
+    useEffect(() => {
         if (data) {
             onPageChange(data.current_page)
             setTotal(data.last_page)
@@ -52,22 +52,27 @@ export default function PaginationCustom(props) {
     }, [data, currentPage])
 
     const createPaginationItem = (i) => {
-        return <Pagination.Item
-            href={`/${getLink(i)}`}
-            key={i}
-            active={i === currentPage}
-            onClick={() => {
-                onPageChange(i);
-                goToTop();
-            }}
-            duration={1}>
-            {i}
-        </Pagination.Item>
+        return (
+            <li className={`page-item ${i === currentPage && 'active disabled'}`}>
+                <NavLink
+                    to={`/${getLink(i)}`}
+                    key={i}
+                    className="page-link"
+                    onClick={() => {
+                        onPageChange(i);
+                        goToTop();
+                    }}
+                    duration={1}
+                >
+                    {i}
+                </NavLink>
+            </li>
+        )
     };
 
     const paginationItems = [];
 
-    if(totalPages >= 6) {
+    if (totalPages >= 6) {
         paginationItems.push(createPaginationItem(1));
         if (currentPage >= 4) paginationItems.push(<Pagination.Ellipsis/>);
         if (currentPage < 4) {
@@ -87,63 +92,61 @@ export default function PaginationCustom(props) {
         }
         if (currentPage <= totalPages - 3) paginationItems.push(<Pagination.Ellipsis/>);
         paginationItems.push(createPaginationItem(totalPages));
-    } else if (totalPages === 5){
+    } else if (totalPages === 5) {
         paginationItems.push(createPaginationItem(1));
         paginationItems.push(createPaginationItem(totalPages - 3));
         paginationItems.push(createPaginationItem(totalPages - 2));
         paginationItems.push(createPaginationItem(totalPages - 1));
         paginationItems.push(createPaginationItem(totalPages));
-    } else if (totalPages === 4){
+    } else if (totalPages === 4) {
         paginationItems.push(createPaginationItem(1));
         paginationItems.push(createPaginationItem(totalPages - 2));
         paginationItems.push(createPaginationItem(totalPages - 1));
         paginationItems.push(createPaginationItem(totalPages));
-    } else if (totalPages === 3){
+    } else if (totalPages === 3) {
         paginationItems.push(createPaginationItem(1));
         paginationItems.push(createPaginationItem(totalPages - 1));
         paginationItems.push(createPaginationItem(totalPages));
-    } else if(totalPages === 2) {
+    } else if (totalPages === 2) {
         paginationItems.push(createPaginationItem(1));
         paginationItems.push(createPaginationItem(totalPages));
     } else {
         paginationItems.push(createPaginationItem(1));
     }
 
-    return data ?
-        <>
-            <nav className="mt-4 mt-sm-5">
-                <ul className="pagination">
-                    <li className={`page-item ${prev ? '' : 'disabled'}`}>
-                        <NavLink
-                            to={`/${getLink(prev)}`}
-                            className="page-link"
-                            onClick={() => {
-                                onPageChange(currentPage - 1);
-                                goToTop();
-                            }}
-                            disabled={currentPage === 1}
-                        >
-                            <img src="/img/icons/prev2.svg" alt="Previous"/>
-                        </NavLink>
-                    </li>
-                    <Pagination className="paginationInfo" >
-                        {paginationItems.map((item, index) => <span key={index}>{item}</span>)}
-                    </Pagination>
-                    <li className={`page-item ${next > data.last_page ? 'disabled' : ''}`}>
-                        <NavLink
-                            to={`/${getLink(next)}`}
-                            className="page-link"
-                            onClick={() => {
-                                onPageChange(currentPage + 1);
-                                goToTop();
-                            }}
-                            disabled={currentPage === totalPages}
-                        >
-                            <img src="/img/icons/next2.svg" alt="Previous"/>
-                        </NavLink>
-                    </li>
-                </ul>
-            </nav>
-        </>
-        : null
+    return (
+        <nav className="mt-4 mt-sm-5">
+            <ul className="pagination">
+                <li className={`page-item ${prev ? '' : 'disabled'}`}>
+                    <NavLink
+                        to={`/${getLink(prev)}`}
+                        className="page-link"
+                        onClick={() => {
+                            onPageChange(currentPage - 1);
+                            goToTop();
+                        }}
+                        disabled={currentPage === 1}
+                    >
+                        <img src="/img/icons/prev2.svg" alt="Previous"/>
+                    </NavLink>
+                </li>
+                <Pagination className="paginationInfo">
+                    {paginationItems.map((i, index) => <span key={index}>{i}</span>)}
+                </Pagination>
+                <li className={`page-item ${next > data?.last_page ? 'disabled' : ''}`}>
+                    <NavLink
+                        to={`/${getLink(next)}`}
+                        className="page-link"
+                        onClick={() => {
+                            onPageChange(currentPage + 1);
+                            goToTop();
+                        }}
+                        disabled={currentPage === totalPages}
+                    >
+                        <img src="/img/icons/next2.svg" alt="Previous"/>
+                    </NavLink>
+                </li>
+            </ul>
+        </nav>
+    )
 }

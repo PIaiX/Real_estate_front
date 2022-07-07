@@ -246,7 +246,7 @@ export default function UserPage() {
                                         </div>
                                     </div>
                                 )}
-                                {(reviews?.data?.length >= limit) ?
+                                {(reviews?.data?.length >= limit) &&
                                     <button
                                         type="button"
                                         className="fs-12 fw-5 color-1 mx-auto bb-1"
@@ -254,8 +254,6 @@ export default function UserPage() {
                                     >
                                         Показать еще
                                     </button>
-                                    :
-                                    ""
                                 }
                             </>
                         }
