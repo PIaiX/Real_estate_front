@@ -154,7 +154,7 @@ export default function Advertise() {
         isInValidDescription: false,
         isInValidImage: false,
         isInValidPrice: false,
-        isInvalidEstateTypeId: false,
+        isInValidEstateTypeId: false,
         isInValidYear: false,
         isInValidCeilingHeight: false,
     }
@@ -297,11 +297,79 @@ export default function Advertise() {
                         noValidate
                     >
                         <div className="mob-indicator">
-                            <div className={(activeField === 1) ? 'active' : ''}>1</div>
-                            <div className={(activeField === 2) ? 'active' : ''}>2</div>
-                            <div className={(activeField === 3) ? 'active' : ''}>3</div>
-                            <div className={(activeField === 4) ? 'active' : ''}>4</div>
-                            <div className={(activeField === 5) ? 'active' : ''}>5</div>
+                            <div
+                                className={(activeField === 1) ? 'active' : ''}
+                                style={{backgroundColor: (valid.isInValidEstateTypeId || valid.isInValidEstateId) ? '#DA1E2A' : ''}}
+                            >
+                                {
+                                    (valid.isInValidEstateTypeId || valid.isInValidEstateId)
+                                        ? 1
+                                        : (data.transactionType && data.estateId && data.estateTypeId)
+                                            ? <img src="img/icons/compform.svg"
+                                                   style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
+                                            : 1
+                                }
+                            </div>
+                            <div
+                                className={(activeField === 2) ? 'active' : ''}
+                                style={{
+                                    backgroundColor:
+                                        (valid.isInValidAddress ||
+                                            valid.isInValidHouseType ||
+                                            valid.isInValidTotalArea ||
+                                            valid.isInValidRoomType ||
+                                            valid.isInValidFloor)
+                                            ? '#DA1E2A' : ''
+                                }}
+                            >
+                                {
+                                    (valid.isInValidAddress || valid.isInValidHouseType || valid.isInValidTotalArea || valid.isInValidRoomType || valid.isInValidFloor)
+                                        ? 2
+                                        : (data.address && data.totalArea && data['floor'])
+                                            ? <img src="img/icons/compform.svg"
+                                                   style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
+                                            : 2
+                                }
+                            </div>
+                            <div
+                                className={(activeField === 3) ? 'active' : ''}
+                                style={{backgroundColor: (valid.isInValidDescription || valid.isInValidImage) ? '#DA1E2A' : ''}}
+                            >
+                                {
+                                    (valid.isInValidDescription || valid.isInValidImage)
+                                        ? 3
+                                        : (image && data.description)
+                                            ? <img src="img/icons/compform.svg"
+                                                   style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
+                                            : 3
+                                }
+                            </div>
+                            <div
+                                className={(activeField === 4) ? 'active' : ''}
+                                style={{backgroundColor: (valid.isInValidYear || valid.isInValidCeilingHeight) ? '#DA1E2A' : ''}}
+                            >
+                                {
+                                    (valid.isInValidYear || valid.isInValidCeilingHeight)
+                                        ? 4
+                                        : (data.yearOfConstruction && data.ceilingHeight)
+                                            ? <img src="img/icons/compform.svg"
+                                                   style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
+                                            : 4
+                                }
+                            </div>
+                            <div
+                                className={(activeField === 5) ? 'active' : ''}
+                                style={{backgroundColor: valid.isInValidPrice ? '#DA1E2A' : ''}}
+                            >
+                                {
+                                    (valid.isInValidPrice)
+                                        ? 5
+                                        : (data.price)
+                                            ? <img src="img/icons/compform.svg"
+                                                   style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
+                                            : 5
+                                }
+                            </div>
                         </div>
                         <div className="col-lg-9">
                             <fieldset
@@ -482,7 +550,6 @@ export default function Advertise() {
                                                                 <input
                                                                     type="radio"
                                                                     name="estate"
-
                                                                     value={i.id}
                                                                     onChange={(e) => {
                                                                         setData(prevData => {
@@ -549,14 +616,16 @@ export default function Advertise() {
                                                 placeholder: "Адрес"
                                             }}
                                             token={env.DADATA_TOKEN}
-                                            onChange={e =>
+                                            onChange={e => {
                                                 setData(prevData => ({
                                                     ...prevData,
                                                     "address": e.value,
                                                     "latitude": e.data?.geo_lat,
                                                     "longitude": e.data?.geo_lon,
                                                     "fias_id": e.data?.fias_id
-                                                }))}
+                                                }))
+                                                resetFieldVal(e, 'isInValidAddress')
+                                            }}
                                         />
                                     </div>
                                 </div>
@@ -1882,10 +1951,14 @@ export default function Advertise() {
                                 <nav className="contents mb-4 mb-lg-5">
                                     <ol>
                                         <li data-target="anchor-1">
-                                            <Link activeClass="active" to="anchor-1" spy={true} smooth={true}
-                                                  hashSpy={true}
-                                                  offset={-80} duration={300}
-                                                  isDynamic={true}>
+                                            <Link
+                                                activeClass="active"
+                                                to="anchor-1"
+                                                spy={true}
+                                                smooth={true}
+                                                hashSpy={true}
+                                                offset={-80} duration={300}
+                                                isDynamic={true}>
                                                 <span>Тип объявления</span>
                                             </Link>
                                         </li>
@@ -1902,7 +1975,7 @@ export default function Advertise() {
                                                   isDynamic={true}><span>Описание и фото</span></Link>
                                         </li>
                                         <li data-target="anchor-4">
-                                            <Link activeClass="active" to="anchor-4" spy={true} smooth={true}
+                                            <Link activeClass='active' to="anchor-4" spy={true} smooth={true}
                                                   hashSpy={true}
                                                   offset={-80} duration={300}
                                                   isDynamic={true}><span>О здании</span></Link>

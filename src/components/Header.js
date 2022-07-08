@@ -11,8 +11,6 @@ const Header = () => {
     const [isShowMenu, setIsShowMenu] = useState(false)
     const location = useLocation()
     const pathname = location.pathname
-    console.log(location)
-    console.log(pathname)
 
     const scrollToTop = () => {
         scroll.scrollToTop();
