@@ -13,6 +13,9 @@ import {useCurrentUser} from "../store/reducers";
 import BtnRep from "../components/BtnRep";
 import Breadcrumbs from '../components/Breadcrumbs';
 import {useSelector} from "react-redux";
+import YMap from "../components/YMap";
+import {GeolocationControl, Map, ObjectManager, Placemark, YMaps, ZoomControl} from "react-yandex-maps";
+import YMapContainer from "../components/YMapContainer";
 
 SwiperCore.use([Navigation, Thumbs, EffectFade]);
 
@@ -99,6 +102,10 @@ export default function CardPage() {
             return "объктов"
         }
     }
+
+    console.log(ads)
+
+    console.log([+ads?.latitude, +ads?.longitude])
 
     return (
         <main>
@@ -591,6 +598,79 @@ export default function CardPage() {
                         </div>
                         <h4 className="mt-4 mt-sm-5">На карте</h4>
                         <img src="/img/map.png" alt="Карта" className="w-100"/>
+                        {/*<Map
+                            state={{
+                                center: [+ads?.latitude, +ads?.longitude],
+                                zoom: 12,
+                                controls: [],
+                            }}
+                            options={{
+                                restrictMapArea: true,
+                                autoFitToViewport: 'always',
+                                yandexMapDisablePoiInteractivity: false,
+                                mapAutoFocus: false
+                            }}
+                        >
+                            <ZoomControl
+                                options={{
+                                    size: "small",
+                                    position: {
+                                        top: '28px',
+                                        right: '46px'
+                                    }
+                                }}
+                            />
+                            <GeolocationControl
+                                options={{
+                                    position: {
+                                        top: '94px',
+                                        right: '46px'
+                                    }
+                                }}
+                            />
+                            <ObjectManager
+                                options={{
+                                    clusterize: true,
+                                    clusterDisableClickZoom: true
+                                }}
+                                objects={{
+                                    openBalloonOnClick: false,
+                                    // preset: 'islands#greenDotIcon',
+                                    iconLayout: 'default#image',
+                                    // Своё изображение иконки метки.
+                                    iconImageHref: '/img/icons/Ymaps/default-placemark.svg',
+                                    // Размеры метки.
+                                    iconImageSize: [36, 55],
+                                    // Смещение левого верхнего угла иконки относительно
+                                    // её "ножки" (точки привязки).
+                                    // iconImageOffset: [-5, -38]
+                                }}
+                                clusters={{
+                                    openBalloonOnClick: false,
+                                    clusterIcons: [
+                                        {
+                                            href: '/img/icons/Ymaps/default-cluster.svg',
+                                            size: [40, 40],
+                                            offset: [-20, -20]
+                                        },
+                                        {
+                                            href: '/img/icons/Ymaps/default-cluster.svg',
+                                            size: [60, 60],
+                                            offset: [-30, -30]
+                                        }
+                                    ]
+                                }}
+                            />
+                            <Placemark
+                                geometry={[+ads?.latitude, +ads?.longitude]}
+                                options={{
+                                    openBalloonOnClick: false,
+                                    iconLayout: 'default#image',
+                                    iconImageHref: '/img/icons/Ymaps/default-placemark.svg',
+                                    iconImageSize: [36, 55],
+                                }}
+                            />
+                        </Map>*/}
                     </div>
                 </div>
             </section>
