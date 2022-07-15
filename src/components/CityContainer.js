@@ -54,6 +54,7 @@ const CityContainer = React.memo(({ymaps}) => {
                 child={SearchDropdown}
                 placeholder='Find your city'
                 align='right'
+                initialCount='100'
             />
             <CityPopup
                 city={city}

@@ -1,12 +1,17 @@
 import React, {useEffect, useRef, useState} from 'react'
-import useDebounce from '../hooks/useDebounce';
+import debounce from '../hooks/debounce';
 import DefaultDropdown from './DefaultDropdown';
 
-const SearchDropdown = ({isShow, options, onSelectItem, closeDropdown, checkedValues, placeholder}) => {
+const SearchDropdown = ({initialCount, isShow, options, onSelectItem, closeDropdown, checkedValues, placeholder}) => {
     const [optionsSearch, setOptionsSearch] = useState('')
-    const debouncedOptionsSearch = useDebounce(optionsSearch, 300)
+    const debouncedOptionsSearch = debounce(optionsSearch, 300)
     const [foundOptions, setFoundOptions] = useState([])
     const inputRef = useRef()
+
+    // scroll
+    const [listItems, setListItems] = useState([]);
+    const [isFetching, setIsFetching] = useState(false);
+    const [total, setTotal] = useState(+initialCount);
 
     useEffect(() => {
         const value = debouncedOptionsSearch.toLowerCase().trim()
@@ -17,10 +22,38 @@ const SearchDropdown = ({isShow, options, onSelectItem, closeDropdown, checkedVa
 
     useEffect(() => {
         inputRef && (isShow
-            ? inputRef.current.focus()
-            : inputRef.current.blur()
+                ? inputRef.current.focus()
+                : inputRef.current.blur()
         )
     }, [isShow, inputRef])
+
+    useEffect(() => {
+        if (isShow) {
+            setOptionsSearch('')
+            setTotal(initialCount + initialCount)
+            setListItems(options.slice(0, initialCount))
+        }
+    }, [isShow])
+
+    useEffect(() => options.length && fetchData(), [options]);
+    useEffect(() => isFetching && fetchData(), [isFetching]);
+
+    const onScrollList = (event) => {
+        const scrollBottom = event.target.scrollTop + event.target.offsetHeight + 100 >= event.target.scrollHeight;
+
+        if (!debouncedOptionsSearch && scrollBottom) {
+            setIsFetching(true);
+        }
+    }
+
+    const fetchData = async () => {
+        setTimeout(async () => {
+            const result = options.slice(listItems.length, total)
+            setTotal(total + 100)
+            setListItems(prevListItems => [...prevListItems, ...result])
+            setIsFetching(false);
+        }, 1000);
+    };
 
     return (
         <>
@@ -33,10 +66,13 @@ const SearchDropdown = ({isShow, options, onSelectItem, closeDropdown, checkedVa
                 value={optionsSearch}
             />
             <DefaultDropdown
-                options={foundOptions}
+                options={debouncedOptionsSearch ? foundOptions : listItems}
                 onSelectItem={onSelectItem}
                 closeDropdown={closeDropdown}
                 checkedValues={checkedValues}
+                onScroll={onScrollList}
+                isFetching={isFetching}
+                isShow={isShow}
             />
         </>
     )
