@@ -2080,6 +2080,37 @@ article {
       border-radius: 4px;
       height: 100%;
       padding: 1.5em 1em;
+      &.big {
+        font-size: 3em;
+        padding: 1.5em;
+        transition: .3s;
+        @media (max-width: 1659px) {
+          font-size: 2.5em;
+        }
+        @media (max-width: 1399px) {
+          font-size: 2.25em;
+        }
+        @media (max-width: 1199px) {
+          font-size: 2em;
+        }
+        @media (max-width: 991px) {
+          font-size: 1.75em;
+        }
+        &:hover {
+          color: $color-1;
+          .fill {fill: $color-1;}
+          .stroke {stroke: $color-1;}
+        }
+        svg {
+          transition: .3s;
+          path {transition: .3s;}
+        }
+        span {
+          flex: 1;
+          margin-left: 1em;
+          text-align: center;
+        }
+      }
       @media (max-width: 1399px) {
         font-size: 1.25em;
         padding: 1.25em 1em;

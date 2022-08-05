@@ -5,6 +5,7 @@ import ArticlePage from '../pages/ArticlePage';
 import Catalog from '../pages/Catalog';
 import MainPage from '../pages/MainPage';
 import Services from '../pages/Services';
+import AllServices from '../pages/AllServices';
 import UserPage from '../pages/UserPage';
 import Advertise from '../pages/Advertise';
 import AdvertiseEditor from '../pages/AdvertiseEditor';
@@ -30,6 +31,7 @@ const AppRouter = () => {
                     <Route path="card-page" element={<CardPage/>} >
                         <Route path=":uuid" element={<CardPage/>}/>
                     </Route>
+                    <Route path="services" element={<AllServices routeName='Услуги' />} />
                     <Route path="service" element={<Services routeName='Услуги' />} />
                     <Route path="user" element={<UserPage />} >
                         <Route path=":userId" element={<UserPage />}/>

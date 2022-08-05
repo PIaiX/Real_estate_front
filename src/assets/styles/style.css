@@ -53,6 +53,7 @@ html {
 ::-webkit-scrollbar-thumb {
   background-color: #e0e0e0;
   border-radius: 10px;
+  -webkit-transition: 0.2s;
   transition: 0.2s;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -81,6 +82,12 @@ textarea, .inp {
   line-height: normal;
   box-shadow: unset;
   outline: none;
+}
+input:not(:-moz-placeholder-shown), textarea:not(:-moz-placeholder-shown), .inp:not(:-moz-placeholder-shown) {
+  border: 1px solid #BDBDBD;
+}
+input:not(:-ms-input-placeholder), textarea:not(:-ms-input-placeholder), .inp:not(:-ms-input-placeholder) {
+  border: 1px solid #BDBDBD;
 }
 input:not(:placeholder-shown),
 textarea:not(:placeholder-shown), .inp:not(:placeholder-shown) {
@@ -222,6 +229,8 @@ select {
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
   outline: none;
   border: none;
@@ -262,8 +271,10 @@ select {
 .input-file img {
   height: 100%;
   width: 100%;
-  object-fit: contain;
-  object-position: center;
+  -o-object-fit: contain;
+     object-fit: contain;
+  -o-object-position: center;
+     object-position: center;
   transition: 0.2s;
 }
 .input-file .ind {
@@ -289,6 +300,8 @@ select {
   border: 1px dashed #E0E0E0;
   padding: 1em;
   border-radius: 0.25em;
+  min-width: -webkit-fit-content;
+  min-width: -moz-fit-content;
   min-width: fit-content;
   max-width: 100%;
 }
@@ -332,7 +345,8 @@ select {
   z-index: 1;
   width: 100%;
   height: 100px;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 @media (max-width: 1659px) {
   .upload__image-wrapper .imgs-box .image-item img {
@@ -373,7 +387,8 @@ select {
 .upload__image-wrapper .imgs-box .image-item__btn-wrapper button img {
   width: 1em;
   height: 1em;
-  object-fit: contain;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 .upload__image-wrapper .imgs-box .image-item .mark {
   position: absolute;
@@ -406,6 +421,8 @@ button {
   padding: 0.5em 2em;
   text-align: center;
   transition: 0.5s;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
   font-size: 1em;
   line-height: normal;
@@ -523,6 +540,8 @@ h1.main {
   text-align: center;
   font-size: 3em;
   color: #146492;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
   background-color: #fff;
   padding: 0.1em 1em;
@@ -684,6 +703,8 @@ h4 {
 }
 
 .w-fit {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
 }
 
@@ -783,6 +804,7 @@ header {
   background: #fff;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   padding: 1em 0;
+  position: -webkit-sticky;
   position: sticky;
   left: 0px;
   top: 0px;
@@ -838,8 +860,10 @@ header .container nav a.active, header .container nav a:hover, header .container
 header .logo {
   max-width: 60px;
   max-height: 30px;
-  object-fit: scale-down;
-  object-position: center;
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
+  -o-object-position: center;
+     object-position: center;
 }
 @media (max-width: 576px) {
   header .logo {
@@ -962,7 +986,8 @@ main {
 .tiles .tile img {
   height: 135px;
   width: 135px;
-  object-fit: scale-down;
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
   display: block;
   margin: 0 auto;
 }
@@ -1209,7 +1234,8 @@ main {
   margin-right: 0.15em;
   width: 1.5em;
   height: 1.5em;
-  object-fit: scale-down;
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
 }
 .labels div.vip {
   background-color: #146492;
@@ -1259,7 +1285,8 @@ main {
 .card-midi .img-preview .wrap img {
   width: 100%;
   height: 90px;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 @media (max-width: 1659px) {
   .card-midi .img-preview .wrap img {
@@ -1287,7 +1314,8 @@ main {
   width: 115px;
   height: 115px;
   border-radius: 50%;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .card-midi .show-phone {
   position: relative;
@@ -1358,7 +1386,8 @@ main {
 .hover-slider .sld img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .hover-slider .sld.active {
   opacity: 1;
@@ -1424,7 +1453,8 @@ article {
 article img {
   width: 100%;
   height: 270px;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 @media (max-width: 1659px) {
   article img {
@@ -1654,6 +1684,7 @@ article .text {
   }
 }
 .form-search .popular-queries div {
+  position: -webkit-sticky;
   position: sticky;
   left: 0;
   top: 0;
@@ -1701,7 +1732,8 @@ article .text {
 #sec-7 .icon-mini {
   width: 1.25em;
   height: 1.25em;
-  object-fit: scale-down;
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
 }
 #sec-7 .btns {
   display: flex;
@@ -1736,7 +1768,8 @@ article .text {
   width: 130px;
   height: 130px;
   border-radius: 50%;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 @media (max-width: 1199px) {
   .author img {
@@ -1757,31 +1790,38 @@ article .text {
 }
 
 .column-2 {
-  column-count: 2;
-  column-gap: 150px;
+  -moz-column-count: 2;
+       column-count: 2;
+  -moz-column-gap: 150px;
+       column-gap: 150px;
   padding-right: 150px;
 }
 @media (max-width: 1659px) {
   .column-2 {
-    column-gap: 100px;
+    -moz-column-gap: 100px;
+         column-gap: 100px;
     padding-right: 100px;
   }
 }
 @media (max-width: 1399px) {
   .column-2 {
-    column-gap: 80px;
+    -moz-column-gap: 80px;
+         column-gap: 80px;
     padding-right: 0px;
   }
 }
 @media (max-width: 991px) {
   .column-2 {
-    column-gap: 50px;
+    -moz-column-gap: 50px;
+         column-gap: 50px;
   }
 }
 @media (max-width: 767px) {
   .column-2 {
-    column-gap: 0px;
-    column-count: 1;
+    -moz-column-gap: 0px;
+         column-gap: 0px;
+    -moz-column-count: 1;
+         column-count: 1;
   }
 }
 
@@ -1809,6 +1849,7 @@ article .text {
 }
 
 .mobile-btns {
+  position: -webkit-sticky;
   position: sticky;
   bottom: 50px;
   left: 0px;
@@ -1862,7 +1903,8 @@ article .text {
 .photo img {
   width: 80px;
   height: 80px;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   border-radius: 50%;
 }
 .photo .indicator {
@@ -1952,6 +1994,51 @@ article .text {
   border-radius: 4px;
   height: 100%;
   padding: 1.5em 1em;
+}
+.sec-9 nav.service-nav a.big {
+  font-size: 3em;
+  padding: 1.5em;
+  transition: 0.3s;
+}
+@media (max-width: 1659px) {
+  .sec-9 nav.service-nav a.big {
+    font-size: 2.5em;
+  }
+}
+@media (max-width: 1399px) {
+  .sec-9 nav.service-nav a.big {
+    font-size: 2.25em;
+  }
+}
+@media (max-width: 1199px) {
+  .sec-9 nav.service-nav a.big {
+    font-size: 2em;
+  }
+}
+@media (max-width: 991px) {
+  .sec-9 nav.service-nav a.big {
+    font-size: 1.75em;
+  }
+}
+.sec-9 nav.service-nav a.big:hover {
+  color: #146492;
+}
+.sec-9 nav.service-nav a.big:hover .fill {
+  fill: #146492;
+}
+.sec-9 nav.service-nav a.big:hover .stroke {
+  stroke: #146492;
+}
+.sec-9 nav.service-nav a.big svg {
+  transition: 0.3s;
+}
+.sec-9 nav.service-nav a.big svg path {
+  transition: 0.3s;
+}
+.sec-9 nav.service-nav a.big span {
+  flex: 1;
+  margin-left: 1em;
+  text-align: center;
 }
 @media (max-width: 1399px) {
   .sec-9 nav.service-nav a {
@@ -2189,7 +2276,8 @@ article .text {
 #sec-10 .user-photo img {
   width: 100%;
   height: 190px;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   border-radius: 50%;
 }
 @media (max-width: 1659px) {
@@ -2238,7 +2326,8 @@ article .text {
   width: 115px;
   height: 115px;
   border-radius: 50%;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 @media (max-width: 575px) {
   .review img.photo {
@@ -2391,7 +2480,8 @@ article .text {
   z-index: 1;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 #sec-11 .faster .title {
   position: absolute;
@@ -2429,6 +2519,7 @@ article .text {
   border: 1px solid rgba(218, 30, 42, 0.44);
 }
 #sec-11 form aside {
+  position: -webkit-sticky;
   position: sticky;
   top: 80px;
   left: 0px;
@@ -2436,6 +2527,7 @@ article .text {
 }
 @media (max-width: 991px) {
   #sec-11 form aside nav.contents {
+    position: -webkit-sticky;
     position: sticky;
     top: 50px;
     left: 0px;
@@ -2653,6 +2745,8 @@ main.account {
 
 @media (max-width: 991px) {
   #sec-12 nav.menu {
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
     width: fit-content;
     margin: 0 auto;
   }
@@ -2755,6 +2849,8 @@ main.account {
   flex-direction: column;
 }
 .form-profile .upload__image-wrapper .imgs-box .image-item__btn-wrapper button {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
   display: flex;
 }
@@ -2848,6 +2944,8 @@ main.account {
   background-color: #F1F7FA;
 }
 .chat .photo {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
   margin-right: 2em;
   position: relative;
@@ -2928,7 +3026,8 @@ main.account {
 .chat .main .reply img {
   width: 2em;
   height: 2em;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   border-radius: 50%;
   margin-right: 0.5em;
 }
@@ -2954,7 +3053,8 @@ main.account {
 }
 .chat .main .reply .mark img {
   max-width: 100%;
-  object-fit: scale-down;
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
   margin-right: 0px;
 }
 .chat .new {
@@ -3089,6 +3189,7 @@ main.account {
     margin-right: -12px;
     padding-bottom: 0.5em;
     padding-top: 0.5em;
+    position: -webkit-sticky;
     position: sticky;
     top: 48px;
     left: 0px;
@@ -3156,6 +3257,8 @@ main.account {
   outline: 0.3em solid #F1F7FA;
 }
 .messages-list .message .photo {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
   margin-right: 2em;
   position: relative;
@@ -3256,7 +3359,8 @@ main.account {
 }
 .messages-list .message .mark img {
   max-width: 100%;
-  object-fit: scale-down;
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
   margin-right: 0px;
 }
 @media (max-width: 991px) {
@@ -3359,6 +3463,7 @@ main.account {
   .send-message {
     margin-left: -12px;
     margin-right: -12px;
+    position: -webkit-sticky;
     position: sticky;
     bottom: 50px;
     left: 0px;
@@ -3453,7 +3558,8 @@ form.entrance input:not([type=checkbox]):not([type=radio]), form.entrance textar
 .password button img {
   width: 100%;
   height: 100%;
-  object-fit: scale-down;
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
 }
 
 footer {
@@ -3465,6 +3571,7 @@ footer {
     height: 50px;
     background: #FFFFFF;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    position: -webkit-sticky;
     position: sticky;
     bottom: 0px;
     left: 0px;
@@ -3642,7 +3749,8 @@ footer nav ul li a.active svg.type-2 path {
 .main-slider-img {
   width: 100%;
   height: 100%;
-  object-fit: scale-down;
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
 }
 .main-slider .swiper-button-prev {
   left: 1em;
@@ -3687,7 +3795,8 @@ footer nav ul li a.active svg.type-2 path {
 .thumbs-slider .swiper-slide img {
   width: 100%;
   height: 77px;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 @media (max-width: 575px) {
   .thumbs-slider .swiper-slide img {
@@ -3722,8 +3831,10 @@ footer nav ul li a.active svg.type-2 path {
 .swiper-home img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center top;
+     object-position: center top;
 }
 .swiper-home .swiper-pagination {
   bottom: 6.5em;
@@ -4006,7 +4117,6 @@ footer nav ul li a.active svg.type-2 path {
   top: 55px;
   font-size: 14px;
   border-radius: 8px;
-  -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04), 0 4px 4px rgba(0, 0, 0, 0.04), 0 20px 40px rgba(0, 0, 0, 0.08);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04), 0 4px 4px rgba(0, 0, 0, 0.04), 0 20px 40px rgba(0, 0, 0, 0.08);
   transition: display 2s linear;
 }
@@ -4262,19 +4372,32 @@ footer nav ul li a.active svg.type-2 path {
   height: 64px;
   margin: 8px;
   border-radius: 50%;
-  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  -webkit-animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+          animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
 }
 
 .lds-ring div:nth-child(1) {
-  animation-delay: -0.45s;
+  -webkit-animation-delay: -0.45s;
+          animation-delay: -0.45s;
 }
 
 .lds-ring div:nth-child(2) {
-  animation-delay: -0.3s;
+  -webkit-animation-delay: -0.3s;
+          animation-delay: -0.3s;
 }
 
 .lds-ring div:nth-child(3) {
-  animation-delay: -0.15s;
+  -webkit-animation-delay: -0.15s;
+          animation-delay: -0.15s;
+}
+
+@-webkit-keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes lds-ring {
@@ -4284,6 +4407,4 @@ footer nav ul li a.active svg.type-2 path {
   100% {
     transform: rotate(360deg);
   }
-}
-
-/*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */
