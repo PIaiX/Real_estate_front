@@ -84,7 +84,7 @@ const Header = () => {
                     <nav className="d-none d-lg-flex order-2">
                         <NavLink to="/" className={`${(pathname === '/') ? 'active' : ''}`}>Главная</NavLink>
                         <NavLink to="/services">Услуги</NavLink>
-                        <NavLink to="/ipoteka">Ипотека</NavLink>
+                        <NavLink to="/hypothec">Ипотека</NavLink>
                         <a href="" role="button" data-bs-toggle="modal" data-bs-target="#ask">Задать вопрос</a>
                     </nav>
                     <div className="d-none d-md-flex order-4 order-lg-3">
@@ -174,6 +174,18 @@ const Header = () => {
                                 }}
                             >
                                 Избранное
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/hypothec"
+                                className={`${(pathname === '/hypothec') ? 'active' : ''}`}
+                                onClick={() => {
+                                    scrollToTop()
+                                    closeConvas()
+                                }}
+                            >
+                                Ипотека
                             </NavLink>
                         </li>
                         <li>

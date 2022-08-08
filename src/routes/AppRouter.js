@@ -18,6 +18,7 @@ import Password2 from '../pages/Password2';
 import WaitAccountActivation from "../pages/WaitAccountActivation";
 import Layout from '../components/Layout';
 import NotFound from '../pages/NotFound';
+import Hypothec from '../pages/Hypothec';
 
 const AppRouter = () => {
 
@@ -33,6 +34,7 @@ const AppRouter = () => {
                     </Route>
                     <Route path="services" element={<AllServices routeName='Услуги' />} />
                     <Route path="service" element={<Services routeName='Услуги' />} />
+                    <Route path="hypothec" element={<Hypothec routeName='Ипотека'/>} />
                     <Route path="user" element={<UserPage />} >
                         <Route path=":userId" element={<UserPage />}/>
                     </Route>
