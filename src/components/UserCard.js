@@ -52,8 +52,8 @@ function UserCard(props) {
             </div>
             <div className="btns mt-2 mt-md-3 mt-xxl-0">
                 <ShowPhone phone="+ 7 (952) 879 78 65"/>
-                <button type="button" data-bs-toggle="modal" data-bs-target="#write-message" className="d-none d-xxl-block btn btn-1 w-100 px-3">Написать сообщение</button>
-                <button type="button" className="btn btn-2 w-100 px-3 mt-2 mt-xxl-0">Откликнуться</button>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#write-message" className="d-none d-xxl-block btn btn-1 w-100 px-2">Написать сообщение</button>
+                <Link to="/personal-account/responses/add" className="btn btn-2 w-100 px-3 mt-2 mt-xxl-0">Откликнуться</Link>
             </div>
         </div>
     );

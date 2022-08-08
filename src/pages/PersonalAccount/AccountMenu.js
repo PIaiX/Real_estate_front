@@ -56,6 +56,10 @@ export default function AccountMenu() {
             <NavLink to="favorites">Избранное</NavLink>
           </li>
           <li>
+            <img src="/img/icons/pa-11.svg" alt="Мои отклики" />
+            <NavLink to="responses">Мои отклики</NavLink>
+          </li>
+          <li>
             <img src="/img/icons/pa-5.svg" alt="Сообщения" />
             <NavLink to="my-messages">Сообщения</NavLink>
             <div className="count">2</div>

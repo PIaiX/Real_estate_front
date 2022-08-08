@@ -149,7 +149,7 @@ input {
 
     &.price {
       background-image: url(bg-imgs/rub.svg);
-      padding: .5em 1.5em .5em .5em;
+      padding: .5em 1.5em .5em .5em !important;
     }
 
     &.area {
@@ -507,6 +507,21 @@ button {
       }
     }
   }
+
+  &-3 {
+    background-color: $gray-5;
+    color: $gray-3;
+    font-weight: 500;
+    &:hover, &:focus, &:active {
+      color: #fff;
+      background-color: $color-1;
+    }
+    &:disabled {
+      color: #C4C4C4;
+      background-color: #7a7878;
+    }
+  }
+  &-rad2 {border-radius: 2em;}
 
   &-fav {
     width: 2.125em;
@@ -1767,9 +1782,9 @@ article {
       white-space: nowrap;
     }
 
-    &::-webkit-scrollbar {
-      //height: 0;
-    }
+    // &::-webkit-scrollbar {
+    //   height: 0;
+    // }
   }
 }
 
@@ -3586,6 +3601,65 @@ main.account {
 
     &:hover, &:active {
       background-color: $color-3;
+    }
+  }
+}
+
+.tabs {
+  list-style: none;
+  padding-left: 0px;
+  display: flex;
+  align-items: center;
+  li {
+    &:not(:first-child){
+      margin-left: 2em;
+      @media (max-width: 575px){
+        margin-left: 1em;
+      }
+    }
+    button {
+      font-size: 1.25em;
+      font-weight: 600;
+      font-family: $title-font;
+      border-bottom: 4px solid transparent;
+      &:hover, &:focus, :active {
+        color: $color-1;
+      }
+      &.active {
+        color: $color-1;
+        border-bottom: 4px solid $color-2;
+      }
+    }
+  }
+}
+
+.form-response {
+  font-size: 1.1em;
+  @media (max-width: 1399px){
+    font-size: 1em;
+  }
+  @media (max-width: 1199px){
+    font-size: .9em;
+  }
+  input[type=number] {
+    padding: 1em 1.5em !important;
+    min-width: 200px;
+    @media (max-width: 1399px) {
+      padding: .5em 1em !important;
+      min-width: 100%;
+    }
+  }
+  .custom-select {
+    width: fit-content;
+    @media (max-width: 1399px) {
+      width: 100%;
+      margin-top: .5em;
+    }
+    .btn {
+      padding: 1em !important;
+      @media (max-width: 1399px) {
+        padding: .5em 1em !important;
+      }
     }
   }
 }

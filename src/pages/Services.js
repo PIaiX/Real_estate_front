@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {NavLink, useLocation} from 'react-router-dom';
 import CustomSelect from '../components/CustomSelect';
-import ShowPhone from '../components/ShowPhone';
 import InputFile from '../components/InputFile';
 import {animateScroll as scroll} from 'react-scroll';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -139,68 +138,51 @@ export default function Services({routeName}) {
                             </div>
                             <div className="p-3 p-xxl-4">
                                 <fieldset className="mb-4">
-                                    <legend className="title-font text-center fs-12 fw-6 mb-3">Опыт работы исполнителя
-                                    </legend>
-                                    <label className="ps-2 mb-3">
+                                    <legend className="title-font text-left fs-12 fw-6 mb-3">Опыт работы исполнителя</legend>
+                                    <label className="mb-3">
                                         <input type="checkbox" name="experience" value="Меньше года"/>
                                         <span className="fs-11 ms-3">Меньше года</span>
                                     </label>
-                                    <label className="ps-2 mb-3">
+                                    <label className="mb-3">
                                         <input type="checkbox" name="experience" value="От года"/>
                                         <span className="fs-11 ms-3">От года</span>
                                     </label>
-                                    <label className="ps-2 mb-3">
+                                    <label className="mb-3">
                                         <input type="checkbox" name="experience" value="От 3 лет"/>
                                         <span className="fs-11 ms-3">От 3 лет</span>
                                     </label>
-                                    <label className="ps-2 mb-3">
+                                    <label className="mb-3">
                                         <input type="checkbox" name="experience" value="Более 5 лет"/>
                                         <span className="fs-11 ms-3">Более 5 лет</span>
                                     </label>
                                 </fieldset>
-                                <fieldset>
-                                    <legend className="title-font text-center fs-12 fw-6 mb-3">Предоставляемые услуги
-                                    </legend>
-                                    <div className="d-flex flex-wrap fw-5">
-                                        <label className="inp-text mb-3 me-3">
-                                            <input type="checkbox" name="servises" value="Курирование проекта"/>
-                                            <div>Курирование проекта</div>
-                                        </label>
-                                        <label className="inp-text mb-3 me-3">
-                                            <input type="checkbox" name="servises" value="Закупки"/>
-                                            <div>Закупки</div>
-                                        </label>
-                                        <label className="inp-text mb-3 me-3">
-                                            <input type="checkbox" name="servises" value="Проектирование"/>
-                                            <div>Проектирование</div>
-                                        </label>
-                                        <label className="inp-text mb-3 me-3">
-                                            <input type="checkbox" name="servises" value="Освещение"/>
-                                            <div>Освещение</div>
-                                        </label>
-                                        <label className="inp-text mb-3 me-3">
-                                            <input type="checkbox" name="servises" value="Подбор мебели"/>
-                                            <div>Подбор мебели</div>
-                                        </label>
-                                        <label className="inp-text mb-3 me-3">
-                                            <input type="checkbox" name="servises" value="Консультация"/>
-                                            <div>Консультация</div>
-                                        </label>
-                                        <label className="inp-text mb-3 me-3">
-                                            <input type="checkbox" name="servises"
-                                                   value="Подбор отделочных материалов"/>
-                                            <div>Подбор отделочных материалов</div>
-                                        </label>
-                                        <label className="inp-text mb-3 me-3">
-                                            <input type="checkbox" name="servises" value="Ландшафтный дизайн"/>
-                                            <div>Ландшафтный дизайн</div>
-                                        </label>
-                                        <label className="inp-text mb-3 me-3">
-                                            <input type="checkbox" name="servises" value="Коммерческий дизайн"/>
-                                            <div>Коммерческий дизайн</div>
-                                        </label>
-                                    </div>
+                                <fieldset className="mb-4">
+                                    <legend className="title-font text-left fs-12 fw-6 mb-3">Реализация</legend>
+                                    <label className="mb-3">
+                                        <input type="checkbox" name="realization" value="Только дизайн"/>
+                                        <span className="fs-11 ms-3">Только дизайн</span>
+                                    </label>
+                                    <label className="mb-3">
+                                        <input type="checkbox" name="realization" value="Дизайн + исполнение"/>
+                                        <span className="fs-11 ms-3">Дизайн + исполнение</span>
+                                    </label>
                                 </fieldset>
+                                <fieldset className="mb-4">
+                                    <legend className="title-font text-left fs-12 fw-6 mb-3">Опыт работы исполнителя</legend>
+                                    <label className="mb-3">
+                                        <input type="checkbox" name="experience" value="Меньше года"/>
+                                        <span className="fs-11 ms-3">Меньше года</span>
+                                    </label>
+                                    <label className="mb-3">
+                                        <input type="checkbox" name="experience" value="До 3-х лет"/>
+                                        <span className="fs-11 ms-3">До 3-х лет</span>
+                                    </label>
+                                    <label className="mb-3">
+                                        <input type="checkbox" name="experience" value="От 3-х лет"/>
+                                        <span className="fs-11 ms-3">От 3-х лет</span>
+                                    </label>
+                                </fieldset>
+                                <button type='reset' className='btn btn-3 btn-rad2 w-100'>Сбросить фильтры</button>
                             </div>
                         </form>
                     </div>
@@ -301,66 +283,49 @@ export default function Services({routeName}) {
                     <div className="service-leftMenu">
                         <div className="p-sm-3 p-xxl-4">
                             <fieldset className="mb-4">
-                                <legend className="title-font text-center fs-12 fw-6 mb-3">Опыт работы исполнителя
-                                </legend>
-                                <label className="ps-2 mb-3">
+                                <legend className="title-font text-left fs-12 fw-6 mb-3">Опыт работы исполнителя</legend>
+                                <label className="mb-3">
                                     <input type="checkbox" name="experience" value="Меньше года"/>
                                     <span className="fs-11 ms-3">Меньше года</span>
                                 </label>
-                                <label className="ps-2 mb-3">
+                                <label className="mb-3">
                                     <input type="checkbox" name="experience" value="От года"/>
                                     <span className="fs-11 ms-3">От года</span>
                                 </label>
-                                <label className="ps-2 mb-3">
+                                <label className="mb-3">
                                     <input type="checkbox" name="experience" value="От 3 лет"/>
                                     <span className="fs-11 ms-3">От 3 лет</span>
                                 </label>
-                                <label className="ps-2 mb-3">
+                                <label className="mb-3">
                                     <input type="checkbox" name="experience" value="Более 5 лет"/>
                                     <span className="fs-11 ms-3">Более 5 лет</span>
                                 </label>
                             </fieldset>
-                            <fieldset>
-                                <legend className="title-font text-center fs-12 fw-6 mb-3">Предоставляемые услуги
-                                </legend>
-                                <div className="d-flex flex-wrap fw-5">
-                                    <label className="inp-text mb-3 me-3">
-                                        <input type="checkbox" name="servises" value="Курирование проекта"/>
-                                        <div>Курирование проекта</div>
-                                    </label>
-                                    <label className="inp-text mb-3 me-3">
-                                        <input type="checkbox" name="servises" value="Закупки"/>
-                                        <div>Закупки</div>
-                                    </label>
-                                    <label className="inp-text mb-3 me-3">
-                                        <input type="checkbox" name="servises" value="Проектирование"/>
-                                        <div>Проектирование</div>
-                                    </label>
-                                    <label className="inp-text mb-3 me-3">
-                                        <input type="checkbox" name="servises" value="Освещение"/>
-                                        <div>Освещение</div>
-                                    </label>
-                                    <label className="inp-text mb-3 me-3">
-                                        <input type="checkbox" name="servises" value="Подбор мебели"/>
-                                        <div>Подбор мебели</div>
-                                    </label>
-                                    <label className="inp-text mb-3 me-3">
-                                        <input type="checkbox" name="servises" value="Консультация"/>
-                                        <div>Консультация</div>
-                                    </label>
-                                    <label className="inp-text mb-3 me-3">
-                                        <input type="checkbox" name="servises" value="Подбор отделочных материалов"/>
-                                        <div>Подбор отделочных материалов</div>
-                                    </label>
-                                    <label className="inp-text mb-3 me-3">
-                                        <input type="checkbox" name="servises" value="Ландшафтный дизайн"/>
-                                        <div>Ландшафтный дизайн</div>
-                                    </label>
-                                    <label className="inp-text mb-3 me-3">
-                                        <input type="checkbox" name="servises" value="Коммерческий дизайн"/>
-                                        <div>Коммерческий дизайн</div>
-                                    </label>
-                                </div>
+                            <fieldset className="mb-4">
+                                <legend className="title-font text-left fs-12 fw-6 mb-3">Реализация</legend>
+                                <label className="mb-3">
+                                    <input type="checkbox" name="realization" value="Только дизайн"/>
+                                    <span className="fs-11 ms-3">Только дизайн</span>
+                                </label>
+                                <label className="mb-3">
+                                    <input type="checkbox" name="realization" value="Дизайн + исполнение"/>
+                                    <span className="fs-11 ms-3">Дизайн + исполнение</span>
+                                </label>
+                            </fieldset>
+                            <fieldset className="mb-4">
+                                <legend className="title-font text-left fs-12 fw-6 mb-3">Опыт работы исполнителя</legend>
+                                <label className="mb-3">
+                                    <input type="checkbox" name="experience" value="Меньше года"/>
+                                    <span className="fs-11 ms-3">Меньше года</span>
+                                </label>
+                                <label className="mb-3">
+                                    <input type="checkbox" name="experience" value="До 3-х лет"/>
+                                    <span className="fs-11 ms-3">До 3-х лет</span>
+                                </label>
+                                <label className="mb-3">
+                                    <input type="checkbox" name="experience" value="От 3-х лет"/>
+                                    <span className="fs-11 ms-3">От 3-х лет</span>
+                                </label>
                             </fieldset>
                         </div>
                     </div>

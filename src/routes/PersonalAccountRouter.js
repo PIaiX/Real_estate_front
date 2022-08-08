@@ -9,6 +9,8 @@ import Favorites from '../pages/PersonalAccount/Favorites';
 import UserMessages from '../pages/PersonalAccount/UserMessages';
 import ChatPage from '../pages/PersonalAccount/ChatPage';
 import UserReviews from '../pages/PersonalAccount/UserReviews';
+import Responses from '../pages/PersonalAccount/Responses';
+import AddResponse from '../pages/PersonalAccount/AddResponse';
 
 const PersonalAccountRouter = ({isMobile}) => {
     return (
@@ -24,6 +26,8 @@ const PersonalAccountRouter = ({isMobile}) => {
                 <Route path="favorites" element={<Favorites routeName='Избранное'/>}>
                     <Route path="page/:page" element={<Favorites/>}/>
                 </Route>
+                <Route path="responses" element={<Responses/>}/>
+                <Route path="responses/add" element={<AddResponse/>}/>
                 <Route path="my-messages" element={<UserMessages/>}/>
                 <Route path="my-messages/*" element={<ChatPage/>}/>
                 <Route path="my-reviews" element={<UserReviews/>}>
@@ -41,6 +45,8 @@ const PersonalAccountRouter = ({isMobile}) => {
                 <Route path="favorites" element={<Favorites routeName='Избранное'/>}>
                     <Route path="page/:page" element={<Favorites/>}/>
                 </Route>
+                <Route path="responses" element={<Responses/>}/>
+                <Route path="responses/add" element={<AddResponse/>}/>
                 <Route path="my-messages" element={<UserMessages/>}/>
                 <Route path="my-messages/*" element={<ChatPage/>}/>
                 <Route path="my-reviews" element={<UserReviews/>}>
