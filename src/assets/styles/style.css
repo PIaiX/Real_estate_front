@@ -608,6 +608,13 @@ h4 {
   font-weight: 700;
 }
 
+h5 {
+  font-family: "Gilroy";
+  text-align: left;
+  font-size: 1.25em;
+  font-weight: 500;
+}
+
 .title-font {
   font-family: "Gilroy";
 }
@@ -931,22 +938,22 @@ header .custom-select > button svg line {
 }
 
 main {
-  min-height: calc(100vh - 320px);
+  min-height: calc(100vh - 470px);
   position: relative;
 }
 @media (max-width: 1199px) {
   main {
-    min-height: calc(100vh - 305px);
+    min-height: calc(100vh - 455px);
   }
 }
 @media (max-width: 991px) {
   main {
-    min-height: calc(100vh - 300px);
+    min-height: calc(100vh - 415px);
   }
 }
 @media (max-width: 767px) {
   main {
-    min-height: calc(100vh - 105px);
+    min-height: calc(100vh - 100px);
   }
 }
 @media (max-width: 575px) {
@@ -3724,7 +3731,14 @@ form.entrance input:not([type=checkbox]):not([type=radio]), form.entrance textar
 
 footer {
   background-color: #373C3F;
-  height: 250px;
+  color: #fff;
+  height: 400px;
+  padding: 3em 0;
+}
+@media (max-width: 991px) {
+  footer {
+    height: 365px;
+  }
 }
 @media (max-width: 767px) {
   footer {
@@ -3737,12 +3751,64 @@ footer {
     left: 0px;
     width: 100%;
     z-index: 100;
+    padding: 0;
   }
 }
-footer nav {
+footer hr {
+  height: 2px;
+  width: 100%;
+  background-color: #fff;
+  opacity: 1;
+  border: none;
+  margin: 1.75em 0;
+}
+@media (max-width: 1199px) {
+  footer hr {
+    margin: 1.5em 0;
+    height: 1px;
+  }
+}
+footer .logo {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto 1em;
+}
+@media (max-width: 1199px) {
+  footer .logo {
+    width: 50px;
+    height: 50px;
+    -o-object-fit: contain;
+       object-fit: contain;
+    margin: 0 1em 0 0;
+  }
+}
+footer nav.desktop ul {
+  list-style: none;
+  padding: 0px;
+}
+footer nav.desktop ul li:not(:first-child) {
+  margin-top: 1.5em;
+}
+@media (max-width: 1199px) {
+  footer nav.desktop ul li:not(:first-child) {
+    margin-top: 1em;
+  }
+}
+footer nav.desktop ul li a {
+  text-transform: uppercase;
+  font-family: "Gilroy";
+  font-size: 1.25em;
+  font-weight: 500;
+}
+@media (max-width: 1199px) {
+  footer nav.desktop ul li a {
+    font-size: 1em;
+  }
+}
+footer nav.mobile {
   height: 100%;
 }
-footer nav ul {
+footer nav.mobile ul {
   height: 100%;
   display: flex;
   justify-content: space-around;
@@ -3750,23 +3816,23 @@ footer nav ul {
   list-style: none;
   padding: 0px;
 }
-footer nav ul li a svg {
+footer nav.mobile ul li a svg {
   fill: none;
 }
-footer nav ul li a svg path {
+footer nav.mobile ul li a svg path {
   fill: #C4C4C4;
 }
-footer nav ul li a svg.type-2 path {
+footer nav.mobile ul li a svg.type-2 path {
   fill: none;
   stroke: #C4C4C4;
   stroke-width: 3px;
   stroke-linecap: square;
   stroke-linejoin: round;
 }
-footer nav ul li a.active svg path {
+footer nav.mobile ul li a.active svg path {
   fill: #C59C7E;
 }
-footer nav ul li a.active svg.type-2 path {
+footer nav.mobile ul li a.active svg.type-2 path {
   fill: none;
   stroke: #C59C7E;
 }

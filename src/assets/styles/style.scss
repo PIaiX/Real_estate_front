@@ -671,6 +671,13 @@ h4 {
   font-weight: 700;
 }
 
+h5  {
+  font-family: $title-font;
+  text-align: left;
+  font-size: 1.25em;
+  font-weight: 500;
+}
+
 .title-font {
   font-family: $title-font;
 }
@@ -1004,16 +1011,16 @@ header {
 }
 
 main {
-  min-height: calc(100vh - 320px);
+  min-height: calc(100vh - 470px);
   position: relative;
   @media (max-width: 1199px) {
-    min-height: calc(100vh - 305px);
+    min-height: calc(100vh - 455px);
   }
   @media (max-width: 991px) {
-    min-height: calc(100vh - 300px);
+    min-height: calc(100vh - 415px);
   }
   @media (max-width: 767px) {
-    min-height: calc(100vh - 105px);
+    min-height: calc(100vh - 100px);
   }
   @media (max-width: 575px) {
     min-height: calc(100vh - 98px);
@@ -3768,7 +3775,12 @@ form.entrance {
 
 footer {
   background-color: #373C3F;
-  height: 250px;
+  color: #fff;
+  height: 400px;
+  padding: 3em 0;
+  @media (max-width: 991px) {
+    height: 365px;
+  }
   @media (max-width: 767px) {
     height: 50px;
     background: #FFFFFF;
@@ -3778,54 +3790,100 @@ footer {
     left: 0px;
     width: 100%;
     z-index: 100;
+    padding: 0;
   }
-
+  hr {
+    height: 2px;
+    width: 100%;
+    background-color: #fff;
+    opacity: 1;
+    border: none;
+    margin: 1.75em 0;
+    @media (max-width: 1199px) {
+      margin: 1.5em 0;
+      height: 1px;
+    }
+  }
+  .logo {
+    display: block;
+    max-width: 100%;
+    margin: 0 auto 1em;
+    @media (max-width: 1199px) {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      margin: 0 1em 0 0;
+    }
+  }
   nav {
-    height: 100%;
-
-    ul {
-      height: 100%;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      list-style: none;
-      padding: 0px;
-
-      li {
-        a {
-          svg {
-            fill: none;
-
-            path {
-              fill: #C4C4C4;
-            }
-
-            &.type-2 {
-              path {
-                fill: none;
-                stroke: #C4C4C4;
-                stroke-width: 3px;
-                stroke-linecap: square;
-                stroke-linejoin: round;
-              }
+    &.desktop {
+      ul {
+        list-style: none;
+        padding: 0px;
+        li {
+          &:not(:first-child) {
+            margin-top: 1.5em;
+            @media (max-width: 1199px) {
+              margin-top: 1em;
             }
           }
-
-          &.active {
+          a {
+            text-transform: uppercase;
+            font-family: $title-font;
+            font-size: 1.25em;
+            font-weight: 500;
+            @media (max-width: 1199px) {
+              font-size: 1em;
+            }
+          }
+        }
+      }
+    }
+    &.mobile {
+      height: 100%;
+      ul {
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        list-style: none;
+        padding: 0px;
+        li {
+          a {
             svg {
+              fill: none;
+
               path {
-                fill: $color-2;
+                fill: #C4C4C4;
               }
 
               &.type-2 {
                 path {
                   fill: none;
-                  stroke: $color-2;
+                  stroke: #C4C4C4;
+                  stroke-width: 3px;
+                  stroke-linecap: square;
+                  stroke-linejoin: round;
                 }
               }
             }
-          }
 
+            &.active {
+              svg {
+                path {
+                  fill: $color-2;
+                }
+
+                &.type-2 {
+                  path {
+                    fill: none;
+                    stroke: $color-2;
+                  }
+                }
+              }
+            }
+
+          }
         }
       }
     }

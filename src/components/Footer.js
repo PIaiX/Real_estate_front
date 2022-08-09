@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { animateScroll as scroll } from 'react-scroll';
 
 const Footer = () => {
@@ -9,8 +9,53 @@ const Footer = () => {
 
     return (
         <footer>
+            <div className='container d-none d-md-block'>
+                <div className='row row-cols-4'>
+                    <div className='col-4 col-xl-3'>
+                        <h5>КАРТА САЙТА</h5>
+                        <hr/>
+                        <nav className='desktop'>
+                            <ul>
+                                <li><Link to='/'>ГЛАВНАЯ </Link></li>
+                                <li><Link to='/services'>УСЛУГИ </Link></li>
+                                <li><Link to='/hypothec'>ИПОТЕКА </Link></li>
+                                <li><Link to='/' role="button" data-bs-toggle="modal" data-bs-target="#ask">ЗАДАТЬ ВОПРОС</Link></li>
+                                <li><Link to='/advertise' onClick={() => scrollToTop()}>ПОДАТЬ ОБЪЯВЛЕНИЕ</Link></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div className='col-4 col-xl-3'>
+                        <h5>ПРОФИЛЬ</h5>
+                        <hr/>
+                        <nav className='desktop'>
+                            <ul>
+                                <li><Link to='/personal-account'>ЛИЧНЫЙ КАБИНЕТ </Link></li>
+                                <li><Link to='/personal-account/my-messages'>СООБЩЕНИЯ</Link></li>
+                                <li><Link to='/personal-account/favorites'>ИЗБРАННОЕ</Link></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div className='col-4 col-xl-3'>
+                        <h5>МЫ В СОЦИАЛЬНЫХ СЕТЯХ</h5>
+                        <hr/>
+                        <nav className='desktop'>
+                            <ul>
+                                <li><a href='/'>ВКОНТАКТЕ</a></li>
+                                <li><a href='/'>ОДНОКЛАССНИКИ</a></li>
+                                <li><a href='/'>RUTUBE</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div className='col-12 col-xl-3 mt-4 mt-xl-0'>
+                        <div className='d-flex flex-row flex-xl-column align-items-center justify-content-center'>
+                            <img src='/img/Ellipse 49.png' className='logo'/>
+                            <div className='text-center fs-08 fw-5'>© ВСЕ ПРАВА ЗАЩИЩЕНЫ · НЕДВИЖИМОСТЬ · 2022</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div className="container h-100 d-block d-md-none">
-                <nav>
+                <nav className='mobile'>
                     <ul>
                         <li>
                             <NavLink to="/" onClick={() => scrollToTop()}>
