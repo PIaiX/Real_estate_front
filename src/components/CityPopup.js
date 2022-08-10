@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-const CityPopup = ({city, mapCenter, isDefinedCity, setIsShowCities}) => {
+const CityPopup = ({city, isDefinedCity, setIsShowCities}) => {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);

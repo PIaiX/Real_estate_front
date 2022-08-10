@@ -52,6 +52,10 @@ const Catalog = ({routeName}) => {
     }, [])
 
     useEffect(() => {
+        console.log(estateIds)
+    }, [estateIds])
+
+    useEffect(() => {
         (selectedCity && page) &&
         getCatalog(page, 4, userId, selectedCity, debouncedFilters)
             .then(response => setCatalogData({

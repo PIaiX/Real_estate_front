@@ -43,11 +43,6 @@ const YMapContainer = ({isShowMap, filters, setFilters, onResetFilters, onApplyF
         setCards(result)
     }, [ids])
 
-    useEffect(() => {
-        console.log('items: ', mapData)
-        console.log('filters: ', filters)
-    }, [mapData, filters])
-
     return (
         <div className='catalog__ymaps-container'>
             <YMap

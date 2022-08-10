@@ -30,7 +30,7 @@ const DefaultDropdown = ({options, onSelectItem, closeDropdown, onScroll, isFetc
                     : <div className='p-2'>Нет доступных значений</div>
 
             }
-            {isFetching && <div className="m-auto p-2"><Loader color='#545454'/></div>}
+            {isFetching && <div className="d-flex justify-content-center p-2"><Loader color='#545454'/></div>}
         </div>
     )
 }

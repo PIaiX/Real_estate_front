@@ -4255,8 +4255,9 @@ footer {
   // custom offcanvas
   &-ymap,
   &-cards {
+    top: auto !important;
+    width: 450px !important;
     height: calc(100vh - 410px);
-    top: auto;
 
     @media (max-width: 1659px) {
       height: calc(100vh - 395px);

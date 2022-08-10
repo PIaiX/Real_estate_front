@@ -2,7 +2,7 @@ import {useDispatch} from 'react-redux';
 import {useEffect, useState} from 'react';
 import {bindActionCreators} from 'redux';
 import selectedCityActions from '../store/actions/selectedCity';
-import {defineCity} from '../API/defineCity';
+import defineCity from '../API/defineCity';
 
 const useSelectedCity = () => {
     const dispatch = useDispatch()
