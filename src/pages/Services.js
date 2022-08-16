@@ -1,33 +1,61 @@
 import React, {useEffect, useState} from 'react';
-import {NavLink, useLocation} from 'react-router-dom';
+import {NavLink, useLocation, useParams} from 'react-router-dom';
 import CustomSelect from '../components/CustomSelect';
 import InputFile from '../components/InputFile';
 import {animateScroll as scroll} from 'react-scroll';
 import Breadcrumbs from '../components/Breadcrumbs';
-import {useSelector} from "react-redux";
-import {getCatalog} from "../API/catalog";
 import UserCard from '../components/UserCard';
+import {getAttributesTypes, getServicesUsers, getSubServicesTypes} from "../API/services";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import PaginationCustom from "../components/PaginationCustom";
 
 export default function Services({routeName}) {
+    const axiosPrivate = useAxiosPrivate()
+    const {slug} = useParams()
+    const local = useLocation()
+    const [catalog, setCatalog] = useState([])
+
+    const [filterSubs, setFilterSubs] = useState({
+        isLoading: false,
+        data: [],
+    })
+    const [users, setUsers] = useState({
+        isLoading: false,
+        data: []
+    })
+
+    const [filterAttributes, setFilterAttributes] = useState({
+        isLoading: false,
+        data: []
+    })
+
+    const [payload, setPayload] = useState({
+        page: 1,
+        limit: 6,
+        servicesTypeId: local.state.id
+    })
+
+    useEffect(() => {
+        setPayload(prevState => ({...prevState, servicesTypeId: local.state.id}))
+    }, [local])
+
+    useEffect(() => {
+        getServicesUsers(axiosPrivate, payload).then(res => setUsers({isLoading: true, data: res.body}))
+    }, [payload.servicesTypeId])
+
+    useEffect(() => {
+        getSubServicesTypes(axiosPrivate, payload.servicesTypeId).then(res => setFilterSubs({isLoading: true, data: res}))
+        getAttributesTypes(axiosPrivate, payload.servicesTypeId).then(res => setFilterAttributes({isLoading: true, data: res}))
+    }, [payload.servicesTypeId])
 
     const scrollToTop = () => {
         scroll.scrollToTop();
     };
 
-    const city = useSelector(state => state.selectedCity)
-    const [catalog, setCatalog] = useState([])
-    const {pathname} = useLocation()
-
-    const req = async () => {
-        const result = (city) && await getCatalog(1, 10, 1, city)
-        if (result) {
-            setCatalog(result?.body?.data)
-        }
-    }
-
-    useEffect(() => {
-        req()
-    }, [city])
+    console.log(local)
+    console.log(filterAttributes)
+    console.log(users)
+    console.log(filterSubs)
 
     return (
         <main>
@@ -55,7 +83,7 @@ export default function Services({routeName}) {
                 <nav className="d-none d-md-block service-nav mb-5">
                     <div className="row row-cols-4 gx-2 gx-lg-4">
                         <div>
-                            <NavLink to="/">
+                            <NavLink to="/service/uslugiRieltora" state={{id: 1}}>
                                 <svg width="80" height="105" viewBox="0 0 103 136" xmlns="http://www.w3.org/2000/svg">
                                     <mask id="path-1-inside-1_86_476" fill="white">
                                         <path fillRule="evenodd" clipRule="evenodd"
@@ -85,10 +113,10 @@ export default function Services({routeName}) {
                                     <line className="stroke" x1="67.0917" y1="79.062" x2="80.0917" y2="79.062"/>
                                 </svg>
                                 <span>Услуги риелтора</span>
-                            </NavLink>
+                            </NavLink >
                         </div>
                         <div>
-                            <NavLink to="/service" className="active">
+                            <NavLink to="/service/dizain" state={{id: 2}}>
                                 <svg width="84" height="88" viewBox="0 0 84 88" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path className="fill"
@@ -100,7 +128,7 @@ export default function Services({routeName}) {
                             </NavLink>
                         </div>
                         <div>
-                            <NavLink to="/">
+                            <NavLink to="/service/remont" state={{id: 3}}>
                                 <svg width="77" height="69" viewBox="0 0 77 69" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path className="fill"
@@ -114,7 +142,7 @@ export default function Services({routeName}) {
                             </NavLink>
                         </div>
                         <div>
-                            <NavLink to="/">
+                            <NavLink to="/service/gruzoperevozki" state={{id: 4}}>
                                 <svg width="89" height="58" viewBox="0 0 89 58" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path className="fill" d="M88.7276 28.1158L82.4202 19.0394C81.482 17.6934 80.2293 16.5933 78.7693 15.8334C77.3092 15.0735 75.6855 14.6765 74.0372 14.6763H57.7648V2.16756C57.7648 1.76945 57.6056 1.38766 57.3222 1.10615C57.0387 0.824651 56.6543 0.666504 56.2535 0.666504H1.84437C1.44353 0.666504 1.05911 0.824651 0.775676 1.10615C0.49224 1.38766 0.333008 1.76945 0.333008 2.16756V49.2006C0.333008 49.5987 0.49224 49.9805 0.775676 50.262C1.05911 50.5435 1.44353 50.7017 1.84437 50.7017H14.3282C14.571 52.5361 15.4771 54.2203 16.8776 55.4404C18.2782 56.6604 20.0775 57.3332 21.9405 57.3332C23.8034 57.3332 25.6028 56.6604 27.0033 55.4404C28.4038 54.2203 29.3099 52.5361 29.5527 50.7017H63.2864C63.5603 52.5094 64.4782 54.1595 65.8733 55.352C67.2683 56.5446 69.0479 57.2005 70.8885 57.2005C72.7291 57.2005 74.5087 56.5446 75.9037 55.352C77.2988 54.1595 78.2167 52.5094 78.4907 50.7017H87.4883C87.8892 50.7017 88.2736 50.5435 88.557 50.262C88.8404 49.9805 88.9997 49.5987 88.9997 49.2006V28.9664C89.0005 28.6616 88.9054 28.3642 88.7276 28.1158ZM74.0372 17.6785C75.1968 17.6777 76.3392 17.957 77.366 18.4922C78.3929 19.0273 79.2733 19.8024 79.9315 20.7506L84.7578 27.6855H57.7648V17.6785H74.0372ZM21.9354 54.2041C21.0095 54.2081 20.1032 53.9389 19.3315 53.4307C18.5599 52.9224 17.9575 52.198 17.6009 51.3494C17.2442 50.5007 17.1493 49.5659 17.3283 48.6637C17.5072 47.7614 17.9519 46.9322 18.6059 46.2812C19.2599 45.6302 20.0939 45.1868 21.002 45.0071C21.9101 44.8275 22.8514 44.9197 23.7067 45.272C24.562 45.6244 25.2926 46.2211 25.806 46.9864C26.3194 47.7517 26.5924 48.6512 26.5904 49.5709C26.5878 50.7971 26.0968 51.9726 25.2247 52.8406C24.3526 53.7087 23.1701 54.1988 21.9354 54.2041ZM21.9354 41.9255C20.2166 41.92 18.5452 42.4853 17.1869 43.5315C15.8287 44.5777 14.8615 46.0448 14.4391 47.6996H3.35574V3.66861H54.7421V47.6996H29.3713C28.9531 46.0539 27.9953 44.5932 26.649 43.5478C25.3027 42.5024 23.6444 41.9316 21.9354 41.9255ZM70.8633 54.2041C69.9382 54.2041 69.0339 53.9315 68.2649 53.4209C67.4959 52.9102 66.8966 52.1845 66.5431 51.3354C66.1895 50.4864 66.0975 49.5523 66.2787 48.6513C66.4599 47.7503 66.9062 46.923 67.5611 46.274C68.2159 45.6251 69.0499 45.1836 69.9574 45.0056C70.865 44.8276 71.8053 44.921 72.6594 45.2739C73.5135 45.6269 74.243 46.2236 74.7555 46.9885C75.268 47.7534 75.5405 48.6521 75.5385 49.5709C75.5358 50.8006 75.0421 51.9791 74.1656 52.8477C73.2891 53.7163 72.1015 54.2041 70.8633 54.2041ZM78.3194 47.6996C77.9059 46.0475 76.9477 44.5803 75.5975 43.5317C74.2471 42.4832 72.5824 41.9135 70.8683 41.9135C69.1543 41.9135 67.4896 42.4832 66.1393 43.5317C64.789 44.5803 63.8308 46.0475 63.4173 47.6996H57.7648V30.6876H85.977V47.6996H78.3194Z" />
                                 </svg>
@@ -157,30 +185,22 @@ export default function Services({routeName}) {
                                     </label>
                                 </fieldset>
                                 <fieldset className="mb-4">
-                                    <legend className="title-font text-left fs-12 fw-6 mb-3">Реализация</legend>
-                                    <label className="mb-3">
-                                        <input type="checkbox" name="realization" value="Только дизайн"/>
-                                        <span className="fs-11 ms-3">Только дизайн</span>
-                                    </label>
-                                    <label className="mb-3">
-                                        <input type="checkbox" name="realization" value="Дизайн + исполнение"/>
-                                        <span className="fs-11 ms-3">Дизайн + исполнение</span>
-                                    </label>
+                                    <legend className="title-font text-left fs-12 fw-6 mb-3">Х категория</legend>
+                                    {filterAttributes.data.map(attribute => (
+                                        <label className="mb-3" key={attribute.id}>
+                                            <input type="checkbox" name="realization" value="Только дизайн"/>
+                                            <span className="fs-11 ms-3">{attribute.name}</span>
+                                        </label>
+                                    ))}
                                 </fieldset>
                                 <fieldset className="mb-4">
-                                    <legend className="title-font text-left fs-12 fw-6 mb-3">Опыт работы исполнителя</legend>
-                                    <label className="mb-3">
-                                        <input type="checkbox" name="experience" value="Меньше года"/>
-                                        <span className="fs-11 ms-3">Меньше года</span>
-                                    </label>
-                                    <label className="mb-3">
-                                        <input type="checkbox" name="experience" value="До 3-х лет"/>
-                                        <span className="fs-11 ms-3">До 3-х лет</span>
-                                    </label>
-                                    <label className="mb-3">
-                                        <input type="checkbox" name="experience" value="От 3-х лет"/>
-                                        <span className="fs-11 ms-3">От 3-х лет</span>
-                                    </label>
+                                    <legend className="title-font text-left fs-12 fw-6 mb-3">X категория</legend>
+                                    {filterSubs.data.map(sub => (
+                                        <label className="mb-3" key={sub.id}>
+                                            <input type="checkbox" name="experience" value="Меньше года"/>
+                                            <span className="fs-11 ms-3">{sub.name}</span>
+                                        </label>
+                                    ))}
                                 </fieldset>
                                 <button type='reset' className='btn btn-3 btn-rad2 w-100'>Сбросить фильтры</button>
                             </div>
@@ -211,7 +231,7 @@ export default function Services({routeName}) {
                         <div className="row px-4 px-sm-0 row-cols-sm-2 row-cols-lg-3 row-cols-xl-2 row-cols-xxl-1 g-4">
                             {catalog?.map(i =>
                                 <div>
-                                    <UserCard userName={i.user?.fullName} link={`/user/${i?.userId}`} linkState={{prevRoute: pathname, routeName: routeName}} linkClick={() => scrollToTop()} rating={'3.35'} service={'Дизайнер'}/>
+                                    <UserCard userName={i.user?.fullName} link={`/user/${i?.userId}`} linkClick={() => scrollToTop()} rating={'3.35'} service={'Дизайнер'}/>
                                 </div>
                             )}
                         </div>
@@ -302,30 +322,22 @@ export default function Services({routeName}) {
                                 </label>
                             </fieldset>
                             <fieldset className="mb-4">
-                                <legend className="title-font text-left fs-12 fw-6 mb-3">Реализация</legend>
-                                <label className="mb-3">
-                                    <input type="checkbox" name="realization" value="Только дизайн"/>
-                                    <span className="fs-11 ms-3">Только дизайн</span>
-                                </label>
-                                <label className="mb-3">
-                                    <input type="checkbox" name="realization" value="Дизайн + исполнение"/>
-                                    <span className="fs-11 ms-3">Дизайн + исполнение</span>
-                                </label>
+                                <legend className="title-font text-left fs-12 fw-6 mb-3">Х категория</legend>
+                                {filterAttributes.data.map(attribute => (
+                                    <label className="mb-3" key={attribute.id}>
+                                        <input type="checkbox" name="realization" value="Только дизайн"/>
+                                        <span className="fs-11 ms-3">{attribute.name}</span>
+                                    </label>
+                                ))}
                             </fieldset>
                             <fieldset className="mb-4">
-                                <legend className="title-font text-left fs-12 fw-6 mb-3">Опыт работы исполнителя</legend>
-                                <label className="mb-3">
-                                    <input type="checkbox" name="experience" value="Меньше года"/>
-                                    <span className="fs-11 ms-3">Меньше года</span>
-                                </label>
-                                <label className="mb-3">
-                                    <input type="checkbox" name="experience" value="До 3-х лет"/>
-                                    <span className="fs-11 ms-3">До 3-х лет</span>
-                                </label>
-                                <label className="mb-3">
-                                    <input type="checkbox" name="experience" value="От 3-х лет"/>
-                                    <span className="fs-11 ms-3">От 3-х лет</span>
-                                </label>
+                                <legend className="title-font text-left fs-12 fw-6 mb-3">X категория</legend>
+                                {filterSubs.data.map(sub => (
+                                    <label className="mb-3" key={sub.id}>
+                                        <input type="checkbox" name="experience" value="Меньше года"/>
+                                        <span className="fs-11 ms-3">{sub.name}</span>
+                                    </label>
+                                ))}
                             </fieldset>
                         </div>
                     </div>

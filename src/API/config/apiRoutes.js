@@ -53,5 +53,5 @@ export default {
     GET_SERVICE_SUB_TYPES: '/services/subServicesTypes',
     GET_SERVICE_ATTRIBUTES_TYPES: '/services/attributesTypes',
     SERVICES_ACTIONS: '/services',
-    ADD_SERVICES: '/services/add'
+    ADD_SERVICES: '/services/add',
 }
