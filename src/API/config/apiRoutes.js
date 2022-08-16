@@ -46,5 +46,12 @@ export default {
     REVIEWS_IN_USERS_PAGE: '/user/reviews',
 
     //yamap
-    GET_FOR_MAP: '/realEstates/getForMap'
+    GET_FOR_MAP: '/realEstates/getForMap',
+
+    //service
+    GET_SERVICE_TYPES: '/services/types',
+    GET_SERVICE_SUB_TYPES: '/services/subServicesTypes',
+    GET_SERVICE_ATTRIBUTES_TYPES: '/services/attributesTypes',
+    SERVICES_ACTIONS: '/services',
+    ADD_SERVICES: '/services/add'
 }
