@@ -1,12 +1,9 @@
 import axios from "axios";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
-
-const url = 'https://api.antontig.beget.tech'
-
+import apiRoutes from "./config/apiRoutes";
 
 export async function getAdsPage(uuid) {
     try {
-        const response = await axios.post(`${url}/api/realEstates/${uuid}`)
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.ADS_ACTIONS}/${uuid}`)
         return response.data.body;
     } catch(error) {
         console.log(error)
@@ -15,7 +12,7 @@ export async function getAdsPage(uuid) {
 
 export async function addWishList(data, axiosPrivate) {
     try {
-        const response = await axiosPrivate.post('https://api.antontig.beget.tech/api/realEstates/wishlist', {...data})
+        const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.ADS_ACTIONS_WISHLIST}`, {...data})
         return response.data
     } catch(error) {
         console.log(error)
@@ -24,7 +21,7 @@ export async function addWishList(data, axiosPrivate) {
 
 export async function deleteWishList(data, axiosPrivate) {
     try {
-        const response = await axiosPrivate.delete(`https://api.antontig.beget.tech/api/realEstates/wishlist`,{data: data})
+        const response = await axiosPrivate.delete(`${process.env.REACT_APP_BASE_URL}${apiRoutes.ADS_ACTIONS_WISHLIST}`,{data: data})
         return response.data
     } catch(error) {
         console.log(error)
@@ -33,7 +30,7 @@ export async function deleteWishList(data, axiosPrivate) {
 
 export async function reportAds(axiosPrivate, report) {
     try {
-        const response = await axiosPrivate.post('https://api.antontig.beget.tech/api/realEstates/reports', report);
+        const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.ADS_REPORT}`, report);
         return response.data
     } catch(error) {
         console.log(error)

@@ -1,10 +1,9 @@
 import axios from "axios";
-
-const mainUrl = "https://api.antontig.beget.tech/api"
+import apiRoutes from "./config/apiRoutes";
 
 export async function  usersPage (page=1, userId, limit) {
     try {
-        const response = await axios.post(`${mainUrl}/realEstates/paginate/${userId}`, { page, limit})
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/realEstates/paginate/${userId}`, { page, limit})
         return response.data
     } catch (error) {
         console.log(error)
@@ -13,7 +12,7 @@ export async function  usersPage (page=1, userId, limit) {
 
 export async function CreateReview (axiosPrivate, formData) {
     try {
-        await axiosPrivate.post(`${mainUrl}/user/reviews/add`, formData)
+        await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.ADD_REVIEW_USER}`, formData)
     } catch (error) {
         console.log(error)
     }
@@ -21,7 +20,7 @@ export async function CreateReview (axiosPrivate, formData) {
 
 export async function addReportUser (axiosPrivate, data) {
     try {
-        await axiosPrivate.post(`${mainUrl}/user/reports`, {...data})
+        await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.REPORT_ACTIONS_USER}`, {...data})
     } catch (error) {
         console.log(error)
     }
@@ -29,7 +28,7 @@ export async function addReportUser (axiosPrivate, data) {
 
 export async function deleteReportUser (axiosPrivate, data) {
     try {
-        await axiosPrivate.delete(`${mainUrl}/user/reports`, {data: {...data}})
+        await axiosPrivate.delete(`${process.env.REACT_APP_BASE_URL}${apiRoutes.REPORT_ACTIONS_USER}`, {data: {...data}})
     } catch (error) {
         console.log(error)
     }
@@ -37,7 +36,7 @@ export async function deleteReportUser (axiosPrivate, data) {
 
 export async function addReportReview (axiosPrivate, token, usersReviewId, userId) {
     try {
-        await axiosPrivate.post(`${mainUrl}/user/reviewsReports`, {token, usersReviewId, userId})
+        await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.REPORT_ACTIONS_REVIEWS}`, {token, usersReviewId, userId})
     } catch (error) {
         console.log(error)
     }
@@ -45,7 +44,7 @@ export async function addReportReview (axiosPrivate, token, usersReviewId, userI
 
 export async function deleteReportReview (axiosPrivate, token, usersReviewId, userId) {
     try {
-        await axiosPrivate.delete(`${mainUrl}/user/reviewsReports`, {data: {token, usersReviewId, userId}})
+        await axiosPrivate.delete(`${process.env.REACT_APP_BASE_URL}${apiRoutes.REPORT_ACTIONS_REVIEWS}`, {data: {token, usersReviewId, userId}})
     } catch (error) {
         console.log(error)
     }
@@ -53,7 +52,7 @@ export async function deleteReportReview (axiosPrivate, token, usersReviewId, us
 
 export async function userInfoInUserPage (userId,currentUserId) {
     try {
-        const response = await axios.post(`${mainUrl}/user/${userId}/${currentUserId}`)
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.GET_USER}/${userId}/${currentUserId}`)
         return response.data
     } catch (error) {
         console.log(error)
@@ -62,7 +61,7 @@ export async function userInfoInUserPage (userId,currentUserId) {
 
 export async function getReviewsInUsersPage (axiosPrivate, userId, page = 1, limit, currentUserId) {
     try {
-        const response = await axiosPrivate.post(`${mainUrl}/user/reviews/${currentUserId}`, {page, userId, limit, orderBy:'desc'})
+        const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.REVIEWS_IN_USERS_PAGE}/${currentUserId}`, {page, userId, limit, orderBy:'desc'})
         return response.data.body
     } catch (error) {
         console.log(error)
