@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 
 export default function InputTags(props) {
+
     const [tag, setTag] = useState([]);
 
     const onKeyDown = (e) => {
@@ -8,7 +9,6 @@ export default function InputTags(props) {
             e.preventDefault();
             if (e.target.value !== '') {
                 setTag([...tag, e.target.value]);
-                console.log(tag);
                 e.target.value = "";
             }
         }
@@ -18,17 +18,31 @@ export default function InputTags(props) {
         let inp = document.getElementById(props.name);
         if (inp.value !== '') {
             setTag([...tag, inp.value]);
-            console.log(tag);
             inp.value = "";
         }
     }
 
+    useEffect(() => {
+        props.labels && setTag(props?.labels.map(i => i.name))
+    }, [props.labels])
+
+    useEffect(() => {
+        props.callback && props.callback(tag)
+    }, [tag])
+
     return (
         <div>
             <div className="input-tag">
-                <input type="text" id={props.name} name={props.name} className={props.class} placeholder={props.placeholder} onKeyDown={onKeyDown}/>
+                <input
+                    type="text"
+                    id={props.name}
+                    name={props.name}
+                    className={props.class}
+                    placeholder={props.placeholder}
+                    onKeyDown={onKeyDown}
+                />
                 <button type="button" onClick={() => onClickHandler()}>
-                    <i class="bi bi-arrow-return-left"></i>
+                    <i className="bi bi-arrow-return-left"/>
                 </button>
             </div>
             <div className="tag-list mt-3">

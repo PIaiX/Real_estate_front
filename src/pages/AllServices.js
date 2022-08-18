@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import Breadcrumbs from '../components/Breadcrumbs';
-import {useSelector} from "react-redux";
-import {getCatalog} from "../API/catalog";
 import {getServicesTypes} from "../API/services";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import Loader from "../components/Loader";
+import {servicesTypesLocal} from '../helpers/services'
 
 export default function AllServices() {
 
@@ -22,7 +21,15 @@ export default function AllServices() {
         }).catch(error => setServicesTypes({isLoading: true, error: error}))
     }, [])
 
-    console.log(servicesTypes)
+    const findPhoto = (name) => {
+        let photo
+        servicesTypesLocal.find(i => {
+            if(i.name === name){
+                return photo = i.image
+            }
+        })
+        return photo
+    }
 
     return (
         <main>
@@ -39,8 +46,8 @@ export default function AllServices() {
                             {servicesTypes.isLoading
                                 ? servicesTypes?.data?.map(service => (
                                         <li key={service.id}>
-                                            <Link to={`/service/${service.slug}`} state={{id: service.id}} className='big'>
-                                                <object data={`/img/icons/${service.slug}.svg`} height={80} width={80}/>
+                                            <Link to={`/service/${service.slug}/page/1`} state={{id: service.id}} className='big fill' >
+                                                {findPhoto(service.name)}
                                                 <span>{service.name}</span>
                                             </Link>
                                         </li>

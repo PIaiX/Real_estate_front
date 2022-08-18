@@ -41,12 +41,16 @@ const PersonalAccountRouter = ({isMobile}) => {
                     <Route path="page/:page" element={<UserAds/>}/>
                 </Route>
                 <Route path="my-services" element={<UserServices/>}/>
-                <Route path="my-services/create" element={<CreateService/>}/>
+                <Route path="my-services/create" element={<CreateService/>}>
+                    <Route path=':id' element={<CreateService/>}/>
+                </Route>
                 <Route path="favorites" element={<Favorites routeName='Избранное'/>}>
                     <Route path="page/:page" element={<Favorites/>}/>
                 </Route>
                 <Route path="responses" element={<Responses/>}/>
-                <Route path="responses/add" element={<AddResponse/>}/>
+                <Route path="responses/add" element={<AddResponse/>}>
+                    <Route path='id' element={<AddResponse/>}/>
+                </Route>
                 <Route path="my-messages" element={<UserMessages/>}/>
                 <Route path="my-messages/*" element={<ChatPage/>}/>
                 <Route path="my-reviews" element={<UserReviews/>}>
