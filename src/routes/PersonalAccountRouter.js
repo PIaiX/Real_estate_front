@@ -11,6 +11,7 @@ import ChatPage from '../pages/PersonalAccount/ChatPage';
 import UserReviews from '../pages/PersonalAccount/UserReviews';
 import Responses from '../pages/PersonalAccount/Responses';
 import AddResponse from '../pages/PersonalAccount/AddResponse';
+import InWork from '../pages/PersonalAccount/InWork';
 
 const PersonalAccountRouter = ({isMobile}) => {
     return (
@@ -26,7 +27,12 @@ const PersonalAccountRouter = ({isMobile}) => {
                 <Route path="favorites" element={<Favorites routeName='Избранное'/>}>
                     <Route path="page/:page" element={<Favorites/>}/>
                 </Route>
-                <Route path="responses" element={<Responses/>}/>
+                <Route path="responses" element={<Responses/>}>
+                    <Route path="page/:page" element={<Responses/>} />
+                </Route>
+                <Route path="in-work" element={<InWork/>}>
+                    <Route path="page/:page" element={<InWork/>} />
+                </Route>
                 <Route path="responses/add" element={<AddResponse/>}/>
                 <Route path="my-messages" element={<UserMessages/>}/>
                 <Route path="my-messages/*" element={<ChatPage/>}/>
@@ -45,7 +51,12 @@ const PersonalAccountRouter = ({isMobile}) => {
                 <Route path="favorites" element={<Favorites routeName='Избранное'/>}>
                     <Route path="page/:page" element={<Favorites/>}/>
                 </Route>
-                <Route path="responses" element={<Responses/>}/>
+                <Route path="responses" element={<Responses/>}>
+                    <Route path="page/:page" element={<Responses/>} />
+                </Route>
+                <Route path="in-work" element={<InWork/>}>
+                    <Route path="page/:page" element={<InWork/>} />
+                </Route>
                 <Route path="responses/add" element={<AddResponse/>}/>
                 <Route path="my-messages" element={<UserMessages/>}/>
                 <Route path="my-messages/*" element={<ChatPage/>}/>

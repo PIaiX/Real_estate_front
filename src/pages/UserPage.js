@@ -15,7 +15,6 @@ import Rating from "react-rating";
 import BtnRep from "../components/BtnRep";
 import Breadcrumbs from "../components/Breadcrumbs";
 
-
 export default function UserPage() {
 
     const user = useCurrentUser()
@@ -119,12 +118,19 @@ export default function UserPage() {
                                         className="d-none d-md-flex flex-1"
                                         phone={userInformation?.phoneForUser}
                                     />
-                                    <button type="button" data-bs-toggle="modal" data-bs-target="#write-message"
-                                            className="d-none d-md-flex btn btn-1 px-3 w-100 flex-1 ms-4">Написать
-                                        сообщение
+                                    <button
+                                        type="button"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#write-message"
+                                        className="d-none d-md-flex btn btn-1 px-3 w-100 flex-1 ms-4"
+                                    >
+                                        Написать сообщение
                                     </button>
-                                    <BtnRep userinfo={data} reportUserStatus={userInformation?.reportStatus}
-                                            type="reportUser"/>
+                                    <BtnRep
+                                        userinfo={data}
+                                        reportUserStatus={userInformation?.reportStatus}
+                                        type="reportUser"
+                                    />
                                 </div>
                             </div>
                             <div className="col-5 col-sm-4 col-md-3">
