@@ -4,7 +4,7 @@ import apiRoutes from "./config/apiRoutes";
 export async function updateUser (uuid, formData, axiosPrivate) {
   try {
       const response = await axiosPrivate.patch(`${process.env.REACT_APP_BASE_URL}${apiRoutes.USER_UPDATE}/${uuid}`, formData)
-        return response;
+        return response.data.body;
     } catch(error) {
         console.log(error)
     }

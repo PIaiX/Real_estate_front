@@ -8,6 +8,9 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Rating from "react-rating";
 import {DeleteUserPhoto, updateUser} from "../../API/users";
 import AuthError from "../../components/AuthError"
+import {bindActionCreators} from "redux";
+import currentUserActions from "../../store/actions/currentUser";
+import {useDispatch} from "react-redux";
 
 export default function UserProfile() {
 
@@ -20,10 +23,11 @@ export default function UserProfile() {
     let startYear = new Date().getFullYear();
     let startMonth = new Date().getMonth()
     let startDay = new Date().getDate()
+    const dispatch = useDispatch();
     const currentBirthDayDay = (currentUser?.birthdayForUser)?.split('.')[0]
     const currentBirthDayMonth = (currentUser?.birthdayForUser)?.split('.')[1]
     const currentBirthDayYear = (currentUser?.birthdayForUser)?.split('.')[2]
-
+    const { setCurrentUser } = bindActionCreators(currentUserActions, dispatch);
     useEffect(() => {
         if (currentUser) {
             setFirstName(currentUser?.firstName)
@@ -140,7 +144,8 @@ export default function UserProfile() {
             formData.append(key, data[key])
         }
         try {
-            await updateUser(uuid, formData, axiosPrivate)
+            const response = await updateUser(uuid, formData, axiosPrivate)
+            setCurrentUser(response);
         } catch (err) {
             console.log(err)
         }
@@ -490,25 +495,25 @@ export default function UserProfile() {
                                     <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                         <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Имя:</div>
                                         <div className="col-sm-8">
-                                            <input defaultValue={currentUser?.firstName} disabled className="fs-11"/>
+                                            <input value={currentUser?.firstName} disabled className="fs-11"/>
                                         </div>
                                     </div>
                                     <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                         <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Фамилия:</div>
                                         <div className="col-sm-8">
-                                            <input defaultValue={currentUser?.lastName} disabled className="fs-11"/>
+                                            <input value={currentUser?.lastName} disabled className="fs-11"/>
                                         </div>
                                     </div>
                                     <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                         <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Пол:</div>
                                         <div className="col-sm-8">
-                                            <input defaultValue={currentUser?.sexForUser} disabled className="fs-11"/>
+                                            <input value={currentUser?.sexForUser} disabled className="fs-11"/>
                                         </div>
                                     </div>
                                     <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                         <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Дата рождения:</div>
                                         <div className="col-sm-8 d-flex">
-                                            <input defaultValue={currentUser?.birthdayForUser} disabled
+                                            <input value={currentUser?.birthdayForUser} disabled
                                                    className="fs-11"/>
                                         </div>
                                     </div>
@@ -522,7 +527,7 @@ export default function UserProfile() {
                                     <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                         <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Email:</div>
                                         <div className="col-sm-8">
-                                            <input defaultValue={currentUser?.email} className="fs-11" disabled/>
+                                            <input value={currentUser?.email} className="fs-11" disabled/>
                                         </div>
                                     </div>
                                     <button
