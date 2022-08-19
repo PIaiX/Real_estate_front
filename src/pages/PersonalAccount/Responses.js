@@ -47,7 +47,7 @@ export default function Responses(props) {
 
 
     useEffect(() => {
-        console.log(incomings)
+        console.log('incumings', incomings)
     }, [incomings])
 
     useEffect(() => {
@@ -87,7 +87,7 @@ export default function Responses(props) {
                                     <div key={item.id}>
                                         <ResponseCard
                                             type='in'
-                                            id={item?.user?.id}
+                                            id={item?.id}
                                             userName={item?.user?.fullName}
                                             avatar={checkPhotoPath(item?.user?.avatar)}
                                             price={item?.price}
@@ -108,7 +108,7 @@ export default function Responses(props) {
                                     <div key={item.id}>
                                         <ResponseCard
                                             type='out'
-                                            id={item?.user?.id}
+                                            id={item?.id}
                                             userName={item?.user?.fullName}
                                             avatar={checkPhotoPath(item?.user?.avatar)}
                                             price={item?.price}
