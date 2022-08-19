@@ -28,6 +28,9 @@ body,
 }
 .root-wrapper__content {
   flex: 1 0 auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 .root-wrapper footer {
   flex: 0 0 auto;

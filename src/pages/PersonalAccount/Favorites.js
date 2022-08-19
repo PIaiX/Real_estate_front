@@ -8,6 +8,7 @@ import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import BtnDelFromFav from '../../components/BtnDelFromFav';
 import {useAccessToken, useCurrentUser} from "../../store/reducers";
 import AuthError from "../../components/AuthError"
+import Loader from "../../components/Loader";
 
 export default function Favorites({routeName}) {
 
@@ -77,7 +78,7 @@ export default function Favorites({routeName}) {
                                 </div>
                             ))
                             : <h6 className='m-auto p-5 text-center'>Объявлений нет</h6>
-                        : <h6 className='m-auto p-5 text-center'>Загрузка...</h6>
+                        :  <div className='p-5 w-100 d-flex justify-content-center'><Loader color='#146492'/></div>
                 }
             </div>
             { wishlistData?.wishlist?.length ? <PaginationCustom meta={wishlistData.meta} baseUrl="personal-account/favorites"/> : null }
