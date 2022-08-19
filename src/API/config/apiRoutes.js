@@ -26,8 +26,9 @@ export default {
     //question
     ASK_QUESTIONS: '/questions',
 
-    //estate types
+    // realEstates - general
     GET_ESTATE_TYPES: '/realEstates/types',
+    GET_FOR_MAP: '/realEstates/getForMap',
 
     //profile
     USER_UPDATE: '/user/update',
@@ -44,9 +45,6 @@ export default {
     REPORT_ACTIONS_USER: '/user/reports',
     REPORT_ACTIONS_REVIEWS: '/user/reviewsReports',
     REVIEWS_IN_USERS_PAGE: '/user/reviews',
-
-    //yamap
-    GET_FOR_MAP: '/realEstates/getForMap',
 
     //service
     GET_SERVICE_TYPES: '/services/types',

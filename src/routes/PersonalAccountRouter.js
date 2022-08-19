@@ -1,5 +1,5 @@
 import React from 'react';
-import {Navigate, Route, Routes} from 'react-router-dom';
+import {Routes, Route, Navigate} from 'react-router-dom';
 import AccountMenu from '../pages/PersonalAccount/AccountMenu';
 import UserProfile from '../pages/PersonalAccount/UserProfile';
 import UserAds from '../pages/PersonalAccount/UserAds';
@@ -35,10 +35,19 @@ const PersonalAccountRouter = ({isMobile}) => {
                 <Route path="responses" element={<Responses/>}>
                     <Route path="page/:page" element={<Responses/>}/>
                 </Route>
+                <Route path="responses/add" element={<AddResponse/>}>
+                    <Route path='id' element={<AddResponse/>}/>
+                </Route>
                 <Route path="in-work" element={<InWork/>}>
                     <Route path="page/:page" element={<InWork/>}/>
                 </Route>
-                <Route path="responses/add" element={<AddResponse/>}/>
+                <Route path="my-services" element={<UserServices/>}/>
+                <Route path="my-services/create" element={<CreateService/>}>
+                    <Route path=':id' element={<CreateService/>}/>
+                </Route>
+                <Route path="favorites" element={<Favorites routeName='Избранное'/>}>
+                    <Route path="page/:page" element={<Favorites/>}/>
+                </Route>
                 <Route path="my-messages" element={<UserMessages/>}/>
                 <Route path="my-messages/*" element={<ChatPage/>}/>
                 <Route path="my-reviews" element={<UserReviews/>}>

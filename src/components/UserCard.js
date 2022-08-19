@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import ShowPhone from './ShowPhone';
 import {animateScroll as scroll} from 'react-scroll';
+import Rating from "react-rating";
 
 function UserCard(props) {
     const scrollToTop = () => {
@@ -22,11 +23,15 @@ function UserCard(props) {
                         </Link>
                     </h4>
                     <div className="rating mb-1 mb-xl-2 ms-xxl-4">
-                        <img src="/img/icons/star-blue.svg" alt="1"/>
-                        <img src="/img/icons/star-blue.svg" alt="1"/>
-                        <img src="/img/icons/star-blue.svg" alt="1"/>
-                        <img src="/img/icons/star-gray.svg" alt="1"/>
-                        <img src="/img/icons/star-gray.svg" alt="1"/>
+                        <Rating
+                            readonly={true}
+                            initialRating={props?.rating}
+                            fractions={2}
+                            emptySymbol={<img src="/img/icons/star-gray.svg"
+                                              alt="1"/>}
+                            fullSymbol={<img src="/img/icons/star-blue.svg"
+                                             alt="1"/>}
+                        />
                         <span>({props.rating})</span>
                     </div>
                 </div>
@@ -34,26 +39,29 @@ function UserCard(props) {
             </div>
             <div className="photo mt-2 mt-md-3 mt-xxl-0">
                 <Link to={props.link} onClick={() => scrollToTop()}>
-                    <img src="/img/photo.png" alt={props.userName}/>
+                    <img src={props.avatar ? `https://api.antontig.beget.tech/uploads/${props.avatar}` : '/img/nophoto.jpg'} alt={props.userName}/>
                 </Link>
             </div>
             <div className="desc mt-2 mt-md-3 mt-xxl-0">
-                <div className="fs-11 gray-2 mb-1 mb-md-2 mb-xxl-3">Опыт работы от 1 года</div>
+                <div className="fs-11 gray-2 mb-1 mb-md-2 mb-xxl-3">Опыт работы {props.exp}</div>
                 <div className="text">
-                    <p>Создание индивидуального дизайна по Вашим предпочтениям. Помощь в подброре отделочных материалов, мебели и текстиля. Примеры работ в личных сообщениях.</p>
+                    <p>{props.description}</p>
                 </div>
             </div>
             <div className="serv-list mt-2 mt-md-3 mt-xxl-0">
-                <div className="serv">Проектирование</div>
-                <div className="serv">Курирование проекта</div>
-                <div className="serv">Создание макета</div>
-                <div className="serv">Визуализация</div>
-                <div className="serv">Освещение</div>
+                {props?.labels?.map(i => (
+                    <div className="serv" key={i.id}>{i.name}</div>
+                ))}
             </div>
             <div className="btns mt-2 mt-md-3 mt-xxl-0">
-                <ShowPhone phone="+ 7 (952) 879 78 65"/>
+                <ShowPhone phone={props.phone}/>
                 <button type="button" data-bs-toggle="modal" data-bs-target="#write-message" className="d-none d-xxl-block btn btn-1 w-100 px-2">Написать сообщение</button>
-                <Link to="/personal-account/responses/add" className="btn btn-2 w-100 px-3 mt-2 mt-xxl-0">Откликнуться</Link>
+                <Link
+                    to={`/personal-account/responses/add/${props.id}`}
+                    className="btn btn-2 w-100 px-3 mt-2 mt-xxl-0"
+                >
+                    Откликнуться
+                </Link>
             </div>
         </div>
     );

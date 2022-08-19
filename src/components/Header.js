@@ -95,7 +95,7 @@ const Header = () => {
                               className="ms-3 ms-xl-4">
                             <img src="/img/icons/favorite.svg" alt="favorite"/>
                         </Link>
-                        <Link to="/login" onClick={() => scrollToTop()} className="ms-3 ms-xl-4">
+                        <Link to="/personal-account" onClick={() => scrollToTop()} className="ms-3 ms-xl-4">
                             <img src="/img/icons/user.svg" alt="аккаунт"/>
                         </Link>
                     </div>

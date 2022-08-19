@@ -103,10 +103,6 @@ export default function CardPage() {
         }
     }
 
-    console.log(ads)
-
-    console.log([+ads?.latitude, +ads?.longitude])
-
     return (
         <main>
             <div className={(pageTop) ? "card-page-top py-2 d-md-none" : "card-page-top d-none py-2"}>
