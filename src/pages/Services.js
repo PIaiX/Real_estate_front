@@ -269,7 +269,7 @@ export default function Services() {
                                                 name="realization"
                                                 value={attribute.id}
                                                 onChange={(e) => {
-                                                    onMultiCheckboxHandler('servicesTypesAttributeId', e.target.value, setPayload)
+                                                    onMultiCheckboxHandler('attributesTypes', e.target.value, setPayload)
                                                 }}
                                             />
                                             <span className="fs-11 ms-3">{attribute.name}</span>
@@ -284,7 +284,7 @@ export default function Services() {
                                                 type="checkbox"
                                                 value={sub.id}
                                                 onChange={(e) => {
-                                                    onMultiCheckboxHandler('servicesTypesSubServiceId', e.target.value, setPayload)
+                                                    onMultiCheckboxHandler('subServicesTypes', e.target.value, setPayload)
                                                 }}
                                             />
                                             <span className="fs-11 ms-3">{sub.name}</span>
@@ -441,7 +441,7 @@ export default function Services() {
                                             name="attributes"
                                             value={attribute.id}
                                             onChange={(e) => {
-                                                onMultiCheckboxHandler('servicesTypesAttributeId', e.target.value, setSecondBlockFilters)
+                                                onMultiCheckboxHandler('attributesTypes', e.target.value, setSecondBlockFilters)
                                             }}
                                         />
                                         <span className="fs-11 ms-3">{attribute.name}</span>
@@ -457,7 +457,7 @@ export default function Services() {
                                             name="subServices"
                                             value={sub.id}
                                             onChange={(e) => {
-                                                onMultiCheckboxHandler('servicesTypesSubServiceId', e.target.value, setThirdBlockFilters)
+                                                onMultiCheckboxHandler('subServicesTypes', e.target.value, setThirdBlockFilters)
                                             }}
                                         />
                                         <span className="fs-11 ms-3">{sub.name}</span>

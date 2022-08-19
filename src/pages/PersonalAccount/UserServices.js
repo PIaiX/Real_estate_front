@@ -23,6 +23,7 @@ export default function UserServices() {
         currentUser && userInfo(currentUser?.id).then(res => setUserService({isLoading: true, data: res.services}))
     }, [currentUser?.id])
 
+    console.log(userService)
     const [serviceId, setServiceId] = useState(null)
 
     return (
@@ -147,7 +148,11 @@ export default function UserServices() {
                         <button
                             type="button"
                             className="btn btn-1 w-100 fs-11 text-uppercase"
-                            onClick={() => deleteService(axiosPrivate, serviceId, currentToken)}
+                            onClick={() => deleteService(axiosPrivate, serviceId, currentToken)
+                                .then(() => {
+                                    userInfo(currentUser?.id).then(res => setUserService({isLoading: true, data: res.services}))
+                                    setShowModalDelete(false)
+                                })}
                         >
                             Удалить
                         </button>

@@ -4,7 +4,7 @@ import {Link, useNavigate, useParams} from 'react-router-dom';
 import InputTags from '../../components/InputTags';
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import {useAccessToken, useCurrentUser} from "../../store/reducers";
-import {createService, getService, getServicesTypes, getSubServicesTypes} from "../../API/services";
+import {createService, getService, getServicesTypes, getSubServicesTypes, updateService} from "../../API/services";
 
 export default function CreateService() {
 
@@ -233,7 +233,9 @@ export default function CreateService() {
                                 <button
                                 type="button"
                                 className="btn btn-1 w-100 fs-11"
-                                onClick={(e) => createNewService(e)}
+                                onClick={(e) => {
+                                    (id) ? updateService(axiosPrivate, payloads, id).then(() => navigate('/personal-account/my-services')) : createNewService(e)
+                                }}
                                 >
                                     Сохранить
                                 </button>

@@ -13,9 +13,7 @@ import {useCurrentUser} from "../store/reducers";
 import BtnRep from "../components/BtnRep";
 import Breadcrumbs from '../components/Breadcrumbs';
 import {useSelector} from "react-redux";
-import YMap from "../components/YMap";
-import {GeolocationControl, Map, ObjectManager, Placemark, YMaps, ZoomControl} from "react-yandex-maps";
-import YMapContainer from "../components/YMapContainer";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 SwiperCore.use([Navigation, Thumbs, EffectFade]);
 
@@ -30,14 +28,8 @@ export default function CardPage() {
     const city = useSelector(state => state?.selectedCity)
 
     useEffect(() => {
-        const adsget = async () => {
-            const result = uuid && await getAdsPage(uuid)
-            if (result) {
-                setAds(result)
-            }
-        }
-        adsget()
-    }, [uuid])
+        getAdsPage(uuid).then(res => setAds(res))
+    }, [])
 
     useEffect(() => {
         const recommend = async () => {
@@ -121,21 +113,21 @@ export default function CardPage() {
                 </div>
             </div>
             <div className="container py-3 py-sm-4 py-lg-5">
-                <Breadcrumbs currentRouteName={ads.title || 'Объявление'}/>
+                <Breadcrumbs currentRouteName={ads?.title || 'Объявление'}/>
             </div>
             <section id="sec-7" className="container pb-5">
-                <h1>{ads.title} м<sup>2</sup></h1>
+                <h1>{ads?.title} м<sup>2</sup></h1>
                 <div className="d-flex align-items-center mb-2 mb-xxl-3">
                     <img src="/img/icons/pin.svg" alt="адрес"/>
                     <div className="fs-11 fw-6 ms-2 ms-sm-4">
                         <div>ЖК "{ads?.residentalComplexForUser}"</div>
-                        <div>{ads.address}</div>
+                        <div>{ads?.address}</div>
                     </div>
                 </div>
                 <div className="d-flex align-items-center mb-2 mb-xxl-3">
                     <img src="/img/icons/metro.svg" alt="адрес"/>
                     <div className="fs-11 fw-6 ms-2 ms-sm-4">
-                        <div>{ads.metro}</div>
+                        <div>{ads?.metro}</div>
                     </div>
                 </div>
                 <div className="row mt-4 mt-lg-5 mb-3">
@@ -155,8 +147,8 @@ export default function CardPage() {
                             <div className="d-flex color-2 ms-4">
                                 <img src="/img/icons/eye-fill.svg" alt="Просмотры"/>
                                 <span className="d-none d-md-block ms-2">Просмотры:</span>
-                                <span className="ms-1">{ads.viewsCount}</span>
-                                <span className="d-none d-md-block ms-1">({ads.todayViewsCount} за сегодня)</span>
+                                <span className="ms-1">{ads?.viewsCount}</span>
+                                <span className="d-none d-md-block ms-1">({ads?.todayViewsCount} за сегодня)</span>
                             </div>
                         </div>
                     </div>
@@ -325,9 +317,9 @@ export default function CardPage() {
                                 <div className="frame author p-3 px-sm-4 pt-sm-4 pb-sm-3 px-xxl-5 pt-xxl-5 pb-xxl-4">
                                     <div className="d-flex justify-content-between">
                                         <div>
-                                            <h4>{ads.user?.fullName}</h4>
+                                            <h4>{ads?.user?.fullName}</h4>
                                             <div className="gray-3 fs-11 mb-2">На сайте
-                                                с {ads.user?.createdAtForUser}</div>
+                                                с {ads?.user?.createdAtForUser}</div>
                                             <div className="color-1 fs-11">
                                                 <a href="/">
                                                     Еще {ads?.user?.realEstatesCount} <Words/>
@@ -340,7 +332,7 @@ export default function CardPage() {
                                             <img src="/img/nophoto.jpg" alt="Колесникова Ирина"/>
                                         }
                                     </div>
-                                    <ShowPhone className="mt-4 fs-15" phone={ads.user?.phoneForUser}/>
+                                    <ShowPhone className="mt-4 fs-15" phone={ads?.user?.phoneForUser}/>
                                     <button type="button" data-bs-toggle="modal" data-bs-target="#write-message"
                                             className="btn btn-1 w-100 fs-15 px-3 mt-2 mt-xl-3">Написать сообщение
                                     </button>
@@ -362,7 +354,7 @@ export default function CardPage() {
                                     <span>Комнат</span>
                                 </div>
                                 <div className="right">
-                                    <span>{ads.roomsForUser}</span>
+                                    <span>{ads?.roomsForUser}</span>
                                 </div>
                             </div>
                             <div className="specification fs-11">
@@ -370,7 +362,7 @@ export default function CardPage() {
                                     <span>Общая площадь</span>
                                 </div>
                                 <div className="right">
-                                    <span>{ads.totalArea} м<sup>2</sup></span>
+                                    <span>{ads?.totalArea} м<sup>2</sup></span>
                                 </div>
                             </div>
                             <div className="specification fs-11">
@@ -379,11 +371,11 @@ export default function CardPage() {
                                 </div>
                                 {(ads?.livingArea !== null) ?
                                     <div className="right">
-                                        <span>{ads.livingArea} м<sup>2</sup></span>
+                                        <span>{ads?.livingArea} м<sup>2</sup></span>
                                     </div>
                                     :
                                     <div className="right">
-                                        <span>{ads.livingAreaForUser}</span>
+                                        <span>{ads?.livingAreaForUser}</span>
                                     </div>}
                             </div>
                             <div className="specification fs-11">
@@ -392,11 +384,11 @@ export default function CardPage() {
                                 </div>
                                 {(ads?.kitchenArea !== null) ?
                                     <div className="right">
-                                        <span>{ads.kitchenArea} м<sup>2</sup></span>
+                                        <span>{ads?.kitchenArea} м<sup>2</sup></span>
                                     </div>
                                     :
                                     <div className="right">
-                                        <span>{ads.kitchenAreaForUser}</span>
+                                        <span>{ads?.kitchenAreaForUser}</span>
                                     </div>
                                 }
                             </div>
@@ -405,7 +397,7 @@ export default function CardPage() {
                                     <span>Этаж</span>
                                 </div>
                                 <div className="right">
-                                    <span>{ads["floor"]}/{ads.maxFloorForUser}</span>
+                                    <span>{ads?.floor}/{ads?.maxFloorForUser}</span>
                                 </div>
                             </div>
                             <div className="specification fs-11">
@@ -413,7 +405,7 @@ export default function CardPage() {
                                     <span>Планировка</span>
                                 </div>
                                 <div className="right">
-                                    <span>{ads.layoutForUser}</span>
+                                    <span>{ads?.layoutForUser}</span>
                                 </div>
                             </div>
                             <div className="specification fs-11">
@@ -421,7 +413,7 @@ export default function CardPage() {
                                     <span>Ремонт</span>
                                 </div>
                                 <div className="right">
-                                    <span>{ads.repairTypeForUser}</span>
+                                    <span>{ads?.repairTypeForUser}</span>
                                 </div>
                             </div>
                             <div className="specification fs-11">
@@ -429,7 +421,7 @@ export default function CardPage() {
                                     <span>Санузел</span>
                                 </div>
                                 <div className="right">
-                                    <span>{ads.WCTypeForUser}</span>
+                                    <span>{ads?.WCTypeForUser}</span>
                                 </div>
                             </div>
                             <div className="specification fs-11">
@@ -437,7 +429,7 @@ export default function CardPage() {
                                     <span>Балкон/Лоджия</span>
                                 </div>
                                 <div className="right">
-                                    <span>{ads.balconyTypeForUser}</span>
+                                    <span>{ads?.balconyTypeForUser}</span>
                                 </div>
                             </div>
                             <div className="specification fs-11">
@@ -445,14 +437,14 @@ export default function CardPage() {
                                     <span>Лифт</span>
                                 </div>
                                 <div className="right">
-                                    <span>{ads.elevatorTypeForUser}</span>
+                                    <span>{ads?.elevatorTypeForUser}</span>
                                 </div>
                             </div>
                         </div>
 
                         <h4 className="mt-4 mt-sm-5 mb-3">Дополнительная информация</h4>
                         <div className="row row-cols-2 row-cols-md-3 gx-2 gx-sm-4">
-                            {ads.hasGroundParking ?
+                            {ads?.hasGroundParking ?
                                 <div className="d-flex align-items-center fs-11 mb-2">
                                     <img src="/img/icons/parking.svg" alt="Парковка"
                                          className="icon-mini"/>
@@ -519,7 +511,7 @@ export default function CardPage() {
                                     <span>Тип дома</span>
                                 </div>
                                 <div className="right">
-                                    <span>{ads.houseBuildingTypeForUser}</span>
+                                    <span>{ads?.houseBuildingTypeForUser}</span>
                                 </div>
                             </div>
                             <div className="specification fs-11">
@@ -527,7 +519,7 @@ export default function CardPage() {
                                     <span>Лифт</span>
                                 </div>
                                 <div className="right">
-                                    <span>{ads.elevatorTypeForUser}</span>
+                                    <span>{ads?.elevatorTypeForUser}</span>
                                 </div>
                             </div>
                             <div className="specification fs-11">
@@ -535,7 +527,7 @@ export default function CardPage() {
                                     <span>Год постройки</span>
                                 </div>
                                 <div className="right">
-                                    <span>{ads.yearOfConstructionForUser}</span>
+                                    <span>{ads?.yearOfConstructionForUser}</span>
                                 </div>
                             </div>
                             <div className="specification fs-11">
@@ -543,7 +535,7 @@ export default function CardPage() {
                                     <span>Высота потолков</span>
                                 </div>
                                 <div className="right">
-                                    <span>{ads.ceilingHeightForUser} м</span>
+                                    <span>{ads?.ceilingHeightForUser} м</span>
                                 </div>
                             </div>
                             <div className="specification fs-11">
@@ -594,79 +586,6 @@ export default function CardPage() {
                         </div>
                         <h4 className="mt-4 mt-sm-5">На карте</h4>
                         <img src="/img/map.png" alt="Карта" className="w-100"/>
-                        {/*<Map
-                            state={{
-                                center: [+ads?.latitude, +ads?.longitude],
-                                zoom: 12,
-                                controls: [],
-                            }}
-                            options={{
-                                restrictMapArea: true,
-                                autoFitToViewport: 'always',
-                                yandexMapDisablePoiInteractivity: false,
-                                mapAutoFocus: false
-                            }}
-                        >
-                            <ZoomControl
-                                options={{
-                                    size: "small",
-                                    position: {
-                                        top: '28px',
-                                        right: '46px'
-                                    }
-                                }}
-                            />
-                            <GeolocationControl
-                                options={{
-                                    position: {
-                                        top: '94px',
-                                        right: '46px'
-                                    }
-                                }}
-                            />
-                            <ObjectManager
-                                options={{
-                                    clusterize: true,
-                                    clusterDisableClickZoom: true
-                                }}
-                                objects={{
-                                    openBalloonOnClick: false,
-                                    // preset: 'islands#greenDotIcon',
-                                    iconLayout: 'default#image',
-                                    // Своё изображение иконки метки.
-                                    iconImageHref: '/img/icons/Ymaps/default-placemark.svg',
-                                    // Размеры метки.
-                                    iconImageSize: [36, 55],
-                                    // Смещение левого верхнего угла иконки относительно
-                                    // её "ножки" (точки привязки).
-                                    // iconImageOffset: [-5, -38]
-                                }}
-                                clusters={{
-                                    openBalloonOnClick: false,
-                                    clusterIcons: [
-                                        {
-                                            href: '/img/icons/Ymaps/default-cluster.svg',
-                                            size: [40, 40],
-                                            offset: [-20, -20]
-                                        },
-                                        {
-                                            href: '/img/icons/Ymaps/default-cluster.svg',
-                                            size: [60, 60],
-                                            offset: [-30, -30]
-                                        }
-                                    ]
-                                }}
-                            />
-                            <Placemark
-                                geometry={[+ads?.latitude, +ads?.longitude]}
-                                options={{
-                                    openBalloonOnClick: false,
-                                    iconLayout: 'default#image',
-                                    iconImageHref: '/img/icons/Ymaps/default-placemark.svg',
-                                    iconImageSize: [36, 55],
-                                }}
-                            />
-                        </Map>*/}
                     </div>
                 </div>
             </section>
@@ -691,7 +610,7 @@ export default function CardPage() {
                 <div className="container">
                     <div className="row row-cols-2 gx-2 gx-sm-3">
                         <div>
-                            <ShowPhone className="fs-12" phone={ads.user?.phoneForUser}/>
+                            <ShowPhone className="fs-12" phone={ads?.user?.phoneForUser}/>
                         </div>
                         <div>
                             <button type="button" className="fs-12 btn btn-1 w-100 px-2">Написать сообщение</button>

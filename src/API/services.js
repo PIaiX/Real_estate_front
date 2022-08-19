@@ -1,5 +1,4 @@
 import apiRoutes from "./config/apiRoutes";
-import axios from "axios";
 
 export const getServicesTypes = async (axiosPrivate) => {
     try {
@@ -39,8 +38,7 @@ export const getServicesUsers = async (axiosPrivate, payload) => {
 
 export const createService = async (axiosPrivate, payloads) => {
     try {
-        const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.ADD_SERVICES}`, payloads)
-        return response
+        await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.ADD_SERVICES}`, payloads)
     } catch (error) {
         console.log(error)
     }
@@ -48,7 +46,7 @@ export const createService = async (axiosPrivate, payloads) => {
 
 export const deleteService = async (axiosPrivate, serviceId, token) => {
     try {
-        const response = await axiosPrivate.delete(`${process.env.REACT_APP_BASE_URL}${apiRoutes.SERVICES_ACTIONS}/${serviceId}`, {data: {token:token}})
+        await axiosPrivate.delete(`${process.env.REACT_APP_BASE_URL}${apiRoutes.SERVICES_ACTIONS}/${serviceId}`, { data: { token } })
     } catch (error) {
         console.log(error)
     }
@@ -58,6 +56,14 @@ export const getService = async (axiosPrivate, serviceId) => {
     try {
         const response = await axiosPrivate.get(`${process.env.REACT_APP_BASE_URL}${apiRoutes.SERVICES_ACTIONS}/${serviceId}`)
         return response.data.body
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const updateService = async (axiosPrivate, payload, id) => {
+    try {
+        await axiosPrivate.patch(`${process.env.REACT_APP_BASE_URL}${apiRoutes.SERVICES_ACTIONS}/${id}`, payload)
     } catch (error) {
         console.log(error)
     }
