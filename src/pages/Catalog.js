@@ -14,7 +14,7 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import YMapContainer from '../components/YMapContainer';
 import env from '../config/env'
 import CustomSelect from '../components/CustomSelect';
-import useDebounce from '../hooks/useDebounce';
+import useDebounce from '../hooks/debounce';
 import PopularQueries from '../components/PopularQueries';
 import MultiCheckboxSelect from '../components/MultiCheckboxSelect';
 import Loader from '../components/Loader';

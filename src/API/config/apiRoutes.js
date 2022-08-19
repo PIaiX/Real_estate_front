@@ -26,8 +26,9 @@ export default {
     //question
     ASK_QUESTIONS: '/questions',
 
-    //estate types
+    // realEstates - general
     GET_ESTATE_TYPES: '/realEstates/types',
+    GET_FOR_MAP: '/realEstates/getForMap',
 
     //profile
     USER_UPDATE: '/user/update',
@@ -45,13 +46,20 @@ export default {
     REPORT_ACTIONS_REVIEWS: '/user/reviewsReports',
     REVIEWS_IN_USERS_PAGE: '/user/reviews',
 
-    //yamap
-    GET_FOR_MAP: '/realEstates/getForMap',
-
     //service
     GET_SERVICE_TYPES: '/services/types',
     GET_SERVICE_SUB_TYPES: '/services/subServicesTypes',
     GET_SERVICE_ATTRIBUTES_TYPES: '/services/attributesTypes',
     SERVICES_ACTIONS: '/services',
     ADD_SERVICES: '/services/add',
+
+    // responses
+    RESPONSES_INCOMINGS: '/responses/incumings',
+    RESPONSES_OUTGOINGS: '/responses/outgoings',
+    RESPONSES_INPROCESS: '/responses/inProcess',
+    RESPONSES_COMPLETED: '/responses/completed',
+    RESPONSES_ACCEPT: '/responses/accept',
+    RESPONSES_COMPLETE: '/responses/complete',
+    RESPONSES_ACTIONS: '/responses'
+
 }

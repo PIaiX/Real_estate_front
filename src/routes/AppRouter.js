@@ -16,7 +16,7 @@ import Articles from '../components/Articles';
 import Password1 from '../pages/Password1';
 import Password2 from '../pages/Password2';
 import WaitAccountActivation from "../pages/WaitAccountActivation";
-import Layout from '../components/Layout';
+import AppLayout from '../layouts/AppLayout';
 import NotFound from '../pages/NotFound';
 import Hypothec from '../pages/Hypothec';
 import AuthProtector from "./AuthProtector";
@@ -25,7 +25,7 @@ const AppRouter = () => {
 
     return (
             <Routes>
-                <Route exact path="/" element={<Layout />} >
+                <Route exact path="/" element={<AppLayout />} >
                     <Route index element={<MainPage />} />
                     <Route path="catalog" element={<Catalog routeName='Каталог'/>} >
                         <Route path="page/:page" element={<Catalog/>} />
