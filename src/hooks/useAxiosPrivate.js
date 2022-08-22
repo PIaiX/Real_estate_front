@@ -8,18 +8,17 @@ import {useAccessToken, useCurrentUser} from "../store/reducers";
 
 export default function useAxiosPrivate() {
 
-    const mainUrl = "https://api.antontig.beget.tech";
     const dispatch = useDispatch();
     const {setToken} = bindActionCreators(accessTokenActions, dispatch);
     const accessToken = useAccessToken()
     const currentUser = useCurrentUser()
 
     const axiosInstance = axios.create({
-        baseUrl: mainUrl,
+        baseUrl: `${process.env.REACT_APP_BASE_URL}`,
         headers: {
             "Content-Type": "application/json",
             "User-Fingerprint": localStorage.getItem('fingerprint'),
-            "Access-Control-Allow-Origin": "https://api.antontig.beget.tech",
+            "Access-Control-Allow-Origin": `${process.env.REACT_APP_BASE_URL}`,
             "Vary": "Origin",
         },
         withCredentials: true,
@@ -51,7 +50,7 @@ export default function useAxiosPrivate() {
                 }
                 if (error.response.status === 400 && originalRequest.retry) {
                     originalRequest.retry = true
-                    const response = await axiosInstance.post(`${mainUrl}/api/auth/refresh`);
+                    const response = await axiosInstance.post(`${process.env.REACT_APP_BASE_URL}/auth/refresh`);
                     const token = response.data.body.token;
                     setToken(token);
                     /*let dataAxios = JSON.parse(originalRequest.data)

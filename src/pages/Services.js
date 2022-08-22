@@ -331,7 +331,7 @@ export default function Services() {
 
                         <div className="row px-4 px-sm-0 row-cols-sm-2 row-cols-lg-3 row-cols-xl-2 row-cols-xxl-1 g-4">
                             {users.data?.map(i =>
-                                <div key={i.id}>
+                                <div key={i.id} className='d-grid'>
                                     <UserCard
                                         id={i.id}
                                         userName={i.user?.fullName}

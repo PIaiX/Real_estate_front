@@ -3,7 +3,6 @@ import {Link} from 'react-router-dom';
 import {acceptResponse, completeResponse, rejectResponse} from '../API/responses';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import {useSelector} from 'react-redux';
-import Rating from 'react-rating';
 
 const ResponseCard = (props) => {
     const axiosPrivate = useAxiosPrivate()
@@ -34,16 +33,12 @@ const ResponseCard = (props) => {
                         </Link>
                     </h4>
                     <div className="rating mb-1 mb-xl-2 ms-xxl-4">
-                        <Rating
-                            start="0"
-                            stop="5"
-                            readonly={true}
-                            initialRating={props?.rating}
-                            fractions={2}
-                            emptySymbol={<img src="/img/icons/star-gray.svg"
-                                              alt="1"/>}
-                            fullSymbol={<img src="/img/icons/star-blue.svg" alt="1"/>}
-                        />
+                        <img src="/img/icons/star-blue.svg" alt="1"/>
+                        <img src="/img/icons/star-blue.svg" alt="1"/>
+                        <img src="/img/icons/star-blue.svg" alt="1"/>
+                        <img src="/img/icons/star-gray.svg" alt="1"/>
+                        <img src="/img/icons/star-gray.svg" alt="1"/>
+                        <span>({props.rating})</span>
                     </div>
                 </div>
                 <h4 className="mb-1 mb-xl-2 mb-xxl-0">{props.service}</h4>

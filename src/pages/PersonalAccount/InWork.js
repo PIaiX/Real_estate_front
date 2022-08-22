@@ -52,15 +52,6 @@ const InWork = () => {
     useEffect(() => getInProcessResponsesRequest(page, initialPageLimit), [userId, token, page])
     useEffect(() => getCompletedResponsesRequest(page, initialPageLimit), [userId, token, page])
 
-
-    useEffect(() => {
-        console.log(inProcess)
-    }, [inProcess])
-
-    useEffect(() => {
-        console.log(completed)
-    }, [completed])
-
     return (
         <div className='px-2 px-sm-4 pb-4 pb-sm-5'>
             <nav className="d-block d-lg-none mt-3 mb-3 mb-sm-5" aria-label="breadcrumb">
@@ -132,7 +123,8 @@ const InWork = () => {
                     )
                 }
             </div>
-            <PaginationCustom baseUrl='/personal-account/responses' meta={tab === 'in' ? inProcess.meta : completed.meta}/>
+            {(tab === 'in' && inProcess?.items?.length > 0) && <PaginationCustom baseUrl='/personal-account/responses' meta={inProcess.meta}/>}
+            {(tab === 'out' && completed?.items?.length > 0) && <PaginationCustom baseUrl='/personal-account/responses' meta={completed.meta}/>}
         </div>
     );
 };

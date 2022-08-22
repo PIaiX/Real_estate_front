@@ -2245,6 +2245,7 @@ article {
   @media (max-width: 1399px) {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     grid-gap: 0;
   }
   @media (max-width: 1199px) {

@@ -27,3 +27,12 @@ export async function getBanner(){
         console.log(error)
     }
 }
+
+export const authCheck = async (axiosPrivate) => {
+    try {
+        const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}/auth/refresh`)
+        return response?.data?.body
+    } catch (error) {
+        console.log(error)
+    }
+}

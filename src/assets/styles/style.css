@@ -2138,6 +2138,7 @@ article .text {
 .response-card {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     grid-gap: 0;
   }
 }

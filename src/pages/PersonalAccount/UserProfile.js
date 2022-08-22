@@ -434,7 +434,7 @@ export default function UserProfile() {
                     <Link to="/personal-account" className="gray-3">&#10094; Назад</Link>
                 </nav>
                 <h4 className="text-center color-1 mb-3 mb-sm-4 mb-xl-5">Профиль</h4>
-                <form className="form-profile">
+                <div className="form-profile">
                     <div className="row flex-xl-row-reverse">
                         <div className="col-xl-4 mb-4 mb-xl-0">
                             <div className="row row-cols-sm-2 row-cols-xl-1">
@@ -474,7 +474,7 @@ export default function UserProfile() {
                                     <div className="rating justify-content-center mt-1 mt-sm-5">
                                         <Rating
                                             readonly={true}
-                                            initialRating={currentUser?.rating}
+                                            initialRating={currentUser?.rating || 0}
                                             fractions={2}
                                             emptySymbol={<img src="/img/icons/star-gray.svg"
                                                               alt="1"/>}
@@ -492,25 +492,25 @@ export default function UserProfile() {
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                 <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Имя:</div>
                                 <div className="col-sm-8">
-                                    <input value={currentUser?.firstName} disabled className="fs-11"/>
+                                    <input value={currentUser?.firstName || ''} disabled className="fs-11"/>
                                 </div>
                             </div>
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                 <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Фамилия:</div>
                                 <div className="col-sm-8">
-                                    <input value={currentUser?.lastName} disabled className="fs-11"/>
+                                    <input value={currentUser?.lastName || ''} disabled className="fs-11"/>
                                 </div>
                             </div>
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                 <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Пол:</div>
                                 <div className="col-sm-8">
-                                    <input value={currentUser?.sexForUser} disabled className="fs-11"/>
+                                    <input value={currentUser?.sexForUser || ''} disabled className="fs-11"/>
                                 </div>
                             </div>
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                 <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Дата рождения:</div>
                                 <div className="col-sm-8 d-flex">
-                                    <input value={currentUser?.birthdayForUser} disabled
+                                    <input value={currentUser?.birthdayForUser || ''} disabled
                                            className="fs-11"/>
                                 </div>
                             </div>
@@ -518,13 +518,13 @@ export default function UserProfile() {
                                 <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Телефон:</div>
                                 <div className="col-sm-8">
                                     <InputMask disabled mask="+7 (999) 999 99 99"
-                                               value={currentUser?.phone ? currentUser?.phone : ""}/>
+                                               value={currentUser?.phone || 0}/>
                                 </div>
                             </div>
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                 <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Email:</div>
                                 <div className="col-sm-8">
-                                    <input value={currentUser?.email} className="fs-11" disabled/>
+                                    <input value={currentUser?.email || ''} className="fs-11" disabled/>
                                 </div>
                             </div>
                             <button
@@ -542,7 +542,7 @@ export default function UserProfile() {
                             </button>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
     )
 }
