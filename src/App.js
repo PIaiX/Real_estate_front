@@ -14,19 +14,21 @@ import {useEffect} from "react";
 import fingerprint from "@fingerprintjs/fingerprintjs";
 import {YMaps} from 'react-yandex-maps'
 import env from './config/env'
+import {useAccessToken} from "./store/reducers";
 
 function App() {
-    const baseUrl = "https://api.antontig.beget.tech";
+
     const dispatch = useDispatch();
     const {setToken} = bindActionCreators(accessTokenActions, dispatch);
     const {setCurrentUser} = bindActionCreators(currentUserActions, dispatch);
     const { resetToken } = bindActionCreators(accessTokenActions, dispatch);
     const { resetCurrentUser } = bindActionCreators(currentUserActions, dispatch);
     const axiosPrivate = useAxiosPrivate();
+    const currentToken = useAccessToken()
     const [visitor, setVisitor] = useState('')
 
     const handleLogout = async () => {
-        const response = await axiosPrivate.post(`${baseUrl}/api/auth/logout`);
+        const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}/auth/logout`);
         if (response && response.status === 200 && localStorage.getItem("fingerprint")) {
             resetToken();
             resetCurrentUser();
@@ -56,7 +58,7 @@ function App() {
 
     useEffect(() => {
         const checkAuth = async () => {
-            const response = await axiosPrivate.post(`${baseUrl}/api/auth/refresh`)
+            const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}/auth/refresh`)
             if (response?.data?.status === 200) {
                 setToken(response.data.body.token);
                 setCurrentUser(response.data.body.user)

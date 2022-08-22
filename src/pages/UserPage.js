@@ -7,7 +7,8 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import {
     addReportReview,
     CreateReview,
-    deleteReportReview, getReviewsInUsersPage,
+    deleteReportReview,
+    getReviewsInUsersPage,
     userInfoInUserPage,
 } from "../API/userspage";
 import {useAccessToken, useCurrentUser} from "../store/reducers";
@@ -100,7 +101,7 @@ export default function UserPage() {
     return (
         <main>
 
-            <Breadcrumbs currentRouteName={userInformation?.fullName || 'Имя пользователя'} />
+            <Breadcrumbs currentRouteName={userInformation?.fullName || 'Имя пользователя'}/>
 
             <section id="sec-10" className="container">
                 <div className="row">
@@ -143,139 +144,148 @@ export default function UserPage() {
                             </div>
                         </div>
                     </div>
-                    {/*<div className="col-xl-10 col-xxl-9 mb-5">
-                        <h4 className="text-center text-md-start mb-2 mb-sm-4">Предоставляемые услуги</h4>
-                        <div className="fs-11 text-center text-md-start">Пользователь не предоставляет услуг</div>
-                        <div className="user-card page">
-                            <div className="title justify-content-md-start mb-2 mb-sm-4">
-                                <h4 className="mb-0">Дизайнер</h4>
-                                <div className="rating ms-4">
-                                    <img src="/img/icons/star-blue.svg" alt="1"/>
-                                    <img src="/img/icons/star-blue.svg" alt="1"/>
-                                    <img src="/img/icons/star-blue.svg" alt="1"/>
-                                    <img src="/img/icons/star-gray.svg" alt="1"/>
-                                    <img src="/img/icons/star-gray.svg" alt="1"/>
-                                    <span>(3.35)</span>
-                                </div>
-                            </div>
-                            <div className="desc mb-3 mb-sm-4">
-                                <div className="fs-11 fw-5 gray-2 mb-3">Опыт работы от 1 года</div>
-                                <div className="fw-3">
-                                    <p>Создание индивидуального дизайна по Вашим предпочтениям. Помощь в подброре отделочных материалов, мебели и текстиля. Примеры работ в личных сообщениях.</p>
-                                </div>
-                            </div>
-                            <div className="serv-list mt-2 mt-md-3 mt-xxl-0">
-                                <div className="serv">Проектирование</div>
-                                <div className="serv">Курирование проекта</div>
-                                <div className="serv">Создание макета</div>
-                                <div className="serv">Визуализация</div>
-                                <div className="serv">Освещение</div>
-                            </div>
-                        </div>
-                    </div>*/}
                     <div className="col-xl-10 col-xxl-9 mb-5">
-                        {(reviews.data?.length === 0) ?
-                            <>
-                                <h4 className="text-center text-md-start">Отзывы
-                                    на {userInformation?.firstName} (0)</h4>
-                                <div className="fs-11 text-center text-md-start mb-4">Нет отзывов</div>
-                                <button
-                                    disabled={userId === String(user?.id)}
-                                    type="button"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#write-review"
-                                    className="btn btn-1 fs-11 mx-auto mx-md-0 mb-4"
-                                >
-                                    Написать отзыв
-                                </button>
-                            </>
+                        <h4 className="text-center text-md-start mb-2 mb-sm-4">Предоставляемые услуги</h4>
+                        {userInformation?.services?.length > 0
+                            ?
+                            userInformation?.services?.map(service => (
+                                <div className="user-card page mt-3 mb-3" key={service.id}>
+                                    <div className="title justify-content-md-start mb-2 mb-sm-4">
+                                        <h4 className="mb-0">{service?.subService?.name}</h4>
+                                        <div className="rating ms-4">
+                                            <Rating
+                                                readonly={true}
+                                                initialRating={userInformation.rating}
+                                                fractions={2}
+                                                emptySymbol={<img
+                                                    src="/img/icons/star-gray.svg"
+                                                    alt="1"/>}
+                                                fullSymbol={<img
+                                                    src="/img/icons/star-blue.svg"
+                                                    alt="1"/>}
+                                            />
+                                            <span>({userInformation?.rating})</span>
+                                        </div>
+                                    </div>
+                                    <div className="desc mb-3 mb-sm-4">
+                                        <div className="fs-11 fw-5 gray-2 mb-3">Опыт
+                                            работы {service.experienceTypeForUser}</div>
+                                        <div className="fw-3">
+                                            <p>{service.description}</p>
+                                        </div>
+                                    </div>
+                                    <div className="serv-list mt-2 mt-md-3 mt-xxl-0">
+                                        {service?.labels?.map(i => <div className="serv" key={i.id}>{i.name}</div>)}
+                                    </div>
+                                </div>
+                            ))
                             :
-                            <>
-                                <div className="d-sm-flex justify-content-between mb-4">
-                                    <h4 className="text-center text-sm-start mb-0">
-                                        Отзывы на {userInformation?.firstName} ({reviews.meta?.total})
-                                    </h4>
+                            <div className="fs-11 text-center text-md-start">Пользователь не предоставляет услуг</div>
+                        }
+                    </div>
+                        <div className="col-xl-10 col-xxl-9 mb-5">
+                            {(reviews.data?.length === 0) ?
+                                <>
+                                    <h4 className="text-center text-md-start">Отзывы
+                                        на {userInformation?.firstName} (0)</h4>
+                                    <div className="fs-11 text-center text-md-start mb-4">Нет отзывов</div>
                                     <button
-                                        disabled={(userId === String(user?.id)) || reviewStatus || userInformation?.reviewStatus}
+                                        disabled={userId === String(user?.id)}
                                         type="button"
                                         data-bs-toggle="modal"
                                         data-bs-target="#write-review"
-                                        className="mx-auto mx-sm-0 mt-3 mt-sm-0 btn btn-1 fs-11"
+                                        className="btn btn-1 fs-11 mx-auto mx-md-0 mb-4"
                                     >
                                         Написать отзыв
                                     </button>
-                                </div>
-                                {reviews.data?.map(i =>
-                                    <div className="review mb-3" key={i.id}>
-                                        <img
-                                            src={i.from?.avatar ? (`${imageUpload}${i.from?.avatar}`) : "/img/img-photo.svg"}
-                                            alt={i.from?.fullName}
-                                            className="photo d-none d-sm-block"/>
-                                        <div className="ms-sm-4">
-                                            <div className="d-flex align-items-center d-sm-block mb-2 mb-sm-0">
-                                                <div className="ms-3 ms-sm-0">
-                                                    <h4>{i.from?.fullName}</h4>
-                                                    <div className="rating mb-sm-3">
-                                                        <span className="fs-12 ms-0">Оценка:</span>
-                                                        <Rating
-                                                            readonly={true}
-                                                            initialRating={i?.rating}
-                                                            fractions={2}
-                                                            emptySymbol={<img
-                                                                src="/img/icons/star-gray.svg"
-                                                                alt="1"/>}
-                                                            fullSymbol={<img
-                                                                src="/img/icons/star-blue.svg"
-                                                                alt="1"/>}
-                                                        />
+                                </>
+                                :
+                                <>
+                                    <div className="d-sm-flex justify-content-between mb-4">
+                                        <h4 className="text-center text-sm-start mb-0">
+                                            Отзывы на {userInformation?.firstName} ({reviews.meta?.total})
+                                        </h4>
+                                        <button
+                                            disabled={(userId === String(user?.id)) || reviewStatus || userInformation?.reviewStatus}
+                                            type="button"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#write-review"
+                                            className="mx-auto mx-sm-0 mt-3 mt-sm-0 btn btn-1 fs-11"
+                                        >
+                                            Написать отзыв
+                                        </button>
+                                    </div>
+                                    {reviews.data?.map(i =>
+                                        <div className="review mb-3" key={i.id}>
+                                            <img
+                                                src={i.from?.avatar ? (`${imageUpload}${i.from?.avatar}`) : "/img/img-photo.svg"}
+                                                alt={i.from?.fullName}
+                                                className="photo d-none d-sm-block"/>
+                                            <div className="ms-sm-4">
+                                                <div className="d-flex align-items-center d-sm-block mb-2 mb-sm-0">
+                                                    <div className="ms-3 ms-sm-0">
+                                                        <h4>{i.from?.fullName}</h4>
+                                                        <div className="rating mb-sm-3">
+                                                            <span className="fs-12 ms-0">Оценка:</span>
+                                                            <Rating
+                                                                readonly={true}
+                                                                initialRating={i?.rating}
+                                                                fractions={2}
+                                                                emptySymbol={<img
+                                                                    src="/img/icons/star-gray.svg"
+                                                                    alt="1"/>}
+                                                                fullSymbol={<img
+                                                                    src="/img/icons/star-blue.svg"
+                                                                    alt="1"/>}
+                                                            />
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <div>
+                                                    <p>
+                                                        {i?.description}
+                                                    </p>
+                                                </div>
+                                                <div className="date fs-11 gray-3">{i?.createdAtForUser}</div>
+                                                <button
+                                                    type="button"
+                                                    className="claiming color-1 fs-09"
+                                                    onClick={() => {
+                                                        (i?.reportStatus) ?
+                                                            deleteReportForReview(i?.id)
+                                                            :
+                                                            addReportForReview(i?.id)
+                                                    }}
+                                                >
+                                                    {i?.reportStatus ? "Разжаловать" : "Пожаловаться"}
+                                                </button>
                                             </div>
-                                            <div>
-                                                <p>
-                                                    {i?.description}
-                                                </p>
-                                            </div>
-                                            <div className="date fs-11 gray-3">{i?.createdAtForUser}</div>
-                                            <button
-                                                type="button"
-                                                className="claiming color-1 fs-09"
-                                                onClick={() => {
-                                                    (i?.reportStatus) ?
-                                                        deleteReportForReview(i?.id)
-                                                        :
-                                                        addReportForReview(i?.id)
-                                                }}
-                                            >
-                                                {i?.reportStatus ? "Разжаловать" : "Пожаловаться"}
-                                            </button>
                                         </div>
-                                    </div>
-                                )}
-                                {(reviews?.data?.length >= limit) &&
-                                    <button
-                                        type="button"
-                                        className="fs-12 fw-5 color-1 mx-auto bb-1"
-                                        onClick={nextReviews}
-                                    >
-                                        Показать еще
-                                    </button>
-                                }
-                            </>
-                        }
+                                    )}
+                                    {(reviews?.data?.length >= limit) &&
+                                        <button
+                                            type="button"
+                                            className="fs-12 fw-5 color-1 mx-auto bb-1"
+                                            onClick={nextReviews}
+                                        >
+                                            Показать еще
+                                        </button>
+                                    }
+                                </>
+                            }
+                        </div>
+                        <div className="col-12 mb-5">
+                            <h4 className="text-center text-md-start">Объявления пользователя</h4>
+                            {(userInformation?.realEstates?.length === 0)
+                                ?
+                                <div className="fs-11 text-center text-md-start">Нет актуальных объявлений</div>
+                                :
+                                <div className="position-relative">
+                                    <Slider1 userAds={userInformation?.realEstates}/>
+                                </div>
+                            }
+                        </div>
                     </div>
-                    <div className="col-12 mb-5">
-                        <h4 className="text-center text-md-start">Объявления пользователя</h4>
-                        {(userInformation?.realEstates?.length === 0)
-                            ?
-                            <div className="fs-11 text-center text-md-start">Нет актуальных объявлений</div>
-                            :
-                            <div className="position-relative">
-                                <Slider1 userAds={userInformation?.realEstates}/>
-                            </div>
-                        }
-                    </div>
-                </div>
             </section>
 
             <div className="mobile-btns d-block d-md-none py-2 py-sm-3">
@@ -404,5 +414,5 @@ export default function UserPage() {
                 </div>
             </div>
         </main>
-    )
+)
 }

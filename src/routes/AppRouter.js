@@ -42,9 +42,7 @@ const AppRouter = () => {
                         </Route>
                     </Route>
 
-
                     <Route path="hypothec" element={<Hypothec routeName='Ипотека'/>} />
-                    <Route element={<AuthProtector/>}>
                     <Route path="user" element={<UserPage />} >
                         <Route path=":userId" element={<UserPage />}/>
                     </Route>
@@ -53,7 +51,6 @@ const AppRouter = () => {
                         <Route path=":uuid" element={<AdvertiseEditor />} />
                     </Route>
                     <Route path="personal-account/*" element={<PersonalAccount />} />
-                    </Route>
                     <Route path="login" element={<Login />} />
                     <Route path="registration" element={<Registration />} />
                     <Route path="articles/page/:page/:slug" element={<ArticlePage routeName='Название статьи'/>}/>
