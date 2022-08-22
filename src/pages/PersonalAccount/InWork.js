@@ -7,15 +7,10 @@ import PaginationCustom from '../../components/PaginationCustom';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import {useSelector} from 'react-redux';
 import useRedirectToPath from '../../hooks/redirectToPath';
-import {
-    getCompletedResponses,
-    getIncomingsResponses,
-    getInProcessResponses,
-    getOutgoingsResponses
-} from '../../API/responses';
+import {getCompletedResponses, getInProcessResponses,} from '../../API/responses';
 
 const InWork = () => {
-    const initialPageLimit = 10
+    const initialPageLimit = 4
     const {page} = useParams()
     const axiosPrivate = useAxiosPrivate()
     const userId = useSelector(state => state?.currentUser?.id)
@@ -37,27 +32,25 @@ const InWork = () => {
 
     const getInProcessResponsesRequest = (page, limit) => {
         (userId && token && page) && getInProcessResponses(axiosPrivate, userId, {page, limit, token})
-            .then(result => setInProcess(prev => ({isLoading: true, meta: result?.meta, items: result?.data})))
+            .then(result => setInProcess(prev => ({isLoading: true, meta: {meta: result?.meta}, items: result?.data})))
             .catch(error => setInProcess(prev => ({...prev, isLoading: true, error})))
     }
 
     const getCompletedResponsesRequest = (page, limit) => {
         (userId && token && page) && getCompletedResponses(axiosPrivate, userId, {page, limit, token})
-            .then(result => setCompleted(prev => ({isLoading: true, meta: result?.meta, items: result?.data})))
+            .then(result => setCompleted(prev => ({isLoading: true, meta: {meta: result?.meta}, items: result?.data})))
             .catch(error => setCompleted(prev => ({...prev, isLoading: true, error})))
+    }
+
+    const updateData = () => {
+        if (userId && token && page) {
+            getInProcessResponsesRequest(page, initialPageLimit)
+            getCompletedResponsesRequest(page, initialPageLimit)
+        }
     }
 
     useEffect(() => getInProcessResponsesRequest(page, initialPageLimit), [userId, token, page])
     useEffect(() => getCompletedResponsesRequest(page, initialPageLimit), [userId, token, page])
-
-
-    useEffect(() => {
-        console.log(inProcess)
-    }, [inProcess])
-
-    useEffect(() => {
-        console.log(completed)
-    }, [completed])
 
     return (
         <div className='px-2 px-sm-4 pb-4 pb-sm-5'>
@@ -92,14 +85,15 @@ const InWork = () => {
                                     <div key={item.id}>
                                         <ResponseCard
                                             type='work'
-                                            id={item?.user?.id}
+                                            id={item?.id}
                                             userName={item?.user?.fullName}
                                             avatar={checkPhotoPath(item?.user?.avatar)}
                                             price={item?.price}
                                             priceType={(typeof item?.priceTypeForUser === 'string') && item.priceTypeForUser.toLowerCase()}
                                             description={item?.description}
                                             experience={(typeof item?.service?.experienceTypeForUser === 'string') && item.service.experienceTypeForUser.toLowerCase()}
-                                            rating={'3.35'}
+                                            rating={item?.user?.rating}
+                                            updateData={updateData}
                                         />
                                     </div>
                                 ))
@@ -112,14 +106,15 @@ const InWork = () => {
                                 ? completed.items.map(item => (
                                     <div key={item.id}>
                                         <ResponseCard
-                                            id={item?.user?.id}
+                                            id={item?.id}
                                             userName={item?.user?.fullName}
                                             avatar={checkPhotoPath(item?.user?.avatar)}
                                             price={item?.price}
                                             priceType={(typeof item?.priceTypeForUser === 'string') && item.priceTypeForUser.toLowerCase()}
                                             description={item?.description}
                                             experience={(typeof item?.service?.experienceTypeForUser === 'string') && item.service.experienceTypeForUser.toLowerCase()}
-                                            rating={'3.35'}
+                                            rating={item?.user?.rating}
+                                            updateData={updateData}
                                         />
                                     </div>
                                 ))
@@ -128,7 +123,8 @@ const InWork = () => {
                     )
                 }
             </div>
-            <PaginationCustom baseUrl='/personal-account/responses' meta={tab === 'in' ? inProcess.meta : completed.meta}/>
+            {(tab === 'in' && inProcess?.items?.length > 0) && <PaginationCustom baseUrl='/personal-account/responses' meta={inProcess.meta}/>}
+            {(tab === 'out' && completed?.items?.length > 0) && <PaginationCustom baseUrl='/personal-account/responses' meta={completed.meta}/>}
         </div>
     );
 };

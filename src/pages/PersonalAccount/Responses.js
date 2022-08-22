@@ -42,17 +42,15 @@ export default function Responses(props) {
             .catch(error => setOutgoings(prev => ({...prev, isLoading: true, error})))
     }
 
+    const updateData = () => {
+        if (userId && token && page) {
+            getIncomingsResponsesRequest(page, initialPageLimit)
+            getOutgoingsResponsesRequest(page, initialPageLimit)
+        }
+    }
+
     useEffect(() => getIncomingsResponsesRequest(page, initialPageLimit), [userId, token, page])
     useEffect(() => getOutgoingsResponsesRequest(page, initialPageLimit), [userId, token, page])
-
-
-    useEffect(() => {
-        console.log('incumings', incomings)
-    }, [incomings])
-
-    useEffect(() => {
-        console.log(outgoings)
-    }, [outgoings])
 
     return (
         <div className='px-2 px-sm-4 pb-4 pb-sm-5'>
@@ -94,7 +92,8 @@ export default function Responses(props) {
                                             priceType={(typeof item?.priceTypeForUser === 'string') && item.priceTypeForUser.toLowerCase()}
                                             description={item?.description}
                                             experience={(typeof item?.service?.experienceTypeForUser === 'string') && item.service.experienceTypeForUser.toLowerCase()}
-                                            rating={'3.35'}
+                                            rating={item?.user?.rating}
+                                            updateData={updateData}
                                         />
                                     </div>
                                 ))
@@ -115,7 +114,8 @@ export default function Responses(props) {
                                             priceType={(typeof item?.priceTypeForUser === 'string') && item.priceTypeForUser.toLowerCase()}
                                             description={item?.description}
                                             experience={(typeof item?.service?.experienceTypeForUser === 'string') && item.service.experienceTypeForUser.toLowerCase()}
-                                            rating={'3.35'}
+                                            rating={item?.user?.rating}
+                                            updateData={updateData}
                                         />
                                     </div>
                                 ))
@@ -124,7 +124,8 @@ export default function Responses(props) {
                     )
                 }
             </div>
-            <PaginationCustom baseUrl='/personal-account/responses' meta={tab === 'in' ? incomings.meta : outgoings.meta}/>
+            {(tab === 'in' && incomings?.items?.length > 0) && <PaginationCustom baseUrl='/personal-account/responses' meta={incomings.meta} />}
+            {(tab === 'out' && outgoings?.items?.length > 0) && <PaginationCustom baseUrl='/personal-account/responses' meta={outgoings.meta} />}
         </div>
     )
 }

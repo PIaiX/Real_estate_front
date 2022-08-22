@@ -2230,7 +2230,8 @@ article {
   }
 }
 
-.user-card {
+.user-card,
+.response-card {
   padding: 2em;
   background: #FFFFFF;
   filter: drop-shadow(0px 1px 10px rgba(0, 0, 0, 0.12));
@@ -4888,5 +4889,13 @@ footer {
   .delete {
     width: max-content;
   }
+}
+
+.submit-alert {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  border-radius: unset;
 }
 
