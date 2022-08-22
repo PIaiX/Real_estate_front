@@ -1,5 +1,5 @@
 import React from 'react';
-import {Routes, Route} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import CardPage from '../pages/CardPage';
 import ArticlePage from '../pages/ArticlePage';
 import Catalog from '../pages/Catalog';
@@ -24,45 +24,47 @@ import AuthProtector from "./AuthProtector";
 const AppRouter = () => {
 
     return (
-            <Routes>
-                <Route exact path="/" element={<AppLayout />} >
-                    <Route index element={<MainPage />} />
-                    <Route path="catalog" element={<Catalog routeName='Каталог'/>} >
-                        <Route path="page/:page" element={<Catalog/>} />
-                    </Route>
-                    <Route path="card-page" element={<CardPage/>} >
-                        <Route path=":uuid" element={<CardPage/>}/>
-                    </Route>
-                    <Route path="services" element={<AllServices routeName='Услуги' />} />
-                    <Route path='service' element={<Services/>}>
-                        <Route path=':slug' element={<Services/>}>
-                            <Route path='page' element={<Services/>}>
-                                <Route path=':page' element={<Services/>}/>
-                            </Route>
+        <Routes>
+            <Route exact path="/" element={<AppLayout/>}>
+                <Route index element={<MainPage/>}/>
+                <Route path="catalog" element={<Catalog routeName='Каталог'/>}>
+                    <Route path="page/:page" element={<Catalog/>}/>
+                </Route>
+                <Route path="card-page" element={<CardPage/>}>
+                    <Route path=":uuid" element={<CardPage/>}/>
+                </Route>
+                <Route path="services" element={<AllServices routeName='Услуги'/>}/>
+                <Route path='service' element={<Services/>}>
+                    <Route path=':slug' element={<Services/>}>
+                        <Route path='page' element={<Services/>}>
+                            <Route path=':page' element={<Services/>}/>
                         </Route>
                     </Route>
-
-                    <Route path="hypothec" element={<Hypothec routeName='Ипотека'/>} />
-                    <Route path="user" element={<UserPage />} >
-                        <Route path=":userId" element={<UserPage />}/>
-                    </Route>
-                    <Route path="advertise" element={<Advertise />} />
-                    <Route path="advertise-editor" element={<AdvertiseEditor />} >
-                        <Route path=":uuid" element={<AdvertiseEditor />} />
-                    </Route>
-                    <Route path="personal-account/*" element={<PersonalAccount />} />
-                    <Route path="login" element={<Login />} />
-                    <Route path="registration" element={<Registration />} />
-                    <Route path="articles/page/:page/:slug" element={<ArticlePage routeName='Название статьи'/>}/>
-                    <Route path="articles/page" element={<Articles routeName='Статьи'/>}>
-                        <Route path=":page" element={<Articles/>}/>
-                    </Route>
-                    <Route path="password-1" element={<Password1 />} />
-                    <Route path="password-2" element={<Password2 />} />
-                    <Route path="WaitAccountActivation/:uuid" element={<WaitAccountActivation/>}/>
-                    <Route path="*" element={<NotFound />} />
                 </Route>
-            </Routes>
+
+                <Route path="hypothec" element={<Hypothec routeName='Ипотека'/>}/>
+                <Route element={<AuthProtector/>}>
+                    <Route path="user" element={<UserPage/>}>
+                        <Route path=":userId" element={<UserPage/>}/>
+                    </Route>
+                    <Route path="advertise" element={<Advertise/>}/>
+                    <Route path="advertise-editor" element={<AdvertiseEditor/>}>
+                        <Route path=":uuid" element={<AdvertiseEditor/>}/>
+                    </Route>
+                    <Route path="personal-account/*" element={<PersonalAccount/>}/>
+                </Route>
+                <Route path="login" element={<Login/>}/>
+                <Route path="registration" element={<Registration/>}/>
+                <Route path="articles/page/:page/:slug" element={<ArticlePage routeName='Название статьи'/>}/>
+                <Route path="articles/page" element={<Articles routeName='Статьи'/>}>
+                    <Route path=":page" element={<Articles/>}/>
+                </Route>
+                <Route path="password-1" element={<Password1/>}/>
+                <Route path="password-2" element={<Password2/>}/>
+                <Route path="WaitAccountActivation/:uuid" element={<WaitAccountActivation/>}/>
+                <Route path="*" element={<NotFound/>}/>
+            </Route>
+        </Routes>
     )
 }
 

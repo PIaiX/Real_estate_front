@@ -15,6 +15,7 @@ import fingerprint from "@fingerprintjs/fingerprintjs";
 import {YMaps} from 'react-yandex-maps'
 import env from './config/env'
 import {useAccessToken} from "./store/reducers";
+import {authCheck} from "./API/mainpagereq";
 
 function App() {
 
@@ -56,20 +57,21 @@ function App() {
         localStorage.setItem('fingerprint', visitor)
     }, [visitor])
 
+    const [isLoading, setIsLoading] = useState(true)
+
     useEffect(() => {
-        const checkAuth = async () => {
-            const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}/auth/refresh`)
-            if (response?.data?.status === 200) {
-                setToken(response.data.body.token);
-                setCurrentUser(response.data.body.user)
-            }
-        }
-        checkAuth();
+        authCheck(axiosPrivate).then(res => {
+            setToken(res?.token || null);
+            setCurrentUser(res?.user || null)
+            setIsLoading(false)
+        }).finally(() => setIsLoading(false))
     }, []);
 
     useEffect(() => {
         window.addEventListener('beforeunload', onUnloadHandler)
     }, [])
+
+    if(isLoading) return <></>
 
     return (
         <BrowserRouter>

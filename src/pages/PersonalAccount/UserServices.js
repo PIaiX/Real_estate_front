@@ -23,7 +23,6 @@ export default function UserServices() {
         currentUser && userInfo(currentUser?.id).then(res => setUserService({isLoading: true, data: res.services}))
     }, [currentUser?.id])
 
-    console.log(userService)
     const [serviceId, setServiceId] = useState(null)
 
     return (
