@@ -36,9 +36,9 @@ const getCompletedResponses = async (axiosPrivate, userId, payloads) => {
     }
 }
 
-const createResponse = async (axiosPrivate) => {
+const createResponse = async (axiosPrivate, token, payloads) => {
     try {
-        const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.RESPONSES_ACTIONS}`)
+        const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.RESPONSES_ACTIONS}`, {token, ...payloads})
         return response?.data
     } catch (error) {
         console.log(error)
@@ -54,9 +54,9 @@ const acceptResponse = async (axiosPrivate, id, payloads) => {
     }
 }
 
-const completeResponse = async (axiosPrivate) => {
+const completeResponse = async (axiosPrivate, id, payloads) => {
     try {
-        const response = await axiosPrivate.patch(`${process.env.REACT_APP_BASE_URL}${apiRoutes.RESPONSES_COMPLETE}`)
+        const response = await axiosPrivate.patch(`${process.env.REACT_APP_BASE_URL}${apiRoutes.RESPONSES_COMPLETE}/${id}`, payloads)
         return response?.data
     } catch (error) {
         console.log(error)

@@ -36,7 +36,7 @@ const PersonalAccountRouter = ({isMobile}) => {
                     <Route path="page/:page" element={<Responses/>}/>
                 </Route>
                 <Route path="responses/add" element={<AddResponse/>}>
-                    <Route path='id' element={<AddResponse/>}/>
+                    <Route path=':id' element={<AddResponse/>}/>
                 </Route>
                 <Route path="in-work" element={<InWork/>}>
                     <Route path="page/:page" element={<InWork/>}/>

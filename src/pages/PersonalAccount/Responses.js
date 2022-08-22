@@ -42,6 +42,13 @@ export default function Responses(props) {
             .catch(error => setOutgoings(prev => ({...prev, isLoading: true, error})))
     }
 
+    const updateData = () => {
+        if (userId && token && page) {
+            getIncomingsResponsesRequest(page, initialPageLimit)
+            getOutgoingsResponsesRequest(page, initialPageLimit)
+        }
+    }
+
     useEffect(() => getIncomingsResponsesRequest(page, initialPageLimit), [userId, token, page])
     useEffect(() => getOutgoingsResponsesRequest(page, initialPageLimit), [userId, token, page])
 
@@ -94,7 +101,8 @@ export default function Responses(props) {
                                             priceType={(typeof item?.priceTypeForUser === 'string') && item.priceTypeForUser.toLowerCase()}
                                             description={item?.description}
                                             experience={(typeof item?.service?.experienceTypeForUser === 'string') && item.service.experienceTypeForUser.toLowerCase()}
-                                            rating={'3.35'}
+                                            rating={item?.user?.rating}
+                                            updateData={updateData}
                                         />
                                     </div>
                                 ))
@@ -115,7 +123,8 @@ export default function Responses(props) {
                                             priceType={(typeof item?.priceTypeForUser === 'string') && item.priceTypeForUser.toLowerCase()}
                                             description={item?.description}
                                             experience={(typeof item?.service?.experienceTypeForUser === 'string') && item.service.experienceTypeForUser.toLowerCase()}
-                                            rating={'3.35'}
+                                            rating={item?.user?.rating}
+                                            updateData={updateData}
                                         />
                                     </div>
                                 ))

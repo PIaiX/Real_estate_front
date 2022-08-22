@@ -4720,4 +4720,12 @@ footer nav.mobile ul li a.active svg.type-2 path {
   width: max-content;
 }
 
+.submit-alert {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  border-radius: unset;
+}
+
 /*# sourceMappingURL=style.css.map */
