@@ -11,6 +11,7 @@ import CustomModal from "../components/CustomModal";
 import env from '../config/env'
 import {dadataFias} from '../API/dadata';
 import {useSelector} from 'react-redux';
+import {addAdvertise} from "../API/config/advertise";
 
 export default function Advertise() {
     const city = useSelector(state => state.selectedCity)
@@ -169,7 +170,14 @@ export default function Advertise() {
         return years.find(i => i === +data?.yearOfConstruction)
     }
 
-    const handleSub = async (e) => {
+    const [statusRequest, setStatusRequest] = useState({
+        error: false,
+        good: false,
+    })
+
+    const counterPhotoSize = () => imgs.map(i => i?.file?.size).reduce((acc, val) => acc + val)/125000;
+
+    const handleSub = (e) => {
         e.preventDefault()
         const isInValidEstateId = data.estateId === undefined || data.estateId === 0
         const isInValidTransactionType = data.transactionType === undefined
@@ -179,7 +187,7 @@ export default function Advertise() {
         const isInValidTotalArea = data.totalArea === undefined || data.totalArea?.length < 1
         const isInValidFloor = data["floor"] === undefined
         const isInValidDescription = data.description?.length < 30 || data.description === undefined
-        const isInValidImage = imgs?.length === 0 || imgs === undefined || imgs?.length === 2
+        const isInValidImage = imgs?.length === 0 || imgs === undefined || imgs?.length === 2 || counterPhotoSize() > 8
         const isInValidPrice = data.price === undefined
         const isInValidEstateTypeId = data.estateTypeId === undefined || data.estateTypeId === 0
         const isInValidYear = data.yearOfConstruction?.length > 4 || data.yearOfConstruction?.length <= 3 || yearsForValidation() === undefined
@@ -243,19 +251,16 @@ export default function Advertise() {
                     }
                 })
             }
-
-            try {
-                let result = await axiosPrivate.post("https://api.antontig.beget.tech/api/realEstates/create", formData)
-                if (result) {
-                    setIsShow(true)
-                    setTimeout(() => {
-                        navigate("/personal-account/my-ads/page/1", {replace: true})
-                    }, 2000)
-                }
-
-            } catch (err) {
-                console.log(err)
-            }
+            addAdvertise(axiosPrivate, formData).then(() => {
+                setIsShow(true)
+                setStatusRequest({error: false, good: true})
+                setTimeout(() => {
+                    navigate("/personal-account/my-ads/page/1", {replace: true})
+                }, 1500)
+            }).catch((error) => {
+                setIsShow(true)
+                setStatusRequest({error: true, good: false})
+            })
         }
     }
 
@@ -270,6 +275,8 @@ export default function Advertise() {
                 name: res?.suggestions[0]?.data?.city_district
             }))
     }, [data.address])
+
+    console.log(data)
 
     return (
         <main>
@@ -1266,6 +1273,8 @@ export default function Advertise() {
                                         onChange={onChange}
                                         maxNumber={maxNumber}
                                         dataURLKey="data_url"
+                                        maxFileSize='10000000'
+                                        acceptType={['jpg','png', 'gif']}
                                     >
                                         {({
                                               imageList,
@@ -1285,13 +1294,13 @@ export default function Advertise() {
                                                                 <button type="button"
                                                                         onClick={() => onImageUpdate(index)}>
                                                                     <img
-                                                                        src="/Real_estate_front/img/icons/update.svg"
+                                                                        src="/img/icons/update.svg"
                                                                         alt="Обновить"/>
                                                                 </button>
                                                                 <button type="button"
                                                                         onClick={() => onImageRemove(index)}>
                                                                     <img
-                                                                        src="/Real_estate_front/img/icons/delete.svg"
+                                                                        src="/img/icons/delete.svg"
                                                                         alt="Удалить"/>
                                                                 </button>
                                                                 {
@@ -1333,8 +1342,8 @@ export default function Advertise() {
                                     </ImageUploading>
                                     <div className="fs-08 gray-3 mt-2">Не допускаются к размещению фотографии с
                                         водяными
-                                        знаками, чужих объектов и рекламные баннеры. JPG, PNG или GIF. Максимальный
-                                        размер файла 10 мб
+                                        знаками, чужих объектов и рекламные баннеры. Допустимы JPG, PNG или GIF. Максимальный
+                                        размер файла 8 мб
                                     </div>
                                 </div>
                             </div>
@@ -1913,12 +1922,19 @@ export default function Advertise() {
                         <CustomModal
                             isShow={isShow}
                             closeButton={false}
-                            backdrop="static"
+                            backdrop='static'
                             centre={true}
                         >
-                            <div style={{textAlign: "center"}}>
-                                <p>Объявление создано, переход в "Мои объявления"</p>
-                            </div>
+                            {statusRequest.good &&
+                                <div style={{textAlign: "center"}}>
+                                    <p>Объявление создано, переход в "Мои объявления"</p>
+                                </div>
+                            }
+                            {statusRequest.error &&
+                                <div style={{textAlign: "center"}}>
+                                    <p>Произошла ошибка</p>
+                                </div>
+                            }
                         </CustomModal>
 
                         <div className="d-flex justify-content-between mb-4">

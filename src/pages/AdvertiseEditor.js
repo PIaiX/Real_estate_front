@@ -26,6 +26,24 @@ export default function Advertise() {
     const [isShow, setIsShow] = useState(false)
     const [ad, setAd] = useState({})
     const [prepTypeText, setPrepTypeText] = useState('')
+    const [btnRadio, setBtnRadio] = useState({
+        transactionType: null,
+        rentalType: null,
+        estateTypeId: null,
+        estateId: null,
+        houseType: null,
+        roomType: null,
+        wcType: null,
+        balconyType: null,
+        layoutType: null,
+        repairType: null,
+        houseBuildingType: null,
+        elevatorType: null,
+        hasRamp: null,
+        hasGarbage: null,
+        isMortgage: null,
+        isEncumbrances: null,
+    })
 
     useEffect(() => {
         const adsget = async () => {
@@ -45,50 +63,69 @@ export default function Advertise() {
     const [defaultForm, setDefaultForm] = useState({})
 
     useEffect(() => {
-        if (ad) {
-            setDefaultForm(
-                {
-                    "address": ad?.address,
-                    "residentalComplex": ad?.residentalComplex,
-                    "totalArea": ad?.totalArea,
-                    "floor": ad["floor"],
-                    "hasBathroom": false,
-                    "hasConditioner": false,
-                    "hasDishWasher": false,
-                    "hasFurniture": false,
-                    "hasInternet": false,
-                    "hasKitchenFurniture": false,
-                    "hasRefrigerator": false,
-                    "hasShowerCabin": false,
-                    "hasTv": false,
-                    "hasWashingMachine": false,
-                    "description": ad?.description,
-                    "yearOfConstruction": ad?.yearOfConstructionForUser,
-                    "ceilingHeight": ad?.ceilingHeight,
-                    "hasGroundParking": false,
-                    "hasMoreLayerParking": false,
-                    "hasUnderGroundParking": false,
-                    "price": ad?.price,
-                    "communalPrice": 0,
-                    "pledge": ad?.pledge,
-                    "commission": ad?.commission,
-                    "prepaymentType": ad?.prepaymentType,
-                    "withKids": false,
-                    "withPets": false,
-                    "longitude": ad?.longitude,
-                    "latitude": ad?.latitude,
+        setDefaultForm(
+            {
+                address: ad?.address,
+                residentalComplex: ad?.residentalComplex,
+                totalArea: ad?.totalArea,
+                floor: ad['floor'],
+                hasBathroom: ad?.hasBathroom,
+                hasConditioner: ad?.hasConditioner,
+                hasDishWasher: ad?.hasDishWasher,
+                hasFurniture: ad?.hasFurniture,
+                hasInternet: ad?.hasInternet,
+                hasKitchenFurniture: ad?.hasKitchenFurniture,
+                hasRefrigerator: ad?.hasRefrigerator,
+                hasShowerCabin: ad?.hasShowerCabin,
+                hasTv: ad?.hasTv,
+                hasWashingMachine: ad?.hasWashingMachine,
+                description: ad?.description,
+                yearOfConstruction: ad?.yearOfConstructionForUser,
+                ceilingHeight: ad?.ceilingHeight,
+                hasGroundParking: ad?.hasGroundParking,
+                hasMoreLayerParking: ad?.hasMoreLayerParking,
+                hasUnderGroundParking: ad?.hasUnderGroundParking,
+                price: ad?.price,
+                communalPrice: ad?.communalPrice,
+                pledge: ad?.pledge,
+                commission: ad?.commission,
+                prepaymentType: ad?.prepaymentType,
+                withKids: ad?.withKids,
+                withPets: ad?.withPets,
+                longitude: ad?.longitude,
+                latitude: ad?.latitude,
+                livingArea: ad?.livingArea,
+                kitchenArea: ad?.kitchenArea,
+                maxFloor: ad?.maxFloor
+            }
+        )
+        setBtnRadio({
+            transactionType: ad?.transactionType,
+            rentalType: ad?.rentalType,
+            estateTypeId: ad?.estate?.realEstateTypeId,
+            estateId: ad?.estateId,
+            houseType: ad?.houseType,
+            roomType: ad?.roomType,
+            WCType: ad?.wcType,
+            balconyType: ad?.balconyType,
+            layoutType: ad?.layoutType,
+            repairType: ad?.repairType,
+            houseBuildingType: ad?.houseBuildingType,
+            elevatorType: ad?.elevatorType,
+            hasRamp: Number(ad?.hasRamp),
+            hasGarbage: Number(ad?.hasGarbage),
+            isMortgage: Number(ad?.isMortgage),
+            isEncumbrances: Number(ad?.isEncumbrances),
 
-                }
-            )
-        }
+        })
     }, [ad])
 
     const [data, setData] = useState({})
     useEffect(() => {
         if (defaultForm) {
-            setData({...defaultForm})
+            setData({...defaultForm, ...btnRadio})
         }
-    }, [defaultForm])
+    }, [defaultForm, btnRadio])
 
     const ref = useRef(null); // Form
     const [deal, setDeal] = useState('1'); // тип сделки (по умолчанию - продажа)
@@ -98,6 +135,19 @@ export default function Advertise() {
     const [types, setTypes] = useState([]) // result require api
     const [es, setEs] = useState([]) // state estates in types
     const [res, setRes] = useState('') // check id in array id's
+
+    console.log(proptype, res)
+    console.log(types)
+    console.log(es)
+
+    useEffect(() => {
+        setProptype(btnRadio.estateTypeId)
+        setRes(btnRadio.estateTypeId)
+    }, [btnRadio.estateTypeId])
+
+    useEffect(() => {
+        btnRadio.transactionType === 0 ? setDeal('0') : setDeal('1')
+    }, [btnRadio.transactionType])
 
     useEffect(() => {
         const typess = async () => {
@@ -112,6 +162,10 @@ export default function Advertise() {
         }
         typess()
     }, [])
+
+    useEffect(() => {
+        types.map(i => (i.id === btnRadio.estateTypeId) && setEs(i.estates))
+    }, [btnRadio, types])
 
     useEffect(() => {
         const ids = types.map(i => i.id)
@@ -169,7 +223,7 @@ export default function Advertise() {
     }
 
     useEffect(() => {
-        setPrepTypeText()
+        setPrepTypeText(ad?.prepaymentTypeForUser)
     }, [ad])
 
     const fields = {
@@ -204,9 +258,16 @@ export default function Advertise() {
     }
     const findYear = years.find(i => i === +data?.yearOfConstruction);
 
+    const [statusRequest, setStatusRequest] = useState({
+        error: false,
+        good: false,
+    })
+
+    const counterPhotoSize = () => imgs.map(i => i?.file?.size).reduce((acc, val) => acc + val) / 125000;
+
     const [district, setDistrict] = useState({})
 
-    const handleSub = async (e) => {
+    const handleSub = (e) => {
         e.preventDefault()
         const isInValidEstateId = data.estateId === undefined || data.estateId === 0
         const isInValidTransactionType = data.transactionType === undefined
@@ -216,7 +277,7 @@ export default function Advertise() {
         const isInValidTotalArea = data.totalArea === undefined || data.totalArea?.length < 1
         const isInValidFloor = data["floor"] === undefined
         const isInValidDescription = data.description?.length < 30 || data.description === undefined
-        const isInValidImage = imgs?.length === 0 || imgs === undefined
+        const isInValidImage = imgs?.length === 0 || imgs === undefined || counterPhotoSize() > 8
         const isInValidPrice = data.price === undefined
         const isInValidEstateTypeId = data.estateTypeId === undefined || data.estateTypeId === 0
         const isInValidYear = data.yearOfConstruction?.length > 4 || data.yearOfConstruction?.length <= 3 || findYear === undefined
@@ -305,19 +366,19 @@ export default function Advertise() {
                 })
             }
 
-            try {
-                let result = await updateAd(axiosPrivate, uuid, formData)
-                if (result) {
-                    setIsShow(true)
-                    setTimeout(() => {
-                        navigate("/personal-account/my-ads", {replace: true})
-                    }, 2000)
-                }
-            } catch (err) {
-                console.log(err)
-            }
+            updateAd(axiosPrivate, uuid, formData).then(() => {
+                setIsShow(true)
+                setStatusRequest({error: false, good: true})
+                setTimeout(() => {
+                    navigate("/personal-account/my-ads/page/1", {replace: true})
+                }, 1500)
+            }).catch((error) => {
+                setIsShow(true)
+                setStatusRequest({error: true, good: false})
+            })
         }
     }
+
     const resetFieldVal = (newState, field) => {
         setValid({...valid, [field]: false})
     }
@@ -330,7 +391,11 @@ export default function Advertise() {
             }))
     }, [data.address])
 
+    console.log(data)
+    console.log(btnRadio)
+    console.log(ad)
     return (
+
         <main>
             <div className="container py-3 py-sm-4 py-lg-5">
                 <nav aria-label="breadcrumb">
@@ -383,12 +448,15 @@ export default function Advertise() {
                                 </div>
                                 <div className="col-md-9">
                                     <div className="row row-cols-3 row-cols-xxl-4">
+
                                         <div>
                                             <label>
                                                 <input
                                                     type="radio"
                                                     name="deal"
-                                                    value="0"
+                                                    value={0}
+                                                    checked={btnRadio.transactionType === 0}
+                                                    onClick={() => setBtnRadio(prevState => ({...prevState, transactionType: 0}))}
                                                     onChange={(e) => {
                                                         onRent(e)
                                                         setData(prevData => {
@@ -400,12 +468,15 @@ export default function Advertise() {
                                                 <span className="fs-11 ms-2">Аренда</span>
                                             </label>
                                         </div>
+
                                         <div>
                                             <label>
                                                 <input
                                                     type="radio"
                                                     name="deal"
-                                                    value="1"
+                                                    value={1}
+                                                    onClick={() => setBtnRadio(prevState => ({...prevState, transactionType: 1}))}
+                                                    checked={btnRadio.transactionType === 1}
                                                     onChange={(e) => {
                                                         onSale(e)
                                                         setData(prevData => {
@@ -417,6 +488,7 @@ export default function Advertise() {
                                                 <span className="fs-11 ms-2">Продажа</span>
                                             </label>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -436,7 +508,9 @@ export default function Advertise() {
                                                         <input
                                                             type="radio"
                                                             name="rental-type"
-                                                            value="0"
+                                                            value={0}
+                                                            checked={btnRadio.rentalType === 0}
+                                                            onClick={() => setBtnRadio(prevState => ({...prevState, rentalType: 0}))}
                                                             onChange={(e) => {
                                                                 setData(prevData => {
                                                                     return {
@@ -455,7 +529,9 @@ export default function Advertise() {
                                                         <input
                                                             type="radio"
                                                             name="rental-type"
-                                                            value="1"
+                                                            value={1}
+                                                            checked={btnRadio.rentalType === 1}
+                                                            onClick={() => setBtnRadio(prevState => ({...prevState, rentalType: 1}))}
                                                             onChange={(e) => {
                                                                 setData(prevData => {
                                                                     return {
@@ -474,7 +550,9 @@ export default function Advertise() {
                                                         <input
                                                             type="radio"
                                                             name="rental-type"
-                                                            value="2"
+                                                            value={2}
+                                                            checked={btnRadio.rentalType === 2}
+                                                            onClick={() => setBtnRadio(prevState => ({...prevState, rentalType: 2}))}
                                                             onChange={(e) => {
                                                                 setData(prevData => {
                                                                     return {
@@ -508,6 +586,8 @@ export default function Advertise() {
                                                         type="radio"
                                                         name="property-type"
                                                         value={i.id}
+                                                        checked={btnRadio.estateTypeId === i.id}
+                                                        onClick={() => setBtnRadio(prevState => ({...prevState, estateTypeId: i.id}))}
                                                         onChange={(e) => {
                                                             setProptype(i.id);
                                                             setData(prevData => {
@@ -516,6 +596,7 @@ export default function Advertise() {
                                                             setEs(i.estates)
                                                             resetFieldVal(e, 'isInValidEstateTypeId')
                                                         }}
+                                                        onInput={() => setEs(i.estates)}
                                                     />
                                                     <span className="fs-11 ms-2">{i.name}</span>
                                                 </label>
@@ -542,6 +623,8 @@ export default function Advertise() {
                                                                 type="radio"
                                                                 name="estate"
                                                                 value={i.id}
+                                                                checked={btnRadio.estateId === i.id}
+                                                                onClick={() => setBtnRadio(prevState => ({...prevState, estateId: i.id}))}
                                                                 onChange={(e) => {
                                                                     setData(prevData => {
                                                                         return {
@@ -597,7 +680,6 @@ export default function Advertise() {
                                     </span>
                                 </div>
                                 <div className="col-md-9">
-                                    {/* input style: style={{borderColor: valid.isInValidAddress ? '#DA1E2A' : ''}}*/}
                                     {data?.address &&
                                         <AddressSuggestions
                                             delay={300}
@@ -653,7 +735,9 @@ export default function Advertise() {
                                                     id="houseType"
                                                     type="radio"
                                                     name="housing-type"
-                                                    value="0"
+                                                    value={0}
+                                                    checked={btnRadio.houseType === 0}
+                                                    onClick={() => setBtnRadio(prevState => ({...prevState, houseType: 0}))}
                                                     onChange={(e) => {
                                                         setData(prevData => {
                                                             return {...prevData, "houseType": e.target.value}
@@ -670,7 +754,9 @@ export default function Advertise() {
                                                     id="houseType"
                                                     type="radio"
                                                     name="housing-type"
-                                                    value="1"
+                                                    value={1}
+                                                    checked={btnRadio.houseType === 1}
+                                                    onClick={() => setBtnRadio(prevState => ({...prevState, houseType: 1}))}
                                                     onChange={(e) => {
                                                         setData(prevData => {
                                                             return {...prevData, "houseType": e.target.value}
@@ -695,7 +781,9 @@ export default function Advertise() {
                                         <input
                                             type="radio"
                                             name="rooms"
-                                            value="0"
+                                            value={0}
+                                            checked={btnRadio.roomType === 0}
+                                            onClick={() => setBtnRadio(prevState => ({...prevState, roomType: 0}))}
                                             onChange={(e) => {
                                                 setData(prevData => {
                                                     return {...prevData, "roomType": e.target.value}
@@ -709,7 +797,9 @@ export default function Advertise() {
                                         <input
                                             type="radio"
                                             name="rooms"
-                                            value="1"
+                                            value={1}
+                                            checked={btnRadio.roomType === 1}
+                                            onClick={() => setBtnRadio(prevState => ({...prevState, roomType: 1}))}
                                             onChange={(e) => {
                                                 setData(prevData => {
                                                     return {...prevData, "roomType": e.target.value}
@@ -723,7 +813,9 @@ export default function Advertise() {
                                         <input
                                             type="radio"
                                             name="rooms"
-                                            value="2"
+                                            value={2}
+                                            checked={btnRadio.roomType === 2}
+                                            onClick={() => setBtnRadio(prevState => ({...prevState, roomType: 2}))}
                                             onChange={(e) => {
                                                 setData(prevData => {
                                                     return {...prevData, "roomType": e.target.value}
@@ -737,7 +829,9 @@ export default function Advertise() {
                                         <input
                                             type="radio"
                                             name="rooms"
-                                            value="3"
+                                            value={3}
+                                            checked={btnRadio.roomType === 3}
+                                            onClick={() => setBtnRadio(prevState => ({...prevState, roomType: 3}))}
                                             onChange={(e) => {
                                                 setData(prevData => {
                                                     return {...prevData, "roomType": e.target.value}
@@ -751,7 +845,9 @@ export default function Advertise() {
                                         <input
                                             type="radio"
                                             name="rooms"
-                                            value="4"
+                                            value={4}
+                                            checked={btnRadio.roomType === 4}
+                                            onClick={() => setBtnRadio(prevState => ({...prevState, roomType: 4}))}
                                             onChange={(e) => {
                                                 setData(prevData => {
                                                     return {...prevData, "roomType": e.target.value}
@@ -765,7 +861,9 @@ export default function Advertise() {
                                         <input
                                             type="radio"
                                             name="rooms"
-                                            value="5"
+                                            value={5}
+                                            checked={btnRadio.roomType === 5}
+                                            onClick={() => setBtnRadio(prevState => ({...prevState, roomType: 5}))}
                                             onChange={(e) => {
                                                 setData(prevData => {
                                                     return {...prevData, "roomType": e.target.value}
@@ -779,7 +877,9 @@ export default function Advertise() {
                                         <input
                                             type="radio"
                                             name="rooms"
-                                            value="6"
+                                            value={6}
+                                            checked={btnRadio.roomType === 6}
+                                            onClick={() => setBtnRadio(prevState => ({...prevState, roomType: 6}))}
                                             onChange={(e) => {
                                                 setData(prevData => {
                                                     return {...prevData, "roomType": e.target.value}
@@ -803,7 +903,7 @@ export default function Advertise() {
                                         type="number"
                                         name="total-area"
                                         placeholder="0"
-                                        defaultValue={ad?.totalArea}
+                                        value={data?.totalArea || ''}
                                         className="fs-11 area w-100"
                                         onChange={(e) => {
                                             setData(prevData => {
@@ -820,7 +920,7 @@ export default function Advertise() {
                                         name="living-space"
                                         placeholder="0"
                                         className="fs-11 area w-100"
-                                        defaultValue={ad?.livingArea}
+                                        value={data?.livingArea || ''}
                                         onChange={(e) => {
                                             setData(prevData => {
                                                 return {...prevData, "livingArea": e.target.value}
@@ -837,7 +937,7 @@ export default function Advertise() {
                                         type="number"
                                         name="kitchen-area"
                                         placeholder="0"
-                                        defaultValue={ad?.kitchenArea}
+                                        value={data?.kitchenArea || ''}
                                         className="fs-11 area w-100"
                                         onChange={(e) => {
                                             setData(prevData => {
@@ -859,7 +959,7 @@ export default function Advertise() {
                                         type="number"
                                         name="floor"
                                         placeholder="0"
-                                        defaultValue={ad["floor"]}
+                                        value={data["floor"] || ''}
                                         className="fs-11 w-100"
                                         onChange={(e) => {
                                             setData(prevData => {
@@ -875,7 +975,7 @@ export default function Advertise() {
                                         type="number"
                                         name="floor"
                                         placeholder="0"
-                                        defaultValue={ad?.maxFloor}
+                                        value={data?.maxFloor || ''}
                                         className="fs-11 w-100"
                                         onChange={(e) => {
                                             setData(prevData => {
@@ -900,7 +1000,9 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="WCTypes"
-                                                    value="0"
+                                                    value={0}
+                                                    checked={btnRadio.WCType === 0}
+                                                    onClick={() => setBtnRadio(prevState => ({...prevState, WCType: 0}))}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "WCType": e.target.value}
@@ -916,7 +1018,9 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="WCTypes"
-                                                    value="1"
+                                                    value={1}
+                                                    checked={btnRadio.WCType === 1}
+                                                    onClick={() => setBtnRadio(prevState => ({...prevState, WCType: 1}))}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "WCType": e.target.value}
@@ -932,7 +1036,9 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="WCTypes"
-                                                    value="2"
+                                                    value={2}
+                                                    checked={btnRadio.WCType === 2}
+                                                    onClick={() => setBtnRadio(prevState => ({...prevState, WCType: 2}))}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "WCType": e.target.value}
@@ -961,7 +1067,9 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="balconyTypes"
-                                                    value="1"
+                                                    value={1}
+                                                    checked={btnRadio.balconyType === 1}
+                                                    onClick={() => setBtnRadio(prevState => ({...prevState, balconyType: 1}))}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "balconyType": e.target.value}
@@ -977,7 +1085,9 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="balconyTypes"
-                                                    value="2"
+                                                    value={2}
+                                                    checked={btnRadio.balconyType === 2}
+                                                    onClick={() => setBtnRadio(prevState => ({...prevState, balconyType: 2}))}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "balconyType": e.target.value}
@@ -993,7 +1103,9 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="balconyTypes"
-                                                    value="0"
+                                                    value={0}
+                                                    checked={btnRadio.balconyType === 0}
+                                                    onClick={() => setBtnRadio(prevState => ({...prevState, balconyType: 0}))}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "balconyType": e.target.value}
@@ -1022,7 +1134,9 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="layoutTypes"
-                                                    value="0"
+                                                    value={0}
+                                                    checked={btnRadio.layoutType === 0}
+                                                    onClick={() => setBtnRadio(prevState => ({...prevState, layoutType: 0}))}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "layoutType": e.target.value}
@@ -1038,7 +1152,9 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="layoutTypes"
-                                                    value="1"
+                                                    value={1}
+                                                    checked={btnRadio.layoutType === 1}
+                                                    onClick={() => setBtnRadio(prevState => ({...prevState, layoutType: 1}))}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "layoutType": e.target.value}
@@ -1054,7 +1170,9 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="layoutTypes"
-                                                    value="2"
+                                                    value={2}
+                                                    checked={btnRadio.layoutType === 2}
+                                                    onClick={() => setBtnRadio(prevState => ({...prevState, layoutType: 2}))}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "layoutType": e.target.value}
@@ -1083,7 +1201,9 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="repairTypes"
-                                                    value="0"
+                                                    value={0}
+                                                    checked={btnRadio.repairType === 0}
+                                                    onClick={() => setBtnRadio(prevState => ({...prevState, repairType: 0}))}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "repairType": e.target.value}
@@ -1099,7 +1219,9 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="repairTypes"
-                                                    value="1"
+                                                    value={1}
+                                                    checked={btnRadio.repairType === 1}
+                                                    onClick={() => setBtnRadio(prevState => ({...prevState, repairType: 1}))}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "repairType": e.target.value}
@@ -1115,7 +1237,9 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="repairTypes"
-                                                    value="2"
+                                                    value={2}
+                                                    checked={btnRadio.repairType === 2}
+                                                    onClick={() => setBtnRadio(prevState => ({...prevState, repairType: 2}))}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "repairType": e.target.value}
@@ -1131,7 +1255,9 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="repairTypes"
-                                                    value="3"
+                                                    value={3}
+                                                    checked={btnRadio.repairType === 3}
+                                                    onClick={() => setBtnRadio(prevState => ({...prevState, repairType: 3}))}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "repairType": e.target.value}
@@ -1153,6 +1279,7 @@ export default function Advertise() {
                                                 <input
                                                     type="checkbox"
                                                     name="hasKitchenFurniture"
+                                                    checked={data?.hasKitchenFurniture || false}
                                                     onChange={e => handleCheckbox(e)}
                                                 />
                                                 <span className="fs-11 ms-3">Кухонная мебель</span>
@@ -1161,6 +1288,7 @@ export default function Advertise() {
                                                 <input
                                                     type="checkbox"
                                                     name="hasFurniture"
+                                                    checked={data?.hasFurniture || false}
                                                     onChange={e => handleCheckbox(e)}
                                                 />
                                                 <span className="fs-11 ms-3">Мебель в комнатах</span>
@@ -1169,6 +1297,7 @@ export default function Advertise() {
                                                 <input
                                                     type="checkbox"
                                                     name="hasRefrigerator"
+                                                    checked={data.hasRefrigerator || false}
                                                     onChange={e => handleCheckbox(e)}
                                                 />
                                                 <span className="fs-11 ms-3">Холодильник</span>
@@ -1177,6 +1306,7 @@ export default function Advertise() {
                                                 <input
                                                     type="checkbox"
                                                     name="hasWashingMachine"
+                                                    checked={data?.hasWashingMachine || false}
                                                     onChange={e => handleCheckbox(e)}
                                                 />
                                                 <span className="fs-11 ms-3">Стиральная машина</span>
@@ -1185,6 +1315,7 @@ export default function Advertise() {
                                                 <input
                                                     type="checkbox"
                                                     name="hasDishWasher"
+                                                    checked={data?.hasDishWasher || false}
                                                     onChange={e => handleCheckbox(e)}
                                                 />
                                                 <span className="fs-11 ms-3">Посудомоечная машина</span>
@@ -1193,6 +1324,7 @@ export default function Advertise() {
                                                 <input
                                                     type="checkbox"
                                                     name="hasTv"
+                                                    checked={data?.hasTv || false}
                                                     onChange={e => handleCheckbox(e)}
                                                 />
                                                 <span className="fs-11 ms-3">Телевизор</span>
@@ -1201,6 +1333,7 @@ export default function Advertise() {
                                                 <input
                                                     type="checkbox"
                                                     name="hasConditioner"
+                                                    checked={data?.hasConditioner || false}
                                                     onChange={e => handleCheckbox(e)}
                                                 />
                                                 <span className="fs-11 ms-3">Кондиционер</span>
@@ -1209,6 +1342,7 @@ export default function Advertise() {
                                                 <input
                                                     type="checkbox"
                                                     name="hasInternet"
+                                                    checked={data?.hasInternet || false}
                                                     onChange={e => handleCheckbox(e)}
                                                 />
                                                 <span className="fs-11 ms-3">Интернет</span>
@@ -1217,6 +1351,7 @@ export default function Advertise() {
                                                 <input
                                                     type="checkbox"
                                                     name="hasBathroom"
+                                                    checked={data?.hasBathroom || false}
                                                     onChange={e => handleCheckbox(e)}
                                                 />
                                                 <span className="fs-11 ms-3">Ванна</span>
@@ -1225,6 +1360,7 @@ export default function Advertise() {
                                                 <input
                                                     type="checkbox"
                                                     name="hasShowerCabin"
+                                                    checked={data?.hasShowerCabin || false}
                                                     onChange={e => handleCheckbox(e)}
                                                 />
                                                 <span className="fs-11 ms-3">Душевая кабина</span>
@@ -1233,6 +1369,7 @@ export default function Advertise() {
                                                 <input
                                                     type="checkbox"
                                                     name="withKids"
+                                                    checked={data?.withKids || false}
                                                     onChange={e => handleCheckbox(e)}
                                                 />
                                                 <span className="fs-11 ms-3">Можно с детьми</span>
@@ -1241,6 +1378,7 @@ export default function Advertise() {
                                                 <input
                                                     type="checkbox"
                                                     name="withPets"
+                                                    checked={data?.withPets || false}
                                                     onChange={e => handleCheckbox(e)}
                                                 />
                                                 <span className="fs-11 ms-3">Можно с животными</span>
@@ -1281,7 +1419,7 @@ export default function Advertise() {
                                         name="description"
                                         rows="5"
                                         className="fs-11"
-                                        defaultValue={defaultForm?.description}
+                                        value={data?.description || ''}
                                         placeholder="Расскажите подробне об объекте и условиях сделки."
                                         onChange={e => {
                                             setData(prevData => {
@@ -1402,7 +1540,7 @@ export default function Advertise() {
                                         type="number"
                                         className="fs-11"
                                         placeholder="Год"
-                                        defaultValue={defaultForm?.yearOfConstruction}
+                                        value={data?.yearOfConstruction || ''}
                                         onChange={e => {
                                             setData(prevData => {
                                                 return {...prevData, "yearOfConstruction": +e.target.value}
@@ -1426,7 +1564,9 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="house-type"
-                                                value="0"
+                                                value={0}
+                                                checked={btnRadio.houseBuildingType === 0}
+                                                onClick={() => setBtnRadio(prevState => ({...prevState, houseBuildingType: 0}))}
                                                 onChange={e => {
                                                     setData(prevData => {
                                                         return {...prevData, "houseBuildingType": e.target.value}
@@ -1440,7 +1580,9 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="house-type"
-                                                value="1"
+                                                value={1}
+                                                checked={btnRadio.houseBuildingType === 1}
+                                                onClick={() => setBtnRadio(prevState => ({...prevState, houseBuildingType: 1}))}
                                                 onChange={e => {
                                                     setData(prevData => {
                                                         return {...prevData, "houseBuildingType": e.target.value}
@@ -1454,7 +1596,9 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="house-type"
-                                                value="2"
+                                                value={2}
+                                                checked={btnRadio.houseBuildingType === 2}
+                                                onClick={() => setBtnRadio(prevState => ({...prevState, houseBuildingType: 2}))}
                                                 onChange={e => {
                                                     setData(prevData => {
                                                         return {...prevData, "houseBuildingType": e.target.value}
@@ -1468,7 +1612,9 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="house-type"
-                                                value="3"
+                                                value={3}
+                                                checked={btnRadio.houseBuildingType === 3}
+                                                onClick={() => setBtnRadio(prevState => ({...prevState, houseBuildingType: 3}))}
                                                 onChange={e => {
                                                     setData(prevData => {
                                                         return {...prevData, "houseBuildingType": e.target.value}
@@ -1482,7 +1628,9 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="house-type"
-                                                value="4"
+                                                value={4}
+                                                checked={btnRadio.houseBuildingType === 4}
+                                                onClick={() => setBtnRadio(prevState => ({...prevState, houseBuildingType: 4}))}
                                                 onChange={e => {
                                                     setData(prevData => {
                                                         return {...prevData, "houseBuildingType": e.target.value}
@@ -1509,7 +1657,9 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="lift"
-                                                value="0"
+                                                value={0}
+                                                checked={btnRadio.elevatorType === 0}
+                                                onClick={() => setBtnRadio(prevState => ({...prevState, elevatorType: 0}))}
                                                 onChange={e => {
                                                     setData(prevData => {
                                                         return {...prevData, "elevatorType": e.target.value}
@@ -1523,7 +1673,9 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="lift"
-                                                value="1"
+                                                value={1}
+                                                checked={btnRadio.elevatorType === 1}
+                                                onClick={() => setBtnRadio(prevState => ({...prevState, elevatorType: 1}))}
                                                 onChange={e => {
                                                     setData(prevData => {
                                                         return {...prevData, "elevatorType": e.target.value}
@@ -1537,7 +1689,9 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="lift"
-                                                value="2"
+                                                value={2}
+                                                checked={btnRadio.elevatorType === 2}
+                                                onClick={() => setBtnRadio(prevState => ({...prevState, elevatorType: 2}))}
                                                 onChange={e => {
                                                     setData(prevData => {
                                                         return {...prevData, "elevatorType": e.target.value}
@@ -1551,7 +1705,9 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="lift"
-                                                value="3"
+                                                value={3}
+                                                checked={btnRadio.elevatorType === 3}
+                                                onClick={() => setBtnRadio(prevState => ({...prevState, elevatorType: 3}))}
                                                 onChange={e => {
                                                     setData(prevData => {
                                                         return {...prevData, "elevatorType": e.target.value}
@@ -1595,10 +1751,11 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="ramp"
+                                                value={1}
+                                                checked={btnRadio.hasRamp === 1}
+                                                onClick={() => setBtnRadio(prevState => ({...prevState, hasRamp: 1}))}
                                                 onChange={e => {
-                                                    setData(prevData => {
-                                                        return {...prevData, "hasRamp": checked}
-                                                    })
+                                                    setData(prevData => ({...prevData, "hasRamp": e.target.value}))
                                                 }}
                                             />
                                             <span className="fs-11 ms-2">Есть</span>
@@ -1609,10 +1766,10 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="ramp"
+                                                checked={btnRadio.hasRamp === 0}
+                                                onClick={() => setBtnRadio(prevState => ({...prevState, hasRamp: 0}))}
                                                 onChange={e => {
-                                                    setData(prevData => {
-                                                        return {...prevData, "hasRamp": !checked}
-                                                    })
+                                                    setData(prevData => ({...prevData, "hasRamp": e.target.value}))
                                                 }}
                                             />
                                             <span className="fs-11 ms-2">Нет</span>
@@ -1629,10 +1786,12 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="chute"
+                                                checked={btnRadio.hasGarbage === 1}
+                                                onClick={() => setBtnRadio(prevState => ({...prevState, hasGarbage: 1}))}
                                                 onChange={e => {
-                                                    setData(prevData => {
-                                                        return {...prevData, "hasGarbage": checked}
-                                                    })
+                                                    setData(prevData =>
+                                                      ({...prevData, "hasGarbage": e.target.value})
+                                                    )
                                                 }}
                                             />
                                             <span className="fs-11 ms-2">Есть</span>
@@ -1643,10 +1802,11 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="chute"
+                                                value={0}
+                                                checked={btnRadio.hasGarbage === 0}
+                                                onClick={() => setBtnRadio(prevState => ({...prevState, hasGarbage: 0}))}
                                                 onChange={e => {
-                                                    setData(prevData => {
-                                                        return {...prevData, "hasGarbageChute": !checked}
-                                                    })
+                                                    setData(prevData => ({...prevData, "hasGarbage": e.target.value}))
                                                 }}
                                             />
                                             <span className="fs-11 ms-2">Нет</span>
@@ -1663,6 +1823,7 @@ export default function Advertise() {
                                             <input
                                                 type="checkbox"
                                                 name="hasGroundParking"
+                                                checked={data?.hasGroundParking || false}
                                                 onChange={e => handleCheckbox(e)}
                                             />
                                             <span className="fs-11 ms-3">Наземная</span>
@@ -1673,6 +1834,7 @@ export default function Advertise() {
                                             <input
                                                 type="checkbox"
                                                 name="hasUnderGroundParking"
+                                                checked={data?.hasUnderGroundParking || false}
                                                 onChange={e => handleCheckbox(e)}
                                             />
                                             <span className="fs-11 ms-3">Подземная</span>
@@ -1683,6 +1845,7 @@ export default function Advertise() {
                                             <input
                                                 type="checkbox"
                                                 name="hasMoreLayerParking"
+                                                checked={data?.hasMoreLayerParking || false}
                                                 onChange={e => handleCheckbox(e)}
                                             />
                                             <span className="fs-11 ms-3">Многоуровневая</span>
@@ -1723,7 +1886,7 @@ export default function Advertise() {
                                                 style={{borderColor: valid.isInValidPrice ? '#DA1E2A' : ''}}
                                                 type="number"
                                                 name="price"
-                                                defaultValue={defaultForm?.price}
+                                                value={data?.price || ''}
                                                 className="fs-11 price"
                                                 onChange={e => {
                                                     setData(prevData => {
@@ -1744,7 +1907,9 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="hypothec"
-                                                    value="0"
+                                                    value={0}
+                                                    checked={btnRadio.isMortgage === 0}
+                                                    onClick={() => setBtnRadio(prevState => ({...prevState, isMortgage: 0}))}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "isMortgage": e.target.value}
@@ -1758,10 +1923,12 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="hypothec"
-                                                    value="1"
+                                                    value={1}
+                                                    checked={btnRadio.isMortgage === 1}
+                                                    onClick={() => setBtnRadio(prevState => ({...prevState, isMortgage: 1}))}
                                                     onChange={e => {
                                                         setData(prevData => {
-                                                            return {...prevData, "hypothec": e.target.value}
+                                                            return {...prevData, "isMortgage": e.target.value}
                                                         })
                                                     }}
                                                 />
@@ -1776,7 +1943,9 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="difficulties"
-                                                    value="0"
+                                                    value={0}
+                                                    checked={btnRadio.isEncumbrances === 0}
+                                                    onClick={() => setBtnRadio(prevState => ({...prevState, isEncumbrances: 0}))}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "isEncumbrances": e.target.value}
@@ -1789,7 +1958,9 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="difficulties"
-                                                    value="1"
+                                                    value={1}
+                                                    checked={btnRadio.isEncumbrances === 1}
+                                                    onClick={() => setBtnRadio(prevState => ({...prevState, isEncumbrances: 1}))}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "isEncumbrances": e.target.value}
@@ -1820,7 +1991,7 @@ export default function Advertise() {
                                                 type="number"
                                                 name="rental"
                                                 placeholder="0"
-                                                defaultValue={defaultForm?.price}
+                                                value={data?.price || ''}
                                                 className="fs-11 price"
                                                 onChange={e => {
                                                     setData(prevData => {
@@ -1838,7 +2009,7 @@ export default function Advertise() {
                                             <input
                                                 type="number"
                                                 className="fs-11 price"
-                                                defaultValue={defaultForm?.communalPrice}
+                                                value={data?.communalPrice || 0}
                                                 onChange={e => {
                                                     setData(prevData => {
                                                         return {...prevData, "communalPrice": e.target.value}
@@ -1865,8 +2036,7 @@ export default function Advertise() {
                                                 name="deposit"
                                                 placeholder="0"
                                                 className="fs-11 price"
-                                                defaultValue={defaultForm?.pledge}
-                                                value={data.pledge}
+                                                value={data?.pledge || ''}
                                                 disabled={data.isPledge}
                                                 onChange={e => {
                                                     setData(prevData => {
@@ -1879,6 +2049,7 @@ export default function Advertise() {
                                                 <input
                                                     type="checkbox"
                                                     name="isPledge"
+                                                    checked={data?.pledge === 0}
                                                     onChange={e => {
                                                         handleCheckbox(e)
                                                         setData(prevData => {
@@ -1916,8 +2087,7 @@ export default function Advertise() {
                                             <input
                                                 type="number"
                                                 className="percent fs-11"
-                                                defaultValue={defaultForm?.commission}
-                                                value={data.commission}
+                                                value={data.commission || ''}
                                                 disabled={data.isCommission}
                                                 onChange={e => {
                                                     setData(prevData => {
@@ -1929,6 +2099,7 @@ export default function Advertise() {
                                                 <input
                                                     type="checkbox"
                                                     name="isCommission"
+                                                    checked={data?.commission === 0}
                                                     onChange={e => {
                                                         handleCheckbox(e)
                                                         setData(prevData => {
@@ -1967,12 +2138,19 @@ export default function Advertise() {
                         <CustomModal
                             isShow={isShow}
                             closeButton={false}
-                            backdrop="static"
+                            backdrop='static'
                             centre={true}
                         >
-                            <div style={{textAlign: "center"}}>
-                                <p>Редакция прошла успешно! Переход в "Мои объявления"</p>
-                            </div>
+                            {statusRequest.good &&
+                                <div style={{textAlign: "center"}}>
+                                    <p>Редакция прошла успешно! Переход в "Мои объявления"</p>
+                                </div>
+                            }
+                            {statusRequest.error &&
+                                <div style={{textAlign: "center"}}>
+                                    <p>Произошла ошибка</p>
+                                </div>
+                            }
                         </CustomModal>
 
                         <div className="d-flex justify-content-between mb-4">

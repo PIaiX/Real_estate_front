@@ -6,6 +6,7 @@ export default {
     ADS_ACTIONS: '/realEstates',
     ADS_ACTIONS_WISHLIST: '/realEstates/wishlist',
     ADS_REPORT: '/realEstates/reports',
+    CREATE_AD: '/realEstates/create',
 
     //catalog
     GET_CATALOG: '/realEstates/paginate',
