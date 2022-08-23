@@ -136,10 +136,6 @@ export default function Advertise() {
     const [es, setEs] = useState([]) // state estates in types
     const [res, setRes] = useState('') // check id in array id's
 
-    console.log(proptype, res)
-    console.log(types)
-    console.log(es)
-
     useEffect(() => {
         setProptype(btnRadio.estateTypeId)
         setRes(btnRadio.estateTypeId)
@@ -391,9 +387,6 @@ export default function Advertise() {
             }))
     }, [data.address])
 
-    console.log(data)
-    console.log(btnRadio)
-    console.log(ad)
     return (
 
         <main>

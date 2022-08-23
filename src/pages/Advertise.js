@@ -276,8 +276,6 @@ export default function Advertise() {
             }))
     }, [data.address])
 
-    console.log(data)
-
     return (
         <main>
             <div className="container py-3 py-sm-4 py-lg-5">
