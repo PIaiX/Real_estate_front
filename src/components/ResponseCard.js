@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {acceptResponse, rejectResponse} from '../API/responses';
+import {acceptResponse, completeResponse, rejectResponse} from '../API/responses';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import {useSelector} from 'react-redux';
 
@@ -8,9 +8,20 @@ const ResponseCard = (props) => {
     const axiosPrivate = useAxiosPrivate()
     const token = useSelector(state => state?.accessToken)
 
-    const onAccept = () => props.id && acceptResponse(axiosPrivate, props.id, {token})
+    const onAccept = () => {
+        props.id && acceptResponse(axiosPrivate, props.id, {token})
+            .then(() => props.updateData && props.updateData())
+    }
 
-    const onReject = () => props.id && rejectResponse(axiosPrivate, props.id, {token})
+    const onReject = () => {
+        props.id && rejectResponse(axiosPrivate, props.id, {token})
+            .then(() => props.updateData && props.updateData())
+    }
+
+    const onComplete = () => {
+        props.id && completeResponse(axiosPrivate, props.id, {token})
+            .then(() => props.updateData && props.updateData())
+    }
 
     return (
         <div className={`response-card ${((props.type === 'in') || (props.type === 'work')) ? 'response-card_in' : 'response-card_out'}`}>
@@ -76,6 +87,7 @@ const ResponseCard = (props) => {
                         <button
                             type="button"
                             className="btn btn-2 w-100 px-2"
+                            onClick={onReject}
                         >
                             Отменить
                         </button>)}
@@ -84,12 +96,14 @@ const ResponseCard = (props) => {
                             <button
                                 type="button"
                                 className="btn btn-1 w-100 px-2"
+                                onClick={onComplete}
                             >
                                 Выполнить
                             </button>
                             <button
                                 type="button"
                                 className="btn btn-2 w-100 px-2"
+                                onClick={onReject}
                             >
                                 Отменить
                             </button>
