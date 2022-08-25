@@ -1,8 +1,25 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import InputFile from '../../components/InputFile';
+import {emitGetConversation, emitPaginateConversation} from '../../API/socketConversations';
 
 export default function ChatPage() {
+    const [conversations, setConversations] = useState([])
+
+    useEffect(() => {
+        // if (socketInstance.connected) {
+        emitGetConversation(0).then(() => {
+            emitPaginateConversation({page: 1})
+                .then(e => setConversations(e.body))
+        })
+
+        // }
+    }, [])
+
+    useEffect(() => {
+        console.log(conversations)
+    }, [conversations])
+
     return (
         <div>
             <div className="chat-top px-2 px-md-4 px-xxl-5 mb-md-4 mb-xxl-5">

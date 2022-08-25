@@ -16,6 +16,8 @@ import {YMaps} from 'react-yandex-maps'
 import env from './config/env'
 import {useAccessToken} from "./store/reducers";
 import {authCheck} from "./API/mainpagereq";
+import {setSocketConnection, socketInstance} from './API/socketInstance';
+import {io} from 'socket.io-client';
 
 function App() {
 
@@ -63,6 +65,7 @@ function App() {
         authCheck(axiosPrivate).then(res => {
             setToken(res?.token || null);
             setCurrentUser(res?.user || null)
+            setSocketConnection(3)
             setIsLoading(false)
         }).finally(() => setIsLoading(false))
     }, []);
@@ -72,6 +75,7 @@ function App() {
     }, [])
 
     if(isLoading) return <></>
+
 
     return (
         <BrowserRouter>

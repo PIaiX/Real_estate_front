@@ -24,10 +24,10 @@ export default function UserMessages() {
                 <div className="end">
                     <div className="fs-09 fw-5">19:30</div>
                     <button type="button" className="btn-del" title="Удалить">
-                        <i class="bi bi-trash-fill"></i>
+                        <i className="bi bi-trash-fill"></i>
                     </button>
                     <button type="button" className="btn-notice" title="Пожаловаться">
-                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        <i className="bi bi-exclamation-triangle-fill"></i>
                     </button>
                 </div>
                 <Link to="chat1" className="link-to-chat"></Link>
@@ -47,10 +47,10 @@ export default function UserMessages() {
                 <div className="end">
                     <div className="fs-09 fw-5">14:24</div>
                     <button type="button" className="btn-del" title="Удалить">
-                        <i class="bi bi-trash-fill"></i>
+                        <i className="bi bi-trash-fill"></i>
                     </button>
                     <button type="button" className="btn-notice" title="Пожаловаться">
-                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        <i className="bi bi-exclamation-triangle-fill"></i>
                     </button>
                 </div>
                 <Link to="chat1" className="link-to-chat"></Link>
@@ -67,7 +67,7 @@ export default function UserMessages() {
                         <img src="/img/photo.png" alt="Ирина Колесникова"/>
                         <div className="message">Добрый день. Когда можно будет приехать на просмотр? Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
                         <div className="mark">
-                            <i class="bi bi-check2" title="Отправлено"></i>
+                            <i className="bi bi-check2" title="Отправлено"></i>
                             {/* <i class="bi bi-check2-all" title="прочитано"></i> */}
                         </div>
                     </div>
@@ -77,10 +77,10 @@ export default function UserMessages() {
                 <div className="end">
                     <div className="fs-09 fw-5">1 ноя</div>
                     <button type="button" className="btn-del" title="Удалить">
-                        <i class="bi bi-trash-fill"></i>
+                        <i className="bi bi-trash-fill"></i>
                     </button>
                     <button type="button" className="btn-notice" title="Пожаловаться">
-                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        <i className="bi bi-exclamation-triangle-fill"></i>
                     </button>
                 </div>
                 <Link to="chat1" className="link-to-chat"></Link>
@@ -97,8 +97,8 @@ export default function UserMessages() {
                         <img src="/img/photo.png" alt="Ирина Колесникова"/>
                         <div className="message">Звоните мне на рабочий телефоен. Отвечаю с 9 до 19:00.</div>
                         <div className="mark">
-                            {/* <i class="bi bi-check2" title="Отправлено"></i> */}
-                            <i class="bi bi-check2-all" title="прочитано"></i>
+                            {/* <i className="bi bi-check2" title="Отправлено"></i> */}
+                            <i className="bi bi-check2-all" title="прочитано"></i>
                         </div>
                     </div>
                 </div>
@@ -107,10 +107,10 @@ export default function UserMessages() {
                 <div className="end">
                     <div className="fs-09 fw-5">19 окт</div>
                     <button type="button" className="btn-del" title="Удалить">
-                        <i class="bi bi-trash-fill"></i>
+                        <i className="bi bi-trash-fill"></i>
                     </button>
                     <button type="button" className="btn-notice" title="Пожаловаться">
-                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        <i className="bi bi-exclamation-triangle-fill"></i>
                     </button>
                 </div>
                 <Link to="chat1" className="link-to-chat"></Link>
