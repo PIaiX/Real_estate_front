@@ -4,6 +4,7 @@ import Joi from "joi";
 import { Link } from "react-router-dom";
 import FormErrorMessage from "../components/FormErrorMessage";
 import axios from "axios";
+import apiRoutes from "../API/config/apiRoutes";
 
 const schema = Joi.object({
   email: Joi.string()
@@ -19,8 +20,6 @@ const schema = Joi.object({
     }),
 });
 
-const baseUrl = "http://45.90.35.82:3333";
-
 export default function Password1() {
   const [formValue, setFormValue] = useState({ email: "" });
   const [formErrors, setFormErrors] = useState({ email: "" });
@@ -35,7 +34,8 @@ export default function Password1() {
     });
   };
 
-  const handleFormSubmit = async () => {
+  const handleFormSubmit = async (e) => {
+    e.preventDefault()
     const result = schema.validate(formValue, { abortEarly: false });
     if (result.error) {
       handleFormErrors(result.error.details);
@@ -44,10 +44,11 @@ export default function Password1() {
 
     try {
       const result = await axios.post(
-        `${baseUrl}/api/auth/rememberPassword/${formValue.email}`,
+        `${process.env.REACT_APP_BASE_URL}${apiRoutes.RESET_PASSWORD}/${formValue.email}`,
         formValue
       );
     } catch (error) {
+      setFormErrors(prevState => ({...prevState, email: 'произошла ошибка'}))
       console.log(error.message)
     }
   };
@@ -113,14 +114,14 @@ export default function Password1() {
                   <div className="row align-items-center flex-sm-row-reverse">
                     <div className="col-sm-7">
                       <button
-                        onClick={handleFormSubmit}
+                        onClick={e => handleFormSubmit(e)}
                         className="btn btn-1 fs-11 w-100 text-uppercase px-2 mb-3 mb-sm-0"
                       >
                         Восстановить пароль
                       </button>
                     </div>
                     <div className="col-sm-5 text-center text-sm-start">
-                      <Link to="/entrance" className="color-1 bb-1">
+                      <Link to="/login" className="color-1 bb-1">
                         Я вспомнил пароль
                       </Link>
                     </div>

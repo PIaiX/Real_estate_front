@@ -9,14 +9,13 @@ import FormErrorMessage from "../components/FormErrorMessage";
 import {bindActionCreators} from "redux";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import {useAccessToken} from "../store/reducers";
-import {loginProfile} from "../API/login";
+import {loginProfile} from "../API/auths";
 
 export default function Login() {
     const formValueDefault = {email: "", password: "", isNotRemember: false};
     const formErrorDefault = {email: "", password: ""};
     const [formValue, setFormValue] = useState(formValueDefault);
     const [formErrors, setFormErrors] = useState(formErrorDefault);
-    const baseUrl = "https://api.antontig.beget.tech";
     const token = useAccessToken()
 
     const schema = Joi.object({

@@ -86,7 +86,7 @@ export default function Advertise() {
                 hasMoreLayerParking: ad?.hasMoreLayerParking,
                 hasUnderGroundParking: ad?.hasUnderGroundParking,
                 price: ad?.price,
-                communalPrice: ad?.communalPrice,
+                communalPrice: ad?.communalPrice || 0,
                 pledge: ad?.pledge,
                 commission: ad?.commission,
                 prepaymentType: ad?.prepaymentType,

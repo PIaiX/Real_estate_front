@@ -2,6 +2,9 @@ export default {
     //auth
     ACTIVATE_ACCOUNT: '/auth/activate',
     LOGIN: '/auth/login',
+    RESET_PASSWORD: '/auth/rememberPassword',
+    REGISTRATION: '/auth/register',
+    LOGOUT: '/auth/logout',
 
     //page ads
     ADS_ACTIONS: '/realEstates',

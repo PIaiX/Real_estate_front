@@ -14,11 +14,11 @@ export default function useAxiosPrivate() {
     const currentUser = useCurrentUser()
 
     const axiosInstance = axios.create({
-        baseUrl: `https://api.antontig.beget.tech`,
+        baseUrl: `${process.env.REACT_APP_BASE_URL}`,
         headers: {
             "Content-Type": "application/json",
             "User-Fingerprint": localStorage.getItem('fingerprint'),
-            "Access-Control-Allow-Origin": `https://api.antontig.beget.tech`,
+            "Access-Control-Allow-Origin": `${process.env.REACT_APP_BASE_URL}`,
             "Vary": "Origin",
         },
         withCredentials: true,

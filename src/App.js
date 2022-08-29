@@ -16,6 +16,7 @@ import {YMaps} from 'react-yandex-maps'
 import env from './config/env'
 import {useAccessToken} from "./store/reducers";
 import {authCheck} from "./API/mainpagereq";
+import apiRoutes from "./API/config/apiRoutes";
 
 function App() {
 
@@ -29,7 +30,7 @@ function App() {
     const [visitor, setVisitor] = useState('')
 
     const handleLogout = async () => {
-        const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}/auth/logout`);
+        const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.LOGOUT}`);
         if (response && response.status === 200 && localStorage.getItem("fingerprint")) {
             resetToken();
             resetCurrentUser();

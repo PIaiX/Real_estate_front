@@ -5,8 +5,7 @@ import accessTokenActions from "../../store/actions/accessToken";
 import currentUserActions from "../../store/actions/currentUser";
 import { bindActionCreators } from "redux";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-
-const baseUrl = "https://api.antontig.beget.tech";
+import apiRoutes from "../../API/config/apiRoutes";
 
 export default function AccountMenu() {
   const navigate = useNavigate();
@@ -16,7 +15,7 @@ export default function AccountMenu() {
   const { resetCurrentUser } = bindActionCreators(currentUserActions, dispatch);
 
   const handleLogout = async () => {
-    const response = await axiosPrivate.post(`${baseUrl}/api/auth/logout`);
+    const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.LOGOUT}`);
     if (response && response.status === 200 && localStorage.getItem("fingerprint")) {
       resetToken();
       resetCurrentUser();
