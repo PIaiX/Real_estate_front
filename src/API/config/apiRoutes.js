@@ -1,6 +1,7 @@
 export default {
     //auth
     ACTIVATE_ACCOUNT: '/auth/activate',
+    LOGIN: '/auth/login',
 
     //page ads
     ADS_ACTIONS: '/realEstates',

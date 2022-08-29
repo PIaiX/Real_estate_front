@@ -2,7 +2,7 @@ import React from 'react';
 import {Slider2} from '../components/Slider2';
 import {Slider1} from "../components/Slider1";
 import Tile from '../components/Tile';
-import {Link, useParams} from 'react-router-dom';
+import {Link, NavLink, useParams} from 'react-router-dom';
 import {animateScroll as scroll} from 'react-scroll';
 import {MainBanner} from '../components/MainBanner';
 import {useEffect, useState} from "react";
@@ -143,12 +143,13 @@ export default function MainPage() {
                                 <div className="color-2 fs-15 ms-2 ms-sm-3">Оформление ипотеки на выгодных условиях
                                 </div>
                             </div>
-                            <button
-                                type="button"
+                            <NavLink
+                                to='/service/uslugiRieltora/page/1'
                                 className="btn btn-1 fs-15 mx-auto mt-4 mt-lg-5"
+                                onClick={() => scrollToTop()}
                             >
                                 Услуги риелтора
-                            </button>
+                            </NavLink>
                         </div>
                     </div>
                     <h3>Статьи</h3>
