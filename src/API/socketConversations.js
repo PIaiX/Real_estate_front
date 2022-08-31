@@ -83,27 +83,38 @@ const onMessageDelete = async () => {
 // ? Conversation
 
 const emitGetConversation = async (conversationId) => {
-    console.log(socketInstance)
     return await new Promise((resolve, reject) => {
-        socketInstance.emit("conversatrion:get", conversationId, (response) => response
-            ? resolve(response)
-            : reject(response))
+        socketInstance.emit("conversation:get", conversationId, (response) => {
+            try {
+                resolve(response?.body)
+            } catch (e) {
+                reject(e)
+            }
+        })
     })
 }
 
 const emitCloseConversation = async (conversationId) => {
     return await new Promise((resolve, reject) => {
-        socketInstance.emit("conversatrion:close", conversationId, (response) => response
-            ? resolve(response)
-            : reject(response))
+        socketInstance.emit("conversation:close", conversationId, (response) => {
+            try {
+                resolve(response)
+            } catch (e) {
+                reject(e)
+            }
+        })
     })
 }
 
 const emitPaginateConversation = async (payloads) => {
     return await new Promise((resolve, reject) => {
-        socketInstance.emit("conversatrion:paginate", payloads, (response) => response
-            ? resolve(response)
-            : reject(response))
+        socketInstance.emit("conversation:paginate", payloads, (response) => {
+            try {
+                resolve(response?.body)
+            } catch (e) {
+                reject(e)
+            }
+        })
     })
 }
 
@@ -135,9 +146,13 @@ const emitUpdateMessage = async (messageId, payloads) => {
 
 const emitPaginateMessage = async (conversationId, payloads) => {
     return await new Promise((resolve, reject) => {
-        socketInstance.emit("message:paginate", conversationId, payloads, (response) => response
-            ? resolve(response)
-            : reject(response))
+        socketInstance.emit("message:paginate", conversationId, payloads, (response) => {
+            try {
+                resolve(response?.body)
+            } catch (e) {
+                reject(e)
+            }
+        })
     })
 }
 
@@ -145,9 +160,13 @@ const emitPaginateMessage = async (conversationId, payloads) => {
 
 const emitCreateMessage = async (payloads) => {
     return await new Promise((resolve, reject) => {
-        socketInstance.emit("message:create", payloads, (response) => response
-            ? resolve(response)
-            : reject(response))
+        socketInstance.emit("message:create", payloads, (response) => {
+            try {
+                resolve(response)
+            } catch (e) {
+                reject(e)
+            }
+        })
     })
 }
 

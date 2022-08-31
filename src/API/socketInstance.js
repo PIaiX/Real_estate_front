@@ -1,11 +1,9 @@
-import {io, Socket} from 'socket.io-client';
+import {io} from 'socket.io-client';
 
 export let socketInstance
 
-export const setSocketConnection = async (userId = 0) => {
-    socketInstance = await io(`${process.env.REACT_APP_BASE_URL}:3333`, {query: {userId}})
-
-    console.log(socketInstance)
+export const setSocketConnection = (userId) => {
+    socketInstance = io('https://api.antontig.beget.tech', {query: {userId}})
 }
 
 

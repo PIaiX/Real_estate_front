@@ -65,7 +65,7 @@ function App() {
         authCheck(axiosPrivate).then(res => {
             setToken(res?.token || null);
             setCurrentUser(res?.user || null)
-            setSocketConnection(3)
+            setSocketConnection(res?.user?.id || 0)
             setIsLoading(false)
         }).finally(() => setIsLoading(false))
     }, []);
