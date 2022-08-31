@@ -483,6 +483,7 @@ export default function Services() {
                     <button
                         type="submit"
                         className="btn btn-1 w-100 fs-11 text-uppercase"
+                        data-bs-dismiss="offcanvas"
                         onClick={(e) => acceptFilters(e)}
                     >
                         Показать

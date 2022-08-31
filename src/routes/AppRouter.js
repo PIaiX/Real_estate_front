@@ -20,6 +20,7 @@ import AppLayout from '../layouts/AppLayout';
 import NotFound from '../pages/NotFound';
 import Hypothec from '../pages/Hypothec';
 import AuthProtector from "./AuthProtector";
+import CatalogList from "../pages/CatalogList";
 
 const AppRouter = () => {
 
@@ -61,6 +62,7 @@ const AppRouter = () => {
                 </Route>
                 <Route path="password-1" element={<Password1/>}/>
                 <Route path="password-2" element={<Password2/>}/>
+                <Route path='catalog-list' element={<CatalogList/>}/>
                 <Route path="WaitAccountActivation/:uuid" element={<WaitAccountActivation/>}/>
                 <Route path="*" element={<NotFound/>}/>
             </Route>
