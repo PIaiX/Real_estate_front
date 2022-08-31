@@ -193,8 +193,6 @@ export default function UserProfile() {
         await DeleteUserPhoto(axiosPrivate, uuid, token)
     }
 
-    console.log(redactor)
-
     return (
         redactor ?
             <div className="px-2 px-sm-4 px-xxl-5 pb-3 pb-sm-4 pb-xxl-5">

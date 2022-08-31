@@ -143,7 +143,7 @@ export default function Card(props) {
                                 (props.user?.createdAtForUser) &&
                                 <div className="gray-3 fs-08 mt-2">На сайте с {props.user?.createdAtForUser}</div>
                             }
-                            <ShowPhone className="fs-09 mt-3" phone={props.user?.phone}/>
+                            <ShowPhone className="fs-09 mt-3" phone={props?.user?.phone}/>
                         </div>
                     </div>
                 </div>
