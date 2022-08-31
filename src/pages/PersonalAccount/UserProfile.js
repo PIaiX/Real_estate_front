@@ -10,6 +10,8 @@ import {DeleteUserPhoto, updateUser} from "../../API/users";
 import {bindActionCreators} from "redux";
 import currentUserActions from "../../store/actions/currentUser";
 import {useDispatch} from "react-redux";
+import PhoneInput from "react-phone-input-2";
+import {animateScroll as scroll} from "react-scroll";
 
 export default function UserProfile() {
 
@@ -136,23 +138,62 @@ export default function UserProfile() {
         }
     }, [data, avatars])
 
-    const onSubmit = async () => {
+    const fields = {
+        isInValidFirstName: false,
+        isInValidLastName: false,
+        isInValidSex: false,
+        isInValidPhone: false,
+        isInValidEmail: false
+    }
 
-        const formData = new FormData();
-        for (const key in data) {
-            formData.append(key, data[key])
+    const [valid, setValid] = useState(fields);
+
+    const onSubmit = async (e) => {
+        e.preventDefault()
+
+        const validMail = email.match(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)
+
+        const isInValidFirstName = data?.firstName === undefined || data?.firstName?.length <= 0
+        const isInValidLastName = data.lastName === undefined || data?.lastName?.length <= 0
+        const isInValidSex = data?.sex === undefined || data?.sex === null
+        const isInValidPhone = data?.phone === undefined || data?.phone?.length > 11 || data?.phone?.length < 11 || data?.phone === null
+        const isInValidEmail = data?.email === undefined || validMail === undefined || validMail === null
+
+        if (isInValidFirstName) {
+            setValid({...valid, isInValidFirstName: true})
+        } else if (isInValidLastName) {
+            setValid({...valid, isInValidLastName: true})
+        } else if (isInValidSex) {
+            setValid({...valid, isInValidSex: true})
+        } else if (isInValidPhone) {
+            setValid({...valid, isInValidPhone: true})
+        } else if (isInValidEmail) {
+            setValid({...valid, isInValidEmail: true})
+        } else {
+            const formData = new FormData();
+            for (const key in data) {
+                formData.append(key, data[key])
+            }
+            await updateUser(uuid, formData, axiosPrivate)
+                .then((response) => {
+                    setCurrentUser(response || null);
+                    redactorSwitcher()
+                })
+                .catch(() => {
+                    setRedactor(true)
+                })
         }
-        try {
-            const response = await updateUser(uuid, formData, axiosPrivate)
-            setCurrentUser(response);
-        } catch (err) {
-            console.log(err)
-        }
+    }
+
+    const resetFieldVal = (newState, field) => {
+        setValid({...valid, [field]: false})
     }
 
     const deleteUserPhoto = async () => {
         await DeleteUserPhoto(axiosPrivate, uuid, token)
     }
+
+    console.log(redactor)
 
     return (
         redactor ?
@@ -276,7 +317,12 @@ export default function UserProfile() {
                         </div>
                         <div className="col-xl-8">
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                                <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Имя:</div>
+                                <div
+                                    className="col-sm-4 fs-11 mb-1 mb-sm-0"
+                                    style={{color: valid.isInValidFirstName ? '#DA1E2A' : ''}}
+                                >
+                                    Имя:
+                                </div>
                                 <div className="col-sm-8">
                                     <input
                                         name="firstName"
@@ -284,12 +330,20 @@ export default function UserProfile() {
                                         value={data.firstName}
                                         placeholder="Имя"
                                         className="fs-11"
-                                        onChange={(e) => setFirstName(e.target.value)}
+                                        onChange={(e) => {
+                                            setFirstName(e.target.value)
+                                            resetFieldVal(e, 'isInValidFirstName')
+                                        }}
                                     />
                                 </div>
                             </div>
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                                <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Фамилия:</div>
+                                <div
+                                    className="col-sm-4 fs-11 mb-1 mb-sm-0"
+                                    style={{color: valid.isInValidLastName ? '#DA1E2A' : ''}}
+                                >
+                                    Фамилия:
+                                </div>
                                 <div className="col-sm-8">
                                     <input
                                         name="lastName"
@@ -297,12 +351,20 @@ export default function UserProfile() {
                                         value={data.lastName}
                                         placeholder="Фамилия"
                                         className="fs-11"
-                                        onChange={(e) => setLastName(e.target.value)}
+                                        onChange={(e) => {
+                                            setLastName(e.target.value)
+                                            resetFieldVal(e, 'isInValidLastName')
+                                        }}
                                     />
                                 </div>
                             </div>
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                                <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Пол:</div>
+                                <div
+                                    className="col-sm-4 fs-11 mb-1 mb-sm-0"
+                                    style={{color: valid.isInValidSex ? '#DA1E2A' : ''}}
+                                >
+                                    Пол:
+                                </div>
                                 <div className="col-sm-8">
                                     <div className="row row-cols-2">
                                         <label>
@@ -312,7 +374,10 @@ export default function UserProfile() {
                                                 className="fs-11"
                                                 value="1"
                                                 defaultChecked={(currentUser?.sex === 1)}
-                                                onChange={(e) => setSex(e.target.value)}
+                                                onChange={(e) => {
+                                                    setSex(e.target.value)
+                                                    resetFieldVal(e, 'isInValidSex')
+                                                }}
                                             />
                                             <span className="fs-11 ms-2">Женский</span>
                                         </label>
@@ -323,7 +388,10 @@ export default function UserProfile() {
                                                 className="fs-11"
                                                 value="0"
                                                 defaultChecked={(currentUser?.sex === 0)}
-                                                onChange={(e) => setSex(e.target.value)}
+                                                onChange={(e) => {
+                                                    setSex(e.target.value)
+                                                    resetFieldVal(e, 'isInValidSex')
+                                                }}
                                             />
                                             <span className="fs-11 ms-2">Мужской</span>
                                         </label>
@@ -363,14 +431,24 @@ export default function UserProfile() {
                                 </div>
                             </div>
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                                <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Телефон:</div>
+                                <div
+                                    className="col-sm-4 fs-11 mb-1 mb-sm-0"
+                                    style={{color: valid.isInValidPhone ? '#DA1E2A' : ''}}
+                                >
+                                    Телефон:
+                                </div>
                                 <div className="col-sm-8">
-                                    <InputMask
-                                        mask="79999999999"
-                                        alwaysShowMask={true}
-                                        maskPlaceholder="7__________"
+                                    <PhoneInput
+                                        inputStyle={{backgroundColor: '#fff', fontSize: '1.1em', lineHeight: "inherit"}}
+                                        specialLabel={''}
+                                        country={'ru'}
+                                        countryCodeEditable={false}
+                                        disableDropdown={true}
                                         value={phone}
-                                        onChange={(e) => setPhone(e.target.value)}
+                                        onChange={(phone) => {
+                                            setPhone(phone)
+                                            resetFieldVal(phone, 'isInValidPhone')
+                                        }}
                                     />
                                     <div className="fs-09 gray-3 mt-1">Телефон будет виден в объявлениях другим
                                         пользователям
@@ -378,7 +456,12 @@ export default function UserProfile() {
                                 </div>
                             </div>
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                                <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Email:</div>
+                                <div
+                                    className="col-sm-4 fs-11 mb-1 mb-sm-0"
+                                    style={{color: valid.isInValidEmail ? '#DA1E2A' : ''}}
+                                >
+                                    Email:
+                                </div>
                                 <div className="col-sm-8">
                                     <input
                                         name="email"
@@ -386,7 +469,10 @@ export default function UserProfile() {
                                         value={data.email}
                                         placeholder="Email@mail.com"
                                         className="fs-11"
-                                        onChange={(e) => setEmail(e.target.value)}
+                                        onChange={(e) => {
+                                            setEmail(e.target.value)
+                                            resetFieldVal(e, 'isInValidEmail')
+                                        }}
                                     />
                                 </div>
                             </div>
@@ -415,11 +501,10 @@ export default function UserProfile() {
                                 Назад
                             </button>
                             <button
-                                type="submit"
+                                type="button"
                                 className="btn btn-1 fs-11 text-uppercase mt-4 mt-xxl-5 ms-auto me-auto me-xl-0"
-                                onClick={() => {
-                                    redactorSwitcher();
-                                    onSubmit();
+                                onClick={(e) => {
+                                    onSubmit(e);
                                 }}
                             >
                                 Сохранить
@@ -517,8 +602,14 @@ export default function UserProfile() {
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                 <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Телефон:</div>
                                 <div className="col-sm-8">
-                                    <InputMask disabled mask="+7 (999) 999 99 99"
-                                               value={currentUser?.phone || 0}/>
+                                    <PhoneInput
+                                        inputStyle={{backgroundColor: '#fff',color: '#545454', fontSize: '1.1em', lineHeight: "inherit"}}
+                                        disableDropdown={true}
+                                        specialLabel={''}
+                                        disabled={true}
+                                        placeholder={currentUser?.phone ? currentUser?.phone : "Не установлен"}
+                                        value={currentUser?.phone || 0}
+                                    />
                                 </div>
                             </div>
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
@@ -531,11 +622,7 @@ export default function UserProfile() {
                                 type="button"
                                 className="btn btn-1 fs-11 text-uppercase mt-4 mt-xxl-5 ms-auto me-auto me-xl-0"
                                 onClick={() => {
-                                    if (redactor === false) {
-                                        setRedactor(true)
-                                    } else {
-                                        setRedactor(false)
-                                    }
+                                    redactorSwitcher()
                                 }}
                             >
                                 Редактировать

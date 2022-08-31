@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Card from '../../components/Card';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import {useAccessToken, useCurrentUser} from "../../store/reducers";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import PaginationCustom from "../../components/PaginationCustom";
@@ -11,6 +11,13 @@ import Loader from "../../components/Loader";
 export default function UserAds({routeName}) {
 
     const [view, setView] = useState('as-a-list');
+    const axiosPrivate = useAxiosPrivate();
+    const currentUser = useCurrentUser()
+    const token = useAccessToken()
+    const userId = currentUser?.id
+    const [myAds, setMyAds] = useState({isLoaded: false, data: []})
+    let {page} = useParams()
+    const navigate = useNavigate()
 
     const scrollToTop = () => {
         scroll.scrollToTop();
@@ -30,38 +37,42 @@ export default function UserAds({routeName}) {
         return () => window.removeEventListener('resize', updateSize);
     }, []);
 
-    const axiosPrivate = useAxiosPrivate();
-    const currentUser = useCurrentUser()
-    const token = useAccessToken()
-    const userId = currentUser?.id
-    const [myAds, setMyAds] = useState({isLoaded: false, data: []})
-    const {page} = useParams()
-
-    const ads = async () => {
-        try {
-            const res = userId && await getMyAds(userId, page, token, 4, axiosPrivate)
-            res && setMyAds({
-                isLoaded: true,
-                data: res.body.data,
-                meta: res.body
+    useEffect(() => {
+        getMyAds(userId, page, token, 2, axiosPrivate)
+            .then(res => {
+                setMyAds({
+                    isLoaded: true,
+                    data: res.body.data,
+                    meta: res.body
+                })
             })
+    }, [page])
+
+    const deleteAd = async (uuid) => {
+        try {
+            await deleteAds(axiosPrivate, uuid, token)
+                .then(() => {
+                    getMyAds(userId, page, token, 2, axiosPrivate)
+                        .then(res => {
+                            setMyAds({
+                                isLoaded: true,
+                                data: res.body.data,
+                                meta: res.body
+                            })
+                        })
+                })
         } catch (error) {
             console.log(error)
         }
     }
 
     useEffect(() => {
-        ads()
-    }, [userId, page])
-
-    const deleteAd = async (uuid) => {
-        try {
-            await deleteAds(axiosPrivate, uuid, token);
-            ads()
-        } catch (error) {
-            console.log(error)
+        if (myAds.isLoaded) {
+            if (myAds?.data?.length === 0){
+                navigate(`/personal-account/my-ads/page/1`)
+            }
         }
-    }
+    }, [myAds?.data?.length])
 
     return (
         <div className="px-sm-3 px-md-4 px-xxl-5 pb-3 pb-sm-4 pb-xxl-5">
@@ -70,9 +81,9 @@ export default function UserAds({routeName}) {
             </nav>
             <h4 className="text-center color-1 mb-3 mb-sm-4 mb-xl-5">Мои объявления</h4>
             <div className={(view === 'as-a-list') ? "" : "row row-cols-sm-2 gx-2 gx-md-4"}>
-                { myAds.isLoaded
-                    ? myAds.data.length
-                        ? myAds?.data.map((i) => (
+                { myAds?.isLoaded
+                    ? myAds?.data?.length
+                        ? myAds?.data?.map((i) => (
                             <div className="mb-4 mb-md-5" key={i.id}>
                         <Card
                             type={view}
@@ -170,7 +181,7 @@ export default function UserAds({routeName}) {
                     : <div className='p-5 w-100 d-flex justify-content-center'><Loader color='#146492'/></div>
                 }
             </div>
-            { myAds.data.length  ? <PaginationCustom meta={myAds.meta} baseUrl="personal-account/my-ads"/> : null}
+            { myAds?.data?.length  ? <PaginationCustom meta={myAds?.meta} baseUrl="personal-account/my-ads"/> : null}
         </div>
     )
 }

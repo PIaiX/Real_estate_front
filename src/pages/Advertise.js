@@ -1548,9 +1548,10 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="ramp"
+                                                value={1}
                                                 onChange={e => {
                                                     setData(prevData => {
-                                                        return {...prevData, "hasRamp": checked}
+                                                        return {...prevData, "hasRamp": e.target.value}
                                                     })
                                                 }}
                                             />
@@ -1562,10 +1563,11 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="ramp"
+                                                value={0}
                                                 defaultChecked={true}
                                                 onChange={e => {
                                                     setData(prevData => {
-                                                        return {...prevData, "hasRamp": !checked}
+                                                        return {...prevData, "hasRamp": e.target.value}
                                                     })
                                                 }}
                                             />
@@ -1583,9 +1585,10 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="chute"
+                                                value={1}
                                                 onChange={e => {
                                                     setData(prevData => {
-                                                        return {...prevData, "hasGarbageСhute": checked}
+                                                        return {...prevData, "hasGarbage": e.target.value}
                                                     })
                                                 }}
                                             />
@@ -1597,10 +1600,11 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="chute"
+                                                value={0}
                                                 defaultChecked={true}
                                                 onChange={e => {
                                                     setData(prevData => {
-                                                        return {...prevData, "hasGarbageСhute": !checked}
+                                                        return {...prevData, "hasGarbage": e.target.value}
                                                     })
                                                 }}
                                             />

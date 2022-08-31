@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import ResponseCard from '../../components/ResponseCard';
 import {checkPhotoPath} from '../../helpers/photo';
 import Loader from '../../components/Loader';
@@ -10,13 +10,14 @@ import useRedirectToPath from '../../hooks/redirectToPath';
 import {getCompletedResponses, getInProcessResponses,} from '../../API/responses';
 
 const InWork = () => {
-    const initialPageLimit = 4
+    const initialPageLimit = 10
     const {page} = useParams()
     const axiosPrivate = useAxiosPrivate()
     const userId = useSelector(state => state?.currentUser?.id)
     const token = useSelector(state => state?.accessToken)
-    const [tab, setTab] = useState('in') // out
-    useRedirectToPath('/personal-account/in-work/page/1', [tab])
+    const [tab, setTab] = useState('process') // completed
+    useRedirectToPath(`/personal-account/in-work-${tab}/page/1`, [tab])
+    const navigate = useNavigate()
     const [inProcess, setInProcess] = useState({
         isLoading: false,
         error: null,
@@ -32,13 +33,13 @@ const InWork = () => {
 
     const getInProcessResponsesRequest = (page, limit) => {
         (userId && token && page) && getInProcessResponses(axiosPrivate, userId, {page, limit, token})
-            .then(result => setInProcess(prev => ({isLoading: true, meta: {meta: result?.meta}, items: result?.data})))
+            .then(result => setInProcess({isLoading: true, meta: {meta: result?.meta}, items: result?.data}))
             .catch(error => setInProcess(prev => ({...prev, isLoading: true, error})))
     }
 
     const getCompletedResponsesRequest = (page, limit) => {
         (userId && token && page) && getCompletedResponses(axiosPrivate, userId, {page, limit, token})
-            .then(result => setCompleted(prev => ({isLoading: true, meta: {meta: result?.meta}, items: result?.data})))
+            .then(result => setCompleted({isLoading: true, meta: {meta: result?.meta}, items: result?.data}))
             .catch(error => setCompleted(prev => ({...prev, isLoading: true, error})))
     }
 
@@ -49,8 +50,18 @@ const InWork = () => {
         }
     }
 
-    useEffect(() => getInProcessResponsesRequest(page, initialPageLimit), [userId, token, page])
-    useEffect(() => getCompletedResponsesRequest(page, initialPageLimit), [userId, token, page])
+    useEffect(() => getInProcessResponsesRequest(page, initialPageLimit), [page])
+    useEffect(() => getCompletedResponsesRequest(page, initialPageLimit), [page])
+
+    useEffect(() => {
+        if (inProcess?.isLoading) {
+            if (inProcess?.items?.length === 0){
+                navigate(`/personal-account/in-work-process/page/1`)
+            } else if ((inProcess?.items?.length === 0) && (+page === 1)) {
+                getInProcessResponsesRequest(page, initialPageLimit)
+            }
+        }
+    }, [inProcess?.items?.length])
 
     return (
         <div className='px-2 px-sm-4 pb-4 pb-sm-5'>
@@ -61,23 +72,23 @@ const InWork = () => {
             <ul className='tabs mb-4'>
                 <li>
                     <button
-                        className={tab === 'in' ? 'active' : ''}
-                        onClick={() => setTab('in')}
+                        className={tab === 'process' ? 'active' : ''}
+                        onClick={() => setTab('process')}
                     >
-                        Текущие ({inProcess?.items?.length || 0})
+                        Текущие ({inProcess?.meta?.meta?.total || 0})
                     </button>
                 </li>
                 <li>
                     <button
-                        className={tab === 'out' ? 'active' : ''}
-                        onClick={() => setTab('out')}
+                        className={tab === 'completed' ? 'active' : ''}
+                        onClick={() => setTab('completed')}
                     >
-                        Выполненные ({completed?.items?.length || 0})
+                        Выполненные ({completed?.meta?.meta?.total || 0})
                     </button>
                 </li>
             </ul>
             <div className="row px-4 px-sm-0 row-cols-sm-2 row-cols-xxl-1 g-3 g-md-4">
-                {(tab === 'in')
+                {(tab === 'process')
                     ? (
                         inProcess.isLoading
                             ? inProcess?.items?.length
@@ -123,8 +134,8 @@ const InWork = () => {
                     )
                 }
             </div>
-            {(tab === 'in' && inProcess?.items?.length > 0) && <PaginationCustom baseUrl='/personal-account/responses' meta={inProcess.meta}/>}
-            {(tab === 'out' && completed?.items?.length > 0) && <PaginationCustom baseUrl='/personal-account/responses' meta={completed.meta}/>}
+            {(tab === 'process' && inProcess?.items?.length > 0) && <PaginationCustom baseUrl='personal-account/in-work-process' meta={inProcess.meta}/>}
+            {(tab === 'completed' && completed?.items?.length > 0) && <PaginationCustom baseUrl='personal-account/in-work-completed' meta={completed.meta}/>}
         </div>
     );
 };

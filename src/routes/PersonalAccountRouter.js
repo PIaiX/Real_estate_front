@@ -32,13 +32,19 @@ const PersonalAccountRouter = ({isMobile}) => {
                 <Route path="favorites" element={<Favorites routeName='Избранное'/>}>
                     <Route path="page/:page" element={<Favorites/>}/>
                 </Route>
-                <Route path="responses" element={<Responses/>}>
+                <Route path="responses-in" element={<Responses/>}>
+                    <Route path="page/:page" element={<Responses/>}/>
+                </Route>
+                <Route path="responses-out" element={<Responses/>}>
                     <Route path="page/:page" element={<Responses/>}/>
                 </Route>
                 <Route path="responses/add" element={<AddResponse/>}>
                     <Route path=':id' element={<AddResponse/>}/>
                 </Route>
-                <Route path="in-work" element={<InWork/>}>
+                <Route path="in-work-process" element={<InWork/>}>
+                    <Route path="page/:page" element={<InWork/>}/>
+                </Route>
+                <Route path="in-work-completed" element={<InWork/>}>
                     <Route path="page/:page" element={<InWork/>}/>
                 </Route>
                 <Route path="my-services" element={<UserServices/>}/>
