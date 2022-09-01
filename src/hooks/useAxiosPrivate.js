@@ -1,66 +1,44 @@
-import React from "react";
-import axios from "axios";
+import React, {useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {bindActionCreators} from "redux";
 import accessTokenActions from "../store/actions/accessToken";
-import {useAccessToken, useCurrentUser} from "../store/reducers";
+import {useAccessToken} from "../store/reducers";
+import axiosPrivate from "../API/axiosPrivate";
+import useRefreshToken from "./refreshToken";
 
-
-export default function useAxiosPrivate() {
+const useAxiosPrivate = () => {
 
     const dispatch = useDispatch();
     const {setToken} = bindActionCreators(accessTokenActions, dispatch);
     const accessToken = useAccessToken()
-    const currentUser = useCurrentUser()
+    const refreshToken = useRefreshToken()
 
-    const axiosInstance = axios.create({
-        baseUrl: `${process.env.REACT_APP_BASE_URL}`,
-        headers: {
-            "Content-Type": "application/json",
-            "User-Fingerprint": localStorage.getItem('fingerprint'),
-            "Access-Control-Allow-Origin": `${process.env.REACT_APP_BASE_URL}`,
-            "Vary": "Origin",
-        },
-        withCredentials: true,
-    });
-
-    axiosInstance.interceptors.request.use(
-        (request) => {
+    useEffect(() => {
+        const requestInterceptor = axiosPrivate.interceptors.request.use(request => {
             if (accessToken) {
                 request.headers["Access-Token"] = accessToken;
                 request.headers["User-Fingerprint"] = localStorage.getItem('fingerprint')
             }
             return request;
-        },
-        (error) => {
-            return Promise.reject(error);
-        }
-    );
+        }, error => Promise.reject(error))
+        const responseInterceptor = axiosPrivate.interceptors.response.use(response => response, async error => {
+            const prevRequest = error?.config
+            if (error.response.status === 400 && !prevRequest.isSent) {
+                prevRequest.isSent = true
 
-    axiosInstance.interceptors.response.use(
-        (response) => {
-            return response;
-        },
-        async (error) => {
-            const originalRequest = error.config;
-            if (error.response && error.response.status) {
-                if (error.response.status === 401 && originalRequest.retry) {
-                    console.log("response interceptor works 401")
-                    return;
-                }
-                if (error.response.status === 400 && originalRequest.retry) {
-                    originalRequest.retry = true
-                    const response = await axiosInstance.post(`${process.env.REACT_APP_BASE_URL}/auth/refresh`);
-                    const token = response.data.body.token;
-                    setToken(token);
-                    /*let dataAxios = JSON.parse(originalRequest.data)
-                    dataAxios['token'] = token;
-                    originalRequest.data = JSON.stringify(dataAxios);*/
-                    console.log("response interceptor works 400")
-                    return axiosInstance(originalRequest);
-                }
+                const newAccessToken = await refreshToken()
+                const token = newAccessToken.data.body.token;
+                setToken(token);
+                return axiosPrivate(prevRequest)
             }
-            return error
-        });
-    return axiosInstance;
+            return Promise.reject(error)
+        })
+        return () => {
+            axiosPrivate.interceptors.request.eject(requestInterceptor)
+            axiosPrivate.interceptors.response.eject(responseInterceptor)
+        }
+    }, [accessToken, refreshToken])
+    return axiosPrivate
 }
+
+export default useAxiosPrivate

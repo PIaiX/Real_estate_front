@@ -5,6 +5,7 @@ export default {
     RESET_PASSWORD: '/auth/rememberPassword',
     REGISTRATION: '/auth/register',
     LOGOUT: '/auth/logout',
+    REFRESH: '/auth/refresh',
 
     //page ads
     ADS_ACTIONS: '/realEstates',

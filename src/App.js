@@ -15,11 +15,12 @@ import fingerprint from "@fingerprintjs/fingerprintjs";
 import {YMaps} from 'react-yandex-maps'
 import env from './config/env'
 import {useAccessToken} from "./store/reducers";
-import {authCheck} from "./API/mainpagereq";
 import apiRoutes from "./API/config/apiRoutes";
+import useInitialAuth from "./hooks/initialAuth";
 
 function App() {
 
+    const isLoading = useInitialAuth()
     const dispatch = useDispatch();
     const {setToken} = bindActionCreators(accessTokenActions, dispatch);
     const {setCurrentUser} = bindActionCreators(currentUserActions, dispatch);
@@ -57,16 +58,6 @@ function App() {
     useEffect(() => {
         localStorage.setItem('fingerprint', visitor)
     }, [visitor])
-
-    const [isLoading, setIsLoading] = useState(true)
-
-    useEffect(() => {
-        authCheck(axiosPrivate).then(res => {
-            setToken(res?.token || null);
-            setCurrentUser(res?.user || null)
-            setIsLoading(false)
-        }).finally(() => setIsLoading(false))
-    }, []);
 
     useEffect(() => {
         window.addEventListener('beforeunload', onUnloadHandler)

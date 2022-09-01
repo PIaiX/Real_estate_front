@@ -10,6 +10,8 @@ import {getBanner, getPopular, getRecommend} from "../API/mainpagereq";
 import {useCurrentUser} from '../store/reducers';
 import {getTypesEstate} from '../API/typesEstate';
 import {useSelector} from 'react-redux';
+import axiosPrivate from "../API/axiosPrivate";
+import apiRoutes from "../API/config/apiRoutes";
 
 export default function MainPage() {
     const currentUser = useCurrentUser()
