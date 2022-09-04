@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/static/css/main.0cb8b770.css",
-    "main.js": "/static/js/main.a7c42c02.js",
+    "main.css": "/static/css/main.cec5141b.css",
+    "main.js": "/static/js/main.bc2b3a53.js",
     "static/media/bg2.png": "/static/media/bg2.6696cde382d78113ca67.png",
-    "static/media/bootstrap-icons.woff?": "/static/media/bootstrap-icons.7ff3ca6fa798de3f8ac2.woff",
-    "static/media/bootstrap-icons.woff2?": "/static/media/bootstrap-icons.f2539a501be3a673de05.woff2",
+    "static/media/bootstrap-icons.woff?": "/static/media/bootstrap-icons.e559bf06bc84fd9525e6.woff",
+    "static/media/bootstrap-icons.woff2?": "/static/media/bootstrap-icons.ea98e12d2d58747f9fc5.woff2",
     "static/media/Gilroy-UltraLightItalic.eot": "/static/media/Gilroy-UltraLightItalic.0eaf6ee1ff3eea926e17.eot",
     "static/media/Gilroy-UltraLightItalic.ttf": "/static/media/Gilroy-UltraLightItalic.8c3864ffd690ca16c188.ttf",
     "static/media/Gilroy-MediumItalic.eot": "/static/media/Gilroy-MediumItalic.656d4f138a8b7faa650b.eot",
@@ -77,11 +77,11 @@
     "static/media/mark3.svg": "/static/media/mark3.a96cbc418c155a20b2b2.svg",
     "static/media/radio-ch.svg": "/static/media/radio-ch.610a32af8e1da7533bc6.svg",
     "static/media/radio.svg": "/static/media/radio.1f52713a7eec9090f133.svg",
-    "main.0cb8b770.css.map": "/static/css/main.0cb8b770.css.map",
-    "main.a7c42c02.js.map": "/static/js/main.a7c42c02.js.map"
+    "main.cec5141b.css.map": "/static/css/main.cec5141b.css.map",
+    "main.bc2b3a53.js.map": "/static/js/main.bc2b3a53.js.map"
   },
   "entrypoints": [
-    "static/css/main.0cb8b770.css",
-    "static/js/main.a7c42c02.js"
+    "static/css/main.cec5141b.css",
+    "static/js/main.bc2b3a53.js"
   ]
 }

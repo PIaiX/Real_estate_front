@@ -144,7 +144,7 @@ const emitUpdateMessage = async (messageId, payloads) => {
     })
 }
 
-const emitPaginateMessage = async (conversationId, payloads) => {
+const emitPaginateMessages = async (conversationId, payloads) => {
     return await new Promise((resolve, reject) => {
         socketInstance.emit("message:paginate", conversationId, payloads, (response) => {
             try {
@@ -162,7 +162,7 @@ const emitCreateMessage = async (payloads) => {
     return await new Promise((resolve, reject) => {
         socketInstance.emit("message:create", payloads, (response) => {
             try {
-                resolve(response)
+                resolve(response?.body)
             } catch (e) {
                 reject(e)
             }
@@ -203,7 +203,7 @@ export {
     emitDeleteMessage,
     emitGetConversation,
     emitPaginateConversation,
-    emitPaginateMessage,
+    emitPaginateMessages,
     emitUpdateMessage,
     emitViewedMessage,
     onMessageCreate,

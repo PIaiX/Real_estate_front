@@ -6,6 +6,7 @@ import PaginationCustom from '../../components/PaginationCustom';
 import Loader from '../../components/Loader';
 import {useSelector} from 'react-redux';
 import {checkPhotoPath} from '../../helpers/photo';
+import {checkDateForConversation, getDateUI, getTimeUI} from '../../helpers/formatingDate';
 
 export default function UserMessages() {
     const user = useSelector(state => state?.currentUser)
@@ -25,9 +26,7 @@ export default function UserMessages() {
         if (isConnected) {
 
             emitPaginateConversation({page: 1})
-                .then((res) => console.log(res))
                 .then(result => setConversations(prev => ({isLoading: true, meta: result?.meta, items: result?.data})))
-                .catch(err => console.log(err))
                 .catch(error => setConversations(prev => ({isLoading: true, error})))
 
             // ! will configure
@@ -77,7 +76,9 @@ export default function UserMessages() {
                                     <div className="new">
                                     </div>
                                     <div className="end">
-                                        <div className="fs-09 fw-5">19 окт</div>
+                                        <div className="fs-09 fw-5">
+                                            {checkDateForConversation(item?.lastMessage?.updatedAt)}
+                                        </div>
                                         <button type="button" className="btn-del" title="Удалить">
                                             <i className="bi bi-trash-fill" />
                                         </button>

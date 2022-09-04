@@ -3294,13 +3294,14 @@ main.account {
 }
 
 .chat-top {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   @media (max-width: 767px) {
     background-color: #fff;
     border-bottom: 1px solid $color-3;
-    padding-bottom: 1em;
+    //padding-bottom: 1em;
   }
   @media (max-width: 575px) {
     margin-left: -12px;
@@ -3330,275 +3331,353 @@ main.account {
       height: 50px;
     }
   }
+
+  // .chat-top__actions
+  &__actions {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 15px;
+    align-items: center;
+    padding-right: 1.5rem!important;
+    padding-left: 1.5rem!important;
+    width: 85%;
+    border-bottom: 1px solid $color-3;
+
+    @media all and (max-width: 767px) {
+      width: 80%;
+    }
+
+    @media (max-width: 575px) {
+      top: calc(50px + 0.5em + 0.5em);
+      width: 75%;
+    }
+  }
+
+  .btns {
+    display: flex;
+    gap: 10px;
+    height: 35px;
+
+    button {
+      flex: 0 0 75px;
+      border: 2px solid $gray-3;
+      border-radius: 30px;
+    }
+  }
 }
 
-.messages-list {
-  max-height: 730px;
-  overflow-y: auto;
-  @media (max-width: 575px) {
-    margin-left: -12px;
-    margin-right: -12px;
+.messages {
+  position: relative;
+  justify-content: flex-start;
+  height: calc(100vh - 184px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  @media all and (max-width: 1199px) {
+    height: calc(100vh - 205px);
   }
 
-  .chat-date {
-    font-family: $title-font;
-    font-weight: 700;
-    font-size: 1.2em;
-    text-align: center;
-    color: $gray-3;
-    padding: .5em;
+  @media all and (max-width: 991px) {
+    height: calc(100vh - 90px);
   }
 
-  .message {
-    padding: 1.25em 1em 1.25em 4em;
-    display: flex;
-    align-items: flex-start;
+  @media all and (max-width: 767px) {
+    height: calc(100vh - 134px);
+  }
+
+  @media all and (max-width: 575px) {
+    height: calc(100vh - 100px);
+  }
+
+  // .messages-list
+  &-list {
     position: relative;
-    @media (max-width: 1399px) {
-      padding: 1.25em 1em 1.25em 2em;
-    }
-    @media (max-width: 991px) {
-      padding: 1em 20% 1em 1em;
-    }
-    @media (max-width: 575px) {
-      padding: .5em 20% .5em 1em;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column-reverse;
+    flex-shrink: 1;
+    flex-grow: 1;
+
+    @media all and (max-width: 991px) {
+      margin-top: 50px;
     }
 
-    &.unread {
-      background-color: #F1F7FA;
+    // .messages-list__loader
+    &__loader {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #FFF;
+    }
+
+    .chat-date {
+      font-family: $title-font;
+      font-weight: 700;
+      font-size: 1.2em;
+      text-align: center;
+      color: $gray-3;
+      padding: .5em;
+    }
+
+    .message {
+      padding: 1.25em 1em 1.25em 4em;
+      display: flex;
+      align-items: flex-start;
+      position: relative;
+      @media (max-width: 1399px) {
+        padding: 1.25em 1em 1.25em 2em;
+      }
+      @media (max-width: 991px) {
+        padding: 1em 20% 1em 1em;
+      }
+      @media (max-width: 575px) {
+        padding: .5em 20% .5em 1em;
+      }
+
+      &.unread {
+        background-color: #F1F7FA;
+
+        .photo {
+          .indicator, .indicator.online {
+            outline: 0.3em solid #F1F7FA;
+          }
+        }
+      }
 
       .photo {
-        .indicator, .indicator.online {
-          outline: 0.3em solid #F1F7FA;
-        }
-      }
-    }
-
-    .photo {
-      width: fit-content;
-      margin-right: 2em;
-      position: relative;
-      z-index: 1;
-      @media (max-width: 1199px) {
-        margin-right: 1em;
-      }
-      @media (max-width: 991px) {
-        display: none;
-      }
-
-      img {
-        width: 115px;
-        height: 115px;
+        width: fit-content;
+        margin-right: 2em;
+        position: relative;
+        z-index: 1;
         @media (max-width: 1199px) {
-          width: 90px;
-          height: 90px;
+          margin-right: 1em;
         }
-        @media (max-width: 767px) {
-          width: 60px;
-          height: 60px;
-        }
-      }
-
-      .indicator {
-        bottom: 8%;
-        right: 8%;
-        width: 11%;
-        height: 11%;
-        background-color: $gray-4;
-        outline: 0.3em solid #FFFFFF;
-
-        &.online {
-          background-color: $green;
-          outline: 0.3em solid #FFFFFF;
-        }
-      }
-    }
-
-    .main {
-      width: calc(100% - (115px + 11em));
-      @media (max-width: 1199px) {
-        width: calc(100% - (90px + 10em));
-      }
-      @media (max-width: 991px) {
-        background-color: $gray-6;
-        width: auto;
-        padding: 1em;
-        border-radius: 4px;
-      }
-      // @media (max-width: 767px){
-      //     width: calc(100% - (60px + 10em));
-      // }
-      .name {
-        font-size: 1.3em;
-        font-family: $title-font;
-        font-weight: 700;
-        margin-bottom: .5em;
         @media (max-width: 991px) {
           display: none;
         }
-      }
 
-      .text {
-        font-size: .9em;
-        font-weight: 300;
+        img {
+          width: 115px;
+          height: 115px;
+          @media (max-width: 1199px) {
+            width: 90px;
+            height: 90px;
+          }
+          @media (max-width: 767px) {
+            width: 60px;
+            height: 60px;
+          }
+        }
 
-        p {
-          margin-bottom: 1em;
+        .indicator {
+          bottom: 8%;
+          right: 8%;
+          width: 11%;
+          height: 11%;
+          background-color: $gray-4;
+          outline: 0.3em solid #FFFFFF;
+
+          &.online {
+            background-color: $green;
+            outline: 0.3em solid #FFFFFF;
+          }
         }
       }
-    }
 
-    &.my {
-      @media (max-width: 991px) {
-        padding: 1em 1em 1em 20%;
-        .main {
-          background-color: #F1F7FA;
+      .main {
+        width: calc(100% - (115px + 11em));
+        @media (max-width: 1199px) {
+          width: calc(100% - (90px + 10em));
         }
-      }
-      @media (max-width: 575px) {
-        padding: .5em 1em .5em 20%;
-      }
-    }
-
-    .mark {
-      width: 2em;
-      background: none;
-      padding: 0px;
-      @include flex-center();
-
-      img {
-        max-width: 100%;
-        object-fit: scale-down;
-        margin-right: 0px;
         @media (max-width: 991px) {
-          height: 100%;
+          background-color: $gray-6;
+          width: auto;
+          padding: 1em;
+          border-radius: 4px;
+        }
+
+        .name {
+          font-size: 1.3em;
+          font-family: $title-font;
+          font-weight: 700;
+          margin-bottom: .5em;
+          @media (max-width: 991px) {
+            display: none;
+          }
+        }
+
+        .text {
+          font-size: .9em;
+          font-weight: 300;
+
+          p {
+            margin-bottom: 1em;
+          }
         }
       }
 
-      i {
-        font-size: 1.6em;
-        color: $color-1;
-        line-height: .8em;
-      }
-
-      @media (max-width: 991px) {
-        position: absolute;
-        bottom: 1.2em;
-        right: 4.5em;
-        height: 0.75em;
-      }
-    }
-
-    .date {
-      font-size: .9em;
-      font-weight: 500;
-      width: 3em;
-      margin-left: 1em;
-      @media (max-width: 991px) {
-        position: absolute;
-        bottom: 1.2em;
-        right: calc(20% + 1em);
-      }
-    }
-
-    &.my {
-      @media (max-width: 991px) {
-        .date {
-          right: 2em;
+      &.my {
+        @media (max-width: 991px) {
+          padding: 1em 1em 1em 20%;
+          .main {
+            background-color: #F1F7FA;
+          }
+        }
+        @media (max-width: 575px) {
+          padding: .5em 1em .5em 20%;
         }
       }
-    }
 
-    .btns {
-      display: flex;
-      justify-content: space-around;
-      width: 4em;
-      margin-left: 1em;
-      @media (max-width: 1199px) {
-        width: 3em;
-      }
-      @media (max-width: 991px) {
-        display: none;
-      }
+      .mark {
+        width: 2em;
+        background: none;
+        padding: 0px;
+        @include flex-center();
 
-      button {
-        width: 1em;
-        height: 1em;
-        opacity: 0;
-        transition: .2s ease;
-        @media (max-width: 1024px) {
-          opacity: 1;
-        }
-
-        svg {
-          width: 1em;
-          height: 1em;
-          fill: none;
-
-          path {
-            transition: .2s ease;
-            fill: $gray-4;
+        img {
+          max-width: 100%;
+          object-fit: scale-down;
+          margin-right: 0px;
+          @media (max-width: 991px) {
+            height: 100%;
           }
         }
 
         i {
-          font-size: 1.1em;
-          color: $gray-4;
+          font-size: 1.6em;
+          color: $color-1;
+          line-height: .8em;
         }
 
-        &:hover, &:focus {
+        @media (max-width: 991px) {
+          position: absolute;
+          bottom: 1.2em;
+          right: 4.5em;
+          height: 0.75em;
+        }
+      }
+
+      .date {
+        font-size: .9em;
+        font-weight: 500;
+        width: 3em;
+        margin-left: 1em;
+        @media (max-width: 991px) {
+          position: absolute;
+          bottom: 1.2em;
+          right: calc(20% + 1em);
+        }
+      }
+
+      &.my {
+        @media (max-width: 991px) {
+          .date {
+            right: 2em;
+          }
+        }
+      }
+
+      .btns {
+        display: flex;
+        justify-content: space-around;
+        width: 4em;
+        margin-left: 1em;
+        @media (max-width: 1199px) {
+          width: 3em;
+        }
+        @media (max-width: 991px) {
+          display: none;
+        }
+
+        button {
+          width: 1em;
+          height: 1em;
+          opacity: 0;
+          transition: .2s ease;
+          @media (max-width: 1024px) {
+            opacity: 1;
+          }
+
           svg {
+            width: 1em;
+            height: 1em;
+            fill: none;
+
             path {
-              fill: $color-1;
+              transition: .2s ease;
+              fill: $gray-4;
             }
           }
 
           i {
-            color: $color-1;
+            font-size: 1.1em;
+            color: $gray-4;
+          }
+
+          &:hover, &:focus {
+            svg {
+              path {
+                fill: $color-1;
+              }
+            }
+
+            i {
+              color: $color-1;
+            }
+          }
+
+          &:active {
+            i {
+              color: $color-2;
+            }
           }
         }
+      }
 
-        &:active {
-          i {
-            color: $color-2;
+      &:hover {
+        .btns {
+          button {
+            opacity: 1;
           }
         }
       }
     }
+  }
 
-    &:hover {
-      .btns {
-        button {
-          opacity: 1;
-        }
-      }
+  .send-message {
+    //position: absolute;
+    //left: 0;
+    //bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid $gray-5;
+    background-color: #fff;;
+    @media (max-width: 575px) {
+      //margin-left: -12px;
+      //margin-right: -12px;
+      //position: sticky;
+      //bottom: 50px;
+      left: 0px;
+      z-index: 10;
     }
-  }
-}
 
-.send-message {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border: 1px solid $gray-5;
-  background-color: #fff;;
-  @media (max-width: 575px) {
-    margin-left: -12px;
-    margin-right: -12px;
-    position: sticky;
-    bottom: 50px;
-    left: 0px;
-    z-index: 10;
-  }
+    .input-file {
+      width: 3em;
+      height: 3em;
+    }
 
-  .input-file {
-    width: 3em;
-    height: 3em;
-  }
-
-  button[type="submit"] {
-    img {
-      width: 2em;
+    button[type="submit"] {
+      img {
+        width: 2em;
+      }
     }
   }
 }
@@ -4899,3 +4978,28 @@ footer {
   border-radius: unset;
 }
 
+.send-msg {
+  align-self: center;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+
+  & > svg {
+    width: 24px;
+    height: 24px;
+
+    & > path {
+      fill: #146492;
+    }
+  }
+
+  &:disabled {
+    svg > path {
+      fill: $gray-3;
+    }
+  }
+}
+
+.check-icon {
+  fill: $color-1;
+}

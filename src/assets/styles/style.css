@@ -3197,6 +3197,7 @@ main.account {
 }
 
 .chat-top {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -3205,7 +3206,6 @@ main.account {
   .chat-top {
     background-color: #fff;
     border-bottom: 1px solid #ECECEC;
-    padding-bottom: 1em;
   }
 }
 @media (max-width: 575px) {
@@ -3234,16 +3234,90 @@ main.account {
   width: 50px;
   height: 50px;
 }
-
-.messages-list {
-  max-height: 730px;
-  overflow-y: auto;
+.chat-top__actions {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15px;
+  align-items: center;
+  padding-right: 1.5rem !important;
+  padding-left: 1.5rem !important;
+  width: 85%;
+  border-bottom: 1px solid #ECECEC;
+}
+@media all and (max-width: 767px) {
+  .chat-top__actions {
+    width: 80%;
+  }
 }
 @media (max-width: 575px) {
-  .messages-list {
-    margin-left: -12px;
-    margin-right: -12px;
+  .chat-top__actions {
+    top: calc(50px + 0.5em + 0.5em);
+    width: 75%;
   }
+}
+.chat-top .btns {
+  display: flex;
+  gap: 10px;
+  height: 35px;
+}
+.chat-top .btns button {
+  flex: 0 0 75px;
+  border: 2px solid #828282;
+  border-radius: 30px;
+}
+
+.messages {
+  position: relative;
+  justify-content: flex-start;
+  height: calc(100vh - 184px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+@media all and (max-width: 1199px) {
+  .messages {
+    height: calc(100vh - 205px);
+  }
+}
+@media all and (max-width: 991px) {
+  .messages {
+    height: calc(100vh - 90px);
+  }
+}
+@media all and (max-width: 767px) {
+  .messages {
+    height: calc(100vh - 134px);
+  }
+}
+@media all and (max-width: 575px) {
+  .messages {
+    height: calc(100vh - 100px);
+  }
+}
+.messages-list {
+  position: relative;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column-reverse;
+  flex-shrink: 1;
+  flex-grow: 1;
+}
+@media all and (max-width: 991px) {
+  .messages-list {
+    margin-top: 50px;
+  }
+}
+.messages-list__loader {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #FFF;
 }
 .messages-list .chat-date {
   font-family: "Gilroy";
@@ -3472,8 +3546,7 @@ main.account {
 .messages-list .message:hover .btns button {
   opacity: 1;
 }
-
-.send-message {
+.messages .send-message {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -3481,20 +3554,16 @@ main.account {
   background-color: #fff;
 }
 @media (max-width: 575px) {
-  .send-message {
-    margin-left: -12px;
-    margin-right: -12px;
-    position: sticky;
-    bottom: 50px;
+  .messages .send-message {
     left: 0px;
     z-index: 10;
   }
 }
-.send-message .input-file {
+.messages .send-message .input-file {
   width: 3em;
   height: 3em;
 }
-.send-message button[type=submit] img {
+.messages .send-message button[type=submit] img {
   width: 2em;
 }
 
@@ -4727,6 +4796,27 @@ footer nav.mobile ul li a.active svg.type-2 path {
   top: 0;
   width: 100%;
   border-radius: unset;
+}
+
+.send-msg {
+  align-self: center;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
+.send-msg > svg {
+  width: 24px;
+  height: 24px;
+}
+.send-msg > svg > path {
+  fill: #146492;
+}
+.send-msg:disabled svg > path {
+  fill: #828282;
+}
+
+.check-icon {
+  fill: #146492;
 }
 
 /*# sourceMappingURL=style.css.map */
