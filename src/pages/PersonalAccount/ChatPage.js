@@ -15,6 +15,7 @@ import {getTimeUI} from '../../helpers/formatingDate';
 import {HandySvg} from 'handy-svg';
 import check from '../../img/icons/check.svg'
 import useWindowDimensions from "../../hooks/useWindowDimensions";
+import {Dropdown} from 'react-bootstrap';
 
 export default function ChatPage() {
     const {width} = useWindowDimensions()
@@ -40,17 +41,82 @@ export default function ChatPage() {
     const [editableMessageId, setEditableMessageId] = useState(null)
     const [activeMessageOnMobile, setActiveMessageOnMobile] = useState(null)
 
-    const MobileItem = ({children, id}) => (
-        <div
-            className="main"
-            onClick={() => setActiveMessageOnMobile(id)}
-        >
-            <div className="text">
-                {children}
-            </div>
-        </div>
-    )
 
+    const MobileItem = ({children, id}) => {
+        const [timeoutId, setTimeoutId] = useState(null)
+        const dropdownRef = useRef(null)
+
+        const mouseDownHandler = () => {
+            const tId = setTimeout(() => setActiveMessageOnMobile(id), 500)
+            setTimeoutId(tId)
+        }
+
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setActiveMessageOnMobile(null);
+            }
+        };
+
+        useEffect(() => {
+            document.addEventListener('click', handleClickOutside, true);
+            return () => {
+                document.removeEventListener('click', handleClickOutside, true);
+            };
+        });
+
+        return (
+            <Dropdown>
+                <Dropdown.Toggle className="main main_mobile">
+                    {children}
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                    <Dropdown.Item href="#">Menu Item</Dropdown.Item>
+                    <Dropdown.Item href="#">Menu Item</Dropdown.Item>
+                    <Dropdown.Item href="#">Menu Item</Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
+        )
+
+        return (
+            <div
+                className={`main main_mobile ${(activeMessageOnMobile === id) ? 'active' : ''} ${activeMessageOnMobile?.length && activeMessageOnMobile?.includes(id) ? 'selected' : ''}`}
+                // onClick={() => setActiveMessagesOnMobile(prev => {
+                //     if (prev?.length) {
+                //         return prev.includes(id)
+                //             ? prev.filter(messageId => messageId !== id)
+                //             : [...prev, id]
+                //     }
+                // })}
+                onTouchStart={() => !activeMessageOnMobile && mouseDownHandler()}
+                onTouchEnd={() => !activeMessageOnMobile && clearTimeout(timeoutId)}
+            >
+                <div className="text">
+                    {children}
+                </div>
+                <ul
+                    className={`main__dropdown ${(activeMessageOnMobile === id) ? 'show' : ''}`}
+                    ref={dropdownRef}
+                >
+                    <li>
+                        <button type="button">
+                            Скопировать текст
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button">
+                            Изменить
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button">
+                            Выбрать
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        )
+    }
 
     const emitPaginateMessagesRequest = async (page, limit) => {
         return await emitPaginateMessages(conversationId, {page, limit, orderBy: 'desc'})
@@ -92,6 +158,7 @@ export default function ChatPage() {
         }
     }
 
+    //  ! all events which does when set connection
     useEffect(() => {
         if (isConnected) {
             emitViewedMessage(conversationId, user?.id)
@@ -105,6 +172,7 @@ export default function ChatPage() {
         }
     }, [isConnected, conversationId, user])
 
+    // ! listen creating of message
     useEffect(() => {
         if (messages?.items?.length) {
             onMessageCreate()
@@ -113,13 +181,19 @@ export default function ChatPage() {
         }
     }, [messages])
 
+    // ! fetch messages by lazy loading
     useEffect(() => isFetching && fetchMessages(1000), [isFetching])
 
+    // ! switch mode
     useEffect(() => {
         (width < 991)
             ? setIsMobile(true)
             : setIsMobile(false)
     }, [width])
+
+    // useEffect(() => {
+    //     console.log(activeMessagesOnMobile)
+    // }, [activeMessagesOnMobile])
 
     useEffect(() => {
         console.log(messages)
@@ -130,13 +204,14 @@ export default function ChatPage() {
     }, [conversation])
 
     useEffect(() => {
-        console.log(editableMessageId)
-    }, [editableMessageId])
+        console.log('ac', activeMessageOnMobile)
+    }, [activeMessageOnMobile])
 
 
     return (
         <div className="messages">
-            <div className={`chat-top px-2 px-md-4 px-xxl-5 mb-md-4 mb-xxl-5 ${activeMessageOnMobile ? 'active' : ''}`}>
+            <div
+                className={`chat-top px-2 px-md-4 px-xxl-5 mb-md-4 mb-xxl-5 ${activeMessageOnMobile?.length ? 'active' : ''}`}>
                 <Link to="/personal-account/my-messages" className="d-flex align-items-center me-2">
                     <svg width="12" height="23" viewBox="0 0 12 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <line y1="-1" x2="14.5309" y2="-1"
@@ -179,22 +254,30 @@ export default function ChatPage() {
                         </ul>
                     </div>
                 </div>
-                <div className="chat-top__actions">
-                    <button className="close" type="button">
+                {/* --------------- MOBILE ACTIONS --------------- */}
+                <div className={`chat-top__actions ${activeMessageOnMobile?.length ? 'show' : ''}`}>
+                    <button
+                        className="close"
+                        type="button"
+                        onClick={() => setActiveMessageOnMobile([])}
+                    >
                         Закрыть
                     </button>
                     <div className="btns">
                         <button type="button">
                             <i className="bi bi-trash-fill"/>
                         </button>
-                        <button
-                            type="button"
-                            // onClick={() => setEditableMessageId(item?.id)}
-                        >
-                            <i className="bi bi-pencil-fill"/>
-                        </button>
+                        {(activeMessageOnMobile?.length <= 1) && (
+                            <button
+                                type="button"
+                                // onClick={() => setEditableMessageId(item?.id)}
+                            >
+                                <i className="bi bi-pencil-fill"/>
+                            </button>
+                        )}
                     </div>
                 </div>
+                {/* --------------------------------------------- */}
             </div>
             {messages.isLoading
                 ? <>

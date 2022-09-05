@@ -3210,12 +3210,10 @@ main.account {
 }
 @media (max-width: 575px) {
   .chat-top {
-    margin-left: -12px;
-    margin-right: -12px;
     padding-bottom: 0.5em;
     padding-top: 0.5em;
     position: sticky;
-    top: 48px;
+    top: 10px;
     left: 0px;
     z-index: 10;
   }
@@ -3239,25 +3237,20 @@ main.account {
   left: 0;
   right: 0;
   top: 50px;
-  height: 50px;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
   display: flex;
   justify-content: space-between;
-  padding: 0 15px;
   align-items: center;
-  padding-right: 1.5rem !important;
-  padding-left: 1.5rem !important;
-  width: 85%;
   border-bottom: 1px solid #ECECEC;
+  z-index: 5;
+  width: 100%;
+  transition: all 0.2s linear;
 }
-@media all and (max-width: 767px) {
+@media all and (max-width: 575px) {
   .chat-top__actions {
-    width: 80%;
-  }
-}
-@media (max-width: 575px) {
-  .chat-top__actions {
-    top: calc(50px + 0.5em + 0.5em);
-    width: 75%;
+    top: 62px;
   }
 }
 .chat-top .btns {
@@ -3266,9 +3259,14 @@ main.account {
   height: 35px;
 }
 .chat-top .btns button {
-  flex: 0 0 75px;
   border: 2px solid #828282;
   border-radius: 30px;
+  padding: 0.25em 2em;
+}
+.chat-top.active .chat-top__actions {
+  height: 50px;
+  overflow: visible;
+  opacity: 1;
 }
 
 .messages {
@@ -3300,6 +3298,7 @@ main.account {
   }
 }
 .messages-list {
+  background-color: transparent;
   position: relative;
   overflow-y: scroll;
   display: flex;
@@ -3310,6 +3309,7 @@ main.account {
 @media all and (max-width: 991px) {
   .messages-list {
     margin-top: 50px;
+    padding: 15px 0;
   }
 }
 .messages-list__loader {
@@ -3347,6 +3347,9 @@ main.account {
   .messages-list .message {
     padding: 0.5em 20% 0.5em 1em;
   }
+}
+.messages-list .message.editable {
+  background-color: rgba(197, 156, 126, 0.3);
 }
 .messages-list .message.unread {
   background-color: #F1F7FA;
@@ -3399,6 +3402,7 @@ main.account {
   outline: 0.3em solid #FFFFFF;
 }
 .messages-list .message .main {
+  border: unset !important;
   width: calc(100% - (115px + 11em));
 }
 @media (max-width: 1199px) {
@@ -3413,6 +3417,20 @@ main.account {
     padding: 1em;
     border-radius: 4px;
   }
+}
+.messages-list .message .main_mobile {
+  position: relative;
+}
+.messages-list .message .main_mobile .text {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+}
+.messages-list .message .main.selected {
+  background-color: rgba(197, 156, 126, 0.3) !important;
+}
+.messages-list .message .main.active .main__dropdown {
+  display: flex;
 }
 .messages-list .message .main .name {
   font-size: 1.3em;
@@ -3431,6 +3449,28 @@ main.account {
 }
 .messages-list .message .main .text p {
   margin-bottom: 1em;
+}
+.messages-list .message .main__dropdown {
+  padding: 0;
+  display: none;
+  list-style: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  background-color: #FFF;
+  flex-direction: column;
+  border: 1px solid #828282;
+  border-radius: 4px;
+  max-width: 200px;
+  z-index: 5;
+}
+.messages-list .message .main__dropdown li {
+  padding: 10px;
+  white-space: nowrap;
+}
+.messages-list .message .main__dropdown li:hover {
+  background-color: #BDBDBD;
+  color: #FFF;
 }
 @media (max-width: 991px) {
   .messages-list .message.my {
