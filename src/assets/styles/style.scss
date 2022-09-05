@@ -4899,3 +4899,12 @@ footer {
   border-radius: unset;
 }
 
+.auth-error {
+  display: flex;
+  padding: 5em 0;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+

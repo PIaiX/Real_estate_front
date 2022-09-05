@@ -4729,4 +4729,13 @@ footer nav.mobile ul li a.active svg.type-2 path {
   border-radius: unset;
 }
 
+.auth-error {
+  display: flex;
+  padding: 5em 0;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
 /*# sourceMappingURL=style.css.map */
