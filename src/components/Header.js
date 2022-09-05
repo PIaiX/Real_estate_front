@@ -290,6 +290,7 @@ const Header = () => {
                             </form>
                             <CustomModal
                                 isShow={isShow}
+                                setIsShow={setIsShow}
                                 closeButton={false}
                                 centre={true}
                             >

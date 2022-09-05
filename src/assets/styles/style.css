@@ -4086,8 +4086,11 @@ footer nav.mobile ul li a.active svg.type-2 path {
   border-radius: 0px;
   border: none;
 }
-.modal .modal-content .modal-body {
+.modal .modal-body {
   padding: 2em;
+}
+.modal__exit-with-account .modal-body {
+  padding: 0 2em 2em 2em;
 }
 
 .modal-header {

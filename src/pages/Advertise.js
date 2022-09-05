@@ -1923,6 +1923,7 @@ export default function Advertise() {
 
                         <CustomModal
                             isShow={isShow}
+                            setIsShow={setIsShow}
                             closeButton={false}
                             backdrop='static'
                             centre={true}

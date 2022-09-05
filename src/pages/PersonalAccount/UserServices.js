@@ -129,6 +129,7 @@ export default function UserServices() {
 
             <CustomModal
                 isShow={showModalDelete}
+                setIsShow={setShowModalDelete}
                 closeButton={true}
             >
                 <div>
@@ -159,37 +160,6 @@ export default function UserServices() {
                 </div>
                 </div>
             </CustomModal>
-
-            {/*<div className="modal fade" id="delete-service" tabIndex="-1" aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-body">
-                            <button type="button" className="btn-close" data-bs-dismiss="modal">
-                                <svg viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1.00006 1.18237L15 15.9049"/>
-                                    <path d="M14.9999 1.18237L1.00001 15.9049"/>
-                                </svg>
-                            </button>
-                            <div className="text-center fs-15 fw-6 title-font my-5">Вы уверены что хотите удалить услугу?</div>
-                            <div className="row row-cols-2">
-                                <div>
-                                    <button type="button" data-bs-dismiss="modal" className="btn btn-2 w-100 fs-11 text-uppercase">Отмена</button>
-                                </div>
-                                <div>
-                                    <button
-                                        type="button"
-                                        className="btn btn-1 w-100 fs-11 text-uppercase"
-                                        onClick={() => deleteService(axiosPrivate, serviceId, currentToken)}
-                                    >
-                                        Удалить
-                                    </button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>*/}
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import accessTokenActions from "../../store/actions/accessToken";
@@ -6,6 +6,7 @@ import currentUserActions from "../../store/actions/currentUser";
 import { bindActionCreators } from "redux";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import apiRoutes from "../../API/config/apiRoutes";
+import CustomModal from "../../components/CustomModal";
 
 export default function AccountMenu() {
   const navigate = useNavigate();
@@ -13,6 +14,8 @@ export default function AccountMenu() {
   const dispatch = useDispatch();
   const { resetToken } = bindActionCreators(accessTokenActions, dispatch);
   const { resetCurrentUser } = bindActionCreators(currentUserActions, dispatch);
+  const [isShowModalExit, setIsShowModalExit] = useState(false)
+  
 
   const handleLogout = async () => {
     const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.LOGOUT}`);
@@ -20,6 +23,7 @@ export default function AccountMenu() {
       resetToken();
       resetCurrentUser();
       navigate("/");
+      setIsShowModalExit(false)
     }
   };
 
@@ -73,12 +77,42 @@ export default function AccountMenu() {
           </li>
           <li>
             <img src="/img/icons/pa-7.svg" alt="Выйти" />
-            <button onClick={handleLogout} type="button">
+            <button onClick={() => setIsShowModalExit(true)} type="button">
               Выйти
             </button>
           </li>
         </ul>
       </nav>
+      <CustomModal
+          isShow={isShowModalExit}
+          setIsShow={setIsShowModalExit}
+          closeButton={true}
+          className='modal__exit-with-account'
+      >
+        <div className="text-center fs-15 fw-6 title-font my-5">
+          Вы действительно хотите выйти?
+        </div>
+        <div className="row row-cols-2">
+          <div>
+            <button
+                type="button"
+                className="btn btn-2 w-100 fs-11 text-uppercase"
+                onClick={() => setIsShowModalExit(false)}
+            >
+              Отмена
+            </button>
+          </div>
+          <div>
+            <button
+                type="button"
+                className="btn btn-1 w-100 fs-11 text-uppercase"
+                onClick={handleLogout}
+            >
+              Выйти
+            </button>
+          </div>
+        </div>
+      </CustomModal>
     </div>
   );
 }
