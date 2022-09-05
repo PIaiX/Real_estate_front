@@ -69,10 +69,6 @@ export default function Services() {
             .then(res => setFilterAttributes({isLoading: true, data: res}))
     }, [payload.servicesTypeId])
 
-    const scrollToTop = () => {
-        scroll.scrollToTop();
-    };
-
     const acceptFilters = (e) => {
         e.preventDefault()
         setPayload(prevState => ({
@@ -341,7 +337,6 @@ export default function Services() {
                                         description={i.description}
                                         labels={i.labels}
                                         phone={i.user.phone}
-                                        linkClick={() => scrollToTop()}
                                         rating={i.user.rating}
                                         service={i.subService.name}
                                     />

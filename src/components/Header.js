@@ -12,10 +12,6 @@ const Header = () => {
     const location = useLocation()
     const pathname = location.pathname
 
-    const scrollToTop = () => {
-        scroll.scrollToTop();
-    }
-
     const initialData = {
         name: '',
         email: '',
@@ -78,7 +74,7 @@ const Header = () => {
         <>
             <header>
                 <div className="container">
-                    <Link to="/" onClick={() => scrollToTop()} className="order-1 me-lg-auto">
+                    <Link to="/" className="order-1 me-lg-auto">
                         <img src="/img/Лого.png" alt="Название сайта" className="logo"/>
                     </Link>
                     <nav className="d-none d-lg-flex order-2">
@@ -88,20 +84,19 @@ const Header = () => {
                         <a href="" role="button" data-bs-toggle="modal" data-bs-target="#ask">Задать вопрос</a>
                     </nav>
                     <div className="d-none d-md-flex order-4 order-lg-3">
-                        <Link to="/personal-account/my-messages" onClick={() => scrollToTop()} className="ms-4">
+                        <Link to="/personal-account/my-messages" className="ms-4">
                             <img src="/img/icons/email.svg" alt="email"/>
                         </Link>
-                        <Link to="/personal-account/favorites/page/1" onClick={() => scrollToTop()}
+                        <Link to="/personal-account/favorites/page/1"
                               className="ms-3 ms-xl-4">
                             <img src="/img/icons/favorite.svg" alt="favorite"/>
                         </Link>
-                        <Link to="/personal-account" onClick={() => scrollToTop()} className="ms-3 ms-xl-4">
+                        <Link to="/personal-account" className="ms-3 ms-xl-4">
                             <img src="/img/icons/user.svg" alt="аккаунт"/>
                         </Link>
                     </div>
                     <NavLink
                         to="/advertise"
-                        onClick={() => scrollToTop()}
                         className="ms-md-4 btn btn-1 text-uppercase p-2 order-3 order-lg-4"
                         style={{whiteSpace: 'nowrap'}}
                     >
@@ -134,7 +129,6 @@ const Header = () => {
                                 to="/"
                                 className={`${(pathname === '/') ? 'active' : ''}`}
                                 onClick={() => {
-                                    scrollToTop()
                                     closeConvas()
                                 }}
                             >
@@ -146,7 +140,6 @@ const Header = () => {
                                 to="/services"
                                 className={`${(pathname === '/services') ? 'active' : ''}`}
                                 onClick={() => {
-                                    scrollToTop()
                                     closeConvas()
                                 }}
                             >
@@ -169,7 +162,6 @@ const Header = () => {
                                 to="/personal-account/favorites"
                                 className={`${(pathname === '/personal-account/favorites') ? 'active' : ''}`}
                                 onClick={() => {
-                                    scrollToTop()
                                     closeConvas()
                                 }}
                             >
@@ -181,7 +173,6 @@ const Header = () => {
                                 to="/hypothec"
                                 className={`${(pathname === '/hypothec') ? 'active' : ''}`}
                                 onClick={() => {
-                                    scrollToTop()
                                     closeConvas()
                                 }}
                             >
@@ -193,7 +184,6 @@ const Header = () => {
                                 to="/articles/page/1"
                                 className={`${(pathname === '/articles/page/1') ? 'active' : ''}`}
                                 onClick={() => {
-                                    scrollToTop()
                                     closeConvas()
                                 }}
                             >

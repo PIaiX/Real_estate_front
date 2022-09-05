@@ -19,10 +19,6 @@ export default function UserAds({routeName}) {
     let {page} = useParams()
     const navigate = useNavigate()
 
-    const scrollToTop = () => {
-        scroll.scrollToTop();
-    };
-
     useEffect(() => {
         function updateSize() {
             if (window.matchMedia("(max-width: 1399px)").matches) {
@@ -120,7 +116,6 @@ export default function UserAds({routeName}) {
                             </button>
                             <Link to={`/advertise-editor/${i?.uuid}`}
                                   className={(view === 'as-a-list') ? "ms-4 color-1 d-flex align-items-center" : "mt-2 color-1 d-flex align-items-center"}
-                                  onClick={scrollToTop}
                             >
                                 <img src="/img/icons/pa-9.svg"
                                      alt="Редактировать"/>

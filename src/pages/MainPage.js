@@ -49,10 +49,6 @@ export default function MainPage() {
         getTypesEstate().then(result => setTypesEstate(result))
     }, [])
 
-    const scrollToTop = () => {
-        scroll.scrollToTop();
-    };
-
     return (
         <main>
 
@@ -148,7 +144,6 @@ export default function MainPage() {
                             <NavLink
                                 to='/service/uslugiRieltora/page/1'
                                 className="btn btn-1 fs-15 mx-auto mt-4 mt-lg-5"
-                                onClick={() => scrollToTop()}
                             >
                                 Услуги риелтора
                             </NavLink>
@@ -159,7 +154,7 @@ export default function MainPage() {
                         <Slider2/>
                     </div>
                     <div className="text-center mt-4">
-                        <Link to="/articles/page/1" onClick={() => scrollToTop()} className="fs-12 color-1 bb-1">Смотреть
+                        <Link to="/articles/page/1" className="fs-12 color-1 bb-1">Смотреть
                             все статьи</Link>
                     </div>
                 </div>

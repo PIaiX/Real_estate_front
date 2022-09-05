@@ -40,10 +40,6 @@ export default function Card(props) {
             : '/img/img-photo.svg'
     }
 
-    const scrollToTop = () => {
-        scroll.scrollToTop();
-    };
-
     if (type === 'as-a-list') {
         return (
             <div className={`card-midi${props.className || ''}`}>
@@ -59,7 +55,6 @@ export default function Card(props) {
                                     <NavLink
                                         to={`/card-page/${props?.uuid}`}
                                         state={{prevRoute: pathname, routeName: props?.routeName, prevSearch: search}}
-                                        onClick={() => scrollToTop()}
                                     >
                                         {props.title} м<sup>2</sup>
                                     </NavLink>
@@ -169,7 +164,6 @@ export default function Card(props) {
                             <NavLink
                                 to={`/card-page/${props?.uuid}`}
                                 state={{prevRoute: pathname, routeName: props?.routeName, prevSearch: search}}
-                                onClick={() => scrollToTop()}
                             >
                                 {props.title} м<sup>2</sup>
                             </NavLink>

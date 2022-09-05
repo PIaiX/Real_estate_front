@@ -61,7 +61,6 @@ export default function AddResponse(props) {
                         userName={'Имя Фамилия'}
                         link={`/`}
                         linkState={''}
-                        // linkClick={() => scrollToTop()}
                         rating={'3.35'}
                         service={'Дизайнер'}
                     />

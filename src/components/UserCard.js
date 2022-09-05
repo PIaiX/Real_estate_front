@@ -5,9 +5,6 @@ import {animateScroll as scroll} from 'react-scroll';
 import Rating from "react-rating";
 
 function UserCard(props) {
-    const scrollToTop = () => {
-        scroll.scrollToTop();
-    };
 
     return (
         <div className="user-card">
@@ -38,7 +35,7 @@ function UserCard(props) {
                 <h4 className="mb-1 mb-xl-2 mb-xxl-0">{props.service}</h4>
             </div>
             <div className="photo mt-2 mt-md-3 mt-xxl-0">
-                <Link to={props.link} onClick={() => scrollToTop()}>
+                <Link to={props.link}>
                     <img src={props.avatar ? `https://api.antontig.beget.tech/uploads/${props.avatar}` : '/img/nophoto.jpg'} alt={props.userName}/>
                 </Link>
             </div>

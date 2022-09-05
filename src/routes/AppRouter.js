@@ -1,5 +1,5 @@
-import React from 'react';
-import {Route, Routes} from 'react-router-dom';
+import React, {useLayoutEffect} from 'react';
+import {Route, Routes, useLocation} from 'react-router-dom';
 import CardPage from '../pages/CardPage';
 import ArticlePage from '../pages/ArticlePage';
 import Catalog from '../pages/Catalog';
@@ -24,7 +24,14 @@ import CatalogList from "../pages/CatalogList";
 
 const AppRouter = () => {
 
+    const Wrapper = ({children}) => {
+        const {pathname} = useLocation();
+        useLayoutEffect(() => document.documentElement.scrollTo(0, 0), [pathname]);
+        return children
+    }
+
     return (
+        <Wrapper>
         <Routes>
             <Route exact path="/" element={<AppLayout/>}>
                 <Route index element={<MainPage/>}/>
@@ -67,6 +74,7 @@ const AppRouter = () => {
                 <Route path="*" element={<NotFound/>}/>
             </Route>
         </Routes>
+        </Wrapper>
     )
 }
 
