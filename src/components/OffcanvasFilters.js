@@ -684,6 +684,7 @@ const OffcanvasFilters = ({className, isShow, setIsShow, scroll, backdrop, close
                     onClick={e => {
                         e.preventDefault()
                         onApplyFilters()
+                        setIsShow(false)
                     }}
                 >
                     Показать

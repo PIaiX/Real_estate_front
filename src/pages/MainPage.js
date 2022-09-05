@@ -3,15 +3,12 @@ import {Slider2} from '../components/Slider2';
 import {Slider1} from "../components/Slider1";
 import Tile from '../components/Tile';
 import {Link, NavLink, useParams} from 'react-router-dom';
-import {animateScroll as scroll} from 'react-scroll';
 import {MainBanner} from '../components/MainBanner';
 import {useEffect, useState} from "react";
 import {getBanner, getPopular, getRecommend} from "../API/mainpagereq";
 import {useCurrentUser} from '../store/reducers';
 import {getTypesEstate} from '../API/typesEstate';
 import {useSelector} from 'react-redux';
-import axiosPrivate from "../API/axiosPrivate";
-import apiRoutes from "../API/config/apiRoutes";
 
 export default function MainPage() {
     const currentUser = useCurrentUser()
@@ -26,14 +23,12 @@ export default function MainPage() {
     useEffect(() => {
         getBanner()
             .then(data => setBanner(data))
-            .catch(error => console.log(error))
     }, [])
 
     useEffect(() => {
         if (userId && city) {
             getRecommend(userId, 6, city)
                 .then(data => setRecommend(data))
-                .catch(error => console.log(error))
         }
     }, [userId, city])
 
@@ -41,7 +36,6 @@ export default function MainPage() {
         if (userId && city) {
             getPopular(page, 6, userId, city)
                 .then(data => setPopular(data))
-                .catch(error => console.log(error))
         }
     }, [page, userId, city])
 
