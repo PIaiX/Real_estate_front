@@ -28,7 +28,7 @@ export default function CardPage() {
     const city = useSelector(state => state?.selectedCity)
 
     useEffect(() => {
-        getAdsPage(uuid).then(res => setAds(res))
+        getAdsPage(uuid, userId).then(res => setAds(res))
     }, [])
 
     useEffect(() => {
