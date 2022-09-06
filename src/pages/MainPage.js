@@ -9,6 +9,7 @@ import {getBanner, getPopular, getRecommend} from "../API/mainpagereq";
 import {useCurrentUser} from '../store/reducers';
 import {getTypesEstate} from '../API/typesEstate';
 import {useSelector} from 'react-redux';
+import {getCatalog} from "../API/catalog";
 
 export default function MainPage() {
     const currentUser = useCurrentUser()
@@ -17,6 +18,7 @@ export default function MainPage() {
     const [recommend, setRecommend] = useState([]);
     const [banner, setBanner] = useState([]);
     const [popular, setPopular] = useState([]);
+    const [hotAds, setHotAds] = useState([])
     const [typesEstate, setTypesEstate] = useState([])
     const city = useSelector(state => state?.selectedCity)
 
@@ -40,8 +42,17 @@ export default function MainPage() {
     }, [page, userId, city])
 
     useEffect(() => {
+        if (userId && city) {
+            getCatalog(1,6, '', city, {isHot: true, estateId: 1})
+                .then(data => setHotAds(data?.body?.data))
+        }
+    }, [city])
+
+    useEffect(() => {
         getTypesEstate().then(result => setTypesEstate(result))
     }, [])
+
+    console.log(hotAds)
 
     return (
         <main>
@@ -73,29 +84,20 @@ export default function MainPage() {
                 <img src="/img/map.png" alt="Карта" className="w-100"/>
             </section>
 
-            <section className="sec-4 container mb-6">
-                <h3>Срочная продажа</h3>
-                <div className="position-relative">
-                    <Slider1/>
-                </div>
-                <div className="text-center mt-2">
-                    <a href="/" className="fs-11 fw-5">
-                        Смотреть все
-                    </a>
-                </div>
-            </section>
-
+            {!(hotAds === undefined || hotAds?.length === 0) &&
+                <section className="sec-4 container mb-6">
+                    <h3>Срочная продажа</h3>
+                    <div className="position-relative">
+                        <Slider1 hotAds={hotAds}/>
+                    </div>
+                </section>
+            }
 
             {!(popular === undefined || popular?.length === 0) &&
                 <section className="sec-4 container mb-6">
                     <h3>Часто просматриваемые</h3>
                     <div className="position-relative">
                         <Slider1 popular={popular}/>
-                    </div>
-                    <div className="text-center mt-2">
-                        <a href="/" className="fs-11 fw-5">
-                            Смотреть все
-                        </a>
                     </div>
                 </section>
             }
@@ -105,11 +107,6 @@ export default function MainPage() {
                     <h3>Рекомендованные Вам</h3>
                     <div className="position-relative">
                         <Slider1 recommend={recommend}/>
-                    </div>
-                    <div className="text-center mt-2">
-                        <a href="/" className="fs-11 fw-5">
-                            Смотреть все
-                        </a>
                     </div>
                 </section>
             }
