@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import useSocket from '../../hooks/socket';
 import {
@@ -44,77 +44,54 @@ export default function ChatPage() {
 
     const MobileItem = ({children, id}) => {
         const [timeoutId, setTimeoutId] = useState(null)
-        const dropdownRef = useRef(null)
 
-        const mouseDownHandler = () => {
+        const touchStartHandler = () => {
             const tId = setTimeout(() => setActiveMessageOnMobile(id), 500)
             setTimeoutId(tId)
         }
 
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setActiveMessageOnMobile(null);
-            }
-        };
+        // ! React Bootstrap custom toggle
+        const ToggleButton = React.forwardRef(({ children }, ref) => {
 
-        useEffect(() => {
-            document.addEventListener('click', handleClickOutside, true);
-            return () => {
-                document.removeEventListener('click', handleClickOutside, true);
-            };
-        });
+            return (
+                <div
+                    className={`
+                        main main_mobile
+                        ${(activeMessageOnMobile === id) ? 'active' : ''}
+                        ${activeMessageOnMobile?.length && activeMessageOnMobile?.includes(id) ? 'selected' : ''}
+                    `}
+                    ref={ref}
+                    onTouchStart={() => !activeMessageOnMobile && touchStartHandler()}
+                    onTouchEnd={() => !activeMessageOnMobile && clearTimeout(timeoutId)}
+                >
+                    <div className="text">
+                        {children}
+                    </div>
+                </div>
+            )
+        })
 
         return (
             <Dropdown>
-                <Dropdown.Toggle className="main main_mobile">
+                <Dropdown.Toggle as={ToggleButton} className="main main_mobile">
                     {children}
                 </Dropdown.Toggle>
 
-                <Dropdown.Menu>
-                    <Dropdown.Item href="#">Menu Item</Dropdown.Item>
-                    <Dropdown.Item href="#">Menu Item</Dropdown.Item>
-                    <Dropdown.Item href="#">Menu Item</Dropdown.Item>
+                <Dropdown.Menu show={activeMessageOnMobile === id}>
+                    <Dropdown.Item>
+                        копировать текст
+                    </Dropdown.Item>
+                    <Dropdown.Item href="#">
+                        Изменить
+                    </Dropdown.Item>
+                    <Dropdown.Item href="#">
+                        Удалить
+                    </Dropdown.Item>
+                    <Dropdown.Item href="#">
+                        Выбрать
+                    </Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
-        )
-
-        return (
-            <div
-                className={`main main_mobile ${(activeMessageOnMobile === id) ? 'active' : ''} ${activeMessageOnMobile?.length && activeMessageOnMobile?.includes(id) ? 'selected' : ''}`}
-                // onClick={() => setActiveMessagesOnMobile(prev => {
-                //     if (prev?.length) {
-                //         return prev.includes(id)
-                //             ? prev.filter(messageId => messageId !== id)
-                //             : [...prev, id]
-                //     }
-                // })}
-                onTouchStart={() => !activeMessageOnMobile && mouseDownHandler()}
-                onTouchEnd={() => !activeMessageOnMobile && clearTimeout(timeoutId)}
-            >
-                <div className="text">
-                    {children}
-                </div>
-                <ul
-                    className={`main__dropdown ${(activeMessageOnMobile === id) ? 'show' : ''}`}
-                    ref={dropdownRef}
-                >
-                    <li>
-                        <button type="button">
-                            Скопировать текст
-                        </button>
-                    </li>
-                    <li>
-                        <button type="button">
-                            Изменить
-                        </button>
-                    </li>
-                    <li>
-                        <button type="button">
-                            Выбрать
-                        </button>
-                    </li>
-                </ul>
-            </div>
         )
     }
 

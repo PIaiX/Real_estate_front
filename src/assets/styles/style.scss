@@ -2876,9 +2876,9 @@ article {
 main.account {
   background: url(bg-imgs/bg2.png) no-repeat center bottom $gray-6;
   background-size: 100% auto;
-  @media (max-width: 991px) {
-    background: #fff;
-  }
+  //@media (max-width: 991px) {
+  //  background: #fff;
+  //}
 }
 
 #sec-12 {
@@ -3406,6 +3406,7 @@ main.account {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  background-color: #FFF;
 
   @media all and (max-width: 1199px) {
     height: calc(100vh - 205px);
@@ -3539,10 +3540,14 @@ main.account {
           border-radius: 4px;
         }
 
+        // .main_mobile
         &_mobile {
           position: relative;
+          background-color: rgba(20, 100, 146, 0.5) !important;
+          color: black !important;
 
           .text {
+            font-weight: 500 !important;
             -moz-user-select: none;
             -khtml-user-select: none;
             user-select: none;
@@ -5110,4 +5115,14 @@ footer {
 
 .check-icon {
   fill: $color-1;
+}
+
+.dropdown {
+  button {
+    background-color: $color-1 !important;
+    color: white !important;
+    font-weight: lighter !important;
+    border: unset !important;
+    outline: none !important;
+  }
 }
