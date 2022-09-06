@@ -1,5 +1,16 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+.check-icon {
+  fill: #146492;
+}
+
+.copy-icon,
+.edit-icon,
+.trash-icon,
+.choose-icon {
+  fill: #000;
+}
+
 a, a:hover, a:focus, a:active {
   color: inherit;
   outline: none;
@@ -3239,9 +3250,12 @@ main.account {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #ECECEC;
-  z-index: 5;
+  z-index: 10;
   width: 100%;
   transition: all 0.2s linear;
+  padding: 0 15px;
+  background-color: white;
+  margin-top: 5px;
 }
 @media all and (max-width: 575px) {
   .chat-top__actions {
@@ -3304,9 +3318,11 @@ main.account {
 }
 @media all and (max-width: 991px) {
   .messages-list {
-    margin-top: 50px;
     padding: 15px 0;
   }
+}
+.messages-list_indent {
+  margin-top: 50px;
 }
 .messages-list__loader {
   width: 100%;
@@ -4854,16 +4870,12 @@ footer nav.mobile ul li a.active svg.type-2 path {
   fill: #828282;
 }
 
-.check-icon {
-  fill: #146492;
+.mobile-item .dropdown-item {
+  display: flex;
+  gap: 10px;
 }
-
-.dropdown button {
-  background-color: #146492 !important;
-  color: white !important;
-  font-weight: lighter !important;
-  border: unset !important;
-  outline: none !important;
+.mobile-item .dropdown-item span {
+  color: black;
 }
 
 /*# sourceMappingURL=style.css.map */

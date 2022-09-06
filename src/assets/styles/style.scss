@@ -22,6 +22,19 @@ $header-z-index: 1900;
 $select-z-index: 1800;
 $ymaps-z-index: 1700;
 
+// ICONS
+
+.check-icon {
+  fill: $color-1;
+}
+
+.copy-icon,
+.edit-icon,
+.trash-icon,
+.choose-icon {
+  fill: $black;
+}
+
 a, a:hover, a:focus, a:active {
   color: inherit;
   outline: none;
@@ -3369,9 +3382,12 @@ main.account {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid $color-3;
-    z-index: 5;
+    z-index: 10;
     width: 100%;
     transition: all .2s linear;
+    padding: 0 15px;
+    background-color: white;
+    margin-top: 5px;
 
     @media all and (max-width: 575px) {
       top: 62px;
@@ -3435,8 +3451,13 @@ main.account {
     flex-grow: 1;
 
     @media all and (max-width: 991px) {
-      margin-top: 50px;
+      //margin-top: 50px;
       padding: 15px 0;
+    }
+
+    // .messages-list_indent
+    &_indent {
+      margin-top: 50px;
     }
 
     // .messages-list__loader
@@ -5113,16 +5134,13 @@ footer {
   }
 }
 
-.check-icon {
-  fill: $color-1;
-}
+.mobile-item {
+  .dropdown-item {
+    display: flex;
+    gap: 10px;
 
-.dropdown {
-  button {
-    background-color: $color-1 !important;
-    color: white !important;
-    font-weight: lighter !important;
-    border: unset !important;
-    outline: none !important;
+    span {
+      color: black;
+    }
   }
 }
