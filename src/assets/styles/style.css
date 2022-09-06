@@ -4741,4 +4741,9 @@ footer nav.mobile ul li a.active svg.type-2 path {
   align-items: center;
 }
 
+.show-more {
+  overflow: auto;
+  height: 40em;
+}
+
 /*# sourceMappingURL=style.css.map */
