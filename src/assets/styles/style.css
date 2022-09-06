@@ -3465,28 +3465,6 @@ main.account {
 .messages-list .message .main .text p {
   margin-bottom: 1em;
 }
-.messages-list .message .main__dropdown {
-  padding: 0;
-  display: none;
-  list-style: none;
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  background-color: #FFF;
-  flex-direction: column;
-  border: 1px solid #828282;
-  border-radius: 4px;
-  max-width: 200px;
-  z-index: 5;
-}
-.messages-list .message .main__dropdown li {
-  padding: 10px;
-  white-space: nowrap;
-}
-.messages-list .message .main__dropdown li:hover {
-  background-color: #BDBDBD;
-  color: #FFF;
-}
 @media (max-width: 991px) {
   .messages-list .message.my {
     padding: 1em 1em 1em 20%;
@@ -4876,6 +4854,29 @@ footer nav.mobile ul li a.active svg.type-2 path {
 }
 .mobile-item .dropdown-item span {
   color: black;
+}
+
+.mobile-item__dropdown {
+  padding: 0;
+  display: none;
+  list-style: none;
+  background-color: #FFF;
+  flex-direction: column;
+  border: 1px solid #828282;
+  border-radius: 4px;
+  max-width: 200px;
+  z-index: 100;
+  position: fixed;
+}
+.mobile-item__dropdown li {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  white-space: nowrap;
+}
+.mobile-item__dropdown li:hover {
+  background-color: #BDBDBD;
+  color: #FFF;
 }
 
 /*# sourceMappingURL=style.css.map */

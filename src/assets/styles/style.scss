@@ -3605,33 +3605,6 @@ main.account {
             margin-bottom: 1em;
           }
         }
-
-        // .main__dropdown
-        &__dropdown {
-          padding: 0;
-          display: none;
-          list-style: none;
-          position: absolute;
-          top: 100%;
-          left: 50%;
-          //transform: translate(-50%, -50%);
-          background-color: #FFF;
-          flex-direction: column;
-          border: 1px solid $gray-3;
-          border-radius: 4px;
-          max-width: 200px;
-          z-index: 5;
-
-          & li {
-            padding: 10px;
-            white-space: nowrap;
-          }
-
-          & li:hover {
-            background-color: $gray-4;
-            color: #FFF;
-          }
-        }
       }
 
       &.my {
@@ -5142,5 +5115,30 @@ footer {
     span {
       color: black;
     }
+  }
+}
+
+.mobile-item__dropdown {
+  padding: 0;
+  display: none;
+  list-style: none;
+  background-color: #FFF;
+  flex-direction: column;
+  border: 1px solid $gray-3;
+  border-radius: 4px;
+  max-width: 200px;
+  z-index: 100;
+  position: fixed;
+
+  & li {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    white-space: nowrap;
+  }
+
+  & li:hover {
+    background-color: $gray-4;
+    color: #FFF;
   }
 }

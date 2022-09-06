@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import useSocket from '../../hooks/socket';
 import {
@@ -19,7 +19,6 @@ import edit from '../../img/icons/edit.svg'
 import trash from '../../img/icons/trash.svg'
 import choose from '../../img/icons/choose.svg'
 import useWindowDimensions from "../../hooks/useWindowDimensions";
-import {Dropdown} from 'react-bootstrap';
 import {CopyToClipboard} from 'react-copy-to-clipboard/lib/Component';
 
 export default function ChatPage() {
@@ -51,108 +50,88 @@ export default function ChatPage() {
     }, [editableMessageId])
 
 
+    const [dropdownPosition, setDropdownPosition] = useState({x: 0, y: 0})
+
     const MobileItem = ({children, id}) => {
-        const ref = useRef(null)
+        return (
+            <div
+                className={`main main_mobile ${(activeMessageOnMobile === id) ? 'active' : ''} ${selectedMessagesOnMobile?.length && selectedMessagesOnMobile?.includes(id) ? 'selected' : ''}`}
+                onClick={e => {
+                    (!activeMessageOnMobile && !selectedMessagesOnMobile?.length) && setActiveMessageOnMobile(id)
+                    // setSelectedMessagesOnMobile(prev => {
+                    //     if (prev?.length) {
+                    //         return prev.includes(id)
+                    //             ? prev.filter(messageId => messageId !== id)
+                    //             : [...prev, id]
+                    //     }
+                    // })
+                    const rect = e.target.getBoundingClientRect()
+                    rect && setDropdownPosition({x: rect.x, y: rect.y})
+                }}
+            >
+                <div className="text">
+                    {children}
+                </div>
+            </div>
+        )
+    }
 
-        const handleClickOutside = (event) => {
-            if (ref.current && !ref.current.contains(event.target)) {
-                setActiveMessageOnMobile(null);
-            }
-        };
-
-        useEffect(() => {
-            document.addEventListener('click', handleClickOutside, true);
-            return () => {
-                document.removeEventListener('click', handleClickOutside, true);
-            };
-        });
-
-        // ! React Bootstrap custom toggle
-        const ToggleButton = React.forwardRef(({children, onClick}, ref) => {
-
-            return (
-                <div
-                    className={`main main_mobile ${(activeMessageOnMobile === id) ? 'active' : ''} ${selectedMessagesOnMobile?.length && selectedMessagesOnMobile?.includes(id) ? 'selected' : ''}`}
-                    ref={ref}
+    const MessageDropdownMobile = ({coords, isShow}) => {
+        return (
+            <ul
+                style={{top: coords.y, left: coords.x, display: isShow ? 'flex' : 'none'}}
+                className="mobile-item__dropdown"
+            >
+                <CopyToClipboard>
+                    <li onClick={() => setActiveMessageOnMobile(null)}>
+                        <HandySvg
+                            src={copy}
+                            width="24"
+                            height="24"
+                            className="copy-icon"
+                        />
+                        <span>копировать текст</span>
+                    </li>
+                </CopyToClipboard>
+                <li
                     onClick={() => {
-                        (!activeMessageOnMobile && !selectedMessagesOnMobile?.length) && setActiveMessageOnMobile(id)
-                        setSelectedMessagesOnMobile(prev => {
-                            if (prev?.length) {
-                                return prev.includes(id)
-                                    ? prev.filter(messageId => messageId !== id)
-                                    : [...prev, id]
-                            }
-                        })
+                        // setEditableMessageId(id)
+                        // setMessageInput(children)
+                        setActiveMessageOnMobile(null)
                     }}
                 >
-                    <div className="text">
-                        {children}
-                    </div>
-                </div>
-            )
-        })
-
-
-        return (
-            <Dropdown className="mobile-item">
-                <Dropdown.Toggle as={ToggleButton}>
-                    {children}
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu show={activeMessageOnMobile === id} ref={ref}>
-
-                        <CopyToClipboard text={children}>
-                            <Dropdown.Item onClick={() => setActiveMessageOnMobile(null)}>
-                                <HandySvg
-                                    src={copy}
-                                    width="24"
-                                    height="24"
-                                    className="copy-icon"
-                                />
-                                <span>копировать текст</span>
-                            </Dropdown.Item>
-                        </CopyToClipboard>
-
-                    <Dropdown.Item
-                        onClick={() => {
-                            setEditableMessageId(id)
-                            setMessageInput(children)
-                            setActiveMessageOnMobile(null)
-                        }}
-                    >
-                        <HandySvg
-                            src={edit}
-                            width="24"
-                            height="24"
-                            className="edit-icon"
-                        />
-                        <span>изменить</span>
-                    </Dropdown.Item>
-                    <Dropdown.Item>
-                        <HandySvg
-                            src={trash}
-                            width="24"
-                            height="24"
-                            className="trash-icon"
-                        />
-                        <span>удалить</span>
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                        onClick={() => {
-                            setActiveMessageOnMobile(prev => !prev?.length && setSelectedMessagesOnMobile([id]))
-                            setActiveMessageOnMobile(null)
-                        }}
-                    >
-                        <HandySvg
-                            src={choose}
-                            width="24"
-                            height="24"
-                            className="choose-icon"
-                        />
-                        <span>выбрать</span>
-                    </Dropdown.Item>
-                </Dropdown.Menu>
-            </Dropdown>
+                    <HandySvg
+                        src={edit}
+                        width="24"
+                        height="24"
+                        className="edit-icon"
+                    />
+                    <span>изменить</span>
+                </li>
+                <li>
+                    <HandySvg
+                        src={trash}
+                        width="24"
+                        height="24"
+                        className="trash-icon"
+                    />
+                    <span>удалить</span>
+                </li>
+                <li
+                    onClick={() => {
+                        // setActiveMessageOnMobile(prev => !prev?.length && setSelectedMessagesOnMobile([id]))
+                        setActiveMessageOnMobile(null)
+                    }}
+                >
+                    <HandySvg
+                        src={choose}
+                        width="24"
+                        height="24"
+                        className="choose-icon"
+                    />
+                    <span>выбрать</span>
+                </li>
+            </ul>
         )
     }
 
@@ -229,10 +208,7 @@ export default function ChatPage() {
             : setIsMobile(false)
     }, [width])
 
-    // useEffect(() => {
-    //     console.log(activeMessagesOnMobile)
-    // }, [activeMessagesOnMobile])
-
+    // ! TEST
     useEffect(() => {
         console.log(messages)
     }, [messages])
@@ -241,9 +217,9 @@ export default function ChatPage() {
         console.log(conversation)
     }, [conversation])
 
-    // useEffect(() => {
-    //     console.log('ac', activeMessageOnMobile)
-    // }, [activeMessageOnMobile])
+    useEffect(() => {
+        console.log('ac', activeMessageOnMobile)
+    }, [activeMessageOnMobile])
 
     useEffect(() => {
         console.log('selected', selectedMessagesOnMobile)
@@ -330,6 +306,7 @@ export default function ChatPage() {
                         className={`messages-list ${(selectedMessagesOnMobile?.length > 1) ? 'messages-list_indent' : ''}`}
                         onScroll={onScroll}
                     >
+                        <MessageDropdownMobile coords={dropdownPosition} isShow={activeMessageOnMobile}/>
                         {messages?.items?.length
                             ? messages.items.map((item, index) => (
                                 <div
