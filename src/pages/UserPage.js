@@ -15,6 +15,7 @@ import {useAccessToken, useCurrentUser} from "../store/reducers";
 import Rating from "react-rating";
 import BtnRep from "../components/BtnRep";
 import Breadcrumbs from "../components/Breadcrumbs";
+import {checkPhotoPath} from "../helpers/photo";
 
 export default function UserPage() {
 
@@ -24,78 +25,49 @@ export default function UserPage() {
     const {userId} = useParams()
     const {page} = useParams()
     const [reviews, setReviews] = useState([])
-    const [review, setReview] = useState({})
     const [limit, setLimit] = useState(2)
     const [userInformation, setUserInformation] = useState([])
-    const imageUpload = 'https://api.antontig.beget.tech/uploads/'
-    let rating;
     const [data, setData] = useState({})
-    const currentUserId = user?.id
     const [reviewStatus, setReviewStatus] = useState(false)
 
     useEffect(() => {
         if (userId && user?.id) {
-            setData(data => {
-                return {...data, "toId": userId, "fromId": user?.id, token, userReport: userInformation?.reportStatus}
-            })
+            setData(data => ({...data, "toId": userId, "fromId": user?.id, token, userReport: userInformation?.reportStatus}))
         }
     }, [userId, user?.id, token, userInformation])
 
-    const reviewsPage = async () => {
-        const result = (currentUserId && userId) ? await getReviewsInUsersPage(axiosPrivate, userId, page, limit, currentUserId) : ""
-        if (result) {
-            setReviews(result)
-        }
-    }
+    useEffect(() => {
+        getReviewsInUsersPage(axiosPrivate, userId, page,user.id).then(res => setReviews(res))
+    }, [user.id, userId])
 
     useEffect(() => {
-        reviewsPage()
-    }, [currentUserId, userId, limit])
+        userInfoInUserPage(userId, user.id).then(res => setUserInformation(res?.body))
+    }, [])
 
-    useEffect(() => {
-        const userInPage = async () => {
-            try {
-                const result = (currentUserId && userId) && await userInfoInUserPage(userId, currentUserId)
-                if (result) {
-                    setUserInformation(result?.body)
-                }
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        userInPage()
-    }, [userId, currentUserId])
-
-    const nextReviews = () => {
-        if (reviews?.data?.length === limit) {
-            setLimit(limit + 2)
-        }
-    }
-
-    const createReview = async (e) => {
+    const createReview = (e) => {
         e.preventDefault()
-        const formData = new FormData()
-        const request = {...review, ...data, rating}
-        for (const key in request) {
-            formData.append(key, request[key]);
-        }
-        try {
-            const result = await CreateReview(axiosPrivate, formData)
-            reviewsPage()
-            return result
-        } catch (error) {
-            console.log(error)
-        }
+        CreateReview(axiosPrivate, data).then(() => {
+            setReviewStatus(true)
+            getReviewsInUsersPage(axiosPrivate, userId, page, user.id).then(res => setReviews(res))
+        })
     }
 
     const addReportForReview = async (usersReviewId) => {
-        await addReportReview(axiosPrivate, token, usersReviewId, currentUserId)
-        reviewsPage()
+        await addReportReview(axiosPrivate, token, usersReviewId, user.id)
+        getReviewsInUsersPage(axiosPrivate, userId, page, user.id).then(res => setReviews(res))
     }
 
     const deleteReportForReview = async (usersReviewId) => {
-        await deleteReportReview(axiosPrivate, token, usersReviewId, currentUserId)
-        reviewsPage()
+        await deleteReportReview(axiosPrivate, token, usersReviewId, user.id)
+        getReviewsInUsersPage(axiosPrivate, userId, page, user.id).then(res => setReviews(res))
+    }
+
+    const cuterArray = (arr) => {
+        const result = []
+        for (let i = 0; i < Math.ceil(arr?.length/limit);i++) {
+            result.push(arr.slice((i * limit), (i * limit) + limit))
+        }
+        return result
     }
 
     return (
@@ -137,7 +109,7 @@ export default function UserPage() {
                             <div className="col-5 col-sm-4 col-md-3">
                                 <div className="user-photo">
                                     <img
-                                        src={userInformation?.avatar ? `${imageUpload}${userInformation?.avatar}` : "/img/img-photo.svg"}
+                                        src={checkPhotoPath(userInformation?.avatar)}
                                         alt={userInformation?.fullName}/>
                                     <div className="indicator online"/>
                                 </div>
@@ -215,10 +187,10 @@ export default function UserPage() {
                                             Написать отзыв
                                         </button>
                                     </div>
-                                    {reviews.data?.map(i =>
+                                    {cuterArray(reviews?.data)[0]?.map(i =>
                                         <div className="review mb-3" key={i.id}>
                                             <img
-                                                src={i.from?.avatar ? (`${imageUpload}${i.from?.avatar}`) : "/img/img-photo.svg"}
+                                                src={checkPhotoPath(i?.from?.avatar)}
                                                 alt={i.from?.fullName}
                                                 className="photo d-none d-sm-block"/>
                                             <div className="ms-sm-4">
@@ -262,11 +234,11 @@ export default function UserPage() {
                                             </div>
                                         </div>
                                     )}
-                                    {(reviews?.data?.length >= limit) &&
+                                    {(reviews?.meta?.total > limit) &&
                                         <button
                                             type="button"
                                             className="fs-12 fw-5 color-1 mx-auto bb-1"
-                                            onClick={nextReviews}
+                                            onClick={() => setLimit(limit + 2)}
                                         >
                                             Показать еще
                                         </button>
@@ -366,7 +338,7 @@ export default function UserPage() {
                                         className="col-lg-4 d-flex flex-lg-column align-items-center mb-2 mb-sm-4 mb-lg-0">
                                         <div className="photo me-3 me-lg-0 mb-lg-3">
                                             <img
-                                                src={userInformation?.avatar ? `${imageUpload}${userInformation?.avatar}` : "/img/img-photo.svg"}
+                                                src={checkPhotoPath(userInformation?.avatar)}
                                                 alt={userInformation?.fullName}
                                             />
                                             <div className="indicator online"/>
@@ -380,29 +352,27 @@ export default function UserPage() {
                                         <div className="d-flex align-items-center">
                                             <span className="fs-11 me-4">Ваша оценка:</span>
                                             <Rating
+                                                initialRating={data?.rating || 0}
+                                                start={0}
                                                 stop={5}
                                                 fractions={2}
-                                                emptySymbol={<img src="/img/icons/star-gray.svg"
-                                                                  alt="1"/>}
-                                                fullSymbol={<img src="/img/icons/star-blue.svg"
-                                                                 alt="1"/>}
-                                                onChange={rate => rating = rate}
+                                                emptySymbol={<img src="/img/icons/star-gray.svg" alt="1"/>}
+                                                fullSymbol={<img src="/img/icons/star-blue.svg" alt="5"/>}
+                                                onClick={(rate) => setData(prevState => ({...prevState, rating: rate}))}
                                             />
                                         </div>
                                         <textarea
                                             className="mt-3"
                                             rows="6"
-                                            value={review?.description}
+                                            value={data?.description || ''}
                                             placeholder="Напишите отзвыв"
-                                            onChange={e => setReview(review => {
-                                                return {...review, "description": e.target.value}
-                                            })}
+                                            onChange={(e) => setData(prevState => ({...prevState, description: e.target.value}))}
                                         />
                                         <button
                                             disabled={userInformation?.reviewStatus || reviewStatus}
                                             type="submit"
                                             className="btn btn-1 fs-12 ms-auto mt-3"
-                                            onClick={(e) => createReview(e) ? setReviewStatus(true) : ""}
+                                            onClick={(e) => createReview(e)}
                                         >
                                             ОТПРАВИТЬ
                                         </button>
