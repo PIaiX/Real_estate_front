@@ -1,23 +1,30 @@
-import React, {useState} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Link, useLocation, useNavigate, useParams} from 'react-router-dom';
 import UserCard from '../../components/UserCard';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import {createResponse} from '../../API/responses';
 import useAlert from '../../hooks/alert';
 import {useSelector} from 'react-redux';
+import {userInfo} from "../../API/users";
 
-export default function AddResponse(props) {
+export default function AddResponse() {
+
     const {id} = useParams()
     const axiosPrivate = useAxiosPrivate()
     const token = useSelector(state => state?.accessToken)
     const userId = useSelector(state => state?.currentUser?.id)
     const [response, setResponse] = useState('')
     const {setSubmitAlert, getAlertNode} = useAlert(3000)
+    const [userInf, setUserInf] = useState({})
+    const loc = useLocation()
+    const navigate = useNavigate()
+
+    console.log(loc)
 
     const onSubmit = () => {
-        const payloads = {
+        let payloads = {
             userId,
-            serviceId: id
+            serviceId: loc?.state?.serviceId
         }
         if (response?.length) {
             payloads.description = response
@@ -30,7 +37,7 @@ export default function AddResponse(props) {
                         ...prev,
                         isShow: true,
                         variant: 'success',
-                        message: 'Отклик успешно отправлен'
+                        message: 'Отклик успешно отправлен, отправляем вас назад'
                     }))
                     : setSubmitAlert(prev => ({
                         ...prev,
@@ -38,6 +45,9 @@ export default function AddResponse(props) {
                         variant: 'danger',
                         message: 'Что-то пошло не так, не удалось отправить отклик'
                     }))
+                payloads = {}
+                setTimeout(() => {navigate(loc?.state?.prevUrl)}, 1500)
+
             })
             .catch(() => setSubmitAlert(prev => ({
                 ...prev,
@@ -46,6 +56,12 @@ export default function AddResponse(props) {
                 message: 'Возникла ошибка при создании отклика'
             })))
     }
+
+    useEffect(() => {
+        userInfo(id).then(res => setUserInf(res))
+    }, [id])
+
+    console.log(userInf)
 
     return (
         <div className='px-2 px-sm-4 pb-4 pb-sm-5'>
@@ -58,11 +74,17 @@ export default function AddResponse(props) {
             <div className="row row-cols-sm-2 row-cols-xxl-1 px-4 px-sm-0 g-3 g-md-4">
                 <div>
                     <UserCard
-                        userName={'Имя Фамилия'}
-                        link={`/`}
-                        linkState={''}
-                        rating={'3.35'}
-                        service={'Дизайнер'}
+                        inAddResponse={false}
+                        id={userInf.id}
+                        userName={userInf?.fullName}
+                        link={`/user/${userInf?.id}`}
+                        photo={userInf?.avatar}
+                        rating={userInf?.rating}
+                        service={loc?.state?.service}
+                        exp={loc?.state?.exp}
+                        description={loc?.state?.description}
+                        phone={loc?.state?.phone}
+                        labels={loc?.state?.labels}
                     />
                 </div>
                 <div>
@@ -81,7 +103,12 @@ export default function AddResponse(props) {
                             value={response}
                             onChange={e => setResponse(e.target.value)}
                         />
-                        <button type='submit' className='btn btn-1 mt-3'>Откликнуться</button>
+                        <button
+                            type='submit'
+                            className='btn btn-1 mt-3'
+                        >
+                            Откликнуться
+                        </button>
                     </form>
                 </div>
             </div>

@@ -32,13 +32,13 @@ export default function Responses(props) {
     })
 
     const getIncomingsResponsesRequest = (page, limit) => {
-        (userId && token && page) && getIncomingsResponses(axiosPrivate, userId, {page, limit, token})
+        (userId && token && page) && getIncomingsResponses(axiosPrivate, userId, {page, limit, token, orderBy: 'desc'})
             .then(result => setIncomings(prev => ({isLoading: true, meta: {meta: result?.meta}, items: result?.data})))
             .catch(error => setIncomings(prev => ({...prev, isLoading: true, error})))
     }
 
     const getOutgoingsResponsesRequest = (page, limit) => {
-        (userId && token && page) && getOutgoingsResponses(axiosPrivate, userId, {page, limit, token})
+        (userId && token && page) && getOutgoingsResponses(axiosPrivate, userId, {page, limit, token, orderBy: 'desc'})
             .then(result => setOutgoings(prev => ({isLoading: true, meta: {meta: result?.meta}, items: result?.data})))
             .catch(error => setOutgoings(prev => ({...prev, isLoading: true, error})))
     }

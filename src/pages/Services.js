@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {NavLink, useParams} from 'react-router-dom';
+import {NavLink, useLocation, useParams} from 'react-router-dom';
 import CustomSelect from '../components/CustomSelect';
 import InputFile from '../components/InputFile';
 import {animateScroll as scroll} from 'react-scroll';
@@ -16,6 +16,7 @@ export default function Services() {
     const axiosPrivate = useAxiosPrivate()
     const {slug} = useParams()
     const {page} = useParams()
+    const loc = useLocation()
     const [firstBlockFilters, setFirstBlockFilters] = useState([])
     const [secondBlockFilters, setSecondBlockFilters] = useState([])
     const [thirdBlockFilters, setThirdBlockFilters] = useState([])
@@ -329,7 +330,8 @@ export default function Services() {
                             {users.data?.map(i =>
                                 <div key={i.id} className='d-grid'>
                                     <UserCard
-                                        id={i.id}
+                                        inAddResponse={true}
+                                        id={i?.user?.id}
                                         userName={i.user?.fullName}
                                         link={`/user/${i?.userId}`}
                                         photo={i.user.avatar}
@@ -339,6 +341,8 @@ export default function Services() {
                                         phone={i.user.phone}
                                         rating={i.user.rating}
                                         service={i.subService.name}
+                                        serviceId={i.id}
+                                        prevUrl={loc?.pathname}
                                     />
                                 </div>
                             )}
