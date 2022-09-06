@@ -7,6 +7,7 @@ export async function updateUser (uuid, formData, axiosPrivate) {
         return response?.data?.body;
     } catch(error) {
         console.log(error)
+      throw error
     }
 }
 

@@ -52,8 +52,6 @@ export default function MainPage() {
         getTypesEstate().then(result => setTypesEstate(result))
     }, [])
 
-    console.log(hotAds)
-
     return (
         <main>
 

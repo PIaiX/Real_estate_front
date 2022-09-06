@@ -3,7 +3,6 @@ import CustomSelect from "../../components/CustomSelect";
 import ImageUploading from "react-images-uploading";
 import {Link} from "react-router-dom";
 import {useAccessToken, useCurrentUser} from "../../store/reducers";
-import InputMask from 'react-input-mask';
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Rating from "react-rating";
 import {DeleteUserPhoto, updateUser} from "../../API/users";
@@ -11,7 +10,6 @@ import {bindActionCreators} from "redux";
 import currentUserActions from "../../store/actions/currentUser";
 import {useDispatch} from "react-redux";
 import PhoneInput from "react-phone-input-2";
-import {animateScroll as scroll} from "react-scroll";
 
 export default function UserProfile() {
 
@@ -143,7 +141,8 @@ export default function UserProfile() {
         isInValidLastName: false,
         isInValidSex: false,
         isInValidPhone: false,
-        isInValidEmail: false
+        isInValidEmail: false,
+        isInValidServer: false
     }
 
     const [valid, setValid] = useState(fields);
@@ -181,6 +180,7 @@ export default function UserProfile() {
                 })
                 .catch(() => {
                     setRedactor(true)
+                    setValid(prevState => ({...prevState, isInValidServer: true}))
                 })
         }
     }
@@ -211,7 +211,9 @@ export default function UserProfile() {
                                         value={avatars}
                                         onChange={onChange}
                                         maxNumber={maxNumber}
+                                        maxFileSize={1000000}
                                         dataURLKey="data_url"
+                                        acceptType={['JPG', 'JPEG', 'PNG']}
                                     >
                                         {({
                                               imageList,
@@ -220,74 +222,81 @@ export default function UserProfile() {
                                               onImageRemove,
                                               isDragging,
                                               dragProps,
+                                              errors
                                           }) => (
-                                            <div className="upload__image-wrapper">
-                                                <div className="imgs-box">
-                                                    {imageList.map((image, index) => (
-                                                        <div key={index} className="image-item">
-                                                            <img src={image?.data_url} alt=""/>
-                                                            <div className="image-item__btn-wrapper">
-                                                                <button
-                                                                    type="button"
-                                                                    onClick={() => onImageUpdate(index)}
-                                                                >
-                                                                    <img
-                                                                        src="/img/icons/edit.svg"
-                                                                        alt="Загрузить"
-                                                                    />
-                                                                    Загрузить фото
-                                                                </button>
-                                                                <button
-                                                                    type="button"
-                                                                    onClick={() => {
-                                                                        onImageRemove(index)
-                                                                        deleteUserPhoto()
-                                                                    }}
-                                                                >
-                                                                    <img
-                                                                        src="/img/icons/delete2.svg"
-                                                                        alt="Удалить"
-                                                                    />
-                                                                    Удалить фото
-                                                                </button>
+                                            <>
+                                                <div className="upload__image-wrapper">
+                                                    <div className="imgs-box">
+                                                        {imageList.map((image, index) => (
+                                                            <div key={index} className="image-item">
+                                                                <img src={image?.data_url} alt=""/>
+                                                                <div className="image-item__btn-wrapper">
+                                                                    <button
+                                                                        type="button"
+                                                                        onClick={() => onImageUpdate(index)}
+                                                                    >
+                                                                        <img
+                                                                            src="/img/icons/edit.svg"
+                                                                            alt="Загрузить"
+                                                                        />
+                                                                        Загрузить фото
+                                                                    </button>
+                                                                    <button
+                                                                        type="button"
+                                                                        onClick={() => {
+                                                                            onImageRemove(index)
+                                                                            deleteUserPhoto()
+                                                                        }}
+                                                                    >
+                                                                        <img
+                                                                            src="/img/icons/delete2.svg"
+                                                                            alt="Удалить"
+                                                                        />
+                                                                        Удалить фото
+                                                                    </button>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                                <div className="d-flex justify-content-center">
-                                                    <button
-                                                        type="button"
-                                                        className="btn btn-2 px-3 px-sm-4 mx-auto"
-                                                        style={isDragging ? {color: "red"} : null}
-                                                        onClick={onImageUpload}
-                                                        {...dragProps}
-                                                    >
-                                                        <svg
-                                                            width="16"
-                                                            height="16"
-                                                            viewBox="0 0 21 21"
-                                                            fill="none"
-                                                            xmlns="http://www.w3.org/2000/svg"
+                                                        ))}
+                                                    </div>
+                                                    <div className="d-flex justify-content-center">
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-2 px-3 px-sm-4 mx-auto"
+                                                            style={isDragging ? {color: "red"} : null}
+                                                            onClick={onImageUpload}
+                                                            {...dragProps}
                                                         >
-                                                            <line
-                                                                x1="10.75"
-                                                                x2="10.75"
-                                                                y2="21"
-                                                                stroke="white"
-                                                                strokeWidth="1.5"
-                                                            />
-                                                            <line
-                                                                y1="10.25"
-                                                                x2="21"
-                                                                y2="10.25"
-                                                                stroke="white"
-                                                                strokeWidth="1.5"
-                                                            />
-                                                        </svg>
-                                                        <span className="ms-2">Загрузить фото</span>
-                                                    </button>
+                                                            <svg
+                                                                width="16"
+                                                                height="16"
+                                                                viewBox="0 0 21 21"
+                                                                fill="none"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                            >
+                                                                <line
+                                                                    x1="10.75"
+                                                                    x2="10.75"
+                                                                    y2="21"
+                                                                    stroke="white"
+                                                                    strokeWidth="1.5"
+                                                                />
+                                                                <line
+                                                                    y1="10.25"
+                                                                    x2="21"
+                                                                    y2="10.25"
+                                                                    stroke="white"
+                                                                    strokeWidth="1.5"
+                                                                />
+                                                            </svg>
+                                                            <span className="ms-2">Загрузить фото</span>
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                                <span
+                                                    className="text-danger">{errors?.maxFileSize && "Максимальный размер файла 1 мб"}</span>
+                                                <span
+                                                    className="text-danger">{errors?.acceptType && "Поддерживаемые форматы файла: JPEG, JPG, PNG"}</span>
+                                            </>
                                         )}
                                     </ImageUploading>
                                 </div>
@@ -431,7 +440,7 @@ export default function UserProfile() {
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                 <div
                                     className="col-sm-4 fs-11 mb-1 mb-sm-0"
-                                    style={{color: valid.isInValidPhone ? '#DA1E2A' : ''}}
+                                    style={{color: (valid.isInValidPhone) ? '#DA1E2A' : ''}}
                                 >
                                     Телефон:
                                 </div>
@@ -456,7 +465,7 @@ export default function UserProfile() {
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                 <div
                                     className="col-sm-4 fs-11 mb-1 mb-sm-0"
-                                    style={{color: valid.isInValidEmail ? '#DA1E2A' : ''}}
+                                    style={{color: (valid.isInValidEmail || valid.isInValidServer) ? '#DA1E2A' : ''}}
                                 >
                                     Email:
                                 </div>
@@ -601,7 +610,12 @@ export default function UserProfile() {
                                 <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Телефон:</div>
                                 <div className="col-sm-8">
                                     <PhoneInput
-                                        inputStyle={{backgroundColor: '#fff',color: '#545454', fontSize: '1.1em', lineHeight: "inherit"}}
+                                        inputStyle={{
+                                            backgroundColor: '#fff',
+                                            color: '#545454',
+                                            fontSize: '1.1em',
+                                            lineHeight: "inherit"
+                                        }}
                                         disableDropdown={true}
                                         specialLabel={''}
                                         disabled={true}
