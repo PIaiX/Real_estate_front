@@ -4866,7 +4866,7 @@ footer nav.mobile ul li a.active svg.type-2 path {
   border-radius: 4px;
   max-width: 200px;
   z-index: 100;
-  position: fixed;
+  position: absolute;
 }
 .mobile-item__dropdown li {
   display: flex;
