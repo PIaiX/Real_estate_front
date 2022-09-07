@@ -19,8 +19,6 @@ export default function AddResponse() {
     const loc = useLocation()
     const navigate = useNavigate()
 
-    console.log(loc)
-
     const onSubmit = () => {
         let payloads = {
             userId,
@@ -60,8 +58,6 @@ export default function AddResponse() {
     useEffect(() => {
         userInfo(id).then(res => setUserInf(res))
     }, [id])
-
-    console.log(userInf)
 
     return (
         <div className='px-2 px-sm-4 pb-4 pb-sm-5'>

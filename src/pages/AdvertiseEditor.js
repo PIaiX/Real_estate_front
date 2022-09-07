@@ -59,7 +59,6 @@ export default function Advertise() {
         adsget()
     }, [userId, uuid])
 
-    const [checked, setChecked] = useState(true)
     const [defaultForm, setDefaultForm] = useState({})
 
     useEffect(() => {
@@ -116,7 +115,6 @@ export default function Advertise() {
             hasGarbage: Number(ad?.hasGarbage),
             isMortgage: Number(ad?.isMortgage),
             isEncumbrances: Number(ad?.isEncumbrances),
-
         })
     }, [ad])
 
@@ -214,10 +212,6 @@ export default function Advertise() {
 
     }
 
-    const resetForm = () => {
-        setData(defaultForm)
-    }
-
     useEffect(() => {
         setPrepTypeText(ad?.prepaymentTypeForUser)
     }, [ad])
@@ -273,7 +267,7 @@ export default function Advertise() {
         const isInValidTotalArea = data.totalArea === undefined || data.totalArea?.length < 1
         const isInValidFloor = data["floor"] === undefined
         const isInValidDescription = data.description?.length < 30 || data.description === undefined
-        const isInValidImage = imgs?.length === 0 || imgs === undefined || counterPhotoSize() > 8
+        const isInValidImage = imgs?.length === 0 || imgs === undefined
         const isInValidPrice = data.price === undefined
         const isInValidEstateTypeId = data.estateTypeId === undefined || data.estateTypeId === 0
         const isInValidYear = data.yearOfConstruction?.length > 4 || data.yearOfConstruction?.length <= 3 || findYear === undefined
@@ -355,11 +349,19 @@ export default function Advertise() {
             formData.append('district[][name]', district['name'])
 
             if (imgs?.length >= 1) {
-                imgs.forEach((i, index) => {
-                    if (i.file?.name !== image.name) {
-                        formData.append('images', i.file)
-                    }
-                })
+                if (imgs?.length === 2) {
+                    imgs.forEach((i, index) => {
+                        if (i.file?.name !== image.name) {
+                            formData.append('images[]', i.file)
+                        }
+                    })
+                } else {
+                    imgs.forEach((i, index) => {
+                        if (i.file?.name !== image.name) {
+                            formData.append('images', i.file)
+                        }
+                    })
+                }
             }
 
             updateAd(axiosPrivate, uuid, formData).then(() => {
@@ -380,9 +382,9 @@ export default function Advertise() {
     }
 
     useEffect(() => {
-        data['fias_id'] && dadataFias(data['fias_id'])
+        (data['fias_id'] || data?.address) && dadataFias(data['fias_id'])
             .then(res => setDistrict({
-                city,
+                city: data?.address,
                 name: res?.suggestions[0]?.data?.city_district
             }))
     }, [data.address])
@@ -677,7 +679,7 @@ export default function Advertise() {
                                         <AddressSuggestions
                                             delay={300}
                                             containerClassName='advertise__address'
-                                            value={''}
+
                                             defaultQuery={data?.address}
                                             inputProps={{
                                                 style: {borderColor: valid.isInValidAddress ? '#DA1E2A' : ''},
@@ -705,7 +707,7 @@ export default function Advertise() {
                                         name="housing-complex"
                                         className="fs-11"
                                         placeholder="Например: Центральный"
-                                        defaultValue={ad?.residentalComplexForUser}
+                                        value={data?.residentalComplex || ''}
                                         onChange={(e) => {
                                             setData(prevData => {
                                                 return {...prevData, "residentalComplex": e.target.value}
@@ -723,9 +725,9 @@ export default function Advertise() {
                                 <div className="col-md-9">
                                     <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4">
                                         <div>
-                                            <label htmlFor="houseType">
+                                            <label htmlFor="houseType1">
                                                 <input
-                                                    id="houseType"
+                                                    id="houseType1"
                                                     type="radio"
                                                     name="housing-type"
                                                     value={0}
@@ -742,9 +744,9 @@ export default function Advertise() {
                                             </label>
                                         </div>
                                         <div>
-                                            <label htmlFor="houseType">
+                                            <label htmlFor="houseType2">
                                                 <input
-                                                    id="houseType"
+                                                    id="houseType2"
                                                     type="radio"
                                                     name="housing-type"
                                                     value={1}
@@ -1434,6 +1436,7 @@ export default function Advertise() {
                                         onChange={onChange}
                                         maxNumber={maxNumber}
                                         dataURLKey="data_url"
+                                        acceptType={['JPG', 'JPEG', 'PNG', 'WEBP']}
                                     >
                                         {({
                                               imageList,
@@ -1442,8 +1445,10 @@ export default function Advertise() {
                                               onImageUpdate,
                                               onImageRemove,
                                               isDragging,
-                                              dragProps
+                                              dragProps,
+                                            errors
                                           }) => (
+                                              <>
                                             <div className="upload__image-wrapper">
                                                 <div className="imgs-box">
                                                     {imageList.map((image, index) => (
@@ -1495,12 +1500,14 @@ export default function Advertise() {
                                                     </button>
                                                 </div>
                                             </div>
+                                                  <span
+                                                      className="text-danger">{errors?.acceptType && "Поддерживаемые форматы файла: JPEG, JPG, PNG"}</span>
+                                              </>
                                         )}
                                     </ImageUploading>
                                     <div className="fs-08 gray-3 mt-2">Не допускаются к размещению фотографии с
                                         водяными
-                                        знаками, чужих объектов и рекламные баннеры. JPG, PNG или GIF. Максимальный
-                                        размер файла 10 мб
+                                        знаками, чужих объектов и рекламные баннеры. JPG, PNG или GIF.
                                     </div>
                                 </div>
                             </div>
@@ -2064,7 +2071,7 @@ export default function Advertise() {
                                                 btnClass="inp"
                                                 name="prepayment"
                                                 checkedOptions={[prepTypeText]}
-                                                options={['нет', '1 месяц', '3 месяца', 'полгода']}
+                                                options={['нет', '1 месяц', '2 месяца', '3 месяца', '4 месяца', '5 месяцев','6 месяцев','7 месяцев','8 месяцев','9 месяцев','10 месяцев','11 месяцев']}
                                                 callback={({title, value}) => {
                                                     setData(prevData => {
                                                         return {...prevData, "prepaymentType": value}
@@ -2149,13 +2156,6 @@ export default function Advertise() {
 
                         <div className="d-flex justify-content-between mb-4">
                             <div>*- поля обязательные для заполнения</div>
-                            <button
-                                type="reset"
-                                className="d-none d-lg-block color-1 fs-11 fw-5 bb-1"
-                                onClick={resetForm}
-                            >
-                                Очистить форму
-                            </button>
                         </div>
 
                         <button

@@ -52,6 +52,7 @@ export async function updateAd (axiosPrivate, uuid, formData) {
         return response
     } catch(error) {
         console.log(error)
+        throw error
     }
 }
 

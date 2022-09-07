@@ -67,21 +67,7 @@ export default function Advertise() {
     const onChange = (imageList, addUpdateIndex, e) => {
         resetFieldVal(e, 'isInValidImage')
         setImages(imageList);
-        if (imageList !== null) {
-            setRequired(requiredElems.filter(obj => {
-                if (obj !== 'imgs') {
-                    return obj;
-                }
-            }));
-            let label = ref.current.querySelector(`[data-for="imgs"]`);
-            label.dataset.state = true;
-        } else {
-            if (!requiredElems.includes('imgs')) {
-                setRequired([...requiredElems, 'imgs']);
-                let label = ref.current.querySelector(`[data-for="imgs"]`);
-                label.dataset.state = false;
-            }
-        }
+
     };
 
     const onRent = (e) => {
@@ -120,7 +106,11 @@ export default function Advertise() {
         commission: 0,
         isEncumbrances: 1,
         metro: 'test',
-        address: ''
+        address: '',
+        residentalComplex: '',
+        description: '',
+        yearOfConstruction: '',
+        ceilingHeight: '',
     }
 
     const [district, setDistrict] = useState({})
@@ -140,6 +130,7 @@ export default function Advertise() {
 
     const resetForm = () => {
         setData(defaultForm)
+        setImages([])
     }
 
     const fields = {
@@ -157,6 +148,8 @@ export default function Advertise() {
         isInValidEstateTypeId: false,
         isInValidYear: false,
         isInValidCeilingHeight: false,
+        isInValidPrepayment: false,
+        isInValidCommission: false
     }
     const [valid, setValid] = useState(fields);
     const scroller = Scroll.scroller;
@@ -175,8 +168,6 @@ export default function Advertise() {
         good: false,
     })
 
-    const counterPhotoSize = () => imgs.map(i => i?.file?.size).reduce((acc, val) => acc + val)/125000;
-
     const handleSub = (e) => {
         e.preventDefault()
         const isInValidEstateId = data.estateId === undefined || data.estateId === 0
@@ -187,11 +178,12 @@ export default function Advertise() {
         const isInValidTotalArea = data.totalArea === undefined || data.totalArea?.length < 1
         const isInValidFloor = data["floor"] === undefined
         const isInValidDescription = data.description?.length < 30 || data.description === undefined
-        const isInValidImage = imgs?.length === 0 || imgs === undefined || imgs?.length === 2 || counterPhotoSize() > 8
+        const isInValidImage = imgs?.length === 0 || imgs === undefined
         const isInValidPrice = data.price === undefined
         const isInValidEstateTypeId = data.estateTypeId === undefined || data.estateTypeId === 0
         const isInValidYear = data.yearOfConstruction?.length > 4 || data.yearOfConstruction?.length <= 3 || yearsForValidation() === undefined
         const isInValidCeilingHeight = data.ceilingHeight < 3 || data.ceilingHeight > 100
+        const isInValidCommission = data?.commission < 0 || data?.commission > 100 || data?.commission === undefined
 
         if (isInValidTransactionType) {
             scroll.scrollTo("anchor-1")
@@ -232,6 +224,9 @@ export default function Advertise() {
         } else if (isInValidPrice) {
             scroller.scrollTo("anchor-5")
             setValid({...valid, isInValidPrice: true})
+        } else if (isInValidCommission) {
+            scroller.scrollTo("anchor-5")
+            setValid({...valid, isInValidCommission: true})
         } else {
 
             const userId = currentUser?.id;
@@ -245,11 +240,19 @@ export default function Advertise() {
             formData.append('district[][name]', district['name'])
 
             if (imgs?.length >= 1) {
-                imgs.forEach((i, index) => {
-                    if (i.file?.name !== image.name) {
-                        formData.append('images', i.file)
-                    }
-                })
+                if (imgs?.length === 2) {
+                    imgs.forEach((i, index) => {
+                        if (i.file?.name !== image.name) {
+                            formData.append('images[]', i.file)
+                        }
+                    })
+                } else {
+                    imgs.forEach((i, index) => {
+                        if (i.file?.name !== image.name) {
+                            formData.append('images', i.file)
+                        }
+                    })
+                }
             }
             addAdvertise(axiosPrivate, formData).then(() => {
                 setIsShow(true)
@@ -271,7 +274,7 @@ export default function Advertise() {
     useEffect(() => {
         data['fias_id'] && dadataFias(data['fias_id'])
             .then(res => setDistrict({
-                city,
+                city: data?.address,
                 name: res?.suggestions[0]?.data?.city_district
             }))
     }, [data.address])
@@ -515,7 +518,6 @@ export default function Advertise() {
                                                         name="property-type"
                                                         value={i.id}
                                                         onChange={(e) => {
-                                                            ;
                                                             setProptype(i.id);
                                                             setData(prevData => {
                                                                 return {...prevData, "estateTypeId": e.target.value}
@@ -580,7 +582,7 @@ export default function Advertise() {
                                     <button
                                         type="button"
                                         className="btn btn-2 w-100"
-                                        onClick={(e) => e.target.closest("form").reset()}
+                                        onClick={() => navigate('/personal-account/my-ads/page/1')}
                                     >
                                         Отменить
                                     </button>
@@ -613,7 +615,7 @@ export default function Advertise() {
                                     <AddressSuggestions
                                         delay={300}
                                         containerClassName='advertise__address'
-                                        value={data.address || ''}
+                                        value={data?.address && ''}
                                         inputProps={{
                                             style: {borderColor: valid.isInValidAddress ? '#DA1E2A' : ''},
                                             placeholder: "Адрес"
@@ -640,6 +642,7 @@ export default function Advertise() {
                                         type="text"
                                         name="housing-complex"
                                         className="fs-11"
+                                        value={data?.residentalComplex || ''}
                                         placeholder="Например: “Центральный”"
                                         onChange={(e) => {
                                             setData(prevData => {
@@ -662,7 +665,7 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="housing-type"
-                                                    value="0"
+                                                    value={0}
                                                     defaultChecked={true}
                                                     onChange={(e) => {
                                                         setData(prevData => {
@@ -679,7 +682,7 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="housing-type"
-                                                    value="1"
+                                                    value={1}
                                                     onChange={(e) => {
                                                         setData(prevData => {
                                                             return {...prevData, "houseType": e.target.value}
@@ -703,11 +706,9 @@ export default function Advertise() {
                                         <input
                                             type="radio"
                                             name="rooms"
-                                            value="0"
+                                            value={0}
                                             onChange={(e) => {
-                                                setData(prevData => {
-                                                    return {...prevData, "roomType": e.target.value}
-                                                })
+                                                setData(prevData => ({...prevData, "roomType": e.target.value}))
                                                 resetFieldVal(e, 'isInValidRoomType')
                                             }}
                                         />
@@ -717,7 +718,7 @@ export default function Advertise() {
                                         <input
                                             type="radio"
                                             name="rooms"
-                                            value="1"
+                                            value={1}
                                             onChange={(e) => {
                                                 setData(prevData => {
                                                     return {...prevData, "roomType": e.target.value}
@@ -731,7 +732,7 @@ export default function Advertise() {
                                             type="radio"
                                             name="rooms"
                                             defaultChecked={true}
-                                            value="2"
+                                            value={2}
                                             onChange={(e) => {
                                                 setData(prevData => {
                                                     return {...prevData, "roomType": e.target.value}
@@ -744,7 +745,7 @@ export default function Advertise() {
                                         <input
                                             type="radio"
                                             name="rooms"
-                                            value="3"
+                                            value={3}
                                             onChange={(e) => {
                                                 setData(prevData => {
                                                     return {...prevData, "roomType": e.target.value}
@@ -757,7 +758,7 @@ export default function Advertise() {
                                         <input
                                             type="radio"
                                             name="rooms"
-                                            value="4"
+                                            value={4}
                                             onChange={(e) => {
                                                 setData(prevData => {
                                                     return {...prevData, "roomType": e.target.value}
@@ -770,7 +771,7 @@ export default function Advertise() {
                                         <input
                                             type="radio"
                                             name="rooms"
-                                            value="5"
+                                            value={5}
                                             onChange={(e) => {
                                                 setData(prevData => {
                                                     return {...prevData, "roomType": e.target.value}
@@ -783,7 +784,7 @@ export default function Advertise() {
                                         <input
                                             type="radio"
                                             name="rooms"
-                                            value="6"
+                                            value={6}
                                             onChange={(e) => {
                                                 setData(prevData => {
                                                     return {...prevData, "roomType": e.target.value}
@@ -806,6 +807,7 @@ export default function Advertise() {
                                         type="number"
                                         name="total-area"
                                         placeholder="0"
+                                        value={data?.totalArea || ''}
                                         className="fs-11 area w-100"
                                         onChange={(e) => {
                                             setData(prevData => {
@@ -821,6 +823,7 @@ export default function Advertise() {
                                         type="number"
                                         name="living-space"
                                         placeholder="0"
+                                        value={data?.livingArea || ''}
                                         className="fs-11 area w-100"
                                         onChange={(e) => {
                                             setData(prevData => {
@@ -839,6 +842,7 @@ export default function Advertise() {
                                         name="kitchen-area"
                                         placeholder="0"
                                         className="fs-11 area w-100"
+                                        value={data?.kitchenArea || ''}
                                         onChange={(e) => {
                                             setData(prevData => {
                                                 return {...prevData, "kitchenArea": e.target.value}
@@ -859,6 +863,7 @@ export default function Advertise() {
                                         type="number"
                                         name="floor"
                                         placeholder="0"
+                                        value={data?.floor || ''}
                                         className="fs-11 w-100"
                                         onChange={(e) => {
                                             setData(prevData => {
@@ -874,6 +879,7 @@ export default function Advertise() {
                                         type="number"
                                         name="floor"
                                         placeholder="0"
+                                        value={data?.maxFloor || ''}
                                         className="fs-11 w-100"
                                         onChange={(e) => {
                                             setData(prevData => {
@@ -893,7 +899,7 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="WCTypes"
-                                                    value="0"
+                                                    value={0}
                                                     defaultChecked={true}
                                                     onChange={e => {
                                                         setData(prevData => {
@@ -909,7 +915,7 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="WCTypes"
-                                                    value="1"
+                                                    value={1}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "WCType": e.target.value}
@@ -924,7 +930,7 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="WCTypes"
-                                                    value="2"
+                                                    value={2}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "WCType": e.target.value}
@@ -947,7 +953,7 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="balconyTypes"
-                                                    value="1"
+                                                    value={1}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "balconyType": e.target.value}
@@ -962,7 +968,7 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="balconyTypes"
-                                                    value="2"
+                                                    value={2}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "balconyType": e.target.value}
@@ -977,7 +983,7 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="balconyTypes"
-                                                    value="0"
+                                                    value={0}
                                                     defaultChecked={true}
                                                     onChange={e => {
                                                         setData(prevData => {
@@ -1002,7 +1008,7 @@ export default function Advertise() {
                                                     type="radio"
                                                     name="layoutTypes"
                                                     defaultChecked={true}
-                                                    value="0"
+                                                    value={0}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "layoutType": e.target.value}
@@ -1017,7 +1023,7 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="layoutTypes"
-                                                    value="1"
+                                                    value={1}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "layoutType": e.target.value}
@@ -1032,7 +1038,7 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="layoutTypes"
-                                                    value="2"
+                                                    value={2}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "layoutType": e.target.value}
@@ -1056,7 +1062,7 @@ export default function Advertise() {
                                                     type="radio"
                                                     name="repairTypes"
                                                     defaultChecked={true}
-                                                    value="0"
+                                                    value={0}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "repairType": e.target.value}
@@ -1071,7 +1077,7 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="repairTypes"
-                                                    value="1"
+                                                    value={1}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "repairType": e.target.value}
@@ -1086,7 +1092,7 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="repairTypes"
-                                                    value="2"
+                                                    value={2}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "repairType": e.target.value}
@@ -1101,7 +1107,7 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="repairTypes"
-                                                    value="3"
+                                                    value={3}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "repairType": e.target.value}
@@ -1250,6 +1256,7 @@ export default function Advertise() {
                                         name="description"
                                         rows="5"
                                         className="fs-11"
+                                        value={data?.description || ''}
                                         placeholder="Расскажите подробне об объекте и условиях сделки."
                                         onChange={e => {
                                             setData(prevData => {
@@ -1257,6 +1264,7 @@ export default function Advertise() {
                                             })
                                             resetFieldVal(e, 'isInValidDescription')
                                         }}/>
+                                    <div className="fs-08 gray-3 mt-2">Минимум 30 символов</div>
                                 </div>
                             </div>
                             <div className="row">
@@ -1271,8 +1279,7 @@ export default function Advertise() {
                                         onChange={onChange}
                                         maxNumber={maxNumber}
                                         dataURLKey="data_url"
-                                        maxFileSize='10000000'
-                                        acceptType={['jpg','png', 'gif']}
+                                        acceptType={['JPG', 'JPEG', 'PNG', 'WEBP']}
                                     >
                                         {({
                                               imageList,
@@ -1281,8 +1288,10 @@ export default function Advertise() {
                                               onImageUpdate,
                                               onImageRemove,
                                               isDragging,
-                                              dragProps
+                                              dragProps,
+                                              errors
                                           }) => (
+                                              <>
                                             <div className="upload__image-wrapper">
                                                 <div className="imgs-box">
                                                     {imageList.map((image, index) => (
@@ -1336,12 +1345,15 @@ export default function Advertise() {
                                                     </button>
                                                 </div>
                                             </div>
+                                                  <span
+                                                      className="text-danger">{errors?.acceptType && "Поддерживаемые форматы файла: JPEG, JPG, PNG"}
+                                                  </span>
+                                            </>
                                         )}
                                     </ImageUploading>
                                     <div className="fs-08 gray-3 mt-2">Не допускаются к размещению фотографии с
                                         водяными
-                                        знаками, чужих объектов и рекламные баннеры. Допустимы JPG, PNG или GIF. Максимальный
-                                        размер файла 8 мб
+                                        знаками, чужих объектов и рекламные баннеры. Допустимы JPG, PNG, JPEG или WEBP.
                                     </div>
                                 </div>
                             </div>
@@ -1373,6 +1385,7 @@ export default function Advertise() {
                                         style={{borderColor: valid.isInValidYear ? '#DA1E2A' : ''}}
                                         type="number"
                                         className="fs-11"
+                                        value={data?.yearOfConstruction || ''}
                                         placeholder="Год"
                                         onChange={e => {
                                             setData(prevData => {
@@ -1392,7 +1405,7 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="house-type"
-                                                value="0"
+                                                value={0}
                                                 defaultChecked={true}
                                                 onChange={e => {
                                                     setData(prevData => {
@@ -1406,7 +1419,7 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="house-type"
-                                                value="1"
+                                                value={1}
                                                 onChange={e => {
                                                     setData(prevData => {
                                                         return {...prevData, "houseBuildingType": e.target.value}
@@ -1419,7 +1432,7 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="house-type"
-                                                value="2"
+                                                value={2}
                                                 onChange={e => {
                                                     setData(prevData => {
                                                         return {...prevData, "houseBuildingType": e.target.value}
@@ -1432,7 +1445,7 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="house-type"
-                                                value="3"
+                                                value={3}
                                                 onChange={e => {
                                                     setData(prevData => {
                                                         return {...prevData, "houseBuildingType": e.target.value}
@@ -1445,7 +1458,7 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="house-type"
-                                                value="4"
+                                                value={4}
                                                 onChange={e => {
                                                     setData(prevData => {
                                                         return {...prevData, "houseBuildingType": e.target.value}
@@ -1466,7 +1479,7 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="lift"
-                                                value="0"
+                                                value={0}
                                                 defaultChecked={true}
                                                 onChange={e => {
                                                     setData(prevData => {
@@ -1480,7 +1493,7 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="lift"
-                                                value="1"
+                                                value={1}
                                                 onChange={e => {
                                                     setData(prevData => {
                                                         return {...prevData, "elevatorType": e.target.value}
@@ -1493,7 +1506,7 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="lift"
-                                                value="2"
+                                                value={2}
                                                 onChange={e => {
                                                     setData(prevData => {
                                                         return {...prevData, "elevatorType": e.target.value}
@@ -1506,7 +1519,7 @@ export default function Advertise() {
                                             <input
                                                 type="radio"
                                                 name="lift"
-                                                value="3"
+                                                value={3}
                                                 onChange={e => {
                                                     setData(prevData => {
                                                         return {...prevData, "elevatorType": e.target.value}
@@ -1521,13 +1534,14 @@ export default function Advertise() {
                             <hr className="d-none d-md-block my-4"/>
                             <div className="row align-items-center mt-4 mt-sm-5 mt-md-0">
                                 <div className="col-6 col-md-3 fs-11 title"
-                                     style={{color: valid.isInValidCeilingHeight ? '#DA1E2A' : ''}}>Высота потолков:
+                                     style={{color: valid.isInValidCeilingHeight ? '#DA1E2A' : ''}}>Высота потолков*:
                                 </div>
                                 <div className="col-6 col-md-9">
                                     <input
                                         style={{borderColor: valid.isInValidCeilingHeight ? '#DA1E2A' : ''}}
                                         type="number"
                                         placeholder="3-100"
+                                        value={data?.ceilingHeight || ''}
                                         className="fs-11"
                                         onChange={e => {
                                             setData(prevData => {
@@ -1682,6 +1696,7 @@ export default function Advertise() {
                                                 style={{borderColor: valid.isInValidPrice ? '#DA1E2A' : ''}}
                                                 type="number"
                                                 name="price"
+                                                value={data?.price || ''}
                                                 className="fs-11 price"
                                                 onChange={e => {
                                                     setData(prevData => {
@@ -1702,7 +1717,7 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="hypothec"
-                                                    value="0"
+                                                    value={0}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "hypothec": e.target.value}
@@ -1716,7 +1731,7 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="hypothec"
-                                                    value="1"
+                                                    value={1}
                                                     defaultChecked={true}
                                                     onChange={e => {
                                                         setData(prevData => {
@@ -1735,7 +1750,7 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="difficulties"
-                                                    value="0"
+                                                    value={0}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "isEncumbrances": e.target.value}
@@ -1748,7 +1763,7 @@ export default function Advertise() {
                                                 <input
                                                     type="radio"
                                                     name="difficulties"
-                                                    value="1"
+                                                    value={1}
                                                     defaultChecked={true}
                                                     onChange={e => {
                                                         setData(prevData => {
@@ -1779,6 +1794,7 @@ export default function Advertise() {
                                                 style={{borderColor: valid.isInValidPrice ? '#DA1E2A' : ''}}
                                                 type="number"
                                                 name="rental"
+                                                value={data?.price || ''}
                                                 placeholder="0"
                                                 className="fs-11 price"
                                                 onChange={e => {
@@ -1796,6 +1812,7 @@ export default function Advertise() {
                                         <div className="col-md-9">
                                             <input
                                                 type="number"
+                                                value={data?.communalPrice || ''}
                                                 className="fs-11 price"
                                                 onChange={e => {
                                                     setData(prevData => {
@@ -1824,7 +1841,7 @@ export default function Advertise() {
                                                 name="deposit"
                                                 placeholder="0"
                                                 className="fs-11 price"
-                                                value={data.pledge}
+                                                value={data.pledge || ''}
                                                 disabled={data.isPledge}
                                                 onChange={e => {
                                                     setData(prevData => {
@@ -1850,7 +1867,7 @@ export default function Advertise() {
                                     </div>
                                     <div className="row align-items-center mb-4">
                                         <div className="col-md-3 mb-3 m-md-0 fs-11 title-req">
-                                            <span data-for="prepayment" data-status={false}>Предоплата*:</span>
+                                            <span data-for="prepayment" data-status={false}>Предоплата:</span>
                                         </div>
                                         <div className="col-md-9">
                                             <CustomSelect
@@ -1858,7 +1875,7 @@ export default function Advertise() {
                                                 btnClass="inp"
                                                 name="prepayment"
                                                 checkedOptions={[prepTypeText]}
-                                                options={['нет', '1 месяц', '3 месяца', 'полгода']}
+                                                options={['нет', '1 месяц', '2 месяца', '3 месяца', '4 месяца', '5 месяцев','6 месяцев','7 месяцев','8 месяцев','9 месяцев','10 месяцев','11 месяцев']}
                                                 callback={({title, value}) => {
                                                     setData(prevData => {
                                                         return {...prevData, "prepaymentType": value}
@@ -1869,17 +1886,24 @@ export default function Advertise() {
                                         </div>
                                     </div>
                                     <div className="row mb-4">
-                                        <div className="col-md-3 mb-3 m-md-0 fs-11 title-req">Комиссия агента:</div>
+                                        <div
+                                            className="col-md-3 mb-3 m-md-0 fs-11 title-req"
+                                            style={{color: valid.isInValidCommission && '#DA1E2A'}}
+                                        >
+                                            Комиссия агента:
+                                        </div>
                                         <div className="col-md-9">
                                             <input
                                                 type="number"
                                                 className="percent fs-11"
-                                                value={data.commission}
+                                                placeholder='0-100'
+                                                value={data.commission || ''}
                                                 disabled={data.isCommission}
                                                 onChange={e => {
                                                     setData(prevData => {
                                                         return {...prevData, "commission": e.target.value}
                                                     })
+                                                    resetFieldVal(e, 'isInValidCommission')
                                                 }}
                                             />
                                             <div className="d-flex mt-2">
@@ -1925,7 +1949,7 @@ export default function Advertise() {
                             isShow={isShow}
                             setIsShow={setIsShow}
                             closeButton={false}
-                            backdrop='static'
+
                             centre={true}
                         >
                             {statusRequest.good &&

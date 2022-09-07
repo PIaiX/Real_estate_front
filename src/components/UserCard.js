@@ -5,10 +5,6 @@ import Rating from "react-rating";
 import {checkPhotoPath} from "../helpers/photo";
 
 function UserCard(props) {
-
-    const loc = useLocation()
-    console.log(loc)
-    console.log(props)
     return (
         <div className="user-card">
             <div className="title">
