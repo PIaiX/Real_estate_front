@@ -10,6 +10,9 @@ import {useCurrentUser} from '../store/reducers';
 import {getTypesEstate} from '../API/typesEstate';
 import {useSelector} from 'react-redux';
 import {getCatalog} from "../API/catalog";
+import YMapContainer from "../components/YMapContainer";
+import YMap from "../components/YMap";
+import getForMap from "../API/ymap";
 
 export default function MainPage() {
     const currentUser = useCurrentUser()
@@ -20,6 +23,7 @@ export default function MainPage() {
     const [popular, setPopular] = useState([]);
     const [hotAds, setHotAds] = useState([])
     const [typesEstate, setTypesEstate] = useState([])
+    const [mapData, setMapData] = useState([])
     const city = useSelector(state => state?.selectedCity)
 
     useEffect(() => {
@@ -52,6 +56,12 @@ export default function MainPage() {
         getTypesEstate().then(result => setTypesEstate(result))
     }, [])
 
+    useEffect(() => {
+        getForMap(city, {estateId: 1}).then(items => setMapData(items))
+    }, [city])
+
+    console.log(mapData)
+
     return (
         <main>
 
@@ -79,7 +89,10 @@ export default function MainPage() {
 
             <section id="sec-3" className="container mb-6">
                 <h3>Найти на карте</h3>
-                <img src="/img/map.png" alt="Карта" className="w-100"/>
+                <YMap
+                    items={mapData}
+                    className='main-page__ymaps'
+                />
             </section>
 
             {!(hotAds === undefined || hotAds?.length === 0) &&

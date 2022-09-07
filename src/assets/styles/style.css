@@ -4746,4 +4746,11 @@ footer nav.mobile ul li a.active svg.type-2 path {
   height: 40em;
 }
 
+#sec-3 .y-maps-container {
+  height: 260px;
+}
+#sec-3 .y-maps-container .main-page__yamaps {
+  height: 260px;
+}
+
 /*# sourceMappingURL=style.css.map */
