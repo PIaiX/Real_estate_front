@@ -53,7 +53,7 @@ const Catalog = ({routeName}) => {
 
     useEffect(() => {
         (selectedCity && page) &&
-        getCatalog(page, 4, userId, selectedCity, debouncedFilters)
+        getCatalog(page, 6, userId, selectedCity, debouncedFilters)
             .then(response => setCatalogData({
                     isLoaded: true,
                     meta: response.body,
