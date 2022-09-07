@@ -2200,7 +2200,7 @@ article .text {
   grid-column: 1/2;
   grid-row: 3/4;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-direction: column;
 }
 .user-card .title,

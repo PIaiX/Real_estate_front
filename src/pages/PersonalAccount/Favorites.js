@@ -5,7 +5,6 @@ import Card from '../../components/Card';
 import PaginationCustom from '../../components/PaginationCustom';
 import {getWishlist} from '../../API/wishlist';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
-import BtnDelFromFav from '../../components/BtnDelFromFav';
 import {useAccessToken, useCurrentUser} from "../../store/reducers";
 import Loader from "../../components/Loader";
 import {deleteWishList} from "../../API/adspage";
