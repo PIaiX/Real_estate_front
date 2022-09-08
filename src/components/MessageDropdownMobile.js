@@ -6,7 +6,17 @@ import edit from '../img/icons/edit.svg';
 import trash from '../img/icons/trash.svg';
 import choose from '../img/icons/choose.svg';
 
-const MessageDropdownMobile = ({isShow, resetActiveMessage, messagesScrollHeight, messagesScrollTop, messagesClientHeight, messagesClientWidth, messagePosition}) => {
+const MessageDropdownMobile = (props) => {
+    const {
+        isShow,
+        resetActiveMessage,
+        messagesScrollHeight,
+        messagesScrollTop,
+        messagesClientHeight,
+        messagesClientWidth,
+        messagePosition
+    } = props
+
     const [computedPosition, setComputedPosition] = useState({x: -1000, y: -1000})
     const [isNotEnoughSpace, setIsNotEnoughSpace] = useState(false)
     const dropdownRef = useCallback(node => {
@@ -36,7 +46,12 @@ const MessageDropdownMobile = ({isShow, resetActiveMessage, messagesScrollHeight
 
     return (
         <ul
-            style={{top: isNotEnoughSpace ? 'unset' : computedPosition.y, bottom: isNotEnoughSpace ? computedPosition.y : 'unset', left: computedPosition.x, display: isShow ? 'flex' : 'none'}}
+            style={{
+                top: isNotEnoughSpace ? 'unset' : computedPosition.y,
+                bottom: isNotEnoughSpace ? computedPosition.y : 'unset',
+                left: computedPosition.x,
+                display: isShow ? 'flex' : 'none'
+            }}
             className="mobile-item__dropdown"
             ref={dropdownRef}
         >

@@ -1,27 +1,17 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {checkPhotoPath} from '../helpers/photo';
-import {getTimeUI} from '../helpers/formatingDate';
 import Loader from './Loader';
 import {HandySvg} from 'handy-svg';
 import check from '../img/icons/check.svg';
 import MessageDropdownMobile from './MessageDropdownMobile';
-import {useSelector} from 'react-redux';
-import useWindowDimensions from '../hooks/useWindowDimensions';
 import {emitCreateMessage, emitPaginateMessages, onMessageCreate} from '../API/socketConversations';
+import MessageItem from './MessageItem';
 
 const Messages = ({conversationId, conversationUser, isConnected}) => {
-
-    // user
-    const user = useSelector(state => state?.currentUser)
 
     // messages paginate
     const initialMessagesLimit = 15
     const [page, setPage] = useState(1)
     const [isFetching, setIsFetching] = useState(false)
-
-    // switch mode
-    const {width} = useWindowDimensions()
-    const [isMobile, setIsMobile] = useState(false)
 
     // messages
     const [messages, setMessages] = useState({
@@ -51,7 +41,6 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
     const messagesRef = useCallback(node => {
         if (node !== null) {
             const rect = node.getBoundingClientRect()
-
             setMessagesScrollHeight(node.scrollHeight)
             setMessagesScrollTop(node.scrollTop)
             rect && setMessagesClientHeight(rect.height)
@@ -99,13 +88,6 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
             .catch(error => console.log(error))
     }
 
-    // switch mode
-    useEffect(() => {
-        (width < 991)
-            ? setIsMobile(true)
-            : setIsMobile(false)
-    }, [width])
-
     // listen creating of message
     useEffect(() => {
         if (messages?.items?.length) {
@@ -125,44 +107,6 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
     // fetch messages by lazy loading
     useEffect(() => isFetching && fetchMessages(1000), [isFetching])
 
-    // MobileItem component (will change to this, when switched mode on mobile)
-    const MessageItemMobile = ({message}) => {
-
-        return (
-            <div
-                className={`message ${+user?.id === +message?.userId ? 'my' : ''}`}
-            >
-                <div
-                    className={`main main_mobile ${(activeMessageOnMobile === message?.id) ? 'active' : ''} ${selectedMessagesOnMobile?.length && selectedMessagesOnMobile?.includes(messages?.id) ? 'selected' : ''}`}
-                    onClick={e => {
-                        (!activeMessageOnMobile && !selectedMessagesOnMobile?.length) && setActiveMessageOnMobile(message?.id)
-                        const offsetTop = e.currentTarget.parentElement.offsetTop
-                        const halfClientTopOffset = e.currentTarget.parentElement.clientHeight / 2
-
-                        const parentRect = e.currentTarget.parentElement.getBoundingClientRect()
-                        const halfClientLeftOffset = (e.currentTarget.clientWidth / 2) + parentRect.x
-
-                        setMessagePosition({x: halfClientLeftOffset, y: offsetTop + halfClientTopOffset})
-                    }}
-                >
-                    <div className="text">
-                        {message?.text}
-                    </div>
-                </div>
-                <div className="mark">
-                    {(+user?.id === +message?.userId) && (
-                        message?.isViewed
-                            ? <i className="bi bi-check2-all" title="прочитано"/>
-                            : <i className="bi bi-check2" title="Отправлено"/>
-                    )}
-                </div>
-                <div className="date">
-                    {getTimeUI(message?.createdAt, true)}
-                </div>
-            </div>
-        )
-    }
-
     return (
         messages.isLoading
             ? <>
@@ -171,70 +115,28 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
                     onScroll={onMessagesScroll}
                     ref={messagesRef}
                 >
-                    {isMobile && (
-                        <MessageDropdownMobile
-                            // coords={dropdownPosition}
-                            isShow={activeMessageOnMobile}
-                            resetActiveMessage={() => setActiveMessageOnMobile(null)}
-                            messagesScrollHeight={messagesScrollHeight}
-                            messagesScrollTop={messagesScrollTop}
-                            messagesClientHeight={messagesClientHeight}
-                            messagesClientWidth={messagesClientWidth}
-                            messagePosition={messagePosition}
-                        />
-                    )}
+                    <MessageDropdownMobile
+                        isShow={activeMessageOnMobile}
+                        resetActiveMessage={() => setActiveMessageOnMobile(null)}
+                        messagesScrollHeight={messagesScrollHeight}
+                        messagesScrollTop={messagesScrollTop}
+                        messagesClientHeight={messagesClientHeight}
+                        messagesClientWidth={messagesClientWidth}
+                        messagePosition={messagePosition}
+                    />
                     {messages?.items?.length
                         ? messages.items.map((item, index) => (
-                            isMobile
-                                ? <MessageItemMobile message={item} key={index}/>
-                                : (
-                                    <div
-                                        key={index}
-                                        className={`message ${+user?.id === +item?.userId ? 'my' : ''}`}
-                                    >
-                                        <div className="photo">
-                                            <img
-                                                src={(+user?.id === +item?.userId)
-                                                    ? checkPhotoPath(user?.avatar)
-                                                    : checkPhotoPath(conversationUser?.avatar)
-                                                }
-                                                alt="Колесникова Ирина"/>
-                                            {/*<div className="indicator online" />*/}
-                                        </div>
-                                        <div className="main">
-                                            <div className="name">
-                                                {(+user?.id === +item?.userId)
-                                                    ? user?.fullName
-                                                    : conversationUser?.fullName
-                                                }
-                                            </div>
-                                            <div className="text">
-                                                <p>{item?.text}</p>
-                                            </div>
-                                        </div>
-                                        <div className="mark">
-                                            {(+user?.id === +item?.userId) && (
-                                                item?.isViewed
-                                                    ? <i className="bi bi-check2-all" title="прочитано"/>
-                                                    : <i className="bi bi-check2" title="Отправлено"/>
-                                            )}
-                                        </div>
-                                        <div className="date">
-                                            {getTimeUI(item?.createdAt, true)}
-                                        </div>
-                                        <div className="btns">
-                                            <button type="button">
-                                                <i className="bi bi-trash-fill"/>
-                                            </button>
-                                            <button
-                                                type="button"
-                                                onClick={() => setEditableMessageId(item?.id)}
-                                            >
-                                                <i className="bi bi-pencil-fill"/>
-                                            </button>
-                                        </div>
-                                    </div>
-                                )
+                            <MessageItem
+                                key={index}
+                                message={item}
+                                conversationUser={conversationId}
+                                activeMessageOnMobile={activeMessageOnMobile}
+                                setActiveMessageOnMobile={setActiveMessageOnMobile}
+                                selectedMessagesOnMobile={selectedMessagesOnMobile}
+                                setSelectedMessagesOnMobile={setSelectedMessagesOnMobile}
+                                setMessagePosition={setMessagePosition}
+                                setEditableMessage={setEditableMessageId}
+                            />
                         ))
                         : <h6 className='m-auto p-5 text-center'>Сообщений нет</h6>
                     }

@@ -5141,4 +5141,8 @@ footer {
     background-color: $gray-4;
     color: #FFF;
   }
+
+  @media all and (min-width: 991px) {
+    display: none;
+  }
 }
