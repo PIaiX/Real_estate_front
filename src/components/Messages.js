@@ -5,6 +5,7 @@ import check from '../img/icons/check.svg';
 import MessageDropdownMobile from './MessageDropdownMobile';
 import {emitCreateMessage, emitPaginateMessages, onMessageCreate} from '../API/socketConversations';
 import MessageItem from './MessageItem';
+import AdaptiveDropdown from "./AdaptiveDropdown";
 
 const Messages = ({conversationId, conversationUser, isConnected}) => {
 
@@ -32,21 +33,8 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
         if (node !== null) editableMessageId ? node.focus() : node.blur()
     }, [editableMessageId])
 
-    // positioning of dropdown
-    const [messagesScrollHeight, setMessagesScrollHeight] = useState(null)
-    const [messagesScrollTop, setMessagesScrollTop] = useState(null)
-    const [messagesClientHeight, setMessagesClientHeight] = useState(null)
-    const [messagesClientWidth, setMessagesClientWidth] = useState(null)
+    // position state of MessageItem component
     const [messagePosition, setMessagePosition] = useState({x: 0, y: 0})
-    const messagesRef = useCallback(node => {
-        if (node !== null) {
-            const rect = node.getBoundingClientRect()
-            setMessagesScrollHeight(node.scrollHeight)
-            setMessagesScrollTop(node.scrollTop)
-            rect && setMessagesClientHeight(rect.height)
-            rect && setMessagesClientWidth(rect.width)
-        }
-    }, [activeMessageOnMobile])
 
     const emitPaginateMessagesRequest = async (page, limit) => {
         return await emitPaginateMessages(conversationId, {page, limit, orderBy: 'desc'})
@@ -113,17 +101,20 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
                 <div
                     className={`messages-list ${(selectedMessagesOnMobile?.length > 1) ? 'messages-list_indent' : ''}`}
                     onScroll={onMessagesScroll}
-                    ref={messagesRef}
                 >
-                    <MessageDropdownMobile
+                    <AdaptiveDropdown
                         isShow={activeMessageOnMobile}
-                        resetActiveMessage={() => setActiveMessageOnMobile(null)}
-                        messagesScrollHeight={messagesScrollHeight}
-                        messagesScrollTop={messagesScrollTop}
-                        messagesClientHeight={messagesClientHeight}
-                        messagesClientWidth={messagesClientWidth}
-                        messagePosition={messagePosition}
+                        position={messagePosition}
                     />
+                    {/*<MessageDropdownMobile*/}
+                    {/*    isShow={activeMessageOnMobile}*/}
+                    {/*    resetActiveMessage={() => setActiveMessageOnMobile(null)}*/}
+                    {/*    messagesScrollHeight={messagesScrollHeight}*/}
+                    {/*    messagesScrollTop={messagesScrollTop}*/}
+                    {/*    messagesClientHeight={messagesClientHeight}*/}
+                    {/*    messagesClientWidth={messagesClientWidth}*/}
+                    {/*    messagePosition={messagePosition}*/}
+                    {/*/>*/}
                     {messages?.items?.length
                         ? messages.items.map((item, index) => (
                             <MessageItem

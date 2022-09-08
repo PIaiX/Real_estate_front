@@ -3310,6 +3310,7 @@ main.account {
 .messages-list {
   background-color: transparent;
   position: relative;
+  overflow-x: hidden;
   overflow-y: scroll;
   display: flex;
   flex-direction: column-reverse;
@@ -4858,7 +4859,7 @@ footer nav.mobile ul li a.active svg.type-2 path {
 
 .mobile-item__dropdown {
   padding: 0;
-  display: none;
+  display: flex;
   list-style: none;
   background-color: #FFF;
   flex-direction: column;
@@ -4866,7 +4867,6 @@ footer nav.mobile ul li a.active svg.type-2 path {
   border-radius: 4px;
   max-width: 200px;
   z-index: 100;
-  position: absolute;
 }
 .mobile-item__dropdown li {
   display: flex;

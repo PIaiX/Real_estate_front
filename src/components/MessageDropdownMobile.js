@@ -30,7 +30,7 @@ const MessageDropdownMobile = (props) => {
                 setIsNotEnoughSpace(false)
             }
         }
-    }, [messagesScrollHeight, messagesScrollTop, messagesClientHeight, messagePosition])
+    }, [messagesClientHeight, messagePosition])
 
     useEffect(() => {
         setComputedPosition({
