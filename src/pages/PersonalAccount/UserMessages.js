@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
-import {emitPaginateConversation, onUpdateConversation} from '../../API/socketConversations';
+import {emitPaginateConversation} from '../../API/socketConversations';
 import useSocket from '../../hooks/socket';
 import PaginationCustom from '../../components/PaginationCustom';
 import Loader from '../../components/Loader';
 import {useSelector} from 'react-redux';
 import {checkPhotoPath} from '../../helpers/photo';
-import {checkDateForConversation, getDateUI, getTimeUI} from '../../helpers/formatingDate';
+import {checkDateForConversation} from '../../helpers/formatingDate';
 
 export default function UserMessages() {
     const user = useSelector(state => state?.currentUser)
@@ -28,12 +28,6 @@ export default function UserMessages() {
             emitPaginateConversation({page: 1})
                 .then(result => setConversations(prev => ({isLoading: true, meta: result?.meta, items: result?.data})))
                 .catch(error => setConversations(prev => ({isLoading: true, error})))
-
-            // ! will configure
-            onUpdateConversation()
-                .then(e => console.log(e))
-                .catch(e => console.log(e))
-
         }
     }, [isConnected])
 

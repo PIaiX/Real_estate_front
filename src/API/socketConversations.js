@@ -1,71 +1,25 @@
 import {socketInstance} from './socketInstance';
 
-// ! ServerToClientEvents
+const conversationListeners = {
+    // => count
+    countNewMessages: 'conversation:countNewMessages',
 
-// ? Conversation
-
-const onNewMessagesCount = async () => {
-    return await new Promise((resolve, reject) => {
-        socketInstance.on("conversation:countNewMessages", count => {
-            try {
-                resolve(count);
-            } catch (e) {
-                reject(e)
-            }
-        })
-    });
+    // => conversation
+    update: 'conversation:update'
 }
 
-const onUpdateConversation = async (isListen = true) => {
-    return new Promise((resolve, reject) => {
-        socketInstance[isListen ? 'on' : 'off']("conversation:update", (conversation) => {
-            try {
-                resolve(conversation);
-            } catch (e) {
-                reject(e)
-            }
-        })
-    });
-}
+const messageListeners = {
+    // => void
+    viewed: 'message:viewed',
 
-// ? Message
+    // => message
+    create: 'message:create',
 
-const onMessageViewed = async () => {
-    return await new Promise((resolve, reject) => {
-        socketInstance.on("message:viewed", () => {
-            try {
-                resolve(true)
-            } catch (e) {
-                reject(false)
-            }
-        })
-    })
-}
+    // => message
+    update: 'message:update',
 
-const onMessageCreate = () => socketInstance.on("message:create", (message) => message)
-
-const onMessageUpdate = async () => {
-    return await new Promise((resolve, reject) => {
-        socketInstance.on("message:update", (message) => {
-            try {
-                resolve(message)
-            } catch (e) {
-                reject(e)
-            }
-        })
-    })
-}
-
-const onMessageDelete = async () => {
-    return await new Promise((resolve, reject) => {
-        socketInstance.on("message:delete", (messagesIds) => {
-            try {
-                resolve(messagesIds)
-            } catch (e) {
-                reject(e)
-            }
-        })
-    })
+    // => messagesIds
+    delete: 'message:delete'
 }
 
 // ! ClientToServerEvents
@@ -185,6 +139,8 @@ const emitCreateWithRealEstateTopicMessage = async (toId) => {
 }
 
 export {
+    conversationListeners,
+    messageListeners,
     emitCloseConversation,
     emitCreateMessage,
     emitCreateWithoutTopicMessage,
@@ -196,10 +152,4 @@ export {
     emitPaginateMessages,
     emitUpdateMessage,
     emitViewedMessage,
-    onMessageCreate,
-    onMessageDelete,
-    onMessageUpdate,
-    onMessageViewed,
-    onUpdateConversation,
-    onNewMessagesCount
 }

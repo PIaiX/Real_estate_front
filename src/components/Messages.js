@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import Loader from './Loader';
 import {HandySvg} from 'handy-svg';
 import check from '../img/icons/check.svg';
-import {emitCreateMessage, emitPaginateMessages, onMessageCreate} from '../API/socketConversations';
+import {emitCreateMessage, emitPaginateMessages, messageListeners} from '../API/socketConversations';
 import MessageItem from './MessageItem';
 import {socketInstance} from '../API/socketInstance';
 
@@ -14,7 +14,6 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
     const [isFetching, setIsFetching] = useState(false)
 
     // messages
-    const [isCreatedMessage, setIsCreatedMessage] = useState(true)
     const [messages, setMessages] = useState({
         isLoading: false,
         error: null,
@@ -77,37 +76,10 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
     }
 
     useEffect(() => {
-
-            // .then(result => {
-            //     console.log('onMsgCreate', result)
-            //     result && setMessages(prev => ({...prev, items: [result, ...prev.items]}))
-            // })
-            // .catch(error => console.log(error))
-
-    }, [])
-
-    // useEffect(() => {
-    //     setIsCreatedMessage(true)
-    // }, [messages])
-
-    // actions after the connection is established
-    useEffect(() => {
-        console.log('isConnected', isConnected)
-
         if (isConnected) {
+            // determination of initial listeners
+            socketInstance.on(messageListeners.create, newMessage => newMessage && setMessages(prev => ({...prev, items: [newMessage, ...prev.items]})))
 
-            const message = onMessageCreate()
-
-            console.log('message', message)
-            // definition of listeners
-            // onMessageCreate()
-            //     .then(result => {
-            //         console.log('onMsgCreate',result)
-            //         result && setMessages(prev => ({...prev, items: [result, ...prev.items]}))
-            //     })
-            //     .catch(error => console.log(error))
-
-            // first fetching of messages
             emitPaginateMessagesRequest(page, initialMessagesLimit)
         }
     }, [isConnected])
