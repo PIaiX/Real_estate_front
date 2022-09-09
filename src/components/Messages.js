@@ -2,10 +2,9 @@ import React, {useCallback, useEffect, useState} from 'react';
 import Loader from './Loader';
 import {HandySvg} from 'handy-svg';
 import check from '../img/icons/check.svg';
-import MessageDropdownMobile from './MessageDropdownMobile';
 import {emitCreateMessage, emitPaginateMessages, onMessageCreate} from '../API/socketConversations';
 import MessageItem from './MessageItem';
-import AdaptiveDropdown from "./AdaptiveDropdown";
+import {socketInstance} from '../API/socketInstance';
 
 const Messages = ({conversationId, conversationUser, isConnected}) => {
 
@@ -15,6 +14,7 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
     const [isFetching, setIsFetching] = useState(false)
 
     // messages
+    const [isCreatedMessage, setIsCreatedMessage] = useState(true)
     const [messages, setMessages] = useState({
         isLoading: false,
         error: null,
@@ -76,18 +76,38 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
             .catch(error => console.log(error))
     }
 
-    // listen creating of message
     useEffect(() => {
-        if (messages?.items?.length) {
-            onMessageCreate()
-                // .then(() => emitPaginateMessagesRequest(1))
-                .catch(error => console.log(error))
-        }
-    }, [messages])
 
-    // first connection fetch messages
+            // .then(result => {
+            //     console.log('onMsgCreate', result)
+            //     result && setMessages(prev => ({...prev, items: [result, ...prev.items]}))
+            // })
+            // .catch(error => console.log(error))
+
+    }, [])
+
+    // useEffect(() => {
+    //     setIsCreatedMessage(true)
+    // }, [messages])
+
+    // actions after the connection is established
     useEffect(() => {
+        console.log('isConnected', isConnected)
+
         if (isConnected) {
+
+            const message = onMessageCreate()
+
+            console.log('message', message)
+            // definition of listeners
+            // onMessageCreate()
+            //     .then(result => {
+            //         console.log('onMsgCreate',result)
+            //         result && setMessages(prev => ({...prev, items: [result, ...prev.items]}))
+            //     })
+            //     .catch(error => console.log(error))
+
+            // first fetching of messages
             emitPaginateMessagesRequest(page, initialMessagesLimit)
         }
     }, [isConnected])
@@ -102,25 +122,21 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
                     className={`messages-list ${(selectedMessagesOnMobile?.length > 1) ? 'messages-list_indent' : ''}`}
                     onScroll={onMessagesScroll}
                 >
-                    <AdaptiveDropdown
-                        isShow={activeMessageOnMobile}
-                        position={messagePosition}
-                    />
-                    {/*<MessageDropdownMobile*/}
+                    {/*<AdaptiveDropdown*/}
                     {/*    isShow={activeMessageOnMobile}*/}
-                    {/*    resetActiveMessage={() => setActiveMessageOnMobile(null)}*/}
-                    {/*    messagesScrollHeight={messagesScrollHeight}*/}
-                    {/*    messagesScrollTop={messagesScrollTop}*/}
-                    {/*    messagesClientHeight={messagesClientHeight}*/}
-                    {/*    messagesClientWidth={messagesClientWidth}*/}
-                    {/*    messagePosition={messagePosition}*/}
-                    {/*/>*/}
+                    {/*    position={messagePosition}*/}
+                    {/*>*/}
+                    {/*    <MessageDropdownMobile*/}
+
+                    {/*    />*/}
+                    {/*</AdaptiveDropdown>*/}
+
                     {messages?.items?.length
                         ? messages.items.map((item, index) => (
                             <MessageItem
                                 key={index}
                                 message={item}
-                                conversationUser={conversationId}
+                                conversationUser={conversationUser}
                                 activeMessageOnMobile={activeMessageOnMobile}
                                 setActiveMessageOnMobile={setActiveMessageOnMobile}
                                 selectedMessagesOnMobile={selectedMessagesOnMobile}

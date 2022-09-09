@@ -1,10 +1,4 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {CopyToClipboard} from "react-copy-to-clipboard/lib/Component";
-import {HandySvg} from "handy-svg";
-import copy from "../img/icons/copy.svg";
-import edit from "../img/icons/edit.svg";
-import trash from "../img/icons/trash.svg";
-import choose from "../img/icons/choose.svg";
 
 const AdaptiveDropdown = (props) => {
     // children - node (pass dropdown menu template here)
@@ -39,14 +33,13 @@ const AdaptiveDropdown = (props) => {
                 setParentScrollTop(parentNode.scrollTop)
             }
 
-            console.log('rect', rect)
-
             setDropdownClientWidth(rect.width)
             setDropdownClientHeight(rect.height)
         }
     }, [isShow])
 
     useEffect(() => {
+        // ! needed to compute right
         if (parentClientHeight && position && dropdownClientHeight) {
             ((parentClientHeight - position.y) < dropdownClientHeight)
                 ? setIsNotEnoughSpace(true)
@@ -63,10 +56,6 @@ const AdaptiveDropdown = (props) => {
         })
     }, [isNotEnoughSpace, parentClientHeight, parentClientWidth, position])
 
-    useEffect(() => {
-        console.log('bool', isNotEnoughSpace)
-    }, [isNotEnoughSpace])
-
     return (
         <div
             ref={ref}
@@ -81,69 +70,7 @@ const AdaptiveDropdown = (props) => {
                 left: computedDropdownPosition.x,
             }}
         >
-            {/*{children}*/}
-            <ul
-                style={{
-                    // top: isNotEnoughSpace ? 'unset' : computedPosition.y,
-                    // bottom: isNotEnoughSpace ? computedPosition.y : 'unset',
-                    // left: computedPosition.x,
-                    // display: isShow ? 'flex' : 'none'
-                }}
-                className="mobile-item__dropdown"
-                // ref={dropdownRef}
-            >
-                <CopyToClipboard>
-                    <li
-                        // onClick={() => resetActiveMessage()}
-                    >
-                        <HandySvg
-                            src={copy}
-                            width="24"
-                            height="24"
-                            className="copy-icon"
-                        />
-                        <span>копировать текст</span>
-                    </li>
-                </CopyToClipboard>
-                <li
-                    onClick={() => {
-                        // setEditableMessageId(id)
-                        // setMessageInput(children)
-                        // resetActiveMessage()
-                    }}
-                >
-                    <HandySvg
-                        src={edit}
-                        width="24"
-                        height="24"
-                        className="edit-icon"
-                    />
-                    <span>изменить</span>
-                </li>
-                <li>
-                    <HandySvg
-                        src={trash}
-                        width="24"
-                        height="24"
-                        className="trash-icon"
-                    />
-                    <span>удалить</span>
-                </li>
-                <li
-                    onClick={() => {
-                        // setActiveMessageOnMobile(prev => !prev?.length && setSelectedMessagesOnMobile([id]))
-                        // resetActiveMessage()
-                    }}
-                >
-                    <HandySvg
-                        src={choose}
-                        width="24"
-                        height="24"
-                        className="choose-icon"
-                    />
-                    <span>выбрать</span>
-                </li>
-            </ul>
+            {children}
         </div>
     );
 };

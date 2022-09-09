@@ -38,7 +38,7 @@ export default function ChatPage() {
         <div className="messages">
             <div
                 // className={`chat-top px-2 px-md-4 px-xxl-5 mb-md-4 mb-xxl-5 ${selectedMessagesOnMobile?.length ? 'active' : ''}`}>
-                className="chat-top px-2 px-md-4 px-xxl-5 mb-md-4 mb-xxl-5">
+                className="chat-top px-2 px-md-4 px-xxl-5">
                 <Link to="/personal-account/my-messages" className="d-flex align-items-center me-2">
                     <svg width="12" height="23" viewBox="0 0 12 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <line y1="-1" x2="14.5309" y2="-1"

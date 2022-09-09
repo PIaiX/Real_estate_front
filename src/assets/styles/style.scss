@@ -3335,9 +3335,12 @@ main.account {
 
 .chat-top {
   position: relative;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 10px 0;
+  box-shadow: 0 5px 5px 0 rgba(0,0,0, 0.1);
   @media (max-width: 767px) {
     background-color: #fff;
     border-bottom: 1px solid $color-3;
@@ -3347,7 +3350,7 @@ main.account {
     padding-top: .5em;
     position: sticky;
     top: 10px;
-    left: 0px;
+    left: 0;
     z-index: 10;
   }
 
@@ -3423,6 +3426,11 @@ main.account {
   display: flex;
   flex-direction: column;
   background-color: #FFF;
+  margin-top: -48px;
+
+  @media all and (max-width: 1399px) {
+    margin-top: -24px;
+  }
 
   @media all and (max-width: 1199px) {
     height: calc(100vh - 205px);
@@ -3430,6 +3438,7 @@ main.account {
 
   @media all and (max-width: 991px) {
     height: calc(100vh - 90px);
+    margin-top: 0;
   }
 
   @media all and (max-width: 767px) {
@@ -3567,12 +3576,15 @@ main.account {
           position: relative;
           background-color: rgba(20, 100, 146, 0.5) !important;
           color: black !important;
+          max-width: 200px;
 
           .text {
             font-weight: 500 !important;
             -moz-user-select: none;
             -khtml-user-select: none;
             user-select: none;
+            width: 100%;
+            word-break: break-word;
           }
         }
 

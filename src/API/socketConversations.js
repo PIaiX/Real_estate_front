@@ -42,17 +42,7 @@ const onMessageViewed = async () => {
     })
 }
 
-const onMessageCreate = async () => {
-    return await new Promise((resolve, reject) => {
-        socketInstance.on("message:create", (message) => {
-            try {
-                resolve(message)
-            } catch (e) {
-                reject(e)
-            }
-        })
-    })
-}
+const onMessageCreate = () => socketInstance.on("message:create", (message) => message)
 
 const onMessageUpdate = async () => {
     return await new Promise((resolve, reject) => {
