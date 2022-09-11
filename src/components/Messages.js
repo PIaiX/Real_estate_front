@@ -2,9 +2,17 @@ import React, {useCallback, useEffect, useState} from 'react';
 import Loader from './Loader';
 import {HandySvg} from 'handy-svg';
 import check from '../img/icons/check.svg';
-import {emitCreateMessage, emitPaginateMessages, messageListeners} from '../API/socketConversations';
+import {
+    emitCreateMessage,
+    emitDeleteMessage,
+    emitPaginateMessages,
+    emitUpdateMessage,
+    messageListeners
+} from '../API/socketConversations';
 import MessageItem from './MessageItem';
 import {socketInstance} from '../API/socketInstance';
+import AdaptiveDropdown from "./AdaptiveDropdown";
+import MessageDropdownMobile from "./MessageDropdownMobile";
 
 const Messages = ({conversationId, conversationUser, isConnected}) => {
 
@@ -22,15 +30,22 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
     })
 
     // messages actions
-    const [editableMessageId, setEditableMessageId] = useState(null)
-    const [activeMessageOnMobile, setActiveMessageOnMobile] = useState(null)
+    // const [activeMessageOnMobile, setActiveMessageOnMobile] = useState(null)
+    const [activeMessageOnMobile, setActiveMessageOnMobile] = useState({
+        id: null,
+        text: ''
+    })
     const [selectedMessagesOnMobile, setSelectedMessagesOnMobile] = useState([])
+    const [editableMessage, setEditableMessage] = useState({
+        id: null,
+        text: ''
+    })
 
     // message input
     const [messageInput, setMessageInput] = useState('')
     const messageInputRef = useCallback(node => {
-        if (node !== null) editableMessageId ? node.focus() : node.blur()
-    }, [editableMessageId])
+        if (node !== null) editableMessage.id ? node.focus() : node.blur()
+    }, [editableMessage])
 
     // position state of MessageItem component
     const [messagePosition, setMessagePosition] = useState({x: 0, y: 0})
@@ -65,6 +80,8 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
         }
     }
 
+    // message's methods of action
+
     const onSendMessage = () => {
         emitCreateMessage({conversationId, text: messageInput})
             .then(result => {
@@ -75,10 +92,42 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
             .catch(error => console.log(error))
     }
 
+    const onUpdateMessage = (id, text) => setEditableMessage({id, text})
+
+    const onSendUpdatedMessage = () => {
+        emitUpdateMessage({
+            conversationId,
+            messageId: editableMessage.id,
+            text: messageInput
+        })
+        // ! no response from server (needed refactor)
+            // .then(result => {
+            //     console.log(result)
+            //     setMessageInput('')
+            //     setEditableMessage({id: null, text: ''})
+            // })
+            // .catch(error => console.log(error))
+    }
+
+    const onDeleteMessage = (messageId, conversationId) => emitDeleteMessage([messageId], conversationId)
+
+    const onDeleteMessages = (messageIds = [], conversationId) => emitDeleteMessage(messageIds, conversationId)
+
     useEffect(() => {
         if (isConnected) {
             // determination of initial listeners
-            socketInstance.on(messageListeners.create, newMessage => newMessage && setMessages(prev => ({...prev, items: [newMessage, ...prev.items]})))
+            socketInstance.on(messageListeners.create, newMessage => newMessage && setMessages(prev => ({
+                ...prev,
+                items: [newMessage, ...prev.items]
+            })))
+
+            // ! not working listener (needed to fix on backend)
+            socketInstance.on(messageListeners.update, updatedMessage => {
+                updatedMessage && setMessages(prev => ({
+                    ...prev,
+                    items: prev.items.map(item => (item.id === updatedMessage.id) ? updatedMessage : item)
+                }))
+            })
 
             emitPaginateMessagesRequest(page, initialMessagesLimit)
         }
@@ -87,6 +136,16 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
     // fetch messages by lazy loading
     useEffect(() => isFetching && fetchMessages(1000), [isFetching])
 
+    // on edit message
+    useEffect(() => {
+        editableMessage.id && setMessageInput(editableMessage.text)
+    }, [editableMessage])
+
+    // ? temp loggers
+    useEffect(() => {
+        console.log('messages', messages)
+    }, [messages])
+
     return (
         messages.isLoading
             ? <>
@@ -94,14 +153,16 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
                     className={`messages-list ${(selectedMessagesOnMobile?.length > 1) ? 'messages-list_indent' : ''}`}
                     onScroll={onMessagesScroll}
                 >
-                    {/*<AdaptiveDropdown*/}
-                    {/*    isShow={activeMessageOnMobile}*/}
-                    {/*    position={messagePosition}*/}
-                    {/*>*/}
-                    {/*    <MessageDropdownMobile*/}
-
-                    {/*    />*/}
-                    {/*</AdaptiveDropdown>*/}
+                    <AdaptiveDropdown
+                        isShow={activeMessageOnMobile.id}
+                        position={messagePosition}
+                    >
+                        <MessageDropdownMobile
+                            activeMessage={activeMessageOnMobile}
+                            resetActiveMessage={() => setActiveMessageOnMobile({})}
+                            onUpdateMessage={onUpdateMessage}
+                        />
+                    </AdaptiveDropdown>
 
                     {messages?.items?.length
                         ? messages.items.map((item, index) => (
@@ -114,7 +175,8 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
                                 selectedMessagesOnMobile={selectedMessagesOnMobile}
                                 setSelectedMessagesOnMobile={setSelectedMessagesOnMobile}
                                 setMessagePosition={setMessagePosition}
-                                setEditableMessage={setEditableMessageId}
+                                onUpdateMessage={onUpdateMessage}
+                                onDeleteMessage={onDeleteMessage}
                             />
                         ))
                         : <h6 className='m-auto p-5 text-center'>Сообщений нет</h6>
@@ -137,13 +199,13 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
                         value={messageInput}
                         onChange={e => setMessageInput(e.target.value)}
                     />
-                    {editableMessageId
+                    {editableMessage.id
                         ? (
                             <button
                                 type="submit"
                                 className="send-msg ms-2 ms-md-4"
-                                // onClick={() => onSendMessage()}
-                                // disabled={!messageInput?.length}
+                                onClick={() => onSendUpdatedMessage()}
+                                disabled={!messageInput?.length}
                             >
                                 <HandySvg
                                     src={check}

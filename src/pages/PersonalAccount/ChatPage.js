@@ -11,7 +11,6 @@ export default function ChatPage() {
     const {conversationId} = useParams()
     const {isConnected} = useSocket()
 
-
     const [conversation, setConversation] = useState({
         isLoading: false,
         error: null,
@@ -22,10 +21,10 @@ export default function ChatPage() {
     //  ! all events which does when set connection
     useEffect(() => {
         if (isConnected) {
-            emitViewedMessage(conversationId, userId)
+            emitViewedMessage(+conversationId, userId)
                 .then(e => console.log('VIEWED', e))
 
-            emitGetConversation(conversationId)
+            emitGetConversation(+conversationId)
                 .then(result => setConversation(prev => ({isLoading: true, item: result})))
                 .catch(error => setConversation(prev => ({isLoading: true, error})))
 
@@ -110,7 +109,7 @@ export default function ChatPage() {
                 {/* --------------------------------------------- */}
             </div>
             <Messages
-                conversationId={conversationId}
+                conversationId={+conversationId}
                 conversationUser={conversation?.item?.user}
                 isConnected={isConnected}
             />

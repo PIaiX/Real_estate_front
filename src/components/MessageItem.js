@@ -8,6 +8,7 @@ const MessageItem = (props) => {
     const {
         message,
         conversationUser,
+        onUpdateMessage,
 
         // props for mobile mode
         activeMessageOnMobile,
@@ -17,7 +18,7 @@ const MessageItem = (props) => {
         setMessagePosition,
 
         // props for desctop mode
-        setEditableMessage
+
     } = props
 
     const {width} = useWindowDimensions()
@@ -32,8 +33,9 @@ const MessageItem = (props) => {
             : setIsMobile(false)
     }, [width])
 
+    // initial reset when switched mode
     useEffect(() => {
-        setActiveMessageOnMobile(null)
+        setActiveMessageOnMobile({})
         setSelectedMessagesOnMobile([])
     }, [isMobile])
 
@@ -55,9 +57,12 @@ const MessageItem = (props) => {
             {isMobile
                 ? (
                     <div
-                        className={`main main_mobile ${(activeMessageOnMobile === message?.id) ? 'active' : ''} ${selectedMessagesOnMobile?.length && selectedMessagesOnMobile?.includes(message?.id) ? 'selected' : ''}`}
+                        className={`main main_mobile ${(activeMessageOnMobile.id === message?.id) ? 'active' : ''} ${selectedMessagesOnMobile?.length && selectedMessagesOnMobile?.includes(message?.id) ? 'selected' : ''}`}
                         onClick={e => {
-                            !activeMessageOnMobile && setActiveMessageOnMobile(message?.id)
+                            !activeMessageOnMobile.id && setActiveMessageOnMobile({
+                                id: message?.id,
+                                text: message?.text
+                            })
 
                             const offsetTop = e.currentTarget.parentElement.offsetTop
                             const halfClientTopOffset = e.currentTarget.parentElement.clientHeight / 2
@@ -99,12 +104,15 @@ const MessageItem = (props) => {
             </div>
             {!isMobile && (
                 <div className="btns">
-                    <button type="button">
+                    <button
+                        type="button"
+                        onClick={() => onDeleteMessage(message?.id)}
+                    >
                         <i className="bi bi-trash-fill"/>
                     </button>
                     <button
                         type="button"
-                        onClick={() => setEditableMessage(message?.id)}
+                        onClick={() => onUpdateMessage(message?.id, message?.text)}
                     >
                         <i className="bi bi-pencil-fill"/>
                     </button>

@@ -6,10 +6,16 @@ import edit from '../img/icons/edit.svg';
 import trash from '../img/icons/trash.svg';
 import choose from '../img/icons/choose.svg';
 
-const MessageDropdownMobile = ({resetActiveMessage}) => {
+const MessageDropdownMobile = (props) => {
+    const {
+        activeMessage,
+        resetActiveMessage,
+        onUpdateMessage
+    } = props
+
     return (
         <ul className="mobile-item__dropdown">
-            <CopyToClipboard>
+            <CopyToClipboard text={activeMessage?.text}>
                 <li
                     onClick={() => resetActiveMessage()}
                 >
@@ -24,6 +30,7 @@ const MessageDropdownMobile = ({resetActiveMessage}) => {
             </CopyToClipboard>
             <li
                 onClick={() => {
+                    onUpdateMessage(activeMessage.id, activeMessage.text)
                     // setEditableMessageId(id)
                     // setMessageInput(children)
 

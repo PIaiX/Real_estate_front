@@ -80,9 +80,9 @@ const emitDeleteMessage = async (messagesIds, conversationId) => {
     })
 }
 
-const emitUpdateMessage = async (messageId, payloads) => {
+const emitUpdateMessage = async (payloads) => {
     return await new Promise((resolve, reject) => {
-        socketInstance.emit("message:update", messageId, payloads, (response) => response
+        socketInstance.emit("message:update", payloads, (response) => response
             ? resolve(response)
             : reject(response))
     })
