@@ -30,7 +30,6 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
     })
 
     // messages actions
-    // const [activeMessageOnMobile, setActiveMessageOnMobile] = useState(null)
     const [activeMessageOnMobile, setActiveMessageOnMobile] = useState({
         id: null,
         text: ''
@@ -95,23 +94,49 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
     const onUpdateMessage = (id, text) => setEditableMessage({id, text})
 
     const onSendUpdatedMessage = () => {
-        emitUpdateMessage({
-            conversationId,
-            messageId: editableMessage.id,
-            text: messageInput
+        emitUpdateMessage(
+            +editableMessage.id,
+            {
+                conversationId,
+                text: messageInput
+            }
+        ).then(updatedMessage => {
+            setMessages(prev => ({
+                ...prev,
+                items: prev.items.map(item => (item?.id === updatedMessage?.id) ? updatedMessage : item)
+            }))
+            setMessageInput('')
+            setEditableMessage({id: null, text: ''})
         })
-        // ! no response from server (needed refactor)
-            // .then(result => {
-            //     console.log(result)
-            //     setMessageInput('')
-            //     setEditableMessage({id: null, text: ''})
-            // })
-            // .catch(error => console.log(error))
+            // ! dispatch error alert or mark message as rejected
+            .catch(error => console.log(error))
     }
 
-    const onDeleteMessage = (messageId, conversationId) => emitDeleteMessage([messageId], conversationId)
+    const onChooseMessage = () => setSelectedMessagesOnMobile([activeMessageOnMobile.id])
 
-    const onDeleteMessages = (messageIds = [], conversationId) => emitDeleteMessage(messageIds, conversationId)
+    const onDeleteMessage = (messageId) => {
+        emitDeleteMessage([messageId], conversationId)
+            .then(response => (response.status === 200) && setMessages(prev => ({
+                ...prev,
+                items: prev.items.filter(item => item.id !== messageId)
+            })))
+            // ! dispatch error alert or mark message as rejected
+            .catch(error => console.log(error))
+
+    }
+
+    const onDeleteMessages = (messageIds = []) => {
+        emitDeleteMessage(messageIds, conversationId)
+            .then(response => {
+                (response.status === 200) && setMessages(prev => ({
+                    ...prev,
+                    items: prev.items.filter(item => !messageIds.includes(item.id))
+                }))
+                setSelectedMessagesOnMobile([])
+            })
+            // ! dispatch error alert or mark message as rejected
+            .catch(error => console.log(error))
+    }
 
     useEffect(() => {
         if (isConnected) {
@@ -121,12 +146,20 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
                 items: [newMessage, ...prev.items]
             })))
 
-            // ! not working listener (needed to fix on backend)
             socketInstance.on(messageListeners.update, updatedMessage => {
                 updatedMessage && setMessages(prev => ({
                     ...prev,
                     items: prev.items.map(item => (item.id === updatedMessage.id) ? updatedMessage : item)
                 }))
+            })
+
+            socketInstance.on(messageListeners.delete, messagesIds => {
+                if (Array.isArray(messagesIds) && messagesIds?.length) {
+                    setMessages(prev => ({
+                        ...prev,
+                        items: prev.items.filter(item => !messagesIds.includes(item.id))
+                    }))
+                }
             })
 
             emitPaginateMessagesRequest(page, initialMessagesLimit)
@@ -146,9 +179,44 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
         console.log('messages', messages)
     }, [messages])
 
+    useEffect(() => {
+        console.log('sell', selectedMessagesOnMobile)
+    }, [selectedMessagesOnMobile])
+
     return (
         messages.isLoading
             ? <>
+                {/* --------------- MOBILE ACTIONS --------------- */}
+                {/*<div className={`messages__actions ${selectedMessagesOnMobile?.length ? 'show' : ''}`}>*/}
+                <div className={`messages__actions ${(selectedMessagesOnMobile?.length) ? 'show' : ''}`}>
+                    <button
+                        className="close"
+                        type="button"
+                        onClick={() => setSelectedMessagesOnMobile([])}
+                    >
+                        Отменить
+                    </button>
+                    {selectedMessagesOnMobile?.length && (
+                        <span>Выбрано: {selectedMessagesOnMobile?.length}</span>
+                    )}
+                    <div className="btns">
+                        <button
+                            type="button"
+                            onClick={() => onDeleteMessages(selectedMessagesOnMobile)}
+                        >
+                            <i className="bi bi-trash-fill"/>
+                        </button>
+                        {/*{(activeMessageOnMobile?.length <= 1) && (*/}
+                        {/*    <button*/}
+                        {/*        type="button"*/}
+                        {/*        // onClick={() => setEditableMessageId(item?.id)}*/}
+                        {/*    >*/}
+                        {/*        <i className="bi bi-pencil-fill"/>*/}
+                        {/*    </button>*/}
+                        {/*)}*/}
+                    </div>
+                </div>
+                {/* --------------------------------------------- */}
                 <div
                     className={`messages-list ${(selectedMessagesOnMobile?.length > 1) ? 'messages-list_indent' : ''}`}
                     onScroll={onMessagesScroll}
@@ -160,7 +228,9 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
                         <MessageDropdownMobile
                             activeMessage={activeMessageOnMobile}
                             resetActiveMessage={() => setActiveMessageOnMobile({})}
+                            onChooseMessage={onChooseMessage}
                             onUpdateMessage={onUpdateMessage}
+                            onDeleteMessage={onDeleteMessage}
                         />
                     </AdaptiveDropdown>
 

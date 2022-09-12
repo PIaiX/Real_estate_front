@@ -9,6 +9,7 @@ const MessageItem = (props) => {
         message,
         conversationUser,
         onUpdateMessage,
+        onDeleteMessage,
 
         // props for mobile mode
         activeMessageOnMobile,
@@ -59,10 +60,16 @@ const MessageItem = (props) => {
                     <div
                         className={`main main_mobile ${(activeMessageOnMobile.id === message?.id) ? 'active' : ''} ${selectedMessagesOnMobile?.length && selectedMessagesOnMobile?.includes(message?.id) ? 'selected' : ''}`}
                         onClick={e => {
-                            !activeMessageOnMobile.id && setActiveMessageOnMobile({
-                                id: message?.id,
-                                text: message?.text
-                            })
+                            if (!activeMessageOnMobile.id && !selectedMessagesOnMobile?.length) {
+                                setActiveMessageOnMobile({
+                                    id: message?.id,
+                                    text: message?.text
+                                })
+                            }
+
+                            if (Array.isArray(selectedMessagesOnMobile) && selectedMessagesOnMobile?.length) {
+                                setSelectedMessagesOnMobile(prev => [...prev, message?.id])
+                            }
 
                             const offsetTop = e.currentTarget.parentElement.offsetTop
                             const halfClientTopOffset = e.currentTarget.parentElement.clientHeight / 2

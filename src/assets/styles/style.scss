@@ -3063,7 +3063,56 @@ main.account {
   }
 }
 
-.chat {
+.conversations {
+  height: calc(100vh - 184px);
+  display: flex;
+  flex-direction: column;
+  margin-top: -48px;
+
+  h4 {
+    position: relative;
+    z-index: 100;
+    padding: 1rem 0;
+    box-shadow: 0 5px 5px 0 rgb(0, 0, 0, 10%);
+    margin: 0;
+  }
+
+  // .conversations__list
+  &__list {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+
+  @media all and (max-width: 1399px) {
+    margin-top: -24px;
+  }
+
+  @media all and (max-width: 1199px) {
+    height: calc(100vh - 205px);
+  }
+
+  @media all and (max-width: 991px) {
+    height: calc(100vh - 90px);
+    margin-top: 0;
+  }
+
+  @media all and (max-width: 767px) {
+    height: calc(100vh - 134px);
+  }
+
+  @media all and (max-width: 575px) {
+    height: calc(100vh - 100px);
+  }
+}
+
+.conversation-list {
+}
+
+.conversation-item {
   border-top: 1px solid $color-3;
   border-bottom: 1px solid $color-3;
   padding: 2em 3em 2em 4em;
@@ -3372,31 +3421,6 @@ main.account {
     }
   }
 
-  // .chat-top__actions
-  &__actions {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 50px;
-    height: 0;
-    overflow: hidden;
-    opacity: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid $color-3;
-    z-index: 10;
-    width: 100%;
-    transition: all .2s linear;
-    padding: 0 15px;
-    background-color: white;
-    margin-top: 5px;
-
-    @media all and (max-width: 575px) {
-      top: 62px;
-    }
-  }
-
   .btns {
     display: flex;
     gap: 10px;
@@ -3406,14 +3430,6 @@ main.account {
       border: 2px solid $gray-3;
       border-radius: 30px;
       padding: .25em 2em;
-    }
-  }
-
-  &.active {
-    .chat-top__actions {
-      height: 50px;
-      overflow: visible;
-      opacity: 1;
     }
   }
 }
@@ -3758,11 +3774,7 @@ main.account {
     border: 1px solid $gray-5;
     background-color: #fff;;
     @media (max-width: 575px) {
-      //margin-left: -12px;
-      //margin-right: -12px;
-      //position: sticky;
-      //bottom: 50px;
-      left: 0px;
+      left: 0;
       z-index: 10;
     }
 
@@ -3776,6 +3788,45 @@ main.account {
         width: 2em;
       }
     }
+  }
+
+  // .messages__actions
+  &__actions {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 67px;
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+    width: 100%;
+    transition: all .2s linear;
+    padding: 0 15px;
+    background-color: white;
+    border-top: 1px solid $color-3;
+    box-shadow: 0 5px 5px 0 rgba(0,0,0, 0.1);
+
+    @media all and (max-width: 991px) {
+      top: 70px;
+    }
+
+    @media all and (max-width: 765px) {
+      top: 71px;
+    }
+
+    @media all and (max-width: 575px) {
+      top: 63px;
+    }
+
+    &.show {
+        height: 50px;
+        overflow: visible;
+        opacity: 1;
+      }
   }
 }
 
@@ -3799,9 +3850,9 @@ main.account {
 
 .dropdown-menu {
   background: #FFFFFF;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
-  padding: 0px;
+  padding: 0;
   max-width: 500px;
   max-height: 300px;
   overflow-y: auto;

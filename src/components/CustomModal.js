@@ -16,9 +16,9 @@ const CustomModal = (props) => {
             bsPrefix={props?.bsPrefix}
             show={show}
             onHide={handleClose}
-            backdrop={props?.backdrop}
+            backdrop={props?.backdrop || true}
             data-bs-backdrop={false}
-            centered={props?.centre}
+            centered={props?.centre || props?.centered || false}
             dialogClassName="modal-90w"
         >
             <Modal.Header>

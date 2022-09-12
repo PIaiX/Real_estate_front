@@ -74,17 +74,25 @@ const emitViewedMessage = async (conversationId, userId) => {
 
 const emitDeleteMessage = async (messagesIds, conversationId) => {
     return await new Promise((resolve, reject) => {
-        socketInstance.emit("message:delete", messagesIds, conversationId, (response) => response
-            ? resolve(response)
-            : reject(response))
+        socketInstance.emit("message:delete", messagesIds, conversationId, (response) => {
+            try {
+                resolve(response)
+            } catch (e) {
+                reject(e)
+            }
+        })
     })
 }
 
-const emitUpdateMessage = async (payloads) => {
+const emitUpdateMessage = async (messageId ,payloads) => {
     return await new Promise((resolve, reject) => {
-        socketInstance.emit("message:update", payloads, (response) => response
-            ? resolve(response)
-            : reject(response))
+        socketInstance.emit("message:update", messageId, payloads, (response) => {
+            try {
+                resolve(response?.body)
+            } catch (e) {
+                reject(e)
+            }
+        })
     })
 }
 
@@ -130,11 +138,15 @@ const emitCreateWithServiceTopicMessage = async (toId) => {
     })
 }
 
-const emitCreateWithRealEstateTopicMessage = async (toId) => {
+const emitCreateWithRealEstateTopicMessage = async (toId, payloads) => {
     return await new Promise((resolve, reject) => {
-        socketInstance.emit("message:createWithRealEstateTopic", toId, (response) => response
-            ? resolve(response)
-            : reject(response))
+        socketInstance.emit("message:createWithRealEstateTopic", toId, payloads, (response) => {
+            try {
+                resolve(response)
+            } catch (e) {
+                reject(e)
+            }
+        })
     })
 }
 

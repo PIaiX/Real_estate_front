@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux';
 import {checkPhotoPath} from '../../helpers/photo';
 import Messages from '../../components/Messages';
 
-export default function ChatPage() {
+export default function MessagesPage() {
     const userId = useSelector(state => state?.currentUser?.id)
     const {conversationId} = useParams()
     const {isConnected} = useSocket()
@@ -80,33 +80,6 @@ export default function ChatPage() {
                         </ul>
                     </div>
                 </div>
-                {/* --------------- MOBILE ACTIONS --------------- */}
-                {/*<div className={`chat-top__actions ${selectedMessagesOnMobile?.length ? 'show' : ''}`}>*/}
-                {/*    <button*/}
-                {/*        className="close"*/}
-                {/*        type="button"*/}
-                {/*        onClick={() => setSelectedMessagesOnMobile([])}*/}
-                {/*    >*/}
-                {/*        Отменить*/}
-                {/*    </button>*/}
-                {/*    <span>Выбрано: {selectedMessagesOnMobile?.length}</span>*/}
-                {/*    <div className="btns">*/}
-                {/*        <button*/}
-                {/*            type="button"*/}
-                {/*        >*/}
-                {/*            <i className="bi bi-trash-fill"/>*/}
-                {/*        </button>*/}
-                {/*        /!*{(activeMessageOnMobile?.length <= 1) && (*!/*/}
-                {/*        /!*    <button*!/*/}
-                {/*        /!*        type="button"*!/*/}
-                {/*        /!*        // onClick={() => setEditableMessageId(item?.id)}*!/*/}
-                {/*        /!*    >*!/*/}
-                {/*        /!*        <i className="bi bi-pencil-fill"/>*!/*/}
-                {/*        /!*    </button>*!/*/}
-                {/*        /!*)}*!/*/}
-                {/*    </div>*/}
-                {/*</div>*/}
-                {/* --------------------------------------------- */}
             </div>
             <Messages
                 conversationId={+conversationId}

@@ -10,7 +10,9 @@ const MessageDropdownMobile = (props) => {
     const {
         activeMessage,
         resetActiveMessage,
-        onUpdateMessage
+        onChooseMessage,
+        onUpdateMessage,
+        onDeleteMessage
     } = props
 
     return (
@@ -46,7 +48,12 @@ const MessageDropdownMobile = (props) => {
                 />
                 <span>изменить</span>
             </li>
-            <li>
+            <li
+                onClick={() => {
+                    onDeleteMessage(activeMessage.id)
+                    resetActiveMessage()
+                }}
+            >
                 <HandySvg
                     src={trash}
                     width="24"
@@ -57,9 +64,7 @@ const MessageDropdownMobile = (props) => {
             </li>
             <li
                 onClick={() => {
-                    // setActiveMessageOnMobile(prev => !prev?.length && setSelectedMessagesOnMobile([id]))
-
-                    // onChooseMessage()
+                    onChooseMessage()
                     resetActiveMessage()
                 }}
             >
