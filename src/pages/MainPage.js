@@ -8,11 +8,12 @@ import {useEffect, useState} from "react";
 import {getBanner, getPopular, getRecommend} from "../API/mainpagereq";
 import {useCurrentUser} from '../store/reducers';
 import {getTypesEstate} from '../API/typesEstate';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {getCatalog} from "../API/catalog";
-import YMapContainer from "../components/YMapContainer";
 import YMap from "../components/YMap";
 import getForMap from "../API/ymap";
+import {bindActionCreators} from "redux";
+import alertActions from '../store/actions/alert'
 
 export default function MainPage() {
     const currentUser = useCurrentUser()
@@ -59,8 +60,6 @@ export default function MainPage() {
     useEffect(() => {
         getForMap(city, {estateId: 1}).then(items => setMapData(items))
     }, [city])
-
-    console.log(mapData)
 
     return (
         <main>

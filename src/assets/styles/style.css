@@ -25,6 +25,7 @@ body,
 }
 .root-wrapper header {
   flex: 0 0 auto;
+  position: sticky;
 }
 .root-wrapper__content {
   flex: 1 0 auto;
@@ -853,6 +854,7 @@ header {
 header .container {
   display: flex;
   align-items: center;
+  position: relative;
 }
 header .container nav {
   display: flex;
@@ -4725,11 +4727,18 @@ footer nav.mobile ul li a.active svg.type-2 path {
 }
 
 .submit-alert {
-  position: absolute;
-  left: 0;
-  top: 0;
+  margin: 0;
+  position: fixed;
+  bottom: 0;
   width: 100%;
-  border-radius: unset;
+  border: none;
+  z-index: 10;
+  border-radius: 0;
+}
+@media (max-width: 767px) {
+  .submit-alert {
+    bottom: 50px;
+  }
 }
 
 .auth-error {

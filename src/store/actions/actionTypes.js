@@ -8,4 +8,7 @@ export const setSelectedCity = "SET_SELECTED_CITY";
 
 export const setMapCenter = "SET_MAP_CENTER";
 
-export default { setToken, resetToken, setCurrentUser, resetCurrentUser, setSelectedCity, setMapCenter };
+export const setAlert = "SET_ALERT";
+export const resetAlert = "RESET_ALERT";
+
+export default { setToken, resetToken, setCurrentUser, resetCurrentUser, setSelectedCity, setMapCenter, setAlert, resetAlert };

@@ -127,8 +127,6 @@ const InWork = () => {
         }
     }
 
-    console.log(inProcessOwner)
-
     return (
         <div className='px-2 px-sm-4 pb-4 pb-sm-5'>
             <nav className="d-block d-lg-none mt-3 mb-3 mb-sm-5" aria-label="breadcrumb">
