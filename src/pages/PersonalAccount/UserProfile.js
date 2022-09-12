@@ -79,6 +79,8 @@ export default function UserProfile() {
         'октября', 'ноября', 'декабря'
     ]
 
+    const [serverErrors, setServerErrors] = useState({})
+
     const createYears = () => {
         let years = [];
         for (startYear; startYear >= 1940; startYear--) {
@@ -142,7 +144,6 @@ export default function UserProfile() {
         isInValidSex: false,
         isInValidPhone: false,
         isInValidEmail: false,
-        isInValidServer: false
     }
 
     const [valid, setValid] = useState(fields);
@@ -178,9 +179,14 @@ export default function UserProfile() {
                     setCurrentUser(response || null);
                     redactorSwitcher()
                 })
-                .catch(() => {
+                .catch((errors) => {
                     setRedactor(true)
-                    setValid(prevState => ({...prevState, isInValidServer: true}))
+                    errors?.response?.data?.body?.errors?.forEach(error => {
+                        setServerErrors(prevState => ({
+                            ...prevState,
+                            [error.field]: error.message
+                        }))
+                    })
                 })
         }
     }
@@ -440,7 +446,7 @@ export default function UserProfile() {
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                 <div
                                     className="col-sm-4 fs-11 mb-1 mb-sm-0"
-                                    style={{color: (valid.isInValidPhone) ? '#DA1E2A' : ''}}
+                                    style={{color: (valid.isInValidPhone || serverErrors?.phone) ? '#DA1E2A' : ''}}
                                 >
                                     Телефон:
                                 </div>
@@ -455,8 +461,10 @@ export default function UserProfile() {
                                         onChange={(phone) => {
                                             setPhone(phone)
                                             resetFieldVal(phone, 'isInValidPhone')
+                                            setServerErrors(prevState => ({...prevState, phone: null}))
                                         }}
                                     />
+                                    {serverErrors?.phone && <span style={{color: '#DA1E2A'}}>Номер занят или введен не верный формат</span>}
                                     <div className="fs-09 gray-3 mt-1">Телефон будет виден в объявлениях другим
                                         пользователям
                                     </div>
@@ -465,7 +473,7 @@ export default function UserProfile() {
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                 <div
                                     className="col-sm-4 fs-11 mb-1 mb-sm-0"
-                                    style={{color: (valid.isInValidEmail || valid.isInValidServer) ? '#DA1E2A' : ''}}
+                                    style={{color: (valid.isInValidEmail || serverErrors?.email) ? '#DA1E2A' : ''}}
                                 >
                                     Email:
                                 </div>
@@ -479,8 +487,10 @@ export default function UserProfile() {
                                         onChange={(e) => {
                                             setEmail(e.target.value)
                                             resetFieldVal(e, 'isInValidEmail')
+                                            setServerErrors(prevState => ({...prevState, email: null}))
                                         }}
                                     />
+                                    {serverErrors?.email && <span style={{color: '#DA1E2A'}}>Email занят или введено не верное значение</span>}
                                 </div>
                             </div>
                             <div className="row justify-content-end">

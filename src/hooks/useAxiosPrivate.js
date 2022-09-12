@@ -23,11 +23,11 @@ const useAxiosPrivate = () => {
         }, error => Promise.reject(error))
         const responseInterceptor = axiosPrivate.interceptors.response.use(response => response, async error => {
             const prevRequest = error?.config
-            if (error.response.status === 400 && !prevRequest.isSent) {
+            if (error?.response?.status === 401 && !prevRequest?.isSent) {
                 prevRequest.isSent = true
 
                 const newAccessToken = await refreshToken()
-                const token = newAccessToken.data.body.token;
+                const token = newAccessToken?.data?.body?.token;
                 setToken(token);
                 return axiosPrivate(prevRequest)
             }
