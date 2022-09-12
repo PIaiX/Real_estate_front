@@ -144,6 +144,7 @@ export default function Login() {
                                     <input
                                         placeholder="mail@mail.ru"
                                         className="fs-11"
+                                        type='email'
                                         name="email"
                                         value={formValue.email}
                                         onChange={handleFormChange}
