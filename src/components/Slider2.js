@@ -42,7 +42,7 @@ export const Slider2 = () => {
                 prevEl: '.swiper-button-prev',
             }}
             >
-            {randomArticle.map((randomArticle)=>
+            {randomArticle?.map((randomArticle)=>
                 <SwiperSlide key={randomArticle.id}>
                     <Article
                         imgUrl="/img/nophoto.jpg"

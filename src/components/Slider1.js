@@ -70,7 +70,7 @@ export const Slider1 = (props) => {
                 prevEl: '.swiper-button-prev',
             }}
         >
-            {popular.map((popular) =>
+            {popular?.map((popular) =>
                 <SwiperSlide key={popular.id}>
                     <Card
                         id={recommend.id}
@@ -89,7 +89,7 @@ export const Slider1 = (props) => {
                     />
                 </SwiperSlide>
             )}
-            {recommend.map((recommend) =>
+            {recommend?.map((recommend) =>
                 <SwiperSlide key={recommend.id}>
                     <Card
                         id={recommend.id}
@@ -108,7 +108,7 @@ export const Slider1 = (props) => {
                     />
                 </SwiperSlide>
             )}
-            {userAds.map(userAds =>
+            {userAds?.map(userAds =>
                 <SwiperSlide key={userAds.id}>
                     <Card
                         id={userAds.id}
@@ -127,7 +127,7 @@ export const Slider1 = (props) => {
                     />
                 </SwiperSlide>
             )}
-            {hotAds.map(hotAd =>
+            {hotAds?.map(hotAd =>
                 <SwiperSlide key={hotAd.id}>
                     <Card
                         id={hotAd.id}

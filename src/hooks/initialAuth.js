@@ -8,6 +8,7 @@ const useInitialAuth = () => {
     useEffect(() => {
         const getToken = async () => {
             try {
+
                 await refresh();
             } catch (error) {
                 console.log(error);

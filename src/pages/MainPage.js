@@ -88,10 +88,10 @@ export default function MainPage() {
 
             <section id="sec-3" className="container mb-6">
                 <h3>Найти на карте</h3>
-                <YMap
+                {/*<YMap
                     items={mapData}
                     className='main-page__ymaps'
-                />
+                />*/}
             </section>
 
             {!(hotAds === undefined || hotAds?.length === 0) &&
