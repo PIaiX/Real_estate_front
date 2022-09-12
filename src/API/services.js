@@ -41,6 +41,7 @@ export const createService = async (axiosPrivate, payloads) => {
         await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.ADD_SERVICES}`, payloads)
     } catch (error) {
         console.log(error)
+        throw error
     }
 }
 

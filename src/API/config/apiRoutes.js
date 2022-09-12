@@ -62,7 +62,8 @@ export default {
     // responses
     RESPONSES_INCOMINGS: '/responses/incumings',
     RESPONSES_OUTGOINGS: '/responses/outgoings',
-    RESPONSES_INPROCESS: '/responses/inProcess',
+    RESPONSES_INPROCESS_OWNER: '/responses/inProcess/owner',
+    RESPONSES_INPROCESS_EXECUTOR: '/responses/inProcess/executor',
     RESPONSES_COMPLETED: '/responses/completed',
     RESPONSES_ACCEPT: '/responses/accept',
     RESPONSES_COMPLETE: '/responses/complete',
