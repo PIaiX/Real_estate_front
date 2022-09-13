@@ -34,7 +34,7 @@ export default function AccountMenu() {
 
   useEffect(() => {
     if (isConnected) {
-      socketInstance.on(conversationListeners.countNewMessages, count => setCounter(count))
+      socketInstance.on(conversationListeners.countNewMessages, count => setCounter(+count))
     }
   }, [isConnected])
 
@@ -80,7 +80,7 @@ export default function AccountMenu() {
           <li>
             <img src="/img/icons/pa-5.svg" alt="Сообщения" />
             <NavLink to="my-messages">Сообщения</NavLink>
-            {(counter) && <div className="count">{counter}</div>}
+            {(counter > 0) && <div className="count">{counter}</div>}
           </li>
           <li>
             <img src="/img/icons/pa-6.svg" alt="Отзывы" />

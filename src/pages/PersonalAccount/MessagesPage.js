@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import useSocket from '../../hooks/socket';
-import {emitGetConversation, emitViewedMessage} from '../../API/socketConversations';
+import {emitGetConversation, emitViewedMessage, messageListeners} from '../../API/socketConversations';
 import {useSelector} from 'react-redux';
 import {checkPhotoPath} from '../../helpers/photo';
 import Messages from '../../components/Messages';
+import {socketInstance} from '../../API/socketInstance';
 
 export default function MessagesPage() {
     const userId = useSelector(state => state?.currentUser?.id)
@@ -27,8 +28,6 @@ export default function MessagesPage() {
             emitGetConversation(+conversationId)
                 .then(result => setConversation(prev => ({isLoading: true, item: result})))
                 .catch(error => setConversation(prev => ({isLoading: true, error})))
-
-            // emitPaginateMessagesRequest(page, initialMessagesLimit)
         }
     }, [isConnected, conversationId, userId])
 

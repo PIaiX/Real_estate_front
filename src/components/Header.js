@@ -75,7 +75,7 @@ const Header = () => {
 
     useEffect(() => {
         if (isConnected) {
-            socketInstance.on(conversationListeners.countNewMessages, count => setCounter(count))
+            socketInstance.on(conversationListeners.countNewMessages, count => setCounter(+count))
         }
     }, [isConnected])
 
@@ -95,7 +95,7 @@ const Header = () => {
                     <div className="d-none d-md-flex order-4 order-lg-3">
                         <Link to="/personal-account/my-messages" className="counter ms-4">
                             <img src="/img/icons/email.svg" alt="email"/>
-                            {(counter) && <span>{counter}</span>}
+                            {(counter > 0) && <span>{counter}</span>}
                         </Link>
                         <Link to="/personal-account/favorites/page/1"
                               className="ms-3 ms-xl-4">

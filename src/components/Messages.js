@@ -141,19 +141,19 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
     useEffect(() => {
         if (isConnected) {
             // determination of initial listeners
-            socketInstance.on(messageListeners.create, newMessage => newMessage && setMessages(prev => ({
+            socketInstance && socketInstance.on(messageListeners.create, newMessage => newMessage && setMessages(prev => ({
                 ...prev,
                 items: [newMessage, ...prev.items]
             })))
 
-            socketInstance.on(messageListeners.update, updatedMessage => {
+            socketInstance && socketInstance.on(messageListeners.update, updatedMessage => {
                 updatedMessage && setMessages(prev => ({
                     ...prev,
                     items: prev.items.map(item => (item.id === updatedMessage.id) ? updatedMessage : item)
                 }))
             })
 
-            socketInstance.on(messageListeners.delete, messagesIds => {
+            socketInstance && socketInstance.on(messageListeners.delete, messagesIds => {
                 if (Array.isArray(messagesIds) && messagesIds?.length) {
                     setMessages(prev => ({
                         ...prev,
@@ -161,6 +161,11 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
                     }))
                 }
             })
+
+            socketInstance && socketInstance.on(messageListeners.viewed, () => setMessages(prev => ({
+                ...prev,
+                items: prev.items.map(item => ({...item, isViewed: true}))
+            })))
 
             emitPaginateMessagesRequest(page, initialMessagesLimit)
         }

@@ -10,7 +10,7 @@ const Footer = () => {
 
     useEffect(() => {
         if (isConnected) {
-            socketInstance.on(conversationListeners.countNewMessages, count => setCounter(count))
+            socketInstance.on(conversationListeners.countNewMessages, count => setCounter(+count))
         }
     }, [isConnected])
 
@@ -95,7 +95,7 @@ const Footer = () => {
                                 <svg width="20" height="17" viewBox="0 0 20 17" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M18.2667 4.3173L9.99999 9.54548L1.73332 4.3173V2.22604L9.99999 7.45421L18.2667 2.22604V4.3173ZM18.2667 0.134766H1.73332C0.586323 0.134766 -0.333344 1.06538 -0.333344 2.22604V14.7737C-0.333344 15.3283 -0.115606 15.8602 0.271969 16.2524C0.659544 16.6446 1.18521 16.8649 1.73332 16.8649H18.2667C18.8148 16.8649 19.3404 16.6446 19.728 16.2524C20.1156 15.8602 20.3333 15.3283 20.3333 14.7737V2.22604C20.3333 1.6714 20.1156 1.13947 19.728 0.747284C19.3404 0.355095 18.8148 0.134766 18.2667 0.134766V0.134766Z"/>
                                 </svg>
-                                {(counter) && <span>{counter}</span>}
+                                {(counter > 0) && <span>{counter}</span>}
                             </NavLink>
                         </li>
                     </ul>
