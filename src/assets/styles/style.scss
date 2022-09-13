@@ -491,32 +491,32 @@ button {
   line-height: normal;
 
   &-1 {
-    background-color: $color-1;
-    color: #fff;
+    background-color: $color-1 !important;
+    color: #fff !important;
 
     &:hover, &:focus, &:active {
-      color: #fff;
-      background-color: darken($color-1, 6%);
+      color: #fff !important;
+      background-color: darken($color-1, 6%) !important;
     }
 
     &:disabled {
-      color: #C4C4C4;
-      background-color: #7a7878;
+      color: #C4C4C4 !important;
+      background-color: #7a7878 !important;
     }
   }
 
   &-2 {
-    background-color: $color-2;
-    color: #fff;
+    background-color: $color-2 !important;
+    color: #fff !important;
 
     &:hover, &:focus, &:active {
-      color: #fff;
-      background-color: darken($color-2, 6%);
+      color: #fff !important;
+      background-color: darken($color-2, 6%) !important;
     }
 
     &:disabled {
-      color: #C4C4C4;
-      background-color: #7a7878;
+      color: #C4C4C4 !important;
+      background-color: #7a7878 !important;
     }
 
     svg {
@@ -2896,6 +2896,7 @@ main.account {
 }
 
 #sec-12 {
+
   nav.menu {
     @media (max-width: 991px) {
       width: fit-content;
@@ -3071,6 +3072,7 @@ main.account {
   margin-top: -48px;
 
   h4 {
+    background-color: $white;
     position: relative;
     z-index: 100;
     padding: 1rem 0;
@@ -3080,6 +3082,7 @@ main.account {
 
   // .conversations__list
   &__list {
+    background-color: $white;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -4000,10 +4003,10 @@ form.entrance {
   @media (max-width: 1199px) {
     padding: 2em 3em 3em;
   }
-  @media (max-width: 991px) {
-    padding: 0em;
-    border: none;
-  }
+  //@media (max-width: 991px) {
+  //  padding: 0em;
+  //  border: none;
+  //}
 }
 
 .password {

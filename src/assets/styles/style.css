@@ -426,28 +426,28 @@ button {
   line-height: normal;
 }
 .btn-1 {
-  background-color: #146492;
-  color: #fff;
+  background-color: #146492 !important;
+  color: #fff !important;
 }
 .btn-1:hover, .btn-1:focus, .btn-1:active {
-  color: #fff;
-  background-color: #105277;
+  color: #fff !important;
+  background-color: #105277 !important;
 }
 .btn-1:disabled {
-  color: #C4C4C4;
-  background-color: #7a7878;
+  color: #C4C4C4 !important;
+  background-color: #7a7878 !important;
 }
 .btn-2 {
-  background-color: #C59C7E;
-  color: #fff;
+  background-color: #C59C7E !important;
+  color: #fff !important;
 }
 .btn-2:hover, .btn-2:focus, .btn-2:active {
-  color: #fff;
-  background-color: #bc8c69;
+  color: #fff !important;
+  background-color: #bc8c69 !important;
 }
 .btn-2:disabled {
-  color: #C4C4C4;
-  background-color: #7a7878;
+  color: #C4C4C4 !important;
+  background-color: #7a7878 !important;
 }
 .btn-2 svg line {
   stroke: #fff;
@@ -2946,6 +2946,7 @@ main.account {
   margin-top: -48px;
 }
 .conversations h4 {
+  background-color: #fff;
   position: relative;
   z-index: 100;
   padding: 1rem 0;
@@ -2953,6 +2954,7 @@ main.account {
   margin: 0;
 }
 .conversations__list {
+  background-color: #fff;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -3848,12 +3850,6 @@ form.entrance input:not([type=checkbox]):not([type=radio]), form.entrance textar
 @media (max-width: 1199px) {
   form.entrance {
     padding: 2em 3em 3em;
-  }
-}
-@media (max-width: 991px) {
-  form.entrance {
-    padding: 0em;
-    border: none;
   }
 }
 
