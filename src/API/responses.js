@@ -18,9 +18,18 @@ const getOutgoingsResponses = async (axiosPrivate, userId, payloads) => {
     }
 }
 
-const getInProcessResponses = async (axiosPrivate, userId, payloads) => {
+const getInProcessResponsesOwner = async (axiosPrivate, userId, payloads) => {
     try {
-        const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.RESPONSES_INPROCESS}/${userId}`, payloads)
+        const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.RESPONSES_INPROCESS_OWNER}/${userId}`, payloads)
+        return response?.data?.body
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const getInProcessResponsesExecutor = async (axiosPrivate, userId, payloads) => {
+    try {
+        const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.RESPONSES_INPROCESS_EXECUTOR}/${userId}`, payloads)
         return response?.data?.body
     } catch (error) {
         console.log(error)
@@ -75,7 +84,8 @@ const rejectResponse = async (axiosPrivate, id, payloads) => {
 export {
     getIncomingsResponses,
     getOutgoingsResponses,
-    getInProcessResponses,
+    getInProcessResponsesOwner,
+    getInProcessResponsesExecutor,
     getCompletedResponses,
     createResponse,
     acceptResponse,

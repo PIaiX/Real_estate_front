@@ -8,10 +8,6 @@ export default function Tile(props) {
     const [mob, setMob] = useState(false);
     const [visibility, setVisibility] = useState(false);
 
-    const scrollToTop = () => {
-        scroll.scrollToTop();
-    };
-
     useEffect(() => {
         function changeTile() {
             if (window.matchMedia("(max-width: 991px)").matches) {
@@ -39,7 +35,8 @@ export default function Tile(props) {
                         <Link
                             className="title"
                             to={props.simpleLink.url}
-                            onClick={() => scrollToTop()}>{props.simpleLink.title}
+                        >
+                            {props.simpleLink.title}
                         </Link>
                     }
                     {
@@ -70,7 +67,6 @@ export default function Tile(props) {
                                         <li key={i}>
                                             <NavLink
                                                 to={item.link}
-                                                onClick={() => scrollToTop()}
                                             >
                                                 {item.name}
                                             </NavLink>
@@ -90,8 +86,12 @@ export default function Tile(props) {
                 <div className="links">
                     {
                         (props.simpleLink) &&
-                        <Link className="title" to={props.simpleLink.url}
-                              onClick={() => scrollToTop()}>{props.simpleLink.title}</Link>
+                        <Link
+                            className="title"
+                            to={props.simpleLink.url}
+                        >
+                            {props.simpleLink.title}
+                        </Link>
                     }
                     {
                         (titles) &&
@@ -110,7 +110,6 @@ export default function Tile(props) {
                                         <div key={item.name}>
                                             <NavLink
                                                 to={item.link}
-                                                onClick={() => scrollToTop()}
                                             >
                                                 {item.name}
                                             </NavLink>

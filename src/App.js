@@ -5,33 +5,31 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import './assets/styles/fonts.css';
 import './assets/styles/style.css';
 import AppRouter from './routes/AppRouter';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {bindActionCreators} from "redux";
 import accessTokenActions from "./store/actions/accessToken";
 import currentUserActions from "./store/actions/currentUser";
 import useAxiosPrivate from "./hooks/useAxiosPrivate";
 import {useEffect} from "react";
 import fingerprint from "@fingerprintjs/fingerprintjs";
-import {YMaps} from 'react-yandex-maps'
-import env from './config/env'
-import {useAccessToken} from "./store/reducers";
-import {authCheck} from "./API/mainpagereq";
-import {setSocketConnection, socketInstance} from './API/socketInstance';
-import {io} from 'socket.io-client';
+import {YMaps} from 'react-yandex-maps';
+import env from './config/env';
+import apiRoutes from "./API/config/apiRoutes";
+import useInitialAuth from "./hooks/initialAuth";
+import {setSocketConnection} from './API/socketInstance';
 
 function App() {
 
+    const isLoading = useInitialAuth()
     const dispatch = useDispatch();
-    const {setToken} = bindActionCreators(accessTokenActions, dispatch);
-    const {setCurrentUser} = bindActionCreators(currentUserActions, dispatch);
     const { resetToken } = bindActionCreators(accessTokenActions, dispatch);
     const { resetCurrentUser } = bindActionCreators(currentUserActions, dispatch);
     const axiosPrivate = useAxiosPrivate();
-    const currentToken = useAccessToken()
-    const [visitor, setVisitor] = useState('')
+    const [visitor, setVisitor] = useState('');
+    const user = useSelector(state => state?.currentUser)
 
     const handleLogout = async () => {
-        const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}/auth/logout`);
+        const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.LOGOUT}`);
         if (response && response.status === 200 && localStorage.getItem("fingerprint")) {
             resetToken();
             resetCurrentUser();
@@ -47,6 +45,10 @@ function App() {
     }
 
     useEffect(() => {
+        user && user?.id && setSocketConnection(user?.id || 0)
+    }, [user])
+
+    useEffect(() => {
         fingerprint
             .load()
             .then((fp) => fp.get())
@@ -59,23 +61,11 @@ function App() {
         localStorage.setItem('fingerprint', visitor)
     }, [visitor])
 
-    const [isLoading, setIsLoading] = useState(true)
-
-    useEffect(() => {
-        authCheck(axiosPrivate).then(res => {
-            setToken(res?.token || null);
-            setCurrentUser(res?.user || null)
-            setSocketConnection(res?.user?.id || 0)
-            setIsLoading(false)
-        }).finally(() => setIsLoading(false))
-    }, []);
-
     useEffect(() => {
         window.addEventListener('beforeunload', onUnloadHandler)
     }, [])
 
     if(isLoading) return <></>
-
 
     return (
         <BrowserRouter>

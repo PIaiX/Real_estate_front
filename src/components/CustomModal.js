@@ -3,26 +3,21 @@ import {Modal} from "react-bootstrap";
 
 const CustomModal = (props) => {
 
-    const [show, setShow] = useState(false)
-
-    const handleClose = () => setShow(false)
-
-    useEffect(() => {
-        setShow(props.isShow)
-    }, [props.isShow])
+    const handleClose = () => props?.setIsShow(false)
 
     return (
         <Modal
             bsPrefix={props?.bsPrefix}
-            show={show}
+            show={props?.isShow}
             onHide={handleClose}
             backdrop={props?.backdrop || true}
             data-bs-backdrop={false}
             centered={props?.centre || props?.centered || false}
             dialogClassName="modal-90w"
+            className={props?.className ?? ''}
         >
-            <Modal.Header>
-                {props?.closeButton ?
+            {props?.closeButton ?
+                <Modal.Header>
                     <button
                     type="button"
                     className="btn-close"
@@ -34,10 +29,10 @@ const CustomModal = (props) => {
                         <path d="M14.9999 1.18237L1.00001 15.9049"/>
                     </svg>
                 </button>
-                    :
-                    null
-                }
             </Modal.Header>
+                :
+                null
+            }
             <Modal.Body>
                 {props?.children}
             </Modal.Body>

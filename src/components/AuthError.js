@@ -7,7 +7,7 @@ export default function AuthError() {
     const navigate = useNavigate()
 
     return (
-        <>
+        <div className='auth-error'>
             <div className="text-center">
                 <p className="fw-6 fs-14">Эта функция доступна только <br/> авторизированным пользователям</p>
             </div>
@@ -31,6 +31,6 @@ export default function AuthError() {
                     </button>
                 </div>
             </div>
-        </>
+        </div>
     )
 }

@@ -72,14 +72,14 @@ export default function CreateService() {
         } else if (isInValidDescription) {
             setValid({...valid, isInValidDescription: true})
         } else {
-            createService(axiosPrivate, payloads).then(() => navigate('/personal-account/my-services'))
+            createService(axiosPrivate, payloads)
+                .then(() => navigate('/personal-account/my-services'))
         }
     }
 
     const resetFieldVal = (newState, field) => {
         setValid({...valid, [field]: false})
     }
-
 
     useEffect(() => {
         id && getService(axiosPrivate, id).then(res => {
@@ -96,7 +96,6 @@ export default function CreateService() {
                 description: loadService.description,
                 experienceTypeForUser: loadService.experienceTypeForUser,
             }))
-
         }
     }, [loadService, id])
 
@@ -216,13 +215,14 @@ export default function CreateService() {
                         <textarea
                             placeholder="Введите текст"
                             rows="5"
-                            className="fs-11"
-                            value={payloads.description || ''}
+                            style={{fontSize: 16 + 'px'}}
+                            value={payloads?.description || ''}
                             onChange={(e) => {
                                 setPayloads(prevState => ({...prevState, description: e.target.value}))
                                 resetFieldVal(e, 'isInValidDescription')
                             }}
                         />
+                        <span style={{color: '#828282'}}>Не меньше 5 символов</span>
                     </div>
                 </div>
                 <div className="row justify-content-end">

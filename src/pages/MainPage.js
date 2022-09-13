@@ -2,14 +2,18 @@ import React from 'react';
 import {Slider2} from '../components/Slider2';
 import {Slider1} from "../components/Slider1";
 import Tile from '../components/Tile';
-import {Link, useParams} from 'react-router-dom';
-import {animateScroll as scroll} from 'react-scroll';
+import {Link, NavLink, useParams} from 'react-router-dom';
 import {MainBanner} from '../components/MainBanner';
 import {useEffect, useState} from "react";
 import {getBanner, getPopular, getRecommend} from "../API/mainpagereq";
 import {useCurrentUser} from '../store/reducers';
 import {getTypesEstate} from '../API/typesEstate';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {getCatalog} from "../API/catalog";
+import YMap from "../components/YMap";
+import getForMap from "../API/ymap";
+import {bindActionCreators} from "redux";
+import alertActions from '../store/actions/alert'
 
 export default function MainPage() {
     const currentUser = useCurrentUser()
@@ -18,20 +22,20 @@ export default function MainPage() {
     const [recommend, setRecommend] = useState([]);
     const [banner, setBanner] = useState([]);
     const [popular, setPopular] = useState([]);
+    const [hotAds, setHotAds] = useState([])
     const [typesEstate, setTypesEstate] = useState([])
+    const [mapData, setMapData] = useState([])
     const city = useSelector(state => state?.selectedCity)
 
     useEffect(() => {
         getBanner()
             .then(data => setBanner(data))
-            .catch(error => console.log(error))
     }, [])
 
     useEffect(() => {
         if (userId && city) {
             getRecommend(userId, 6, city)
                 .then(data => setRecommend(data))
-                .catch(error => console.log(error))
         }
     }, [userId, city])
 
@@ -39,17 +43,23 @@ export default function MainPage() {
         if (userId && city) {
             getPopular(page, 6, userId, city)
                 .then(data => setPopular(data))
-                .catch(error => console.log(error))
         }
     }, [page, userId, city])
+
+    useEffect(() => {
+        if (userId && city) {
+            getCatalog(1,6, '', city, {isHot: true, estateId: 1})
+                .then(data => setHotAds(data?.body?.data))
+        }
+    }, [city])
 
     useEffect(() => {
         getTypesEstate().then(result => setTypesEstate(result))
     }, [])
 
-    const scrollToTop = () => {
-        scroll.scrollToTop();
-    };
+    useEffect(() => {
+        getForMap(city, {estateId: 1}).then(items => setMapData(items))
+    }, [city])
 
     return (
         <main>
@@ -78,32 +88,26 @@ export default function MainPage() {
 
             <section id="sec-3" className="container mb-6">
                 <h3>Найти на карте</h3>
-                <img src="/img/map.png" alt="Карта" className="w-100"/>
+                {/*<YMap
+                    items={mapData}
+                    className='main-page__ymaps'
+                />*/}
             </section>
 
-            <section className="sec-4 container mb-6">
-                <h3>Срочная продажа</h3>
-                <div className="position-relative">
-                    <Slider1/>
-                </div>
-                <div className="text-center mt-2">
-                    <a href="/" className="fs-11 fw-5">
-                        Смотреть все
-                    </a>
-                </div>
-            </section>
-
+            {!(hotAds === undefined || hotAds?.length === 0) &&
+                <section className="sec-4 container mb-6">
+                    <h3>Срочная продажа</h3>
+                    <div className="position-relative">
+                        <Slider1 hotAds={hotAds}/>
+                    </div>
+                </section>
+            }
 
             {!(popular === undefined || popular?.length === 0) &&
                 <section className="sec-4 container mb-6">
                     <h3>Часто просматриваемые</h3>
                     <div className="position-relative">
                         <Slider1 popular={popular}/>
-                    </div>
-                    <div className="text-center mt-2">
-                        <a href="/" className="fs-11 fw-5">
-                            Смотреть все
-                        </a>
                     </div>
                 </section>
             }
@@ -113,11 +117,6 @@ export default function MainPage() {
                     <h3>Рекомендованные Вам</h3>
                     <div className="position-relative">
                         <Slider1 recommend={recommend}/>
-                    </div>
-                    <div className="text-center mt-2">
-                        <a href="/" className="fs-11 fw-5">
-                            Смотреть все
-                        </a>
                     </div>
                 </section>
             }
@@ -143,12 +142,12 @@ export default function MainPage() {
                                 <div className="color-2 fs-15 ms-2 ms-sm-3">Оформление ипотеки на выгодных условиях
                                 </div>
                             </div>
-                            <button
-                                type="button"
+                            <NavLink
+                                to='/service/uslugiRieltora/page/1'
                                 className="btn btn-1 fs-15 mx-auto mt-4 mt-lg-5"
                             >
                                 Услуги риелтора
-                            </button>
+                            </NavLink>
                         </div>
                     </div>
                     <h3>Статьи</h3>
@@ -156,7 +155,7 @@ export default function MainPage() {
                         <Slider2/>
                     </div>
                     <div className="text-center mt-4">
-                        <Link to="/articles/page/1" onClick={() => scrollToTop()} className="fs-12 color-1 bb-1">Смотреть
+                        <Link to="/articles/page/1" className="fs-12 color-1 bb-1">Смотреть
                             все статьи</Link>
                     </div>
                 </div>

@@ -33,7 +33,7 @@ export default function CardPage() {
     const [messageInputError, setMessageInputError] = useState('')
 
     useEffect(() => {
-        getAdsPage(uuid).then(res => setAds(res))
+        getAdsPage(uuid, userId).then(res => setAds(res))
     }, [])
 
     useEffect(() => {

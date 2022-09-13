@@ -59,9 +59,9 @@ export async function userInfoInUserPage (userId,currentUserId) {
     }
 }
 
-export async function getReviewsInUsersPage (axiosPrivate, userId, page = 1, limit, currentUserId) {
+export async function getReviewsInUsersPage (axiosPrivate, userId, page = 1, currentUserId) {
     try {
-        const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.REVIEWS_IN_USERS_PAGE}/${currentUserId}`, {page, userId, limit, orderBy:'desc'})
+        const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.REVIEWS_IN_USERS_PAGE}/${currentUserId}`, {page, userId, orderBy:'desc'})
         return response.data.body
     } catch (error) {
         console.log(error)

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import {getIncomingsResponses, getOutgoingsResponses} from '../../API/responses';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import {useSelector} from 'react-redux';
@@ -16,7 +16,8 @@ export default function Responses(props) {
     const userId = useSelector(state => state?.currentUser?.id)
     const token = useSelector(state => state?.accessToken)
     const [tab, setTab] = useState('in') // out
-    useRedirectToPath('/personal-account/responses/page/1', [tab])
+    const navigate = useNavigate()
+    useRedirectToPath(`/personal-account/responses-${tab}/page/1`, [tab])
     const [incomings, setIncomings] = useState({
         isLoading: false,
         error: null,
@@ -31,14 +32,14 @@ export default function Responses(props) {
     })
 
     const getIncomingsResponsesRequest = (page, limit) => {
-        (userId && token && page) && getIncomingsResponses(axiosPrivate, userId, {page, limit, token})
-            .then(result => setIncomings(prev => ({isLoading: true, meta: result?.meta, items: result?.data})))
+        (userId && token && page) && getIncomingsResponses(axiosPrivate, userId, {page, limit, token, orderBy: 'desc'})
+            .then(result => setIncomings(prev => ({isLoading: true, meta: {meta: result?.meta}, items: result?.data})))
             .catch(error => setIncomings(prev => ({...prev, isLoading: true, error})))
     }
 
     const getOutgoingsResponsesRequest = (page, limit) => {
-        (userId && token && page) && getOutgoingsResponses(axiosPrivate, userId, {page, limit, token})
-            .then(result => setOutgoings(prev => ({isLoading: true, meta: result?.meta, items: result?.data})))
+        (userId && token && page) && getOutgoingsResponses(axiosPrivate, userId, {page, limit, token, orderBy: 'desc'})
+            .then(result => setOutgoings(prev => ({isLoading: true, meta: {meta: result?.meta}, items: result?.data})))
             .catch(error => setOutgoings(prev => ({...prev, isLoading: true, error})))
     }
 
@@ -52,6 +53,22 @@ export default function Responses(props) {
     useEffect(() => getIncomingsResponsesRequest(page, initialPageLimit), [userId, token, page])
     useEffect(() => getOutgoingsResponsesRequest(page, initialPageLimit), [userId, token, page])
 
+    useEffect(() => {
+        if (incomings?.isLoading) {
+            if (incomings?.items?.length === 0){
+                navigate(`/personal-account/responses-in/page/1`)
+            }
+        }
+    }, [incomings?.items?.length])
+
+    useEffect(() => {
+        if (outgoings?.isLoading) {
+            if (outgoings?.items?.length === 0){
+                navigate(`/personal-account/responses-out/page/1`)
+            }
+        }
+    }, [outgoings?.items?.length])
+
     return (
         <div className='px-2 px-sm-4 pb-4 pb-sm-5'>
             <nav className="d-block d-lg-none mt-3 mb-3 mb-sm-5" aria-label="breadcrumb">
@@ -64,7 +81,7 @@ export default function Responses(props) {
                         className={tab === 'in' ? 'active' : ''}
                         onClick={() => setTab('in')}
                     >
-                        Мне откликнулись ({incomings?.items?.length || 0})
+                        Мне откликнулись ({incomings?.meta?.meta?.total || 0})
                     </button>
                 </li>
                 <li>
@@ -72,7 +89,7 @@ export default function Responses(props) {
                         className={tab === 'out' ? 'active' : ''}
                         onClick={() => setTab('out')}
                     >
-                        Вы откликнулись ({outgoings?.items?.length || 0})
+                        Вы откликнулись ({outgoings?.meta?.meta?.total || 0})
                     </button>
                 </li>
             </ul>
@@ -124,8 +141,8 @@ export default function Responses(props) {
                     )
                 }
             </div>
-            {(tab === 'in' && incomings?.items?.length > 0) && <PaginationCustom baseUrl='/personal-account/responses' meta={incomings.meta} />}
-            {(tab === 'out' && outgoings?.items?.length > 0) && <PaginationCustom baseUrl='/personal-account/responses' meta={outgoings.meta} />}
+            {(tab === 'in' && incomings?.items?.length > 0) && <PaginationCustom baseUrl='personal-account/responses-in' meta={incomings.meta} />}
+            {(tab === 'out' && outgoings?.items?.length > 0) && <PaginationCustom baseUrl='personal-account/responses-out' meta={outgoings.meta} />}
         </div>
     )
 }

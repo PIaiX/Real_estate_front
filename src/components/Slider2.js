@@ -13,17 +13,7 @@ export const Slider2 = () => {
     const [randomArticle, setRandomArticles] = useState([])
 
     useEffect(() => {
-        const fin = async () => {
-            try {
-                let result = await getRandomArticle(page, 5)
-                if (result) {
-                    setRandomArticles(result)
-                }
-            } catch (err) {
-                console.log(err)
-            }
-        }
-        fin()
+        getRandomArticle(page, 5).then((result) =>setRandomArticles(result))
     }, [page])
 
     return (
@@ -52,7 +42,7 @@ export const Slider2 = () => {
                 prevEl: '.swiper-button-prev',
             }}
             >
-            {randomArticle.map((randomArticle)=>
+            {randomArticle?.map((randomArticle)=>
                 <SwiperSlide key={randomArticle.id}>
                     <Article
                         imgUrl="/img/nophoto.jpg"

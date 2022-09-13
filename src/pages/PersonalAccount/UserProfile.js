@@ -3,13 +3,13 @@ import CustomSelect from "../../components/CustomSelect";
 import ImageUploading from "react-images-uploading";
 import {Link} from "react-router-dom";
 import {useAccessToken, useCurrentUser} from "../../store/reducers";
-import InputMask from 'react-input-mask';
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Rating from "react-rating";
 import {DeleteUserPhoto, updateUser} from "../../API/users";
 import {bindActionCreators} from "redux";
 import currentUserActions from "../../store/actions/currentUser";
 import {useDispatch} from "react-redux";
+import PhoneInput from "react-phone-input-2";
 
 export default function UserProfile() {
 
@@ -79,6 +79,8 @@ export default function UserProfile() {
         'октября', 'ноября', 'декабря'
     ]
 
+    const [serverErrors, setServerErrors] = useState({})
+
     const createYears = () => {
         let years = [];
         for (startYear; startYear >= 1940; startYear--) {
@@ -136,18 +138,61 @@ export default function UserProfile() {
         }
     }, [data, avatars])
 
-    const onSubmit = async () => {
+    const fields = {
+        isInValidFirstName: false,
+        isInValidLastName: false,
+        isInValidSex: false,
+        isInValidPhone: false,
+        isInValidEmail: false,
+    }
 
-        const formData = new FormData();
-        for (const key in data) {
-            formData.append(key, data[key])
+    const [valid, setValid] = useState(fields);
+
+    const onSubmit = async (e) => {
+        e.preventDefault()
+
+        const validMail = email.match(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)
+
+        const isInValidFirstName = data?.firstName === undefined || data?.firstName?.length <= 0
+        const isInValidLastName = data.lastName === undefined || data?.lastName?.length <= 0
+        const isInValidSex = data?.sex === undefined || data?.sex === null
+        const isInValidPhone = data?.phone === undefined || data?.phone?.length > 11 || data?.phone?.length < 11 || data?.phone === null
+        const isInValidEmail = data?.email === undefined || validMail === undefined || validMail === null
+
+        if (isInValidFirstName) {
+            setValid({...valid, isInValidFirstName: true})
+        } else if (isInValidLastName) {
+            setValid({...valid, isInValidLastName: true})
+        } else if (isInValidSex) {
+            setValid({...valid, isInValidSex: true})
+        } else if (isInValidPhone) {
+            setValid({...valid, isInValidPhone: true})
+        } else if (isInValidEmail) {
+            setValid({...valid, isInValidEmail: true})
+        } else {
+            const formData = new FormData();
+            for (const key in data) {
+                formData.append(key, data[key])
+            }
+            await updateUser(uuid, formData, axiosPrivate)
+                .then((response) => {
+                    setCurrentUser(response || null);
+                    redactorSwitcher()
+                })
+                .catch((errors) => {
+                    setRedactor(true)
+                    errors?.response?.data?.body?.errors?.forEach(error => {
+                        setServerErrors(prevState => ({
+                            ...prevState,
+                            [error.field]: error.message
+                        }))
+                    })
+                })
         }
-        try {
-            const response = await updateUser(uuid, formData, axiosPrivate)
-            setCurrentUser(response);
-        } catch (err) {
-            console.log(err)
-        }
+    }
+
+    const resetFieldVal = (newState, field) => {
+        setValid({...valid, [field]: false})
     }
 
     const deleteUserPhoto = async () => {
@@ -172,7 +217,9 @@ export default function UserProfile() {
                                         value={avatars}
                                         onChange={onChange}
                                         maxNumber={maxNumber}
+                                        maxFileSize={1000000}
                                         dataURLKey="data_url"
+                                        acceptType={['JPG', 'JPEG', 'PNG']}
                                     >
                                         {({
                                               imageList,
@@ -181,74 +228,81 @@ export default function UserProfile() {
                                               onImageRemove,
                                               isDragging,
                                               dragProps,
+                                              errors
                                           }) => (
-                                            <div className="upload__image-wrapper">
-                                                <div className="imgs-box">
-                                                    {imageList.map((image, index) => (
-                                                        <div key={index} className="image-item">
-                                                            <img src={image?.data_url} alt=""/>
-                                                            <div className="image-item__btn-wrapper">
-                                                                <button
-                                                                    type="button"
-                                                                    onClick={() => onImageUpdate(index)}
-                                                                >
-                                                                    <img
-                                                                        src="/img/icons/edit.svg"
-                                                                        alt="Загрузить"
-                                                                    />
-                                                                    Загрузить фото
-                                                                </button>
-                                                                <button
-                                                                    type="button"
-                                                                    onClick={() => {
-                                                                        onImageRemove(index)
-                                                                        deleteUserPhoto()
-                                                                    }}
-                                                                >
-                                                                    <img
-                                                                        src="/img/icons/delete2.svg"
-                                                                        alt="Удалить"
-                                                                    />
-                                                                    Удалить фото
-                                                                </button>
+                                            <>
+                                                <div className="upload__image-wrapper">
+                                                    <div className="imgs-box">
+                                                        {imageList.map((image, index) => (
+                                                            <div key={index} className="image-item">
+                                                                <img src={image?.data_url} alt=""/>
+                                                                <div className="image-item__btn-wrapper">
+                                                                    <button
+                                                                        type="button"
+                                                                        onClick={() => onImageUpdate(index)}
+                                                                    >
+                                                                        <img
+                                                                            src="/img/icons/edit.svg"
+                                                                            alt="Загрузить"
+                                                                        />
+                                                                        Загрузить фото
+                                                                    </button>
+                                                                    <button
+                                                                        type="button"
+                                                                        onClick={() => {
+                                                                            onImageRemove(index)
+                                                                            deleteUserPhoto()
+                                                                        }}
+                                                                    >
+                                                                        <img
+                                                                            src="/img/icons/delete2.svg"
+                                                                            alt="Удалить"
+                                                                        />
+                                                                        Удалить фото
+                                                                    </button>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                                <div className="d-flex justify-content-center">
-                                                    <button
-                                                        type="button"
-                                                        className="btn btn-2 px-3 px-sm-4 mx-auto"
-                                                        style={isDragging ? {color: "red"} : null}
-                                                        onClick={onImageUpload}
-                                                        {...dragProps}
-                                                    >
-                                                        <svg
-                                                            width="16"
-                                                            height="16"
-                                                            viewBox="0 0 21 21"
-                                                            fill="none"
-                                                            xmlns="http://www.w3.org/2000/svg"
+                                                        ))}
+                                                    </div>
+                                                    <div className="d-flex justify-content-center">
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-2 px-3 px-sm-4 mx-auto"
+                                                            style={isDragging ? {color: "red"} : null}
+                                                            onClick={onImageUpload}
+                                                            {...dragProps}
                                                         >
-                                                            <line
-                                                                x1="10.75"
-                                                                x2="10.75"
-                                                                y2="21"
-                                                                stroke="white"
-                                                                strokeWidth="1.5"
-                                                            />
-                                                            <line
-                                                                y1="10.25"
-                                                                x2="21"
-                                                                y2="10.25"
-                                                                stroke="white"
-                                                                strokeWidth="1.5"
-                                                            />
-                                                        </svg>
-                                                        <span className="ms-2">Загрузить фото</span>
-                                                    </button>
+                                                            <svg
+                                                                width="16"
+                                                                height="16"
+                                                                viewBox="0 0 21 21"
+                                                                fill="none"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                            >
+                                                                <line
+                                                                    x1="10.75"
+                                                                    x2="10.75"
+                                                                    y2="21"
+                                                                    stroke="white"
+                                                                    strokeWidth="1.5"
+                                                                />
+                                                                <line
+                                                                    y1="10.25"
+                                                                    x2="21"
+                                                                    y2="10.25"
+                                                                    stroke="white"
+                                                                    strokeWidth="1.5"
+                                                                />
+                                                            </svg>
+                                                            <span className="ms-2">Загрузить фото</span>
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                                <span
+                                                    className="text-danger">{errors?.maxFileSize && "Максимальный размер файла 1 мб"}</span>
+                                                <span
+                                                    className="text-danger">{errors?.acceptType && "Поддерживаемые форматы файла: JPEG, JPG, PNG"}</span>
+                                            </>
                                         )}
                                     </ImageUploading>
                                 </div>
@@ -276,7 +330,12 @@ export default function UserProfile() {
                         </div>
                         <div className="col-xl-8">
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                                <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Имя:</div>
+                                <div
+                                    className="col-sm-4 fs-11 mb-1 mb-sm-0"
+                                    style={{color: valid.isInValidFirstName ? '#DA1E2A' : ''}}
+                                >
+                                    Имя:
+                                </div>
                                 <div className="col-sm-8">
                                     <input
                                         name="firstName"
@@ -284,12 +343,20 @@ export default function UserProfile() {
                                         value={data.firstName}
                                         placeholder="Имя"
                                         className="fs-11"
-                                        onChange={(e) => setFirstName(e.target.value)}
+                                        onChange={(e) => {
+                                            setFirstName(e.target.value)
+                                            resetFieldVal(e, 'isInValidFirstName')
+                                        }}
                                     />
                                 </div>
                             </div>
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                                <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Фамилия:</div>
+                                <div
+                                    className="col-sm-4 fs-11 mb-1 mb-sm-0"
+                                    style={{color: valid.isInValidLastName ? '#DA1E2A' : ''}}
+                                >
+                                    Фамилия:
+                                </div>
                                 <div className="col-sm-8">
                                     <input
                                         name="lastName"
@@ -297,12 +364,20 @@ export default function UserProfile() {
                                         value={data.lastName}
                                         placeholder="Фамилия"
                                         className="fs-11"
-                                        onChange={(e) => setLastName(e.target.value)}
+                                        onChange={(e) => {
+                                            setLastName(e.target.value)
+                                            resetFieldVal(e, 'isInValidLastName')
+                                        }}
                                     />
                                 </div>
                             </div>
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                                <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Пол:</div>
+                                <div
+                                    className="col-sm-4 fs-11 mb-1 mb-sm-0"
+                                    style={{color: valid.isInValidSex ? '#DA1E2A' : ''}}
+                                >
+                                    Пол:
+                                </div>
                                 <div className="col-sm-8">
                                     <div className="row row-cols-2">
                                         <label>
@@ -312,7 +387,10 @@ export default function UserProfile() {
                                                 className="fs-11"
                                                 value="1"
                                                 defaultChecked={(currentUser?.sex === 1)}
-                                                onChange={(e) => setSex(e.target.value)}
+                                                onChange={(e) => {
+                                                    setSex(e.target.value)
+                                                    resetFieldVal(e, 'isInValidSex')
+                                                }}
                                             />
                                             <span className="fs-11 ms-2">Женский</span>
                                         </label>
@@ -323,7 +401,10 @@ export default function UserProfile() {
                                                 className="fs-11"
                                                 value="0"
                                                 defaultChecked={(currentUser?.sex === 0)}
-                                                onChange={(e) => setSex(e.target.value)}
+                                                onChange={(e) => {
+                                                    setSex(e.target.value)
+                                                    resetFieldVal(e, 'isInValidSex')
+                                                }}
                                             />
                                             <span className="fs-11 ms-2">Мужской</span>
                                         </label>
@@ -363,22 +444,39 @@ export default function UserProfile() {
                                 </div>
                             </div>
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                                <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Телефон:</div>
+                                <div
+                                    className="col-sm-4 fs-11 mb-1 mb-sm-0"
+                                    style={{color: (valid.isInValidPhone || serverErrors?.phone) ? '#DA1E2A' : ''}}
+                                >
+                                    Телефон:
+                                </div>
                                 <div className="col-sm-8">
-                                    <InputMask
-                                        mask="79999999999"
-                                        alwaysShowMask={true}
-                                        maskPlaceholder="7__________"
+                                    <PhoneInput
+                                        inputStyle={{backgroundColor: '#fff', fontSize: '1.1em', lineHeight: "inherit"}}
+                                        specialLabel={''}
+                                        country={'ru'}
+                                        countryCodeEditable={false}
+                                        disableDropdown={true}
                                         value={phone}
-                                        onChange={(e) => setPhone(e.target.value)}
+                                        onChange={(phone) => {
+                                            setPhone(phone)
+                                            resetFieldVal(phone, 'isInValidPhone')
+                                            setServerErrors(prevState => ({...prevState, phone: null}))
+                                        }}
                                     />
+                                    {serverErrors?.phone && <span style={{color: '#DA1E2A'}}>Номер занят или введен не верный формат</span>}
                                     <div className="fs-09 gray-3 mt-1">Телефон будет виден в объявлениях другим
                                         пользователям
                                     </div>
                                 </div>
                             </div>
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
-                                <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Email:</div>
+                                <div
+                                    className="col-sm-4 fs-11 mb-1 mb-sm-0"
+                                    style={{color: (valid.isInValidEmail || serverErrors?.email) ? '#DA1E2A' : ''}}
+                                >
+                                    Email:
+                                </div>
                                 <div className="col-sm-8">
                                     <input
                                         name="email"
@@ -386,8 +484,13 @@ export default function UserProfile() {
                                         value={data.email}
                                         placeholder="Email@mail.com"
                                         className="fs-11"
-                                        onChange={(e) => setEmail(e.target.value)}
+                                        onChange={(e) => {
+                                            setEmail(e.target.value)
+                                            resetFieldVal(e, 'isInValidEmail')
+                                            setServerErrors(prevState => ({...prevState, email: null}))
+                                        }}
                                     />
+                                    {serverErrors?.email && <span style={{color: '#DA1E2A'}}>Email занят или введено не верное значение</span>}
                                 </div>
                             </div>
                             <div className="row justify-content-end">
@@ -415,11 +518,10 @@ export default function UserProfile() {
                                 Назад
                             </button>
                             <button
-                                type="submit"
+                                type="button"
                                 className="btn btn-1 fs-11 text-uppercase mt-4 mt-xxl-5 ms-auto me-auto me-xl-0"
-                                onClick={() => {
-                                    redactorSwitcher();
-                                    onSubmit();
+                                onClick={(e) => {
+                                    onSubmit(e);
                                 }}
                             >
                                 Сохранить
@@ -517,8 +619,19 @@ export default function UserProfile() {
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                 <div className="col-sm-4 fs-11 mb-1 mb-sm-0">Телефон:</div>
                                 <div className="col-sm-8">
-                                    <InputMask disabled mask="+7 (999) 999 99 99"
-                                               value={currentUser?.phone || 0}/>
+                                    <PhoneInput
+                                        inputStyle={{
+                                            backgroundColor: '#fff',
+                                            color: '#545454',
+                                            fontSize: '1.1em',
+                                            lineHeight: "inherit"
+                                        }}
+                                        disableDropdown={true}
+                                        specialLabel={''}
+                                        disabled={true}
+                                        placeholder={currentUser?.phone ? currentUser?.phone : "Не установлен"}
+                                        value={currentUser?.phone || 0}
+                                    />
                                 </div>
                             </div>
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
@@ -531,11 +644,7 @@ export default function UserProfile() {
                                 type="button"
                                 className="btn btn-1 fs-11 text-uppercase mt-4 mt-xxl-5 ms-auto me-auto me-xl-0"
                                 onClick={() => {
-                                    if (redactor === false) {
-                                        setRedactor(true)
-                                    } else {
-                                        setRedactor(false)
-                                    }
+                                    redactorSwitcher()
                                 }}
                             >
                                 Редактировать

@@ -15,11 +15,7 @@ const CityContainer = React.memo(({ymaps}) => {
     const [cities, setCities] = useState([])
 
     useEffect(() => {
-        getCities().then(res => {
-            if (res.status === 200) {
-                setCities(res.body)
-            }
-        })
+        getCities().then(res => setCities(res.body))
     }, [])
 
     const changeCity = (title) => {

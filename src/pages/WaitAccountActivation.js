@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from "react";
-import MainPage from "./MainPage";
 import {NavLink, useParams} from "react-router-dom";
-import axios from "axios";
-import {postUserActivation} from "../API/ActivationAccount";
+import {postUserActivation} from "../API/auths";
 
 export default function WaitAccountActivation() {
 
@@ -33,7 +31,7 @@ export default function WaitAccountActivation() {
                     для входа на ваш аккаунт.
                 </h1>
                 <h1>
-                <NavLink to="/entrance" className="color-1 bb-1">Вход</NavLink>
+                <NavLink to="/login" className="color-1 bb-1">Вход</NavLink>
                 </h1>
             </div>
 

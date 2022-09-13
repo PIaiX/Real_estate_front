@@ -1,9 +1,9 @@
 import axios from "axios";
 import apiRoutes from "./config/apiRoutes";
 
-export async function getAdsPage(uuid) {
+export async function getAdsPage(uuid, userId) {
     try {
-        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.ADS_ACTIONS}/${uuid}`)
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.ADS_ACTIONS}/${uuid}/${userId}`)
         return response.data.body;
     } catch(error) {
         console.log(error)

@@ -1,14 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import useUpdateSize from '../../hooks/useUpdateSize';
 import Card from '../../components/Card';
 import PaginationCustom from '../../components/PaginationCustom';
 import {getWishlist} from '../../API/wishlist';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
-import BtnDelFromFav from '../../components/BtnDelFromFav';
 import {useAccessToken, useCurrentUser} from "../../store/reducers";
-import AuthError from "../../components/AuthError"
 import Loader from "../../components/Loader";
+import {deleteWishList} from "../../API/adspage";
 
 export default function Favorites({routeName}) {
 
@@ -19,20 +18,42 @@ export default function Favorites({routeName}) {
     const [wishlistData, setWishlistData] = useState({isLoaded: false})
     const {page} = useParams()
     const axiosPrivate = useAxiosPrivate();
+    const navigate = useNavigate()
 
     useEffect(() => {
-        const req = async () => {
-            const response = (currentUser && token) && await getWishlist(userId, page, 4, axiosPrivate, token)
-            if (response) {
+        getWishlist(userId, page, 4, axiosPrivate, token)
+            .then(res => {
                 setWishlistData({
                     isLoaded: true,
-                    meta: response,
-                    wishlist: response?.data
+                    meta: res,
+                    wishlist: res?.data
                 })
+            })
+    }, [currentUser, page])
+
+    const deleteFromWishList = async (realEstateId) => {
+        deleteWishList({userId, token, realEstateId}, axiosPrivate)
+            .then(() => {
+                getWishlist(userId, page, 4, axiosPrivate, token)
+                    .then(res => {
+                        setWishlistData({
+                            isLoaded: true,
+                            meta: res,
+                            wishlist: res?.data
+                        })
+                    })
+            }).catch(() => {
+
+            })
+    }
+
+    useEffect(() => {
+        if (wishlistData.isLoaded) {
+            if (wishlistData?.wishlist?.length === 0){
+                navigate(`/personal-account/favorites/page/1`)
             }
         }
-        req()
-    }, [currentUser, page])
+    }, [wishlistData?.wishlist?.length])
 
     return (
         <div className="px-sm-3 px-md-4 px-xxl-5 pb-sm-4 pb-xxl-5">
@@ -71,9 +92,18 @@ export default function Favorites({routeName}) {
                                         reportStatus={wishItem.reportStatus}
                                         userAvatar={wishItem.user?.avatar}
                                         routeName={routeName}
+                                        userId={wishItem.user.id}
+                                        inWishlist={true}
                                     />
                                     <div className="d-flex justify-content-end mt-2">
-                                        <BtnDelFromFav realEstateId={wishItem.id} wishlistStatus={wishItem.wishlistStatus}/>
+                                        <button
+                                            type="button"
+                                            className="ms-4 color-1 d-flex align-items-center"
+                                            onClick={() => deleteFromWishList(wishItem.id)}
+                                        >
+                                            <img src="/img/icons/pa-10.svg" alt="Удалить"/>
+                                            <span className="ms-2">Удалить из избранного</span>
+                                        </button>
                                     </div>
                                 </div>
                             ))

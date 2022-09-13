@@ -1,11 +1,17 @@
 export default {
     //auth
     ACTIVATE_ACCOUNT: '/auth/activate',
+    LOGIN: '/auth/login',
+    RESET_PASSWORD: '/auth/rememberPassword',
+    REGISTRATION: '/auth/register',
+    LOGOUT: '/auth/logout',
+    REFRESH: '/auth/refresh',
 
     //page ads
     ADS_ACTIONS: '/realEstates',
     ADS_ACTIONS_WISHLIST: '/realEstates/wishlist',
     ADS_REPORT: '/realEstates/reports',
+    CREATE_AD: '/realEstates/create',
 
     //catalog
     GET_CATALOG: '/realEstates/paginate',
@@ -56,7 +62,8 @@ export default {
     // responses
     RESPONSES_INCOMINGS: '/responses/incumings',
     RESPONSES_OUTGOINGS: '/responses/outgoings',
-    RESPONSES_INPROCESS: '/responses/inProcess',
+    RESPONSES_INPROCESS_OWNER: '/responses/inProcess/owner',
+    RESPONSES_INPROCESS_EXECUTOR: '/responses/inProcess/executor',
     RESPONSES_COMPLETED: '/responses/completed',
     RESPONSES_ACCEPT: '/responses/accept',
     RESPONSES_COMPLETE: '/responses/complete',

@@ -28,7 +28,7 @@ const ResponseCard = (props) => {
             <div className="title">
                 <div className="d-xxl-flex">
                     <h4 className="color-1 mb-1 mb-xl-2 mb-xxl-0">
-                        <Link to="/">
+                        <Link to={`/user/${props.userId}`}>
                             {props.userName}
                         </Link>
                     </h4>
@@ -44,7 +44,7 @@ const ResponseCard = (props) => {
                 <h4 className="mb-1 mb-xl-2 mb-xxl-0">{props.service}</h4>
             </div>
             <div className="photo mt-2 mt-md-3 mt-xxl-0">
-                <Link to="/">
+                <Link to={`/user/${props.userId}`}>
                     <img src={props.avatar} alt={props.userName}/>
                 </Link>
             </div>

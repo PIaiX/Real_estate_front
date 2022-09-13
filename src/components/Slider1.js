@@ -10,6 +10,7 @@ export const Slider1 = (props) => {
 
     const [popular, setPopular] = useState([]);
     const [recommend, setRecommend] = useState([]);
+    const [hotAds, setHotAds] = useState([])
     const [userAds, setUserAds] = useState([]);
 
     useEffect(() => {
@@ -29,6 +30,12 @@ export const Slider1 = (props) => {
             setPopular(props.popular)
         }
     }, [props.popular])
+
+    useEffect(() => {
+        if (props.hotAds) {
+            setHotAds(props.hotAds)
+        }
+    }, [hotAds])
 
     return (
         <Swiper
@@ -63,7 +70,7 @@ export const Slider1 = (props) => {
                 prevEl: '.swiper-button-prev',
             }}
         >
-            {popular.map((popular) =>
+            {popular?.map((popular) =>
                 <SwiperSlide key={popular.id}>
                     <Card
                         id={recommend.id}
@@ -82,7 +89,7 @@ export const Slider1 = (props) => {
                     />
                 </SwiperSlide>
             )}
-            {recommend.map((recommend) =>
+            {recommend?.map((recommend) =>
                 <SwiperSlide key={recommend.id}>
                     <Card
                         id={recommend.id}
@@ -101,7 +108,7 @@ export const Slider1 = (props) => {
                     />
                 </SwiperSlide>
             )}
-            {userAds.map(userAds =>
+            {userAds?.map(userAds =>
                 <SwiperSlide key={userAds.id}>
                     <Card
                         id={userAds.id}
@@ -117,6 +124,25 @@ export const Slider1 = (props) => {
                         metro={userAds.metro}
                         text={userAds.description}
                         date={userAds.createdAtForUser}
+                    />
+                </SwiperSlide>
+            )}
+            {hotAds?.map(hotAd =>
+                <SwiperSlide key={hotAd.id}>
+                    <Card
+                        id={hotAd.id}
+                        wishlistStatus={hotAd.wishlistStatus}
+                        uuid={hotAd.uuid}
+                        pictures={[hotAd.image, hotAd.images]}
+                        isVip={hotAd.isVip}
+                        isHot={hotAd.isHot}
+                        title={hotAd.title}
+                        price={hotAd.price}
+                        addressName={hotAd.residentComplexForUser}
+                        address={hotAd.address}
+                        metro={hotAd.metro}
+                        text={hotAd.description}
+                        date={hotAd.createdAtForUser}
                     />
                 </SwiperSlide>
             )}

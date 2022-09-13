@@ -4,12 +4,14 @@ import currentUser from "./currentUser";
 import selectedCity from './selectedCity';
 import mapCenter from './mapCenter';
 import {useSelector} from "react-redux";
+import alert from './alert';
 
 const reducers = combineReducers({
-  accessToken,
-  currentUser,
-  selectedCity,
-  mapCenter
+    accessToken,
+    currentUser,
+    selectedCity,
+    mapCenter,
+    alert,
 });
 
 export function useCurrentUser() {

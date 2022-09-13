@@ -52,12 +52,8 @@ const Catalog = ({routeName}) => {
     }, [])
 
     useEffect(() => {
-        console.log(estateIds)
-    }, [estateIds])
-
-    useEffect(() => {
         (selectedCity && page) &&
-        getCatalog(page, 4, userId, selectedCity, debouncedFilters)
+        getCatalog(page, 6, userId, selectedCity, debouncedFilters)
             .then(response => setCatalogData({
                     isLoaded: true,
                     meta: response.body,
@@ -148,7 +144,9 @@ const Catalog = ({routeName}) => {
                     <AddressSuggestions
                         token={env.DADATA_TOKEN}
                         value={search && ''}
-                        onChange={e => setSearch(e.value)}
+                        onChange={e => {
+                            setSearch(e.value)
+                        }}
                         containerClassName='catalog__search'
                         inputProps={{placeholder: 'Адрес или ЖК'}}
                         delay={300}
@@ -156,7 +154,9 @@ const Catalog = ({routeName}) => {
                     <button
                         type="submit"
                         className="btn btn-1"
-                        onClick={e => onSearch(e, 'addressOrResidentalComplex', setFilters)}
+                        onClick={e => {
+                            onSearch(e, 'addressOrResidentalComplex', setFilters)
+                        }}
                     >
                         Поиск
                     </button>
