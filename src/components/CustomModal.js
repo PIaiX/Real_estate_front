@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Modal} from "react-bootstrap";
 
 const CustomModal = (props) => {
@@ -10,9 +10,9 @@ const CustomModal = (props) => {
             bsPrefix={props?.bsPrefix}
             show={props?.isShow}
             onHide={handleClose}
-            backdrop={props?.backdrop}
+            backdrop={props?.backdrop || true}
             data-bs-backdrop={false}
-            centered={props?.centre}
+            centered={props?.centre || props?.centered || false}
             dialogClassName="modal-90w"
             className={props?.className ?? ''}
             size={props.size}

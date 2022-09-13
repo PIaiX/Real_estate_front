@@ -15,6 +15,7 @@ export default function AddResponse() {
     const token = useSelector(state => state?.accessToken)
     const userId = useSelector(state => state?.currentUser?.id)
     const [response, setResponse] = useState('')
+    const {setSubmitAlert, getAlertNode} = useAlert(3000)
     const [userInf, setUserInf] = useState({})
     const loc = useLocation()
     const navigate = useNavigate()
@@ -46,6 +47,7 @@ export default function AddResponse() {
 
     return (
         <div className='px-2 px-sm-4 pb-4 pb-sm-5'>
+            {getAlertNode()}
             <nav className="d-block d-lg-none mt-3 mb-3 mb-sm-5" aria-label="breadcrumb">
                 <Link to="/personal-account" className="gray-3">&#10094; Назад</Link>
             </nav>

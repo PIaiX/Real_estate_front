@@ -1,13 +1,13 @@
 import React from 'react';
-import {Routes, Route, Navigate} from 'react-router-dom';
+import {Navigate, Route, Routes} from 'react-router-dom';
 import AccountMenu from '../pages/PersonalAccount/AccountMenu';
 import UserProfile from '../pages/PersonalAccount/UserProfile';
 import UserAds from '../pages/PersonalAccount/UserAds';
 import UserServices from '../pages/PersonalAccount/UserServices';
 import CreateService from '../pages/PersonalAccount/CreateService';
 import Favorites from '../pages/PersonalAccount/Favorites';
-import UserMessages from '../pages/PersonalAccount/UserMessages';
-import ChatPage from '../pages/PersonalAccount/ChatPage';
+import ConversationsPage from '../pages/PersonalAccount/ConversationsPage';
+import MessagesPage from '../pages/PersonalAccount/MessagesPage';
 import UserReviews from '../pages/PersonalAccount/UserReviews';
 import Responses from '../pages/PersonalAccount/Responses';
 import AddResponse from '../pages/PersonalAccount/AddResponse';
@@ -54,8 +54,8 @@ const PersonalAccountRouter = ({isMobile}) => {
                 <Route path="favorites" element={<Favorites routeName='Избранное'/>}>
                     <Route path="page/:page" element={<Favorites/>}/>
                 </Route>
-                <Route path="my-messages" element={<UserMessages/>}/>
-                <Route path="my-messages/*" element={<ChatPage/>}/>
+                <Route path="my-messages" element={<ConversationsPage/>} />
+                <Route path="my-messages/chat/:conversationId" element={<MessagesPage/>}/>
                 <Route path="my-reviews" element={<UserReviews/>}>
                     <Route path='page/:page' element={<UserReviews/>}/>
                 </Route>
