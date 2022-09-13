@@ -52,7 +52,7 @@ const emitCloseConversation = async (conversationId) => {
 
 const emitPaginateConversation = async (payloads) => {
     return await new Promise((resolve, reject) => {
-        socketInstance && socketInstance.emit("conversation:paginate", payloads, (response) => {
+        socketInstance.emit("conversation:paginate", payloads, (response) => {
             try {
                 resolve(response?.body)
             } catch (e) {
@@ -66,7 +66,7 @@ const emitPaginateConversation = async (payloads) => {
 
 const emitViewedMessage = async (conversationId, userId) => {
     return await new Promise((resolve, reject) => {
-        socketInstance && socketInstance.emit("message:viewed", conversationId, userId, (response) => {
+        socketInstance.emit("message:viewed", conversationId, userId, (response) => {
             try {
                 resolve(response)
             } catch (e) {
@@ -78,7 +78,7 @@ const emitViewedMessage = async (conversationId, userId) => {
 
 const emitDeleteMessage = async (messagesIds, conversationId) => {
     return await new Promise((resolve, reject) => {
-        socketInstance && socketInstance.emit("message:delete", messagesIds, conversationId, (response) => {
+        socketInstance.emit("message:delete", messagesIds, conversationId, (response) => {
             try {
                 resolve(response)
             } catch (e) {
@@ -90,7 +90,7 @@ const emitDeleteMessage = async (messagesIds, conversationId) => {
 
 const emitUpdateMessage = async (messageId ,payloads) => {
     return await new Promise((resolve, reject) => {
-        socketInstance && socketInstance.emit("message:update", messageId, payloads, (response) => {
+        socketInstance.emit("message:update", messageId, payloads, (response) => {
             try {
                 resolve(response?.body)
             } catch (e) {
@@ -102,7 +102,7 @@ const emitUpdateMessage = async (messageId ,payloads) => {
 
 const emitPaginateMessages = async (conversationId, payloads) => {
     return await new Promise((resolve, reject) => {
-        socketInstance && socketInstance.emit("message:paginate", conversationId, payloads, (response) => {
+        socketInstance.emit("message:paginate", conversationId, payloads, (response) => {
             try {
                 resolve(response?.body)
             } catch (e) {
@@ -116,7 +116,7 @@ const emitPaginateMessages = async (conversationId, payloads) => {
 
 const emitCreateMessage = async (payloads) => {
     return await new Promise((resolve, reject) => {
-        socketInstance && socketInstance.emit("message:create", payloads, (response) => {
+        socketInstance.emit("message:create", payloads, (response) => {
             try {
                 resolve(response?.body)
             } catch (e) {
@@ -128,7 +128,7 @@ const emitCreateMessage = async (payloads) => {
 
 const emitCreateWithoutTopicMessage = async (toId, payloads) => {
     return await new Promise((resolve, reject) => {
-        socketInstance && socketInstance.emit("message:createWithoutTopic", toId, payloads, (response) => {
+        socketInstance.emit("message:createWithoutTopic", toId, payloads, (response) => {
             try {
                 resolve(response?.body)
             } catch (e) {
@@ -140,7 +140,7 @@ const emitCreateWithoutTopicMessage = async (toId, payloads) => {
 
 const emitCreateWithServiceTopicMessage = async (toId, payloads) => {
     return await new Promise((resolve, reject) => {
-        socketInstance && socketInstance.emit("message:createWithServiceTopic", toId, payloads, (response) => {
+        socketInstance.emit("message:createWithServiceTopic", toId, payloads, (response) => {
             try {
                 resolve(response)
             } catch (e) {
@@ -152,7 +152,7 @@ const emitCreateWithServiceTopicMessage = async (toId, payloads) => {
 
 const emitCreateWithRealEstateTopicMessage = async (toId, payloads) => {
     return await new Promise((resolve, reject) => {
-        socketInstance && socketInstance.emit("message:createWithRealEstateTopic", toId, payloads, (response) => {
+        socketInstance.emit("message:createWithRealEstateTopic", toId, payloads, (response) => {
             try {
                 resolve(response)
             } catch (e) {

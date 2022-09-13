@@ -8,10 +8,8 @@ const ConversationItem = ({conversation}) => {
     const user = useSelector(state => state?.currentUser)
     const isMyLastMessage = (user?.id === conversation?.lastMessage?.userId)
 
-    console.log('conv', conversation)
-
     return (
-        <div className="conversation-list__item conversation-item">
+        <div className={`conversation-list__item conversation-item ${conversation?.isNew ? 'unread' : ''}`}>
             <div className="photo">
                 <img src="/img/photo5.png" alt="Баженов Илья"/>
                 {/*<div className="indicator" />*/}
@@ -38,12 +36,12 @@ const ConversationItem = ({conversation}) => {
                 <div className="fs-09 fw-5" style={{whiteSpace: 'nowrap'}}>
                     {checkDateForConversation(conversation?.lastMessage?.updatedAt)}
                 </div>
-                <button type="button" className="btn-del" title="Удалить">
-                    <i className="bi bi-trash-fill" />
-                </button>
-                <button type="button" className="btn-notice" title="Пожаловаться">
-                    <i className="bi bi-exclamation-triangle-fill" />
-                </button>
+                {/*<button type="button" className="btn-del" title="Удалить">*/}
+                {/*    <i className="bi bi-trash-fill" />*/}
+                {/*</button>*/}
+                {/*<button type="button" className="btn-notice" title="Пожаловаться">*/}
+                {/*    <i className="bi bi-exclamation-triangle-fill" />*/}
+                {/*</button>*/}
             </div>
             <Link to={`chat/${conversation?.id}`} className="link-to-chat" />
         </div>

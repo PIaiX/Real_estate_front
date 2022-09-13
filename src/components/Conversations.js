@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import ConversationItem from './ConversationItem';
 import Loader from './Loader';
 import useSocket from '../hooks/socket';
-import {emitPaginateConversation} from '../API/socketConversations';
+import {conversationListeners, emitPaginateConversation} from '../API/socketConversations';
+import {socketInstance} from '../API/socketInstance';
 
 const Conversations = () => {
     const {isConnected} = useSocket()
@@ -14,10 +15,7 @@ const Conversations = () => {
     })
 
 
-
     useEffect(() => {
-        console.log(isConnected)
-
         if (isConnected) {
 
             emitPaginateConversation({page: 1})
@@ -27,8 +25,26 @@ const Conversations = () => {
     }, [isConnected])
 
     useEffect(() => {
-        console.log(conversations)
-    }, [conversations])
+        if (isConnected) {
+            // update conversation listener
+            socketInstance.on(conversationListeners.update, conversation => {
+                let newConversation = conversations.items.find(item => (item?.id === conversation?.id))
+                const filteredConversations = conversations.items.filter(item => (item?.id !== conversation?.id))
+
+                if (conversation?.lastMessage && newConversation) {
+                    newConversation.lastMessage = conversation?.lastMessage
+                    newConversation.isNew = true
+                }
+
+                if (newConversation) {
+                    setConversations(prev => ({
+                        ...prev,
+                        items: [newConversation, ...filteredConversations]
+                    }))
+                }
+            })
+        }
+    }, [isConnected, conversations])
 
     return (
         <div className="conversations__list conversation-list">

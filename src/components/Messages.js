@@ -2,19 +2,15 @@ import React, {useCallback, useEffect, useState} from 'react';
 import Loader from './Loader';
 import {HandySvg} from 'handy-svg';
 import check from '../img/icons/check.svg';
-import {
-    emitCreateMessage,
-    emitDeleteMessage,
-    emitPaginateMessages,
-    emitUpdateMessage,
-    messageListeners
-} from '../API/socketConversations';
+import {emitCreateMessage, emitDeleteMessage, emitPaginateMessages, emitUpdateMessage, emitViewedMessage, messageListeners} from '../API/socketConversations';
 import MessageItem from './MessageItem';
 import {socketInstance} from '../API/socketInstance';
 import AdaptiveDropdown from "./AdaptiveDropdown";
 import MessageDropdownMobile from "./MessageDropdownMobile";
+import {useSelector} from 'react-redux';
 
 const Messages = ({conversationId, conversationUser, isConnected}) => {
+    const userId = useSelector(state => state?.currentUser?.id)
 
     // messages paginate
     const initialMessagesLimit = 15
@@ -141,19 +137,25 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
     useEffect(() => {
         if (isConnected) {
             // determination of initial listeners
-            socketInstance && socketInstance.on(messageListeners.create, newMessage => newMessage && setMessages(prev => ({
-                ...prev,
-                items: [newMessage, ...prev.items]
-            })))
+            socketInstance.on(messageListeners.create, newMessage => {
+                newMessage && setMessages(prev => ({
+                    ...prev,
+                    items: [newMessage, ...prev.items]
+                }))
 
-            socketInstance && socketInstance.on(messageListeners.update, updatedMessage => {
+                emitViewedMessage(+conversationId, +userId)
+                    .then(res => console.log('vvvv', res))
+                // ! emit viewed
+            })
+
+            socketInstance.on(messageListeners.update, updatedMessage => {
                 updatedMessage && setMessages(prev => ({
                     ...prev,
                     items: prev.items.map(item => (item.id === updatedMessage.id) ? updatedMessage : item)
                 }))
             })
 
-            socketInstance && socketInstance.on(messageListeners.delete, messagesIds => {
+            socketInstance.on(messageListeners.delete, messagesIds => {
                 if (Array.isArray(messagesIds) && messagesIds?.length) {
                     setMessages(prev => ({
                         ...prev,
@@ -162,10 +164,13 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
                 }
             })
 
-            socketInstance && socketInstance.on(messageListeners.viewed, () => setMessages(prev => ({
-                ...prev,
-                items: prev.items.map(item => ({...item, isViewed: true}))
-            })))
+            socketInstance.on(messageListeners.viewed, () => {
+                console.log('viewed')
+                setMessages(prev => ({
+                    ...prev,
+                    items: prev.items.map(item => ({...item, isViewed: true}))
+                }))
+            })
 
             emitPaginateMessagesRequest(page, initialMessagesLimit)
         }
@@ -178,6 +183,10 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
     useEffect(() => {
         editableMessage.id && setMessageInput(editableMessage.text)
     }, [editableMessage])
+
+    // useEffect(() => {
+    //     emitViewedMessage(+conversationId, +conversationUser?.id)
+    // }, [messages])
 
     // ? temp loggers
     useEffect(() => {
