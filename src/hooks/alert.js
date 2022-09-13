@@ -14,7 +14,7 @@ const useAlert = (delay) => {
     useEffect(() => {
         setAlertNode(
             <Alert className='submit-alert' variant={submitAlert.variant} show={submitAlert.isShow}>
-                {(submitAlert?.message?.length > 0) && submitAlert.message}
+                <span>{(submitAlert?.message?.length > 0) && submitAlert.message}</span>
             </Alert>
         )
 

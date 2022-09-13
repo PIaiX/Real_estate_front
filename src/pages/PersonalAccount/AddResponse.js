@@ -3,9 +3,10 @@ import {Link, useLocation, useNavigate, useParams} from 'react-router-dom';
 import UserCard from '../../components/UserCard';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import {createResponse} from '../../API/responses';
-import useAlert from '../../hooks/alert';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {userInfo} from "../../API/users";
+import {bindActionCreators} from "redux";
+import alertActions from "../../store/actions/alert"
 
 export default function AddResponse() {
 
@@ -14,9 +15,12 @@ export default function AddResponse() {
     const token = useSelector(state => state?.accessToken)
     const userId = useSelector(state => state?.currentUser?.id)
     const [response, setResponse] = useState('')
+    const {setSubmitAlert, getAlertNode} = useAlert(3000)
     const [userInf, setUserInf] = useState({})
     const loc = useLocation()
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const {setAlert} = bindActionCreators(alertActions, dispatch)
 
     const onSubmit = () => {
         let payloads = {
@@ -28,34 +32,13 @@ export default function AddResponse() {
         }
 
         createResponse(axiosPrivate, token, payloads)
-            .then(result => {
-                // ! needed dispatch alerts
-                // (result?.status === 200)
-
-                    // ? setSubmitAlert(prev => ({
-                    //     ...prev,
-                    //     isShow: true,
-                    //     variant: 'success',
-                    //     message: 'Отклик успешно отправлен, отправляем вас назад'
-                    // }))
-                    // : setSubmitAlert(prev => ({
-                    //     ...prev,
-                    //     isShow: true,
-                    //     variant: 'danger',
-                    //     message: 'Что-то пошло не так, не удалось отправить отклик'
-                    // }))
-                payloads = {}
-                setTimeout(() => {navigate(loc?.state?.prevUrl)}, 1500)
-
+            .then(() => {
+                setAlert('success', true, 'Отклик успешно отправлен, возвращаем вас назад')
+                setTimeout(() => {navigate(loc?.state?.prevUrl)}, 2000)
             })
-            .catch(() => null
-        // setSubmitAlert(prev => ({
-            //     ...prev,
-            //     isShow: true,
-            //     variant: 'danger',
-            //     message: 'Возникла ошибка при создании отклика'
-            // }))
-            )
+            .catch(() => {
+                setAlert('danger', true, 'Произошла ошибка сервера')
+            })
     }
 
     useEffect(() => {
@@ -64,6 +47,7 @@ export default function AddResponse() {
 
     return (
         <div className='px-2 px-sm-4 pb-4 pb-sm-5'>
+            {getAlertNode()}
             <nav className="d-block d-lg-none mt-3 mb-3 mb-sm-5" aria-label="breadcrumb">
                 <Link to="/personal-account" className="gray-3">&#10094; Назад</Link>
             </nav>

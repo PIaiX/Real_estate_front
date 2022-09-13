@@ -10,6 +10,7 @@ import {bindActionCreators} from "redux";
 import currentUserActions from "../../store/actions/currentUser";
 import {useDispatch} from "react-redux";
 import PhoneInput from "react-phone-input-2";
+import alertActions from "../../store/actions/alert"
 
 export default function UserProfile() {
 
@@ -27,6 +28,7 @@ export default function UserProfile() {
     const currentBirthDayMonth = (currentUser?.birthdayForUser)?.split('.')[1]
     const currentBirthDayYear = (currentUser?.birthdayForUser)?.split('.')[2]
     const {setCurrentUser} = bindActionCreators(currentUserActions, dispatch);
+    const {setAlert} = bindActionCreators(alertActions, dispatch)
     useEffect(() => {
         if (currentUser) {
             setFirstName(currentUser?.firstName)
@@ -178,6 +180,7 @@ export default function UserProfile() {
                 .then((response) => {
                     setCurrentUser(response || null);
                     redactorSwitcher()
+                    setAlert('success', true, 'Профиль успешно отредактирован')
                 })
                 .catch((errors) => {
                     setRedactor(true)
@@ -187,6 +190,7 @@ export default function UserProfile() {
                             [error.field]: error.message
                         }))
                     })
+                    setAlert('success', true, 'Произошла ошибка сервера')
                 })
         }
     }

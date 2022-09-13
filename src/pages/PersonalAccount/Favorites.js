@@ -8,6 +8,9 @@ import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import {useAccessToken, useCurrentUser} from "../../store/reducers";
 import Loader from "../../components/Loader";
 import {deleteWishList} from "../../API/adspage";
+import {useDispatch} from "react-redux";
+import {bindActionCreators} from "redux";
+import alertActions from "../../store/actions/alert"
 
 export default function Favorites({routeName}) {
 
@@ -19,6 +22,8 @@ export default function Favorites({routeName}) {
     const {page} = useParams()
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const {setAlert} = bindActionCreators(alertActions, dispatch)
 
     useEffect(() => {
         getWishlist(userId, page, 4, axiosPrivate, token)
@@ -42,8 +47,10 @@ export default function Favorites({routeName}) {
                             wishlist: res?.data
                         })
                     })
-            }).catch(() => {
-
+                setAlert('success', true, 'Объявление успешно удалено из избранных')
+            })
+            .catch(() => {
+                setAlert('danger', true, 'Произошла ошибка сервера')
             })
     }
 

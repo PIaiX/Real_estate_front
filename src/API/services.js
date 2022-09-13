@@ -50,6 +50,7 @@ export const deleteService = async (axiosPrivate, serviceId, token) => {
         await axiosPrivate.delete(`${process.env.REACT_APP_BASE_URL}${apiRoutes.SERVICES_ACTIONS}/${serviceId}`, { data: { token } })
     } catch (error) {
         console.log(error)
+        throw error
     }
 }
 
@@ -67,5 +68,6 @@ export const updateService = async (axiosPrivate, payload, id) => {
         await axiosPrivate.patch(`${process.env.REACT_APP_BASE_URL}${apiRoutes.SERVICES_ACTIONS}/${id}`, payload)
     } catch (error) {
         console.log(error)
+        throw error
     }
 }

@@ -3397,8 +3397,11 @@ main.account {
   @media (max-width: 767px) {
     background-color: #fff;
     border-bottom: 1px solid $color-3;
+    padding-bottom: 1em;
   }
   @media (max-width: 575px) {
+    margin-left: -12px;
+    margin-right: -12px;
     padding-bottom: .5em;
     padding-top: .5em;
     position: sticky;
@@ -4916,6 +4919,7 @@ footer {
   &_city {
 
 
+
     .custom-select__toggle_city {
       div {
         color: $color-2;
@@ -5160,8 +5164,12 @@ footer {
   border: none;
   z-index: 10;
   border-radius: 0;
+  text-align: center;
   @media (max-width: 767px) {
     bottom: 50px;
+  }
+  span {
+    font-weight: bold;
   }
 }
 
@@ -5233,6 +5241,19 @@ footer {
   max-width: 200px;
   z-index: 100;
   //position: absolute;
+.button-header-question {
+  color: #C59C7E;
+  font-size: 1.1em;
+  &:hover {
+    color: #146492;
+  }
+  &__offcanvas {
+    display: contents;
+    color: #C59C7E;
+    font-size: 1.3em;
+  }
+}
+
 
   & li {
     display: flex;

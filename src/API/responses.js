@@ -51,6 +51,7 @@ const createResponse = async (axiosPrivate, token, payloads) => {
         return response?.data
     } catch (error) {
         console.log(error)
+        throw error
     }
 }
 
@@ -60,6 +61,7 @@ const acceptResponse = async (axiosPrivate, id, payloads) => {
         return response?.data
     } catch (error) {
         console.log(error)
+        throw error
     }
 }
 
@@ -69,6 +71,7 @@ const completeResponse = async (axiosPrivate, id, payloads) => {
         return response?.data
     } catch (error) {
         console.log(error)
+        throw error
     }
 }
 
@@ -78,6 +81,7 @@ const rejectResponse = async (axiosPrivate, id, payloads) => {
         return response?.data?.body
     } catch (error) {
         console.log(error)
+        throw error
     }
 }
 

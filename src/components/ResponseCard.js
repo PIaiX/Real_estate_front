@@ -2,25 +2,45 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {acceptResponse, completeResponse, rejectResponse} from '../API/responses';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {bindActionCreators} from "redux";
+import alertActions from "../store/actions/alert"
 
 const ResponseCard = (props) => {
+
     const axiosPrivate = useAxiosPrivate()
     const token = useSelector(state => state?.accessToken)
+    const dispatch = useDispatch()
+    const {setAlert} = bindActionCreators(alertActions, dispatch)
 
     const onAccept = () => {
         props.id && acceptResponse(axiosPrivate, props.id, {token})
-            .then(() => props.updateData && props.updateData())
+            .then(() => {
+                props.updateData && props.updateData()
+                setAlert('success', true, 'Отклик успешно принят')
+            }).catch(() => {
+                setAlert('danger', true, 'Произошла ошибка сервера')
+            })
     }
 
     const onReject = () => {
         props.id && rejectResponse(axiosPrivate, props.id, {token})
-            .then(() => props.updateData && props.updateData())
+            .then(() => {
+                props.updateData && props.updateData()
+                setAlert('success', true, 'Отклик успешно отклонен')
+            }).catch(() => {
+                setAlert('danger', true, 'Произошла ошибка сервера')
+            })
     }
 
     const onComplete = () => {
         props.id && completeResponse(axiosPrivate, props.id, {token})
-            .then(() => props.updateData && props.updateData())
+            .then(() => {
+                props.updateData && props.updateData()
+                setAlert('success', true, 'Отклик успешно завершен')
+            }).catch(() => {
+                setAlert('danger', true, 'Произошла ошибка сервера')
+            })
     }
 
     const setSendMessagePayloads = () => {

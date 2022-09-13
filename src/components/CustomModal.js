@@ -15,6 +15,7 @@ const CustomModal = (props) => {
             centered={props?.centre || props?.centered || false}
             dialogClassName="modal-90w"
             className={props?.className ?? ''}
+            size={props.size}
         >
             {props?.closeButton ?
                 <Modal.Header>
