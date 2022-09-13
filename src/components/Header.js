@@ -1,13 +1,16 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, NavLink, useLocation} from 'react-router-dom';
-import {animateScroll as scroll} from 'react-scroll';
 import {getQuestion} from "../API/question";
 import CustomModal from "./CustomModal";
 import CityContainer from './CityContainer';
 import CustomOffcanvas from './CustomOffcanvas';
+import useSocket from '../hooks/socket';
+import {socketInstance} from '../API/socketInstance';
+import {conversationListeners} from '../API/socketConversations';
 
 const Header = () => {
-
+    const {isConnected} = useSocket()
+    const [counter, setCounter] = useState(null)
     const [isShowMenu, setIsShowMenu] = useState(false)
     const location = useLocation()
     const pathname = location.pathname
@@ -70,6 +73,12 @@ const Header = () => {
         setIsShowMenu(prevIsShowMenu => !prevIsShowMenu)
     }
 
+    useEffect(() => {
+        if (isConnected) {
+            socketInstance.on(conversationListeners.countNewMessages, count => setCounter(count))
+        }
+    }, [isConnected])
+
     return (
         <>
             <header>
@@ -84,8 +93,9 @@ const Header = () => {
                         <a href="" role="button" data-bs-toggle="modal" data-bs-target="#ask">Задать вопрос</a>
                     </nav>
                     <div className="d-none d-md-flex order-4 order-lg-3">
-                        <Link to="/personal-account/my-messages" className="ms-4">
+                        <Link to="/personal-account/my-messages" className="counter ms-4">
                             <img src="/img/icons/email.svg" alt="email"/>
+                            {(counter) && <span>{counter}</span>}
                         </Link>
                         <Link to="/personal-account/favorites/page/1"
                               className="ms-3 ms-xl-4">

@@ -5250,3 +5250,25 @@ footer {
     display: none;
   }
 }
+
+.counter {
+  position: relative;
+
+  span {
+    position: absolute;
+    right: -10px;
+    bottom: -10px;
+    width: 18px;
+    height: 18px;
+    background-color: #146492;
+    color: #fff;
+    font-family: "Gilroy";
+    font-weight: 500;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    z-index: 100;
+  }
+}
