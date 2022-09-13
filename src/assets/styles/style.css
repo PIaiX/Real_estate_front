@@ -4965,6 +4965,19 @@ footer nav.mobile ul li a.active svg.type-2 path {
   color: black;
 }
 
+.button-header-question {
+  color: #C59C7E;
+  font-size: 1.1em;
+}
+.button-header-question:hover {
+  color: #146492;
+}
+.button-header-question__offcanvas {
+  display: contents;
+  color: #C59C7E;
+  font-size: 1.3em;
+}
+
 .mobile-item__dropdown {
   padding: 0;
   display: flex;
@@ -4975,18 +4988,6 @@ footer nav.mobile ul li a.active svg.type-2 path {
   border-radius: 4px;
   max-width: 200px;
   z-index: 100;
-}
-.mobile-item__dropdown .button-header-question {
-  color: #C59C7E;
-  font-size: 1.1em;
-}
-.mobile-item__dropdown .button-header-question:hover {
-  color: #146492;
-}
-.mobile-item__dropdown .button-header-question__offcanvas {
-  display: contents;
-  color: #C59C7E;
-  font-size: 1.3em;
 }
 .mobile-item__dropdown li {
   display: flex;
