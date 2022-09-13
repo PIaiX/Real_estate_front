@@ -415,44 +415,44 @@ button {
   line-height: normal;
 }
 .btn-1 {
-  background-color: #146492;
-  color: #fff;
+  background-color: #146492 !important;
+  color: #fff !important;
 }
 .btn-1:hover, .btn-1:focus, .btn-1:active {
-  color: #fff;
-  background-color: #105277;
+  color: #fff !important;
+  background-color: #105277 !important;
 }
 .btn-1:disabled {
-  color: #C4C4C4;
-  background-color: #7a7878;
+  color: #C4C4C4 !important;
+  background-color: #7a7878 !important;
 }
 .btn-2 {
-  background-color: #C59C7E;
-  color: #fff;
+  background-color: #C59C7E !important;
+  color: #fff !important;
 }
 .btn-2:hover, .btn-2:focus, .btn-2:active {
-  color: #fff;
-  background-color: #bc8c69;
+  color: #fff !important;
+  background-color: #bc8c69 !important;
 }
 .btn-2:disabled {
-  color: #C4C4C4;
-  background-color: #7a7878;
+  color: #C4C4C4 !important;
+  background-color: #7a7878 !important;
 }
 .btn-2 svg line {
   stroke: #fff;
 }
 .btn-3 {
-  background-color: #E0E0E0;
-  color: #828282;
+  background-color: #E0E0E0 !important;
+  color: #828282 !important;
   font-weight: 500;
 }
 .btn-3:hover, .btn-3:focus, .btn-3:active {
-  color: #fff;
-  background-color: #146492;
+  color: #fff !important;
+  background-color: #146492 !important;
 }
 .btn-3:disabled {
-  color: #C4C4C4;
-  background-color: #7a7878;
+  color: #C4C4C4 !important;
+  background-color: #7a7878 !important;
 }
 .btn-rad2 {
   border-radius: 2em;
@@ -4734,11 +4734,15 @@ footer nav.mobile ul li a.active svg.type-2 path {
   border: none;
   z-index: 10;
   border-radius: 0;
+  text-align: center;
 }
 @media (max-width: 767px) {
   .submit-alert {
     bottom: 50px;
   }
+}
+.submit-alert span {
+  font-weight: bold;
 }
 
 .auth-error {
@@ -4760,6 +4764,19 @@ footer nav.mobile ul li a.active svg.type-2 path {
 }
 #sec-3 .y-maps-container .main-page__yamaps {
   height: 260px;
+}
+
+.button-header-question {
+  color: #C59C7E;
+  font-size: 1.1em;
+}
+.button-header-question:hover {
+  color: #146492;
+}
+.button-header-question__offcanvas {
+  display: contents;
+  color: #C59C7E;
+  font-size: 1.3em;
 }
 
 /*# sourceMappingURL=style.css.map */

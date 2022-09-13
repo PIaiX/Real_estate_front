@@ -7,5 +7,6 @@ export async function getQuestion(formData) {
         return response.data.body;
     } catch(error) {
         console.log(error)
+        throw error
     }
 }

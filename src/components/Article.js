@@ -12,7 +12,7 @@ export default function Article(props) {
     };
 
     return (
-        <article >
+        <article className='d-flex flex-column justify-content-between flex-nowrap'>
             <img src={props.imgUrl} alt={props.title}/>
             <div className="py-2 py-md-3 px-3 px-md-4">
                 <h2 className="mb-2 mb-md-3">{props.title}</h2>

@@ -15,7 +15,7 @@ export default function AxiosArticleMain(props) {
         data ?
         <>
             {data.map((data) =>
-                        <div key={data.id}>
+                        <div key={data.id} className='d-flex'>
                             <Article
                                 imgUrl="/img/nophoto.jpg"
                                 title={data.title}

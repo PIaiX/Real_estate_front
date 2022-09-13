@@ -10,7 +10,7 @@ import useRedirectToPath from '../../hooks/redirectToPath';
 import {checkPhotoPath} from '../../helpers/photo';
 
 export default function Responses(props) {
-    const initialPageLimit = 10
+    const initialPageLimit = 4
     const {page} = useParams()
     const axiosPrivate = useAxiosPrivate()
     const userId = useSelector(state => state?.currentUser?.id)

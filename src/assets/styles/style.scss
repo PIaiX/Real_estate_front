@@ -478,32 +478,32 @@ button {
   line-height: normal;
 
   &-1 {
-    background-color: $color-1;
-    color: #fff;
+    background-color: $color-1 !important;
+    color: #fff !important;
 
     &:hover, &:focus, &:active {
-      color: #fff;
-      background-color: darken($color-1, 6%);
+      color: #fff !important;
+      background-color: darken($color-1, 6%) !important;
     }
 
     &:disabled {
-      color: #C4C4C4;
-      background-color: #7a7878;
+      color: #C4C4C4 !important;
+      background-color: #7a7878 !important;
     }
   }
 
   &-2 {
-    background-color: $color-2;
-    color: #fff;
+    background-color: $color-2!important;
+    color: #fff!important;
 
     &:hover, &:focus, &:active {
-      color: #fff;
-      background-color: darken($color-2, 6%);
+      color: #fff!important;
+      background-color: darken($color-2, 6%)!important;
     }
 
     &:disabled {
-      color: #C4C4C4;
-      background-color: #7a7878;
+      color: #C4C4C4!important;
+      background-color: #7a7878!important;
     }
 
     svg {
@@ -514,16 +514,16 @@ button {
   }
 
   &-3 {
-    background-color: $gray-5;
-    color: $gray-3;
+    background-color: $gray-5 !important;
+    color: $gray-3 !important;
     font-weight: 500;
     &:hover, &:focus, &:active {
-      color: #fff;
-      background-color: $color-1;
+      color: #fff !important;
+      background-color: $color-1 !important;
     }
     &:disabled {
-      color: #C4C4C4;
-      background-color: #7a7878;
+      color: #C4C4C4 !important;
+      background-color: #7a7878 !important;
     }
   }
   &-rad2 {border-radius: 2em;}
@@ -4906,8 +4906,12 @@ footer {
   border: none;
   z-index: 10;
   border-radius: 0;
+  text-align: center;
   @media (max-width: 767px) {
     bottom: 50px;
+  }
+  span {
+    font-weight: bold;
   }
 }
 
@@ -4932,6 +4936,19 @@ footer {
       height: 260px;
 
     }
+  }
+}
+
+.button-header-question {
+  color: #C59C7E;
+  font-size: 1.1em;
+  &:hover {
+    color: #146492;
+  }
+  &__offcanvas {
+    display: contents;
+    color: #C59C7E;
+    font-size: 1.3em;
   }
 }
 

@@ -23,7 +23,10 @@ const fields = {
     isInValidHouseType: false,
     isInValidRoomType: false,
     isInValidTotalArea: false,
+    isInValidLivingArea: false,
+    isInValidKitchenArea: false,
     isInValidFloor: false,
+    isInValidMaxFloor: false,
     isInValidDescription: false,
     isInValidImage: false,
     isInValidPrice: false,
@@ -177,8 +180,11 @@ export default function Advertise() {
         const isInValidAddress = data.address?.length < 5 || data.address === undefined
         const isInValidHouseType = data.houseType === undefined
         const isInValidRoomType = data.roomType === undefined
-        const isInValidTotalArea = data.totalArea === undefined || data.totalArea?.length < 0
-        const isInValidFloor = data["floor"] === undefined
+        const isInValidTotalArea = data.totalArea === undefined || data.totalArea < 0
+        const isInValidLivingArea = data?.livingArea < 0;
+        const isInValidKitchenArea = data?.kitchenArea < 0;
+        const isInValidFloor = data["floor"] === undefined || data?.floor < 0;
+        const isInValidMaxFloor = data?.maxFloor < 0;
         const isInValidDescription = data.description?.length < 30 || data.description === undefined
         const isInValidImage = imgs?.length === 0 || imgs === undefined
         const isInValidPrice = data.price === undefined
@@ -208,9 +214,18 @@ export default function Advertise() {
         } else if (isInValidTotalArea) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidTotalArea: true})
+        } else if (isInValidLivingArea) {
+            scroller.scrollTo("anchor-2")
+            setValid({...valid, isInValidLivingArea: true})
+        } else if (isInValidKitchenArea) {
+            scroller.scrollTo("anchor-2")
+            setValid({...valid, isInValidKitchenArea: true})
         } else if (isInValidFloor) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidFloor: true})
+        } else if (isInValidMaxFloor) {
+            scroller.scrollTo("anchor-2")
+            setValid({...valid, isInValidMaxFloor: true})
         } else if (isInValidDescription) {
             scroller.scrollTo("anchor-3", {offset: -80})
             setValid({...valid, isInValidDescription: true})
@@ -260,7 +275,7 @@ export default function Advertise() {
                 setAlert('success', true, 'Объявление успешно опубликовано, переход в ваши объявления')
                 setTimeout(() => {
                     navigate("/personal-account/my-ads/page/1", {replace: true})
-                }, 1500)
+                }, 2000)
             }).catch((error) => {
                 setAlert('danger', true, 'Произошла ошибка сервера')
             })
@@ -809,9 +824,15 @@ export default function Advertise() {
                                         }}
                                     />
                                 </div>
-                                <div className="text-md-end title mt-3 mt-sm-4 mt-md-0">Жилая площадь:</div>
+                                <div
+                                    className="text-md-end title mt-3 mt-sm-4 mt-md-0"
+                                    style={{color: valid.isInValidLivingArea ? '#DA1E2A' : ''}}
+                                >
+                                    Жилая площадь:
+                                </div>
                                 <div className="mt-3 mt-sm-4 mt-md-0">
                                     <input
+                                        style={{borderColor: valid.isInValidLivingArea ? '#DA1E2A' : ''}}
                                         type="number"
                                         name="living-space"
                                         placeholder="0"
@@ -821,15 +842,20 @@ export default function Advertise() {
                                             setData(prevData => {
                                                 return {...prevData, "livingArea": e.target.value}
                                             })
+                                            resetFieldVal(e, 'isInValidLivingArea')
                                         }}
                                     />
                                 </div>
                             </div>
                             <hr className="d-none d-md-block my-4"/>
-                            <div className="row row-cols-2 row-cols-md-4 align-items-center mt-3 mt-sm-4">
+                            <div
+                                style={{color: valid.isInValidKitchenArea ? '#DA1E2A' : ''}}
+                                className="row row-cols-2 row-cols-md-4 align-items-center mt-3 mt-sm-4"
+                            >
                                 <div className="fs-11 title">Площадь кухни:</div>
                                 <div>
                                     <input
+                                        style={{borderColor: valid.isInValidKitchenArea ? '#DA1E2A' : ''}}
                                         type="number"
                                         name="kitchen-area"
                                         placeholder="0"
@@ -839,6 +865,7 @@ export default function Advertise() {
                                             setData(prevData => {
                                                 return {...prevData, "kitchenArea": e.target.value}
                                             })
+                                            resetFieldVal(e, 'isInValidKitchenArea')
                                         }}
                                     />
                                 </div>
@@ -865,9 +892,15 @@ export default function Advertise() {
                                         }}
                                     />
                                 </div>
-                                <div className="title text-md-end mt-3 mt-sm-4 mt-md-0">Этажей в доме:</div>
+                                <div
+                                    className="title text-md-end mt-3 mt-sm-4 mt-md-0"
+                                    style={{color: valid.isInValidMaxFloor ? '#DA1E2A' : ''}}
+                                >
+                                    Этажей в доме:
+                                </div>
                                 <div className="mt-3 mt-sm-4 mt-md-0">
                                     <input
+                                        style={{borderColor: valid.isInValidMaxFloor ? '#DA1E2A' : ''}}
                                         type="number"
                                         name="floor"
                                         placeholder="0"
@@ -877,6 +910,7 @@ export default function Advertise() {
                                             setData(prevData => {
                                                 return {...prevData, "maxFloor": e.target.value}
                                             })
+                                            resetFieldVal(e, 'isInValidMaxFloor')
                                         }}
                                     />
                                 </div>
@@ -1378,7 +1412,7 @@ export default function Advertise() {
                                         type="number"
                                         className="fs-11"
                                         value={data?.yearOfConstruction || ''}
-                                        placeholder="Год"
+                                        placeholder="1850-2022"
                                         onChange={e => {
                                             setData(prevData => {
                                                 return {...prevData, "yearOfConstruction": e.target.value}

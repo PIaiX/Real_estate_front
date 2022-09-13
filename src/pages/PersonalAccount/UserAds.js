@@ -6,6 +6,9 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import PaginationCustom from "../../components/PaginationCustom";
 import {deleteAds, getMyAds} from "../../API/users";
 import Loader from "../../components/Loader";
+import {useDispatch} from "react-redux";
+import {bindActionCreators} from "redux";
+import alertActions from "../../store/actions/alert"
 
 export default function UserAds({routeName}) {
 
@@ -18,6 +21,8 @@ export default function UserAds({routeName}) {
     let {page} = useParams()
     const navigate = useNavigate()
     const [selectedUuid, setSelectedUuid] = useState(null)
+    const dispatch = useDispatch()
+    const {setAlert} = bindActionCreators(alertActions, dispatch)
 
     useEffect(() => {
         function updateSize() {
@@ -55,6 +60,10 @@ export default function UserAds({routeName}) {
                             meta: res.body
                         })
                     })
+                setAlert('success', true, 'Объявление успешно удалено')
+            })
+            .catch(() => {
+                setAlert('danger', true, 'Произошла ошибка')
             })
     }
 

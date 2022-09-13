@@ -43,6 +43,7 @@ export async function deleteAds (axiosPrivate, uuid, token) {
         return response
     } catch(error) {
         console.log(error)
+        throw error
     }
 }
 

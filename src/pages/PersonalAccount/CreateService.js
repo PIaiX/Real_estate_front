@@ -5,6 +5,9 @@ import InputTags from '../../components/InputTags';
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import {useAccessToken, useCurrentUser} from "../../store/reducers";
 import {createService, getService, getServicesTypes, getSubServicesTypes, updateService} from "../../API/services";
+import {useDispatch} from "react-redux";
+import {bindActionCreators} from "redux";
+import alertActions from "../../store/actions/alert"
 
 export default function CreateService() {
 
@@ -18,7 +21,7 @@ export default function CreateService() {
     const [loadService, setLoadService] = useState({})
     const [servicesType, setServicesType] = useState([])
     const [subServiceType, setSubServiceType] = useState([])
-    const [subServiceSelect, setSubServiceSelect] =useState({
+    const [subServiceSelect, setSubServiceSelect] = useState({
         value: null,
         title: ''
     })
@@ -31,16 +34,23 @@ export default function CreateService() {
         title: ''
     })
     const [payloads, setPayloads] = useState({})
+    const dispatch = useDispatch()
+    const {setAlert} = bindActionCreators(alertActions, dispatch)
 
     useEffect(() => {
-        setPayloads(prevState => ({...prevState, userId: currentUser?.id, token: currentToken, labels: tags.join(', ')}))
+        setPayloads(prevState => ({
+            ...prevState,
+            userId: currentUser?.id,
+            token: currentToken,
+            labels: tags.join(', ')
+        }))
     }, [currentUser, currentToken, tags])
 
     useEffect(() => {
         getServicesTypes(axiosPrivate)
             .then(res => {
-            setServicesType(res.map(i => ({title: i.name, value: i.id})))
-        })
+                setServicesType(res.map(i => ({title: i.name, value: i.id})))
+            })
     }, [])
 
     useEffect(() => {
@@ -73,7 +83,15 @@ export default function CreateService() {
             setValid({...valid, isInValidDescription: true})
         } else {
             createService(axiosPrivate, payloads)
-                .then(() => navigate('/personal-account/my-services'))
+                .then(() => {
+                    setAlert('success', true, 'Услуга успешно создана, переход в мои услуги')
+                    setTimeout(() => {
+                        navigate('/personal-account/my-services')
+                    }, 2000)
+                })
+                .catch(() => {
+                    setAlert('danger', true, 'Произошла ошибка сервера')
+                })
         }
     }
 
@@ -88,7 +106,7 @@ export default function CreateService() {
     }, [])
 
     useEffect(() => {
-        if(id) {
+        if (id) {
             setPayloads(prevState => ({
                 ...prevState,
                 servicesTypesSubServiceId: loadService.servicesTypesSubServiceId,
@@ -113,7 +131,7 @@ export default function CreateService() {
     useEffect(() => {
         let item = {}
         expYears.find((i, index) => {
-            if(index === loadService.experienceType){
+            if (index === loadService.experienceType) {
                 return item = {title: i, value: index}
             }
         })
@@ -197,7 +215,7 @@ export default function CreateService() {
                         <InputTags
                             labels={loadService.labels}
                             name="services"
-                            placeholder="вводите услуги по 1"
+                            placeholder="вводите услуги по 1 и без повторений"
                             callback={(tags) => setTags(tags)}
                         />
                     </div>
@@ -228,14 +246,26 @@ export default function CreateService() {
                 <div className="row justify-content-end">
                     <div className="col-sm-8">
                         <div className="row row-cols-2">
-                            <div><Link to="/personal-account/my-services" className="btn btn-2 w-100 fs-11">Отмена</Link></div>
+                            <div><Link to="/personal-account/my-services"
+                                       className="btn btn-2 w-100 fs-11">Отмена</Link></div>
                             <div>
                                 <button
-                                type="button"
-                                className="btn btn-1 w-100 fs-11"
-                                onClick={(e) => {
-                                    (id) ? updateService(axiosPrivate, payloads, id).then(() => navigate('/personal-account/my-services')) : createNewService(e)
-                                }}
+                                    type="button"
+                                    className="btn btn-1 w-100 fs-11"
+                                    onClick={(e) => {
+                                        (id)
+                                            ? updateService(axiosPrivate, payloads, id)
+                                                .then(() => {
+                                                    setAlert('success', true, 'Услуга успешно создана, переход в мои услуги')
+                                                    setTimeout(() => {
+                                                        navigate('/personal-account/my-services')
+                                                    }, 2000)
+                                                })
+                                                .catch(() => {
+                                                    setAlert('danger', true, 'Произошла ошибка сервера')
+                                                })
+                                            : createNewService(e)
+                                    }}
                                 >
                                     Сохранить
                                 </button>
