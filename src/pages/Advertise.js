@@ -10,17 +10,87 @@ import {AddressSuggestions} from "react-dadata";
 import CustomModal from "../components/CustomModal";
 import env from '../config/env'
 import {dadataFias} from '../API/dadata';
-import {useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {addAdvertise} from "../API/config/advertise";
+import {bindActionCreators} from "redux";
+import actionsAlert from "../store/actions/alert"
+
+const fields = {
+    isInValidEstateId: false,
+    isInValidTransactionType: false,
+    isInValidRentalTypes: false,
+    isInValidAddress: false,
+    isInValidHouseType: false,
+    isInValidRoomType: false,
+    isInValidTotalArea: false,
+    isInValidFloor: false,
+    isInValidDescription: false,
+    isInValidImage: false,
+    isInValidPrice: false,
+    isInValidEstateTypeId: false,
+    isInValidYear: false,
+    isInValidCeilingHeight: false,
+    isInValidPrepayment: false,
+    isInValidCommission: false
+}
+
+const defaultForm = {
+    transactionType: 1,
+    rentalType: 0,
+    isPledge: false,
+    prepaymentType: 0,
+    houseType: 0,
+    WCType: 0,
+    balconyType: 0,
+    layoutType: 0,
+    repairType: 0,
+    houseBuildingType: 0,
+    elevatorType: 0,
+    roomType: 2,
+    hypothec: 1,
+    estateId: 0,
+    pledge: 0,
+    commission: 0,
+    isEncumbrances: 1,
+    metro: 'test',
+    address: '',
+    residentalComplex: '',
+    description: '',
+    yearOfConstruction: '',
+    ceilingHeight: '',
+}
 
 export default function Advertise() {
-    const city = useSelector(state => state.selectedCity)
+
     const ref = useRef(null); // Form
     const [deal, setDeal] = useState('1'); // тип сделки (по умолчанию - продажа)
     const [proptype, setProptype] = useState('1'); // тип недвижимости (по умолчанию - Жилая)
     const [requiredElems, setRequired] = useState([]);
     let navigate = useNavigate();
     const [isShow, setIsShow] = useState(false)
+    const [types, setTypes] = useState([]) // result require api
+    const [es, setEs] = useState([]) // state estates in types
+    const [res, setRes] = useState('') // check id in array id's
+    const [imgs, setImages] = useState([]);
+    const [mainImg, setMainImg] = useState(0);
+    const [activeField, setActiveField] = useState(1); //для мобильных устройств
+    const f = imgs[mainImg]
+    const image = f?.file
+    const axiosPrivate = useAxiosPrivate();
+    const token = useAccessToken()
+    const currentUser = useCurrentUser()
+    const [district, setDistrict] = useState({})
+    const [data, setData] = useState(defaultForm)
+    const [prepTypeText, setPrepTypeText] = useState('')
+    const [valid, setValid] = useState(fields);
+    const scroller = Scroll.scroller;
+    const [statusRequest, setStatusRequest] = useState({
+        error: false,
+        good: false,
+    })
+    const maxNumber = 24;
+    const dispatch = useDispatch()
+    const {setAlert} = bindActionCreators(actionsAlert, dispatch)
 
     useEffect(() => {
         function updateState() {
@@ -36,10 +106,6 @@ export default function Advertise() {
 
         ref?.current?.addEventListener('change', updateState);
     }, []);
-
-    const [types, setTypes] = useState([]) // result require api
-    const [es, setEs] = useState([]) // state estates in types
-    const [res, setRes] = useState('') // check id in array id's
 
     useEffect(() => {
         const typess = async () => {
@@ -60,10 +126,14 @@ export default function Advertise() {
         setRes(ids.find((t) => t === +proptype))
     }, [types, proptype])
 
-    /* images upload */
-    const [imgs, setImages] = useState([]);
-    const [mainImg, setMainImg] = useState(0);
-    const maxNumber = 24;
+    useEffect(() => {
+        data['fias_id'] && dadataFias(data['fias_id'])
+            .then(res => setDistrict({
+                city: data?.address,
+                name: res?.suggestions[0]?.data?.city_district
+            }))
+    }, [data.address])
+
     const onChange = (imageList, addUpdateIndex, e) => {
         resetFieldVal(e, 'isInValidImage')
         setImages(imageList);
@@ -76,48 +146,6 @@ export default function Advertise() {
     const onSale = (e) => {
         setDeal(e.target.value); //переключение типа
     };
-
-    const [activeField, setActiveField] = useState(1); //для мобильных устройств
-
-    const f = imgs[mainImg]
-    const image = f?.file
-
-    const axiosPrivate = useAxiosPrivate();
-    const token = useAccessToken()
-    const currentUser = useCurrentUser()
-
-    const [checked, setChecked] = useState(true)
-    const defaultForm = {
-        transactionType: 1,
-        rentalType: 0,
-        isPledge: false,
-        prepaymentType: 0,
-        houseType: 0,
-        WCType: 0,
-        balconyType: 0,
-        layoutType: 0,
-        repairType: 0,
-        houseBuildingType: 0,
-        elevatorType: 0,
-        roomType: 2,
-        hypothec: 1,
-        estateId: 0,
-        pledge: 0,
-        commission: 0,
-        isEncumbrances: 1,
-        metro: 'test',
-        address: '',
-        residentalComplex: '',
-        description: '',
-        yearOfConstruction: '',
-        ceilingHeight: '',
-    }
-
-    const [district, setDistrict] = useState({})
-
-    const [data, setData] = useState(defaultForm)
-
-    const [prepTypeText, setPrepTypeText] = useState('')
 
     const handleCheckbox = (e) => {
         const {target} = e;
@@ -133,27 +161,6 @@ export default function Advertise() {
         setImages([])
     }
 
-    const fields = {
-        isInValidEstateId: false,
-        isInValidTransactionType: false,
-        isInValidRentalTypes: false,
-        isInValidAddress: false,
-        isInValidHouseType: false,
-        isInValidRoomType: false,
-        isInValidTotalArea: false,
-        isInValidFloor: false,
-        isInValidDescription: false,
-        isInValidImage: false,
-        isInValidPrice: false,
-        isInValidEstateTypeId: false,
-        isInValidYear: false,
-        isInValidCeilingHeight: false,
-        isInValidPrepayment: false,
-        isInValidCommission: false
-    }
-    const [valid, setValid] = useState(fields);
-    const scroller = Scroll.scroller;
-
     const yearsForValidation = () => {
         let startYear = new Date().getFullYear();
         const years = []
@@ -163,11 +170,6 @@ export default function Advertise() {
         return years.find(i => i === +data?.yearOfConstruction)
     }
 
-    const [statusRequest, setStatusRequest] = useState({
-        error: false,
-        good: false,
-    })
-
     const handleSub = (e) => {
         e.preventDefault()
         const isInValidEstateId = data.estateId === undefined || data.estateId === 0
@@ -175,7 +177,7 @@ export default function Advertise() {
         const isInValidAddress = data.address?.length < 5 || data.address === undefined
         const isInValidHouseType = data.houseType === undefined
         const isInValidRoomType = data.roomType === undefined
-        const isInValidTotalArea = data.totalArea === undefined || data.totalArea?.length < 1
+        const isInValidTotalArea = data.totalArea === undefined || data.totalArea?.length < 0
         const isInValidFloor = data["floor"] === undefined
         const isInValidDescription = data.description?.length < 30 || data.description === undefined
         const isInValidImage = imgs?.length === 0 || imgs === undefined
@@ -255,14 +257,12 @@ export default function Advertise() {
                 }
             }
             addAdvertise(axiosPrivate, formData).then(() => {
-                setIsShow(true)
-                setStatusRequest({error: false, good: true})
+                setAlert('success', true, 'Объявление успешно опубликовано, переход в ваши объявления')
                 setTimeout(() => {
                     navigate("/personal-account/my-ads/page/1", {replace: true})
                 }, 1500)
             }).catch((error) => {
-                setIsShow(true)
-                setStatusRequest({error: true, good: false})
+                setAlert('danger', true, 'Произошла ошибка сервера')
             })
         }
     }
@@ -270,14 +270,6 @@ export default function Advertise() {
     const resetFieldVal = (newState, field) => {
         setValid({...valid, [field]: false})
     }
-
-    useEffect(() => {
-        data['fias_id'] && dadataFias(data['fias_id'])
-            .then(res => setDistrict({
-                city: data?.address,
-                name: res?.suggestions[0]?.data?.city_district
-            }))
-    }, [data.address])
 
     return (
         <main>
