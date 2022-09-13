@@ -453,17 +453,17 @@ button {
   stroke: #fff;
 }
 .btn-3 {
-  background-color: #E0E0E0;
-  color: #828282;
+  background-color: #E0E0E0 !important;
+  color: #828282 !important;
   font-weight: 500;
 }
 .btn-3:hover, .btn-3:focus, .btn-3:active {
-  color: #fff;
-  background-color: #146492;
+  color: #fff !important;
+  background-color: #146492 !important;
 }
 .btn-3:disabled {
-  color: #C4C4C4;
-  background-color: #7a7878;
+  color: #C4C4C4 !important;
+  background-color: #7a7878 !important;
 }
 .btn-rad2 {
   border-radius: 2em;
@@ -4356,6 +4356,7 @@ footer nav.mobile ul li a.active svg.type-2 path {
 
 .btn-close {
   position: absolute;
+  z-index: 100 !important;
   top: 1em;
   right: 1em;
   width: 2em;

@@ -122,19 +122,23 @@ const emitCreateMessage = async (payloads) => {
     })
 }
 
-const emitCreateWithoutTopicMessage = async (toId) => {
+const emitCreateWithoutTopicMessage = async (toId, payloads) => {
     return await new Promise((resolve, reject) => {
-        socketInstance.emit("message:createWithoutTopic", toId, (response) => response
+        socketInstance.emit("message:createWithoutTopic", toId, payloads, (response) => response
             ? resolve(response)
             : reject(response))
     })
 }
 
-const emitCreateWithServiceTopicMessage = async (toId) => {
+const emitCreateWithServiceTopicMessage = async (toId, payloads) => {
     return await new Promise((resolve, reject) => {
-        socketInstance.emit("message:createWithServiceTopic", toId, (response) => response
-            ? resolve(response)
-            : reject(response))
+        socketInstance.emit("message:createWithServiceTopic", toId, payloads, (response) => {
+            try {
+                resolve(response)
+            } catch (e) {
+                reject(e)
+            }
+        })
     })
 }
 

@@ -527,18 +527,18 @@ button {
   }
 
   &-3 {
-    background-color: $gray-5;
-    color: $gray-3;
+    background-color: $gray-5 !important;
+    color: $gray-3 !important;
     font-weight: 500;
 
     &:hover, &:focus, &:active {
-      color: #fff;
-      background-color: $color-1;
+      color: #fff !important;
+      background-color: $color-1 !important;
     }
 
     &:disabled {
-      color: #C4C4C4;
-      background-color: #7a7878;
+      color: #C4C4C4 !important;
+      background-color: #7a7878 !important;
     }
   }
 
@@ -4580,6 +4580,7 @@ footer {
 
 .btn-close {
   position: absolute;
+  z-index: 100 !important;
   top: 1em;
   right: 1em;
   width: 2em;

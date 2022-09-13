@@ -100,6 +100,12 @@ export default function CardPage() {
         }
     }
 
+    const resetMessage = () => {
+        setMessageInput('')
+        setMessageInputError('')
+        setIsShowWriteMessageModal(false)
+    }
+
     const onSendMessage = (e) => {
         e.preventDefault()
         const message = messageInput.trim()
@@ -111,14 +117,13 @@ export default function CardPage() {
                 text: messageInput
             })
                 // ! dispatch success alert
-                .then()
+                .then(() => resetMessage())
                 .catch(e => {
                     // ! dispatch error alert
                     console.log(e)
+                    setMessageInputError('Что-то пошло не так, повторите попытку')
                 })
-
-            setMessageInputError('')
-            setIsShowWriteMessageModal(false)
+            resetMessage()
         } else {
             setMessageInputError('Сообщение не должно быть пустым')
         }
@@ -668,6 +673,7 @@ export default function CardPage() {
 
             <CustomModal
                 isShow={isShowWriteMessageModal}
+                setIsShow={() => resetMessage()}
                 closeButton
             >
                 <form className="message-form">
