@@ -65,7 +65,7 @@ const AdaptiveDropdown = (props) => {
 
     useEffect(() => {
         setComputedDropdownPosition({
-            x: position.x - ((window.innerWidth - parentClientWidth) / 2),
+            x: position.x,
             y: isNotEnoughSpace
                 ? parentClientHeight - position.y
                 : position.y

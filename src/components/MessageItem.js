@@ -74,13 +74,15 @@ const MessageItem = (props) => {
                                 }
                             })
 
-                            const offsetTop = e.currentTarget.parentElement.offsetTop
-                            const halfClientTopOffset = e.currentTarget.parentElement.clientHeight / 2
+                            const parentElement = e.currentTarget.parentElement
 
-                            const parentRect = e.currentTarget.parentElement.getBoundingClientRect()
-                            const halfClientLeftOffset = (e.currentTarget.clientWidth / 2) + parentRect.x
+                            const offsetTop = parentElement.offsetTop
+                            const halfClientTopOffset = parentElement.clientHeight / 2
 
-                            setMessagePosition({x: halfClientLeftOffset, y: offsetTop + halfClientTopOffset})
+                            const offsetLeft = e.currentTarget.offsetLeft
+                            const halfClientLeftOffset = e.currentTarget.clientWidth / 2
+
+                            setMessagePosition({x: offsetLeft + halfClientLeftOffset, y: offsetTop + halfClientTopOffset})
                         }}
                     >
                         <div className="text">
