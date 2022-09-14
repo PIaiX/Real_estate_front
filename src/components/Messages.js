@@ -185,7 +185,6 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
         messages.isLoading
             ? <>
                 {/* --------------- MOBILE ACTIONS --------------- */}
-                {/*<div className={`messages__actions ${selectedMessagesOnMobile?.length ? 'show' : ''}`}>*/}
                 <div className={`messages__actions ${(selectedMessagesOnMobile?.length) ? 'show' : ''}`}>
                     <button
                         className="close"
@@ -216,7 +215,7 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
                 </div>
                 {/* --------------------------------------------- */}
                 <div
-                    className={`messages-list ${(selectedMessagesOnMobile?.length > 1) ? 'messages-list_indent' : ''}`}
+                    className={`messages-list ${(selectedMessagesOnMobile?.length) ? 'messages-list_indent' : ''}`}
                     onScroll={onMessagesScroll}
                 >
                     <AdaptiveDropdown

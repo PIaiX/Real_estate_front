@@ -3667,11 +3667,11 @@ main.account {
   align-items: center;
   z-index: 10;
   width: 100%;
-  transition: all 0.2s linear;
   padding: 0 15px;
   background-color: white;
   border-top: 1px solid #ECECEC;
   box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.1);
+  transition: height 0.2s linear, opacity 0.2s linear, overflow 0.2s linear;
 }
 @media all and (max-width: 991px) {
   .messages__actions {
@@ -3692,6 +3692,19 @@ main.account {
   height: 50px;
   overflow: visible;
   opacity: 1;
+}
+.messages__actions .btns {
+  display: flex;
+  gap: 10px;
+  height: 35px;
+}
+.messages__actions .btns button {
+  padding: 0 30px;
+  border: 2px solid #828282;
+  border-radius: 30px;
+}
+.messages__actions .btns button:hover {
+  background-color: rgba(20, 100, 146, 0.1);
 }
 
 .chat-actions-icon {

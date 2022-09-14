@@ -974,6 +974,7 @@ header {
     display: flex;
     align-items: center;
     position: relative;
+
     nav {
       display: flex;
       align-items: center;
@@ -3406,7 +3407,7 @@ main.account {
   align-items: center;
   justify-content: space-between;
   padding: 10px 0;
-  box-shadow: 0 5px 5px 0 rgba(0,0,0, 0.1);
+  box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.1);
   @media (max-width: 767px) {
     background-color: #fff;
     border-bottom: 1px solid $color-3;
@@ -3823,11 +3824,11 @@ main.account {
     align-items: center;
     z-index: 10;
     width: 100%;
-    transition: all .2s linear;
     padding: 0 15px;
     background-color: white;
     border-top: 1px solid $color-3;
-    box-shadow: 0 5px 5px 0 rgba(0,0,0, 0.1);
+    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.1);
+    transition: height .2s linear, opacity .2s linear, overflow .2s linear;
 
     @media all and (max-width: 991px) {
       top: 70px;
@@ -3842,10 +3843,26 @@ main.account {
     }
 
     &.show {
-        height: 50px;
-        overflow: visible;
-        opacity: 1;
+      height: 50px;
+      overflow: visible;
+      opacity: 1;
+    }
+
+    .btns {
+      display: flex;
+      gap: 10px;
+      height: 35px;
+
+      button {
+        padding: 0 30px;
+        border: 2px solid $gray-3;
+        border-radius: 30px;
       }
+
+      button:hover {
+        background-color: rgba($color-1, 0.1);
+      }
+    }
   }
 }
 
@@ -4491,10 +4508,12 @@ footer {
 
 
   }
+
   .modal-body {
-     padding: 2em;
-   }
-  &__exit-with-account{
+    padding: 2em;
+  }
+
+  &__exit-with-account {
     .modal-body {
       padding: 0 2em 2em 2em;
     }
@@ -4942,7 +4961,6 @@ footer {
   &_city {
 
 
-
     .custom-select__toggle_city {
       div {
         color: $color-2;
@@ -5191,6 +5209,7 @@ footer {
   @media (max-width: 767px) {
     bottom: 50px;
   }
+
   span {
     font-weight: bold;
   }
@@ -5213,6 +5232,7 @@ footer {
 #sec-3 {
   .y-maps-container {
     height: 260px;
+
     .main-page__yamaps {
       height: 260px;
 
@@ -5256,9 +5276,11 @@ footer {
 .button-header-question {
   color: #C59C7E;
   font-size: 1.1em;
+
   &:hover {
     color: #146492;
   }
+
   &__offcanvas {
     display: contents;
     color: #C59C7E;
