@@ -17,7 +17,6 @@ export default function Responses(props) {
     const token = useSelector(state => state?.accessToken)
     const [tab, setTab] = useState('in') // out
     const navigate = useNavigate()
-    useRedirectToPath(`/personal-account/responses-${tab}/page/1`, [tab])
     const [incomings, setIncomings] = useState({
         isLoading: false,
         error: null,
@@ -33,13 +32,13 @@ export default function Responses(props) {
 
     const getIncomingsResponsesRequest = (page, limit) => {
         (userId && token && page) && getIncomingsResponses(axiosPrivate, userId, {page, limit, token, orderBy: 'desc'})
-            .then(result => setIncomings(prev => ({isLoading: true, meta: {meta: result?.meta}, items: result?.data})))
+            .then(result => setIncomings({isLoading: true, meta: {meta: result?.meta}, items: result?.data}))
             .catch(error => setIncomings(prev => ({...prev, isLoading: true, error})))
     }
 
     const getOutgoingsResponsesRequest = (page, limit) => {
         (userId && token && page) && getOutgoingsResponses(axiosPrivate, userId, {page, limit, token, orderBy: 'desc'})
-            .then(result => setOutgoings(prev => ({isLoading: true, meta: {meta: result?.meta}, items: result?.data})))
+            .then(result => setOutgoings({isLoading: true, meta: {meta: result?.meta}, items: result?.data}))
             .catch(error => setOutgoings(prev => ({...prev, isLoading: true, error})))
     }
 

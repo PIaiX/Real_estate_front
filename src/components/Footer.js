@@ -16,7 +16,6 @@ const Footer = () => {
                                 <li><Link to='/'>ГЛАВНАЯ </Link></li>
                                 <li><Link to='/services'>УСЛУГИ </Link></li>
                                 <li><Link to='/hypothec'>ИПОТЕКА </Link></li>
-                                <li><Link to='/' role="button" data-bs-toggle="modal" data-bs-target="#ask">ЗАДАТЬ ВОПРОС</Link></li>
                                 <li><Link to='/advertise'>ПОДАТЬ ОБЪЯВЛЕНИЕ</Link></li>
                             </ul>
                         </nav>
