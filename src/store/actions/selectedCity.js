@@ -1,6 +1,6 @@
 import actionTypes from "./actionTypes";
 
-export const setSelectedCity = (city) => {
+const setSelectedCity = (city) => {
     return (dispatch) => {
         dispatch({ type: actionTypes.setSelectedCity, payload: city });
     };

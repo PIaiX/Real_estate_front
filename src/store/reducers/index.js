@@ -5,6 +5,7 @@ import selectedCity from './selectedCity';
 import mapCenter from './mapCenter';
 import {useSelector} from "react-redux";
 import alert from './alert';
+import conversationCount from './conversationCount';
 
 const reducers = combineReducers({
     accessToken,
@@ -12,6 +13,7 @@ const reducers = combineReducers({
     selectedCity,
     mapCenter,
     alert,
+    conversationCount
 });
 
 export function useCurrentUser() {
