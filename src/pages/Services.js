@@ -2,24 +2,23 @@ import React, {useEffect, useState} from 'react';
 import {NavLink, useLocation, useParams} from 'react-router-dom';
 import CustomSelect from '../components/CustomSelect';
 import InputFile from '../components/InputFile';
-import {animateScroll as scroll} from 'react-scroll';
 import UserCard from '../components/UserCard';
 import {getAttributesTypes, getServicesUsers, getSubServicesTypes} from "../API/services";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import PaginationCustom from "../components/PaginationCustom";
 import {onMultiCheckboxHandler} from "../helpers/collectDataFromForm";
 import useDebounce from "../hooks/debounce";
 import {servicesTypesLocal} from '../helpers/services'
+import Pagination from "../components/Pagination";
+import usePagination from "../hooks/pagination";
 
 export default function Services() {
 
     const axiosPrivate = useAxiosPrivate()
     const {slug} = useParams()
-    const {page} = useParams()
+    const services = usePagination(6)
     const loc = useLocation()
     const [firstBlockFilters, setFirstBlockFilters] = useState([])
     const [secondBlockFilters, setSecondBlockFilters] = useState([])
-    const [thirdBlockFilters, setThirdBlockFilters] = useState([])
     const [selectMiniFilter, setSelectMiniFilter] = useState({})
     const [filterSubs, setFilterSubs] = useState({
         isLoading: false,
@@ -47,16 +46,16 @@ export default function Services() {
     }
 
     const [payload, setPayload] = useState({
-        page: page,
-        limit: 6,
+        page: 1,
+        limit: services.pageLimit,
         servicesTypeId: find(),
     })
 
     const delayPayload = useDebounce(payload, 500)
 
     useEffect(() => {
-        setPayload(prevState => ({...prevState, servicesTypeId: find(), page: page}))
-    }, [page, find()])
+        setPayload(prevState => ({...prevState, servicesTypeId: find(), page: services.currentPage}))
+    }, [find(), services.currentPage])
 
     useEffect(() => {
         getServicesUsers(axiosPrivate, delayPayload)
@@ -68,35 +67,45 @@ export default function Services() {
             .then(res => setFilterSubs({isLoading: true, data: res}))
         getAttributesTypes(axiosPrivate, payload.servicesTypeId)
             .then(res => setFilterAttributes({isLoading: true, data: res}))
+        services.setCurrentPage(1)
+        services.setStartingPage(1)
     }, [payload.servicesTypeId])
 
     const acceptFilters = (e) => {
         e.preventDefault()
         setPayload(prevState => ({
             ...prevState,
-            ...secondBlockFilters,
             ...firstBlockFilters,
-            ...thirdBlockFilters,
+            ...secondBlockFilters,
         }))
+        services.setStartingPage(1)
+        services.setCurrentPage(1)
     }
 
     const miniFilter = [
-        {value: 3, title: 'по опыту'},
-        {value: 'desc', title: 'по рейтингу'}
+        {value: 'desc', title: 'сначала новые'},
+        {value: 'desc', title: 'по рейтингу(от высокого)'},
+        {value: 'asc', title: 'по рейтингу(от низкого)'},
     ]
 
     useEffect(() => {
-        if(selectMiniFilter.title === 'по опыту') {
-            setPayload({...payload, experienceTypes: [selectMiniFilter.value], rating: null})
-        } else if(selectMiniFilter.title === 'по рейтингу') {
-            setPayload({...payload, rating: selectMiniFilter.value, experienceTypes: null})
+        switch (selectMiniFilter.title) {
+            case 'сначала новые':
+                setPayload({...payload, orderBy: selectMiniFilter.value, rating: null})
+                break
+            case 'по рейтингу(от высокого)':
+                setPayload({...payload, rating: selectMiniFilter.value, orderBy: null})
+                break
+            case 'по рейтингу(от низкого)':
+                setPayload({...payload, rating: selectMiniFilter.value, orderBy: null})
+                break
         }
-    }, [selectMiniFilter])
+    }, [selectMiniFilter, payload?.orderBy])
 
     const findService = () => {
         let nameMenu
         servicesTypesLocal.find(i => {
-            if(i.slug === slug) {
+            if (i.slug === slug) {
                 return nameMenu = i.name
             }
         })
@@ -106,7 +115,7 @@ export default function Services() {
     const findServicePhoto = () => {
         let photoMenu
         servicesTypesLocal.find(i => {
-            if(i.slug === slug){
+            if (i.slug === slug) {
                 return photoMenu = i.image
             }
         })
@@ -136,9 +145,15 @@ export default function Services() {
 
             <section className="sec-9 container pb-4 pb-sm-5">
                 <nav className="d-none d-md-block service-nav mb-5">
-                    <div className="row row-cols-4 gx-2 gx-lg-4">
+                    <div className="row row-cols-5 gx-2 gx-lg-4">
                         <div>
-                            <NavLink to={`/service/uslugiRieltora/page/1`}>
+                            <NavLink to='/hypothec'>
+                                <img src='/img/icons/ipoteka.svg' height='60px' width='40px'/>
+                                <span>Ипотека</span>
+                            </NavLink>
+                        </div>
+                        <div>
+                            <NavLink to={`/service/uslugiRieltora`}>
                                 <svg width="80" height="105" viewBox="0 0 103 136" xmlns="http://www.w3.org/2000/svg">
                                     <mask id="path-1-inside-1_86_476" fill="white">
                                         <path fillRule="evenodd" clipRule="evenodd"
@@ -168,10 +183,10 @@ export default function Services() {
                                     <line className="stroke" x1="67.0917" y1="79.062" x2="80.0917" y2="79.062"/>
                                 </svg>
                                 <span>Услуги риелтора</span>
-                            </NavLink >
+                            </NavLink>
                         </div>
                         <div>
-                            <NavLink to={`/service/dizain/page/1`}>
+                            <NavLink to={`/service/dizain`}>
                                 <svg width="84" height="88" viewBox="0 0 84 88" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path className="fill"
@@ -183,7 +198,7 @@ export default function Services() {
                             </NavLink>
                         </div>
                         <div>
-                            <NavLink to={`/service/remont/page/1`}>
+                            <NavLink to={`/service/remont`}>
                                 <svg width="77" height="69" viewBox="0 0 77 69" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path className="fill"
@@ -197,9 +212,11 @@ export default function Services() {
                             </NavLink>
                         </div>
                         <div>
-                            <NavLink to={`/service/gruzoperevozki/page/1`}>
-                                <svg width="89" height="58" viewBox="0 0 89 58" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path className="fill" d="M88.7276 28.1158L82.4202 19.0394C81.482 17.6934 80.2293 16.5933 78.7693 15.8334C77.3092 15.0735 75.6855 14.6765 74.0372 14.6763H57.7648V2.16756C57.7648 1.76945 57.6056 1.38766 57.3222 1.10615C57.0387 0.824651 56.6543 0.666504 56.2535 0.666504H1.84437C1.44353 0.666504 1.05911 0.824651 0.775676 1.10615C0.49224 1.38766 0.333008 1.76945 0.333008 2.16756V49.2006C0.333008 49.5987 0.49224 49.9805 0.775676 50.262C1.05911 50.5435 1.44353 50.7017 1.84437 50.7017H14.3282C14.571 52.5361 15.4771 54.2203 16.8776 55.4404C18.2782 56.6604 20.0775 57.3332 21.9405 57.3332C23.8034 57.3332 25.6028 56.6604 27.0033 55.4404C28.4038 54.2203 29.3099 52.5361 29.5527 50.7017H63.2864C63.5603 52.5094 64.4782 54.1595 65.8733 55.352C67.2683 56.5446 69.0479 57.2005 70.8885 57.2005C72.7291 57.2005 74.5087 56.5446 75.9037 55.352C77.2988 54.1595 78.2167 52.5094 78.4907 50.7017H87.4883C87.8892 50.7017 88.2736 50.5435 88.557 50.262C88.8404 49.9805 88.9997 49.5987 88.9997 49.2006V28.9664C89.0005 28.6616 88.9054 28.3642 88.7276 28.1158ZM74.0372 17.6785C75.1968 17.6777 76.3392 17.957 77.366 18.4922C78.3929 19.0273 79.2733 19.8024 79.9315 20.7506L84.7578 27.6855H57.7648V17.6785H74.0372ZM21.9354 54.2041C21.0095 54.2081 20.1032 53.9389 19.3315 53.4307C18.5599 52.9224 17.9575 52.198 17.6009 51.3494C17.2442 50.5007 17.1493 49.5659 17.3283 48.6637C17.5072 47.7614 17.9519 46.9322 18.6059 46.2812C19.2599 45.6302 20.0939 45.1868 21.002 45.0071C21.9101 44.8275 22.8514 44.9197 23.7067 45.272C24.562 45.6244 25.2926 46.2211 25.806 46.9864C26.3194 47.7517 26.5924 48.6512 26.5904 49.5709C26.5878 50.7971 26.0968 51.9726 25.2247 52.8406C24.3526 53.7087 23.1701 54.1988 21.9354 54.2041ZM21.9354 41.9255C20.2166 41.92 18.5452 42.4853 17.1869 43.5315C15.8287 44.5777 14.8615 46.0448 14.4391 47.6996H3.35574V3.66861H54.7421V47.6996H29.3713C28.9531 46.0539 27.9953 44.5932 26.649 43.5478C25.3027 42.5024 23.6444 41.9316 21.9354 41.9255ZM70.8633 54.2041C69.9382 54.2041 69.0339 53.9315 68.2649 53.4209C67.4959 52.9102 66.8966 52.1845 66.5431 51.3354C66.1895 50.4864 66.0975 49.5523 66.2787 48.6513C66.4599 47.7503 66.9062 46.923 67.5611 46.274C68.2159 45.6251 69.0499 45.1836 69.9574 45.0056C70.865 44.8276 71.8053 44.921 72.6594 45.2739C73.5135 45.6269 74.243 46.2236 74.7555 46.9885C75.268 47.7534 75.5405 48.6521 75.5385 49.5709C75.5358 50.8006 75.0421 51.9791 74.1656 52.8477C73.2891 53.7163 72.1015 54.2041 70.8633 54.2041ZM78.3194 47.6996C77.9059 46.0475 76.9477 44.5803 75.5975 43.5317C74.2471 42.4832 72.5824 41.9135 70.8683 41.9135C69.1543 41.9135 67.4896 42.4832 66.1393 43.5317C64.789 44.5803 63.8308 46.0475 63.4173 47.6996H57.7648V30.6876H85.977V47.6996H78.3194Z" />
+                            <NavLink to={`/service/gruzoperevozki`}>
+                                <svg width="89" height="58" viewBox="0 0 89 58" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path className="fill"
+                                          d="M88.7276 28.1158L82.4202 19.0394C81.482 17.6934 80.2293 16.5933 78.7693 15.8334C77.3092 15.0735 75.6855 14.6765 74.0372 14.6763H57.7648V2.16756C57.7648 1.76945 57.6056 1.38766 57.3222 1.10615C57.0387 0.824651 56.6543 0.666504 56.2535 0.666504H1.84437C1.44353 0.666504 1.05911 0.824651 0.775676 1.10615C0.49224 1.38766 0.333008 1.76945 0.333008 2.16756V49.2006C0.333008 49.5987 0.49224 49.9805 0.775676 50.262C1.05911 50.5435 1.44353 50.7017 1.84437 50.7017H14.3282C14.571 52.5361 15.4771 54.2203 16.8776 55.4404C18.2782 56.6604 20.0775 57.3332 21.9405 57.3332C23.8034 57.3332 25.6028 56.6604 27.0033 55.4404C28.4038 54.2203 29.3099 52.5361 29.5527 50.7017H63.2864C63.5603 52.5094 64.4782 54.1595 65.8733 55.352C67.2683 56.5446 69.0479 57.2005 70.8885 57.2005C72.7291 57.2005 74.5087 56.5446 75.9037 55.352C77.2988 54.1595 78.2167 52.5094 78.4907 50.7017H87.4883C87.8892 50.7017 88.2736 50.5435 88.557 50.262C88.8404 49.9805 88.9997 49.5987 88.9997 49.2006V28.9664C89.0005 28.6616 88.9054 28.3642 88.7276 28.1158ZM74.0372 17.6785C75.1968 17.6777 76.3392 17.957 77.366 18.4922C78.3929 19.0273 79.2733 19.8024 79.9315 20.7506L84.7578 27.6855H57.7648V17.6785H74.0372ZM21.9354 54.2041C21.0095 54.2081 20.1032 53.9389 19.3315 53.4307C18.5599 52.9224 17.9575 52.198 17.6009 51.3494C17.2442 50.5007 17.1493 49.5659 17.3283 48.6637C17.5072 47.7614 17.9519 46.9322 18.6059 46.2812C19.2599 45.6302 20.0939 45.1868 21.002 45.0071C21.9101 44.8275 22.8514 44.9197 23.7067 45.272C24.562 45.6244 25.2926 46.2211 25.806 46.9864C26.3194 47.7517 26.5924 48.6512 26.5904 49.5709C26.5878 50.7971 26.0968 51.9726 25.2247 52.8406C24.3526 53.7087 23.1701 54.1988 21.9354 54.2041ZM21.9354 41.9255C20.2166 41.92 18.5452 42.4853 17.1869 43.5315C15.8287 44.5777 14.8615 46.0448 14.4391 47.6996H3.35574V3.66861H54.7421V47.6996H29.3713C28.9531 46.0539 27.9953 44.5932 26.649 43.5478C25.3027 42.5024 23.6444 41.9316 21.9354 41.9255ZM70.8633 54.2041C69.9382 54.2041 69.0339 53.9315 68.2649 53.4209C67.4959 52.9102 66.8966 52.1845 66.5431 51.3354C66.1895 50.4864 66.0975 49.5523 66.2787 48.6513C66.4599 47.7503 66.9062 46.923 67.5611 46.274C68.2159 45.6251 69.0499 45.1836 69.9574 45.0056C70.865 44.8276 71.8053 44.921 72.6594 45.2739C73.5135 45.6269 74.243 46.2236 74.7555 46.9885C75.268 47.7534 75.5405 48.6521 75.5385 49.5709C75.5358 50.8006 75.0421 51.9791 74.1656 52.8477C73.2891 53.7163 72.1015 54.2041 70.8633 54.2041ZM78.3194 47.6996C77.9059 46.0475 76.9477 44.5803 75.5975 43.5317C74.2471 42.4832 72.5824 41.9135 70.8683 41.9135C69.1543 41.9135 67.4896 42.4832 66.1393 43.5317C64.789 44.5803 63.8308 46.0475 63.4173 47.6996H57.7648V30.6876H85.977V47.6996H78.3194Z"/>
                                 </svg>
                                 <span>Грузоперевозки</span>
                             </NavLink>
@@ -210,84 +227,50 @@ export default function Services() {
                     <div className="d-none d-xl-block col-4 col-xxl-3 pt-4">
                         <form className="service-leftMenu">
                             <div className="title px-4 py-3">
-                               {findServicePhoto()}
+                                {findServicePhoto()}
                                 <div className="mx-auto">{findService()}</div>
                             </div>
                             <div className="p-3 p-xxl-4">
-                                <fieldset className="mb-4">
-                                    <legend className="title-font text-left fs-12 fw-6 mb-3">Опыт работы исполнителя:</legend>
-                                    <label className="mb-3">
-                                        <input
-                                            type="checkbox"
-                                            value="0"
-                                            onChange={(e) => {
-                                                onMultiCheckboxHandler('experienceTypes', e.target.value, setPayload)
-                                            }}
-                                        />
-                                        <span className="fs-11 ms-3">Менее 1 года</span>
-                                    </label>
-                                    <label className="mb-3">
-                                        <input
-                                            type="checkbox"
-                                            value="1"
-                                            onChange={(e) => {
-                                                onMultiCheckboxHandler('experienceTypes', e.target.value, setPayload)
-                                            }}
-                                        />
-                                        <span className="fs-11 ms-3">До 3 лет</span>
-                                    </label>
-                                    <label className="mb-3">
-                                        <input
-                                            type="checkbox"
-                                            value="2"
-                                            onChange={(e) => {
-                                                onMultiCheckboxHandler('experienceTypes', e.target.value, setPayload)
-                                            }}
-                                        />
-                                        <span className="fs-11 ms-3">До 6 лет</span>
-                                    </label>
-                                    <label className="mb-3">
-                                        <input
-                                            type="checkbox"
-                                            value="3"
-                                            onChange={(e) => {
-                                                onMultiCheckboxHandler('experienceTypes', e.target.value, setPayload)
-                                            }}
-                                        />
-                                        <span className="fs-11 ms-3">До 10 лет</span>
-                                    </label>
-                                </fieldset>
-                                <fieldset className="mb-4">
-                                    <legend className="title-font text-left fs-12 fw-6 mb-3">Х категория:</legend>
-                                    {filterAttributes?.data?.map(attribute => (
-                                        <label className="mb-3" key={attribute.id}>
-                                            <input
-                                                type="checkbox"
-                                                name="realization"
-                                                value={attribute.id}
-                                                onChange={(e) => {
-                                                    onMultiCheckboxHandler('attributesTypes', e.target.value, setPayload)
-                                                }}
-                                            />
-                                            <span className="fs-11 ms-3">{attribute.name}</span>
-                                        </label>
-                                    ))}
-                                </fieldset>
-                                <fieldset className="mb-4">
-                                    <legend className="title-font text-left fs-12 fw-6 mb-3">X категория:</legend>
-                                    {filterSubs?.data?.map(sub => (
-                                        <label className="mb-3" key={sub.id}>
-                                            <input
-                                                type="checkbox"
-                                                value={sub.id}
-                                                onChange={(e) => {
-                                                    onMultiCheckboxHandler('subServicesTypes', e.target.value, setPayload)
-                                                }}
-                                            />
-                                            <span className="fs-11 ms-3">{sub.name}</span>
-                                        </label>
-                                    ))}
-                                </fieldset>
+                                {filterSubs?.data?.length > 0
+                                    ?
+                                    <fieldset className="mb-4">
+                                        <legend className="title-font text-left fs-12 fw-6 mb-3">Вид услуг:</legend>
+                                        {filterSubs?.data?.map(sub => (
+                                            <label className="mb-3" key={sub.id}>
+                                                <input
+                                                    type="checkbox"
+                                                    value={sub.id}
+                                                    onChange={(e) => {
+                                                        onMultiCheckboxHandler('subServicesTypes', e.target.value, setPayload)
+                                                    }}
+                                                />
+                                                <span className="fs-11 ms-3">{sub.name}</span>
+                                            </label>
+                                        ))}
+
+                                    </fieldset>
+                                    : null
+                                }
+                                {filterAttributes?.data?.length > 0
+                                    ?
+                                    <fieldset className="mb-4">
+                                        <legend className="title-font text-left fs-12 fw-6 mb-3">Специализация:</legend>
+                                        {filterAttributes?.data?.map(attribute => (
+                                            <label className="mb-3" key={attribute.id}>
+                                                <input
+                                                    type="checkbox"
+                                                    name="realization"
+                                                    value={attribute.id}
+                                                    onChange={(e) => {
+                                                        onMultiCheckboxHandler('attributesTypes', e.target.value, setPayload)
+                                                    }}
+                                                />
+                                                <span className="fs-11 ms-3">{attribute.name}</span>
+                                            </label>
+                                        ))}
+                                    </fieldset>
+                                    : null
+                                }
                                 <button
                                     type='reset'
                                     className='btn btn-3 btn-rad2 w-100'
@@ -327,7 +310,7 @@ export default function Services() {
                         </div>
 
                         <div className="row px-4 px-sm-0 row-cols-sm-2 row-cols-lg-3 row-cols-xl-2 row-cols-xxl-1 g-4">
-                            {users.data?.map(i =>
+                            {users?.data?.map(i =>
                                 <div key={i.id} className='d-grid'>
                                     <UserCard
                                         inAddResponse={true}
@@ -348,13 +331,19 @@ export default function Services() {
                             )}
                         </div>
 
-                        {users.data.length > 0
+                        {users?.data?.length > 0
                             ?
-                            <PaginationCustom
-                            meta={users}
-                            baseUrl={`service/${slug}`}
+                            <Pagination
+                                pageLimit={services.pageLimit}
+                                currentPage={services.currentPage}
+                                setCurrentPage={services.setCurrentPage}
+                                pagesDisplayedLimit={3}
+                                itemsAmount={users?.meta?.total || 0}
+                                startingPage={services.startingPage}
+                                className='mt-4 mt-sm-5'
+                                setStartingPage={services.setStartingPage}
                             />
-                            :<h6 className='m-auto p-5 text-center'>Исполнители не найдены</h6>
+                            : <h6 className='m-auto p-5 text-center'>Исполнители не найдены</h6>
                         }
                     </div>
                 </div>
@@ -403,66 +392,48 @@ export default function Services() {
                     </button>
                     <div className="service-leftMenu">
                         <div className="p-sm-3 p-xxl-4">
-                            <fieldset className="mb-4">
-                                <legend className="title-font text-left fs-12 fw-6 mb-3">Опыт работы исполнителя</legend>
-                                <label className="mb-3">
-                                    <input type="checkbox" name="experience" value="0" onChange={e => {
-                                        onMultiCheckboxHandler('experienceTypes', e.target.value, setFirstBlockFilters)
-                                    }}
-                                    />
-                                    <span className="fs-11 ms-3">Менее 1 года</span>
-                                </label>
-                                <label className="mb-3">
-                                    <input type="checkbox" name="experience" value="1" onChange={e => {
-                                        onMultiCheckboxHandler('experienceTypes', e.target.value, setFirstBlockFilters)
-                                    }}/>
-                                    <span className="fs-11 ms-3">До 3 лет</span>
-                                </label>
-                                <label className="mb-3">
-                                    <input type="checkbox" name="experience" value="2" onChange={e => {
-                                        onMultiCheckboxHandler('experienceTypes', e.target.value, setFirstBlockFilters)
-                                    }}/>
-                                    <span className="fs-11 ms-3">До 6 лет</span>
-                                </label>
-                                <label className="mb-3">
-                                    <input type="checkbox" name="experience" value="3" onChange={e => {
-                                        onMultiCheckboxHandler('experienceTypes', e.target.value, setFirstBlockFilters)
-                                    }}/>
-                                    <span className="fs-11 ms-3">До 10 лет</span>
-                                </label>
-                            </fieldset>
-                            <fieldset className="mb-4">
-                                <legend className="title-font text-left fs-12 fw-6 mb-3">Х категория</legend>
-                                {filterAttributes?.data?.map(attribute => (
-                                    <label className="mb-3" key={attribute.id}>
-                                        <input
-                                            type="checkbox"
-                                            name="attributes"
-                                            value={attribute.id}
-                                            onChange={(e) => {
-                                                onMultiCheckboxHandler('attributesTypes', e.target.value, setSecondBlockFilters)
-                                            }}
-                                        />
-                                        <span className="fs-11 ms-3">{attribute.name}</span>
-                                    </label>
-                                ))}
-                            </fieldset>
-                            <fieldset className="mb-4">
-                                <legend className="title-font text-left fs-12 fw-6 mb-3">X категория</legend>
-                                {filterSubs?.data?.map(sub => (
-                                    <label className="mb-3" key={sub.id}>
-                                        <input
-                                            type="checkbox"
-                                            name="subServices"
-                                            value={sub.id}
-                                            onChange={(e) => {
-                                                onMultiCheckboxHandler('subServicesTypes', e.target.value, setThirdBlockFilters)
-                                            }}
-                                        />
-                                        <span className="fs-11 ms-3">{sub.name}</span>
-                                    </label>
-                                ))}
-                            </fieldset>
+                            {filterSubs?.data?.length > 0
+                                ?
+                                <fieldset className="mb-4">
+                                    <legend className="title-font text-left fs-12 fw-6 mb-3">Вид услуг:</legend>
+                                    {filterSubs?.data?.map(sub => (
+                                        <label className="mb-3" key={sub.id}>
+                                            <input
+                                                type="checkbox"
+                                                name="subServices"
+                                                value={sub.id}
+                                                onChange={(e) => {
+                                                    onMultiCheckboxHandler('subServicesTypes', e.target.value, setFirstBlockFilters)
+                                                }}
+                                            />
+                                            <span className="fs-11 ms-3">{sub.name}</span>
+                                        </label>
+                                    ))}
+                                </fieldset>
+                                :
+                                null
+                            }
+                            {filterAttributes?.data?.length > 0
+                                ?
+                                <fieldset className="mb-4">
+                                    <legend className="title-font text-left fs-12 fw-6 mb-3">Специализация:</legend>
+                                    {filterAttributes?.data?.map(attribute => (
+                                        <label className="mb-3" key={attribute.id}>
+                                            <input
+                                                type="checkbox"
+                                                name="attributes"
+                                                value={attribute.id}
+                                                onChange={(e) => {
+                                                    onMultiCheckboxHandler('attributesTypes', e.target.value, setSecondBlockFilters)
+                                                }}
+                                            />
+                                            <span className="fs-11 ms-3">{attribute.name}</span>
+                                        </label>
+                                    ))}
+                                </fieldset>
+                                :
+                                null
+                            }
                         </div>
                     </div>
                 </div>
@@ -472,11 +443,11 @@ export default function Services() {
                         <button
                             type="button"
                             onClick={() => {
-                            document.getElementById("offcanvasServiceFilter").reset()
-                            setPayload({page: 1, limit: 6, servicesTypeId: find()})
-                            setSelectMiniFilter({})
-                        }}
-                                className="color-1 fs-11 fw-5">Очистить фильтр
+                                document.getElementById("offcanvasServiceFilter").reset()
+                                setPayload({page: 1, limit: 6, servicesTypeId: find()})
+                                setSelectMiniFilter({})
+                            }}
+                            className="color-1 fs-11 fw-5">Очистить фильтр
                         </button>
                     </div>
                     <button

@@ -46,7 +46,7 @@ export default function AllServices() {
                             {servicesTypes.isLoading
                                 ? servicesTypes?.data?.map(service => (
                                         <li key={service.id}>
-                                            <Link to={`/service/${service.slug}/page/1`} state={{id: service.id}} className='big fill' >
+                                            <Link to={`/service/${service.slug}`} state={{id: service.id}} className='big fill' >
                                                 {findPhoto(service.name)}
                                                 <span>{service.name}</span>
                                             </Link>
