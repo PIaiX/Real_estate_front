@@ -25,15 +25,13 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
     })
 
     // messages actions
-    const [activeMessageOnMobile, setActiveMessageOnMobile] = useState({
+    const initialMessageData = {
         id: null,
         text: ''
-    })
+    }
+    const [activeMessageOnMobile, setActiveMessageOnMobile] = useState(initialMessageData)
+    const [editableMessage, setEditableMessage] = useState(initialMessageData)
     const [selectedMessagesOnMobile, setSelectedMessagesOnMobile] = useState([])
-    const [editableMessage, setEditableMessage] = useState({
-        id: null,
-        text: ''
-    })
 
     // message input
     const [messageInput, setMessageInput] = useState('')
@@ -101,7 +99,7 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
                 items: prev.items.map(item => (item?.id === updatedMessage?.id) ? updatedMessage : item)
             }))
             setMessageInput('')
-            setEditableMessage({id: null, text: ''})
+            setEditableMessage(initialMessageData)
         })
             // ! dispatch error alert or mark message as rejected
             .catch(error => console.log(error))
@@ -237,10 +235,11 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
                     <AdaptiveDropdown
                         isShow={activeMessageOnMobile.id}
                         position={messagePosition}
+                        hideDropdown={() => setActiveMessageOnMobile(initialMessageData)}
                     >
                         <MessageDropdownMobile
                             activeMessage={activeMessageOnMobile}
-                            resetActiveMessage={() => setActiveMessageOnMobile({})}
+                            resetActiveMessage={() => setActiveMessageOnMobile(initialMessageData)}
                             onChooseMessage={onChooseMessage}
                             onUpdateMessage={onUpdateMessage}
                             onDeleteMessage={onDeleteMessage}

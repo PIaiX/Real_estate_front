@@ -4,7 +4,7 @@ const AdaptiveDropdown = (props) => {
     // children - node (pass dropdown menu template here)
     // isShow - boolean (dropdown menu visibility state)
     // position - object {x: number, y: number}
-    const {children, isShow, position} = props
+    const {children, isShow, position, hideDropdown} = props
 
     // parent node params
     const [parentClientWidth, setParentClientWidth] = useState(null)
@@ -19,6 +19,7 @@ const AdaptiveDropdown = (props) => {
     const [isNotEnoughSpace, setIsNotEnoughSpace] = useState(false)
 
     //  determination of initial params
+    let handleClickOutside
     const ref = useCallback(node => {
         if (node !== null) {
             const parentNode = node.parentElement
@@ -35,8 +36,23 @@ const AdaptiveDropdown = (props) => {
 
             setDropdownClientWidth(rect.width)
             setDropdownClientHeight(rect.height)
+
+            handleClickOutside = (event) => {
+                if (node && !node.contains(event.target)) {
+                    hideDropdown();
+                }
+            }
         }
     }, [isShow])
+
+    useEffect(() => {
+        if (handleClickOutside) {
+            document.addEventListener('click', handleClickOutside, true);
+            return () => {
+                document.removeEventListener('click', handleClickOutside, true);
+            };
+        }
+    }, [handleClickOutside])
 
     useEffect(() => {
         // ! needed to compute right

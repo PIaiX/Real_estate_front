@@ -36,7 +36,7 @@ const MessageItem = (props) => {
 
     // initial reset when switched mode
     useEffect(() => {
-        setActiveMessageOnMobile({})
+        setActiveMessageOnMobile({id: null, text: ''})
         setSelectedMessagesOnMobile([])
     }, [isMobile])
 
