@@ -5,7 +5,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import './assets/styles/fonts.css';
 import './assets/styles/style.css';
 import AppRouter from './routes/AppRouter';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {bindActionCreators} from "redux";
 import accessTokenActions from "./store/actions/accessToken";
 import currentUserActions from "./store/actions/currentUser";
@@ -16,6 +16,7 @@ import {YMaps} from 'react-yandex-maps';
 import env from './config/env';
 import apiRoutes from "./API/config/apiRoutes";
 import useInitialAuth from "./hooks/initialAuth";
+import {setSocketConnection} from './API/socketInstance';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
     const { resetCurrentUser } = bindActionCreators(currentUserActions, dispatch);
     const axiosPrivate = useAxiosPrivate();
     const [visitor, setVisitor] = useState('');
+    const user = useSelector(state => state?.currentUser)
 
     const handleLogout = async () => {
         const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.LOGOUT}`);
@@ -41,6 +43,10 @@ function App() {
             localStorage.removeItem('isNotRemember')
         }
     }
+
+    useEffect(() => {
+        user && user?.id && setSocketConnection(user?.id || 0)
+    }, [user])
 
     useEffect(() => {
         fingerprint

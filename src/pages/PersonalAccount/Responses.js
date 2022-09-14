@@ -8,6 +8,8 @@ import PaginationCustom from '../../components/PaginationCustom';
 import Loader from '../../components/Loader';
 import useRedirectToPath from '../../hooks/redirectToPath';
 import {checkPhotoPath} from '../../helpers/photo';
+import CustomModal from '../../components/CustomModal';
+import {emitCreateWithServiceTopicMessage} from '../../API/socketConversations';
 
 export default function Responses(props) {
     const initialPageLimit = 4
@@ -29,6 +31,44 @@ export default function Responses(props) {
         meta: null,
         items: []
     })
+
+    // write message modal
+    const initialSendMessagePayloads = {
+        serviceId: null,
+        userId: null
+    }
+    const [sendMessagePayloads, setSendMessagePayloads] = useState(initialSendMessagePayloads)
+    const [messageInput, setMessageInput] = useState('')
+    const [messageInputError, setMessageInputError] = useState('')
+
+    const resetMessage = () => {
+        setMessageInput('')
+        setMessageInputError('')
+        setSendMessagePayloads(initialSendMessagePayloads)
+    }
+
+    const onSendMessage = (e) => {
+        e.preventDefault()
+        const message = messageInput.trim()
+
+        if (message.length) {
+            emitCreateWithServiceTopicMessage(sendMessagePayloads.userId, {
+                conversationId: 0,
+                serviceId: sendMessagePayloads.serviceId,
+                text: messageInput
+            })
+                // ! dispatch success alert
+                .then(() => resetMessage())
+                .catch(e => {
+                    // ! dispatch error alert
+                    console.log(e)
+                    setMessageInputError('Что-то пошло не так, повторите попытку')
+                })
+            resetMessage()
+        } else {
+            setMessageInputError('Сообщение не должно быть пустым')
+        }
+    }
 
     const getIncomingsResponsesRequest = (page, limit) => {
         (userId && token && page) && getIncomingsResponses(axiosPrivate, userId, {page, limit, token, orderBy: 'desc'})
@@ -67,6 +107,8 @@ export default function Responses(props) {
             }
         }
     }, [outgoings?.items?.length])
+
+    console.log(incomings)
 
     return (
         <div className='px-2 px-sm-4 pb-4 pb-sm-5'>
@@ -110,6 +152,9 @@ export default function Responses(props) {
                                             experience={(typeof item?.service?.experienceTypeForUser === 'string') && item.service.experienceTypeForUser.toLowerCase()}
                                             rating={item?.user?.rating}
                                             updateData={updateData}
+                                            userId={item?.userId}
+                                            serviceId={item?.serviceId}
+                                            setSendMessagePayloads={setSendMessagePayloads}
                                         />
                                     </div>
                                 ))
@@ -132,6 +177,7 @@ export default function Responses(props) {
                                             experience={(typeof item?.service?.experienceTypeForUser === 'string') && item.service.experienceTypeForUser.toLowerCase()}
                                             rating={item?.user?.rating}
                                             updateData={updateData}
+                                            userId={item?.userId}
                                         />
                                     </div>
                                 ))
@@ -142,6 +188,46 @@ export default function Responses(props) {
             </div>
             {(tab === 'in' && incomings?.items?.length > 0) && <PaginationCustom baseUrl='personal-account/responses-in' meta={incomings.meta} />}
             {(tab === 'out' && outgoings?.items?.length > 0) && <PaginationCustom baseUrl='personal-account/responses-out' meta={outgoings.meta} />}
+
+            <CustomModal
+                isShow={sendMessagePayloads.userId}
+                setIsShow={() => resetMessage()}
+                closeButton
+            >
+                <form className="message-form">
+                    <div className="d-flex align-items-center">
+                        <div className="photo me-2 me-sm-4">
+                            <img src="/img/photo.png" alt="Колесникова Ирина"/>
+                            {/*<div className="indicator online"/>*/}
+                        </div>
+                        <div>
+                            <h4>Колесникова Ирина</h4>
+                            {/*<div className="gray-2 fs-09">Сейчас онлайн</div>*/}
+                        </div>
+                    </div>
+                    <textarea
+                        className="mt-3"
+                        rows="4"
+                        placeholder="Введите сообщение"
+                        value={messageInput}
+                        onChange={e => setMessageInput(e.target.value)}
+                    />
+                    {messageInputError && (
+                        <span className="message-form__error w-100 text-danger">
+                            {messageInputError}
+                        </span>
+                    )}
+                    <div className="d-flex align-items-center mt-3">
+                        <button
+                            type="submit"
+                            className="btn btn-1 w-100 flex-1 fs-12 ms-4"
+                            onClick={onSendMessage}
+                        >
+                            ОТПРАВИТЬ
+                        </button>
+                    </div>
+                </form>
+            </CustomModal>
         </div>
     )
 }

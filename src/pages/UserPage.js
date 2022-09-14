@@ -16,6 +16,8 @@ import Rating from "react-rating";
 import BtnRep from "../components/BtnRep";
 import Breadcrumbs from "../components/Breadcrumbs";
 import {checkPhotoPath} from "../helpers/photo";
+import {emitCreateWithoutTopicMessage, emitCreateWithServiceTopicMessage} from '../API/socketConversations';
+import CustomModal from '../components/CustomModal';
 
 export default function UserPage() {
 
@@ -30,19 +32,44 @@ export default function UserPage() {
     const [data, setData] = useState({})
     const [reviewStatus, setReviewStatus] = useState(false)
 
+    // write message modal
+    const initialSendMessagePayloads = {
+        userId: null
+    }
+    const [sendMessagePayloads, setSendMessagePayloads] = useState(initialSendMessagePayloads)
+    const [messageInput, setMessageInput] = useState('')
+    const [messageInputError, setMessageInputError] = useState('')
+
     useEffect(() => {
-        if (userId && user?.id) {
-            setData(data => ({...data, "toId": userId, "fromId": user?.id, token, userReport: userInformation?.reportStatus}))
+        console.log('text', messageInput)
+    }, [messageInput])
+
+    const resetMessage = () => {
+        setMessageInput('')
+        setMessageInputError('')
+        setSendMessagePayloads(initialSendMessagePayloads)
+    }
+
+    const onSendMessage = (e) => {
+        e.preventDefault()
+        const message = messageInput.trim()
+
+        if (message.length) {
+            emitCreateWithoutTopicMessage(sendMessagePayloads.userId, {
+                conversationId: 0,
+                text: messageInput
+            })
+                // ! dispatch success alert
+                .then(() => resetMessage())
+                .catch(e => {
+                    // ! dispatch error alert
+                    console.log(e)
+                    setMessageInputError('Что-то пошло не так, повторите попытку')
+                })
+        } else {
+            setMessageInputError('Сообщение не должно быть пустым')
         }
-    }, [userId, user?.id, token, userInformation])
-
-    useEffect(() => {
-        getReviewsInUsersPage(axiosPrivate, userId, page,user.id).then(res => setReviews(res))
-    }, [user.id, userId])
-
-    useEffect(() => {
-        userInfoInUserPage(userId, user.id).then(res => setUserInformation(res?.body))
-    }, [])
+    }
 
     const createReview = (e) => {
         e.preventDefault()
@@ -70,6 +97,20 @@ export default function UserPage() {
         return result
     }
 
+    useEffect(() => {
+        if (userId && user?.id) {
+            setData(data => ({...data, "toId": userId, "fromId": user?.id, token, userReport: userInformation?.reportStatus}))
+        }
+    }, [userId, user?.id, token, userInformation])
+
+    useEffect(() => {
+        getReviewsInUsersPage(axiosPrivate, userId, page,user.id).then(res => setReviews(res))
+    }, [user.id, userId])
+
+    useEffect(() => {
+        userInfoInUserPage(userId, user.id).then(res => setUserInformation(res?.body))
+    }, [])
+
     return (
         <main>
 
@@ -82,7 +123,7 @@ export default function UserPage() {
                             <div className="col-7 col-sm-8 col-md-9">
                                 <div className="d-md-flex align-items-baseline mb-3">
                                     <h1 className="mb-0 me-4">{userInformation?.fullName}</h1>
-                                    <div className="fs-11 gray-3">Сейчас онлайн</div>
+                                    {/*<div className="fs-11 gray-3">Сейчас онлайн</div>*/}
                                 </div>
                                 <h4>{userInformation?.ownerTypeForUser}</h4>
                                 <div className="fs-11 gray-3">На сайте с {userInformation?.createdAtForUser}</div>
@@ -93,9 +134,11 @@ export default function UserPage() {
                                     />
                                     <button
                                         type="button"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#write-message"
                                         className="d-none d-md-flex btn btn-1 px-3 w-100 flex-1 ms-4"
+                                        onClick={() => userInformation?.id && setSendMessagePayloads(prev => ({
+                                            ...prev,
+                                            userId: userInformation.id
+                                        }))}
                                     >
                                         Написать сообщение
                                     </button>
@@ -111,7 +154,7 @@ export default function UserPage() {
                                     <img
                                         src={checkPhotoPath(userInformation?.avatar)}
                                         alt={userInformation?.fullName}/>
-                                    <div className="indicator online"/>
+                                    {/*<div className="indicator online"/>*/}
                                 </div>
                             </div>
                         </div>
@@ -269,9 +312,11 @@ export default function UserPage() {
                         <div>
                             <button
                                 type="button"
-                                data-bs-toggle="modal"
-                                data-bs-target="#write-message"
                                 className="fs-12 btn btn-1 w-100 px-2"
+                                onClick={() => userInformation?.id && setSendMessagePayloads(prev => ({
+                                    ...prev,
+                                    userId: userInformation.id
+                                }))}
                             >
                                 Написать сообщение
                             </button>
@@ -280,46 +325,45 @@ export default function UserPage() {
                 </div>
             </div>
 
-            <div className="modal fade" id="write-message" tabIndex="-1" aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-body">
-                            <button type="button" className="btn-close" data-bs-dismiss="modal">
-                                <svg viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1.00006 1.18237L15 15.9049"/>
-                                    <path d="M14.9999 1.18237L1.00001 15.9049"/>
-                                </svg>
-                            </button>
-                            <form className="message-form">
-                                <div className="d-flex align-items-center">
-                                    <div className="photo me-2 me-sm-4">
-                                        <img src="/img/photo.png" alt="Колесникова Ирина"/>
-                                        <div className="indicator online"/>
-                                    </div>
-                                    <div>
-                                        <h4>Колесникова Ирина</h4>
-                                        <div className="gray-2 fs-09">Сейчас онлайн</div>
-                                    </div>
-                                </div>
-                                <textarea
-                                    className="mt-3"
-                                    rows="4"
-                                    placeholder="Введите сообщение"
-                                />
-                                <div className="d-flex align-items-center mt-3">
-                                    <InputFile multiple={false}/>
-                                    <button
-                                        type="submit"
-                                        className="btn btn-1 w-100 flex-1 fs-12 ms-4"
-                                    >
-                                        ОТПРАВИТЬ
-                                    </button>
-                                </div>
-                            </form>
+            <CustomModal
+                isShow={sendMessagePayloads.userId}
+                setIsShow={() => resetMessage()}
+                closeButton
+            >
+                <form className="message-form">
+                    <div className="d-flex align-items-center">
+                        <div className="photo me-2 me-sm-4">
+                            <img src="/img/photo.png" alt="Колесникова Ирина"/>
+                            {/*<div className="indicator online"/>*/}
+                        </div>
+                        <div>
+                            <h4>Колесникова Ирина</h4>
+                            {/*<div className="gray-2 fs-09">Сейчас онлайн</div>*/}
                         </div>
                     </div>
-                </div>
-            </div>
+                    <textarea
+                        className="mt-3"
+                        rows="4"
+                        placeholder="Введите сообщение"
+                        value={messageInput}
+                        onChange={e => setMessageInput(e.target.value)}
+                    />
+                    {messageInputError && (
+                        <span className="message-form__error w-100 text-danger">
+                            {messageInputError}
+                        </span>
+                    )}
+                    <div className="d-flex align-items-center mt-3">
+                        <button
+                            type="submit"
+                            className="btn btn-1 w-100 flex-1 fs-12 ms-4"
+                            onClick={onSendMessage}
+                        >
+                            ОТПРАВИТЬ
+                        </button>
+                    </div>
+                </form>
+            </CustomModal>
 
             <div className="modal fade" id="write-review" tabIndex="-1" aria-hidden="true">
                 <div className="modal-dialog modal-lg">
@@ -341,7 +385,7 @@ export default function UserPage() {
                                                 src={checkPhotoPath(userInformation?.avatar)}
                                                 alt={userInformation?.fullName}
                                             />
-                                            <div className="indicator online"/>
+                                            {/*<div className="indicator online"/>*/}
                                         </div>
                                         <div className="text-lg-center">
                                             <div className="fs-11 fw-5 mb-sm-2">{userInformation?.fullName}</div>
@@ -365,7 +409,7 @@ export default function UserPage() {
                                             className="mt-3"
                                             rows="6"
                                             value={data?.description || ''}
-                                            placeholder="Напишите отзвыв"
+                                            placeholder="Напишите отзыв"
                                             onChange={(e) => setData(prevState => ({...prevState, description: e.target.value}))}
                                         />
                                         <button

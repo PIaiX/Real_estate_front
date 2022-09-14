@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/static/css/main.0cb8b770.css",
-    "main.js": "/static/js/main.a7c42c02.js",
+    "main.css": "/static/css/main.ddd7aa6d.css",
+    "main.js": "/static/js/main.674380d9.js",
     "static/media/bg2.png": "/static/media/bg2.6696cde382d78113ca67.png",
-    "static/media/bootstrap-icons.woff?": "/static/media/bootstrap-icons.7ff3ca6fa798de3f8ac2.woff",
-    "static/media/bootstrap-icons.woff2?": "/static/media/bootstrap-icons.f2539a501be3a673de05.woff2",
+    "static/media/bootstrap-icons.woff?": "/static/media/bootstrap-icons.e559bf06bc84fd9525e6.woff",
+    "static/media/bootstrap-icons.woff2?": "/static/media/bootstrap-icons.ea98e12d2d58747f9fc5.woff2",
     "static/media/Gilroy-UltraLightItalic.eot": "/static/media/Gilroy-UltraLightItalic.0eaf6ee1ff3eea926e17.eot",
     "static/media/Gilroy-UltraLightItalic.ttf": "/static/media/Gilroy-UltraLightItalic.8c3864ffd690ca16c188.ttf",
     "static/media/Gilroy-MediumItalic.eot": "/static/media/Gilroy-MediumItalic.656d4f138a8b7faa650b.eot",
@@ -67,8 +67,13 @@
     "static/media/Gilroy-Regular.woff": "/static/media/Gilroy-Regular.31d54a4b841c0e438f13.woff",
     "static/media/percent.svg": "/static/media/percent.57a5a2990c80dd7db5dd.svg",
     "static/media/м2.svg": "/static/media/м2.82bc046c8b9161aae01d.svg",
+    "static/media/trash.svg": "/static/media/trash.7747e0f66efb7f7a1be6067154b12de8.svg",
+    "static/media/edit.svg": "/static/media/edit.dd88d38d8684e81c1c588f933d64d817.svg",
     "static/media/sprite.svg": "/static/media/sprite.0ca5aa188cd629f740bb.svg",
     "static/media/rub.svg": "/static/media/rub.3b73fcae93ad4cbce41e.svg",
+    "static/media/choose.svg": "/static/media/choose.1b7256e8b779cbd0e1163f287495170f.svg",
+    "static/media/copy.svg": "/static/media/copy.565d125cb5762ee923c07da1b38e636d.svg",
+    "static/media/check.svg": "/static/media/check.3f730dd45f4652fb271275d63fc3b695.svg",
     "static/media/м.svg": "/static/media/м.215bfb3d63c8e67eb682.svg",
     "static/media/photo.svg": "/static/media/photo.32719e55908dfed0efb2.svg",
     "index.html": "/index.html",
@@ -77,11 +82,11 @@
     "static/media/mark3.svg": "/static/media/mark3.a96cbc418c155a20b2b2.svg",
     "static/media/radio-ch.svg": "/static/media/radio-ch.610a32af8e1da7533bc6.svg",
     "static/media/radio.svg": "/static/media/radio.1f52713a7eec9090f133.svg",
-    "main.0cb8b770.css.map": "/static/css/main.0cb8b770.css.map",
-    "main.a7c42c02.js.map": "/static/js/main.a7c42c02.js.map"
+    "main.ddd7aa6d.css.map": "/static/css/main.ddd7aa6d.css.map",
+    "main.674380d9.js.map": "/static/js/main.674380d9.js.map"
   },
   "entrypoints": [
-    "static/css/main.0cb8b770.css",
-    "static/js/main.a7c42c02.js"
+    "static/css/main.ddd7aa6d.css",
+    "static/js/main.674380d9.js"
   ]
 }

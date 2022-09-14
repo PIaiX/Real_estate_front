@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import accessTokenActions from "../../store/actions/accessToken";
@@ -7,6 +7,9 @@ import { bindActionCreators } from "redux";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import apiRoutes from "../../API/config/apiRoutes";
 import CustomModal from "../../components/CustomModal";
+import useSocket from '../../hooks/socket';
+import {socketInstance} from '../../API/socketInstance';
+import {conversationListeners} from '../../API/socketConversations';
 
 export default function AccountMenu() {
   const navigate = useNavigate();
@@ -15,6 +18,8 @@ export default function AccountMenu() {
   const { resetToken } = bindActionCreators(accessTokenActions, dispatch);
   const { resetCurrentUser } = bindActionCreators(currentUserActions, dispatch);
   const [isShowModalExit, setIsShowModalExit] = useState(false)
+  const {isConnected} = useSocket()
+  const [counter, setCounter] = useState(null)
   
 
   const handleLogout = async () => {
@@ -26,6 +31,12 @@ export default function AccountMenu() {
       setIsShowModalExit(false)
     }
   };
+
+  useEffect(() => {
+    if (isConnected) {
+      socketInstance.on(conversationListeners.countNewMessages, count => setCounter(+count))
+    }
+  }, [isConnected])
 
   return (
     <div>
@@ -69,7 +80,7 @@ export default function AccountMenu() {
           <li>
             <img src="/img/icons/pa-5.svg" alt="Сообщения" />
             <NavLink to="my-messages">Сообщения</NavLink>
-            <div className="count">2</div>
+            {(counter > 0) && <div className="count">{counter}</div>}
           </li>
           <li>
             <img src="/img/icons/pa-6.svg" alt="Отзывы" />

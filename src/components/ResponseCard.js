@@ -43,8 +43,19 @@ const ResponseCard = (props) => {
             })
     }
 
+    const setSendMessagePayloads = () => {
+        if (props?.setSendMessagePayloads && props?.serviceId && props?.userId) {
+            props.setSendMessagePayloads(prev => ({
+                ...prev,
+                serviceId: props?.serviceId,
+                userId: props?.userId
+            }))
+        }
+    }
+
     return (
-        <div className={`response-card ${((props.type === 'in') || (props.type === 'work')) ? 'response-card_in' : 'response-card_out'}`}>
+        <div
+            className={`response-card ${((props.type === 'in') || (props.type === 'work')) ? 'response-card_in' : 'response-card_out'}`}>
             <div className="title">
                 <div className="d-xxl-flex">
                     <h4 className="color-1 mb-1 mb-xl-2 mb-xxl-0">
@@ -93,6 +104,13 @@ const ResponseCard = (props) => {
                                 onClick={onAccept}
                             >
                                 Принять
+                            </button>
+                            <button
+                                type="button"
+                                className="btn btn-1 w-100 px-2"
+                                onClick={() => setSendMessagePayloads()}
+                            >
+                                Написать сообщение
                             </button>
                             <button
                                 type="button"

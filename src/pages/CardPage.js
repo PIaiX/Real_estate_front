@@ -4,16 +4,16 @@ import {Slider1} from '../components/Slider1';
 import BtnFav from '../components/BtnFav';
 import ShowPhone from '../components/ShowPhone';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import SwiperCore, {Navigation, Thumbs, EffectFade} from 'swiper';
+import SwiperCore, {EffectFade, Navigation, Thumbs} from 'swiper';
 import ImageViewer from 'react-simple-image-viewer';
-import InputFile from '../components/InputFile';
 import {getAdsPage} from "../API/adspage";
 import {getRecommend} from "../API/mainpagereq";
 import {useCurrentUser} from "../store/reducers";
 import BtnRep from "../components/BtnRep";
 import Breadcrumbs from '../components/Breadcrumbs';
 import {useSelector} from "react-redux";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import CustomModal from '../components/CustomModal';
+import {emitCreateWithRealEstateTopicMessage} from '../API/socketConversations';
 
 SwiperCore.use([Navigation, Thumbs, EffectFade]);
 
@@ -26,6 +26,11 @@ export default function CardPage() {
     const user = useCurrentUser()
     const userId = user?.id
     const city = useSelector(state => state?.selectedCity)
+
+    // write message modal
+    const [isShowWriteMessageModal, setIsShowWriteMessageModal] = useState(false)
+    const [messageInput, setMessageInput] = useState('')
+    const [messageInputError, setMessageInputError] = useState('')
 
     useEffect(() => {
         getAdsPage(uuid, userId).then(res => setAds(res))
@@ -94,6 +99,43 @@ export default function CardPage() {
             return "объктов"
         }
     }
+
+    const resetMessage = () => {
+        setMessageInput('')
+        setMessageInputError('')
+        setIsShowWriteMessageModal(false)
+    }
+
+    const onSendMessage = (e) => {
+        e.preventDefault()
+        const message = messageInput.trim()
+
+        if (message.length) {
+            emitCreateWithRealEstateTopicMessage(ads?.user?.id, {
+                conversationId: 0,
+                realEstateId: ads?.id,
+                text: messageInput
+            })
+                // ! dispatch success alert
+                .then(() => resetMessage())
+                .catch(e => {
+                    // ! dispatch error alert
+                    console.log(e)
+                    setMessageInputError('Что-то пошло не так, повторите попытку')
+                })
+            resetMessage()
+        } else {
+            setMessageInputError('Сообщение не должно быть пустым')
+        }
+    }
+
+    // reset form when closing modal
+    useEffect(() => {
+        if (!isShowWriteMessageModal) {
+            setMessageInput('')
+            setMessageInputError('')
+        }
+    }, [isShowWriteMessageModal])
 
     return (
         <main>
@@ -333,8 +375,12 @@ export default function CardPage() {
                                         }
                                     </div>
                                     <ShowPhone className="mt-4 fs-15" phone={ads?.user?.phoneForUser}/>
-                                    <button type="button" data-bs-toggle="modal" data-bs-target="#write-message"
-                                            className="btn btn-1 w-100 fs-15 px-3 mt-2 mt-xl-3">Написать сообщение
+                                    <button
+                                        type="button"
+                                        className="btn btn-1 w-100 fs-15 px-3 mt-2 mt-xl-3"
+                                        onClick={() => setIsShowWriteMessageModal(true)}
+                                    >
+                                        Написать сообщение
                                     </button>
 
                                 </div>
@@ -613,44 +659,57 @@ export default function CardPage() {
                             <ShowPhone className="fs-12" phone={ads?.user?.phoneForUser}/>
                         </div>
                         <div>
-                            <button type="button" className="fs-12 btn btn-1 w-100 px-2">Написать сообщение</button>
+                            <button
+                                type="button"
+                                className="fs-12 btn btn-1 w-100 px-2"
+                                onClick={() => setIsShowWriteMessageModal(true)}
+                            >
+                                Написать сообщение
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className="modal fade" id="write-message" tabIndex="-1" aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-body">
-                            <button type="button" className="btn-close" data-bs-dismiss="modal">
-                                <svg viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1.00006 1.18237L15 15.9049"/>
-                                    <path d="M14.9999 1.18237L1.00001 15.9049"/>
-                                </svg>
-                            </button>
-                            <form className="message-form">
-                                <div className="d-flex align-items-center">
-                                    <div className="photo me-2 me-sm-4">
-                                        <img src="/img/photo.png" alt="Колесникова Ирина"/>
-                                        <div className="indicator online"/>
-                                    </div>
-                                    <div>
-                                        <h4>Колесникова Ирина</h4>
-                                        <div className="gray-2 fs-09">Сейчас онлайн</div>
-                                    </div>
-                                </div>
-                                <textarea className="mt-3" rows="4" placeholder="Введите сообщение"/>
-                                <div className="d-flex align-items-center mt-3">
-                                    <InputFile multiple={false}/>
-                                    <button type="submit" className="btn btn-1 w-100 flex-1 fs-12 ms-4">ОТПРАВИТЬ
-                                    </button>
-                                </div>
-                            </form>
+            <CustomModal
+                isShow={isShowWriteMessageModal}
+                setIsShow={() => resetMessage()}
+                closeButton
+            >
+                <form className="message-form">
+                    <div className="d-flex align-items-center">
+                        <div className="photo me-2 me-sm-4">
+                            <img src="/img/photo.png" alt="Колесникова Ирина"/>
+                            {/*<div className="indicator online"/>*/}
+                        </div>
+                        <div>
+                            <h4>Колесникова Ирина</h4>
+                            <div className="gray-2 fs-09">Сейчас онлайн</div>
                         </div>
                     </div>
-                </div>
-            </div>
+                    <textarea
+                        className="mt-3"
+                        rows="4"
+                        placeholder="Введите сообщение"
+                        value={messageInput}
+                        onChange={e => setMessageInput(e.target.value)}
+                    />
+                    {messageInputError && (
+                        <span className="message-form__error w-100 text-danger">
+                            {messageInputError}
+                        </span>
+                    )}
+                    <div className="d-flex align-items-center mt-3">
+                        <button
+                            type="submit"
+                            className="btn btn-1 w-100 flex-1 fs-12 ms-4"
+                            onClick={onSendMessage}
+                        >
+                            ОТПРАВИТЬ
+                        </button>
+                    </div>
+                </form>
+            </CustomModal>
         </main>
     )
 }
