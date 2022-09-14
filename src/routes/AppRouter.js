@@ -36,11 +36,7 @@ const AppRouter = () => {
                 </Route>
                 <Route path="services" element={<AllServices routeName='Услуги'/>}/>
                 <Route path='service' element={<Services/>}>
-                    <Route path=':slug' element={<Services/>}>
-                        <Route path='page' element={<Services/>}>
-                            <Route path=':page' element={<Services/>}/>
-                        </Route>
-                    </Route>
+                    <Route path=':slug' element={<Services/>}/>
                 </Route>
 
                 <Route path="hypothec" element={<Hypothec routeName='Ипотека'/>}/>

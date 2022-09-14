@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {acceptResponse, completeResponse, rejectResponse} from '../API/responses';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import {useDispatch, useSelector} from 'react-redux';
 import {bindActionCreators} from "redux";
 import alertActions from "../store/actions/alert"
+import CustomModal from "./CustomModal";
 
 const ResponseCard = (props) => {
 
@@ -12,6 +13,7 @@ const ResponseCard = (props) => {
     const token = useSelector(state => state?.accessToken)
     const dispatch = useDispatch()
     const {setAlert} = bindActionCreators(alertActions, dispatch)
+    const [isShowModal, setIsShowModal] = useState(false)
 
     const onAccept = () => {
         props.id && acceptResponse(axiosPrivate, props.id, {token})
@@ -85,10 +87,21 @@ const ResponseCard = (props) => {
                         Опыт работы {props.experience}
                     </h6>
                 )}
-                {(props.price && props.priceType) && (
-                    <div className="fs-11 gray-2 mb-1 mb-md-2 mb-xxl-3">
-                        {`${props.price} ₽ ${props.priceType}`}
-                    </div>
+                {(props.serviceName) && (
+                    <>
+                    <button onClick={() => setIsShowModal(true)}>{props?.serviceName}</button>
+                    <CustomModal
+                        isShow={isShowModal}
+                        setIsShow={setIsShowModal}
+                        centered={true}
+                        closeButton={true}
+                    >
+                        <div className='d-flex align-items-center flex-column'>
+                            <div><span className='fs-12 fw-bold'>Услуга:</span> {props?.serviceName}</div>
+                            <div><span className='fs-12 fw-bold'>Описание:</span> {props?.serviceDes}</div>
+                        </div>
+                    </CustomModal>
+                    </>
                 )}
                 <div className="text">
                     {props.description && <p>{props.description}</p>}
