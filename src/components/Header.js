@@ -105,7 +105,7 @@ const Header = () => {
                             <img src="/img/icons/email.svg" alt="email"/>
                             {(conversationCount > 0) && <span>{conversationCount}</span>}
                         </Link>
-                        <Link to="/personal-account/favorites/page/1"
+                        <Link to="/personal-account/favorites"
                               className="ms-3 ms-xl-4">
                             <img src="/img/icons/favorite.svg" alt="favorite"/>
                         </Link>

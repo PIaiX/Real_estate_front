@@ -385,7 +385,7 @@ export default function Advertise() {
             updateAd(axiosPrivate, uuid, formData).then(() => {
                 setAlert('success', true, 'Объявление успешно отредактировано, переход в мои объявления')
                 setTimeout(() => {
-                    navigate("/personal-account/my-ads/page/1", {replace: true})
+                    navigate("/personal-account/my-ads", {replace: true})
                 }, 2000)
             }).catch(() => {
                 setAlert('danger', true, 'Произошла ошибка сервера')

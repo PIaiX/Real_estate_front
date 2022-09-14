@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import Card from '../../components/Card';
-import {Link, useNavigate, useParams} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {useAccessToken, useCurrentUser} from "../../store/reducers";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import PaginationCustom from "../../components/PaginationCustom";
 import {deleteAds, getMyAds} from "../../API/users";
 import Loader from "../../components/Loader";
 import {useDispatch} from "react-redux";
 import {bindActionCreators} from "redux";
 import alertActions from "../../store/actions/alert"
+import usePagination from "../../hooks/pagination";
+import Pagination from "../../components/Pagination";
 
 export default function UserAds({routeName}) {
 
@@ -18,11 +19,10 @@ export default function UserAds({routeName}) {
     const token = useAccessToken()
     const userId = currentUser?.id
     const [myAds, setMyAds] = useState({isLoaded: false, data: []})
-    let {page} = useParams()
-    const navigate = useNavigate()
     const [selectedUuid, setSelectedUuid] = useState(null)
     const dispatch = useDispatch()
     const {setAlert} = bindActionCreators(alertActions, dispatch)
+    const adsPag = usePagination(2)
 
     useEffect(() => {
         function updateSize() {
@@ -39,7 +39,7 @@ export default function UserAds({routeName}) {
     }, []);
 
     useEffect(() => {
-        getMyAds(userId, page, token, 4, axiosPrivate)
+        getMyAds(userId, adsPag.currentPage, token, adsPag.pageLimit, axiosPrivate)
             .then(res => {
                 setMyAds({
                     isLoaded: true,
@@ -47,12 +47,19 @@ export default function UserAds({routeName}) {
                     meta: res.body
                 })
             })
-    }, [page])
+    }, [adsPag.currentPage])
+
+    useEffect(() => {
+        if (myAds.data?.length === 0) {
+            adsPag.setStartingPage(1)
+            adsPag.setCurrentPage(1)
+        }
+    }, [myAds.data?.length])
 
     const deleteAd = async (uuid) => {
         await deleteAds(axiosPrivate, uuid, token)
             .then(() => {
-                getMyAds(userId, page, token, 4, axiosPrivate)
+                getMyAds(userId, adsPag.currentPage, token, adsPag.pageLimit, axiosPrivate)
                     .then(res => {
                         setMyAds({
                             isLoaded: true,
@@ -66,14 +73,6 @@ export default function UserAds({routeName}) {
                 setAlert('danger', true, 'Произошла ошибка')
             })
     }
-
-    useEffect(() => {
-        if (myAds.isLoaded) {
-            if (myAds?.data?.length === 0) {
-                navigate(`/personal-account/my-ads/page/1`)
-            }
-        }
-    }, [myAds?.data?.length])
 
     return (
         <div className="px-sm-3 px-md-4 px-xxl-5 pb-3 pb-sm-4 pb-xxl-5">
@@ -186,7 +185,16 @@ export default function UserAds({routeName}) {
                     : <div className='p-5 w-100 d-flex justify-content-center'><Loader color='#146492'/></div>
                 }
             </div>
-            {myAds?.data?.length ? <PaginationCustom meta={myAds?.meta} baseUrl="personal-account/my-ads"/> : null}
+            <Pagination
+                pageLimit={adsPag.pageLimit}
+                currentPage={adsPag.currentPage}
+                setCurrentPage={adsPag.setCurrentPage}
+                pagesDisplayedLimit={3}
+                itemsAmount={myAds?.meta?.meta?.total || 0}
+                startingPage={adsPag.startingPage}
+                className='mt-4 mt-sm-5'
+                setStartingPage={adsPag.setStartingPage}
+            />
         </div>
     )
 }

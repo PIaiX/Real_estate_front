@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useNavigate, useParams} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import useUpdateSize from '../../hooks/useUpdateSize';
 import Card from '../../components/Card';
-import PaginationCustom from '../../components/PaginationCustom';
 import {getWishlist} from '../../API/wishlist';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import {useAccessToken, useCurrentUser} from "../../store/reducers";
@@ -11,6 +10,8 @@ import {deleteWishList} from "../../API/adspage";
 import {useDispatch} from "react-redux";
 import {bindActionCreators} from "redux";
 import alertActions from "../../store/actions/alert"
+import Pagination from "../../components/Pagination";
+import usePagination from "../../hooks/pagination";
 
 export default function Favorites({routeName}) {
 
@@ -18,15 +19,14 @@ export default function Favorites({routeName}) {
     const currentUser = useCurrentUser()
     const userId = currentUser?.id
     const view = useUpdateSize('1399px');
+    const wishlistPag = usePagination(1)
     const [wishlistData, setWishlistData] = useState({isLoaded: false})
-    const {page} = useParams()
     const axiosPrivate = useAxiosPrivate();
-    const navigate = useNavigate()
     const dispatch = useDispatch()
     const {setAlert} = bindActionCreators(alertActions, dispatch)
 
     useEffect(() => {
-        getWishlist(userId, page, 4, axiosPrivate, token)
+        getWishlist(userId, wishlistPag.currentPage, wishlistPag.pageLimit, axiosPrivate, token)
             .then(res => {
                 setWishlistData({
                     isLoaded: true,
@@ -34,12 +34,19 @@ export default function Favorites({routeName}) {
                     wishlist: res?.data
                 })
             })
-    }, [currentUser, page])
+    }, [currentUser, wishlistPag.currentPage])
+
+    useEffect(() => {
+        if (wishlistData?.wishlist?.length === 0) {
+            wishlistPag.setStartingPage(1)
+            wishlistPag.setCurrentPage(1)
+        }
+    }, [wishlistData?.wishlist?.length])
 
     const deleteFromWishList = async (realEstateId) => {
         deleteWishList({userId, token, realEstateId}, axiosPrivate)
             .then(() => {
-                getWishlist(userId, page, 4, axiosPrivate, token)
+                getWishlist(userId, wishlistPag.currentPage, wishlistPag.pageLimit, axiosPrivate, token)
                     .then(res => {
                         setWishlistData({
                             isLoaded: true,
@@ -53,14 +60,6 @@ export default function Favorites({routeName}) {
                 setAlert('danger', true, 'Произошла ошибка сервера')
             })
     }
-
-    useEffect(() => {
-        if (wishlistData.isLoaded) {
-            if (wishlistData?.wishlist?.length === 0){
-                navigate(`/personal-account/favorites/page/1`)
-            }
-        }
-    }, [wishlistData?.wishlist?.length])
 
     return (
         <div className="px-sm-3 px-md-4 px-xxl-5 pb-sm-4 pb-xxl-5">
@@ -118,7 +117,16 @@ export default function Favorites({routeName}) {
                         :  <div className='p-5 w-100 d-flex justify-content-center'><Loader color='#146492'/></div>
                 }
             </div>
-            { wishlistData?.wishlist?.length ? <PaginationCustom meta={wishlistData.meta} baseUrl="personal-account/favorites"/> : null }
+            <Pagination
+                pageLimit={wishlistPag.pageLimit}
+                currentPage={wishlistPag.currentPage}
+                setCurrentPage={wishlistPag.setCurrentPage}
+                pagesDisplayedLimit={3}
+                itemsAmount={wishlistData?.meta?.meta?.total || 0}
+                startingPage={wishlistPag.startingPage}
+                className='mt-4 mt-sm-5'
+                setStartingPage={wishlistPag.setStartingPage}
+            />
         </div>
     )
 }

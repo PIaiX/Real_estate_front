@@ -2,25 +2,25 @@ import React, {useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import {getReviews} from "../../API/users";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import {useAccessToken, useCurrentUser} from "../../store/reducers";
+import {useCurrentUser} from "../../store/reducers";
 import Rating from "react-rating";
-import PaginationCustom from "../../components/PaginationCustom";
-import AuthError from "../../components/AuthError"
 import Loader from "../../components/Loader";
+import usePagination from "../../hooks/pagination";
+import Pagination from "../../components/Pagination";
 
 export default function UserReviews() {
 
     const axiosPrivate = useAxiosPrivate()
     const user = useCurrentUser()
     const userId = user?.id
-    const {page} = useParams()
+    const reviewsPag = usePagination(6)
     const [reviews, setReviews] = useState({isLoaded: false, data:[]})
     const url = 'https://api.antontig.beget.tech/uploads/'
 
     useEffect(() => {
         const reviews = async () => {
             try {
-                const result = (userId) && await getReviews(axiosPrivate, userId, page, 4)
+                const result = (userId) && await getReviews(axiosPrivate, userId, reviewsPag.currentPage, reviewsPag.pageLimit)
                 result && setReviews({
                     isLoaded: true,
                     data: result.data,
@@ -31,7 +31,7 @@ export default function UserReviews() {
             }
         }
         reviews()
-    }, [userId, page])
+    }, [userId, reviewsPag.currentPage])
 
     const avatarReviewer = (avatar) => `${url}${avatar}`
 
@@ -83,7 +83,16 @@ export default function UserReviews() {
                     : <h6 className='m-auto p-5 text-center'>Отзывов нет</h6>
                 : <div className='p-5 w-100 d-flex justify-content-center'><Loader color='#146492'/></div>
             }
-            { reviews?.data?. length ? <PaginationCustom meta={reviews.meta} baseUrl="personal-account/my-reviews"/> : null}
+            <Pagination
+                pageLimit={reviewsPag.pageLimit}
+                currentPage={reviewsPag.currentPage}
+                setCurrentPage={reviewsPag.setCurrentPage}
+                pagesDisplayedLimit={3}
+                itemsAmount={reviews?.meta?.total || 0}
+                startingPage={reviewsPag.startingPage}
+                className='mt-4 mt-sm-5'
+                setStartingPage={reviewsPag.setStartingPage}
+            />
         </div>
     )
 }
