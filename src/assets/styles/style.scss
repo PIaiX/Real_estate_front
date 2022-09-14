@@ -3526,9 +3526,8 @@ main.account {
         padding: .5em 20% .5em 1em;
       }
 
-      // desctop edit message color
       &.editable {
-        background-color: rgba(197, 156, 126, 0.3);
+        background-color: rgba($color-1, 0.15);
       }
 
       &.unread {

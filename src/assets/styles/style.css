@@ -3398,7 +3398,7 @@ main.account {
   }
 }
 .messages-list .message.editable {
-  background-color: rgba(197, 156, 126, 0.3);
+  background-color: rgba(20, 100, 146, 0.15);
 }
 .messages-list .message.unread {
   background-color: #F1F7FA;

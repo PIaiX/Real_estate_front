@@ -181,19 +181,6 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
         editableMessage.id && setMessageInput(editableMessage.text)
     }, [editableMessage])
 
-    // useEffect(() => {
-    //     emitViewedMessage(+conversationId, +conversationUser?.id)
-    // }, [messages])
-
-    // ? temp loggers
-    useEffect(() => {
-        console.log('messages', messages)
-    }, [messages])
-
-    useEffect(() => {
-        console.log('sell', selectedMessagesOnMobile)
-    }, [selectedMessagesOnMobile])
-
     return (
         messages.isLoading
             ? <>
@@ -254,6 +241,7 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
                                 conversationUser={conversationUser}
                                 activeMessageOnMobile={activeMessageOnMobile}
                                 setActiveMessageOnMobile={setActiveMessageOnMobile}
+                                editableMessage={editableMessage}
                                 selectedMessagesOnMobile={selectedMessagesOnMobile}
                                 setSelectedMessagesOnMobile={setSelectedMessagesOnMobile}
                                 setMessagePosition={setMessagePosition}

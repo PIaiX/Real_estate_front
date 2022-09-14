@@ -14,6 +14,7 @@ const MessageItem = (props) => {
         // props for mobile mode
         activeMessageOnMobile,
         setActiveMessageOnMobile,
+        editableMessage,
         selectedMessagesOnMobile,
         setSelectedMessagesOnMobile,
         setMessagePosition,
@@ -26,6 +27,7 @@ const MessageItem = (props) => {
     const [isMobile, setIsMobile] = useState(false)
     const user = useSelector(state => state?.currentUser)
     const isMyMessage = (+user?.id === +message?.userId)
+    const isEditableMessage = (+message?.id === +editableMessage?.id)
 
     // switch mode
     useEffect(() => {
@@ -42,7 +44,7 @@ const MessageItem = (props) => {
 
     return (
         <div
-            className={`message ${isMyMessage ? 'my' : ''}`}
+            className={`message ${isMyMessage ? 'my' : ''} ${isEditableMessage ? 'editable' : ''}`}
         >
             {!isMobile && (
                 <div className="photo">
@@ -60,7 +62,7 @@ const MessageItem = (props) => {
                     <div
                         className={`main main_mobile ${(activeMessageOnMobile.id === message?.id) ? 'active' : ''} ${selectedMessagesOnMobile?.length && selectedMessagesOnMobile?.includes(message?.id) ? 'selected' : ''}`}
                         onClick={e => {
-                            (!activeMessageOnMobile.id && !selectedMessagesOnMobile?.length) && setActiveMessageOnMobile({
+                            (!activeMessageOnMobile.id && !editableMessage.id && !selectedMessagesOnMobile?.length) && setActiveMessageOnMobile({
                                 id: message?.id,
                                 text: message?.text
                             })
