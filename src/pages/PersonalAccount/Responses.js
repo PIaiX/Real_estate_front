@@ -1,24 +1,23 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useNavigate, useParams} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {getIncomingsResponses, getOutgoingsResponses} from '../../API/responses';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import {useSelector} from 'react-redux';
 import ResponseCard from '../../components/ResponseCard';
-import PaginationCustom from '../../components/PaginationCustom';
 import Loader from '../../components/Loader';
-import useRedirectToPath from '../../hooks/redirectToPath';
 import {checkPhotoPath} from '../../helpers/photo';
 import CustomModal from '../../components/CustomModal';
 import {emitCreateWithServiceTopicMessage} from '../../API/socketConversations';
+import usePagination from "../../hooks/pagination";
+import Pagination from "../../components/Pagination";
 
-export default function Responses(props) {
-    const initialPageLimit = 4
-    const {page} = useParams()
+export default function Responses() {
     const axiosPrivate = useAxiosPrivate()
     const userId = useSelector(state => state?.currentUser?.id)
     const token = useSelector(state => state?.accessToken)
+    const responsesPagOut = usePagination(4)
+    const responsesPagIn = usePagination(4)
     const [tab, setTab] = useState('in') // out
-    const navigate = useNavigate()
     const [incomings, setIncomings] = useState({
         isLoading: false,
         error: null,
@@ -40,6 +39,28 @@ export default function Responses(props) {
     const [sendMessagePayloads, setSendMessagePayloads] = useState(initialSendMessagePayloads)
     const [messageInput, setMessageInput] = useState('')
     const [messageInputError, setMessageInputError] = useState('')
+
+    useEffect(() => {
+        getIncomingsResponsesRequest(responsesPagIn.currentPage, responsesPagIn.pageLimit)
+    }, [userId, token, responsesPagIn.currentPage])
+
+    useEffect(() => {
+        getOutgoingsResponsesRequest(responsesPagOut.currentPage, responsesPagOut.pageLimit)
+    }, [userId, token, responsesPagOut.currentPage])
+
+    useEffect(() => {
+        if (incomings?.items?.length === 0 && tab === 'in') {
+            responsesPagIn.setCurrentPage(1)
+            responsesPagIn.setStartingPage(1)
+        }
+    }, [incomings?.items?.length, tab])
+
+    useEffect(() => {
+        if (outgoings?.items?.length === 0 && tab === 'out') {
+            responsesPagOut.setCurrentPage(1)
+            responsesPagOut.setStartingPage(1)
+        }
+    }, [outgoings?.items?.length, tab])
 
     const resetMessage = () => {
         setMessageInput('')
@@ -83,32 +104,11 @@ export default function Responses(props) {
     }
 
     const updateData = () => {
-        if (userId && token && page) {
-            getIncomingsResponsesRequest(page, initialPageLimit)
-            getOutgoingsResponsesRequest(page, initialPageLimit)
+        if (userId && token && (responsesPagIn.currentPage || responsesPagOut.currentPage)) {
+            getIncomingsResponsesRequest(responsesPagIn.currentPage, responsesPagIn.pageLimit)
+            getOutgoingsResponsesRequest(responsesPagOut.currentPage, responsesPagIn.pageLimit)
         }
     }
-
-    useEffect(() => getIncomingsResponsesRequest(page, initialPageLimit), [userId, token, page])
-    useEffect(() => getOutgoingsResponsesRequest(page, initialPageLimit), [userId, token, page])
-
-    useEffect(() => {
-        if (incomings?.isLoading) {
-            if (incomings?.items?.length === 0){
-                navigate(`/personal-account/responses-in/page/1`)
-            }
-        }
-    }, [incomings?.items?.length])
-
-    useEffect(() => {
-        if (outgoings?.isLoading) {
-            if (outgoings?.items?.length === 0){
-                navigate(`/personal-account/responses-out/page/1`)
-            }
-        }
-    }, [outgoings?.items?.length])
-
-    console.log(incomings)
 
     return (
         <div className='px-2 px-sm-4 pb-4 pb-sm-5'>
@@ -155,6 +155,8 @@ export default function Responses(props) {
                                             userId={item?.userId}
                                             serviceId={item?.serviceId}
                                             setSendMessagePayloads={setSendMessagePayloads}
+                                            serviceName={item?.service?.servicesTypesSubServiceId}
+                                            serviceDes={item?.service?.description}
                                         />
                                     </div>
                                 ))
@@ -178,6 +180,8 @@ export default function Responses(props) {
                                             rating={item?.user?.rating}
                                             updateData={updateData}
                                             userId={item?.userId}
+                                            serviceName={item?.service?.servicesTypesSubServiceId}
+                                            serviceDes={item?.service?.description}
                                         />
                                     </div>
                                 ))
@@ -186,8 +190,30 @@ export default function Responses(props) {
                     )
                 }
             </div>
-            {(tab === 'in' && incomings?.items?.length > 0) && <PaginationCustom baseUrl='personal-account/responses-in' meta={incomings.meta} />}
-            {(tab === 'out' && outgoings?.items?.length > 0) && <PaginationCustom baseUrl='personal-account/responses-out' meta={outgoings.meta} />}
+            {(tab === 'in' && incomings?.items?.length > 0) &&
+                <Pagination
+                    pageLimit={responsesPagIn.pageLimit}
+                    currentPage={responsesPagIn.currentPage}
+                    setCurrentPage={responsesPagIn.setCurrentPage}
+                    pagesDisplayedLimit={3}
+                    itemsAmount={incomings?.meta?.meta?.total || 0}
+                    startingPage={responsesPagIn.startingPage}
+                    className='mt-4 mt-sm-5'
+                    setStartingPage={responsesPagIn.setStartingPage}
+                />
+            }
+            {(tab === 'out' && outgoings?.items?.length > 0) &&
+                <Pagination
+                    pageLimit={responsesPagOut.pageLimit}
+                    currentPage={responsesPagOut.currentPage}
+                    setCurrentPage={responsesPagOut.setCurrentPage}
+                    pagesDisplayedLimit={3}
+                    itemsAmount={outgoings?.meta?.meta?.total || 0}
+                    startingPage={responsesPagOut.startingPage}
+                    className='mt-4 mt-sm-5'
+                    setStartingPage={responsesPagOut.setStartingPage}
+                />
+            }
 
             <CustomModal
                 isShow={sendMessagePayloads.userId}

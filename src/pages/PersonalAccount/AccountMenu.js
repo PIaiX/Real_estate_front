@@ -71,7 +71,7 @@ export default function AccountMenu() {
           </li>
           <li>
             <img src="/img/icons/pa-11.svg" alt="Мои отклики" />
-            <NavLink to="responses-in/page/1">Мои отклики</NavLink>
+            <NavLink to="responses">Мои отклики</NavLink>
           </li>
           <li>
             <img src="/img/icons/pa-12.svg" alt="В работе" />

@@ -2305,7 +2305,7 @@ article .text {
   gap: 10px;
 }
 .response-card_in {
-  grid-template-rows: 2.5em auto 4.5rem;
+  grid-template-rows: 2.5em auto 1fr;
 }
 .response-card_out {
   grid-template-rows: 2.5em auto 1.5rem;
