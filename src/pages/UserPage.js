@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import ShowPhone from '../components/ShowPhone';
-import InputFile from '../components/InputFile';
 import {Slider1} from '../components/Slider1';
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import {
@@ -16,8 +15,11 @@ import Rating from "react-rating";
 import BtnRep from "../components/BtnRep";
 import Breadcrumbs from "../components/Breadcrumbs";
 import {checkPhotoPath} from "../helpers/photo";
-import {emitCreateWithoutTopicMessage, emitCreateWithServiceTopicMessage} from '../API/socketConversations';
+import {emitCreateWithoutTopicMessage} from '../API/socketConversations';
 import CustomModal from '../components/CustomModal';
+import {bindActionCreators} from "redux";
+import alertActions from "../store/actions/alert"
+import {useDispatch} from 'react-redux';
 
 export default function UserPage() {
 
@@ -40,9 +42,9 @@ export default function UserPage() {
     const [messageInput, setMessageInput] = useState('')
     const [messageInputError, setMessageInputError] = useState('')
 
-    useEffect(() => {
-        console.log('text', messageInput)
-    }, [messageInput])
+    // alert actions
+    const dispatch = useDispatch()
+    const {setAlert} = bindActionCreators(alertActions, dispatch)
 
     const resetMessage = () => {
         setMessageInput('')
@@ -59,13 +61,11 @@ export default function UserPage() {
                 conversationId: 0,
                 text: messageInput
             })
-                // ! dispatch success alert
-                .then(() => resetMessage())
-                .catch(e => {
-                    // ! dispatch error alert
-                    console.log(e)
-                    setMessageInputError('Что-то пошло не так, повторите попытку')
+                .then(() => {
+                    setAlert('success', true, 'Сообщение отправлено')
+                    resetMessage()
                 })
+                .catch(() => setAlert('danger', true,'Что-то пошло не так, не удалось отправить сообщение'))
         } else {
             setMessageInputError('Сообщение не должно быть пустым')
         }
@@ -327,7 +327,7 @@ export default function UserPage() {
 
             <CustomModal
                 isShow={sendMessagePayloads.userId}
-                setIsShow={() => resetMessage()}
+                hideModal={() => resetMessage()}
                 closeButton
             >
                 <form className="message-form">

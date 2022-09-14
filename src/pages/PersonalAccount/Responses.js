@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {getIncomingsResponses, getOutgoingsResponses} from '../../API/responses';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import ResponseCard from '../../components/ResponseCard';
 import Loader from '../../components/Loader';
 import {checkPhotoPath} from '../../helpers/photo';
@@ -10,6 +10,8 @@ import CustomModal from '../../components/CustomModal';
 import {emitCreateWithServiceTopicMessage} from '../../API/socketConversations';
 import usePagination from "../../hooks/pagination";
 import Pagination from "../../components/Pagination";
+import {bindActionCreators} from 'redux';
+import alertActions from '../../store/actions/alert';
 
 export default function Responses() {
     const axiosPrivate = useAxiosPrivate()
@@ -39,6 +41,10 @@ export default function Responses() {
     const [sendMessagePayloads, setSendMessagePayloads] = useState(initialSendMessagePayloads)
     const [messageInput, setMessageInput] = useState('')
     const [messageInputError, setMessageInputError] = useState('')
+
+    // alert actions
+    const dispatch = useDispatch()
+    const {setAlert} = bindActionCreators(alertActions, dispatch)
 
     useEffect(() => {
         getIncomingsResponsesRequest(responsesPagIn.currentPage, responsesPagIn.pageLimit)
@@ -78,14 +84,11 @@ export default function Responses() {
                 serviceId: sendMessagePayloads.serviceId,
                 text: messageInput
             })
-                // ! dispatch success alert
-                .then(() => resetMessage())
-                .catch(e => {
-                    // ! dispatch error alert
-                    console.log(e)
-                    setMessageInputError('Что-то пошло не так, повторите попытку')
+                .then(() => {
+                    setAlert('success', true, 'Сообщение отправлено')
+                    resetMessage()
                 })
-            resetMessage()
+                .catch(() => setAlert('danger', true,'Что-то пошло не так, не удалось отправить сообщение'))
         } else {
             setMessageInputError('Сообщение не должно быть пустым')
         }
@@ -217,7 +220,7 @@ export default function Responses() {
 
             <CustomModal
                 isShow={sendMessagePayloads.userId}
-                setIsShow={() => resetMessage()}
+                hideModal={() => resetMessage()}
                 closeButton
             >
                 <form className="message-form">

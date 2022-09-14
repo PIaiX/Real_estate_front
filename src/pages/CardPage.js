@@ -11,9 +11,11 @@ import {getRecommend} from "../API/mainpagereq";
 import {useCurrentUser} from "../store/reducers";
 import BtnRep from "../components/BtnRep";
 import Breadcrumbs from '../components/Breadcrumbs';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import CustomModal from '../components/CustomModal';
 import {emitCreateWithRealEstateTopicMessage} from '../API/socketConversations';
+import {bindActionCreators} from "redux";
+import alertActions from "../store/actions/alert"
 
 SwiperCore.use([Navigation, Thumbs, EffectFade]);
 
@@ -31,6 +33,10 @@ export default function CardPage() {
     const [isShowWriteMessageModal, setIsShowWriteMessageModal] = useState(false)
     const [messageInput, setMessageInput] = useState('')
     const [messageInputError, setMessageInputError] = useState('')
+
+    // alert actions
+    const dispatch = useDispatch()
+    const {setAlert} = bindActionCreators(alertActions, dispatch)
 
     useEffect(() => {
         getAdsPage(uuid, userId).then(res => setAds(res))
@@ -116,26 +122,15 @@ export default function CardPage() {
                 realEstateId: ads?.id,
                 text: messageInput
             })
-                // ! dispatch success alert
-                .then(() => resetMessage())
-                .catch(e => {
-                    // ! dispatch error alert
-                    console.log(e)
-                    setMessageInputError('Что-то пошло не так, повторите попытку')
+                .then(() => {
+                    setAlert('success', true, 'Сообщение отправлено')
+                    resetMessage()
                 })
-            resetMessage()
+                .catch(() => setAlert('danger', true,'Что-то пошло не так, не удалось отправить сообщение'))
         } else {
             setMessageInputError('Сообщение не должно быть пустым')
         }
     }
-
-    // reset form when closing modal
-    useEffect(() => {
-        if (!isShowWriteMessageModal) {
-            setMessageInput('')
-            setMessageInputError('')
-        }
-    }, [isShowWriteMessageModal])
 
     return (
         <main>
@@ -673,7 +668,7 @@ export default function CardPage() {
 
             <CustomModal
                 isShow={isShowWriteMessageModal}
-                setIsShow={() => resetMessage()}
+                hideModal={() => resetMessage()}
                 closeButton
             >
                 <form className="message-form">

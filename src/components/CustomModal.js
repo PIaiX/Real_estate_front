@@ -9,7 +9,10 @@ const CustomModal = (props) => {
         <Modal
             bsPrefix={props?.bsPrefix}
             show={props?.isShow}
-            onHide={handleClose}
+            onHide={() => {
+                handleClose()
+                props.hideModal && props.hideModal()
+            }}
             backdrop={props?.backdrop || true}
             data-bs-backdrop={false}
             centered={props?.centre || props?.centered || false}
@@ -22,7 +25,10 @@ const CustomModal = (props) => {
                     <button
                     type="button"
                     className="btn-close"
-                    onClick={handleClose}
+                    onClick={() => {
+                        handleClose()
+                        props.hideModal && props.hideModal()
+                    }}
                 >
 
                     <svg viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg">
