@@ -60,16 +60,17 @@ const MessageItem = (props) => {
                     <div
                         className={`main main_mobile ${(activeMessageOnMobile.id === message?.id) ? 'active' : ''} ${selectedMessagesOnMobile?.length && selectedMessagesOnMobile?.includes(message?.id) ? 'selected' : ''}`}
                         onClick={e => {
-                            if (!activeMessageOnMobile.id && !selectedMessagesOnMobile?.length) {
-                                setActiveMessageOnMobile({
-                                    id: message?.id,
-                                    text: message?.text
-                                })
-                            }
-
-                            if (Array.isArray(selectedMessagesOnMobile) && selectedMessagesOnMobile?.length) {
-                                setSelectedMessagesOnMobile(prev => [...prev, message?.id])
-                            }
+                            (!activeMessageOnMobile.id && !selectedMessagesOnMobile?.length) && setActiveMessageOnMobile({
+                                id: message?.id,
+                                text: message?.text
+                            })
+                            setSelectedMessagesOnMobile(prev => {
+                                if (prev?.length) {
+                                    return prev.includes(message?.id)
+                                        ? prev.filter(messageId => messageId !== message?.id)
+                                        : [...prev, message?.id]
+                                }
+                            })
 
                             const offsetTop = e.currentTarget.parentElement.offsetTop
                             const halfClientTopOffset = e.currentTarget.parentElement.clientHeight / 2

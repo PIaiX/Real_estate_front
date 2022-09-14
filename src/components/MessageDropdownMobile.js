@@ -1,10 +1,6 @@
 import React from 'react';
 import {CopyToClipboard} from 'react-copy-to-clipboard/lib/Component';
-import {HandySvg} from 'handy-svg';
-import copy from '../img/icons/copy.svg';
-import edit from '../img/icons/edit.svg';
-import trash from '../img/icons/trash.svg';
-import choose from '../img/icons/choose.svg';
+import icons from "../img/chat-actions-sprite.svg"
 
 const MessageDropdownMobile = (props) => {
     const {
@@ -21,31 +17,17 @@ const MessageDropdownMobile = (props) => {
                 <li
                     onClick={() => resetActiveMessage()}
                 >
-                    <HandySvg
-                        src={copy}
-                        width="24"
-                        height="24"
-                        className="copy-icon"
-                    />
+                    <svg className="chat-actions-icon"><use xlinkHref={`${icons}#copy-icon`} /></svg>
                     <span>копировать текст</span>
                 </li>
             </CopyToClipboard>
             <li
                 onClick={() => {
                     onUpdateMessage(activeMessage.id, activeMessage.text)
-                    // setEditableMessageId(id)
-                    // setMessageInput(children)
-
-                    // onEditMessage()
                     resetActiveMessage()
                 }}
             >
-                <HandySvg
-                    src={edit}
-                    width="24"
-                    height="24"
-                    className="edit-icon"
-                />
+                <svg className="chat-actions-icon"><use xlinkHref={`${icons}#edit-icon`} /></svg>
                 <span>изменить</span>
             </li>
             <li
@@ -54,12 +36,7 @@ const MessageDropdownMobile = (props) => {
                     resetActiveMessage()
                 }}
             >
-                <HandySvg
-                    src={trash}
-                    width="24"
-                    height="24"
-                    className="trash-icon"
-                />
+                <svg className="chat-actions-icon"><use xlinkHref={`${icons}#trash-icon`} /></svg>
                 <span>удалить</span>
             </li>
             <li
@@ -68,12 +45,7 @@ const MessageDropdownMobile = (props) => {
                     resetActiveMessage()
                 }}
             >
-                <HandySvg
-                    src={choose}
-                    width="24"
-                    height="24"
-                    className="choose-icon"
-                />
+                <svg className="chat-actions-icon"><use xlinkHref={`${icons}#choose-icon`} /></svg>
                 <span>выбрать</span>
             </li>
         </ul>

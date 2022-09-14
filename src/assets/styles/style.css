@@ -3679,6 +3679,17 @@ main.account {
   opacity: 1;
 }
 
+.chat-actions-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.choose-icon {
+  width: 24px;
+  height: 24px;
+  fill: #146492;
+}
+
 .dropdown-toggle {
   padding: 0px 0.5em;
 }
@@ -4990,6 +5001,7 @@ footer nav.mobile ul li a.active svg.type-2 path {
 }
 .mobile-item__dropdown li {
   display: flex;
+  align-items: center;
   gap: 10px;
   padding: 10px;
   white-space: nowrap;

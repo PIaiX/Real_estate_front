@@ -1,13 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import Loader from './Loader';
-import {HandySvg} from 'handy-svg';
-import check from '../img/icons/check.svg';
 import {emitCreateMessage, emitDeleteMessage, emitPaginateMessages, emitUpdateMessage, emitViewedMessage, messageListeners} from '../API/socketConversations';
 import MessageItem from './MessageItem';
 import {socketInstance} from '../API/socketInstance';
 import AdaptiveDropdown from "./AdaptiveDropdown";
 import MessageDropdownMobile from "./MessageDropdownMobile";
 import {useSelector} from 'react-redux';
+import icons from "../img/chat-actions-sprite.svg"
 
 const Messages = ({conversationId, conversationUser, isConnected}) => {
     const userId = useSelector(state => state?.currentUser?.id)
@@ -291,12 +290,7 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
                                 onClick={() => onSendUpdatedMessage()}
                                 disabled={!messageInput?.length}
                             >
-                                <HandySvg
-                                    src={check}
-                                    width="24"
-                                    height="24"
-                                    className="check-icon"
-                                />
+                                <svg className="check-icon"><use xlinkHref={`${icons}#check-icon`} /></svg>
                             </button>
                         )
                         : (
