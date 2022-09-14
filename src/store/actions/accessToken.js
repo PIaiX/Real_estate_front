@@ -1,12 +1,12 @@
 import actionTypes from "./actionTypes";
 
-export const setToken = (token) => {
+const setToken = (token) => {
   return (dispatch) => {
     dispatch({ type: actionTypes.setToken, payload: token });
   };
 };
 
-export const resetToken = () => {
+const resetToken = () => {
   return (dispatch) => {
     dispatch({ type: actionTypes.resetToken });
   };

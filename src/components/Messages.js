@@ -1,19 +1,18 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import Loader from './Loader';
-import {HandySvg} from 'handy-svg';
-import check from '../img/icons/check.svg';
 import {emitCreateMessage, emitDeleteMessage, emitPaginateMessages, emitUpdateMessage, emitViewedMessage, messageListeners} from '../API/socketConversations';
 import MessageItem from './MessageItem';
 import {socketInstance} from '../API/socketInstance';
 import AdaptiveDropdown from "./AdaptiveDropdown";
 import MessageDropdownMobile from "./MessageDropdownMobile";
 import {useSelector} from 'react-redux';
+import icons from "../img/chat-actions-sprite.svg"
 
 const Messages = ({conversationId, conversationUser, isConnected}) => {
     const userId = useSelector(state => state?.currentUser?.id)
 
     // messages paginate
-    const initialMessagesLimit = 15
+    const initialMessagesLimit = 50
     const [page, setPage] = useState(1)
     const [isFetching, setIsFetching] = useState(false)
 
@@ -26,15 +25,13 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
     })
 
     // messages actions
-    const [activeMessageOnMobile, setActiveMessageOnMobile] = useState({
+    const initialMessageData = {
         id: null,
         text: ''
-    })
+    }
+    const [activeMessageOnMobile, setActiveMessageOnMobile] = useState(initialMessageData)
+    const [editableMessage, setEditableMessage] = useState(initialMessageData)
     const [selectedMessagesOnMobile, setSelectedMessagesOnMobile] = useState([])
-    const [editableMessage, setEditableMessage] = useState({
-        id: null,
-        text: ''
-    })
 
     // message input
     const [messageInput, setMessageInput] = useState('')
@@ -102,7 +99,7 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
                 items: prev.items.map(item => (item?.id === updatedMessage?.id) ? updatedMessage : item)
             }))
             setMessageInput('')
-            setEditableMessage({id: null, text: ''})
+            setEditableMessage(initialMessageData)
         })
             // ! dispatch error alert or mark message as rejected
             .catch(error => console.log(error))
@@ -184,24 +181,10 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
         editableMessage.id && setMessageInput(editableMessage.text)
     }, [editableMessage])
 
-    // useEffect(() => {
-    //     emitViewedMessage(+conversationId, +conversationUser?.id)
-    // }, [messages])
-
-    // ? temp loggers
-    useEffect(() => {
-        console.log('messages', messages)
-    }, [messages])
-
-    useEffect(() => {
-        console.log('sell', selectedMessagesOnMobile)
-    }, [selectedMessagesOnMobile])
-
     return (
         messages.isLoading
             ? <>
                 {/* --------------- MOBILE ACTIONS --------------- */}
-                {/*<div className={`messages__actions ${selectedMessagesOnMobile?.length ? 'show' : ''}`}>*/}
                 <div className={`messages__actions ${(selectedMessagesOnMobile?.length) ? 'show' : ''}`}>
                     <button
                         className="close"
@@ -232,16 +215,17 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
                 </div>
                 {/* --------------------------------------------- */}
                 <div
-                    className={`messages-list ${(selectedMessagesOnMobile?.length > 1) ? 'messages-list_indent' : ''}`}
+                    className={`messages-list ${(selectedMessagesOnMobile?.length) ? 'messages-list_indent' : ''}`}
                     onScroll={onMessagesScroll}
                 >
                     <AdaptiveDropdown
                         isShow={activeMessageOnMobile.id}
                         position={messagePosition}
+                        hideDropdown={() => setActiveMessageOnMobile(initialMessageData)}
                     >
                         <MessageDropdownMobile
                             activeMessage={activeMessageOnMobile}
-                            resetActiveMessage={() => setActiveMessageOnMobile({})}
+                            resetActiveMessage={() => setActiveMessageOnMobile(initialMessageData)}
                             onChooseMessage={onChooseMessage}
                             onUpdateMessage={onUpdateMessage}
                             onDeleteMessage={onDeleteMessage}
@@ -256,6 +240,7 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
                                 conversationUser={conversationUser}
                                 activeMessageOnMobile={activeMessageOnMobile}
                                 setActiveMessageOnMobile={setActiveMessageOnMobile}
+                                editableMessage={editableMessage}
                                 selectedMessagesOnMobile={selectedMessagesOnMobile}
                                 setSelectedMessagesOnMobile={setSelectedMessagesOnMobile}
                                 setMessagePosition={setMessagePosition}
@@ -291,12 +276,7 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
                                 onClick={() => onSendUpdatedMessage()}
                                 disabled={!messageInput?.length}
                             >
-                                <HandySvg
-                                    src={check}
-                                    width="24"
-                                    height="24"
-                                    className="check-icon"
-                                />
+                                <svg className="check-icon"><use xlinkHref={`${icons}#check-icon`} /></svg>
                             </button>
                         )
                         : (

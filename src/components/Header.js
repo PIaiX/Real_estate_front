@@ -4,21 +4,23 @@ import {getQuestion} from "../API/question";
 import CustomModal from "./CustomModal";
 import CityContainer from './CityContainer';
 import CustomOffcanvas from './CustomOffcanvas';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {bindActionCreators} from "redux";
 import alertActions from "../store/actions/alert"
+import conversationCountActions from "../store/actions/conversationsCount"
 import useSocket from '../hooks/socket';
 import {socketInstance} from '../API/socketInstance';
 import {conversationListeners} from '../API/socketConversations';
 
 const Header = () => {
     const {isConnected} = useSocket()
-    const [counter, setCounter] = useState(null)
+    const conversationCount = useSelector(state => state?.conversationCount)
     const [isShowMenu, setIsShowMenu] = useState(false)
     const location = useLocation()
     const pathname = location.pathname
     const dispatch = useDispatch()
     const {setAlert} = bindActionCreators(alertActions, dispatch)
+    const {setConversationCount} = bindActionCreators(conversationCountActions, dispatch)
     const initialData = {
         name: '',
         email: '',
@@ -79,7 +81,7 @@ const Header = () => {
 
     useEffect(() => {
         if (isConnected) {
-            socketInstance.on(conversationListeners.countNewMessages, count => setCounter(+count))
+            socketInstance.on(conversationListeners.countNewMessages, count => setConversationCount(+count))
         }
     }, [isConnected])
 
@@ -101,7 +103,7 @@ const Header = () => {
                     <div className="d-none d-md-flex order-4 order-lg-3">
                         <Link to="/personal-account/my-messages" className="counter ms-4">
                             <img src="/img/icons/email.svg" alt="email"/>
-                            {(counter > 0) && <span>{counter}</span>}
+                            {(conversationCount > 0) && <span>{conversationCount}</span>}
                         </Link>
                         <Link to="/personal-account/favorites"
                               className="ms-3 ms-xl-4">

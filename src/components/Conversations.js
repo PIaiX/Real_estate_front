@@ -7,6 +7,13 @@ import {socketInstance} from '../API/socketInstance';
 
 const Conversations = () => {
     const {isConnected} = useSocket()
+
+    // conversations paginate
+    const initialConversationsLimit = 15
+    const [page, setPage] = useState(1)
+    const [isFetching, setIsFetching] = useState(false)
+
+    // conversations
     const [conversations, setConversations] = useState({
         isLoading: false,
         error: null,
@@ -14,15 +21,44 @@ const Conversations = () => {
         items: []
     })
 
+    const emitPaginateConversationsRequest = async (page, limit) => {
+        return await emitPaginateConversation({page, limit})
+            .then(result => result && setConversations(prev => ({
+                isLoading: true,
+                meta: result?.meta,
+                items: [...prev.items, ...result.data]
+            })))
+            .catch(error => setConversations(prev => ({isLoading: true, error})))
+    }
+
+    const onConversationsScroll = (event) => {
+        const isScrollOnBottom = (event.target.scrollTop + event.target.offsetHeight) >= event.target.scrollHeight
+
+        if (!isFetching && isScrollOnBottom && (conversations?.meta?.total > conversations?.items?.length)) {
+            setIsFetching(true)
+        }
+    }
+
+    const fetchMessages = (delay) => {
+        if ((conversations?.meta?.total > conversations?.items?.length)) {
+            setTimeout(() => {
+                emitPaginateConversationsRequest(page + 1, initialConversationsLimit)
+                    .then(() => {
+                        setPage(prev => prev + 1)
+                        setIsFetching(false)
+                    })
+            }, delay);
+        }
+    }
 
     useEffect(() => {
         if (isConnected) {
-
-            emitPaginateConversation({page: 1})
-                .then(result => setConversations(prev => ({isLoading: true, meta: result?.meta, items: result?.data})))
-                .catch(error => setConversations(prev => ({isLoading: true, error})))
+            emitPaginateConversationsRequest(page, initialConversationsLimit)
         }
     }, [isConnected])
+
+    // fetch messages by lazy loading
+    useEffect(() => isFetching && fetchMessages(1000), [isFetching])
 
     useEffect(() => {
         if (isConnected) {
@@ -47,7 +83,10 @@ const Conversations = () => {
     }, [isConnected, conversations])
 
     return (
-        <div className="conversations__list conversation-list">
+        <div
+            className="conversations__list conversation-list"
+            onScroll={onConversationsScroll}
+        >
             {
                 conversations.isLoading
                     ? conversations?.items?.length
@@ -57,6 +96,11 @@ const Conversations = () => {
                         : <h6 className='m-auto p-5 text-center'>У вас пока нет ни одной беседы</h6>
                     : <div className='p-5 w-100 d-flex justify-content-center'><Loader color='#146492'/></div>
             }
+            {isFetching && (
+                <div className="messages-list__loader">
+                    <Loader color="#146492"/>
+                </div>
+            )}
         </div>
     );
 };
