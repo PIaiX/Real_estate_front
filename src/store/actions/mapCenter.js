@@ -1,6 +1,6 @@
 import actionTypes from "./actionTypes";
 
-export const setMapCenter = (coords) => {
+const setMapCenter = (coords) => {
     return (dispatch) => {
         dispatch({ type: actionTypes.setMapCenter, payload: coords });
     };

@@ -14,6 +14,7 @@ const MessageItem = (props) => {
         // props for mobile mode
         activeMessageOnMobile,
         setActiveMessageOnMobile,
+        editableMessage,
         selectedMessagesOnMobile,
         setSelectedMessagesOnMobile,
         setMessagePosition,
@@ -26,6 +27,7 @@ const MessageItem = (props) => {
     const [isMobile, setIsMobile] = useState(false)
     const user = useSelector(state => state?.currentUser)
     const isMyMessage = (+user?.id === +message?.userId)
+    const isEditableMessage = (+message?.id === +editableMessage?.id)
 
     // switch mode
     useEffect(() => {
@@ -36,13 +38,13 @@ const MessageItem = (props) => {
 
     // initial reset when switched mode
     useEffect(() => {
-        setActiveMessageOnMobile({})
+        setActiveMessageOnMobile({id: null, text: ''})
         setSelectedMessagesOnMobile([])
     }, [isMobile])
 
     return (
         <div
-            className={`message ${isMyMessage ? 'my' : ''}`}
+            className={`message ${isMyMessage ? 'my' : ''} ${isEditableMessage ? 'editable' : ''}`}
         >
             {!isMobile && (
                 <div className="photo">
@@ -60,24 +62,27 @@ const MessageItem = (props) => {
                     <div
                         className={`main main_mobile ${(activeMessageOnMobile.id === message?.id) ? 'active' : ''} ${selectedMessagesOnMobile?.length && selectedMessagesOnMobile?.includes(message?.id) ? 'selected' : ''}`}
                         onClick={e => {
-                            if (!activeMessageOnMobile.id && !selectedMessagesOnMobile?.length) {
-                                setActiveMessageOnMobile({
-                                    id: message?.id,
-                                    text: message?.text
-                                })
-                            }
+                            (!activeMessageOnMobile.id && !editableMessage.id && !selectedMessagesOnMobile?.length) && setActiveMessageOnMobile({
+                                id: message?.id,
+                                text: message?.text
+                            })
+                            setSelectedMessagesOnMobile(prev => {
+                                if (prev?.length) {
+                                    return prev.includes(message?.id)
+                                        ? prev.filter(messageId => messageId !== message?.id)
+                                        : [...prev, message?.id]
+                                }
+                            })
 
-                            if (Array.isArray(selectedMessagesOnMobile) && selectedMessagesOnMobile?.length) {
-                                setSelectedMessagesOnMobile(prev => [...prev, message?.id])
-                            }
+                            const parentElement = e.currentTarget.parentElement
 
-                            const offsetTop = e.currentTarget.parentElement.offsetTop
-                            const halfClientTopOffset = e.currentTarget.parentElement.clientHeight / 2
+                            const offsetTop = parentElement.offsetTop
+                            const halfClientTopOffset = parentElement.clientHeight / 2
 
-                            const parentRect = e.currentTarget.parentElement.getBoundingClientRect()
-                            const halfClientLeftOffset = (e.currentTarget.clientWidth / 2) + parentRect.x
+                            const offsetLeft = e.currentTarget.offsetLeft
+                            const halfClientLeftOffset = e.currentTarget.clientWidth / 2
 
-                            setMessagePosition({x: halfClientLeftOffset, y: offsetTop + halfClientTopOffset})
+                            setMessagePosition({x: offsetLeft + halfClientLeftOffset, y: offsetTop + halfClientTopOffset})
                         }}
                     >
                         <div className="text">

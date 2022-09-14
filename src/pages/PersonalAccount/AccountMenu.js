@@ -1,15 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import accessTokenActions from "../../store/actions/accessToken";
 import currentUserActions from "../../store/actions/currentUser";
 import { bindActionCreators } from "redux";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import apiRoutes from "../../API/config/apiRoutes";
 import CustomModal from "../../components/CustomModal";
-import useSocket from '../../hooks/socket';
-import {socketInstance} from '../../API/socketInstance';
-import {conversationListeners} from '../../API/socketConversations';
 
 export default function AccountMenu() {
   const navigate = useNavigate();
@@ -18,9 +15,7 @@ export default function AccountMenu() {
   const { resetToken } = bindActionCreators(accessTokenActions, dispatch);
   const { resetCurrentUser } = bindActionCreators(currentUserActions, dispatch);
   const [isShowModalExit, setIsShowModalExit] = useState(false)
-  const {isConnected} = useSocket()
-  const [counter, setCounter] = useState(null)
-  
+  const conversationCount = useSelector(state => state?.conversationCount)
 
   const handleLogout = async () => {
     const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.LOGOUT}`);
@@ -31,12 +26,6 @@ export default function AccountMenu() {
       setIsShowModalExit(false)
     }
   };
-
-  useEffect(() => {
-    if (isConnected) {
-      socketInstance.on(conversationListeners.countNewMessages, count => setCounter(+count))
-    }
-  }, [isConnected])
 
   return (
     <div>
@@ -80,7 +69,7 @@ export default function AccountMenu() {
           <li>
             <img src="/img/icons/pa-5.svg" alt="Сообщения" />
             <NavLink to="my-messages">Сообщения</NavLink>
-            {(counter > 0) && <div className="count">{counter}</div>}
+            {(conversationCount > 0) && <div className="count">{conversationCount}</div>}
           </li>
           <li>
             <img src="/img/icons/pa-6.svg" alt="Отзывы" />
