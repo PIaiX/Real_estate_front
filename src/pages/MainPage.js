@@ -1,30 +1,37 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Slider2} from '../components/Slider2';
 import {Slider1} from "../components/Slider1";
 import Tile from '../components/Tile';
 import {Link, NavLink, useParams} from 'react-router-dom';
 import {MainBanner} from '../components/MainBanner';
-import {useEffect, useState} from "react";
 import {getBanner, getPopular, getRecommend} from "../API/mainpagereq";
 import {useCurrentUser} from '../store/reducers';
 import {getTypesEstate} from '../API/typesEstate';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {getCatalog} from "../API/catalog";
-import YMap from "../components/YMap";
 import getForMap from "../API/ymap";
-import {bindActionCreators} from "redux";
-import alertActions from '../store/actions/alert'
+import {getServicesTypes} from "../API/services";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import {servicesTypesLocal} from "../helpers/services";
+import Loader from "../components/Loader";
+import TileServices from "../components/TileServices";
 
 export default function MainPage() {
     const currentUser = useCurrentUser()
     const userId = currentUser?.id
     const {page} = useParams();
+    const axiosPrivate = useAxiosPrivate()
     const [recommend, setRecommend] = useState([]);
     const [banner, setBanner] = useState([]);
     const [popular, setPopular] = useState([]);
     const [hotAds, setHotAds] = useState([])
     const [typesEstate, setTypesEstate] = useState([])
     const [mapData, setMapData] = useState([])
+    const [servicesTypes, setServicesTypes] = useState({
+        isLoading: false,
+        data: [],
+        error: null,
+    })
     const city = useSelector(state => state?.selectedCity)
 
     useEffect(() => {
@@ -48,7 +55,7 @@ export default function MainPage() {
 
     useEffect(() => {
         if (userId && city) {
-            getCatalog(1,6, '', city, {isHot: true, estateId: 1})
+            getCatalog(1, 6, '', city, {isHot: true, estateId: 1})
                 .then(data => setHotAds(data?.body?.data))
         }
     }, [city])
@@ -60,6 +67,24 @@ export default function MainPage() {
     useEffect(() => {
         getForMap(city, {estateId: 1}).then(items => setMapData(items))
     }, [city])
+
+    useEffect(() => {
+        getServicesTypes(axiosPrivate)
+            .then(res => {
+                setServicesTypes({isLoading: true, data: res})
+            })
+            .catch(error => setServicesTypes({isLoading: true, error: error}))
+    }, [])
+
+    const findPhoto = (name) => {
+        let photo
+        servicesTypesLocal.find(i => {
+            if (i.name === name) {
+                return photo = i.imageLocal
+            }
+        })
+        return photo
+    }
 
     return (
         <main>
@@ -83,6 +108,25 @@ export default function MainPage() {
                                 {name: 'Снять', link: `/catalog/page/1?transactionType=0&typesEstate=${type.id}`}]}
                         />
                     ))
+                }
+                <TileServices
+                    img='/img/icons/ipoteka.svg'
+                    name='Ипотека'
+                    dynamic={false}
+                />
+                {
+                    servicesTypes &&
+                    servicesTypes.isLoading
+                        ? servicesTypes?.data?.map(service => (
+                            <TileServices
+                                key={service.id}
+                                img={findPhoto(service.name)}
+                                name={service.name}
+                                slug={service.slug}
+                                dynamic={true}
+                            />
+                        ))
+                        : <div className='p-5 w-100 d-flex justify-content-center'><Loader color='#146492'/></div>
                 }
             </section>
 

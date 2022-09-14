@@ -5241,17 +5241,6 @@ footer {
   }
 }
 
-.mobile-item__dropdown {
-  padding: 0;
-  display: flex;
-  list-style: none;
-  background-color: #FFF;
-  flex-direction: column;
-  border: 1px solid $gray-3;
-  border-radius: 4px;
-  max-width: 200px;
-  z-index: 100;
-  //position: absolute;
 .button-header-question {
   color: #C59C7E;
   font-size: 1.1em;
@@ -5265,6 +5254,17 @@ footer {
   }
 }
 
+.mobile-item__dropdown {
+  padding: 0;
+  display: flex;
+  list-style: none;
+  background-color: #FFF;
+  flex-direction: column;
+  border: 1px solid $gray-3;
+  border-radius: 4px;
+  max-width: 200px;
+  z-index: 100;
+  //position: absolute;
 
   & li {
     display: flex;

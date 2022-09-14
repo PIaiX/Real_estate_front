@@ -12,7 +12,7 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
     const userId = useSelector(state => state?.currentUser?.id)
 
     // messages paginate
-    const initialMessagesLimit = 15
+    const initialMessagesLimit = 50
     const [page, setPage] = useState(1)
     const [isFetching, setIsFetching] = useState(false)
 
