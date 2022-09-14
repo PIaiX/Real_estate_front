@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useNavigate, useParams} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import ResponseCard from '../../components/ResponseCard';
 import {checkPhotoPath} from '../../helpers/photo';
 import Loader from '../../components/Loader';
-import PaginationCustom from '../../components/PaginationCustom';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import {useSelector} from 'react-redux';
-import useRedirectToPath from '../../hooks/redirectToPath';
 import {getCompletedResponses, getInProcessResponsesExecutor, getInProcessResponsesOwner,} from '../../API/responses';
 import CustomSelect from "../../components/CustomSelect";
+import usePagination from "../../hooks/pagination";
+import Pagination from "../../components/Pagination";
 
 const optionsInWork = [
     {value: 'owner', title: 'Отклики по моим объявлениям'},
@@ -16,14 +16,15 @@ const optionsInWork = [
 ]
 
 const InWork = () => {
-    const initialPageLimit = 2
-    const {page} = useParams()
+
     const axiosPrivate = useAxiosPrivate()
     const userId = useSelector(state => state?.currentUser?.id)
+    const outMeExecutor = usePagination(2)
+    const inMeOwner = usePagination(2)
+    const completeWorks = usePagination(2)
     const token = useSelector(state => state?.accessToken)
     const [tab, setTab] = useState('process') // || completed
-    useRedirectToPath(`/personal-account/in-work-${tab}/page/1`, [tab])
-    const navigate = useNavigate()
+
     const [inProcessOwner, setInProcessOwner] = useState({
         isLoading: false,
         error: null,
@@ -48,42 +49,30 @@ const InWork = () => {
     })
 
     useEffect(() => {
-        getInProcessResponsesRequestOwner(page, initialPageLimit)
-        getInProcessResponsesRequestExecutor(page, initialPageLimit)
-        getCompletedResponsesRequest(page, initialPageLimit)
-    }, [])
+        getInProcessResponsesRequestOwner(inMeOwner.currentPage, inMeOwner.pageLimit)
+    }, [inMeOwner.currentPage])
 
     useEffect(() => {
-        if (tab === 'process' && selectedType.value === 'owner') {
-            getInProcessResponsesRequestOwner(page, initialPageLimit)
-        }
-        if (tab === 'process' && selectedType.value === 'executor') {
-            getInProcessResponsesRequestExecutor(page, initialPageLimit)
-        }
-        if (tab === 'completed') {
-            getCompletedResponsesRequest(page, initialPageLimit)
-        }
-    }, [page, tab])
+        getInProcessResponsesRequestExecutor(outMeExecutor.currentPage, outMeExecutor.pageLimit)
+    }, [outMeExecutor.currentPage])
 
     useEffect(() => {
-        if (inProcessOwner?.isLoading) {
-            if (inProcessOwner?.items?.length === 0) {
-                navigate(`/personal-account/in-work-process/page/1`)
-            } else if ((inProcessOwner?.items?.length === 0) && (+page === 1)) {
-                getInProcessResponsesRequestOwner(page, initialPageLimit)
-            }
-        }
-    }, [inProcessOwner?.items?.length])
+        getCompletedResponsesRequest(completeWorks.currentPage, completeWorks.pageLimit)
+    }, [completeWorks.currentPage])
 
     useEffect(() => {
-        if (inProcessExecutor?.isLoading) {
-            if (inProcessExecutor?.items?.length === 0) {
-                navigate(`/personal-account/in-work-process/page/1`)
-            } else if ((inProcessExecutor?.items?.length === 0) && (+page === 1)) {
-                getInProcessResponsesRequestExecutor(page, initialPageLimit)
-            }
+        if (inProcessOwner?.items?.length === 0 && selectedType?.value === 'owner') {
+            inMeOwner.setStartingPage(1)
+            inMeOwner.setCurrentPage(1)
         }
-    }, [inProcessExecutor?.items?.length])
+    }, [inProcessOwner?.items?.length, selectedType?.value])
+
+    useEffect(() => {
+        if (inProcessExecutor?.items?.length === 0 && selectedType?.value === 'executor') {
+            outMeExecutor.setStartingPage(1)
+            outMeExecutor.setCurrentPage(1)
+        }
+    }, [inProcessExecutor?.items?.length, selectedType?.value])
 
     const getInProcessResponsesRequestOwner = (page, limit) => {
         (userId && token && page) && getInProcessResponsesOwner(axiosPrivate, userId, {page, limit, token, orderBy: 'desc'})
@@ -104,16 +93,16 @@ const InWork = () => {
     }
 
     const updateInProcessOwner = () => {
-        if (userId && token && page) {
-            getInProcessResponsesRequestOwner(page, initialPageLimit)
-            getCompletedResponsesRequest(page, initialPageLimit)
+        if (userId && token && inMeOwner.currentPage) {
+            getInProcessResponsesRequestOwner(inMeOwner.currentPage, inMeOwner.pageLimit)
+            getCompletedResponsesRequest(completeWorks.currentPage, completeWorks.pageLimit)
         }
     }
 
     const updateInProcessExecutor = () => {
-        if (userId && token && page) {
-            getInProcessResponsesRequestExecutor(page, initialPageLimit)
-            getCompletedResponsesRequest(page, initialPageLimit)
+        if (userId && token && outMeExecutor.currentPage) {
+            getInProcessResponsesRequestExecutor(outMeExecutor.currentPage, outMeExecutor.pageLimit)
+            getCompletedResponsesRequest(completeWorks.currentPage, completeWorks.pageLimit)
         }
     }
 
@@ -235,11 +224,41 @@ const InWork = () => {
                 )}
             </div>
             {((tab === 'process') && (inProcessOwner?.meta?.meta?.total > 0) && (selectedType?.value === 'owner')) &&
-                <PaginationCustom baseUrl='personal-account/in-work-process' meta={inProcessOwner.meta}/>}
+                <Pagination
+                    pageLimit={inMeOwner.pageLimit}
+                    currentPage={inMeOwner.currentPage}
+                    setCurrentPage={inMeOwner.setCurrentPage}
+                    pagesDisplayedLimit={3}
+                    itemsAmount={inProcessOwner?.meta?.meta?.total || 0}
+                    startingPage={inMeOwner.startingPage}
+                    className='mt-4 mt-sm-5'
+                    setStartingPage={inMeOwner.setStartingPage}
+                />
+            }
             {((tab === 'process') && (inProcessExecutor?.meta?.meta?.total > 0) && (selectedType?.value === 'executor')) &&
-                <PaginationCustom baseUrl='personal-account/in-work-process' meta={inProcessExecutor.meta}/>}
+                <Pagination
+                    pageLimit={outMeExecutor.pageLimit}
+                    currentPage={outMeExecutor.currentPage}
+                    setCurrentPage={outMeExecutor.setCurrentPage}
+                    pagesDisplayedLimit={3}
+                    itemsAmount={inProcessExecutor?.meta?.meta?.total || 0}
+                    startingPage={outMeExecutor.startingPage}
+                    className='mt-4 mt-sm-5'
+                    setStartingPage={outMeExecutor.setStartingPage}
+                />
+            }
             {((tab === 'completed') && (completed?.meta?.meta?.total > 0)) &&
-                <PaginationCustom baseUrl='personal-account/in-work-completed' meta={completed.meta}/>}
+                <Pagination
+                    pageLimit={completeWorks.pageLimit}
+                    currentPage={completeWorks.currentPage}
+                    setCurrentPage={completeWorks.setCurrentPage}
+                    pagesDisplayedLimit={3}
+                    itemsAmount={completed?.meta?.meta?.total || 0}
+                    startingPage={completeWorks.startingPage}
+                    className='mt-4 mt-sm-5'
+                    setStartingPage={completeWorks.setStartingPage}
+                />
+            }
         </div>
     );
 };

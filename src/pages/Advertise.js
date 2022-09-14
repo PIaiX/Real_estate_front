@@ -274,7 +274,7 @@ export default function Advertise() {
             addAdvertise(axiosPrivate, formData).then(() => {
                 setAlert('success', true, 'Объявление успешно опубликовано, переход в ваши объявления')
                 setTimeout(() => {
-                    navigate("/personal-account/my-ads/page/1", {replace: true})
+                    navigate("/personal-account/my-ads", {replace: true})
                 }, 2000)
             }).catch((error) => {
                 setAlert('danger', true, 'Произошла ошибка сервера')

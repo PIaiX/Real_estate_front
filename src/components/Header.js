@@ -103,7 +103,7 @@ const Header = () => {
                             <img src="/img/icons/email.svg" alt="email"/>
                             {(counter > 0) && <span>{counter}</span>}
                         </Link>
-                        <Link to="/personal-account/favorites/page/1"
+                        <Link to="/personal-account/favorites"
                               className="ms-3 ms-xl-4">
                             <img src="/img/icons/favorite.svg" alt="favorite"/>
                         </Link>

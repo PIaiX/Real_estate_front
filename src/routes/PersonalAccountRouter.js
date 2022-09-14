@@ -24,36 +24,23 @@ const PersonalAccountRouter = ({isMobile}) => {
                         : <Route index element={<Navigate to="profile" replace={true}/>}/>
                 }
                 <Route path="profile" element={<UserProfile/>}/>
-                <Route path="my-ads" element={<UserAds routeName='Мои объявления'/>}>
-                    <Route path='page/:page' element={<UserAds/>}/>
-                </Route>
+                <Route path="my-ads" element={<UserAds routeName='Мои объявления'/>}/>
                 <Route path="my-services" element={<UserServices/>}/>
                 <Route path="my-services/create" element={<CreateService/>}/>
-                <Route path="favorites" element={<Favorites routeName='Избранное'/>}>
-                    <Route path="page/:page" element={<Favorites/>}/>
-                </Route>
+                <Route path="favorites" element={<Favorites routeName='Избранное'/>}/>
                 <Route path="responses" element={<Responses/>}/>
                 <Route path="responses/add" element={<AddResponse/>}>
                     <Route path=':id' element={<AddResponse/>}/>
                 </Route>
-                <Route path="in-work-process" element={<InWork/>}>
-                    <Route path="page/:page" element={<InWork/>}/>
-                </Route>
-                <Route path="in-work-completed" element={<InWork/>}>
-                    <Route path="page/:page" element={<InWork/>}/>
-                </Route>
+                <Route path="in-work" element={<InWork/>}/>
                 <Route path="my-services" element={<UserServices/>}/>
                 <Route path="my-services/create" element={<CreateService/>}>
                     <Route path=':id' element={<CreateService/>}/>
                 </Route>
-                <Route path="favorites" element={<Favorites routeName='Избранное'/>}>
-                    <Route path="page/:page" element={<Favorites/>}/>
-                </Route>
+
                 <Route path="my-messages" element={<ConversationsPage/>} />
                 <Route path="my-messages/chat/:conversationId" element={<MessagesPage/>}/>
-                <Route path="my-reviews" element={<UserReviews/>}>
-                    <Route path='page/:page' element={<UserReviews/>}/>
-                </Route>
+                <Route path="my-reviews" element={<UserReviews/>}/>
             </Route>
         </Routes>
     )
