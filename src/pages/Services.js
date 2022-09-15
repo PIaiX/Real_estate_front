@@ -17,6 +17,7 @@ export default function Services() {
     const {slug} = useParams()
     const services = usePagination(6)
     const loc = useLocation()
+    const [searchFIO, setSearchFIO] = useState({})
     const [firstBlockFilters, setFirstBlockFilters] = useState([])
     const [secondBlockFilters, setSecondBlockFilters] = useState([])
     const [selectMiniFilter, setSelectMiniFilter] = useState({})
@@ -77,6 +78,7 @@ export default function Services() {
             ...prevState,
             ...firstBlockFilters,
             ...secondBlockFilters,
+            ...searchFIO
         }))
         services.setStartingPage(1)
         services.setCurrentPage(1)
@@ -231,6 +233,18 @@ export default function Services() {
                                 <div className="mx-auto">{findService()}</div>
                             </div>
                             <div className="p-3 p-xxl-4">
+                                <fieldset className="mb-4">
+                                    <legend className="title-font text-left fs-12 fw-6 mb-3">Поиск по ФИО:</legend>
+                                    <label className="mb-3">
+                                        <input
+                                            type='text'
+                                            value={payload?.query || ''}
+                                            onChange={(e) => {
+                                                setPayload(prevState => ({...prevState, query: e.target.value}))
+                                            }}
+                                        />
+                                    </label>
+                                </fieldset>
                                 {filterSubs?.data?.length > 0
                                     ?
                                     <fieldset className="mb-4">
@@ -392,6 +406,18 @@ export default function Services() {
                     </button>
                     <div className="service-leftMenu">
                         <div className="p-sm-3 p-xxl-4">
+                            <fieldset className="mb-4">
+                                <legend className="title-font text-left fs-12 fw-6 mb-3">Поиск по ФИО:</legend>
+                                <label className="mb-3">
+                                    <input
+                                        type='text'
+                                        value={searchFIO?.query || ''}
+                                        onChange={(e) => {
+                                            setSearchFIO({query: e.target.value})
+                                        }}
+                                    />
+                                </label>
+                            </fieldset>
                             {filterSubs?.data?.length > 0
                                 ?
                                 <fieldset className="mb-4">
@@ -439,13 +465,13 @@ export default function Services() {
                 </div>
                 <div className="offcanvas-footer">
                     <div className="d-flex justify-content-between mb-3">
-                        <div className="gray-3 fw-5">Найдено {users?.meta?.total} исполнителей</div>
                         <button
                             type="button"
                             onClick={() => {
                                 document.getElementById("offcanvasServiceFilter").reset()
                                 setPayload({page: 1, limit: 6, servicesTypeId: find()})
                                 setSelectMiniFilter({})
+                                setSearchFIO({})
                             }}
                             className="color-1 fs-11 fw-5">Очистить фильтр
                         </button>
