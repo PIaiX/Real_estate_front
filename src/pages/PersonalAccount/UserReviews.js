@@ -88,7 +88,7 @@ export default function UserReviews() {
                 currentPage={reviewsPag.currentPage}
                 setCurrentPage={reviewsPag.setCurrentPage}
                 pagesDisplayedLimit={3}
-                itemsAmount={reviews?.meta?.total || 0}
+                itemsAmount={reviews?.meta?.meta?.total || 0}
                 startingPage={reviewsPag.startingPage}
                 className='mt-4 mt-sm-5'
                 setStartingPage={reviewsPag.setStartingPage}

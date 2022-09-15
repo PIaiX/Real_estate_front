@@ -1042,6 +1042,9 @@ main {
   transition: 0.3s;
   text-align: center;
 }
+.tiles .tile .links .services-links:hover {
+  color: #146492;
+}
 .tiles .tile .links .hover-links {
   position: absolute;
   top: 0px;

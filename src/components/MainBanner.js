@@ -20,7 +20,7 @@ export const MainBanner = (props) => {
             <Swiper
                 className="swiper-home"
                 loop={true}
-                slidesPerView={1}
+                slidesPerView={0}
                 effect='fade'
                 pagination={
                     {

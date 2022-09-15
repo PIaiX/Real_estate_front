@@ -43,7 +43,7 @@ export default function ArticlePage() {
                             <div className="ms-2">{articleInfo.readingTime} мин</div>
                         </div>
                         <div className="text fw-3 fs-11 order-4">
-                            <p>{articleInfo.description}</p>
+                            <p dangerouslySetInnerHTML={{__html: articleInfo.description}}/>
                         </div>
 
                     </div>

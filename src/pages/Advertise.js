@@ -287,8 +287,6 @@ export default function Advertise() {
         setValid({...valid, [field]: false})
     }
 
-    console.log(data)
-
     return (
         <main>
             <div className="container py-3 py-sm-4 py-lg-5">

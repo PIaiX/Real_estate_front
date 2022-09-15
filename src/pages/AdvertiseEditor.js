@@ -14,10 +14,11 @@ import {AddressSuggestions} from "react-dadata";
 import env from "../config/env";
 import {bindActionCreators} from "redux";
 import alertActions from '../store/actions/alert'
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 export default function Advertise() {
 
+    const city = useSelector(state => state?.selectedCity)
     const navigate = useNavigate()
     const axiosPrivate = useAxiosPrivate();
     const token = useAccessToken()
@@ -99,7 +100,7 @@ export default function Advertise() {
                 livingArea: ad?.livingArea || 0,
                 kitchenArea: ad?.kitchenArea || 0,
                 maxFloor: ad?.maxFloor || 0,
-                cadastralNumber: ad?.cadastralNumber
+                cadastralNumber: ad?.cadastralNumber,
             }
         )
         setBtnRadio({
@@ -260,8 +261,6 @@ export default function Advertise() {
         good: false,
     })
 
-    const counterPhotoSize = () => imgs.map(i => i?.file?.size).reduce((acc, val) => acc + val) / 125000;
-
     const [district, setDistrict] = useState({})
 
     const handleSub = (e) => {
@@ -399,9 +398,9 @@ export default function Advertise() {
     }
 
     useEffect(() => {
-        (data['fias_id'] || data?.address) && dadataFias(data['fias_id'])
+        (data['fias_id']) && dadataFias(data['fias_id'])
             .then(res => setDistrict({
-                city: data?.address,
+                city,
                 name: res?.suggestions[0]?.data?.city_district
             }))
     }, [data.address])

@@ -9,11 +9,11 @@ const TileServices = (props) => {
                 {
                     props.dynamic
                         ?
-                        <NavLink to={`service/${props.slug}/page/1`} className='title'>
+                        <NavLink to={`service/${props.slug}`} className='title services-links'>
                             {props.name}
                         </NavLink>
                         :
-                        <NavLink to={`hypothec`} className='title'>
+                        <NavLink to={`hypothec`} className='title services-links'>
                             {props.name}
                         </NavLink>
                 }

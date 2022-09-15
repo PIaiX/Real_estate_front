@@ -66,7 +66,7 @@ export default function MainPage() {
     }, [])
 
     useEffect(() => {
-        getForMap(city, {estateId: 1}).then(items => setMapData(items))
+        getForMap(city, {page: 1}).then(items => setMapData(items))
     }, [city])
 
     useEffect(() => {

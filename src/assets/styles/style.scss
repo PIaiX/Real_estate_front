@@ -1142,6 +1142,13 @@ main {
         margin: 0 .5em;
         transition: .3s;
         text-align: center;
+
+      }
+
+      .services-links {
+          &:hover {
+            color: $color-1;
+          }
       }
 
       .hover-links {

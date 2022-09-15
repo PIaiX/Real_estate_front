@@ -221,15 +221,9 @@ const Header = () => {
                 <div>
                     <h3 className='text-center'>Задать вопрос</h3>
                     <form className="message-form">
-                        <div className="d-flex align-items-center">
-                            <div className="photo me-2 me-sm-4">
-                                <img src="/img/photo.png" alt="Колесникова Ирина"/>
-                                <div className="indicator online"/>
-                            </div>
+                        <div className="text-center">
                             <div>
                                 <div className='fs-11 fw-5'>Вам ответит администратор</div>
-                                <div className='fs-11 fw-5 mt-1'>Колесникова Ирина</div>
-                                <div className="gray-2 fs-09 mt-2">Сейчас онлайн</div>
                             </div>
                         </div>
                         <div className='row align-items-center fs-11 mt-3'>
