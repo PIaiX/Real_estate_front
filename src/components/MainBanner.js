@@ -35,6 +35,7 @@ export const MainBanner = (props) => {
                 {banners.map((i) =>
                         <SwiperSlide key={i.id}>
                             <CardBanner
+                                link={i.link}
                                 image={i.image}
                                 url={url}
                                 description={i.description}
