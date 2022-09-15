@@ -10,8 +10,9 @@ const CustomModal = (props) => {
             bsPrefix={props?.bsPrefix}
             show={props?.isShow}
             onHide={() => {
-                handleClose()
-                props.hideModal && props.hideModal()
+                props.hideModal
+                    ? props.hideModal()
+                    : handleClose()
             }}
             backdrop={props?.backdrop || true}
             data-bs-backdrop={false}
@@ -23,20 +24,21 @@ const CustomModal = (props) => {
             {props?.closeButton ?
                 <Modal.Header>
                     <button
-                    type="button"
-                    className="btn-close"
-                    onClick={() => {
-                        handleClose()
-                        props.hideModal && props.hideModal()
-                    }}
-                >
+                        type="button"
+                        className="btn-close"
+                        onClick={() => {
+                            props.hideModal
+                                ? props.hideModal()
+                                : handleClose()
+                        }}
+                    >
 
-                    <svg viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M1.00006 1.18237L15 15.9049"/>
-                        <path d="M14.9999 1.18237L1.00001 15.9049"/>
-                    </svg>
-                </button>
-            </Modal.Header>
+                        <svg viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1.00006 1.18237L15 15.9049"/>
+                            <path d="M14.9999 1.18237L1.00001 15.9049"/>
+                        </svg>
+                    </button>
+                </Modal.Header>
                 :
                 null
             }

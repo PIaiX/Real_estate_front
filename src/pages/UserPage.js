@@ -333,11 +333,11 @@ export default function UserPage() {
                 <form className="message-form">
                     <div className="d-flex align-items-center">
                         <div className="photo me-2 me-sm-4">
-                            <img src="/img/photo.png" alt="Колесникова Ирина"/>
+                            <img src={checkPhotoPath(userInformation?.avatar)} alt="Колесникова Ирина"/>
                             {/*<div className="indicator online"/>*/}
                         </div>
                         <div>
-                            <h4>Колесникова Ирина</h4>
+                            <h4>{userInformation?.fullName || 'Не известный'}</h4>
                             {/*<div className="gray-2 fs-09">Сейчас онлайн</div>*/}
                         </div>
                     </div>
