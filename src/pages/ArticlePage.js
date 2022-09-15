@@ -7,6 +7,7 @@ import {getRecommend} from "../API/mainpagereq";
 import {useCurrentUser} from "../store/reducers";
 import Breadcrumbs from "../components/Breadcrumbs";
 import {useSelector} from "react-redux";
+import {checkPhotoPath} from "../helpers/photo";
 
 export default function ArticlePage() {
 
@@ -23,7 +24,7 @@ export default function ArticlePage() {
 
     useEffect(() => {
         getArticle(slug).then(res => setArticleInfo(res))
-    }, [])
+    }, [slug])
 
     return (
         <main>
@@ -33,7 +34,7 @@ export default function ArticlePage() {
             <section id="sec-8" className="container pb-5">
                 <div className="row gx-xxl-5 mb-5">
                     <div className="col-xl-8 col-xxl-9 article-full">
-                        <img src="/img/nophoto.jpg" alt={articleInfo.title} className="article-page-img order-3"/>
+                        <img src={checkPhotoPath(articleInfo?.image)} alt={articleInfo.title} className="article-page-img order-3"/>
                         <h1 className="order-1 text-center text-md-left">{articleInfo.title}</h1>
                         <div className="d-flex gray-4 fs-12 mb-4 order-2">
                             <img src="/img/icons/bi_calendar-event-fill.svg" alt="дата"/>

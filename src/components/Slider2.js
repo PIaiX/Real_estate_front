@@ -5,6 +5,7 @@ import Article from './Article';
 import {useEffect, useState} from "react";
 import { getRandomArticle} from "../API/news";
 import {useParams} from "react-router-dom";
+import {checkPhotoPath} from "../helpers/photo";
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -45,7 +46,7 @@ export const Slider2 = () => {
             {randomArticle?.map((randomArticle)=>
                 <SwiperSlide key={randomArticle.id}>
                     <Article
-                        imgUrl="/img/nophoto.jpg"
+                        imgUrl={checkPhotoPath(randomArticle.image)}
                         title={randomArticle.title}
                         text={randomArticle.description}
                         articleUrl={randomArticle.slug}

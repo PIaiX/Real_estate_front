@@ -199,7 +199,7 @@ export default function MainPage() {
                         <Slider2/>
                     </div>
                     <div className="text-center mt-4">
-                        <Link to="/articles/page/1" className="fs-12 color-1 bb-1">Смотреть
+                        <Link to="/articles" className="fs-12 color-1 bb-1">Смотреть
                             все статьи</Link>
                     </div>
                 </div>

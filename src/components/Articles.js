@@ -1,29 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useLocation, useParams} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import AxiosArticleMain from "./AxiosArticleMain";
 import {getNews} from "../API/news";
-import PaginationCustom from "./PaginationCustom";
+import usePagination from "../hooks/pagination";
+import Pagination from "./Pagination";
 
 export default function Articles({routeName}) {
 
-    const {page} = useParams();
     const {pathname} = useLocation()
-
+    const articlesPag = usePagination(6)
     const [dataArticles, setDataArticles] = useState([]);
 
     useEffect(() => {
-        const fin = async () => {
-            try {
-                let result = await getNews(page, 6)
-                if (result) {
-                    setDataArticles(result)
-                }
-            } catch (err) {
-                console.log(err)
-            }
-        }
-        fin()
-    }, [page])
+         getNews(articlesPag.currentPage, articlesPag.pageLimit).then(res => setDataArticles(res))
+    }, [articlesPag.currentPage])
 
     return (
         <main>
@@ -44,7 +34,16 @@ export default function Articles({routeName}) {
                 <div className="row row-cols-sm-2 row-cols-lg-3 gx-4 gy-4 gy-md-5 g-xxl-5">
                     <AxiosArticleMain data={dataArticles} pathname={pathname} routeName={routeName}/>
                 </div>
-                <PaginationCustom meta={dataArticles} baseUrl="articles"/>
+                <Pagination
+                    pageLimit={articlesPag.pageLimit}
+                    currentPage={articlesPag.currentPage}
+                    setCurrentPage={articlesPag.setCurrentPage}
+                    pagesDisplayedLimit={3}
+                    itemsAmount={dataArticles?.meta?.total || 0}
+                    startingPage={articlesPag.startingPage}
+                    className='mt-4 mt-sm-5'
+                    setStartingPage={articlesPag.setStartingPage}
+                />
             </div>
         </main>
     )

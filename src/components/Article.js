@@ -18,7 +18,7 @@ export default function Article(props) {
                 <h2 className="mb-2 mb-md-3">{props.title}</h2>
                 <div className="text">{props.text}</div>
                 <NavLink
-                    to={`/articles/page/1/${props.articleUrl}`}
+                    to={`/articles/${props.articleUrl}`}
                     onClick={() => goToTop()}
                     state={{prevRoute: props?.pathname, routeName: props?.routeName}}
                     className="d-block text-center color-2 fs-11 fw-5 mt-1"

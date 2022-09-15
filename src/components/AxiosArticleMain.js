@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Article from "./Article";
+import {checkPhotoPath} from "../helpers/photo";
 
 export default function AxiosArticleMain(props) {
 
@@ -17,7 +18,7 @@ export default function AxiosArticleMain(props) {
             {data.map((data) =>
                         <div key={data.id} className='d-flex'>
                             <Article
-                                imgUrl="/img/nophoto.jpg"
+                                imgUrl={checkPhotoPath(data?.image)}
                                 title={data.title}
                                 text={data.description}
                                 articleUrl={data.slug}

@@ -52,10 +52,8 @@ const AppRouter = () => {
                 </Route>
                 <Route path="login" element={<Login/>}/>
                 <Route path="registration" element={<Registration/>}/>
-                <Route path="articles/page/:page/:slug" element={<ArticlePage routeName='Название статьи'/>}/>
-                <Route path="articles/page" element={<Articles routeName='Статьи'/>}>
-                    <Route path=":page" element={<Articles/>}/>
-                </Route>
+                <Route path="articles/:slug" element={<ArticlePage routeName='Название статьи'/>}/>
+                <Route path="articles" element={<Articles routeName='Статьи'/>}/>
                 <Route path="password-1" element={<Password1/>}/>
                 <Route path="password-2" element={<Password2/>}/>
                 <Route path='catalog-list' element={<CatalogList/>}/>

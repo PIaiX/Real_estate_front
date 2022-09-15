@@ -3,7 +3,7 @@ import apiRoutes from "./config/apiRoutes";
 
 export async function getNews(page = 1, limit = 20) {
     try {
-        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.GET_ARTICLES_ACTIONS}`, { page, limit })
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.GET_ARTICLES_ACTIONS}`, { page, limit, orderBy: 'desc'})
         return response.data.body;
     } catch(error) {
         console.log(error)
