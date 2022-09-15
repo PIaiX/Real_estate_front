@@ -16,6 +16,7 @@ import CustomModal from '../components/CustomModal';
 import {emitCreateWithRealEstateTopicMessage} from '../API/socketConversations';
 import {bindActionCreators} from "redux";
 import alertActions from "../store/actions/alert"
+import {checkPhotoPath} from '../helpers/photo';
 
 SwiperCore.use([Navigation, Thumbs, EffectFade]);
 
@@ -363,11 +364,7 @@ export default function CardPage() {
                                                 </a>
                                             </div>
                                         </div>
-                                        {(ads?.user?.avatar) ?
-                                            <img src={`${sait}${ads?.user?.avatar}`} alt="Колесникова Ирина"/>
-                                            :
-                                            <img src="/img/nophoto.jpg" alt="Колесникова Ирина"/>
-                                        }
+                                        <img src={checkPhotoPath(ads?.user?.avatar)} alt={ads?.user?.fullName}/>
                                     </div>
                                     <ShowPhone className="mt-4 fs-15" phone={ads?.user?.phoneForUser}/>
                                     <button
@@ -674,12 +671,12 @@ export default function CardPage() {
                 <form className="message-form">
                     <div className="d-flex align-items-center">
                         <div className="photo me-2 me-sm-4">
-                            <img src="/img/photo.png" alt="Колесникова Ирина"/>
+                            <img src={checkPhotoPath(ads?.user?.avatar)} alt={ads?.user?.fullName}/>
                             {/*<div className="indicator online"/>*/}
                         </div>
                         <div>
-                            <h4>Колесникова Ирина</h4>
-                            <div className="gray-2 fs-09">Сейчас онлайн</div>
+                            <h4>{ads?.user?.fullName}</h4>
+                            {/*<div className="gray-2 fs-09">Сейчас онлайн</div>*/}
                         </div>
                     </div>
                     <textarea

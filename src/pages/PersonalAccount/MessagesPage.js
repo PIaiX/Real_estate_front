@@ -63,22 +63,22 @@ export default function MessagesPage() {
                 <div className="d-flex align-items-center">
                     {/*<span className="fw-3 fs-09 d-none d-xl-inline">Сейчас онлайн</span>*/}
                     <div className="btn-group ms-sm-4">
-                        <button type="button" className="dropdown-toggle" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                            <svg viewBox="0 0 6 27" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="3" cy="3" r="3"/>
-                                <circle cx="3" cy="14" r="3"/>
-                                <circle cx="3" cy="24" r="3"/>
-                            </svg>
-                        </button>
-                        <ul className="dropdown-menu dropdown-menu-end py-2 fs-11">
-                            <li>
-                                <button className="dropdown-item" type="button">Удалить диалог</button>
-                            </li>
-                            <li>
-                                <button className="dropdown-item" type="button">Заблокировать</button>
-                            </li>
-                        </ul>
+                        {/*<button type="button" className="dropdown-toggle" data-bs-toggle="dropdown"*/}
+                        {/*        aria-expanded="false">*/}
+                        {/*    <svg viewBox="0 0 6 27" xmlns="http://www.w3.org/2000/svg">*/}
+                        {/*        <circle cx="3" cy="3" r="3"/>*/}
+                        {/*        <circle cx="3" cy="14" r="3"/>*/}
+                        {/*        <circle cx="3" cy="24" r="3"/>*/}
+                        {/*    </svg>*/}
+                        {/*</button>*/}
+                        {/*<ul className="dropdown-menu dropdown-menu-end py-2 fs-11">*/}
+                        {/*    <li>*/}
+                        {/*        <button className="dropdown-item" type="button">Удалить диалог</button>*/}
+                        {/*    </li>*/}
+                        {/*    <li>*/}
+                        {/*        <button className="dropdown-item" type="button">Заблокировать</button>*/}
+                        {/*    </li>*/}
+                        {/*</ul>*/}
                     </div>
                 </div>
             </div>
