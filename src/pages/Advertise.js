@@ -10,7 +10,7 @@ import {AddressSuggestions} from "react-dadata";
 import CustomModal from "../components/CustomModal";
 import env from '../config/env'
 import {dadataFias} from '../API/dadata';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {addAdvertise} from "../API/config/advertise";
 import {bindActionCreators} from "redux";
 import actionsAlert from "../store/actions/alert"
@@ -65,6 +65,7 @@ const defaultForm = {
 
 export default function Advertise() {
 
+    const city = useSelector(state => state?.selectedCity)
     const ref = useRef(null); // Form
     const [deal, setDeal] = useState('1'); // тип сделки (по умолчанию - продажа)
     const [proptype, setProptype] = useState('1'); // тип недвижимости (по умолчанию - Жилая)
@@ -132,7 +133,7 @@ export default function Advertise() {
     useEffect(() => {
         data['fias_id'] && dadataFias(data['fias_id'])
             .then(res => setDistrict({
-                city: data?.address,
+                city,
                 name: res?.suggestions[0]?.data?.city_district
             }))
     }, [data.address])
@@ -285,6 +286,8 @@ export default function Advertise() {
     const resetFieldVal = (newState, field) => {
         setValid({...valid, [field]: false})
     }
+
+    console.log(data)
 
     return (
         <main>

@@ -15,6 +15,7 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import {servicesTypesLocal} from "../helpers/services";
 import Loader from "../components/Loader";
 import TileServices from "../components/TileServices";
+import YMap from "../components/YMap";
 
 export default function MainPage() {
     const currentUser = useCurrentUser()
@@ -132,10 +133,10 @@ export default function MainPage() {
 
             <section id="sec-3" className="container mb-6">
                 <h3>Найти на карте</h3>
-                {/*<YMap
+                <YMap
                     items={mapData}
                     className='main-page__ymaps'
-                />*/}
+                />
             </section>
 
             {!(hotAds === undefined || hotAds?.length === 0) &&
@@ -187,7 +188,7 @@ export default function MainPage() {
                                 </div>
                             </div>
                             <NavLink
-                                to='/service/uslugiRieltora/page/1'
+                                to='/service/uslugiRieltora'
                                 className="btn btn-1 fs-15 mx-auto mt-4 mt-lg-5"
                             >
                                 Услуги риелтора
