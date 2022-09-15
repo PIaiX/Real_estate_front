@@ -14,12 +14,12 @@ const YMap = (props) => {
 
     }, [items])
 
-    const feature = items && items.map(item => ({
+    const feature = items?.length && items.map(item => ({
         type: 'Feature',
         id: item.id,
         geometry: {
             type: 'Point',
-            coordinates: [item.latitude, item.longitude]
+            coordinates: [+item.latitude, +item.longitude]
         },
         properties: {
             data: {

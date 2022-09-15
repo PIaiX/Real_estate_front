@@ -5060,4 +5060,9 @@ footer nav.mobile ul li a.active svg.type-2 path {
   color: #C59C7E;
 }
 
+.card-page__ymaps {
+  width: 100%;
+  height: 350px;
+}
+
 /*# sourceMappingURL=style.css.map */

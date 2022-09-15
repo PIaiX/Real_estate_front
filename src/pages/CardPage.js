@@ -17,6 +17,7 @@ import {emitCreateWithRealEstateTopicMessage} from '../API/socketConversations';
 import {bindActionCreators} from "redux";
 import alertActions from "../store/actions/alert"
 import {checkPhotoPath} from '../helpers/photo';
+import YMap from '../components/YMap';
 
 SwiperCore.use([Navigation, Thumbs, EffectFade]);
 
@@ -127,11 +128,15 @@ export default function CardPage() {
                     setAlert('success', true, 'Сообщение отправлено')
                     resetMessage()
                 })
-                .catch(() => setAlert('danger', true,'Что-то пошло не так, не удалось отправить сообщение'))
+                .catch(() => setAlert('danger', true, 'Что-то пошло не так, не удалось отправить сообщение'))
         } else {
             setMessageInputError('Сообщение не должно быть пустым')
         }
     }
+
+    useEffect(() => {
+        console.log(ads)
+    }, [ads])
 
     return (
         <main>
@@ -622,8 +627,17 @@ export default function CardPage() {
                                     ''}
                             </div>
                         </div>
-                        <h4 className="mt-4 mt-sm-5">На карте</h4>
-                        <img src="/img/map.png" alt="Карта" className="w-100"/>
+                        {/* todo: map map map */}
+                        {ads && (
+                            <>
+                                <h4 className="mt-4 mt-sm-5">На карте</h4>
+                                <YMap
+                                    items={[ads]}
+                                    className='card-page__ymaps'
+                                />
+                            </>
+                        )}
+                        {/*<img src="/img/map.png" alt="Карта" className="w-100"/>*/}
                     </div>
                 </div>
             </section>
