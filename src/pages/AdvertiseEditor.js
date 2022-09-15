@@ -127,7 +127,7 @@ export default function Advertise() {
         if (defaultForm) {
             setData({...defaultForm, ...btnRadio})
         }
-    }, [defaultForm, btnRadio])
+    }, [defaultForm])
 
     const ref = useRef(null); // Form
     const [deal, setDeal] = useState('1'); // тип сделки (по умолчанию - продажа)
