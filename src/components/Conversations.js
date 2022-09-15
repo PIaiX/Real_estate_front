@@ -51,6 +51,23 @@ const Conversations = () => {
         }
     }
 
+    const onConversationUpdate = (conversation) => {
+        let newConversation = conversations.items.find(item => (item?.id === conversation?.id))
+        const filteredConversations = conversations.items.filter(item => (item?.id !== conversation?.id))
+
+        if (conversation?.lastMessage && newConversation) {
+            newConversation.lastMessage = conversation?.lastMessage
+            newConversation.isNew = true
+        }
+
+        if (newConversation) {
+            setConversations(prev => ({
+                ...prev,
+                items: [newConversation, ...filteredConversations]
+            }))
+        }
+    }
+
     useEffect(() => {
         if (isConnected) {
             emitPaginateConversationsRequest(page, initialConversationsLimit)
@@ -63,23 +80,10 @@ const Conversations = () => {
     useEffect(() => {
         if (isConnected) {
             // update conversation listener
-            socketInstance.on(conversationListeners.update, conversation => {
-                let newConversation = conversations.items.find(item => (item?.id === conversation?.id))
-                const filteredConversations = conversations.items.filter(item => (item?.id !== conversation?.id))
-
-                if (conversation?.lastMessage && newConversation) {
-                    newConversation.lastMessage = conversation?.lastMessage
-                    newConversation.isNew = true
-                }
-
-                if (newConversation) {
-                    setConversations(prev => ({
-                        ...prev,
-                        items: [newConversation, ...filteredConversations]
-                    }))
-                }
-            })
+            socketInstance.on(conversationListeners.update, onConversationUpdate)
         }
+
+        return () => socketInstance.off(conversationListeners.update, onConversationUpdate)
     }, [isConnected, conversations])
 
     return (

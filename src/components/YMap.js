@@ -40,6 +40,7 @@ const YMap = (props) => {
         if (props.callback && selectedPoint) {
             props.callback([selectedPoint.properties?.data?.id])
         }
+
     }, [selectedPoint])
 
     useEffect(() => {
@@ -49,18 +50,19 @@ const YMap = (props) => {
     }, [objectManager])
 
     const onClusterEvent = (e) => {
+        // initial reset
+        setSelectedCluster(null)
+
         const objectId = e.get('objectId');
         const object = objectManager.clusters.getById(objectId)
 
         setSelectedCluster(object)
     }
 
-    const onAddCluster = (e) => {
-        // Назначаем обработчик событий для коллекции объектов-кластеров менеджера.
-        objectManager.clusters.events.add('click', onClusterEvent);
-    }
-
     const onObjectEvent = (e) => {
+        // initial reset
+        setSelectedPoint(null)
+
         const objectId = e.get('objectId')
         const object = objectManager.objects.getById(objectId)
 
@@ -115,8 +117,8 @@ const YMap = (props) => {
         })
         objectManager.add(JSON.stringify(features))
 
-        // Подпишемся на событие добавления кластера в коллекцию.
-        objectManager.clusters.events.add('add', onAddCluster)
+        // Назначаем обработчик событий на коллекцию кластеров менеджера.
+        objectManager.clusters.events.add('click', onClusterEvent)
 
         // Назначаем обработчик событий на коллекцию объектов менеджера.
         objectManager.objects.events.add(['click'], onObjectEvent)
