@@ -26,22 +26,24 @@ const YMapContainer = ({isShowMap, filters, setFilters, onResetFilters, onApplyF
     }, [isShowMap])
 
     useEffect(() => {
-        scroll.scrollToTop()
-    }, [])
+        if (ids?.length) {
+            const result = []
+
+            mapData.forEach(item => {
+                ids.forEach(id => {
+                    if (id === item.id) {
+                        result.push(item)
+                    }
+                })
+            })
+
+            setCards(result)
+        }
+    }, [ids])
 
     useEffect(() => {
-        const result = []
-
-        mapData.forEach(item => {
-            ids.forEach(id => {
-                if (id === item.id) {
-                    result.push(item)
-                }
-            })
-        })
-
-        setCards(result)
-    }, [ids])
+        scroll.scrollToTop()
+    }, [])
 
     return (
         <div className='catalog__ymaps-container'>
@@ -63,7 +65,14 @@ const YMapContainer = ({isShowMap, filters, setFilters, onResetFilters, onApplyF
                 foundCount={foundCount}
                 enforceFocus={false}
             />
-            <OffcanvasCards cards={cards}/>
+            <OffcanvasCards
+                className="offcanvas-cards"
+                cards={cards}
+                hideOffcanvas={() => {
+                    setCards([])
+                    setIds([])
+                }}
+            />
         </div>
     );
 };

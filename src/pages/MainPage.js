@@ -16,6 +16,7 @@ import {servicesTypesLocal} from "../helpers/services";
 import Loader from "../components/Loader";
 import TileServices from "../components/TileServices";
 import YMap from "../components/YMap";
+import OffcanvasCards from '../components/OffcanvasCards';
 
 export default function MainPage() {
     const currentUser = useCurrentUser()
@@ -27,13 +28,37 @@ export default function MainPage() {
     const [popular, setPopular] = useState([]);
     const [hotAds, setHotAds] = useState([])
     const [typesEstate, setTypesEstate] = useState([])
-    const [mapData, setMapData] = useState([])
     const [servicesTypes, setServicesTypes] = useState({
         isLoading: false,
         data: [],
         error: null,
     })
     const city = useSelector(state => state?.selectedCity)
+
+    // ymaps data
+    const [mapData, setMapData] = useState([])
+    const [ids, setIds] = useState([])
+    const [cards, setCards] = useState([])
+
+    useEffect(() => {
+        getForMap(city).then(items => setMapData(items))
+    }, [city])
+
+    useEffect(() => {
+        if (ids?.length) {
+            const result = []
+
+            mapData.forEach(item => {
+                ids.forEach(id => {
+                    if (id === item.id) {
+                        result.push(item)
+                    }
+                })
+            })
+
+            setCards(result)
+        }
+    }, [ids])
 
     useEffect(() => {
         getBanner()
@@ -64,10 +89,6 @@ export default function MainPage() {
     useEffect(() => {
         getTypesEstate().then(result => setTypesEstate(result))
     }, [])
-
-    useEffect(() => {
-        getForMap(city, {page: 1}).then(items => setMapData(items))
-    }, [city])
 
     useEffect(() => {
         getServicesTypes(axiosPrivate)
@@ -132,11 +153,22 @@ export default function MainPage() {
             </section>
 
             <section id="sec-3" className="container mb-6">
-                <h3>Найти на карте</h3>
-                <YMap
-                    items={mapData}
-                    className='main-page__ymaps'
-                />
+                <div className="main-page__ymaps-container">
+                    <h3>Найти на карте</h3>
+                    <YMap
+                        items={mapData}
+                        className='main-page__ymaps'
+                        callback={ids => setIds(ids)}
+                    />
+                    <OffcanvasCards
+                        className="main-page__offcanvas-cards"
+                        cards={cards}
+                        hideOffcanvas={() => {
+                            setCards([])
+                            setIds([])
+                        }}
+                    />
+                </div>
             </section>
 
             {!(hotAds === undefined || hotAds?.length === 0) &&

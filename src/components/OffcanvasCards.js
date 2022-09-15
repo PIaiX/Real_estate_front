@@ -3,24 +3,18 @@ import Card from './Card';
 import CustomOffcanvas from './CustomOffcanvas';
 
 const OffcanvasCards = (props) => {
-    const [cards, setCards] = useState([])
-    const [isShow, setIsShow] = useState(false)
-
-    useEffect(() => props?.cards?.length && setCards(props.cards), [props.cards])
-    useEffect(() => cards.length && setIsShow(true), [cards])
-    useEffect(() => !isShow && setCards([]), [isShow])
 
     return (
         <CustomOffcanvas
-            className='offcanvas-cards'
+            className={props.className ?? ''}
             placement='start'
-            isShow={isShow}
-            setIsShow={setIsShow}
+            isShow={props?.cards?.length}
+            setIsShow={() => props.hideOffcanvas && props.hideOffcanvas()}
             backdrop={false}
             closeButton={true}
         >
             {
-                cards.map(card => (
+                props?.cards?.length && props.cards.map(card => (
                     <div key={card.id}>
                         <Card
                             className='mb-4'

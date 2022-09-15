@@ -4962,13 +4962,6 @@ footer nav.mobile ul li a.active svg.type-2 path {
   height: 40em;
 }
 
-#sec-3 .y-maps-container {
-  height: 260px;
-}
-#sec-3 .y-maps-container .main-page__yamaps {
-  height: 260px;
-}
-
 .send-msg {
   align-self: center;
   cursor: pointer;
@@ -5061,6 +5054,19 @@ footer nav.mobile ul li a.active svg.type-2 path {
 }
 .button-responses:hover {
   color: #C59C7E;
+}
+
+.card-page__ymaps {
+  width: 100%;
+  height: 350px;
+}
+
+.main-page__ymaps {
+  width: 100%;
+  height: 450px;
+}
+.main-page__offcanvas-cards {
+  height: 100%;
 }
 
 /*# sourceMappingURL=style.css.map */

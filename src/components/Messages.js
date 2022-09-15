@@ -171,6 +171,8 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
 
             emitPaginateMessagesRequest(page, initialMessagesLimit)
         }
+
+        return () => socketInstance.removeAllListeners()
     }, [isConnected])
 
     // fetch messages by lazy loading
