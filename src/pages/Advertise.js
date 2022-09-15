@@ -186,7 +186,7 @@ export default function Advertise() {
         const isInValidFloor = data["floor"] === undefined || data?.floor < 0;
         const isInValidMaxFloor = data?.maxFloor < 0;
         const isInValidDescription = data.description?.length < 30 || data.description === undefined
-        const isInValidImage = imgs?.length === 0 || imgs === undefined
+        const isInValidImage = imgs?.length === 0 || imgs === undefined || imgs?.length === 1
         const isInValidPrice = data.price === undefined
         const isInValidEstateTypeId = data.estateTypeId === undefined || data.estateTypeId === 0
         const isInValidYear = data.yearOfConstruction?.length > 4 || data.yearOfConstruction?.length <= 3 || yearsForValidation() === undefined
@@ -582,6 +582,27 @@ export default function Advertise() {
                                     </div>
                                 </>
                             }
+                            <>
+                                <hr className="d-none d-md-block my-4"/>
+                                <div className="row">
+                                    <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
+                                            <span data-for="rental-type" data-status={false}>Кадастровый номер:</span>
+                                    </div>
+                                    <div className="col-md-9">
+                                        <div>
+                                            <label>
+                                                <input
+                                                    type='text'
+                                                    value={data?.cadastralNumber || ''}
+                                                    onChange={(e) => {
+                                                        setData(prevState => ({...prevState, cadastralNumber: e.target.value}))
+                                                    }}
+                                                />
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
                             {/* для мобильных устроийств */}
                             <div
                                 className="d-lg-none row row-cols-2 row-cols-md-3 gx-2 gx-sm-4 justify-content-center mt-4 mt-sm-5">
@@ -589,7 +610,7 @@ export default function Advertise() {
                                     <button
                                         type="button"
                                         className="btn btn-2 w-100"
-                                        onClick={() => navigate('/personal-account/my-ads/page/1')}
+                                        onClick={() => navigate('/personal-account/my-ads')}
                                     >
                                         Отменить
                                     </button>
@@ -1317,69 +1338,69 @@ export default function Advertise() {
                                               dragProps,
                                               errors
                                           }) => (
-                                              <>
-                                            <div className="upload__image-wrapper">
-                                                <div className="imgs-box">
-                                                    {imageList.map((image, index) => (
-                                                        <div key={index} className="image-item">
-                                                            <img src={image.data_url} alt=""/>
-                                                            <div className="image-item__btn-wrapper">
-                                                                <button type="button"
-                                                                        onClick={() => onImageUpdate(index)}>
-                                                                    <img
-                                                                        src="/img/icons/update.svg"
-                                                                        alt="Обновить"/>
-                                                                </button>
-                                                                <button type="button"
-                                                                        onClick={() => onImageRemove(index)}>
-                                                                    <img
-                                                                        src="/img/icons/delete.svg"
-                                                                        alt="Удалить"/>
-                                                                </button>
-                                                                {
-                                                                    (index !== mainImg) &&
+                                            <>
+                                                <div className="upload__image-wrapper">
+                                                    <div className="imgs-box">
+                                                        {imageList.map((image, index) => (
+                                                            <div key={index} className="image-item">
+                                                                <img src={image.data_url} alt=""/>
+                                                                <div className="image-item__btn-wrapper">
                                                                     <button type="button"
-                                                                            onClick={() => setMainImg(index)}
-                                                                            className="main-img">Сделать
-                                                                        главным</button>
+                                                                            onClick={() => onImageUpdate(index)}>
+                                                                        <img
+                                                                            src="/img/icons/update.svg"
+                                                                            alt="Обновить"/>
+                                                                    </button>
+                                                                    <button type="button"
+                                                                            onClick={() => onImageRemove(index)}>
+                                                                        <img
+                                                                            src="/img/icons/delete.svg"
+                                                                            alt="Удалить"/>
+                                                                    </button>
+                                                                    {
+                                                                        (index !== mainImg) &&
+                                                                        <button type="button"
+                                                                                onClick={() => setMainImg(index)}
+                                                                                className="main-img">Сделать
+                                                                            главным</button>
+                                                                    }
+                                                                </div>
+                                                                {
+                                                                    (index === mainImg) &&
+                                                                    <div className="mark">Главное фото</div>
                                                                 }
                                                             </div>
-                                                            {
-                                                                (index === mainImg) &&
-                                                                <div className="mark">Главное фото</div>
-                                                            }
-                                                        </div>
-                                                    ))}
+                                                        ))}
+                                                    </div>
+                                                    <div className="d-flex justify-content-center">
+                                                        <button type="button"
+                                                                className="btn btn-1 px-3 px-sm-4 me-3 me-sm-4"
+                                                                style={isDragging ? {color: "red"} : null}
+                                                                onClick={onImageUpload}
+                                                                {...dragProps}
+                                                        >
+                                                            <svg width="21" height="21" viewBox="0 0 21 21" fill="none"
+                                                                 xmlns="http://www.w3.org/2000/svg">
+                                                                <line x1="10.75" x2="10.75" y2="21" stroke="white"
+                                                                      strokeWidth="1.5"/>
+                                                                <line y1="10.25" x2="21" y2="10.25" stroke="white"
+                                                                      strokeWidth="1.5"/>
+                                                            </svg>
+                                                            <span className="ms-2">Добавить фото</span>
+                                                        </button>
+                                                        <button type="button" onClick={onImageRemoveAll}>Удалить все
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                                <div className="d-flex justify-content-center">
-                                                    <button type="button"
-                                                            className="btn btn-1 px-3 px-sm-4 me-3 me-sm-4"
-                                                            style={isDragging ? {color: "red"} : null}
-                                                            onClick={onImageUpload}
-                                                            {...dragProps}
-                                                    >
-                                                        <svg width="21" height="21" viewBox="0 0 21 21" fill="none"
-                                                             xmlns="http://www.w3.org/2000/svg">
-                                                            <line x1="10.75" x2="10.75" y2="21" stroke="white"
-                                                                  strokeWidth="1.5"/>
-                                                            <line y1="10.25" x2="21" y2="10.25" stroke="white"
-                                                                  strokeWidth="1.5"/>
-                                                        </svg>
-                                                        <span className="ms-2">Добавить фото</span>
-                                                    </button>
-                                                    <button type="button" onClick={onImageRemoveAll}>Удалить все
-                                                    </button>
-                                                </div>
-                                            </div>
-                                                  <span
-                                                      className="text-danger">{errors?.acceptType && "Поддерживаемые форматы файла: JPEG, JPG, PNG"}
+                                                <span
+                                                    className="text-danger">{errors?.acceptType && "Поддерживаемые форматы файла: JPEG, JPG, PNG"}
                                                   </span>
                                             </>
                                         )}
                                     </ImageUploading>
                                     <div className="fs-08 gray-3 mt-2">Не допускаются к размещению фотографии с
-                                        водяными
-                                        знаками, чужих объектов и рекламные баннеры. Допустимы JPG, PNG, JPEG или WEBP.
+                                        водяными знаками, чужих объектов и рекламные баннеры. Допустимы JPG, PNG, JPEG или WEBP.
+                                        Загрузка от 2 штук и более.
                                     </div>
                                 </div>
                             </div>
@@ -1901,7 +1922,7 @@ export default function Advertise() {
                                                 btnClass="inp"
                                                 name="prepayment"
                                                 checkedOptions={[prepTypeText]}
-                                                options={['нет', '1 месяц', '2 месяца', '3 месяца', '4 месяца', '5 месяцев','6 месяцев','7 месяцев','8 месяцев','9 месяцев','10 месяцев','11 месяцев']}
+                                                options={['нет', '1 месяц', '2 месяца', '3 месяца', '4 месяца', '5 месяцев', '6 месяцев', '7 месяцев', '8 месяцев', '9 месяцев', '10 месяцев', '11 месяцев']}
                                                 callback={({title, value}) => {
                                                     setData(prevData => {
                                                         return {...prevData, "prepaymentType": value}

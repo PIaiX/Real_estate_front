@@ -98,7 +98,8 @@ export default function Advertise() {
                 latitude: ad?.latitude,
                 livingArea: ad?.livingArea || 0,
                 kitchenArea: ad?.kitchenArea || 0,
-                maxFloor: ad?.maxFloor || 0
+                maxFloor: ad?.maxFloor || 0,
+                cadastralNumber: ad?.cadastralNumber
             }
         )
         setBtnRadio({
@@ -276,7 +277,7 @@ export default function Advertise() {
         const isInValidFloor = data["floor"] === undefined || data?.floor < 0;
         const isInValidMaxFloor = data?.maxFloor < 0;
         const isInValidDescription = data.description?.length < 30 || data.description === undefined
-        const isInValidImage = imgs?.length === 0 || imgs === undefined
+        const isInValidImage = imgs?.length === 0 || imgs === undefined || imgs?.length === 1
         const isInValidPrice = data.price === undefined
         const isInValidEstateTypeId = data.estateTypeId === undefined || data.estateTypeId === 0
         const isInValidYear = data.yearOfConstruction?.length > 4 || data.yearOfConstruction?.length <= 3 || findYear === undefined
@@ -655,6 +656,27 @@ export default function Advertise() {
                                     </div>
                                 </>
                             }
+                            <>
+                                <hr className="d-none d-md-block my-4"/>
+                                <div className="row">
+                                    <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
+                                        <span data-for="rental-type" data-status={false}>Кадастровый номер:</span>
+                                    </div>
+                                    <div className="col-md-9">
+                                        <div>
+                                            <label>
+                                                <input
+                                                    type='text'
+                                                    value={data?.cadastralNumber || ''}
+                                                    onChange={(e) => {
+                                                        setData(prevState => ({...prevState, cadastralNumber: e.target.value}))
+                                                    }}
+                                                />
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
                             {/* для мобильных устроийств */}
                             <div
                                 className="d-lg-none row row-cols-2 row-cols-md-3 gx-2 gx-sm-4 justify-content-center mt-4 mt-sm-5">
@@ -1544,7 +1566,8 @@ export default function Advertise() {
                                     </ImageUploading>
                                     <div className="fs-08 gray-3 mt-2">Не допускаются к размещению фотографии с
                                         водяными
-                                        знаками, чужих объектов и рекламные баннеры. JPG, PNG или GIF.
+                                        знаками, чужих объектов и рекламные баннеры. JPG, PNG или GIF. Загрузка о 2 штук и более.
+                                        При загрузке одного фото заменяется главное фото объявления.
                                     </div>
                                 </div>
                             </div>
