@@ -5339,3 +5339,10 @@ footer {
     z-index: 100;
   }
 }
+
+.button-responses {
+  color: $color-1;
+  &:hover {
+    color: $color-2;
+  }
+}

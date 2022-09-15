@@ -158,8 +158,8 @@ export default function Responses() {
                                             userId={item?.userId}
                                             serviceId={item?.serviceId}
                                             setSendMessagePayloads={setSendMessagePayloads}
-                                            serviceName={item?.service?.servicesTypesSubServiceId}
                                             serviceDes={item?.service?.description}
+                                            subService={item?.service?.subService}
                                         />
                                     </div>
                                 ))
@@ -183,8 +183,8 @@ export default function Responses() {
                                             rating={item?.user?.rating}
                                             updateData={updateData}
                                             userId={item?.userId}
-                                            serviceName={item?.service?.servicesTypesSubServiceId}
                                             serviceDes={item?.service?.description}
+                                            subService={item?.service?.subService}
                                         />
                                     </div>
                                 ))

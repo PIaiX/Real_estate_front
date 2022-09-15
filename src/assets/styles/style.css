@@ -5066,4 +5066,11 @@ footer nav.mobile ul li a.active svg.type-2 path {
   z-index: 100;
 }
 
+.button-responses {
+  color: #146492;
+}
+.button-responses:hover {
+  color: #C59C7E;
+}
+
 /*# sourceMappingURL=style.css.map */

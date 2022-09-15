@@ -87,9 +87,9 @@ const ResponseCard = (props) => {
                         Опыт работы {props.experience}
                     </h6>
                 )}
-                {(props.serviceName) && (
+                {(props.subService) && (
                     <>
-                    <button onClick={() => setIsShowModal(true)}>{props?.serviceName}</button>
+                    <button onClick={() => setIsShowModal(true)} className='button-responses'>{props?.subService?.name}</button>
                     <CustomModal
                         isShow={isShowModal}
                         setIsShow={setIsShowModal}
@@ -97,15 +97,18 @@ const ResponseCard = (props) => {
                         closeButton={true}
                     >
                         <div className='d-flex align-items-center flex-column'>
-                            <div><span className='fs-12 fw-bold'>Услуга:</span> {props?.serviceName}</div>
+                            <div><span className='fs-12 fw-bold'>Услуга:</span> {props?.subService?.name}</div>
                             <div><span className='fs-12 fw-bold'>Описание:</span> {props?.serviceDes}</div>
+                            {props.description && <div><span className='fs-12 fw-bold'>Сообщение отклика:</span> {props?.description}</div>}
                         </div>
                     </CustomModal>
                     </>
                 )}
-                <div className="text">
-                    {props.description && <p>{props.description}</p>}
-                </div>
+                {props.description &&
+                    <div className="text mt-1">
+                        <p><span className='fw-bold'>Сообщение отклика:</span> {props.description}</p>
+                    </div>
+                }
             </div>
             {props.type && (
                 <div className={`btns mt-2 mt-md-3 mt-xxl-0`}>

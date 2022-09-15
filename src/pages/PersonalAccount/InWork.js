@@ -171,6 +171,8 @@ const InWork = () => {
                                             rating={item?.user?.rating}
                                             updateData={updateInProcessOwner}
                                             userId={item?.user?.id}
+                                            serviceDes={item?.service?.description}
+                                            subService={item?.service?.subService}
                                         />
                                     </div>
                                 ))
@@ -195,6 +197,8 @@ const InWork = () => {
                                         rating={item?.user?.rating}
                                         updateData={updateInProcessExecutor}
                                         userId={item?.user?.id}
+                                        serviceDes={item?.service?.description}
+                                        subService={item?.service?.subService}
                                     />
                                 </div>
                             ))
@@ -216,6 +220,8 @@ const InWork = () => {
                                         experience={(typeof item?.service?.experienceTypeForUser === 'string') && item.service.experienceTypeForUser.toLowerCase()}
                                         rating={item?.user?.rating}
                                         userId={item?.user?.id}
+                                        serviceDes={item?.service?.description}
+                                        subService={item?.service?.subService}
                                     />
                                 </div>
                             ))
