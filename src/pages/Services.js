@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {NavLink, useLocation, useParams} from 'react-router-dom';
 import CustomSelect from '../components/CustomSelect';
-import InputFile from '../components/InputFile';
 import UserCard from '../components/UserCard';
 import {getAttributesTypes, getServicesUsers, getSubServicesTypes} from "../API/services";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
@@ -10,6 +9,11 @@ import useDebounce from "../hooks/debounce";
 import {servicesTypesLocal} from '../helpers/services'
 import Pagination from "../components/Pagination";
 import usePagination from "../hooks/pagination";
+import CustomModal from "../components/CustomModal";
+import {emitCreateWithServiceTopicMessage} from "../API/socketConversations";
+import {bindActionCreators} from "redux";
+import {useDispatch} from "react-redux";
+import alertActions from "../store/actions/alert"
 
 export default function Services() {
 
@@ -21,6 +25,8 @@ export default function Services() {
     const [firstBlockFilters, setFirstBlockFilters] = useState([])
     const [secondBlockFilters, setSecondBlockFilters] = useState([])
     const [selectMiniFilter, setSelectMiniFilter] = useState({})
+    const dispatch = useDispatch()
+    const {setAlert} = bindActionCreators(alertActions, dispatch)
     const [filterSubs, setFilterSubs] = useState({
         isLoading: false,
         data: [],
@@ -35,6 +41,14 @@ export default function Services() {
         isLoading: false,
         data: []
     })
+
+    const initialSendMessagePayloads = {
+        serviceId: null,
+        userId: null
+    }
+    const [sendMessagePayloads, setSendMessagePayloads] = useState(initialSendMessagePayloads)
+    const [messageInput, setMessageInput] = useState('')
+    const [messageInputError, setMessageInputError] = useState('')
 
     const find = () => {
         let qw;
@@ -122,6 +136,32 @@ export default function Services() {
             }
         })
         return photoMenu
+    }
+
+    const resetMessage = () => {
+        setMessageInput('')
+        setMessageInputError('')
+        setSendMessagePayloads(initialSendMessagePayloads)
+    }
+
+    const onSendMessage = (e) => {
+        e.preventDefault()
+        const message = messageInput.trim()
+
+        if (message.length) {
+            emitCreateWithServiceTopicMessage(sendMessagePayloads.userId, {
+                conversationId: 0,
+                serviceId: sendMessagePayloads.serviceId,
+                text: messageInput
+            })
+                .then(() => {
+                    setAlert('success', true, 'Сообщение отправлено')
+                    resetMessage()
+                })
+                .catch(() => setAlert('danger', true,'Что-то пошло не так, не удалось отправить сообщение'))
+        } else {
+            setMessageInputError('Сообщение не должно быть пустым')
+        }
     }
 
     return (
@@ -328,7 +368,7 @@ export default function Services() {
                                 <div key={i.id} className='d-grid'>
                                     <UserCard
                                         inAddResponse={true}
-                                        id={i?.user?.id}
+                                        userId={i?.user?.id}
                                         userName={i.user?.fullName}
                                         link={`/user/${i?.userId}`}
                                         photo={i.user.avatar}
@@ -339,6 +379,7 @@ export default function Services() {
                                         rating={i.user.rating}
                                         service={i.subService.name}
                                         serviceId={i.id}
+                                        setSendMessagePayloads={setSendMessagePayloads}
                                         prevUrl={loc?.pathname}
                                     />
                                 </div>
@@ -362,39 +403,6 @@ export default function Services() {
                     </div>
                 </div>
             </section>
-
-            <div className="modal fade" id="write-message" tabIndex="-1" aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-body">
-                            <button type="button" className="btn-close" data-bs-dismiss="modal">
-                                <svg viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1.00006 1.18237L15 15.9049"/>
-                                    <path d="M14.9999 1.18237L1.00001 15.9049"/>
-                                </svg>
-                            </button>
-                            <form className="message-form">
-                                <div className="d-flex align-items-center">
-                                    <div className="photo me-2 me-sm-4">
-                                        <img src="/img/photo.png" alt="Колесникова Ирина"/>
-                                        <div className="indicator online"></div>
-                                    </div>
-                                    <div>
-                                        <h4>Колесникова Ирина</h4>
-                                        <div className="gray-2 fs-09">Сейчас онлайн</div>
-                                    </div>
-                                </div>
-                                <textarea className="mt-3" rows="4" placeholder="Введите сообщение"></textarea>
-                                <div className="d-flex align-items-center mt-3">
-                                    <InputFile multiple={false}/>
-                                    <button type="submit" className="btn btn-1 w-100 flex-1 fs-12 ms-4">ОТПРАВИТЬ
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <form className="offcanvas offcanvas-start" tabIndex="-1" id="offcanvasServiceFilter">
                 <div className="offcanvas-body">
@@ -486,6 +494,35 @@ export default function Services() {
                     </button>
                 </div>
             </form>
+            <CustomModal
+                isShow={sendMessagePayloads.userId}
+                hideModal={() => resetMessage()}
+                closeButton
+            >
+                <form className="message-form">
+                    <textarea
+                        className="mt-3"
+                        rows="4"
+                        placeholder="Введите сообщение"
+                        value={messageInput}
+                        onChange={e => setMessageInput(e.target.value)}
+                    />
+                    {messageInputError && (
+                        <span className="message-form__error w-100 text-danger">
+                            {messageInputError}
+                        </span>
+                    )}
+                    <div className="d-flex align-items-center mt-3">
+                        <button
+                            type="submit"
+                            className="btn btn-1 w-100 flex-1 fs-12 ms-4"
+                            onClick={onSendMessage}
+                        >
+                            ОТПРАВИТЬ
+                        </button>
+                    </div>
+                </form>
+            </CustomModal>
         </main>
     )
 }

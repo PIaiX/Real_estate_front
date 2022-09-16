@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {NavLink, useNavigate, useParams} from 'react-router-dom';
 import ImageUploading from "react-images-uploading";
 import CustomSelect from '../components/CustomSelect';
@@ -405,6 +405,14 @@ export default function Advertise() {
             }))
     }, [data.address])
 
+    const suggestionsRef = useCallback(node => {
+        if (node !== null) {
+            node?.focus()
+        }
+    }, [data?.address])
+
+    console.log(district)
+
     return (
 
         <main>
@@ -716,13 +724,14 @@ export default function Advertise() {
                                         <AddressSuggestions
                                             delay={300}
                                             containerClassName='advertise__address'
-
                                             defaultQuery={data?.address}
+                                            ref={suggestionsRef}
                                             inputProps={{
                                                 style: {borderColor: valid.isInValidAddress ? '#DA1E2A' : ''},
                                                 placeholder: "Адрес"
                                             }}
                                             token={env.DADATA_TOKEN}
+                                            selectOnBlur={true}
                                             onChange={e =>
                                                 setData(prevData => ({
                                                     ...prevData,

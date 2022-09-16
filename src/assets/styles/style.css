@@ -2801,6 +2801,11 @@ main.account {
   background: url(bg-imgs/bg2.png) no-repeat center bottom #F2F2F2;
   background-size: 100% auto;
 }
+@media (max-width: 991px) {
+  main.account {
+    background: #fff;
+  }
+}
 
 @media (max-width: 991px) {
   #sec-12 nav.menu {

@@ -133,12 +133,6 @@ const YMap = (props) => {
                     zoom: 10,
                     controls: [],
                 }}
-                options={{
-                    restrictMapArea: true,
-                    autoFitToViewport: 'always',
-                    yandexMapDisablePoiInteractivity: false,
-                    mapAutoFocus: false
-                }}
                 modules={["geolocation", "geocode"]}
             >
                 <ZoomControl

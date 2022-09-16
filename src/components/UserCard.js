@@ -5,6 +5,17 @@ import Rating from "react-rating";
 import {checkPhotoPath} from "../helpers/photo";
 
 function UserCard(props) {
+
+    const setSendMessagePayloads = () => {
+        if (props?.setSendMessagePayloads && props?.serviceId && props?.userId) {
+            props.setSendMessagePayloads(prev => ({
+                ...prev,
+                serviceId: props?.serviceId,
+                userId: props?.userId
+            }))
+        }
+    }
+
     return (
         <div className="user-card">
             <div className="title">
@@ -49,9 +60,15 @@ function UserCard(props) {
             </div>
             <div className="btns mt-2 mt-md-3 mt-xxl-0">
                 <ShowPhone phone={props.phone}/>
-                <button type="button" data-bs-toggle="modal" data-bs-target="#write-message" className="d-none d-xxl-block btn btn-1 w-100 px-2">Написать сообщение</button>
+                <button
+                    type="button"
+                    className="d-xxl-block btn btn-1 w-100 px-2 mt-2"
+                    onClick={() => setSendMessagePayloads()}
+                >
+                    Написать сообщение
+                </button>
                 {props.inAddResponse && <Link
-                    to={`/personal-account/responses/add/${props.id}`}
+                    to={`/personal-account/responses/add/${props.userId}`}
                     className="btn btn-2 w-100 px-3 mt-2 mt-xxl-0"
                     state={{
                         labels: props.labels,

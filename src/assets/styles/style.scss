@@ -2911,9 +2911,9 @@ article {
 main.account {
   background: url(bg-imgs/bg2.png) no-repeat center bottom $gray-6;
   background-size: 100% auto;
-  //@media (max-width: 991px) {
-  //  background: #fff;
-  //}
+  @media (max-width: 991px) {
+    background: #fff;
+  }
 }
 
 #sec-12 {
