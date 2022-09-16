@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback, useRef} from 'react';
 import {useParams, useSearchParams} from 'react-router-dom';
 import Card from '../components/Card';
 import CatalogFilters from '../components/CatalogFilters';
@@ -40,6 +40,7 @@ const Catalog = ({routeName}) => {
     const {search, setSearch, onSearch} = useSearchForm('')
     const selectedCity = useSelector(state => state.selectedCity)
     const debouncedFilters = useDebounce(filters, 500)
+    const sugData = useRef(null)
 
     useEffect(() => {
         getTypesEstate()
@@ -143,13 +144,19 @@ const Catalog = ({routeName}) => {
                     />
                     <AddressSuggestions
                         token={env.DADATA_TOKEN}
-                        value={search && ''}
                         onChange={e => {
                             setSearch(e.value)
+
                         }}
                         containerClassName='catalog__search'
-                        inputProps={{placeholder: 'Адрес или ЖК'}}
+                        inputProps={{
+                            placeholder: 'Адрес или ЖК',
+                            onChange: (e) => {
+                                setSearch(sugData.current.textInput.value)
+                            }
+                        }}
                         delay={300}
+                        ref={sugData}
                     />
                     <button
                         type="submit"
