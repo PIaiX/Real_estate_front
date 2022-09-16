@@ -46,6 +46,10 @@ export default function UserPage() {
     const dispatch = useDispatch()
     const {setAlert} = bindActionCreators(alertActions, dispatch)
 
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
     const resetMessage = () => {
         setMessageInput('')
         setMessageInputError('')

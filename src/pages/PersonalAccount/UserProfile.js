@@ -41,6 +41,7 @@ export default function UserProfile() {
             setYear(currentBirthDayYear || startYear)
             setAvatar(currentUser?.avatar)
         }
+        window.scrollTo(0, 0)
     }, [currentUser])
 
     useEffect(() => {
@@ -190,7 +191,7 @@ export default function UserProfile() {
                             [error.field]: error.message
                         }))
                     })
-                    setAlert('success', true, 'Произошла ошибка сервера')
+                    setAlert('danger', true, 'Произошла ошибка сервера')
                 })
         }
     }

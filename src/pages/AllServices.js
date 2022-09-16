@@ -21,6 +21,10 @@ export default function AllServices() {
         }).catch(error => setServicesTypes({isLoading: true, error: error}))
     }, [])
 
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
     const findPhoto = (name) => {
         let photo
         servicesTypesLocal.find(i => {

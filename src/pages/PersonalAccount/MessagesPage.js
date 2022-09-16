@@ -31,6 +31,7 @@ export default function MessagesPage() {
                 })
                 .catch(error => setConversation(prev => ({isLoading: true, error})))
         }
+        window.scrollTo(0, 0)
     }, [isConnected, conversationId, userId])
 
 

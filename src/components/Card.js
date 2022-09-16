@@ -35,6 +35,8 @@ export default function Card(props) {
         )
     }
 
+    console.log(pathname)
+
     if (type === 'as-a-list') {
         return (
             <div className={`card-midi${props.className || ''}`}>

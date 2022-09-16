@@ -50,14 +50,17 @@ const InWork = () => {
 
     useEffect(() => {
         getInProcessResponsesRequestOwner(inMeOwner.currentPage, inMeOwner.pageLimit)
+        window.scrollTo(0, 0)
     }, [inMeOwner.currentPage])
 
     useEffect(() => {
         getInProcessResponsesRequestExecutor(outMeExecutor.currentPage, outMeExecutor.pageLimit)
+        window.scrollTo(0, 0)
     }, [outMeExecutor.currentPage])
 
     useEffect(() => {
         getCompletedResponsesRequest(completeWorks.currentPage, completeWorks.pageLimit)
+        window.scrollTo(0, 0)
     }, [completeWorks.currentPage])
 
     useEffect(() => {

@@ -126,6 +126,10 @@ export default function Advertise() {
     }, [])
 
     useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
+    useEffect(() => {
         const ids = types.map(i => i.id)
         setRes(ids.find((t) => t === +proptype))
     }, [types, proptype])

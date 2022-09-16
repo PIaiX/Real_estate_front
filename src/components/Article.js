@@ -4,13 +4,6 @@ import {NavLink} from 'react-router-dom';
 
 export default function Article(props) {
 
-    const goToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth',
-        });
-    };
-
     return (
         <article className='d-flex flex-column justify-content-between flex-nowrap'>
             <img src={props.imgUrl} alt={props.title}/>
@@ -19,7 +12,6 @@ export default function Article(props) {
                 <div className="text" dangerouslySetInnerHTML={{__html: props.text}}/>
                 <NavLink
                     to={`/articles/${props.articleUrl}`}
-                    onClick={() => goToTop()}
                     state={{prevRoute: props?.pathname, routeName: props?.routeName}}
                     className="d-block text-center color-2 fs-11 fw-5 mt-1"
                 >

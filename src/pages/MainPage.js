@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {Slider2} from '../components/Slider2';
 import {Slider1} from "../components/Slider1";
 import Tile from '../components/Tile';
@@ -96,6 +96,10 @@ export default function MainPage() {
                 setServicesTypes({isLoading: true, data: res})
             })
             .catch(error => setServicesTypes({isLoading: true, error: error}))
+    }, [])
+
+    useLayoutEffect(() => {
+        window.scrollTo(0, 0)
     }, [])
 
     const findPhoto = (name) => {

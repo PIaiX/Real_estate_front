@@ -48,10 +48,12 @@ export default function Responses() {
 
     useEffect(() => {
         getIncomingsResponsesRequest(responsesPagIn.currentPage, responsesPagIn.pageLimit)
+        window.scrollTo(0, 0)
     }, [userId, token, responsesPagIn.currentPage])
 
     useEffect(() => {
         getOutgoingsResponsesRequest(responsesPagOut.currentPage, responsesPagOut.pageLimit)
+        window.scrollTo(0, 0)
     }, [userId, token, responsesPagOut.currentPage])
 
     useEffect(() => {

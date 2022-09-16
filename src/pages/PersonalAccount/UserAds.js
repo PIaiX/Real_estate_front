@@ -47,6 +47,7 @@ export default function UserAds({routeName}) {
                     meta: res.body
                 })
             })
+        window.scrollTo(0, 0)
     }, [adsPag.currentPage])
 
     useEffect(() => {

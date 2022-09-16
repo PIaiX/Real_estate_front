@@ -24,6 +24,7 @@ export default function ArticlePage() {
 
     useEffect(() => {
         getArticle(slug).then(res => setArticleInfo(res))
+        window.scrollTo(0, 0)
     }, [slug])
 
     return (

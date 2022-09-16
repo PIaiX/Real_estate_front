@@ -42,6 +42,7 @@ export default function CardPage() {
 
     useEffect(() => {
         getAdsPage(uuid, userId).then(res => setAds(res))
+        window.scrollTo(0, 0)
     }, [])
 
     useEffect(() => {
@@ -653,25 +654,6 @@ export default function CardPage() {
                     </div>
                 </section>
             }
-
-            <div className="mobile-btns d-block d-md-none py-2 py-sm-3">
-                <div className="container">
-                    <div className="row row-cols-2 gx-2 gx-sm-3">
-                        <div>
-                            <ShowPhone className="fs-12" phone={ads?.user?.phoneForUser}/>
-                        </div>
-                        <div>
-                            <button
-                                type="button"
-                                className="fs-12 btn btn-1 w-100 px-2"
-                                onClick={() => setIsShowWriteMessageModal(true)}
-                            >
-                                Написать сообщение
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <CustomModal
                 isShow={isShowWriteMessageModal}

@@ -12,7 +12,8 @@ export default function Articles({routeName}) {
     const [dataArticles, setDataArticles] = useState([]);
 
     useEffect(() => {
-         getNews(articlesPag.currentPage, articlesPag.pageLimit).then(res => setDataArticles(res))
+        getNews(articlesPag.currentPage, articlesPag.pageLimit).then(res => setDataArticles(res))
+        window.scrollTo(0, 0)
     }, [articlesPag.currentPage])
 
     return (

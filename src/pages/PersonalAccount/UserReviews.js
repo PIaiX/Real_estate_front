@@ -31,6 +31,7 @@ export default function UserReviews() {
             }
         }
         reviews()
+        window.scrollTo(0, 0)
     }, [userId, reviewsPag.currentPage])
 
     const avatarReviewer = (avatar) => `${url}${avatar}`

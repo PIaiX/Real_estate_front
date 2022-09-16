@@ -70,6 +70,7 @@ export default function Services() {
 
     useEffect(() => {
         setPayload(prevState => ({...prevState, servicesTypeId: find(), page: services.currentPage}))
+        window.scrollTo(0, 0)
     }, [find(), services.currentPage])
 
     useEffect(() => {

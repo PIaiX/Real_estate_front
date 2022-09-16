@@ -6,6 +6,8 @@ const Breadcrumbs = ({currentRouteName}) => {
     const location = useLocation()
     const state = location.state
 
+    console.log(location)
+
     return (
         <nav aria-label="breadcrumb">
             <div className="container py-3 py-sm-4 py-lg-5">
@@ -14,9 +16,9 @@ const Breadcrumbs = ({currentRouteName}) => {
                     <li className="breadcrumb-item">
                         <NavLink to="/">Главная</NavLink>
                     </li>
-                    {state?.prevRoute && (
+                    {(state?.prevRoute && state?.prevRoute?.length > 1) && (
                         <li className="breadcrumb-item">
-                            <NavLink to={(state?.routeName === 'Каталог') ? `${state?.prevRoute}${state?.prevSearch}` : state?.prevRoute}>{state?.routeName}</NavLink>
+                            <NavLink to={(state?.routeName) ? `${state?.prevRoute}${state?.prevSearch}` : state?.prevRoute}>{state?.routeName}</NavLink>
                         </li>
                     )}
                     {currentRouteName && (

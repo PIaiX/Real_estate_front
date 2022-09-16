@@ -42,6 +42,10 @@ const Catalog = ({routeName}) => {
     const debouncedFilters = useDebounce(filters, 500)
 
     useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
+    useEffect(() => {
         getTypesEstate()
             .then(response => response.find(type => type.id === filters.typesEstate))
             .then(result => result && result.estates.map(item => ({title: item.name, value: item.id})))

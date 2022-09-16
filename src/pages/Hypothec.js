@@ -1,23 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import Breadcrumbs from '../components/Breadcrumbs';
-import {useSelector} from "react-redux";
-import {getCatalog} from "../API/catalog";
 
 export default function Hypothec({routeName}) {
 
-    const city = useSelector(state => state.selectedCity)
-    const [catalog, setCatalog] = useState([])
-
-    const req = async () => {
-        const result = (city) && await getCatalog(1, 10, 1, city)
-        if (result) {
-            setCatalog(result?.body?.data)
-        }
-    }
-
     useEffect(() => {
-        req()
-    }, [city])
+        window.scrollTo(0, 0)
+    }, [])
 
     return (
         <main>

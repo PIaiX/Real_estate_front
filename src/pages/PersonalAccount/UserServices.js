@@ -26,6 +26,7 @@ export default function UserServices() {
 
     useEffect(() => {
         currentUser && userInfo(currentUser?.id).then(res => setUserService({isLoading: true, data: res.services}))
+        window.scrollTo(0, 0)
     }, [currentUser?.id])
 
     const [serviceId, setServiceId] = useState(null)

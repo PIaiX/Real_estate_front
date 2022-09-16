@@ -9,6 +9,7 @@ import apiRoutes from "../../API/config/apiRoutes";
 import CustomModal from "../../components/CustomModal";
 
 export default function AccountMenu() {
+
   const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
   const dispatch = useDispatch();

@@ -1,4 +1,4 @@
-import React, {useLayoutEffect} from 'react';
+import React, {useEffect} from 'react';
 import {Route, Routes, useLocation} from 'react-router-dom';
 import CardPage from '../pages/CardPage';
 import ArticlePage from '../pages/ArticlePage';

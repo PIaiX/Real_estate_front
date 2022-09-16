@@ -34,6 +34,7 @@ export default function Favorites({routeName}) {
                     wishlist: res?.data
                 })
             })
+        window.scrollTo(0, 0)
     }, [currentUser, wishlistPag.currentPage])
 
     useEffect(() => {
