@@ -6,8 +6,6 @@ const Breadcrumbs = ({currentRouteName}) => {
     const location = useLocation()
     const state = location.state
 
-    console.log(location)
-
     return (
         <nav aria-label="breadcrumb">
             <div className="container py-3 py-sm-4 py-lg-5">

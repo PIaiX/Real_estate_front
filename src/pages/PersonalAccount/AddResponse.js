@@ -65,6 +65,7 @@ export default function AddResponse() {
                         description={loc?.state?.description}
                         phone={loc?.state?.phone}
                         labels={loc?.state?.labels}
+                        isShowMessage={false}
                     />
                 </div>
                 <div>

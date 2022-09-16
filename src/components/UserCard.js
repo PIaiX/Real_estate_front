@@ -60,13 +60,14 @@ function UserCard(props) {
             </div>
             <div className="btns mt-2 mt-md-3 mt-xxl-0">
                 <ShowPhone phone={props.phone}/>
-                <button
+                {props?.isShowMessage &&
+                    <button
                     type="button"
                     className="d-xxl-block btn btn-1 w-100 px-2 mt-2"
                     onClick={() => setSendMessagePayloads()}
                 >
                     Написать сообщение
-                </button>
+                </button>}
                 {props.inAddResponse && <Link
                     to={`/personal-account/responses/add/${props.userId}`}
                     className="btn btn-2 w-100 px-3 mt-2 mt-xxl-0"

@@ -382,6 +382,7 @@ export default function Services() {
                                         serviceId={i.id}
                                         setSendMessagePayloads={setSendMessagePayloads}
                                         prevUrl={loc?.pathname}
+                                        isShowMessage={true}
                                     />
                                 </div>
                             )}
