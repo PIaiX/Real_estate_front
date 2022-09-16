@@ -8,8 +8,6 @@ const ConversationItem = ({conversation}) => {
     const user = useSelector(state => state?.currentUser)
     const isMyLastMessage = (user?.id === conversation?.lastMessage?.userId)
 
-    console.log(conversation)
-
     return (
         <div className={`conversation-list__item conversation-item ${conversation?.isNew ? 'unread' : ''}`}>
             <div className="photo">
