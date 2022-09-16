@@ -199,8 +199,8 @@ const Header = () => {
                         </li>
                         <li>
                             <NavLink
-                                to="/articles/page/1"
-                                className={`${(pathname === '/articles/page/1') ? 'active' : ''}`}
+                                to="/articles"
+                                className={`${(pathname === '/articles') ? 'active' : ''}`}
                                 onClick={() => {
                                     closeCanvas()
                                 }}

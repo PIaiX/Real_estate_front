@@ -161,7 +161,7 @@ const InWork = () => {
                         inProcessOwner?.isLoading
                             ? inProcessOwner?.items?.length
                                 ? inProcessOwner?.items?.map(item => (
-                                    <div key={item?.id}>
+                                    <div key={item?.id} className='d-flex flex-column'>
                                         <ResponseCard
                                             type='work'
                                             id={item?.id}
@@ -187,7 +187,7 @@ const InWork = () => {
                     inProcessExecutor?.isLoading
                         ? inProcessExecutor?.items?.length
                             ? inProcessExecutor?.items?.map(item => (
-                                <div key={item?.id}>
+                                <div key={item?.id} className='d-flex flex-column'>
                                     <ResponseCard
                                         type='work'
                                         id={item?.id}

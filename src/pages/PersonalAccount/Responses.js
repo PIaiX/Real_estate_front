@@ -145,7 +145,7 @@ export default function Responses() {
                         incomings.isLoading
                             ? incomings?.items?.length
                                 ? incomings.items.map(item => (
-                                    <div key={item.id}>
+                                    <div key={item.id} className='d-flex flex-column'>
                                         <ResponseCard
                                             type='in'
                                             id={item?.id}
@@ -172,7 +172,7 @@ export default function Responses() {
                         outgoings.isLoading
                             ? outgoings?.items?.length
                                 ? outgoings.items.map(item => (
-                                    <div key={item.id}>
+                                    <div key={item.id} className='d-flex flex-column'>
                                         <ResponseCard
                                             type='out'
                                             id={item?.id}

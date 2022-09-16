@@ -2016,13 +2016,10 @@ article {
   background: #FFFFFF;
   box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
   position: fixed;
-  top: 50px;
+  top: 0;
   left: 0px;
   width: 100%;
   z-index: 100;
-  @media (max-width: 575px) {
-    top: 48px;
-  }
 
   .container {
     display: flex;
@@ -2421,10 +2418,12 @@ article {
   }
 
   &_in {
+    flex: auto;
     grid-template-rows: 2.5em auto 1fr;
   }
 
   &_out {
+    flex: auto;
     grid-template-rows: 2.5em auto 1.5rem;
   }
 }
