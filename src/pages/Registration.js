@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import Joi from "joi";
 
@@ -13,7 +13,7 @@ const formValueDefault = {
     password: "",
     passwordConfirm: "",
     remember: true,
-    ownerType: 0,
+    ownerType: "0",
 };
 
 const formErrorDefault = {
@@ -22,6 +22,8 @@ const formErrorDefault = {
     email: "",
     password: "",
     passwordConfirm: "",
+    companyName: "",
+    taxIdentificationNumber: ""
 };
 
 const schema = Joi.object({
@@ -62,12 +64,43 @@ const schema = Joi.object({
     }),
     ownerType: Joi.number(),
     remember: Joi.boolean(),
+    taxIdentificationNumber: Joi.string()
+        .pattern(/.*[0-9].*/)
+        .min(10)
+        .max(10)
+        .required()
+        .messages({
+            "string.empty": "Заполните ИНН",
+            "string.pattern.base": "ИНН состоит только из цифр",
+            "string.min": "Минимальная длина 10 символов",
+            "string.max": "Максимальная длина 10 символов"
+        }),
+    companyName: Joi.string()
+        .required()
+        .messages({
+            "string.empty": "Заполните название организации",
+        })
 });
 
 export default function Entrance() {
+
     const [formValue, setFormValue] = useState(formValueDefault);
     const [ownerType, setOwnerType] = useState(formValueDefault.ownerType);
     const [formErrors, setFormErrors] = useState(formErrorDefault);
+
+    useEffect(() => {
+        if (formValue?.ownerType === '0'){
+            delete formValue.companyName
+            delete formValue.taxIdentificationNumber
+        } else {
+            setFormValue(prevState => (
+                {
+                    ...prevState,
+                    companyName: "",
+                    taxIdentificationNumber: ""
+                }))
+        }
+    }, [formValue?.ownerType])
 
     const handleFormChange = (e) => {
         setFormValue((prev) => {
@@ -117,6 +150,8 @@ export default function Entrance() {
             });
         });
     };
+
+    console.log(formValue)
 
     return (
         <main className="account py-sm-3 py-md-4 py-lg-5">
@@ -169,7 +204,7 @@ export default function Entrance() {
                                                     defaultChecked={true}
                                                     onChange={handleFormChange}
                                                 />
-                                                <span className="fs-11 ms-2">Собственник</span>
+                                                <span className="fs-11 ms-2">Физическое лицо</span>
                                             </label>
                                         </div>
                                         <div>
@@ -180,7 +215,7 @@ export default function Entrance() {
                                                     value="1"
                                                     onChange={handleFormChange}
                                                 />
-                                                <span className="fs-11 ms-2">Агент</span>
+                                                <span className="fs-11 ms-2">Юридическое лицо</span>
                                             </label>
                                         </div>
                                     </div>
@@ -212,6 +247,36 @@ export default function Entrance() {
                                     <FormErrorMessage>{formErrors.lastName}</FormErrorMessage>
                                 </div>
                             </div>
+                            {formValue?.ownerType === '1' &&
+                                <>
+                                    <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
+                                        <div className="col-sm-3 fs-11 mb-1 mb-sm-0">Название организации:</div>
+                                        <div className="col-sm-9">
+                                            <input
+                                                placeholder="Название организации"
+                                                className="fs-11"
+                                                name="companyName"
+                                                value={formValue.companyName}
+                                                onChange={handleFormChange}
+                                            />
+                                            <FormErrorMessage>{formErrors.companyName}</FormErrorMessage>
+                                        </div>
+                                    </div>
+                                    <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
+                                        <div className="col-sm-3 fs-11 mb-1 mb-sm-0">ИНН:</div>
+                                        <div className="col-sm-9">
+                                            <input
+                                                placeholder="ИНН"
+                                                className="fs-11"
+                                                name="taxIdentificationNumber"
+                                                value={formValue.taxIdentificationNumber}
+                                                onChange={handleFormChange}
+                                            />
+                                            <FormErrorMessage>{formErrors.taxIdentificationNumber}</FormErrorMessage>
+                                        </div>
+                                    </div>
+                                </>
+                            }
                             <div className="row align-items-center mb-3 mb-sm-4 mb-xxl-5">
                                 <div className="col-sm-3 fs-11 mb-1 mb-sm-0">Email:</div>
                                 <div className="col-sm-9">
