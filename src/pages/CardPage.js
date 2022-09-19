@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {useParams} from 'react-router-dom';
+import {NavLink, useParams} from 'react-router-dom';
 import {Slider1} from '../components/Slider1';
 import BtnFav from '../components/BtnFav';
 import ShowPhone from '../components/ShowPhone';
@@ -177,7 +177,7 @@ export default function CardPage() {
                     <img src="/img/icons/pin.svg" alt="адрес"/>
                     <div className="fs-11 fw-6 ms-2 ms-sm-4">
                         <div>ЖК "{ads?.residentalComplexForUser}"</div>
-                        <div>{ads?.address}</div>
+                        <div className='text-capitalize'>{ads?.address}</div>
                     </div>
                 </div>
                 <div className="row mt-4 mt-lg-5 mb-3">
@@ -371,9 +371,9 @@ export default function CardPage() {
                                             <div className="gray-3 fs-11 mb-2">На сайте
                                                 с {ads?.user?.createdAtForUser}</div>
                                             <div className="color-1 fs-11">
-                                                <a href="/">
+                                                <NavLink to={`/user/${ads?.user?.id}`} state={{fromAd: true}}>
                                                     Еще {ads?.user?.realEstatesCount} <Words/>
-                                                </a>
+                                                </NavLink>
                                             </div>
                                         </div>
                                         <img src={checkPhotoPath(ads?.user?.avatar)} alt={ads?.user?.fullName}/>

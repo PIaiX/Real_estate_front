@@ -15,6 +15,8 @@ import env from "../config/env";
 import {bindActionCreators} from "redux";
 import alertActions from '../store/actions/alert'
 import {useDispatch, useSelector} from "react-redux";
+import axios from "axios";
+import {dadataReAddress} from "../API/dadataReAddress";
 
 export default function Advertise() {
 
@@ -407,11 +409,26 @@ export default function Advertise() {
 
     const suggestionsRef = useCallback(node => {
         if (node !== null) {
-            node?.focus()
+            node.setInputValue(data?.address)
         }
     }, [data?.address])
 
-    console.log(district)
+    useEffect(() => {
+        if (data?.address) {
+            dadataReAddress({query: data?.address, count: 5})
+                .then(res => {
+                    setData(prevState => (
+                        {
+                            ...prevState,
+                            address: res[0]?.value,
+                            fias_id: res[0]?.data?.fias_id,
+                            latitude: res[0]?.data?.geo_lat,
+                            longitude: res[0]?.data?.geo_lon
+                        }
+                    ))
+                })
+        }
+    }, [data?.address])
 
     return (
 
@@ -445,11 +462,46 @@ export default function Advertise() {
                     noValidate
                 >
                     <div className="mob-indicator">
-                        <div className={(activeField === 1) ? 'active' : ''}>1</div>
-                        <div className={(activeField === 2) ? 'active' : ''}>2</div>
-                        <div className={(activeField === 3) ? 'active' : ''}>3</div>
-                        <div className={(activeField === 4) ? 'active' : ''}>4</div>
-                        <div className={(activeField === 5) ? 'active' : ''}>5</div>
+                        <div className={(activeField === 1) ? 'active' : ''}>
+                            {
+                                (data.transactionType && data.estateId && data.estateTypeId)
+                                ? <img src="/img/icons/compform.svg"
+                                       style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
+                                : 1
+                            }
+                        </div>
+                        <div className={(activeField === 2) ? 'active' : ''}>
+                            {
+                                (data.address && data.totalArea && data['floor'])
+                                ? <img src="/img/icons/compform.svg"
+                                       style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
+                                : 2
+                            }
+                        </div>
+                        <div className={(activeField === 3) ? 'active' : ''}>
+                            {
+                                (image && data.description)
+                                ? <img src="/img/icons/compform.svg"
+                                       style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
+                                : 3
+                            }
+                        </div>
+                        <div className={(activeField === 4) ? 'active' : ''}>
+                            {
+                                (data.yearOfConstruction && data.ceilingHeight)
+                                ? <img src="/img/icons/compform.svg"
+                                       style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
+                                : 4
+                            }
+                        </div>
+                        <div className={(activeField === 5) ? 'active' : ''}>
+                            {
+                                (data.price)
+                                ? <img src="/img/icons/compform.svg"
+                                       style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
+                                : 5
+                            }
+                        </div>
                     </div>
                     <div className="col-lg-9">
                         <fieldset
@@ -728,10 +780,9 @@ export default function Advertise() {
                                             ref={suggestionsRef}
                                             inputProps={{
                                                 style: {borderColor: valid.isInValidAddress ? '#DA1E2A' : ''},
-                                                placeholder: "Адрес"
+                                                placeholder: "Адрес",
                                             }}
                                             token={env.DADATA_TOKEN}
-                                            selectOnBlur={true}
                                             onChange={e =>
                                                 setData(prevData => ({
                                                     ...prevData,

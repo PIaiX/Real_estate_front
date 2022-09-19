@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
+import React, {useEffect, useRef, useState} from 'react';
+import {useLocation, useParams} from 'react-router-dom';
 import ShowPhone from '../components/ShowPhone';
 import {Slider1} from '../components/Slider1';
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
@@ -28,12 +28,13 @@ export default function UserPage() {
     const axiosPrivate = useAxiosPrivate()
     const {userId} = useParams()
     const {page} = useParams()
+    const loc = useLocation()
     const [reviews, setReviews] = useState([])
     const [limit, setLimit] = useState(2)
     const [userInformation, setUserInformation] = useState([])
     const [data, setData] = useState({})
     const [reviewStatus, setReviewStatus] = useState(false)
-
+    const adRef = useRef(null)
     // write message modal
     const initialSendMessagePayloads = {
         userId: null
@@ -114,6 +115,20 @@ export default function UserPage() {
     useEffect(() => {
         userInfoInUserPage(userId, user.id).then(res => setUserInformation(res?.body))
     }, [])
+
+    useEffect(() => {
+        if (adRef !== null) {
+            if (loc?.state?.fromAd) {
+                setTimeout(() => {
+                    window.scrollTo({
+                        left: 0,
+                        top: adRef.current.offsetTop,
+                        behavior: "smooth"
+                    })
+                }, 500)
+            }
+        }
+    }, [loc?.state?.fromAd])
 
     return (
         <main>
@@ -294,7 +309,7 @@ export default function UserPage() {
                             }
                         </div>
                         <div className="col-12 mb-5">
-                            <h4 className="text-center text-md-start">Объявления пользователя</h4>
+                            <h4 className="text-center text-md-start" ref={adRef}>Объявления пользователя</h4>
                             {(userInformation?.realEstates?.length === 0)
                                 ?
                                 <div className="fs-11 text-center text-md-start">Нет актуальных объявлений</div>

@@ -323,7 +323,7 @@ export default function Advertise() {
                                 (valid.isInValidEstateTypeId || valid.isInValidEstateId)
                                     ? 1
                                     : (data.transactionType && data.estateId && data.estateTypeId)
-                                        ? <img src="img/icons/compform.svg"
+                                        ? <img src="/img/icons/compform.svg"
                                                style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
                                         : 1
                             }
@@ -344,7 +344,7 @@ export default function Advertise() {
                                 (valid.isInValidAddress || valid.isInValidHouseType || valid.isInValidTotalArea || valid.isInValidRoomType || valid.isInValidFloor)
                                     ? 2
                                     : (data.address && data.totalArea && data['floor'])
-                                        ? <img src="img/icons/compform.svg"
+                                        ? <img src="/img/icons/compform.svg"
                                                style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
                                         : 2
                             }
@@ -357,7 +357,7 @@ export default function Advertise() {
                                 (valid.isInValidDescription || valid.isInValidImage)
                                     ? 3
                                     : (image && data.description)
-                                        ? <img src="img/icons/compform.svg"
+                                        ? <img src="/img/icons/compform.svg"
                                                style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
                                         : 3
                             }
@@ -370,7 +370,7 @@ export default function Advertise() {
                                 (valid.isInValidYear || valid.isInValidCeilingHeight)
                                     ? 4
                                     : (data.yearOfConstruction && data.ceilingHeight)
-                                        ? <img src="img/icons/compform.svg"
+                                        ? <img src="/img/icons/compform.svg"
                                                style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
                                         : 4
                             }
@@ -383,7 +383,7 @@ export default function Advertise() {
                                 (valid.isInValidPrice)
                                     ? 5
                                     : (data.price)
-                                        ? <img src="img/icons/compform.svg"
+                                        ? <img src="/img/icons/compform.svg"
                                                style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
                                         : 5
                             }
