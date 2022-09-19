@@ -384,7 +384,7 @@ select {
     &:empty {
       min-width: 140px;
       min-height: 100px;
-      background: url(/public/img/img-photo.svg) no-repeat;
+      background: url(bg-imgs/photo.svg) no-repeat;
       background-size: contain;
       background-position: center center;
     }
