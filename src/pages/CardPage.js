@@ -359,7 +359,7 @@ export default function CardPage() {
                                             {ads?.communalPrice ? `Коммунальные платежи: ${ads?.communalPrice} ₽` : "Не включая коммунальные платежи"}
                                             <br/>Залог {ads?.pledge} ₽, коммисия: {ads?.commissionForUser}
                                             <br/>Предоплата: {ads?.prepaymentTypeForUser},
-                                            аренда {ads?.rentalTypeForUser}
+                                            аренда: {ads?.rentalTypeForUser}
                                         </div>
                                     </div>}
                             </div>

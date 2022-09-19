@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import BtnFav from './BtnFav';
 import BtnRep from './BtnRep';
 import HoverSlider from './HoverSlider';
@@ -8,7 +8,7 @@ import {NavLink, useLocation} from 'react-router-dom';
 import {animateScroll as scroll} from 'react-scroll';
 import {checkPhotoPath} from "../helpers/photo";
 
-export default function Card(props) {
+const Card = (props) => {
     const type = props.type
     const [pictures, setPictures] = useState(null)
     const [userAvatar, setUserAvatar] = useState(null)
@@ -57,8 +57,10 @@ export default function Card(props) {
                                 <div className="d-flex align-items-center mb-2 mb-xxl-3">
                                     <img src="/img/icons/pin.svg" alt="адрес"/>
                                     <div className="fs-09 ms-2">
-                                        <div>{props.address}</div>
-                                        <div>{props?.residentalComplex}</div>
+                                        <div className='text-capitalize'>{props.address}</div>
+                                        <div>
+                                            ЖК: "{props?.residentalComplex}"
+                                        </div>
                                     </div>
                                 </div>
                                 {
@@ -127,8 +129,8 @@ export default function Card(props) {
                             </>
                         }
                         <div className="author w-fit d-flex flex-column align-items-center ms-auto mt-4">
-                            <NavLink to={`/user/${props.userId}`}><img src={userAvatar ? userAvatar : '/img/img-photo.svg'} alt="Фото"/></NavLink>
-                            <div className="gray-2 fw-5 fs-09 mt-2"><NavLink to={`/user/${props.userId}`}>{props.user?.fullName}</NavLink></div>
+                            <NavLink to={`/user/${props?.user?.id}`}><img src={userAvatar ? userAvatar : '/img/img-photo.svg'} alt="Фото"/></NavLink>
+                            <div className="gray-2 fw-5 fs-09 mt-2"><NavLink to={`/user/${props?.user?.id}`}>{props.user?.fullName}</NavLink></div>
                             {
                                 (props.user?.createdAtForUser) &&
                                 <div className="gray-3 fs-08 mt-2">На сайте с {props.user?.createdAtForUser}</div>
@@ -171,7 +173,7 @@ export default function Card(props) {
                     <div className="address d-flex align-items-start mb-3">
                         <img src="/img/icons/pin.svg" alt="адрес"/>
                         <div className="fs-09 ms-2">
-                            <div className="mb-1">ЖК "{props.residentalComplex}"</div>
+                            <div className="mb-1">ЖК: "{props.residentalComplex}"</div>
                             <div>{props.address}</div>
                         </div>
                     </div>
@@ -197,3 +199,5 @@ export default function Card(props) {
         )
     }
 }
+
+export default memo(Card)
