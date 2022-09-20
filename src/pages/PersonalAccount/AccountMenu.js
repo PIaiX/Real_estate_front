@@ -7,6 +7,7 @@ import { bindActionCreators } from "redux";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import apiRoutes from "../../API/config/apiRoutes";
 import CustomModal from "../../components/CustomModal";
+import {useAccessToken} from "../../store/reducers";
 
 export default function AccountMenu() {
 
@@ -17,13 +18,14 @@ export default function AccountMenu() {
   const { resetCurrentUser } = bindActionCreators(currentUserActions, dispatch);
   const [isShowModalExit, setIsShowModalExit] = useState(false)
   const conversationCount = useSelector(state => state?.conversationCount)
+  const token = useAccessToken()
 
   const handleLogout = async () => {
-    await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.LOGOUT}`);
     resetToken();
     resetCurrentUser();
     navigate("/");
     setIsShowModalExit(false)
+    await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.LOGOUT}`, {token: token});
   };
 
   return (
