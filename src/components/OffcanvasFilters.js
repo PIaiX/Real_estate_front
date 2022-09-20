@@ -2,7 +2,22 @@ import React from 'react';
 import {onCheckboxHandler, onInputHandler, onMultiCheckboxHandler} from '../helpers/collectDataFromForm';
 import CustomOffcanvas from './CustomOffcanvas';
 
-const OffcanvasFilters = ({className, isShow, setIsShow, scroll, backdrop, closeButton, filters, setFilters, onResetFilters, onApplyFilters, foundCount, enforceFocus}) => {
+const OffcanvasFilters = (
+    {
+        className,
+        isShow,
+        setIsShow,
+        scroll,
+        backdrop,
+        closeButton,
+        filters,
+        setFilters,
+        onResetFilters,
+        onApplyFilters,
+        foundCount,
+        enforceFocus,
+        callback
+    }) => {
     return (
         <CustomOffcanvas
             className={className}
@@ -685,6 +700,7 @@ const OffcanvasFilters = ({className, isShow, setIsShow, scroll, backdrop, close
                         e.preventDefault()
                         onApplyFilters()
                         setIsShow(false)
+                        callback()
                     }}
                 >
                     Показать

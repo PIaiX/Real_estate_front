@@ -147,6 +147,10 @@ export default function CardPage() {
         }
     }
 
+    const title = () => {
+        return <span>{ads?.title} м<sup>2</sup></span>
+    }
+
     return (
         <main>
             <div className={(pageTop) ? "card-page-top py-2 d-md-none" : "card-page-top d-none py-2"}>
@@ -169,7 +173,7 @@ export default function CardPage() {
                 </div>
             </div>
             <div className="container py-3 py-sm-4 py-lg-5">
-                <Breadcrumbs currentRouteName={ads?.title || 'Объявление'}/>
+                <Breadcrumbs currentRouteName={title() || 'Объявление'} cardPage={true}/>
             </div>
             <section id="sec-7" className="container pb-5">
                 <h1>{ads?.title} м<sup>2</sup></h1>

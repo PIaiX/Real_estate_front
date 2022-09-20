@@ -18,10 +18,11 @@ import useDebounce from '../hooks/debounce';
 import PopularQueries from '../components/PopularQueries';
 import MultiCheckboxSelect from '../components/MultiCheckboxSelect';
 import Loader from '../components/Loader';
+import usePagination from "../hooks/pagination";
+import Pagination from "../components/Pagination";
 
 const Catalog = ({routeName}) => {
     const [view, setView] = useUpdateSizeSecond('991px')
-    const {page} = useParams();
     const [searchParams, setSearchParams] = useSearchParams()
     const [districts, setDistricts] = useState([])
     const initialFilters = {
@@ -41,10 +42,11 @@ const Catalog = ({routeName}) => {
     const selectedCity = useSelector(state => state.selectedCity)
     const debouncedFilters = useDebounce(filters, 500)
     const sugData = useRef(null)
+    const catalogPag = usePagination(6)
 
     useEffect(() => {
         window.scrollTo(0, 0)
-    }, [])
+    }, [catalogPag.currentPage])
 
     useEffect(() => {
         getTypesEstate()
@@ -57,19 +59,21 @@ const Catalog = ({routeName}) => {
     }, [])
 
     useEffect(() => {
-        (selectedCity && page) &&
-        getCatalog(page, 6, userId, selectedCity, debouncedFilters)
-            .then(response => setCatalogData({
-                    isLoaded: true,
-                    meta: response.body,
-                    catalog: response.body.data,
-                    foundCount: response.body.meta.total
-                })
+        (selectedCity && catalogPag.currentPage) &&
+        getCatalog(catalogPag.currentPage, 6, userId, selectedCity, debouncedFilters)
+            .then(response => {
+                    setCatalogData({
+                        isLoaded: true,
+                        meta: response.body,
+                        catalog: response.body.data,
+                        foundCount: response.body.meta.total
+                    })
+                }
             )
             .catch((err) => {
                 return err.message
             })
-    }, [page, userId, selectedCity, debouncedFilters])
+    }, [catalogPag.currentPage, userId, selectedCity, debouncedFilters])
 
     useEffect(() => setSearchParams({
         'transactionType': filters.transactionType,
@@ -94,6 +98,11 @@ const Catalog = ({routeName}) => {
             .then(result => result && result.map(item => ({title: item.name, value: item.id})))
             .then(result => setDistricts(result))
     }, [selectedCity])
+
+    const searchButton = useCallback(() => {
+        catalogPag.setStartingPage(1)
+        catalogPag.setCurrentPage(1)
+    }, [])
 
     return (
         <main className={`catalog ${isShowMap ? 'shown-map' : ''}`}>
@@ -125,7 +134,11 @@ const Catalog = ({routeName}) => {
                         options={['Снять', 'Купить']}
                         checkedOptions={[filters.transactionType]}
                         mode='values'
-                        callback={({value}) => onSelectHandler(value, 'transactionType', setFilters)}
+                        callback={({value}) => {
+                            onSelectHandler(value, 'transactionType', setFilters)
+                            catalogPag.setStartingPage(1)
+                            catalogPag.setCurrentPage(1)
+                        }}
                     />
                     <CustomSelect
                         className="sel-2"
@@ -133,7 +146,11 @@ const Catalog = ({routeName}) => {
                         options={estateIds}
                         checkedOptions={[filters.estateId]}
                         mode='values'
-                        callback={({value}) => onSelectHandler(value, 'estateId', setFilters)}
+                        callback={({value}) => {
+                            onSelectHandler(value, 'estateId', setFilters)
+                            catalogPag.setStartingPage(1)
+                            catalogPag.setCurrentPage(1)
+                        }}
                     />
                     <MultiCheckboxSelect
                         modificator='district'
@@ -424,7 +441,7 @@ const Catalog = ({routeName}) => {
                                                     title={catalogItem.title}
                                                     price={catalogItem.price}
                                                     transactionType={catalogItem.transactionType}
-                                                    addressName={catalogItem.residentComplexForUser}
+                                                    residentalComplex={catalogItem.residentalComplexForUser}
                                                     address={catalogItem.address}
                                                     metro={catalogItem.metro}
                                                     text={catalogItem.description}
@@ -448,12 +465,26 @@ const Catalog = ({routeName}) => {
                             }
                         </div>
                         <nav className="mt-4">
-                            {catalogData?.catalog?.length ? <PaginationCustom meta={catalogData.meta} baseUrl='catalog' searchParams={searchParams}/> : null}
+                            {
+                                catalogData?.catalog?.length
+                                ? <Pagination
+                                        pageLimit={catalogPag.pageLimit}
+                                        currentPage={catalogPag.currentPage}
+                                        setCurrentPage={catalogPag.setCurrentPage}
+                                        pagesDisplayedLimit={3}
+                                        itemsAmount={catalogData?.meta?.meta?.total || 0}
+                                        startingPage={catalogPag.startingPage}
+                                        className='mt-4 mt-sm-5'
+                                        setStartingPage={catalogPag.setStartingPage}
+                                    />
+                                : null
+                            }
                         </nav>
                     </div>
                 </div>
             </section>
             <CatalogFilters
+                callback={searchButton}
                 filters={additionalFilters}
                 setFilters={setAdditionalFilters}
                 onResetFilters={onResetFilters}

@@ -2,7 +2,17 @@ import React from 'react'
 import {onInputHandler, onCheckboxHandler, onMultiCheckboxHandler} from '../helpers/collectDataFromForm'
 import OffcanvasFilters from './OffcanvasFilters';
 
-const CatalogFilters = ({filters, setFilters, onResetFilters, onApplyFilters, foundCount, isShowOffcanvasFilters, setIsShowOffcanvasFilters}) => {
+const CatalogFilters = (
+    {
+        filters,
+        setFilters,
+        onResetFilters,
+        onApplyFilters,
+        foundCount,
+        isShowOffcanvasFilters,
+        setIsShowOffcanvasFilters,
+        callback
+    }) => {
     return (
         <>
             <div className="modal fade" id="desktopFilters" tabIndex="-1" aria-hidden="true">
@@ -595,6 +605,7 @@ const CatalogFilters = ({filters, setFilters, onResetFilters, onApplyFilters, fo
                                         onClick={e => {
                                             e.preventDefault()
                                             onApplyFilters()
+                                            callback()
                                         }}
                                     >
                                         ПОКАЗАТЬ
@@ -609,6 +620,7 @@ const CatalogFilters = ({filters, setFilters, onResetFilters, onApplyFilters, fo
             </div>
 
             <OffcanvasFilters
+                callback={callback}
                 className='offcanvas-catalog'
                 isShow={isShowOffcanvasFilters}
                 setIsShow={setIsShowOffcanvasFilters}

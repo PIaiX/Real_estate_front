@@ -42,6 +42,7 @@ export default function AddResponse() {
 
     useEffect(() => {
         userInfo(id).then(res => setUserInf(res))
+        window.scrollTo(0, 0)
     }, [id])
 
     return (

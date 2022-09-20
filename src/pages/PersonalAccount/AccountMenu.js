@@ -19,13 +19,11 @@ export default function AccountMenu() {
   const conversationCount = useSelector(state => state?.conversationCount)
 
   const handleLogout = async () => {
-    const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.LOGOUT}`);
-    if (response && response.status === 200 && localStorage.getItem("fingerprint")) {
-      resetToken();
-      resetCurrentUser();
-      navigate("/");
-      setIsShowModalExit(false)
-    }
+    await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.LOGOUT}`);
+    resetToken();
+    resetCurrentUser();
+    navigate("/");
+    setIsShowModalExit(false)
   };
 
   return (

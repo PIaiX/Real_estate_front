@@ -28,9 +28,7 @@ const AppRouter = () => {
         <Routes>
             <Route exact path="/" element={<AppLayout/>}>
                 <Route index element={<MainPage/>}/>
-                <Route path="catalog" element={<Catalog routeName='Каталог'/>}>
-                    <Route path="page/:page" element={<Catalog/>}/>
-                </Route>
+                <Route path="catalog" element={<Catalog routeName='Каталог'/>}/>
                 <Route path="card-page" element={<CardPage/>}>
                     <Route path=":uuid" element={<CardPage/>}/>
                 </Route>
