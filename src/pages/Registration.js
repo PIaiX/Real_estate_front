@@ -26,7 +26,7 @@ const formErrorDefault = {
     taxIdentificationNumber: ""
 };
 
-const schema = Joi.object({
+const baseSchema = {
     firstName: Joi.string().min(4).max(20).required().messages({
         "string.empty": "Имя не может быть пустым",
         "string.min": `Имя не может быть короче 4 символов`,
@@ -63,7 +63,15 @@ const schema = Joi.object({
         "string.empty": "Подтверждение пароля не может быть пустым",
     }),
     ownerType: Joi.number(),
-    remember: Joi.boolean(),
+    remember: Joi.boolean()
+}
+
+const individualEntitySchema = Joi.object({
+    ...baseSchema
+})
+
+const legalEntitySchema = Joi.object({
+    ...baseSchema,
     taxIdentificationNumber: Joi.string()
         .pattern(/.*[0-9].*/)
         .min(10)
@@ -117,7 +125,12 @@ export default function Entrance() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault()
-        const result = schema.validate(formValue, {abortEarly: false});
+        let result;
+        if(formValue.ownerType === "0"){
+            result = individualEntitySchema.validate(formValue, {abortEarly: false});
+        }else{
+            result = legalEntitySchema.validate(formValue, {abortEarly: false});
+        }
         if (result.error) {
             handleFormErrors(result.error.details);
             return;
@@ -150,8 +163,6 @@ export default function Entrance() {
             });
         });
     };
-
-    console.log(formValue)
 
     return (
         <main className="account py-sm-3 py-md-4 py-lg-5">
