@@ -3,6 +3,9 @@ import {useAccessToken, useCurrentUser} from "../store/reducers";
 import {reportAds} from "../API/adspage";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import {addReportUser, deleteReportUser} from "../API/userspage";
+import {useDispatch} from "react-redux";
+import {bindActionCreators} from "redux";
+import alertActions from "../store/actions/alert";
 
 
 export default function BtnRep(props) {
@@ -17,6 +20,8 @@ export default function BtnRep(props) {
     const [report, setReport] = useState({})
     const [reportUserStatus, setReportUserStatus] = useState(false)
     const [reportAdStatus, setReportAdStatus] = useState(false)
+    const dispatch = useDispatch()
+    const {setAlert} = bindActionCreators(alertActions, dispatch)
 
     useEffect(() => {
         const info = () => {
@@ -41,6 +46,9 @@ export default function BtnRep(props) {
 
     const reportAd = async () => {
             await reportAds(axiosPrivate, report)
+                .catch(() => {
+                setAlert('danger', true, 'Функция доступна авторизованным пользователям')
+            })
             setReportAdStatus(reportAdStatus => !reportAdStatus)
     }
 

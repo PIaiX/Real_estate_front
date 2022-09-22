@@ -2,6 +2,9 @@ import React, {useEffect, useState} from 'react';
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import {useAccessToken, useCurrentUser} from "../store/reducers";
 import {addWishList, deleteWishList} from "../API/adspage";
+import {useDispatch} from "react-redux";
+import {bindActionCreators} from "redux";
+import alertActions from "../store/actions/alert";
 
 export default function BtnFav(props) {
 
@@ -11,6 +14,8 @@ export default function BtnFav(props) {
     const [data, setData] = useState({})
     const [realEstateId, setRealEstateId] = useState([])
     const [wishlistStatus, setWishlistStatus] = useState(false)
+    const dispatch = useDispatch()
+    const {setAlert} = bindActionCreators(alertActions, dispatch)
 
     useEffect(() => {
         if(props?.realEstateId){
@@ -34,6 +39,9 @@ export default function BtnFav(props) {
 
     const addInWishList = async () => {
             await addWishList(data, axiosPrivate)
+                .catch(() => {
+                    setAlert('danger', true, 'Функция доступна авторизованным пользователям')
+                })
             setWishlistStatus(wishlist => !wishlist)
     }
 

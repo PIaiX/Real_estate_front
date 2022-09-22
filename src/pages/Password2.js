@@ -66,7 +66,7 @@ export default function Password2() {
                         <form className="entrance">
                             <h1 className="text-center mb-4 mb-xxl-5">Восстановление пароля</h1>
                             <div className="row align-items-baseline mb-3 mb-sm-4 mb-xxl-5">
-                                <div className="col-sm-3 fs-11 mb-1 mb-sm-0">Пароль:</div>
+                                <div className="col-sm-3 fs-11 mb-1 mb-sm-0">Новый пароль:</div>
                                 <div className="col-sm-9">
                                     <InputPassword
                                         name="pass"
@@ -91,7 +91,7 @@ export default function Password2() {
                                             onSubmit(e)
                                         }}
                                     >
-                                        Восстановить пароль
+                                        Сохранить новый пароль
                                     </button>
                                 </div>
                             </div>
