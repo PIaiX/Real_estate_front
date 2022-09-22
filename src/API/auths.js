@@ -1,9 +1,9 @@
 import axios from "axios";
 import apiRoutes from "./config/apiRoutes";
 
-export const registration = async (formValue, ownerType) => {
+export const registration = async (formValue) => {
     try {
-        await axios.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.REGISTRATION}`, {...formValue, ownerType})
+        await axios.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.REGISTRATION}`, {...formValue})
     } catch (error) {
         throw error
         console.log(error)

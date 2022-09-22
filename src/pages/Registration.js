@@ -147,7 +147,7 @@ export default function Entrance() {
             });
         }
 
-        registration(formValue, ownerType)
+        registration(formValue)
             .then(() => {
                 alert("Форма отправлена")
             })

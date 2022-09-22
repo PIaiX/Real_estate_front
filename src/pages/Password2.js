@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import InputPassword from '../components/InputPassword';
 import {changePassword} from "../API/changePassword";
 import {useDispatch} from "react-redux";
@@ -13,6 +13,7 @@ export default function Password2() {
     const dispatch = useDispatch()
     const {setAlert} = bindActionCreators(alertActions, dispatch)
     const [passwordValidation, setPasswordValidation] = useState('')
+    const navigate = useNavigate()
 
     useEffect(() => {
         setFormValue({
@@ -42,6 +43,7 @@ export default function Password2() {
             changePassword(formValue)
                 .then(() => {
                     setAlert('success', true, 'Пароль успешно изменен, переход на страницу входа')
+                    setTimeout(() => navigate('/login'), 2000)
                 })
                 .catch(() => {
                     setAlert('danger', true, 'Произошла ошибка')
