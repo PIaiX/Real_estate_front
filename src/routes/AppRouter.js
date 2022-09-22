@@ -53,7 +53,7 @@ const AppRouter = () => {
                 <Route path="articles/:slug" element={<ArticlePage routeName='Название статьи'/>}/>
                 <Route path="articles" element={<Articles routeName='Статьи'/>}/>
                 <Route path="password-1" element={<Password1/>}/>
-                <Route path="password-2" element={<Password2/>}/>
+                <Route path="password-2/:token" element={<Password2/>}/>
                 <Route path='catalog-list' element={<CatalogList/>}/>
                 <Route path="wait-account-activation/:uuid" element={<WaitAccountActivation/>}/>
                 <Route path="*" element={<NotFound/>}/>

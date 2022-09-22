@@ -12,7 +12,7 @@ export default function InputPassword(props) {
         type={visible ? "text" : "password"}
         name={props.name}
         autoComplete="current-password"
-        minLength="4"
+        minLength="8"
         maxLength="20"
         size="8"
         required

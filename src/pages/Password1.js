@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import Joi from "joi";
-
 import { Link } from "react-router-dom";
 import FormErrorMessage from "../components/FormErrorMessage";
-import axios from "axios";
-import apiRoutes from "../API/config/apiRoutes";
+import {resetPassword} from "../API/changePassword";
+import {useDispatch} from "react-redux";
+import {bindActionCreators} from "redux";
+import alertActions from "../../src/store/actions/alert"
 
 const schema = Joi.object({
   email: Joi.string()
@@ -23,6 +24,8 @@ const schema = Joi.object({
 export default function Password1() {
   const [formValue, setFormValue] = useState({ email: "" });
   const [formErrors, setFormErrors] = useState({ email: "" });
+  const dispatch = useDispatch()
+  const {setAlert} = bindActionCreators(alertActions, dispatch)
 
   const handleFormChange = (e) => {
     setFormValue((prev) => {
@@ -42,15 +45,15 @@ export default function Password1() {
       return;
     }
 
-    try {
-      const result = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}${apiRoutes.RESET_PASSWORD}/${formValue.email}`,
-        formValue
-      );
-    } catch (error) {
-      setFormErrors(prevState => ({...prevState, email: 'произошла ошибка'}))
-      console.log(error.message)
-    }
+    localStorage.setItem('email', formValue.email)
+
+    resetPassword(formValue.email)
+        .then(() => {
+          setAlert('success', true, 'Письмо отправлено вам на почту, следуйте дальнейшим указаниям, проверьте папку "спам"')
+        })
+        .catch(() => {
+          setAlert('danger', true, 'Произошла ошибка')
+        })
   };
 
   const handleFormErrors = (errors) => {
