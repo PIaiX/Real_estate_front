@@ -55,7 +55,7 @@ const AppRouter = () => {
                 <Route path="password-1" element={<Password1/>}/>
                 <Route path="password-2/:token" element={<Password2/>}/>
                 <Route path='catalog-list' element={<CatalogList/>}/>
-                <Route path="wait-account-activation/:uuid" element={<WaitAccountActivation/>}/>
+                <Route path="waitAccountActivation/:uuid" element={<WaitAccountActivation/>}/>
                 <Route path="*" element={<NotFound/>}/>
             </Route>
         </Routes>
