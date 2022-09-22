@@ -892,7 +892,6 @@ header .container nav a.active, header .container nav a:hover, header .container
   }
 }
 header .logo {
-  max-width: 60px;
   max-height: 30px;
   object-fit: scale-down;
   object-position: center;

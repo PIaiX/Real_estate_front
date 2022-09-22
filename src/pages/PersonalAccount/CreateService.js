@@ -16,7 +16,6 @@ export default function CreateService() {
     const currentToken = useAccessToken()
     const {id} = useParams()
     const navigate = useNavigate()
-    const [deleteId, setDeleteId] = useState(null)
     const [tags, setTags] = useState([])
     const [loadService, setLoadService] = useState({})
     const [servicesType, setServicesType] = useState([])
@@ -29,10 +28,7 @@ export default function CreateService() {
         value: null,
         title: '',
     })
-    const [experienceSelect, setExperienceSelect] = useState({
-        value: null,
-        title: ''
-    })
+
     const [payloads, setPayloads] = useState({})
     const dispatch = useDispatch()
     const {setAlert} = bindActionCreators(alertActions, dispatch)
@@ -62,7 +58,6 @@ export default function CreateService() {
 
     const fields = {
         isInValidServicesTypesSubServiceId: false,
-        isInValidExperienceType: false,
         isInValidDescription: false
     }
 
@@ -72,13 +67,10 @@ export default function CreateService() {
         e.preventDefault()
 
         const isInValidServicesTypesSubServiceId = payloads?.servicesTypesSubServiceId === undefined
-        const isInValidExperienceType = payloads.experienceType === undefined
         const isInValidDescription = payloads.description === undefined || payloads.description.length < 5
 
         if (isInValidServicesTypesSubServiceId) {
             setValid({...valid, isInValidServicesTypesSubServiceId: true})
-        } else if (isInValidExperienceType) {
-            setValid({...valid, isInValidExperienceType: true})
         } else if (isInValidDescription) {
             setValid({...valid, isInValidDescription: true})
         } else {
@@ -110,13 +102,11 @@ export default function CreateService() {
             setPayloads(prevState => ({
                 ...prevState,
                 servicesTypesSubServiceId: loadService.servicesTypesSubServiceId,
-                experienceType: loadService.experienceType,
                 description: loadService.description,
                 experienceTypeForUser: loadService.experienceTypeForUser,
             }))
         }
     }, [loadService, id])
-
 
     useEffect(() => {
         setServiceSelect(servicesType?.find(i => i?.value === loadService?.subService?.servicesTypeId))
@@ -125,18 +115,6 @@ export default function CreateService() {
     useEffect(() => {
         setSubServiceSelect(subServiceType?.find(i => i?.value === loadService?.servicesTypesSubServiceId))
     }, [subServiceType, loadService])
-
-    const expYears = ["Менее 1 года", "До 3 лет", "До 6 лет", "До 10 лет"]
-
-    useEffect(() => {
-        let item = {}
-        expYears.find((i, index) => {
-            if (index === loadService.experienceType) {
-                return item = {title: i, value: index}
-            }
-        })
-        setExperienceSelect(item)
-    }, [loadService])
 
     return (
         <div className="px-2 px-sm-4 px-xxl-5 pb-4 pb-xxl-5">
@@ -180,29 +158,6 @@ export default function CreateService() {
                                 setSubServiceSelect({value, title})
                                 setPayloads(prevState => ({...prevState, servicesTypesSubServiceId: value}))
                                 resetFieldVal(e, 'isInValidServicesTypesSubServiceId')
-                            }}
-                        />
-                    </div>
-                </div>
-                <div className="row align-items-center mb-3 mb-sm-4 mb-xl-5">
-                    <div className="col-sm-4">
-                        <div
-                            className="fs-11 mb-1"
-                            style={{color: valid.isInValidExperienceType ? '#DA1E2A' : ''}}
-                        >
-                            Опыт работы:
-                        </div>
-                    </div>
-                    <div className="col-sm-8">
-                        <CustomSelect
-                            className="w-100 fs-11"
-                            btnClass="inp"
-                            checkedOptions={[experienceSelect?.title]}
-                            options={expYears}
-                            callback={({title, value, e}) => {
-                                setExperienceSelect({value, title})
-                                setPayloads(prevState => ({...prevState, experienceType: value}))
-                                resetFieldVal(e, 'isInValidExperienceType')
                             }}
                         />
                     </div>

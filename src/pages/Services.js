@@ -373,7 +373,6 @@ export default function Services() {
                                         userName={i.user?.fullName}
                                         link={`/user/${i?.userId}`}
                                         photo={i.user.avatar}
-                                        exp={i.experienceTypeForUser}
                                         description={i.description}
                                         labels={i.labels}
                                         phone={i.user.phone}

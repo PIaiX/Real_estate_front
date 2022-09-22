@@ -5,6 +5,9 @@ import Joi from "joi";
 import InputPassword from "../components/InputPassword";
 import FormErrorMessage from "../components/FormErrorMessage";
 import {registration} from "../API/auths";
+import alertActions from "../../src/store/actions/alert"
+import {bindActionCreators} from "redux";
+import {useDispatch} from "react-redux";
 
 const formValueDefault = {
     firstName: "",
@@ -95,6 +98,8 @@ export default function Entrance() {
     const [formValue, setFormValue] = useState(formValueDefault);
     const [ownerType, setOwnerType] = useState(formValueDefault.ownerType);
     const [formErrors, setFormErrors] = useState(formErrorDefault);
+    const dispatch = useDispatch()
+    const {setAlert} = bindActionCreators(alertActions, dispatch)
 
     useEffect(() => {
         if (formValue?.ownerType === '0'){
@@ -146,13 +151,28 @@ export default function Entrance() {
             .then(() => {
                 alert("Форма отправлена")
             })
-            .catch(() => {
-                setFormErrors((prev) => {
-                    return {
-                        ...prev,
-                        email: "Пользователь с текущим адресом эл.почты уже существует",
-                    };
+            .catch((errors) => {
+                const serverErrors = {}
+                errors?.response?.data?.body?.errors?.forEach(error => {
+                    serverErrors[error.field] = error.message
                 })
+                if (serverErrors) {
+                    if (serverErrors.email) {
+                        setFormErrors(prev => ({
+                            ...prev,
+                            email: "Пользователь с текущим адресом эл.почты уже существует",
+                        }))
+                    }
+                    if (serverErrors.taxIdentificationNumber) {
+                        setFormErrors(prev => ({
+                            ...prev,
+                            taxIdentificationNumber: "Пользователь с текущим ИНН уже существует",
+                        }))
+                    }
+                }
+                if (errors?.response?.data?.status === 400) {
+                    setAlert('danger', true, "Произошла ошибка сервера")
+                }
             })
     };
 
@@ -267,7 +287,7 @@ export default function Entrance() {
                                                 placeholder="Название организации"
                                                 className="fs-11"
                                                 name="companyName"
-                                                value={formValue.companyName}
+                                                value={formValue.companyName || ''}
                                                 onChange={handleFormChange}
                                             />
                                             <FormErrorMessage>{formErrors.companyName}</FormErrorMessage>
@@ -280,7 +300,7 @@ export default function Entrance() {
                                                 placeholder="ИНН"
                                                 className="fs-11"
                                                 name="taxIdentificationNumber"
-                                                value={formValue.taxIdentificationNumber}
+                                                value={formValue.taxIdentificationNumber || ''}
                                                 onChange={handleFormChange}
                                             />
                                             <FormErrorMessage>{formErrors.taxIdentificationNumber}</FormErrorMessage>

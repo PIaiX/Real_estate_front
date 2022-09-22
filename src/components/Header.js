@@ -90,7 +90,7 @@ const Header = () => {
             <header>
                 <div className="container">
                     <Link to="/" className="order-1 me-lg-auto">
-                        <img src="/img/Лого.png" alt="Название сайта" className="logo"/>
+                        <img src="/img/icons/logo.svg" alt="Название сайта" className="logo"/>
                     </Link>
                     <nav className="d-none d-lg-flex order-2">
                         <NavLink to="/" className={`${(pathname === '/') ? 'active' : ''}`}>Главная</NavLink>

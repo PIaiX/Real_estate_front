@@ -45,7 +45,6 @@ export default function UserServices() {
                     ? userService.data.map(service => (
                         <ServiceCard
                             servicesTypesSubServiceId={service.servicesTypesSubServiceId}
-                            experienceTypeForUser={service.experienceTypeForUser}
                             description={service.description}
                             key={service.id}
                             id={service.id}

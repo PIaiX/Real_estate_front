@@ -170,7 +170,6 @@ const InWork = () => {
                                             price={item?.price}
                                             priceType={(typeof item?.priceTypeForUser === 'string') && item.priceTypeForUser.toLowerCase()}
                                             description={item?.description}
-                                            experience={(typeof item?.service?.experienceTypeForUser === 'string') && item.service.experienceTypeForUser.toLowerCase()}
                                             rating={item?.user?.rating}
                                             updateData={updateInProcessOwner}
                                             userId={item?.user?.id}
@@ -196,7 +195,6 @@ const InWork = () => {
                                         price={item?.price}
                                         priceType={(typeof item?.priceTypeForUser === 'string') && item.priceTypeForUser.toLowerCase()}
                                         description={item?.description}
-                                        experience={(typeof item?.service?.experienceTypeForUser === 'string') && item.service.experienceTypeForUser.toLowerCase()}
                                         rating={item?.user?.rating}
                                         updateData={updateInProcessExecutor}
                                         userId={item?.user?.id}

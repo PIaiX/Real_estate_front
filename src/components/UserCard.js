@@ -48,7 +48,6 @@ function UserCard(props) {
                 </Link>
             </div>
             <div className="desc mt-2 mt-md-3 mt-xxl-0">
-                <div className="fs-11 gray-2 mb-1 mb-md-2 mb-xxl-3">Опыт работы {props.exp}</div>
                 <div className="text">
                     <p>{props.description}</p>
                 </div>

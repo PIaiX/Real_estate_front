@@ -154,7 +154,6 @@ export default function Responses() {
                                             price={item?.price}
                                             priceType={(typeof item?.priceTypeForUser === 'string') && item.priceTypeForUser.toLowerCase()}
                                             description={item?.description}
-                                            experience={(typeof item?.service?.experienceTypeForUser === 'string') && item.service.experienceTypeForUser.toLowerCase()}
                                             rating={item?.user?.rating}
                                             updateData={updateData}
                                             userId={item?.userId}
@@ -181,7 +180,6 @@ export default function Responses() {
                                             price={item?.price}
                                             priceType={(typeof item?.priceTypeForUser === 'string') && item.priceTypeForUser.toLowerCase()}
                                             description={item?.description}
-                                            experience={(typeof item?.service?.experienceTypeForUser === 'string') && item.service.experienceTypeForUser.toLowerCase()}
                                             rating={item?.user?.rating}
                                             updateData={updateData}
                                             userId={item?.userId}

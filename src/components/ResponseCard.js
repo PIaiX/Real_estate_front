@@ -82,26 +82,25 @@ const ResponseCard = (props) => {
                 </Link>
             </div>
             <div className="desc mt-2 mt-md-3 mt-xxl-0">
-                {(props.experience) && (
-                    <h6 className="fs-11 gray-2 mb-1 mb-md-2 mb-xxl-3">
-                        Опыт работы {props.experience}
-                    </h6>
-                )}
                 {(props.subService) && (
                     <>
-                    <button onClick={() => setIsShowModal(true)} className='button-responses'>{props?.subService?.name}</button>
-                    <CustomModal
-                        isShow={isShowModal}
-                        setIsShow={setIsShowModal}
-                        centered={true}
-                        closeButton={true}
-                    >
-                        <div className='d-flex align-items-center flex-column'>
-                            <div><span className='fs-12 fw-bold'>Услуга:</span> {props?.subService?.name}</div>
-                            <div><span className='fs-12 fw-bold'>Описание:</span> {props?.serviceDes}</div>
-                            {props.description && <div><span className='fs-12 fw-bold'>Сообщение отклика:</span> {props?.description}</div>}
-                        </div>
-                    </CustomModal>
+                        <button onClick={() => setIsShowModal(true)} className='button-responses'>
+                            <h5>{props?.subService?.name}</h5>
+                        </button>
+                        <CustomModal
+                            isShow={isShowModal}
+                            setIsShow={setIsShowModal}
+                            centered={true}
+                            closeButton={true}
+                        >
+                            <div className='d-flex align-items-center flex-column'>
+                                <div><span className='fs-12 fw-bold'>Услуга:</span> {props?.subService?.name}</div>
+                                <div><span className='fs-12 fw-bold'>Описание:</span> {props?.serviceDes}</div>
+                                {props.description &&
+                                    <div><span className='fs-12 fw-bold'>Сообщение отклика:</span> {props?.description}
+                                    </div>}
+                            </div>
+                        </CustomModal>
                     </>
                 )}
                 {props.description &&
