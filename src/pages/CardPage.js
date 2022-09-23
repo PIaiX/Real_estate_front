@@ -18,6 +18,9 @@ import {bindActionCreators} from "redux";
 import alertActions from "../store/actions/alert"
 import {checkPhotoPath} from '../helpers/photo';
 import YMap from '../components/YMap';
+import ImageUploading from "react-images-uploading";
+import CustomSelect from "../components/CustomSelect";
+import {userInfo} from "../API/users";
 
 SwiperCore.use([Navigation, Thumbs, EffectFade]);
 
@@ -25,20 +28,39 @@ export default function CardPage() {
 
     const [pageTop, setPageTop] = useState(false);
     const [ads, setAds] = useState({})
-    const [recommend, setRecommend] = useState([])
     const {uuid} = useParams()
     const user = useCurrentUser()
     const userId = user?.id
-    const city = useSelector(state => state?.selectedCity)
-
+    const [isShowResponseModal, setIsShowResponseModal] = useState(false)
+    const [images, setImages] = React.useState([]);
+    const maxNumber = 69;
+    const [responseData, setResponseData] = useState({})
+    const [userInformation, setUserInformation] = useState({})
+    const onChange = (imageList, addUpdateIndex) => {
+        // data for submit
+        console.log(imageList, addUpdateIndex);
+        setImages(imageList);
+    };
     // write message modal
     const [isShowWriteMessageModal, setIsShowWriteMessageModal] = useState(false)
     const [messageInput, setMessageInput] = useState('')
     const [messageInputError, setMessageInputError] = useState('')
-
     // alert actions
     const dispatch = useDispatch()
     const {setAlert} = bindActionCreators(alertActions, dispatch)
+    const [userServices, setUserServices] = useState([])
+    const [selectedServices, setSelectedServices] = useState({
+        value: '',
+        title: ''
+    })
+
+    useEffect(() => {
+        user &&
+        userInfo(user?.id)
+            .then(res => {
+                setUserInformation(res)
+            })
+    }, [user])
 
     useEffect(() => {
         getAdsPage(uuid, userId).then(res => setAds(res))
@@ -46,18 +68,10 @@ export default function CardPage() {
     }, [])
 
     useEffect(() => {
-        const recommend = async () => {
-            try {
-                const result = userId && await getRecommend(userId, 6, city)
-                if (result) {
-                    setRecommend(result)
-                }
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        recommend()
-    }, [userId])
+        setUserServices(userInformation?.services?.map(service => ({value: service?.id, title: service?.subService?.name})))
+    }, [userInformation])
+
+    console.log(userServices)
 
     useEffect(() => {
         function updateScroll() {
@@ -76,7 +90,7 @@ export default function CardPage() {
 
     const sait = 'https://api.antontig.beget.tech/uploads/';
 
-    const images = [].concat(ads?.image, ads?.images?.map(i => i?.image)).map(i => i ? `${sait}${i}` : '/img/nophoto.jpg')
+    const imagesAd = [].concat(ads?.image, ads?.images?.map(i => i?.image)).map(i => i ? `${sait}${i}` : '/img/nophoto.jpg')
 
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const [currentImage, setCurrentImage] = useState(0);
@@ -151,6 +165,8 @@ export default function CardPage() {
         return <span>{ads?.title} м<sup>2</sup></span>
     }
 
+    console.log(selectedServices)
+
     return (
         <main>
             <div className={(pageTop) ? "card-page-top py-2 d-md-none" : "card-page-top d-none py-2"}>
@@ -221,7 +237,7 @@ export default function CardPage() {
                                     }}
                             >
                                 {
-                                    images.map((src, i) => (
+                                    imagesAd.map((src, i) => (
                                         <SwiperSlide key={'main-img-' + i}>
                                             <img
                                                 className="main-slider-img"
@@ -269,7 +285,7 @@ export default function CardPage() {
 
                             {isViewerOpen && (
                                 <ImageViewer
-                                    src={images}
+                                    src={imagesAd}
                                     currentIndex={currentImage}
                                     disableScroll={false}
                                     closeOnClickOutside={true}
@@ -318,7 +334,7 @@ export default function CardPage() {
                                 }}
                             >
                                 {
-                                    images.map((src, index) => (
+                                    imagesAd.map((src, index) => (
                                         <SwiperSlide key={'thumb-img-' + index}>
                                             <img
                                                 src={src}
@@ -383,6 +399,15 @@ export default function CardPage() {
                                         <img src={checkPhotoPath(ads?.user?.avatar)} alt={ads?.user?.fullName}/>
                                     </div>
                                     <ShowPhone className="mt-4 fs-15" phone={ads?.user?.phoneForUser}/>
+                                    <button
+                                        type='button'
+                                        className='btn btn-2 w-100 fs-15 px-3 mt-2 mt-xl-3'
+                                        onClick={() => {
+                                            setIsShowResponseModal(true)
+                                        }}
+                                    >
+                                        Откликнуться
+                                    </button>
                                     <button
                                         type="button"
                                         className="btn btn-1 w-100 fs-15 px-3 mt-2 mt-xl-3"
@@ -652,20 +677,11 @@ export default function CardPage() {
             </section>
 
             <section className="sec-4 container mb-6">
-                <h3>Похожие объявления</h3>
+                <h3>Отклики исполнителей</h3>
                 <div className="position-relative">
                     <Slider1/>
                 </div>
             </section>
-
-            {!(recommend === undefined || recommend?.length === 0) &&
-                <section className="sec-4 container mb-6">
-                    <h3>Рекомендованные Вам</h3>
-                    <div className="position-relative">
-                        <Slider1 recommend={recommend}/>
-                    </div>
-                </section>
-            }
 
             <CustomModal
                 isShow={isShowWriteMessageModal}
@@ -704,6 +720,106 @@ export default function CardPage() {
                             ОТПРАВИТЬ
                         </button>
                     </div>
+                </form>
+            </CustomModal>
+            <CustomModal
+                isShow={isShowResponseModal}
+                setIsShow={setIsShowResponseModal}
+                closeButton
+                size='lg'
+            >
+                <form>
+                    <div className='text-capitalize'>
+                        <div>
+                            Предостовляемая услуга:
+                        </div>
+                        <CustomSelect
+                            checkedOptions={[selectedServices?.title]}
+                            options={userServices}
+                            callback={({value, title}) => setSelectedServices({value, title})}
+                        />
+                    </div>
+                    <div>
+                        <div>
+                            Комментарий:
+                        </div>
+                        <textarea
+                            onChange={(e) => {
+                                setResponseData(prevState => ({...prevState, description: e.target.value}))
+                            }}
+                        />
+                    </div>
+                    <div>
+                        Примеры работ:
+                    </div>
+                    <ImageUploading
+                        multiple
+                        value={images}
+                        onChange={onChange}
+                        maxNumber={maxNumber}
+                        dataURLKey="data_url"
+                        acceptType={['JPG', 'JPEG', 'PNG', 'WEBP']}
+                    >
+                        {({
+                              imageList,
+                              onImageUpdate,
+                              onImageRemove,
+                              onImageUpload,
+                              dragProps,
+                              onImageRemoveAll
+                          }) => (
+                            // write your building UI
+                            <div className="upload__image-wrapper">
+                                <div className='imgs-box'>
+                                    {imageList.map((image, index) => (
+                                        <div key={index} className="image-item">
+                                            <img src={image['data_url']} alt="" width="100" />
+                                            <div className="image-item__btn-wrapper">
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.preventDefault()
+                                                        onImageUpdate(index)
+                                                    }}
+                                                >
+                                                    Изменить
+                                                </button>
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.preventDefault()
+                                                        onImageRemove(index)
+                                                    }}
+                                                >
+                                                    Удалить
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="d-flex justify-content-between">
+                                    <button type="button"
+                                            className="btn btn-1 px-3 px-sm-4 me-3 me-sm-4"
+                                            onClick={onImageUpload}
+                                            {...dragProps}
+                                    >
+                                        <svg width="21" height="21" viewBox="0 0 21 21" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <line x1="10.75" x2="10.75" y2="21" stroke="white"
+                                                  strokeWidth="1.5"/>
+                                            <line y1="10.25" x2="21" y2="10.25" stroke="white"
+                                                  strokeWidth="1.5"/>
+                                        </svg>
+                                        <span className="ms-2">Добавить фото</span>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={onImageRemoveAll}
+                                    >
+                                        Удалить все
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </ImageUploading>
                 </form>
             </CustomModal>
         </main>

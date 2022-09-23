@@ -41,7 +41,7 @@ export default function MainPage() {
     const [cards, setCards] = useState([])
 
     useEffect(() => {
-        getForMap(city).then(items => setMapData(items))
+        city && getForMap(city).then(items => setMapData(items))
     }, [city])
 
     useEffect(() => {

@@ -35,6 +35,7 @@ export default {
     // realEstates - general
     GET_ESTATE_TYPES: '/realEstates/types',
     GET_FOR_MAP: '/realEstates/getForMap',
+    CREATE_ESTATE_RESPONSE: '/responses/create/realEstate',
 
     //profile
     USER_UPDATE: '/user/update',
@@ -67,6 +68,6 @@ export default {
     RESPONSES_COMPLETED: '/responses/completed',
     RESPONSES_ACCEPT: '/responses/accept',
     RESPONSES_COMPLETE: '/responses/complete',
-    RESPONSES_ACTIONS: '/responses'
-
+    RESPONSES_ACTIONS: '/responses',
+    RESPONSES_CREATE: '/responses/create/service'
 }

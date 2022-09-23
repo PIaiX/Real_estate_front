@@ -47,7 +47,7 @@ const getCompletedResponses = async (axiosPrivate, userId, payloads) => {
 
 const createResponse = async (axiosPrivate, token, payloads) => {
     try {
-        const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.RESPONSES_ACTIONS}`, {token, ...payloads})
+        const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.RESPONSES_CREATE}`, {token, ...payloads})
         return response?.data
     } catch (error) {
         console.log(error)
