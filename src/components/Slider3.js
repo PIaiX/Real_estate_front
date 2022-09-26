@@ -1,10 +1,20 @@
-import React from 'react';
-import {Swiper, SwiperSlide} from "swiper/swiper-react";
-import Card from "./Card";
+import React, {useEffect, useState} from 'react';
+import CardUserResponse from "./CardUserResponse";
+import {Swiper, SwiperSlide} from "swiper/react";
 
 const Slider3 = (props) => {
 
+    const [responses, setResponses] = useState({
+        items: [],
+        meta: {}
+    })
 
+    useEffect(() => {
+        props.responses && setResponses({
+            items: props.responses.data,
+            meta: props.responses.meta
+        })
+    }, [props.responses])
 
     return (
         <Swiper
@@ -39,22 +49,16 @@ const Slider3 = (props) => {
                 prevEl: '.swiper-button-prev',
             }}
         >
-            {popular?.map((popular) =>
-                <SwiperSlide key={popular.id}>
-                    <Card
-                        id={recommend.id}
-                        wishlistStatus={recommend.wishlistStatus}
-                        uuid={recommend.uuid}
-                        pictures={[popular.image, popular.images]}
-                        isVip={popular.isVip}
-                        isHot={popular.isHot}
-                        title={popular.title}
-                        price={popular.price}
-                        addressName={popular.residentComplexForUser}
-                        address={popular.address}
-                        metro={popular.metro}
-                        text={popular.description}
-                        date={popular.createdAtForUser}
+            {responses?.items?.map((response) =>
+                <SwiperSlide key={response.id}>
+                    <CardUserResponse
+                        userId={response.user.id}
+                        userName={response.user.fullName}
+                        rating={response.user.rating}
+                        avatar={response.user.avatar}
+                        subService={response.service.subService}
+                        serviceDes={response.service.description}
+                        description={response.description}
                     />
                 </SwiperSlide>
             )}

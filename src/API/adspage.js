@@ -57,10 +57,10 @@ export async function createAdResponse(axiosPrivate, formData) {
     }
 }
 
-export async function getResponsesAd(realEstateId){
+export async function getResponsesAd(realEstateId, token, page = 1){
     try {
-        const response = axios.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.ADS_ACTIONS}/${realEstateId}`)
-        return response?.data?.body?.data
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.GET_RESPONSES_AD}/${realEstateId}`, {token, page})
+        return response.data.body
     } catch (error) {
         throw error
         console.log(error)

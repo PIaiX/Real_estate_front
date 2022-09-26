@@ -12,6 +12,7 @@ export default {
     ADS_ACTIONS_WISHLIST: '/realEstates/wishlist',
     ADS_REPORT: '/realEstates/reports',
     CREATE_AD: '/realEstates/create',
+    GET_RESPONSES_AD: '/responses/realEstate',
 
     //catalog
     GET_CATALOG: '/realEstates/paginate',

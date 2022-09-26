@@ -1,17 +1,15 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {NavLink, useParams} from 'react-router-dom';
-import {Slider1} from '../components/Slider1';
 import BtnFav from '../components/BtnFav';
 import ShowPhone from '../components/ShowPhone';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import SwiperCore, {EffectFade, Navigation, Thumbs} from 'swiper';
 import ImageViewer from 'react-simple-image-viewer';
 import {createAdResponse, getAdsPage, getResponsesAd} from "../API/adspage";
-import {getRecommend} from "../API/mainpagereq";
 import {useAccessToken, useCurrentUser} from "../store/reducers";
 import BtnRep from "../components/BtnRep";
 import Breadcrumbs from '../components/Breadcrumbs';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import CustomModal from '../components/CustomModal';
 import {emitCreateWithRealEstateTopicMessage} from '../API/socketConversations';
 import {bindActionCreators} from "redux";
@@ -22,6 +20,7 @@ import ImageUploading from "react-images-uploading";
 import CustomSelect from "../components/CustomSelect";
 import {userInfo} from "../API/users";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import Slider3 from "../components/Slider3";
 
 SwiperCore.use([Navigation, Thumbs, EffectFade]);
 
@@ -55,11 +54,7 @@ export default function CardPage() {
     const [userServices, setUserServices] = useState([])
     const axiosPrivate = useAxiosPrivate()
     const [isValidService, setIsValidService] = useState(false)
-    const [responsesAd, setResponsesAd] = useState({
-        isLoaded: false,
-        items: [],
-        meta: {}
-    })
+    const [responsesAd, setResponsesAd] = useState({})
 
     useEffect(() => {
         user &&
@@ -97,17 +92,11 @@ export default function CardPage() {
     }, []);
 
     useEffect(() => {
-        ads?.uuid && getResponsesAd(ads?.uuid)
+        ads?.id && getResponsesAd(ads?.id, token)
             .then((res) => {
-                console.log(res)
-                setResponsesAd({
-                    isLoaded: true,
-                    items: res.data,
-                    meta: res?.meta
-                })
+                setResponsesAd(res)
             })
-            .catch()
-    }, [ads?.uuid])
+    }, [ads?.id])
 
     const sait = 'https://api.antontig.beget.tech/uploads/';
 
@@ -126,6 +115,10 @@ export default function CardPage() {
         setCurrentImage(0);
         setIsViewerOpen(false);
     };
+
+    useEffect(() => {
+        ads?.id && setResponseData(prevState => ({...prevState, realEstateId: ads?.id}))
+    }, [ads?.id])
 
     const [roomsType, setRoomsType] = useState('')
 
@@ -207,7 +200,7 @@ export default function CardPage() {
             createAdResponse(axiosPrivate, formData, token)
                 .then(() => {
                     setIsShowResponseModal(false)
-                    setResponseData({token, userId})
+                    setResponseData({token, userId, realEstateId: ads?.id})
                     setImages([])
                     setTimeout(() => {setAlert('success', true, 'Отклик успешно отправлен')}, 500)
 
@@ -730,7 +723,7 @@ export default function CardPage() {
             <section className="sec-4 container mb-6">
                 <h3>Отклики исполнителей</h3>
                 <div className="position-relative">
-                    <Slider1/>
+                    <Slider3 responses={responsesAd}/>
                 </div>
             </section>
 
