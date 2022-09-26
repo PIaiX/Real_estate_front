@@ -390,6 +390,30 @@ select {
   height: 1em;
   object-fit: contain;
 }
+.upload__image-wrapper .imgs-box .image-item__btn-wrapper-in-response {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.44);
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  transition: 0.2s ease;
+  color: #fff;
+  opacity: 1;
+}
+.upload__image-wrapper .imgs-box .image-item__btn-wrapper-in-response button {
+  height: 2em;
+}
+.upload__image-wrapper .imgs-box .image-item__btn-wrapper-in-response button.main-img {
+  width: 100%;
+  font-size: 0.8em;
+}
+.upload__image-wrapper .imgs-box .image-item__btn-wrapper-in-response button img {
+  width: 1em;
+  height: 1em;
+  object-fit: contain;
+}
 .upload__image-wrapper .imgs-box .image-item .mark {
   position: absolute;
   bottom: 0px;
@@ -4641,6 +4665,14 @@ footer nav.mobile ul li a.active svg.type-2 path {
 }
 .custom-select_prepayment {
   max-width: 13em;
+}
+.custom-select_create-response-ad {
+  border: 1px solid #BDBDBD;
+  padding: 0.5em;
+  border-radius: 5px;
+}
+.custom-select_create-response-ad button div {
+  text-transform: capitalize;
 }
 .custom-select .dropdown-toggle::after {
   content: unset;

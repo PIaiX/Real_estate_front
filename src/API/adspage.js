@@ -47,3 +47,22 @@ export async function reportAds(axiosPrivate, report) {
         console.log(error)
     }
 }
+
+export async function createAdResponse(axiosPrivate, formData) {
+    try {
+        await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.CREATE_ESTATE_RESPONSE}`, formData)
+    } catch (error) {
+        throw error
+        console.log(error)
+    }
+}
+
+export async function getResponsesAd(realEstateId){
+    try {
+        const response = axios.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.ADS_ACTIONS}/${realEstateId}`)
+        return response?.data?.body?.data
+    } catch (error) {
+        throw error
+        console.log(error)
+    }
+}

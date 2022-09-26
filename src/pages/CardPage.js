@@ -6,9 +6,9 @@ import ShowPhone from '../components/ShowPhone';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import SwiperCore, {EffectFade, Navigation, Thumbs} from 'swiper';
 import ImageViewer from 'react-simple-image-viewer';
-import {getAdsPage} from "../API/adspage";
+import {createAdResponse, getAdsPage, getResponsesAd} from "../API/adspage";
 import {getRecommend} from "../API/mainpagereq";
-import {useCurrentUser} from "../store/reducers";
+import {useAccessToken, useCurrentUser} from "../store/reducers";
 import BtnRep from "../components/BtnRep";
 import Breadcrumbs from '../components/Breadcrumbs';
 import {useDispatch, useSelector} from "react-redux";
@@ -21,11 +21,13 @@ import YMap from '../components/YMap';
 import ImageUploading from "react-images-uploading";
 import CustomSelect from "../components/CustomSelect";
 import {userInfo} from "../API/users";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 SwiperCore.use([Navigation, Thumbs, EffectFade]);
 
 export default function CardPage() {
 
+    const token = useAccessToken()
     const [pageTop, setPageTop] = useState(false);
     const [ads, setAds] = useState({})
     const {uuid} = useParams()
@@ -33,12 +35,14 @@ export default function CardPage() {
     const userId = user?.id
     const [isShowResponseModal, setIsShowResponseModal] = useState(false)
     const [images, setImages] = React.useState([]);
-    const maxNumber = 69;
-    const [responseData, setResponseData] = useState({})
+    const maxNumber = 5;
+    const [responseData, setResponseData] = useState({
+        userId,
+        token
+    })
     const [userInformation, setUserInformation] = useState({})
     const onChange = (imageList, addUpdateIndex) => {
         // data for submit
-        console.log(imageList, addUpdateIndex);
         setImages(imageList);
     };
     // write message modal
@@ -49,9 +53,12 @@ export default function CardPage() {
     const dispatch = useDispatch()
     const {setAlert} = bindActionCreators(alertActions, dispatch)
     const [userServices, setUserServices] = useState([])
-    const [selectedServices, setSelectedServices] = useState({
-        value: '',
-        title: ''
+    const axiosPrivate = useAxiosPrivate()
+    const [isValidService, setIsValidService] = useState(false)
+    const [responsesAd, setResponsesAd] = useState({
+        isLoaded: false,
+        items: [],
+        meta: {}
     })
 
     useEffect(() => {
@@ -68,10 +75,11 @@ export default function CardPage() {
     }, [])
 
     useEffect(() => {
-        setUserServices(userInformation?.services?.map(service => ({value: service?.id, title: service?.subService?.name})))
+        setUserServices(userInformation?.services?.map(service => ({
+            value: service?.id,
+            title: service?.subService?.name
+        })))
     }, [userInformation])
-
-    console.log(userServices)
 
     useEffect(() => {
         function updateScroll() {
@@ -87,6 +95,19 @@ export default function CardPage() {
         updateScroll();
         return () => window.removeEventListener('scroll', updateScroll);
     }, []);
+
+    useEffect(() => {
+        ads?.uuid && getResponsesAd(ads?.uuid)
+            .then((res) => {
+                console.log(res)
+                setResponsesAd({
+                    isLoaded: true,
+                    items: res.data,
+                    meta: res?.meta
+                })
+            })
+            .catch()
+    }, [ads?.uuid])
 
     const sait = 'https://api.antontig.beget.tech/uploads/';
 
@@ -165,7 +186,37 @@ export default function CardPage() {
         return <span>{ads?.title} м<sup>2</sup></span>
     }
 
-    console.log(selectedServices)
+    useEffect(() => {
+        if (responseData?.serviceId !== undefined) {
+            setIsValidService(false)
+        }
+    }, [responseData?.serviceId])
+
+    const onSubmitInModal = (e) => {
+        e.preventDefault()
+        if (responseData?.serviceId === undefined) {
+            setIsValidService(true)
+        } else {
+            const formData = new FormData()
+            for (const key in responseData) {
+                formData.append(key, responseData[key])
+            }
+            images.forEach(image => {
+                formData.append('images[]', image.file)
+            })
+            createAdResponse(axiosPrivate, formData, token)
+                .then(() => {
+                    setIsShowResponseModal(false)
+                    setResponseData({token, userId})
+                    setImages([])
+                    setTimeout(() => {setAlert('success', true, 'Отклик успешно отправлен')}, 500)
+
+                })
+                .catch(() => {
+                    setAlert('danger', true, 'Произошла ошибка')
+                })
+        }
+    }
 
     return (
         <main>
@@ -729,18 +780,21 @@ export default function CardPage() {
                 size='lg'
             >
                 <form>
-                    <div className='text-capitalize'>
-                        <div>
-                            Предостовляемая услуга:
+                    <div className='text-capitalize mt-4 mb-4'>
+                        <div className='fw-bold' style={{color: `${isValidService ? '#DA1E2A' : ''}`}}>
+                            Предостовляемая услуга*:
                         </div>
                         <CustomSelect
-                            checkedOptions={[selectedServices?.title]}
+                            className='custom-select_create-response-ad'
+                            checkedOptions={[responseData?.title]}
                             options={userServices}
-                            callback={({value, title}) => setSelectedServices({value, title})}
+                            callback={({value, title}) => {
+                                setResponseData(prevState => ({...prevState, serviceId: value, title}))
+                            }}
                         />
                     </div>
-                    <div>
-                        <div>
+                    <div className='mt-4 mb-4'>
+                        <div className='fw-bold'>
                             Комментарий:
                         </div>
                         <textarea
@@ -749,77 +803,89 @@ export default function CardPage() {
                             }}
                         />
                     </div>
-                    <div>
-                        Примеры работ:
-                    </div>
-                    <ImageUploading
-                        multiple
-                        value={images}
-                        onChange={onChange}
-                        maxNumber={maxNumber}
-                        dataURLKey="data_url"
-                        acceptType={['JPG', 'JPEG', 'PNG', 'WEBP']}
-                    >
-                        {({
-                              imageList,
-                              onImageUpdate,
-                              onImageRemove,
-                              onImageUpload,
-                              dragProps,
-                              onImageRemoveAll
-                          }) => (
-                            // write your building UI
-                            <div className="upload__image-wrapper">
-                                <div className='imgs-box'>
-                                    {imageList.map((image, index) => (
-                                        <div key={index} className="image-item">
-                                            <img src={image['data_url']} alt="" width="100" />
-                                            <div className="image-item__btn-wrapper">
-                                                <button
-                                                    onClick={(e) => {
-                                                        e.preventDefault()
-                                                        onImageUpdate(index)
-                                                    }}
-                                                >
-                                                    Изменить
-                                                </button>
-                                                <button
-                                                    onClick={(e) => {
-                                                        e.preventDefault()
-                                                        onImageRemove(index)
-                                                    }}
-                                                >
-                                                    Удалить
-                                                </button>
+
+                    <div className='mt-4 mb-4'>
+                        <div className='fw-bold'>
+                            Примеры работ:
+                        </div>
+                        <ImageUploading
+                            multiple
+                            value={images}
+                            onChange={onChange}
+                            maxNumber={maxNumber}
+                            dataURLKey="data_url"
+                            acceptType={['JPG', 'JPEG', 'PNG']}
+                        >
+                            {({
+                                  imageList,
+                                  onImageUpdate,
+                                  onImageRemove,
+                                  onImageUpload,
+                                  dragProps,
+                                  onImageRemoveAll
+                              }) => (
+                                // write your building UI
+                                <div className="upload__image-wrapper">
+                                    <div className='imgs-box'>
+                                        {imageList.map((image, index) => (
+                                            <div key={index} className="image-item">
+                                                <img src={image['data_url']} alt="" width="100"/>
+                                                <div className="image-item__btn-wrapper-in-response">
+                                                    <button
+                                                        onClick={(e) => {
+                                                            e.preventDefault()
+                                                            onImageUpdate(index)
+                                                        }}
+                                                    >
+                                                        Изменить
+                                                    </button>
+                                                    <button
+                                                        onClick={(e) => {
+                                                            e.preventDefault()
+                                                            onImageRemove(index)
+                                                        }}
+                                                    >
+                                                        Удалить
+                                                    </button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        ))}
+                                    </div>
+                                    <div className="d-flex justify-content-between">
+                                        <button type="button"
+                                                className="btn btn-1 px-3 px-sm-4 me-3 me-sm-4"
+                                                onClick={onImageUpload}
+                                                {...dragProps}
+                                        >
+                                            <svg width="21" height="21" viewBox="0 0 21 21" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <line x1="10.75" x2="10.75" y2="21" stroke="white"
+                                                      strokeWidth="1.5"/>
+                                                <line y1="10.25" x2="21" y2="10.25" stroke="white"
+                                                      strokeWidth="1.5"/>
+                                            </svg>
+                                            <span className="ms-2">Добавить фото</span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={onImageRemoveAll}
+                                        >
+                                            Удалить все
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="d-flex justify-content-between">
-                                    <button type="button"
-                                            className="btn btn-1 px-3 px-sm-4 me-3 me-sm-4"
-                                            onClick={onImageUpload}
-                                            {...dragProps}
-                                    >
-                                        <svg width="21" height="21" viewBox="0 0 21 21" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <line x1="10.75" x2="10.75" y2="21" stroke="white"
-                                                  strokeWidth="1.5"/>
-                                            <line y1="10.25" x2="21" y2="10.25" stroke="white"
-                                                  strokeWidth="1.5"/>
-                                        </svg>
-                                        <span className="ms-2">Добавить фото</span>
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={onImageRemoveAll}
-                                    >
-                                        Удалить все
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-                    </ImageUploading>
+                            )}
+                        </ImageUploading>
+                        <div>
+                            <span className="fs-08 gray-3 mt-2">Не больше 5 фото, форматы: JPG, JPEG, PNG</span>
+                        </div>
+                    </div>
+                    <button
+                        className='btn btn-1 w-100 fs-15 px-3 mt-2 mt-xl-3'
+                        onClick={(e) => onSubmitInModal(e)}
+                    >
+                        Отправить
+                    </button>
                 </form>
             </CustomModal>
         </main>

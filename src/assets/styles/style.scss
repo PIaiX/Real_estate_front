@@ -453,6 +453,34 @@ select {
         }
       }
 
+      &__btn-wrapper-in-response {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, .44);
+        z-index: 2;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        transition: .2s ease;
+        color: #fff;
+        opacity: 1;
+
+        button {
+          height: 2em;
+
+          &.main-img {
+            width: 100%;
+            font-size: .8em;
+          }
+
+          img {
+            width: 1em;
+            height: 1em;
+            object-fit: contain;
+          }
+        }
+      }
+
       .mark {
         position: absolute;
         bottom: 0px;
@@ -4832,7 +4860,6 @@ footer {
   max-width: 100%;
   position: relative;
 
-
   &__toggle {
     width: 100%;
     position: relative;
@@ -4886,6 +4913,17 @@ footer {
 
   &_prepayment {
     max-width: 13em;
+  }
+
+  &_create-response-ad {
+    border: 1px solid $gray-4;
+    padding: 0.5em;
+    border-radius: 5px;
+    button {
+      div {
+        text-transform: capitalize;
+      }
+    }
   }
 
   .dropdown-toggle::after {
