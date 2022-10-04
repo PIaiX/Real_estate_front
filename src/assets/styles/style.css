@@ -5142,4 +5142,20 @@ footer nav.mobile ul li a.active svg.type-2 path {
   overflow: hidden;
 }
 
+.slider-in-responses {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.slider-in-responses .swiper-responses {
+  display: flex;
+  width: inherit;
+  height: 350px;
+}
+
+.commercial {
+  word-break: break-word;
+}
+
 /*# sourceMappingURL=style.css.map */

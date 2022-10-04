@@ -5436,3 +5436,19 @@ footer {
     }
   }
 }
+
+.slider-in-responses {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .swiper-responses {
+    display: flex;
+    width: inherit;
+    height: 350px;
+  }
+}
+
+.commercial {
+  word-break: break-word;
+}

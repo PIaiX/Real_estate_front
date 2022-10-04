@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {NavLink, useNavigate} from 'react-router-dom';
 import ImageUploading from "react-images-uploading";
 import CustomSelect from '../components/CustomSelect';
@@ -6,62 +6,24 @@ import Scroll, {animateScroll as scroll, Link} from 'react-scroll';
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import {useAccessToken, useCurrentUser} from "../store/reducers";
 import {getTypesEstate} from "../API/typesEstate";
-import {AddressSuggestions} from "react-dadata";
 import CustomModal from "../components/CustomModal";
-import env from '../config/env'
 import {dadataFias} from '../API/dadata';
 import {useDispatch, useSelector} from 'react-redux';
 import {addAdvertise} from "../API/config/advertise";
 import {bindActionCreators} from "redux";
 import actionsAlert from "../store/actions/alert"
-
-const fields = {
-    isInValidEstateId: false,
-    isInValidTransactionType: false,
-    isInValidRentalTypes: false,
-    isInValidAddress: false,
-    isInValidHouseType: false,
-    isInValidRoomType: false,
-    isInValidTotalArea: false,
-    isInValidLivingArea: false,
-    isInValidKitchenArea: false,
-    isInValidFloor: false,
-    isInValidMaxFloor: false,
-    isInValidDescription: false,
-    isInValidImage: false,
-    isInValidPrice: false,
-    isInValidEstateTypeId: false,
-    isInValidYear: false,
-    isInValidCeilingHeight: false,
-    isInValidPrepayment: false,
-    isInValidCommission: false
-}
-
-const defaultForm = {
-    transactionType: 1,
-    rentalType: 0,
-    isPledge: false,
-    prepaymentType: 0,
-    houseType: 0,
-    WCType: 0,
-    balconyType: 0,
-    layoutType: 0,
-    repairType: 0,
-    houseBuildingType: 0,
-    elevatorType: 0,
-    roomType: 2,
-    hypothec: 1,
-    estateId: 0,
-    pledge: 0,
-    commission: 0,
-    isEncumbrances: 1,
-    metro: 'test',
-    address: '',
-    residentalComplex: '',
-    description: '',
-    yearOfConstruction: '',
-    ceilingHeight: '',
-}
+import AboutResidential from "../components/advertiseComponents/AboutResidential";
+import AboutCommercial from "../components/advertiseComponents/AboutCommercial";
+import AboutParking from "../components/advertiseComponents/AboutParking";
+import AboutStead from "../components/advertiseComponents/AboutStead";
+import AboutBuildingResidential from "../components/advertiseComponents/AboutBuildingResidential";
+import AboutBuildingCommercial from "../components/advertiseComponents/AboutBuildingCommercial";
+import AboutBuildingParking from "../components/advertiseComponents/AboutBuildingParking";
+import AdTypeResidential from "../components/advertiseComponents/AdTypeResidential";
+import AdTypeCommercial from "../components/advertiseComponents/AdTypeCommercial";
+import {AddressSuggestions} from "react-dadata";
+import env from "../config/env";
+import {fields} from "../components/advertiseComponents/fields";
 
 export default function Advertise() {
 
@@ -84,7 +46,12 @@ export default function Advertise() {
     const token = useAccessToken()
     const currentUser = useCurrentUser()
     const [district, setDistrict] = useState({})
-    const [data, setData] = useState(defaultForm)
+    const [data, setData] = useState({
+        transactionType: '1',
+        pledge: 0,
+        commission: 0,
+        rentalPeriod: 0,
+    })
     const [prepTypeText, setPrepTypeText] = useState('')
     const [valid, setValid] = useState(fields);
     const scroller = Scroll.scroller;
@@ -140,12 +107,11 @@ export default function Advertise() {
                 city,
                 name: res?.suggestions[0]?.data?.city_district
             }))
-    }, [data.address])
+    }, [data?.address])
 
     const onChange = (imageList, addUpdateIndex, e) => {
         resetFieldVal(e, 'isInValidImage')
         setImages(imageList);
-
     };
 
     const onRent = (e) => {
@@ -165,7 +131,6 @@ export default function Advertise() {
     }
 
     const resetForm = () => {
-        setData(defaultForm)
         setImages([])
     }
 
@@ -192,11 +157,15 @@ export default function Advertise() {
         const isInValidMaxFloor = data?.maxFloor < 0;
         const isInValidDescription = data.description?.length < 30 || data.description === undefined
         const isInValidImage = imgs?.length === 0 || imgs === undefined || imgs?.length === 1
-        const isInValidPrice = data.price === undefined
+        const isInValidPrice = data.price === undefined || data?.price < 0
         const isInValidEstateTypeId = data.estateTypeId === undefined || data.estateTypeId === 0
-        const isInValidYear = data.yearOfConstruction?.length > 4 || data.yearOfConstruction?.length <= 3 || yearsForValidation() === undefined
+        const isInValidYear = data?.yearOfConstruction?.length > 4 || data?.yearOfConstruction?.length <= 3 || yearsForValidation() === undefined
         const isInValidCeilingHeight = data.ceilingHeight < 3 || data.ceilingHeight > 100
         const isInValidCommission = data?.commission < 0 || data?.commission > 100 || data?.commission === undefined
+        const isInValidCadastralNumber = data?.cadastralNumber === undefined
+        const isInValidAcres = data?.acres === undefined
+        const isInValidTotalAreaParking = data?.totalArea === undefined || data?.totalArea < 0
+        const isInValidBuildingType = data?.buildingType === undefined
 
         if (isInValidTransactionType) {
             scroll.scrollTo("anchor-1")
@@ -207,40 +176,54 @@ export default function Advertise() {
         } else if (isInValidEstateId) {
             scroll.scrollTo("anchor-1")
             setValid({...valid, isInValidEstateId: true})
-        } else if (isInValidAddress) {
-            scroller.scrollTo("anchor-2", {offset: -80})
-            setValid({...valid, isInValidAddress: true})
-        } else if (isInValidHouseType) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidHouseType) {
             scroller.scrollTo("anchor-2", {offset: -80})
             setValid({...valid, isInValidHouseType: true})
-        } else if (isInValidRoomType) {
+        }  else if (data?.estateTypeName?.toLowerCase()?.includes('коммерческая недвижимость') && isInValidBuildingType) {
+            scroller.scrollTo("anchor-2", {offset: -80})
+            setValid({...valid, isInValidBuildingType: true})
+        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidRoomType) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidRoomType: true})
-        } else if (isInValidTotalArea) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidTotalArea) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidTotalArea: true})
-        } else if (isInValidLivingArea) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidLivingArea) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidLivingArea: true})
-        } else if (isInValidKitchenArea) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidKitchenArea) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidKitchenArea: true})
-        } else if (isInValidFloor) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidFloor) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidFloor: true})
-        } else if (isInValidMaxFloor) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidMaxFloor) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidMaxFloor: true})
+        } else if (data?.estateTypeName?.toLowerCase()?.includes('земельные участки') && isInValidAcres) {
+            scroller.scrollTo("anchor-2")
+            setValid({...valid, isInValidAcres: true})
+        } else if (data?.estateTypeName?.toLowerCase()?.includes('паркинг гараж') && isInValidTotalAreaParking) {
+            scroller.scrollTo("anchor-2")
+            setValid({...valid, isInValidTotalAreaParking: true})
+        } else if (isInValidAddress) {
+            scroller.scrollTo("anchor-3", {offset: -80})
+            setValid({...valid, isInValidAddress: true})
         } else if (isInValidDescription) {
             scroller.scrollTo("anchor-3", {offset: -80})
             setValid({...valid, isInValidDescription: true})
         } else if (isInValidImage) {
             scroller.scrollTo("anchor-3", {offset: -80})
             setValid({...valid, isInValidImage: true})
-        } else if (isInValidYear) {
+        } else if (
+            (
+                data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') ||
+                data?.estateTypeName?.toLowerCase()?.includes('паркинг гараж')
+            )
+            && isInValidYear) {
             scroller.scrollTo("anchor-4", {offset: -80})
             setValid({...valid, isInValidYear: true})
-        } else if (isInValidCeilingHeight) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidCeilingHeight) {
             scroller.scrollTo("anchor-4", {offset: -80})
             setValid({...valid, isInValidCeilingHeight: true})
         } else if (isInValidPrice) {
@@ -249,6 +232,9 @@ export default function Advertise() {
         } else if (isInValidCommission) {
             scroller.scrollTo("anchor-5")
             setValid({...valid, isInValidCommission: true})
+        } else if (isInValidCadastralNumber) {
+            scroller.scrollTo("anchor-5")
+            setValid({...valid, isInValidCadastralNumber: true})
         } else {
 
             const userId = currentUser?.id;
@@ -291,6 +277,33 @@ export default function Advertise() {
         setValid({...valid, [field]: false})
     }
 
+
+    const seterDataInComponent = useCallback((e) => {
+        const name = e.target.name
+        setData(prevState => ({...prevState, [name]: e.target.value}))
+        if (e.target.type === 'checkbox') {
+            setData(prevState => ({...prevState, [name]: e.target.checked}))
+        }
+    }, [])
+
+    const seterForDaData = useCallback(e => {
+        setData(prevState => ({
+            ...prevState,
+            "address": e.value,
+            "latitude": e.data?.geo_lat,
+            "longitude": e.data?.geo_lon,
+            "fias_id": e.data?.fias_id
+        }))
+    }, [])
+
+    const seterActiveField = useCallback((number) => {
+        setActiveField(number)
+    }, [])
+
+    const resetValid = useCallback((newState, field) => {
+        setValid({...valid, [field]: false})
+    }, [])
+
     return (
         <main>
             <div className="container py-3 py-sm-4 py-lg-5">
@@ -317,12 +330,12 @@ export default function Advertise() {
                     <div className="mob-indicator">
                         <div
                             className={(activeField === 1) ? 'active' : ''}
-                            style={{backgroundColor: (valid.isInValidEstateTypeId || valid.isInValidEstateId) ? '#DA1E2A' : ''}}
+                            style={{backgroundColor: (valid?.isInValidEstateTypeId || valid?.isInValidEstateId) ? '#DA1E2A' : ''}}
                         >
                             {
-                                (valid.isInValidEstateTypeId || valid.isInValidEstateId)
+                                (valid?.isInValidEstateTypeId || valid?.isInValidEstateId)
                                     ? 1
-                                    : (data.transactionType && data.estateId && data.estateTypeId)
+                                    : (data?.transactionType && data?.estateId && data?.estateTypeId)
                                         ? <img src="/img/icons/compform.svg"
                                                style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
                                         : 1
@@ -332,18 +345,18 @@ export default function Advertise() {
                             className={(activeField === 2) ? 'active' : ''}
                             style={{
                                 backgroundColor:
-                                    (valid.isInValidAddress ||
-                                        valid.isInValidHouseType ||
-                                        valid.isInValidTotalArea ||
-                                        valid.isInValidRoomType ||
-                                        valid.isInValidFloor)
+                                    (valid?.isInValidAddress ||
+                                        valid?.isInValidHouseType ||
+                                        valid?.isInValidTotalArea ||
+                                        valid?.isInValidRoomType ||
+                                        valid?.isInValidFloor)
                                         ? '#DA1E2A' : ''
                             }}
                         >
                             {
-                                (valid.isInValidAddress || valid.isInValidHouseType || valid.isInValidTotalArea || valid.isInValidRoomType || valid.isInValidFloor)
+                                (valid?.isInValidAddress || valid?.isInValidHouseType || valid?.isInValidTotalArea || valid?.isInValidRoomType || valid?.isInValidFloor)
                                     ? 2
-                                    : (data.address && data.totalArea && data['floor'])
+                                    : (data?.address && data?.totalArea && data['floor'])
                                         ? <img src="/img/icons/compform.svg"
                                                style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
                                         : 2
@@ -351,12 +364,12 @@ export default function Advertise() {
                         </div>
                         <div
                             className={(activeField === 3) ? 'active' : ''}
-                            style={{backgroundColor: (valid.isInValidDescription || valid.isInValidImage) ? '#DA1E2A' : ''}}
+                            style={{backgroundColor: (valid?.isInValidDescription || valid?.isInValidImage) ? '#DA1E2A' : ''}}
                         >
                             {
-                                (valid.isInValidDescription || valid.isInValidImage)
+                                (valid?.isInValidDescription || valid?.isInValidImage)
                                     ? 3
-                                    : (image && data.description)
+                                    : (image && data?.description)
                                         ? <img src="/img/icons/compform.svg"
                                                style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
                                         : 3
@@ -364,12 +377,12 @@ export default function Advertise() {
                         </div>
                         <div
                             className={(activeField === 4) ? 'active' : ''}
-                            style={{backgroundColor: (valid.isInValidYear || valid.isInValidCeilingHeight) ? '#DA1E2A' : ''}}
+                            style={{backgroundColor: (valid?.isInValidYear || valid?.isInValidCeilingHeight) ? '#DA1E2A' : ''}}
                         >
                             {
-                                (valid.isInValidYear || valid.isInValidCeilingHeight)
+                                (valid?.isInValidYear || valid?.isInValidCeilingHeight)
                                     ? 4
-                                    : (data.yearOfConstruction && data.ceilingHeight)
+                                    : (data?.yearOfConstruction && data?.ceilingHeight)
                                         ? <img src="/img/icons/compform.svg"
                                                style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
                                         : 4
@@ -377,12 +390,12 @@ export default function Advertise() {
                         </div>
                         <div
                             className={(activeField === 5) ? 'active' : ''}
-                            style={{backgroundColor: valid.isInValidPrice ? '#DA1E2A' : ''}}
+                            style={{backgroundColor: valid?.isInValidPrice ? '#DA1E2A' : ''}}
                         >
                             {
-                                (valid.isInValidPrice)
+                                (valid?.isInValidPrice)
                                     ? 5
-                                    : (data.price)
+                                    : (data?.price)
                                         ? <img src="/img/icons/compform.svg"
                                                style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
                                         : 5
@@ -401,7 +414,7 @@ export default function Advertise() {
                             <div className="row">
                                 <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
                                     <span data-for="deal" data-status={false}
-                                          style={{color: valid.isInValidTransactionType ? '#DA1E2A' : ''}}>Сделка*:</span>
+                                          style={{color: valid?.isInValidTransactionType ? '#DA1E2A' : ''}}>Сделка*:</span>
                                 </div>
                                 <div className="col-md-9">
                                     <div className="row row-cols-3 row-cols-xxl-4">
@@ -459,12 +472,11 @@ export default function Advertise() {
                                                             type="radio"
                                                             name="rental-type"
                                                             value="0"
-                                                            defaultChecked={true}
                                                             onChange={(e) => {
                                                                 setData(prevData => {
                                                                     return {
                                                                         ...prevData,
-                                                                        "rentalType": e.target.value
+                                                                        "rentalPeriod": e.target.value
                                                                     }
                                                                 })
                                                                 resetFieldVal(e, 'isInValidRentalTypes')
@@ -531,9 +543,13 @@ export default function Advertise() {
                                                         value={i.id}
                                                         onChange={(e) => {
                                                             setProptype(i.id);
-                                                            setData(prevData => {
-                                                                return {...prevData, "estateTypeId": e.target.value}
-                                                            })
+                                                            setData(
+                                                                {
+                                                                    ...data,
+                                                                    "estateTypeId": e.target.value,
+                                                                    "estateTypeName": i.name
+                                                                }
+                                                            )
                                                             setEs(i.estates)
                                                             resetFieldVal(e, 'isInValidEstateTypeId')
                                                         }}
@@ -569,12 +585,11 @@ export default function Advertise() {
                                                                 name="estate"
                                                                 value={i.id}
                                                                 onChange={(e) => {
-                                                                    setData(prevData => {
-                                                                        return {
-                                                                            ...prevData,
-                                                                            "estateId": e.target.value
-                                                                        }
-                                                                    })
+                                                                    setData(prevData => ({
+                                                                        ...prevData,
+                                                                        "estateId": e.target.value,
+                                                                        "estateName": i.name
+                                                                    }))
                                                                     resetFieldVal(e, 'isInValidEstateId')
                                                                 }}
                                                             />
@@ -587,27 +602,21 @@ export default function Advertise() {
                                     </div>
                                 </>
                             }
-                            <>
-                                <hr className="d-none d-md-block my-4"/>
-                                <div className="row">
-                                    <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
-                                            <span data-for="rental-type" data-status={false}>Кадастровый номер:</span>
-                                    </div>
-                                    <div className="col-md-9">
-                                        <div>
-                                            <label>
-                                                <input
-                                                    type='text'
-                                                    value={data?.cadastralNumber || ''}
-                                                    onChange={(e) => {
-                                                        setData(prevState => ({...prevState, cadastralNumber: e.target.value}))
-                                                    }}
-                                                />
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </>
+                            {
+                                (
+                                    data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты')
+                                    && data?.estateName?.toLowerCase()?.includes('дом' || 'квартира')
+                                ) &&
+                                <AdTypeResidential estateName={data?.estateName} onChange={seterDataInComponent}/>
+                            }
+                            {
+                                (
+                                    data?.estateTypeName?.toLowerCase()?.includes('коммерческая ')
+                                    && data?.estateName?.toLowerCase()?.includes('готовый бизнес')
+                                ) &&
+                                <AdTypeCommercial estateName={data?.estateName} onChange={seterDataInComponent}/>
+                            }
+
                             {/* для мобильных устроийств */}
                             <div
                                 className="d-lg-none row row-cols-2 row-cols-md-3 gx-2 gx-sm-4 justify-content-center mt-4 mt-sm-5">
@@ -624,6 +633,7 @@ export default function Advertise() {
                                     <button
                                         type="button"
                                         className="btn btn-1 w-100"
+                                        disabled={data?.estateTypeId === undefined}
                                         onClick={() => setActiveField(2)}
                                     >
                                         Далее
@@ -632,671 +642,80 @@ export default function Advertise() {
                             </div>
                         </fieldset>
 
-                        <fieldset data-show={(activeField === 2) ? 'true' : 'false'} name="anchor-2"
-                                  className="element frame p-lg-4 mb-4 mb-lg-5">
-                            <legend className="text-center text-lg-start title-font fw-7 fs-15 mb-md-4">Об объекте
-                            </legend>
-                            <div className="row align-items-center">
-                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
-                                    <span data-for="address" data-status={false}
-                                          style={{color: valid.isInValidAddress ? '#DA1E2A' : ''}}>
-                                        Адрес*:
-                                    </span>
-                                </div>
-                                <div className="col-md-9">
-                                    {/* input style: style={{borderColor: valid.isInValidAddress ? '#DA1E2A' : ''}}*/}
-                                    <AddressSuggestions
-                                        delay={300}
-                                        containerClassName='advertise__address'
-                                        value={data?.address && ''}
-                                        inputProps={{
-                                            style: {borderColor: valid.isInValidAddress ? '#DA1E2A' : ''},
-                                            placeholder: "Адрес"
-                                        }}
-                                        token={env.DADATA_TOKEN}
-                                        onChange={e => {
-                                            setData(prevData => ({
-                                                ...prevData,
-                                                "address": e.value,
-                                                "latitude": e.data?.geo_lat,
-                                                "longitude": e.data?.geo_lon,
-                                                "fias_id": e.data?.fias_id
-                                            }))
-                                            resetFieldVal(e, 'isInValidAddress')
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                            <hr className="d-none d-md-block my-4"/>
-                            <div className="row align-items-center">
-                                <div className="col-md-3 fs-11 title mt-4 mt-sm-5 mb-3 m-md-0">Название ЖК:</div>
-                                <div className="col-md-9">
-                                    <input
-                                        type="text"
-                                        name="housing-complex"
-                                        className="fs-11"
-                                        value={data?.residentalComplex || ''}
-                                        placeholder="Например: “Центральный”"
-                                        onChange={(e) => {
-                                            setData(prevData => {
-                                                return {...prevData, "residentalComplex": e.target.value}
-                                            })
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                            <hr className="d-none d-md-block my-4"/>
-                            <div className="row">
-                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
-                                    <span data-for="housing-type" data-status={false}
-                                          style={{color: valid.isInValidHouseType ? '#DA1E2A' : ''}}>Тип жилья*:</span>
-                                </div>
-                                <div className="col-md-9">
-                                    <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4">
-                                        <div>
-                                            <label>
-                                                <input
-                                                    type="radio"
-                                                    name="housing-type"
-                                                    value={0}
-                                                    defaultChecked={true}
-                                                    onChange={(e) => {
-                                                        setData(prevData => {
-                                                            return {...prevData, "houseType": e.target.value}
-                                                        })
-                                                        resetFieldVal(e, 'isInValidHouseType')
-                                                    }}
-                                                />
-                                                <span className="fs-11 ms-2">Квартира</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input
-                                                    type="radio"
-                                                    name="housing-type"
-                                                    value={1}
-                                                    onChange={(e) => {
-                                                        setData(prevData => {
-                                                            return {...prevData, "houseType": e.target.value}
-                                                        })
-                                                    }}
-                                                />
-                                                <span className="fs-11 ms-2">Апартаменты</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr className="d-none d-md-block my-4"/>
-                            <div className="row align-items-center">
-                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
-                                    <span data-for="rooms" data-status={false}
-                                          style={{color: valid.isInValidRoomType ? '#DA1E2A' : ''}}>Количество комнат*:</span>
-                                </div>
-                                <div className="col-md-9 d-flex">
-                                    <label className="inp-btn me-2">
-                                        <input
-                                            type="radio"
-                                            name="rooms"
-                                            value={0}
-                                            onChange={(e) => {
-                                                setData(prevData => ({...prevData, "roomType": e.target.value}))
-                                                resetFieldVal(e, 'isInValidRoomType')
-                                            }}
-                                        />
-                                        <div>Студия</div>
-                                    </label>
-                                    <label className="inp-btn me-2">
-                                        <input
-                                            type="radio"
-                                            name="rooms"
-                                            value={1}
-                                            onChange={(e) => {
-                                                setData(prevData => {
-                                                    return {...prevData, "roomType": e.target.value}
-                                                })
-                                            }}
-                                        />
-                                        <div>1</div>
-                                    </label>
-                                    <label className="inp-btn me-2">
-                                        <input
-                                            type="radio"
-                                            name="rooms"
-                                            defaultChecked={true}
-                                            value={2}
-                                            onChange={(e) => {
-                                                setData(prevData => {
-                                                    return {...prevData, "roomType": e.target.value}
-                                                })
-                                            }}
-                                        />
-                                        <div>2</div>
-                                    </label>
-                                    <label className="inp-btn me-2">
-                                        <input
-                                            type="radio"
-                                            name="rooms"
-                                            value={3}
-                                            onChange={(e) => {
-                                                setData(prevData => {
-                                                    return {...prevData, "roomType": e.target.value}
-                                                })
-                                            }}
-                                        />
-                                        <div>3</div>
-                                    </label>
-                                    <label className="inp-btn me-2">
-                                        <input
-                                            type="radio"
-                                            name="rooms"
-                                            value={4}
-                                            onChange={(e) => {
-                                                setData(prevData => {
-                                                    return {...prevData, "roomType": e.target.value}
-                                                })
-                                            }}
-                                        />
-                                        <div>4</div>
-                                    </label>
-                                    <label className="inp-btn me-2">
-                                        <input
-                                            type="radio"
-                                            name="rooms"
-                                            value={5}
-                                            onChange={(e) => {
-                                                setData(prevData => {
-                                                    return {...prevData, "roomType": e.target.value}
-                                                })
-                                            }}
-                                        />
-                                        <div>5</div>
-                                    </label>
-                                    <label className="inp-btn me-2">
-                                        <input
-                                            type="radio"
-                                            name="rooms"
-                                            value={6}
-                                            onChange={(e) => {
-                                                setData(prevData => {
-                                                    return {...prevData, "roomType": e.target.value}
-                                                })
-                                            }}
-                                        />
-                                        <div>5+</div>
-                                    </label>
-                                </div>
-                            </div>
-                            <hr className="d-none d-md-block my-4"/>
-                            <div className="row row-cols-2 row-cols-md-4 align-items-center mt-4 mt-sm-5">
-                                <div className="fs-11 title-req">
-                                    <span data-for="total-area" data-status={false}
-                                          style={{color: valid.isInValidTotalArea ? '#DA1E2A' : ''}}>Общая площадь*:</span>
-                                </div>
-                                <div>
-                                    <input
-                                        style={{borderColor: valid.isInValidTotalArea ? '#DA1E2A' : ''}}
-                                        type="number"
-                                        name="total-area"
-                                        placeholder="0"
-                                        value={data?.totalArea || ''}
-                                        className="fs-11 area w-100"
-                                        onChange={(e) => {
-                                            setData(prevData => {
-                                                return {...prevData, "totalArea": e.target.value}
-                                            })
-                                            resetFieldVal(e, 'isInValidTotalArea')
-                                        }}
-                                    />
-                                </div>
-                                <div
-                                    className="text-md-end title mt-3 mt-sm-4 mt-md-0"
-                                    style={{color: valid.isInValidLivingArea ? '#DA1E2A' : ''}}
-                                >
-                                    Жилая площадь:
-                                </div>
-                                <div className="mt-3 mt-sm-4 mt-md-0">
-                                    <input
-                                        style={{borderColor: valid.isInValidLivingArea ? '#DA1E2A' : ''}}
-                                        type="number"
-                                        name="living-space"
-                                        placeholder="0"
-                                        value={data?.livingArea || ''}
-                                        className="fs-11 area w-100"
-                                        onChange={(e) => {
-                                            setData(prevData => {
-                                                return {...prevData, "livingArea": e.target.value}
-                                            })
-                                            resetFieldVal(e, 'isInValidLivingArea')
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                            <hr className="d-none d-md-block my-4"/>
-                            <div
-                                style={{color: valid.isInValidKitchenArea ? '#DA1E2A' : ''}}
-                                className="row row-cols-2 row-cols-md-4 align-items-center mt-3 mt-sm-4"
-                            >
-                                <div className="fs-11 title">Площадь кухни:</div>
-                                <div>
-                                    <input
-                                        style={{borderColor: valid.isInValidKitchenArea ? '#DA1E2A' : ''}}
-                                        type="number"
-                                        name="kitchen-area"
-                                        placeholder="0"
-                                        className="fs-11 area w-100"
-                                        value={data?.kitchenArea || ''}
-                                        onChange={(e) => {
-                                            setData(prevData => {
-                                                return {...prevData, "kitchenArea": e.target.value}
-                                            })
-                                            resetFieldVal(e, 'isInValidKitchenArea')
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                            <hr className="d-none d-md-block my-4"/>
-                            <div className="row row-cols-2 row-cols-md-4 align-items-center mt-4 mt-sm-5 mt-md-0">
-                                <div className="fs-11 title-req">
-                                    <span data-for="floor" data-status={false}
-                                          style={{color: valid.isInValidFloor ? '#DA1E2A' : ''}}>Этаж*:</span>
-                                </div>
-                                <div>
-                                    <input
-                                        style={{borderColor: valid.isInValidFloor ? '#DA1E2A' : ''}}
-                                        type="number"
-                                        name="floor"
-                                        placeholder="0"
-                                        value={data?.floor || ''}
-                                        className="fs-11 w-100"
-                                        onChange={(e) => {
-                                            setData(prevData => {
-                                                return {...prevData, "floor": e.target.value}
-                                            })
-                                            resetFieldVal(e, 'isInValidFloor')
-                                        }}
-                                    />
-                                </div>
-                                <div
-                                    className="title text-md-end mt-3 mt-sm-4 mt-md-0"
-                                    style={{color: valid.isInValidMaxFloor ? '#DA1E2A' : ''}}
-                                >
-                                    Этажей в доме:
-                                </div>
-                                <div className="mt-3 mt-sm-4 mt-md-0">
-                                    <input
-                                        style={{borderColor: valid.isInValidMaxFloor ? '#DA1E2A' : ''}}
-                                        type="number"
-                                        name="floor"
-                                        placeholder="0"
-                                        value={data?.maxFloor || ''}
-                                        className="fs-11 w-100"
-                                        onChange={(e) => {
-                                            setData(prevData => {
-                                                return {...prevData, "maxFloor": e.target.value}
-                                            })
-                                            resetFieldVal(e, 'isInValidMaxFloor')
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                            <hr className="d-none d-md-block my-4"/>
-                            <div className="row mt-4 mt-sm-5 mt-md-0">
-                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Санузел:</div>
-                                <div className="col-md-9">
-                                    <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
-                                        <div>
-                                            <label>
-                                                <input
-                                                    type="radio"
-                                                    name="WCTypes"
-                                                    value={0}
-                                                    defaultChecked={true}
-                                                    onChange={e => {
-                                                        setData(prevData => {
-                                                            return {...prevData, "WCType": e.target.value}
-                                                        })
-                                                    }}
-                                                />
-                                                <span className="fs-11 ms-2">Раздельный</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input
-                                                    type="radio"
-                                                    name="WCTypes"
-                                                    value={1}
-                                                    onChange={e => {
-                                                        setData(prevData => {
-                                                            return {...prevData, "WCType": e.target.value}
-                                                        })
-                                                    }}
-                                                />
-                                                <span className="fs-11 ms-2">Совмещенный</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input
-                                                    type="radio"
-                                                    name="WCTypes"
-                                                    value={2}
-                                                    onChange={e => {
-                                                        setData(prevData => {
-                                                            return {...prevData, "WCType": e.target.value}
-                                                        })
-                                                    }}
-                                                />
-                                                <span className="fs-11 ms-2">Два или более</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr className="d-none d-md-block my-4"/>
-                            <div className="row mt-4 mt-sm-5 mt-md-0">
-                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Балкон/Лоджия:</div>
-                                <div className="col-md-9">
-                                    <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
-                                        <div>
-                                            <label>
-                                                <input
-                                                    type="radio"
-                                                    name="balconyTypes"
-                                                    value={1}
-                                                    onChange={e => {
-                                                        setData(prevData => {
-                                                            return {...prevData, "balconyType": e.target.value}
-                                                        })
-                                                    }}
-                                                />
-                                                <span className="fs-11 ms-2">Балкон</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input
-                                                    type="radio"
-                                                    name="balconyTypes"
-                                                    value={2}
-                                                    onChange={e => {
-                                                        setData(prevData => {
-                                                            return {...prevData, "balconyType": e.target.value}
-                                                        })
-                                                    }}
-                                                />
-                                                <span className="fs-11 ms-2">Лоджия</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input
-                                                    type="radio"
-                                                    name="balconyTypes"
-                                                    value={0}
-                                                    defaultChecked={true}
-                                                    onChange={e => {
-                                                        setData(prevData => {
-                                                            return {...prevData, "balconyType": e.target.value}
-                                                        })
-                                                    }}
-                                                />
-                                                <span className="fs-11 ms-2">Нет</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr className="d-none d-md-block my-4"/>
-                            <div className="row mt-4 mt-sm-5 mt-md-0">
-                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Планировка:</div>
-                                <div className="col-md-9">
-                                    <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
-                                        <div>
-                                            <label>
-                                                <input
-                                                    type="radio"
-                                                    name="layoutTypes"
-                                                    defaultChecked={true}
-                                                    value={0}
-                                                    onChange={e => {
-                                                        setData(prevData => {
-                                                            return {...prevData, "layoutType": e.target.value}
-                                                        })
-                                                    }}
-                                                />
-                                                <span className="fs-11 ms-2">Изолированная</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input
-                                                    type="radio"
-                                                    name="layoutTypes"
-                                                    value={1}
-                                                    onChange={e => {
-                                                        setData(prevData => {
-                                                            return {...prevData, "layoutType": e.target.value}
-                                                        })
-                                                    }}
-                                                />
-                                                <span className="fs-11 ms-2">Смежная</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input
-                                                    type="radio"
-                                                    name="layoutTypes"
-                                                    value={2}
-                                                    onChange={e => {
-                                                        setData(prevData => {
-                                                            return {...prevData, "layoutType": e.target.value}
-                                                        })
-                                                    }}
-                                                />
-                                                <span className="fs-11 ms-2">Свободная</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr className="d-none d-md-block my-4"/>
-                            <div className="row mt-4 mt-sm-5 mt-md-0">
-                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Ремонт:</div>
-                                <div className="col-md-9">
-                                    <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
-                                        <div>
-                                            <label>
-                                                <input
-                                                    type="radio"
-                                                    name="repairTypes"
-                                                    defaultChecked={true}
-                                                    value={0}
-                                                    onChange={e => {
-                                                        setData(prevData => {
-                                                            return {...prevData, "repairType": e.target.value}
-                                                        })
-                                                    }}
-                                                />
-                                                <span className="fs-11 ms-2">Косметический</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input
-                                                    type="radio"
-                                                    name="repairTypes"
-                                                    value={1}
-                                                    onChange={e => {
-                                                        setData(prevData => {
-                                                            return {...prevData, "repairType": e.target.value}
-                                                        })
-                                                    }}
-                                                />
-                                                <span className="fs-11 ms-2">Евро</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input
-                                                    type="radio"
-                                                    name="repairTypes"
-                                                    value={2}
-                                                    onChange={e => {
-                                                        setData(prevData => {
-                                                            return {...prevData, "repairType": e.target.value}
-                                                        })
-                                                    }}
-                                                />
-                                                <span className="fs-11 ms-2">Дизайнерский</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input
-                                                    type="radio"
-                                                    name="repairTypes"
-                                                    value={3}
-                                                    onChange={e => {
-                                                        setData(prevData => {
-                                                            return {...prevData, "repairType": e.target.value}
-                                                        })
-                                                    }}
-                                                />
-                                                <span className="fs-11 ms-2">Без ремонта</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr className="d-none d-md-block my-4"/>
-                                <div className="row mt-4 mt-sm-5 mt-md-0">
-                                    <div className="col-md-3 fs-11 title mb-3 m-md-0">Дополнительно:</div>
-                                    <div className="col-md-9">
-                                        <div className="row row-cols-sm-2 row-cols-xxl-3">
-                                            <label className="mb-3">
-                                                <input
-                                                    type="checkbox"
-                                                    name="hasKitchenFurniture"
-                                                    onChange={e => handleCheckbox(e)}
-                                                />
-                                                <span className="fs-11 ms-3">Кухонная мебель</span>
-                                            </label>
-                                            <label className="mb-3">
-                                                <input
-                                                    type="checkbox"
-                                                    name="hasFurniture"
-                                                    onChange={e => handleCheckbox(e)}
-                                                />
-                                                <span className="fs-11 ms-3">Мебель в комнатах</span>
-                                            </label>
-                                            <label className="mb-3">
-                                                <input
-                                                    type="checkbox"
-                                                    name="hasRefrigerator"
-                                                    onChange={e => handleCheckbox(e)}
-                                                />
-                                                <span className="fs-11 ms-3">Холодильник</span>
-                                            </label>
-                                            <label className="mb-3">
-                                                <input
-                                                    type="checkbox"
-                                                    name="hasWashingMachine"
-                                                    onChange={e => handleCheckbox(e)}
-                                                />
-                                                <span className="fs-11 ms-3">Стиральная машина</span>
-                                            </label>
-                                            <label className="mb-3">
-                                                <input
-                                                    type="checkbox"
-                                                    name="hasDishWasher"
-                                                    onChange={e => handleCheckbox(e)}
-                                                />
-                                                <span className="fs-11 ms-3">Посудомоечная машина</span>
-                                            </label>
-                                            <label className="mb-3">
-                                                <input
-                                                    type="checkbox"
-                                                    name="hasTv"
-                                                    onChange={e => handleCheckbox(e)}
-                                                />
-                                                <span className="fs-11 ms-3">Телевизор</span>
-                                            </label>
-                                            <label className="mb-3">
-                                                <input
-                                                    type="checkbox"
-                                                    name="hasConditioner"
-                                                    onChange={e => handleCheckbox(e)}
-                                                />
-                                                <span className="fs-11 ms-3">Кондиционер</span>
-                                            </label>
-                                            <label className="mb-3">
-                                                <input
-                                                    type="checkbox"
-                                                    name="hasInternet"
-                                                    onChange={e => handleCheckbox(e)}
-                                                />
-                                                <span className="fs-11 ms-3">Интернет</span>
-                                            </label>
-                                            <label className="mb-3">
-                                                <input
-                                                    type="checkbox"
-                                                    name="hasBathroom"
-                                                    onChange={e => handleCheckbox(e)}
-                                                />
-                                                <span className="fs-11 ms-3">Ванна</span>
-                                            </label>
-                                            <label className="mb-3">
-                                                <input
-                                                    type="checkbox"
-                                                    name="hasShowerCabin"
-                                                    onChange={e => handleCheckbox(e)}
-                                                />
-                                                <span className="fs-11 ms-3">Душевая кабина</span>
-                                            </label>
-                                            <label className="mb-3">
-                                                <input
-                                                    type="checkbox"
-                                                    name="withKids"
-                                                    onChange={e => handleCheckbox(e)}
-                                                />
-                                                <span className="fs-11 ms-3">Можно с детьми</span>
-                                            </label>
-                                            <label className="mb-3">
-                                                <input
-                                                    type="checkbox"
-                                                    name="withPets"
-                                                    onChange={e => handleCheckbox(e)}
-                                                />
-                                                <span className="fs-11 ms-3">Можно с животными</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* для мобильных устроийств */}
-                            <div
-                                className="d-lg-none row row-cols-2 row-cols-md-3 gx-2 gx-sm-4 justify-content-center mt-4 mt-sm-5">
-                                <div>
-                                    <button type="button" className="btn btn-2 w-100"
-                                            onClick={() => setActiveField(1)}>Назад
-                                    </button>
-                                </div>
-                                <div>
-                                    <button type="button" className="btn btn-1 w-100"
-                                            onClick={() => setActiveField(3)}>Далее
-                                    </button>
-                                </div>
-                            </div>
-                        </fieldset>
+                        {
+                            data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') &&
+                            <AboutResidential
+                                valid={valid}
+                                resetValid={resetValid}
+                                activeField={activeField}
+                                estateName={data?.estateName}
+                                onChange={seterDataInComponent}
+                                seterActiveField={seterActiveField}
+                            />
+                        }
+                        {
+                            data?.estateTypeName?.toLowerCase()?.includes('коммерческая') &&
+                            <AboutCommercial
+                                valid={valid}
+                                resetValid={resetValid}
+                                activeField={activeField}
+                                seterActiveField={seterActiveField}
+                                onChange={seterDataInComponent}
+                            />
+                        }
+                        {
+                            data?.estateTypeName?.toLowerCase().includes('паркинг гараж') &&
+                            <AboutParking
+                                estateName={data?.estateName}
+                                valid={valid}
+                                resetValid={resetValid}
+                                activeField={activeField}
+                                seterActiveField={seterActiveField}
+                                onChange={seterDataInComponent}
+                            />
+                        }
+                        {
+                            data?.estateTypeName?.toLowerCase()?.includes('земельные участки') &&
+                            <AboutStead
+                                valid={valid}
+                                resetValid={resetValid}
+                                activeField={activeField}
+                                seterActiveField={seterActiveField}
+                                onChange={seterDataInComponent}
+                            />
+                        }
 
                         <fieldset data-show={(activeField === 3) ? 'true' : 'false'} name="anchor-3"
                                   className="element frame p-lg-4 mb-4 mb-lg-5">
                             <legend className="title-font fw-7 fs-15 mb-4">
                                 Описание и фото
                             </legend>
+                            <div className='row mb-2'>
+                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
+                                        <span
+                                            data-for="address"
+                                            data-status={false}
+                                            style={{color: valid?.isInValidAddress ? '#DA1E2A' : ''}}
+                                        >
+                                            Адрес*:
+                                        </span>
+                                </div>
+                                <div className="col-md-9">
+                                    <AddressSuggestions
+                                        delay={300}
+                                        containerClassName='advertise__address'
+                                        inputProps={{
+                                            style: {borderColor: valid?.isInValidAddress ? '#DA1E2A' : ''},
+                                            placeholder: "Адрес"
+                                        }}
+                                        token={env.DADATA_TOKEN}
+                                        onChange={e => {
+                                            seterForDaData(e)
+                                            resetValid(e, 'isInValidAddress')
+                                        }}
+                                    />
+                                </div>
+                            </div>
                             <div className="row mb-2">
                                 <div className="col-md-3 fs-11 title-req mb-3 m-md-0">
                                     <span data-for="description" data-status={false}
@@ -1404,7 +823,8 @@ export default function Advertise() {
                                         )}
                                     </ImageUploading>
                                     <div className="fs-08 gray-3 mt-2">Не допускаются к размещению фотографии с
-                                        водяными знаками, чужих объектов и рекламные баннеры. Допустимы JPG, PNG, JPEG или WEBP.
+                                        водяными знаками, чужих объектов и рекламные баннеры. Допустимы JPG, PNG, JPEG
+                                        или WEBP.
                                         Загрузка от 2 штук и более.
                                     </div>
                                 </div>
@@ -1425,311 +845,34 @@ export default function Advertise() {
                             </div>
                         </fieldset>
 
-                        <fieldset data-show={(activeField === 4) ? 'true' : 'false'} name="anchor-4"
-                                  className="element frame p-lg-4 mb-4 mb-lg-5">
-                            <legend className="title-font fw-7 fs-15 mb-4">О здании</legend>
-                            <div className="row align-items-center">
-                                <div className="col-6 col-md-3 fs-11 title"
-                                     style={{color: valid.isInValidYear ? '#DA1E2A' : ''}}>Год постройки*:
-                                </div>
-                                <div className="col-6 col-md-9">
-                                    <input
-                                        style={{borderColor: valid.isInValidYear ? '#DA1E2A' : ''}}
-                                        type="number"
-                                        className="fs-11"
-                                        value={data?.yearOfConstruction || ''}
-                                        placeholder="1850-2022"
-                                        onChange={e => {
-                                            setData(prevData => {
-                                                return {...prevData, "yearOfConstruction": e.target.value}
-                                            })
-                                            resetFieldVal(e, 'isInValidYear')
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                            <hr className="d-none d-md-block my-4"/>
-                            <div className="row align-items-center mt-4 mt-sm-5 mt-md-0">
-                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Тип дома:</div>
-                                <div className="col-md-9">
-                                    <div className="d-flex align-items-baseline flex-wrap">
-                                        <label className="me-5 my-2">
-                                            <input
-                                                type="radio"
-                                                name="house-type"
-                                                value={0}
-                                                defaultChecked={true}
-                                                onChange={e => {
-                                                    setData(prevData => {
-                                                        return {...prevData, "houseBuildingType": e.target.value}
-                                                    })
-                                                }}
-                                            />
-                                            <span className="fs-11 ms-2">Кирпичный</span>
-                                        </label>
-                                        <label className="me-5 my-2">
-                                            <input
-                                                type="radio"
-                                                name="house-type"
-                                                value={1}
-                                                onChange={e => {
-                                                    setData(prevData => {
-                                                        return {...prevData, "houseBuildingType": e.target.value}
-                                                    })
-                                                }}
-                                            />
-                                            <span className="fs-11 ms-2">Панельный</span>
-                                        </label>
-                                        <label className="me-5 my-2">
-                                            <input
-                                                type="radio"
-                                                name="house-type"
-                                                value={2}
-                                                onChange={e => {
-                                                    setData(prevData => {
-                                                        return {...prevData, "houseBuildingType": e.target.value}
-                                                    })
-                                                }}
-                                            />
-                                            <span className="fs-11 ms-2">Монолитный</span>
-                                        </label>
-                                        <label className="me-5 my-2">
-                                            <input
-                                                type="radio"
-                                                name="house-type"
-                                                value={3}
-                                                onChange={e => {
-                                                    setData(prevData => {
-                                                        return {...prevData, "houseBuildingType": e.target.value}
-                                                    })
-                                                }}
-                                            />
-                                            <span className="fs-11 ms-2">Блочный</span>
-                                        </label>
-                                        <label className="my-2">
-                                            <input
-                                                type="radio"
-                                                name="house-type"
-                                                value={4}
-                                                onChange={e => {
-                                                    setData(prevData => {
-                                                        return {...prevData, "houseBuildingType": e.target.value}
-                                                    })
-                                                }}
-                                            />
-                                            <span className="fs-11 ms-2">Деревянный</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr className="d-none d-md-block my-4"/>
-                            <div className="row align-items-center mt-4 mt-sm-5 mt-md-0">
-                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Лифт:</div>
-                                <div className="col-md-9">
-                                    <div className="d-flex align-items-baseline flex-wrap">
-                                        <label className="me-5 my-2">
-                                            <input
-                                                type="radio"
-                                                name="lift"
-                                                value={0}
-                                                defaultChecked={true}
-                                                onChange={e => {
-                                                    setData(prevData => {
-                                                        return {...prevData, "elevatorType": e.target.value}
-                                                    })
-                                                }}
-                                            />
-                                            <span className="fs-11 ms-2">Нет</span>
-                                        </label>
-                                        <label className="me-5 my-2">
-                                            <input
-                                                type="radio"
-                                                name="lift"
-                                                value={1}
-                                                onChange={e => {
-                                                    setData(prevData => {
-                                                        return {...prevData, "elevatorType": e.target.value}
-                                                    })
-                                                }}
-                                            />
-                                            <span className="fs-11 ms-2">Пассажирский</span>
-                                        </label>
-                                        <label className="me-5 my-2">
-                                            <input
-                                                type="radio"
-                                                name="lift"
-                                                value={2}
-                                                onChange={e => {
-                                                    setData(prevData => {
-                                                        return {...prevData, "elevatorType": e.target.value}
-                                                    })
-                                                }}
-                                            />
-                                            <span className="fs-11 ms-2">Грузовой</span>
-                                        </label>
-                                        <label className="me-5 my-2">
-                                            <input
-                                                type="radio"
-                                                name="lift"
-                                                value={3}
-                                                onChange={e => {
-                                                    setData(prevData => {
-                                                        return {...prevData, "elevatorType": e.target.value}
-                                                    })
-                                                }}
-                                            />
-                                            <span className="fs-11 ms-2">Пассажирский/Грузовой</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr className="d-none d-md-block my-4"/>
-                            <div className="row align-items-center mt-4 mt-sm-5 mt-md-0">
-                                <div className="col-6 col-md-3 fs-11 title"
-                                     style={{color: valid.isInValidCeilingHeight ? '#DA1E2A' : ''}}>Высота потолков*:
-                                </div>
-                                <div className="col-6 col-md-9">
-                                    <input
-                                        style={{borderColor: valid.isInValidCeilingHeight ? '#DA1E2A' : ''}}
-                                        type="number"
-                                        placeholder="3-100"
-                                        value={data?.ceilingHeight || ''}
-                                        className="fs-11"
-                                        onChange={e => {
-                                            setData(prevData => {
-                                                return {...prevData, "ceilingHeight": e.target.value}
-                                            })
-                                            resetFieldVal(e, 'isInValidCeilingHeight')
-                                        }}
-                                    />
-                                    <span className="ms-2">м</span>
-                                </div>
-                            </div>
-                            <hr className="d-none d-md-block my-4"/>
-                            <div className="row align-items-center mt-4 mt-sm-5 mt-md-0">
-                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Пандус:</div>
-                                <div className="col-md-9 row row-cols-2">
-                                    <div>
-                                        <label className="me-5">
-                                            <input
-                                                type="radio"
-                                                name="ramp"
-                                                value={1}
-                                                onChange={e => {
-                                                    setData(prevData => {
-                                                        return {...prevData, "hasRamp": e.target.value}
-                                                    })
-                                                }}
-                                            />
-                                            <span className="fs-11 ms-2">Есть</span>
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label className="me-5">
-                                            <input
-                                                type="radio"
-                                                name="ramp"
-                                                value={0}
-                                                defaultChecked={true}
-                                                onChange={e => {
-                                                    setData(prevData => {
-                                                        return {...prevData, "hasRamp": e.target.value}
-                                                    })
-                                                }}
-                                            />
-                                            <span className="fs-11 ms-2">Нет</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr className="d-none d-md-block my-4"/>
-                            <div className="row align-items-center mt-4 mt-sm-5 mt-md-0">
-                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Мусоропровод:</div>
-                                <div className="col-md-9 row row-cols-2">
-                                    <div>
-                                        <label className="me-5">
-                                            <input
-                                                type="radio"
-                                                name="chute"
-                                                value={1}
-                                                onChange={e => {
-                                                    setData(prevData => {
-                                                        return {...prevData, "hasGarbage": e.target.value}
-                                                    })
-                                                }}
-                                            />
-                                            <span className="fs-11 ms-2">Есть</span>
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label className="me-5">
-                                            <input
-                                                type="radio"
-                                                name="chute"
-                                                value={0}
-                                                defaultChecked={true}
-                                                onChange={e => {
-                                                    setData(prevData => {
-                                                        return {...prevData, "hasGarbage": e.target.value}
-                                                    })
-                                                }}
-                                            />
-                                            <span className="fs-11 ms-2">Нет</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr className="d-none d-md-block my-4"/>
-                            <div className="row align-items-center mt-4 mt-sm-5 mt-md-0">
-                                <div className="col-md-3 fs-11 title mb-3 m-md-0">Парковка:</div>
-                                <div className="col-md-9 row row-cols-2 row-cols-xl-3">
-                                    <div>
-                                        <label className="mb-3">
-                                            <input
-                                                type="checkbox"
-                                                name="hasGroundParking"
-                                                onChange={e => handleCheckbox(e)}
-                                            />
-                                            <span className="fs-11 ms-3">Наземная</span>
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label className="mb-3">
-                                            <input
-                                                type="checkbox"
-                                                name="hasUnderGroundParking"
-                                                onChange={e => handleCheckbox(e)}
-                                            />
-                                            <span className="fs-11 ms-3">Подземная</span>
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label className="mb-3">
-                                            <input
-                                                type="checkbox"
-                                                name="hasMoreLayerParking"
-                                                onChange={e => handleCheckbox(e)}
-                                            />
-                                            <span className="fs-11 ms-3">Многоуровневая</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div
-                                className="d-lg-none row row-cols-2 row-cols-sm-3 justify-content-center gx-2 gx-sm-4 mt-4">
-                                <div>
-                                    <button type="button" className="btn btn-2 w-100"
-                                            onClick={() => setActiveField(3)}>Назад
-                                    </button>
-                                </div>
-                                <div>
-                                    <button type="button" className="btn btn-1 w-100"
-                                            onClick={() => setActiveField(5)}>Далее
-                                    </button>
-                                </div>
-                            </div>
-                        </fieldset>
+                        {
+                            data?.estateTypeName?.includes('Квартиры Комнаты') &&
+                            <AboutBuildingResidential
+                                resetValid={resetValid}
+                                valid={valid}
+                                activeField={activeField}
+                                seterActiveField={seterActiveField}
+                                onChange={seterDataInComponent}
+                            />
+                        }
+                        {
+                            data?.estateTypeName?.includes('Коммерческая недвижимость') &&
+                            <AboutBuildingCommercial
+                                activeField={activeField}
+                                seterActiveField={seterActiveField}
+                                onChange={seterDataInComponent}
+                            />
+                        }
+                        {
+                            data?.estateTypeName?.includes('Паркинг Гараж') &&
+                            <AboutBuildingParking
+                                valid={valid}
+                                resetValid={resetValid}
+                                activeField={activeField}
+                                seterActiveField={seterActiveField}
+                                onChange={seterDataInComponent}
+                            />
+                        }
 
                         <fieldset data-show={(activeField === 5) ? 'true' : 'false'} name="anchor-5"
                                   className="element frame p-lg-4 mb-4 mb-lg-5">
@@ -1784,7 +927,6 @@ export default function Advertise() {
                                                     type="radio"
                                                     name="hypothec"
                                                     value={1}
-                                                    defaultChecked={true}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "hypothec": e.target.value}
@@ -1816,7 +958,6 @@ export default function Advertise() {
                                                     type="radio"
                                                     name="difficulties"
                                                     value={1}
-                                                    defaultChecked={true}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "isEncumbrances": e.target.value}
@@ -1824,6 +965,136 @@ export default function Advertise() {
                                                     }}
                                                 />
                                                 <span className="fs-11 ms-2">Нет</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div className="row align-items-center mt-4 mt-sm-5 mb-4">
+                                        <div className="col-md-3 fs-11 title mb-3 m-md-0">Продавцы:</div>
+                                        <div className="col-md-9">
+                                            <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
+                                                <label className="me-5">
+                                                    <input
+                                                        type="radio"
+                                                        name="trader"
+                                                        value={0}
+                                                        onChange={e => {
+                                                            setData(prevData => {
+                                                                return {...prevData, "trader": e.target.value}
+                                                            })
+                                                        }}
+                                                    />
+                                                    <span className="fs-11 ms-2">Собственник</span>
+                                                </label>
+                                                <label className="me-5">
+                                                    <input
+                                                        type="radio"
+                                                        name="trader"
+                                                        value={1}
+                                                        onChange={e => {
+                                                            setData(prevData => {
+                                                                return {...prevData, "trader": e.target.value}
+                                                            })
+                                                        }}
+                                                    />
+                                                    <span className="fs-11 ms-2">Застройщики</span>
+                                                </label>
+                                                <label>
+                                                    <input
+                                                        type="radio"
+                                                        name="trader"
+                                                        value={2}
+                                                        onChange={e => {
+                                                            setData(prevData => {
+                                                                return {...prevData, "trader": e.target.value}
+                                                            })
+                                                        }}
+                                                    />
+                                                    <span className="fs-11 ms-2 text-nowrap">Агенства</span>
+                                                </label>
+                                                <label>
+                                                    <input
+                                                        type="radio"
+                                                        name="trader"
+                                                        value={3}
+                                                        onChange={e => {
+                                                            setData(prevData => {
+                                                                return {...prevData, "trader": e.target.value}
+                                                            })
+                                                        }}
+                                                    />
+                                                    <span className="fs-11 ms-2 text-nowrap">Не важно</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
+                                            <span
+                                                style={{color: valid?.isInValidCadastralNumber ? '#DA1E2A' : ''}}
+                                            >
+                                                Кадастровый номер*:
+                                            </span>
+                                        </div>
+                                        <div className="col-md-9">
+                                            <div>
+                                                <label>
+                                                    <input
+                                                        type='text'
+                                                        style={{borderColor: valid?.isInValidCadastralNumber ? '#DA1E2A' : ''}}
+                                                        value={data?.cadastralNumber || ''}
+                                                        onChange={(e) => {
+                                                            setData(prevState => ({
+                                                                ...prevState,
+                                                                cadastralNumber: e.target.value
+                                                            }))
+                                                            resetFieldVal(e, 'isInValidCadastralNumber')
+                                                        }}
+                                                    />
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row align-items-center mt-4 mt-sm-5 mb-4">
+                                        <div className="col-md-3 fs-11 title mb-3 m-md-0">Условия сделки:
+                                            <div className='fs-08 gray-3 mt-2'>* В прямой продаже участвуете вы и
+                                                продавец. В альтернативной сделке продавец планирует покупку нового
+                                                жилья одновременно с продажей старого. Обычно обе сделки проходят в один
+                                                день.
+                                            </div>
+                                        </div>
+                                        <div className="col-md-9 d-flex flex-wrap">
+                                            <label className="me-5">
+                                                <input
+                                                    type="radio"
+                                                    name="trade"
+                                                    value={0}
+                                                    onChange={e => {
+                                                        setData(prevData => ({...prevData, "trade": e.target.value}))
+                                                    }}
+                                                />
+                                                <span className="fs-11 ms-2">Прямая</span>
+                                            </label>
+                                            <label className="me-5">
+                                                <input
+                                                    type="radio"
+                                                    name="trade"
+                                                    value={1}
+                                                    onChange={e => {
+                                                        setData(prevData => ({...prevData, "trade": e.target.value}))
+                                                    }}
+                                                />
+                                                <span className="fs-11 ms-2">Альтернативная</span>
+                                            </label>
+                                            <label>
+                                                <input
+                                                    type="radio"
+                                                    name="trade"
+                                                    value={2}
+                                                    onChange={e => {
+                                                        setData(prevData => ({...prevData, "trade": e.target.value}))
+                                                    }}
+                                                />
+                                                <span className="fs-11 ms-2 text-nowrap">Не важно</span>
                                             </label>
                                         </div>
                                     </div>
@@ -1973,6 +1244,134 @@ export default function Advertise() {
                                             </div>
                                         </div>
                                     </div>
+                                    <div className="row align-items-center mt-4 mt-sm-5 mb-4">
+                                        <div className="col-md-3 fs-11 title mb-3 m-md-0">Продавцы:</div>
+                                        <div className="col-md-9 d-flex flex-wrap">
+                                            <label className="me-5">
+                                                <input
+                                                    type="radio"
+                                                    name="trader"
+                                                    value={0}
+                                                    onChange={e => {
+                                                        setData(prevData => {
+                                                            return {...prevData, "trader": e.target.value}
+                                                        })
+                                                    }}
+                                                />
+                                                <span className="fs-11 ms-2">Собственник</span>
+                                            </label>
+                                            <label className="me-5">
+                                                <input
+                                                    type="radio"
+                                                    name="trader"
+                                                    value={1}
+                                                    onChange={e => {
+                                                        setData(prevData => {
+                                                            return {...prevData, "trader": e.target.value}
+                                                        })
+                                                    }}
+                                                />
+                                                <span className="fs-11 ms-2">Застройщики</span>
+                                            </label>
+                                            <label>
+                                                <input
+                                                    type="radio"
+                                                    name="trader"
+                                                    value={2}
+                                                    onChange={e => {
+                                                        setData(prevData => {
+                                                            return {...prevData, "trader": e.target.value}
+                                                        })
+                                                    }}
+                                                />
+                                                <span className="fs-11 ms-2 text-nowrap">Агенства</span>
+                                            </label>
+                                            <label>
+                                                <input
+                                                    type="radio"
+                                                    name="trader"
+                                                    value={3}
+                                                    onChange={e => {
+                                                        setData(prevData => {
+                                                            return {...prevData, "trader": e.target.value}
+                                                        })
+                                                    }}
+                                                />
+                                                <span className="fs-11 ms-2 text-nowrap">Не важно</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
+                                            <span
+                                                style={{color: valid?.isInValidCadastralNumber ? '#DA1E2A' : ''}}
+                                            >
+                                                Кадастровый номер*:
+                                            </span>
+                                        </div>
+                                        <div className="col-md-9">
+                                            <div>
+                                                <label>
+                                                    <input
+                                                        type='text'
+                                                        style={{borderColor: valid?.isInValidCadastralNumber ? '#DA1E2A' : ''}}
+                                                        value={data?.cadastralNumber || ''}
+                                                        onChange={(e) => {
+                                                            setData(prevState => ({
+                                                                ...prevState,
+                                                                cadastralNumber: e.target.value
+                                                            }))
+                                                            resetFieldVal(e, 'isInValidCadastralNumber')
+                                                        }}
+                                                    />
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row align-items-center mt-4 mt-sm-5 mb-4">
+                                        <div className="col-md-3 fs-11 title mb-3 m-md-0">Условия сделки:
+                                            <div className='fs-08 gray-3 mt-2'>* В прямой продаже участвуете вы и
+                                                продавец. В альтернативной сделке продавец планирует покупку нового
+                                                жилья одновременно с продажей старого. Обычно обе сделки проходят в один
+                                                день.
+                                            </div>
+                                        </div>
+                                        <div className="col-md-9 d-flex flex-wrap">
+                                            <label className="me-5">
+                                                <input
+                                                    type="radio"
+                                                    name="trade"
+                                                    value={0}
+                                                    onChange={e => {
+                                                        setData(prevData => ({...prevData, "trade": e.target.value}))
+                                                    }}
+                                                />
+                                                <span className="fs-11 ms-2">Прямая</span>
+                                            </label>
+                                            <label className="me-5">
+                                                <input
+                                                    type="radio"
+                                                    name="trade"
+                                                    value={1}
+                                                    onChange={e => {
+                                                        setData(prevData => ({...prevData, "trade": e.target.value}))
+                                                    }}
+                                                />
+                                                <span className="fs-11 ms-2">Альтернативная</span>
+                                            </label>
+                                            <label>
+                                                <input
+                                                    type="radio"
+                                                    name="trade"
+                                                    value={2}
+                                                    onChange={e => {
+                                                        setData(prevData => ({...prevData, "trade": e.target.value}))
+                                                    }}
+                                                />
+                                                <span className="fs-11 ms-2 text-nowrap">Не важно</span>
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
                             }
                             {/* для мобильных устроийств */}
@@ -2001,7 +1400,6 @@ export default function Advertise() {
                             isShow={isShow}
                             setIsShow={setIsShow}
                             closeButton={false}
-
                             centre={true}
                         >
                             {statusRequest.good &&

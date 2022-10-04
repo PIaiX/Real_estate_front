@@ -59,6 +59,7 @@ const Slider3 = (props) => {
                         subService={response.service.subService}
                         serviceDes={response.service.description}
                         description={response.description}
+                        images={response.images}
                     />
                 </SwiperSlide>
             )}

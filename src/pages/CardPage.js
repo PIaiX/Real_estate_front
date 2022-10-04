@@ -211,6 +211,8 @@ export default function CardPage() {
         }
     }
 
+    console.log(responsesAd)
+
     return (
         <main>
             <div className={(pageTop) ? "card-page-top py-2 d-md-none" : "card-page-top d-none py-2"}>
@@ -723,7 +725,8 @@ export default function CardPage() {
             <section className="sec-4 container mb-6">
                 <h3>Отклики исполнителей</h3>
                 <div className="position-relative">
-                    <Slider3 responses={responsesAd}/>
+                    {responsesAd?.meta?.total !== 0 ? <Slider3 responses={responsesAd}/> : <p>Откликов нет</p>}
+
                 </div>
             </section>
 
