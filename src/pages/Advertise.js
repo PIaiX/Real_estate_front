@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {NavLink, useNavigate} from 'react-router-dom';
+import {NavLink, useNavigate, useParams} from 'react-router-dom';
 import ImageUploading from "react-images-uploading";
 import CustomSelect from '../components/CustomSelect';
 import Scroll, {animateScroll as scroll, Link} from 'react-scroll';
@@ -24,9 +24,11 @@ import AdTypeCommercial from "../components/advertiseComponents/AdTypeCommercial
 import {AddressSuggestions} from "react-dadata";
 import env from "../config/env";
 import {fields} from "../components/advertiseComponents/fields";
+import {getAdsPage} from "../API/adspage";
 
 export default function Advertise() {
 
+    const {uuid} = useParams()
     const city = useSelector(state => state?.selectedCity)
     const ref = useRef(null); // Form
     const [deal, setDeal] = useState('1'); // тип сделки (по умолчанию - продажа)
@@ -62,6 +64,100 @@ export default function Advertise() {
     const maxNumber = 24;
     const dispatch = useDispatch()
     const {setAlert} = bindActionCreators(actionsAlert, dispatch)
+    const [loadData, setLoadData] = useState({})
+    const [btnRadio, setBtnRadio] = useState({
+        transactionType: null,
+        rentalType: null,
+        estateTypeId: null,
+        estateId: null,
+        houseType: null,
+        roomType: null,
+        wcType: null,
+        balconyType: null,
+        layoutType: null,
+        repairType: null,
+        houseBuildingType: null,
+        elevatorType: null,
+        hasRamp: null,
+        hasGarbage: null,
+        isMortgage: null,
+        isEncumbrances: null,
+    })
+    const [ad, setAd] = useState({})
+
+    useEffect(() => {
+        setLoadData({
+            address: ad?.address,
+            residentalComplex: ad?.residentalComplex,
+            totalArea: ad?.totalArea,
+            floor: ad['floor'],
+            hasBathroom: ad?.hasBathroom,
+            hasConditioner: ad?.hasConditioner,
+            hasDishWasher: ad?.hasDishWasher,
+            hasFurniture: ad?.hasFurniture,
+            hasInternet: ad?.hasInternet,
+            hasKitchenFurniture: ad?.hasKitchenFurniture,
+            hasRefrigerator: ad?.hasRefrigerator,
+            hasShowerCabin: ad?.hasShowerCabin,
+            hasTv: ad?.hasTv,
+            hasWashingMachine: ad?.hasWashingMachine,
+            description: ad?.description,
+            yearOfConstruction: ad?.yearOfConstructionForUser,
+            ceilingHeight: ad?.ceilingHeight,
+            hasGroundParking: ad?.hasGroundParking,
+            hasMoreLayerParking: ad?.hasMoreLayerParking,
+            hasUnderGroundParking: ad?.hasUnderGroundParking,
+            price: ad?.price,
+            communalPrice: ad?.communalPrice || 0,
+            pledge: ad?.pledge,
+            commission: ad?.commission,
+            prepaymentType: ad?.prepaymentType,
+            withKids: ad?.withKids,
+            withPets: ad?.withPets,
+            longitude: ad?.longitude,
+            latitude: ad?.latitude,
+            livingArea: ad?.livingArea || 0,
+            kitchenArea: ad?.kitchenArea || 0,
+            maxFloor: ad?.maxFloor || 0,
+            cadastralNumber: ad?.cadastralNumber,
+        })
+        setBtnRadio({
+            transactionType: ad?.transactionType,
+            rentalType: ad?.rentalType,
+            estateTypeId: ad?.estate?.realEstateTypeId,
+            estateId: ad?.estateId,
+            houseType: ad?.houseType,
+            roomType: ad?.roomType,
+            WCType: ad?.wcType,
+            balconyType: ad?.balconyType,
+            layoutType: ad?.layoutType,
+            repairType: ad?.repairType,
+            houseBuildingType: ad?.houseBuildingType,
+            elevatorType: ad?.elevatorType,
+            hasRamp: Number(ad?.hasRamp),
+            hasGarbage: Number(ad?.hasGarbage),
+            isMortgage: Number(ad?.isMortgage),
+            isEncumbrances: Number(ad?.isEncumbrances),
+        })
+    }, [ad])
+
+    useEffect(() => {
+        console.log(loadData)
+    }, [loadData])
+
+    useEffect(() => {
+        const adsget = async () => {
+            try {
+                const result = (currentUser?.id && uuid) ? await getAdsPage(uuid, currentUser?.id) : ""
+                if (result) {
+                    setAd(result)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        adsget()
+    }, [currentUser?.id, uuid])
 
     useEffect(() => {
         function updateState() {
@@ -605,7 +701,7 @@ export default function Advertise() {
                             {
                                 (
                                     data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты')
-                                    && data?.estateName?.toLowerCase()?.includes('дом' || 'квартира')
+                                    && (data?.estateName?.toLowerCase()?.includes('дом') || data?.estateName?.toLowerCase()?.includes('квартира'))
                                 ) &&
                                 <AdTypeResidential estateName={data?.estateName} onChange={seterDataInComponent}/>
                             }

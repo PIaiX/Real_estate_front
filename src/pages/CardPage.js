@@ -211,8 +211,6 @@ export default function CardPage() {
         }
     }
 
-    console.log(responsesAd)
-
     return (
         <main>
             <div className={(pageTop) ? "card-page-top py-2 d-md-none" : "card-page-top d-none py-2"}>
@@ -739,11 +737,9 @@ export default function CardPage() {
                     <div className="d-flex align-items-center">
                         <div className="photo me-2 me-sm-4">
                             <img src={checkPhotoPath(ads?.user?.avatar)} alt={ads?.user?.fullName}/>
-                            {/*<div className="indicator online"/>*/}
                         </div>
                         <div>
                             <h4>{ads?.user?.fullName}</h4>
-                            {/*<div className="gray-2 fs-09">Сейчас онлайн</div>*/}
                         </div>
                     </div>
                     <textarea

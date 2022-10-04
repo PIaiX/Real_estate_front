@@ -42,9 +42,8 @@ const AppRouter = () => {
                     <Route path="user" element={<UserPage/>}>
                         <Route path=":userId" element={<UserPage/>}/>
                     </Route>
-                    <Route path="advertise" element={<Advertise/>}/>
-                    <Route path="advertise-editor" element={<AdvertiseEditor/>}>
-                        <Route path=":uuid" element={<AdvertiseEditor/>}/>
+                    <Route path="advertise" element={<Advertise/>}>
+                        <Route path=':uuid' element={<Advertise/>}/>
                     </Route>
                     <Route path="personal-account/*" element={<PersonalAccount/>}/>
                 </Route>

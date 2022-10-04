@@ -119,7 +119,7 @@ export default function UserAds({routeName}) {
                                              alt="Срочная продажа"/>
                                         <span className="ms-2">Срочная продажа</span>
                                     </button>
-                                    <Link to={`/advertise-editor/${i?.uuid}`}
+                                    <Link to={`/advertise/${i?.uuid}`}
                                           className={(view === 'as-a-list') ? "ms-4 color-1 d-flex align-items-center" : "mt-2 color-1 d-flex align-items-center"}
                                     >
                                         <img src="/img/icons/pa-9.svg"
