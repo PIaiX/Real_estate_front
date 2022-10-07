@@ -1,6 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-const AboutStead = ({onChange, activeField, seterActiveField, resetValid, valid}) => {
+const AboutStead = (
+    {
+        onChange,
+        activeField,
+        seterActiveField,
+        resetValid,
+        valid,
+        info
+    }) => {
 
     return (
         <fieldset data-show={(activeField === 2) ? 'true' : 'false'} name="anchor-2"
@@ -19,8 +27,9 @@ const AboutStead = ({onChange, activeField, seterActiveField, resetValid, valid}
                         type="number"
                         style={{borderColor: valid.isInValidAcres ? '#DA1E2A' : ''}}
                         name="acres"
-                        className="fs-11"
-                        placeholder='м&#178;'
+                        value={info?.acres || ''}
+                        className="area fs-11"
+                        placeholder='0'
                         onChange={(e) => {
                             onChange(e)
                             resetValid(e, 'isInValidAcres')
@@ -35,6 +44,7 @@ const AboutStead = ({onChange, activeField, seterActiveField, resetValid, valid}
                     <input
                         type="number"
                         name="cityDistance"
+                        value={info?.cityDistance || ''}
                         className="fs-11"
                         placeholder='км'
                         onChange={e => onChange(e)}

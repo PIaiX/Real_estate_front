@@ -7,6 +7,7 @@ import ShowPhone from './ShowPhone';
 import {NavLink, useLocation} from 'react-router-dom';
 import {animateScroll as scroll} from 'react-scroll';
 import {checkPhotoPath} from "../helpers/photo";
+import {localEstates} from "../helpers/localEstates";
 
 const Card = (props) => {
     const type = props.type
@@ -51,7 +52,18 @@ const Card = (props) => {
                                         to={`/card-page/${props?.uuid}`}
                                         state={{prevRoute: pathname, routeName: props?.routeName, prevSearch: search}}
                                     >
-                                        {props.title} м<sup>2</sup>
+                                        {props.realEstateTypeForUser?.toLowerCase() === localEstates.kvartiri &&
+                                            <>{props?.estateName} {props?.totalArea} м<sup>2</sup></>
+                                        }
+                                        {props?.realEstateTypeForUser?.toLowerCase() === localEstates.zemelia &&
+                                            <>{props?.estateName} {props?.acres} м<sup>2</sup></>
+                                        }
+                                        {props.realEstateTypeForUser?.toLowerCase() === localEstates.commer &&
+                                            <>{props?.buildingTypeForUser}</>
+                                        }
+                                        {props.realEstateTypeForUser?.toLowerCase() === localEstates.parking &&
+                                            <>{props?.estateName} {props?.totalArea} м<sup>2</sup></>
+                                        }
                                     </NavLink>
                                 </div>
                                 <div className="d-flex align-items-center mb-2 mb-xxl-3">
@@ -162,7 +174,18 @@ const Card = (props) => {
                                 to={`/card-page/${props?.uuid}`}
                                 state={{prevRoute: pathname, routeName: props?.routeName, prevSearch: search}}
                             >
-                                {props.title} м<sup>2</sup>
+                                {props.realEstateTypeForUser?.toLowerCase() === localEstates.kvartiri &&
+                                    <>{props?.estateName} {props?.totalArea} м<sup>2</sup></>
+                                }
+                                {props?.realEstateTypeForUser?.toLowerCase() === localEstates.zemelia &&
+                                    <>{props?.estateName} {props?.acres} м<sup>2</sup></>
+                                }
+                                {props.realEstateTypeForUser?.toLowerCase() === localEstates.commer &&
+                                    <>{props?.buildingTypeForUser}</>
+                                }
+                                {props.realEstateTypeForUser?.toLowerCase() === localEstates.parking &&
+                                    <>{props?.estateName} {props?.totalArea} м<sup>2</sup></>
+                                }
                             </NavLink>
                         </div>
                         <div className="title-font black fw-7 fs-11">

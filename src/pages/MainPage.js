@@ -120,6 +120,16 @@ export default function MainPage() {
             </section>
 
             <section id="sec-2" className="container tiles px-xxl-5 mb-6">
+
+                <Tile
+                    img='/img/icons/domaDachiKottedzhi.svg'
+                    titles={["Дома Дачи"]}
+                    hoverLinks={[
+                        {name: 'Купить', link: `/catalog/?transactionType=1&typesEstate=1`},
+                        {name: 'Сдать', link: '/advertise'},
+                        {name: 'Продать', link: '/advertise'},
+                        {name: 'Снять', link: `/catalog/?transactionType=0&typesEstate=1`}]}
+                />
                 {
                     typesEstate &&
                     typesEstate.map(type => (

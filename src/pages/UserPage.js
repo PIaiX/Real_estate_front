@@ -21,7 +21,7 @@ import {bindActionCreators} from "redux";
 import alertActions from "../store/actions/alert"
 import {useDispatch} from 'react-redux';
 
-export default function UserPage() {
+export default function UserPage({routeName}) {
 
     const user = useCurrentUser()
     const token = useAccessToken()
@@ -315,7 +315,7 @@ export default function UserPage() {
                                 <div className="fs-11 text-center text-md-start">Нет актуальных объявлений</div>
                                 :
                                 <div className="position-relative">
-                                    <Slider1 userAds={userInformation?.realEstates}/>
+                                    <Slider1 userAds={userInformation?.realEstates} routeName={routeName}/>
                                 </div>
                             }
                         </div>

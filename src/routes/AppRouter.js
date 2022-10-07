@@ -39,7 +39,7 @@ const AppRouter = () => {
 
                 <Route path="hypothec" element={<Hypothec routeName='Ипотека'/>}/>
                 <Route element={<AuthProtector/>}>
-                    <Route path="user" element={<UserPage/>}>
+                    <Route path="user" element={<UserPage routeName='Пользователь'/>}>
                         <Route path=":userId" element={<UserPage/>}/>
                     </Route>
                     <Route path="advertise" element={<Advertise/>}>

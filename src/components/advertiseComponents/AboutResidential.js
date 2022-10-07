@@ -1,6 +1,4 @@
-import React, {useState} from 'react';
-import {AddressSuggestions} from "react-dadata";
-import env from "../../config/env";
+import React from 'react';
 
 const AboutResidential = (
     {
@@ -9,7 +7,9 @@ const AboutResidential = (
         activeField,
         seterActiveField,
         valid,
-        resetValid
+        resetValid,
+        info,
+        seterRadio
     }) => {
 
     return (
@@ -24,6 +24,7 @@ const AboutResidential = (
                         type="text"
                         name="residentalComplex"
                         className="fs-11"
+                        value={info?.residentalComplex || ''}
                         placeholder="Например: “Центральный”"
                         onChange={(e) => onChange(e)}
                     />
@@ -48,6 +49,8 @@ const AboutResidential = (
                                     type="radio"
                                     name="houseType"
                                     value={0}
+                                    checked={info?.houseType === 0}
+                                    onClick={e => seterRadio(e)}
                                     onChange={(e) => {
                                         onChange(e)
                                         resetValid(e, 'isInValidHouseType')
@@ -62,6 +65,8 @@ const AboutResidential = (
                                     type="radio"
                                     name="houseType"
                                     value={1}
+                                    checked={info?.houseType === 1}
+                                    onClick={e => seterRadio(e)}
                                     onChange={(e) => onChange(e)}
                                 />
                                 <span className="fs-11 ms-2">Апартаменты</span>
@@ -86,6 +91,8 @@ const AboutResidential = (
                         <input
                             type="radio"
                             name="roomType"
+                            checked={info?.roomType === 0}
+                            onClick={e => seterRadio(e)}
                             value={0}
                             onChange={(e) => {
                                 onChange(e)
@@ -98,6 +105,8 @@ const AboutResidential = (
                         <input
                             type="radio"
                             name="roomType"
+                            checked={info?.roomType === 1}
+                            onClick={e => seterRadio(e)}
                             value={1}
                             onChange={(e) => {
                                 onChange(e)
@@ -110,6 +119,8 @@ const AboutResidential = (
                         <input
                             type="radio"
                             name="roomType"
+                            onClick={e => seterRadio(e)}
+                            checked={info?.roomType === 2}
                             value={2}
                             onChange={(e) => {
                                 onChange(e)
@@ -122,6 +133,8 @@ const AboutResidential = (
                         <input
                             type="radio"
                             name="roomType"
+                            onClick={e => seterRadio(e)}
+                            checked={info?.roomType === 3}
                             value={3}
                             onChange={(e) => {
                                 onChange(e)
@@ -134,6 +147,8 @@ const AboutResidential = (
                         <input
                             type="radio"
                             name="roomType"
+                            onClick={e => seterRadio(e)}
+                            checked={info?.roomType === 4}
                             value={4}
                             onChange={(e) => {
                                 onChange(e)
@@ -146,6 +161,8 @@ const AboutResidential = (
                         <input
                             type="radio"
                             name="roomType"
+                            onClick={e => seterRadio(e)}
+                            checked={info?.roomType === 5}
                             value={5}
                             onChange={(e) => {
                                 onChange(e)
@@ -158,6 +175,8 @@ const AboutResidential = (
                         <input
                             type="radio"
                             name="roomType"
+                            onClick={e => seterRadio(e)}
+                            checked={info?.roomType === 6}
                             value={6}
                             onChange={(e) => {
                                 onChange(e)
@@ -170,6 +189,8 @@ const AboutResidential = (
                         <input
                             type="radio"
                             name="roomType"
+                            onClick={e => seterRadio(e)}
+                            checked={info?.roomType === 7}
                             value={7}
                             onChange={(e) => {
                                 onChange(e)
@@ -196,6 +217,7 @@ const AboutResidential = (
                         type="number"
                         name="totalArea"
                         placeholder="0"
+                        value={info?.totalArea || ''}
                         style={{borderColor: valid.isInValidTotalArea ? '#DA1E2A' : ''}}
                         className="fs-11 area w-100"
                         onChange={(e) => {
@@ -213,6 +235,7 @@ const AboutResidential = (
                     <input
                         type="number"
                         name="livingArea"
+                        value={info?.livingArea || ''}
                         placeholder="0"
                         className="fs-11 area w-100"
                         onChange={(e) => onChange(e)}
@@ -228,6 +251,7 @@ const AboutResidential = (
                     <input
                         type="number"
                         name="kitchenArea"
+                        value={info?.kitchenArea || ''}
                         placeholder="0"
                         className="fs-11 area w-100"
                         onChange={(e) => onChange(e)}
@@ -250,6 +274,7 @@ const AboutResidential = (
                         type="number"
                         name="floor"
                         placeholder="0"
+                        value={info?.floor || ''}
                         style={{borderColor: valid?.isInValidFloor ? '#DA1E2A' : ''}}
                         className="fs-11 w-100"
                         onChange={(e) => {
@@ -268,6 +293,7 @@ const AboutResidential = (
                         type="number"
                         name="maxFloor"
                         placeholder="0"
+                        value={info?.maxFloor || ''}
                         className="fs-11 w-100"
                         onChange={(e) => onChange(e)}
                     />
@@ -283,6 +309,8 @@ const AboutResidential = (
                                 <input
                                     type="radio"
                                     name="WCType"
+                                    checked={info?.WCType === 0}
+                                    onClick={e => seterRadio(e)}
                                     value={0}
                                     onChange={e => onChange(e)}
                                 />
@@ -294,6 +322,8 @@ const AboutResidential = (
                                 <input
                                     type="radio"
                                     name="WCType"
+                                    checked={info?.WCType === 1}
+                                    onClick={e => seterRadio(e)}
                                     value={1}
                                     onChange={e => onChange(e)}
                                 />
@@ -305,6 +335,8 @@ const AboutResidential = (
                                 <input
                                     type="radio"
                                     name="WCType"
+                                    checked={info?.WCType === 2}
+                                    onClick={e => seterRadio(e)}
                                     value={2}
                                     onChange={e => onChange(e)}
                                 />
@@ -324,6 +356,8 @@ const AboutResidential = (
                                 <input
                                     type="radio"
                                     name="balconyType"
+                                    checked={info?.balconyType === 1}
+                                    onClick={e => seterRadio(e)}
                                     value={1}
                                     onChange={e => onChange(e)}
                                 />
@@ -335,6 +369,8 @@ const AboutResidential = (
                                 <input
                                     type="radio"
                                     name="balconyType"
+                                    checked={info?.balconyType === 2}
+                                    onClick={e => seterRadio(e)}
                                     value={2}
                                     onChange={e => onChange(e)}
                                 />
@@ -346,6 +382,8 @@ const AboutResidential = (
                                 <input
                                     type="radio"
                                     name="balconyType"
+                                    checked={info?.balconyType === 3}
+                                    onClick={e => seterRadio(e)}
                                     value={3}
                                     onChange={e => onChange(e)}
                                 />
@@ -357,6 +395,8 @@ const AboutResidential = (
                                 <input
                                     type="radio"
                                     name="balconyType"
+                                    checked={info?.balconyType === 0}
+                                    onClick={e => seterRadio(e)}
                                     value={0}
                                     onChange={e => onChange(e)}
                                 />
@@ -376,6 +416,8 @@ const AboutResidential = (
                                 <input
                                     type="radio"
                                     name="layoutType"
+                                    checked={info?.layoutType === 0}
+                                    onClick={e => seterRadio(e)}
                                     value={0}
                                     onChange={e => onChange(e)}
                                 />
@@ -387,6 +429,8 @@ const AboutResidential = (
                                 <input
                                     type="radio"
                                     name="layoutType"
+                                    checked={info?.layoutType === 1}
+                                    onClick={e => seterRadio(e)}
                                     value={1}
                                     onChange={e => onChange(e)}
                                 />
@@ -398,6 +442,8 @@ const AboutResidential = (
                                 <input
                                     type="radio"
                                     name="layoutType"
+                                    checked={info?.layoutType === 2}
+                                    onClick={e => seterRadio(e)}
                                     value={2}
                                     onChange={e => onChange(e)}
                                 />
@@ -409,6 +455,8 @@ const AboutResidential = (
                                 <input
                                     type="radio"
                                     name="layoutType"
+                                    checked={info?.layoutType === 3}
+                                    onClick={e => seterRadio(e)}
                                     value={3}
                                     onChange={e => onChange(e)}
                                 />
@@ -428,6 +476,8 @@ const AboutResidential = (
                                 <input
                                     type="radio"
                                     name="repairType"
+                                    checked={info?.repairType === 0}
+                                    onClick={e => seterRadio(e)}
                                     value={0}
                                     onChange={e => onChange(e)}
                                 />
@@ -439,6 +489,8 @@ const AboutResidential = (
                                 <input
                                     type="radio"
                                     name="repairType"
+                                    checked={info?.repairType === 1}
+                                    onClick={e => seterRadio(e)}
                                     value={1}
                                     onChange={e => onChange(e)}
                                 />
@@ -450,6 +502,8 @@ const AboutResidential = (
                                 <input
                                     type="radio"
                                     name="repairType"
+                                    checked={info?.repairType === 2}
+                                    onClick={e => seterRadio(e)}
                                     value={2}
                                     onChange={e => onChange(e)}
                                 />
@@ -461,6 +515,8 @@ const AboutResidential = (
                                 <input
                                     type="radio"
                                     name="repairType"
+                                    checked={info?.repairType === 3}
+                                    onClick={e => seterRadio(e)}
                                     value={3}
                                     onChange={e => onChange(e)}
                                 />
@@ -480,6 +536,8 @@ const AboutResidential = (
                                         type="radio"
                                         name="window"
                                         value={0}
+                                        checked={info?.window === 0}
+                                        onClick={e => seterRadio(e)}
                                         onChange={e => onChange(e)}
                                     />
                                     <span className="fs-11 ms-2">Во двор</span>
@@ -491,6 +549,8 @@ const AboutResidential = (
                                         type="radio"
                                         name="window"
                                         value={1}
+                                        checked={info?.window === 1}
+                                        onClick={e => seterRadio(e)}
                                         onChange={e => onChange(e)}
                                     />
                                     <span className="fs-11 ms-2">На улицу</span>
@@ -502,6 +562,8 @@ const AboutResidential = (
                                         type="radio"
                                         name="window"
                                         value={2}
+                                        checked={info?.window === 2}
+                                        onClick={e => seterRadio(e)}
                                         onChange={e => onChange(e)}
                                     />
                                     <span className="fs-11 ms-2">На солнечную сторону</span>
@@ -513,6 +575,8 @@ const AboutResidential = (
                                         type="radio"
                                         name="window"
                                         value={3}
+                                        checked={info?.window === 3}
+                                        onClick={e => seterRadio(e)}
                                         onChange={e => onChange(e)}
                                     />
                                     <span className="fs-11 ms-2">На две стороны</span>
@@ -532,6 +596,8 @@ const AboutResidential = (
                                         type="radio"
                                         name="windowType"
                                         value={0}
+                                        checked={info?.windowType === 0}
+                                        onClick={e => seterRadio(e)}
                                         onChange={e => onChange(e)}
                                     />
                                     <span className="fs-11 ms-2">Обычное прямоугольное</span>
@@ -543,6 +609,8 @@ const AboutResidential = (
                                         type="radio"
                                         name="windowType"
                                         value={1}
+                                        checked={info?.windowType === 1}
+                                        onClick={e => seterRadio(e)}
                                         onChange={e => onChange(e)}
                                     />
                                     <span className="fs-11 ms-2">С вращающейся рамой</span>
@@ -554,6 +622,8 @@ const AboutResidential = (
                                         type="radio"
                                         name="windowType"
                                         value={2}
+                                        checked={info?.windowType === 2}
+                                        onClick={e => seterRadio(e)}
                                         onChange={e => onChange(e)}
                                     />
                                     <span className="fs-11 ms-2">В нише</span>
@@ -565,6 +635,8 @@ const AboutResidential = (
                                         type="radio"
                                         name="windowType"
                                         value={3}
+                                        checked={info?.windowType === 3}
+                                        onClick={e => seterRadio(e)}
                                         onChange={e => onChange(e)}
                                     />
                                     <span className="fs-11 ms-2">Панорамное</span>
@@ -576,6 +648,8 @@ const AboutResidential = (
                                         type="radio"
                                         name="windowType"
                                         value={4}
+                                        checked={info?.windowType === 4}
+                                        onClick={e => seterRadio(e)}
                                         onChange={e => onChange(e)}
                                     />
                                     <span className="fs-11 ms-2">Французское</span>
@@ -587,6 +661,8 @@ const AboutResidential = (
                                         type="radio"
                                         name="windowType"
                                         value={5}
+                                        checked={info?.windowType === 5}
+                                        onClick={e => seterRadio(e)}
                                         onChange={e => onChange(e)}
                                     />
                                     <span className="fs-11 ms-2">Эркер</span>
@@ -598,6 +674,8 @@ const AboutResidential = (
                                         type="radio"
                                         name="windowType"
                                         value={6}
+                                        checked={info?.windowType === 6}
+                                        onClick={e => seterRadio(e)}
                                         onChange={e => onChange(e)}
                                     />
                                     <span className="fs-11 ms-2">С изогнутым верхом</span>
@@ -609,6 +687,8 @@ const AboutResidential = (
                                         type="radio"
                                         name="windowType"
                                         value={7}
+                                        checked={info?.windowType === 7}
+                                        onClick={e => seterRadio(e)}
                                         onChange={e => onChange(e)}
                                     />
                                     <span className="fs-11 ms-2">Выгнутое</span>
@@ -620,6 +700,8 @@ const AboutResidential = (
                                         type="radio"
                                         name="windowType"
                                         value={8}
+                                        checked={info?.windowType === 8}
+                                        onClick={e => seterRadio(e)}
                                         onChange={e => onChange(e)}
                                     />
                                     <span className="fs-11 ms-2">Со скользящей рамой</span>
@@ -631,6 +713,8 @@ const AboutResidential = (
                                         type="radio"
                                         name="windowType"
                                         value={9}
+                                        checked={info?.windowType === 9}
+                                        onClick={e => seterRadio(e)}
                                         onChange={e => onChange(e)}
                                     />
                                     <span className="fs-11 ms-2">Со створным переплетом</span>
@@ -640,9 +724,9 @@ const AboutResidential = (
                     </div>
                 </div>
                 {
-                    estateName?.toLowerCase() === 'дом' ||
+                    (estateName?.toLowerCase() === 'дом' ||
                     estateName?.toLowerCase() === 'дача' ||
-                    estateName?.toLowerCase() === 'коттедж' &&
+                    estateName?.toLowerCase() === 'коттедж') &&
                     <>
                         <hr className="d-none d-md-block my-4"/>
                         <div className="row mt-4 mt-sm-5 mt-md-0">
@@ -654,6 +738,8 @@ const AboutResidential = (
                                             <input
                                                 type="radio"
                                                 name="outBuildingType"
+                                                checked={info?.outBuildingType === 0}
+                                                onClick={e => seterRadio(e)}
                                                 value={0}
                                                 onChange={e => onChange(e)}
                                             />
@@ -665,6 +751,8 @@ const AboutResidential = (
                                             <input
                                                 type="radio"
                                                 name="outBuildingType"
+                                                checked={info?.outBuildingType === 1}
+                                                onClick={e => seterRadio(e)}
                                                 value={1}
                                                 onChange={e => onChange(e)}
                                             />
@@ -676,6 +764,8 @@ const AboutResidential = (
                                             <input
                                                 type="radio"
                                                 name="outBuildingType"
+                                                checked={info?.outBuildingType === 2}
+                                                onClick={e => seterRadio(e)}
                                                 value={2}
                                                 onChange={e => onChange(e)}
                                             />
@@ -695,6 +785,8 @@ const AboutResidential = (
                                             <input
                                                 type="radio"
                                                 name="hasBasement"
+                                                checked={info?.hasBasement === 1}
+                                                onClick={e => seterRadio(e)}
                                                 value={1}
                                                 onChange={e => onChange(e)}
                                             />
@@ -706,6 +798,8 @@ const AboutResidential = (
                                             <input
                                                 type="radio"
                                                 name="hasBasement"
+                                                checked={info?.hasBasement === 0}
+                                                onClick={e => seterRadio(e)}
                                                 value={0}
                                                 onChange={e => onChange(e)}
                                             />
@@ -726,6 +820,7 @@ const AboutResidential = (
                                 <input
                                     type="checkbox"
                                     name="hasKitchenFurniture"
+                                    checked={info?.hasKitchenFurniture || false}
                                     onChange={e => onChange(e)}
                                 />
                                 <span className="fs-11 ms-3">Кухонная мебель</span>
@@ -734,6 +829,7 @@ const AboutResidential = (
                                 <input
                                     type="checkbox"
                                     name="hasFurniture"
+                                    checked={info?.hasFurniture || false}
                                     onChange={e => onChange(e)}
                                 />
                                 <span className="fs-11 ms-3">Мебель в комнатах</span>
@@ -742,6 +838,7 @@ const AboutResidential = (
                                 <input
                                     type="checkbox"
                                     name="hasRefrigerator"
+                                    checked={info?.hasRefrigerator || false}
                                     onChange={e => onChange(e)}
                                 />
                                 <span className="fs-11 ms-3">Холодильник</span>
@@ -750,6 +847,7 @@ const AboutResidential = (
                                 <input
                                     type="checkbox"
                                     name="hasWashingMachine"
+                                    checked={info?.hasWashingMachine || false}
                                     onChange={e => onChange(e)}
                                 />
                                 <span className="fs-11 ms-3">Стиральная машина</span>
@@ -758,6 +856,7 @@ const AboutResidential = (
                                 <input
                                     type="checkbox"
                                     name="hasDishWasher"
+                                    checked={info?.hasDishWasher || false}
                                     onChange={e => onChange(e)}
                                 />
                                 <span className="fs-11 ms-3">Посудомоечная машина</span>
@@ -766,6 +865,7 @@ const AboutResidential = (
                                 <input
                                     type="checkbox"
                                     name="hasTv"
+                                    checked={info?.hasTv || false}
                                     onChange={e => onChange(e)}
                                 />
                                 <span className="fs-11 ms-3">Телевизор</span>
@@ -774,6 +874,7 @@ const AboutResidential = (
                                 <input
                                     type="checkbox"
                                     name="hasConditioner"
+                                    checked={info?.hasConditioner || false}
                                     onChange={e => onChange(e)}
                                 />
                                 <span className="fs-11 ms-3">Кондиционер</span>
@@ -782,6 +883,7 @@ const AboutResidential = (
                                 <input
                                     type="checkbox"
                                     name="hasInternet"
+                                    checked={info?.hasInternet || false}
                                     onChange={e => onChange(e)}
                                 />
                                 <span className="fs-11 ms-3">Интернет</span>
@@ -790,6 +892,7 @@ const AboutResidential = (
                                 <input
                                     type="checkbox"
                                     name="hasBathroom"
+                                    checked={info?.hasBathroom || false}
                                     onChange={e => onChange(e)}
                                 />
                                 <span className="fs-11 ms-3">Ванна</span>
@@ -798,6 +901,7 @@ const AboutResidential = (
                                 <input
                                     type="checkbox"
                                     name="hasShowerCabin"
+                                    checked={info?.hasShowerCabin || false}
                                     onChange={e => onChange(e)}
                                 />
                                 <span className="fs-11 ms-3">Душевая кабина</span>
@@ -806,6 +910,7 @@ const AboutResidential = (
                                 <input
                                     type="checkbox"
                                     name="withKids"
+                                    checked={info?.withKids || false}
                                     onChange={e => onChange(e)}
                                 />
                                 <span className="fs-11 ms-3">Можно с детьми</span>
@@ -814,6 +919,7 @@ const AboutResidential = (
                                 <input
                                     type="checkbox"
                                     name="withPets"
+                                    checked={info?.withPets || false}
                                     onChange={e => onChange(e)}
                                 />
                                 <span className="fs-11 ms-3">Можно с животными</span>
@@ -832,6 +938,8 @@ const AboutResidential = (
                                         type="radio"
                                         name="windRoseDirectionType"
                                         value={0}
+                                        checked={info?.windRoseDirectionType === 0 }
+                                        onClick={e => seterRadio(e)}
                                         onChange={e => onChange(e)}
                                     />
                                     <span className="fs-11 ms-2">Север</span>
@@ -843,6 +951,8 @@ const AboutResidential = (
                                         type="radio"
                                         name="windRoseDirectionType"
                                         value={1}
+                                        checked={info?.windRoseDirectionType === 1}
+                                        onClick={e => seterRadio(e)}
                                         onChange={e => onChange(e)}
                                     />
                                     <span className="fs-11 ms-2">Юг</span>
@@ -854,6 +964,8 @@ const AboutResidential = (
                                         type="radio"
                                         name="windRoseDirectionType"
                                         value={2}
+                                        checked={info?.windRoseDirectionType === 2}
+                                        onClick={e => seterRadio(e)}
                                         onChange={e => onChange(e)}
                                     />
                                     <span className="fs-11 ms-2">Запад</span>
@@ -865,6 +977,8 @@ const AboutResidential = (
                                         type="radio"
                                         name="windRoseDirectionType"
                                         value={3}
+                                        checked={info?.windRoseDirectionType === 3}
+                                        onClick={e => seterRadio(e)}
                                         onChange={e => onChange(e)}
                                     />
                                     <span className="fs-11 ms-2">Восток</span>
@@ -876,6 +990,8 @@ const AboutResidential = (
                                         type="radio"
                                         name="windRoseDirectionType"
                                         value={4}
+                                        checked={info?.windRoseDirectionType === 4}
+                                        onClick={e => seterRadio(e)}
                                         onChange={e => onChange(e)}
                                     />
                                     <span className="fs-11 ms-2">Северо-восток</span>
@@ -887,6 +1003,8 @@ const AboutResidential = (
                                         type="radio"
                                         name="windRoseDirectionType"
                                         value={5}
+                                        checked={info?.windRoseDirectionType === 5}
+                                        onClick={e => seterRadio(e)}
                                         onChange={e => onChange(e)}
                                     />
                                     <span className="fs-11 ms-2">Юго-восток</span>
@@ -898,6 +1016,8 @@ const AboutResidential = (
                                         type="radio"
                                         name="windRoseDirectionType"
                                         value={6}
+                                        checked={info?.windRoseDirectionType === 6}
+                                        onClick={e => seterRadio(e)}
                                         onChange={e => onChange(e)}
                                     />
                                     <span className="fs-11 ms-2">Северо-запад</span>
@@ -909,6 +1029,8 @@ const AboutResidential = (
                                         type="radio"
                                         name="windRoseDirectionType"
                                         value={7}
+                                        checked={info?.windRoseDirectionType === 7}
+                                        onClick={e => seterRadio(e)}
                                         onChange={e => onChange(e)}
                                     />
                                     <span className="fs-11 ms-2">Юго-запад</span>

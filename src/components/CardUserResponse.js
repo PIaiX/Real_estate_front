@@ -113,31 +113,36 @@ const CardUserResponse = (props) => {
                                 </div>
                             </>
                         }
-                        <div className="col-lg-4">
-                            <span className='fs-12 fw-bold'>Примеры работ:</span>
-                        </div>
-                        <div className="col-lg-8">
-                            <div className="row row-cols-5 g-2">
-                                {props?.images?.map((i, index) => (
-                                    <div key={i.id}>
-                                        <img
-                                            onClick={() => openImageViewer(index)}
-                                            className="work-example"
-                                            src={`https://api.antontig.beget.tech${i.image}`}
-                                        />
+                        {
+                            props?.images?.length > 0 &&
+                            <>
+                                <div className="col-lg-4">
+                                    <span className='fs-12 fw-bold'>Примеры работ:</span>
+                                </div>
+                                <div className="col-lg-8">
+                                    <div className="row row-cols-5 g-2">
+                                        {props?.images?.map((i, index) => (
+                                            <div key={i.id}>
+                                                <img
+                                                    onClick={() => openImageViewer(index)}
+                                                    className="work-example"
+                                                    src={`https://api.antontig.beget.tech${i.image}`}
+                                                />
+                                            </div>
+                                        ))}
+                                        {isViewerOpen && (
+                                            <ImageViewer
+                                                src={convertPhoto(props?.images)}
+                                                currentIndex={currentImage}
+                                                disableScroll={false}
+                                                closeOnClickOutside={true}
+                                                onClose={closeImageViewer}
+                                            />
+                                        )}
                                     </div>
-                                ))}
-                                {isViewerOpen && (
-                                    <ImageViewer
-                                        src={convertPhoto(props?.images)}
-                                        currentIndex={currentImage}
-                                        disableScroll={false}
-                                        closeOnClickOutside={true}
-                                        onClose={closeImageViewer}
-                                    />
-                                )}
-                            </div>
-                        </div>
+                                </div>
+                            </>
+                        }
                     </div>
                     {/*<div className='d-flex align-items-center flex-column'>*/}
                     {/*    <div className='slider-in-responses'>*/}

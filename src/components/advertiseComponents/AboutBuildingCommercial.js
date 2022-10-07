@@ -1,6 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
+const AboutBuildingCommercial = (
+    {
+        onChange,
+        activeField,
+        seterActiveField,
+        info,
+        seterRadio
+    }) => {
 
     return (
         <fieldset data-show={(activeField === 4) ? 'true' : 'false'} name="anchor-4"
@@ -15,6 +22,7 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                         type="number"
                         className="fs-11"
                         name='yearOfConstruction'
+                        value={info?.yearOfConstruction || ''}
                         placeholder="1850-..."
                         onChange={e => onChange(e)}
                     />
@@ -30,6 +38,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                                 type="radio"
                                 name="houseBuildingType"
                                 value={0}
+                                checked={info?.houseBuildingType === 0}
+                                onClick={e => seterRadio(e)}
                                 onChange={e => onChange(e)}
                             />
                             <span className="fs-11 ms-2">Кирпичный</span>
@@ -39,6 +49,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                                 type="radio"
                                 name="houseBuildingType"
                                 value={1}
+                                checked={info?.houseBuildingType === 1}
+                                onClick={e => seterRadio(e)}
                                 onChange={e => onChange(e)}
                             />
                             <span className="fs-11 ms-2">Кирпично-монолитный</span>
@@ -48,6 +60,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                                 type="radio"
                                 name="houseBuildingType"
                                 value={2}
+                                checked={info?.houseBuildingType === 2}
+                                onClick={e => seterRadio(e)}
                                 onChange={e => onChange(e)}
                             />
                             <span className="fs-11 ms-2">Панельный</span>
@@ -57,6 +71,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                                 type="radio"
                                 name="houseBuildingType"
                                 value={3}
+                                checked={info?.houseBuildingType === 3}
+                                onClick={e => seterRadio(e)}
                                 onChange={e => onChange(e)}
                             />
                             <span className="fs-11 ms-2">Монолитный</span>
@@ -66,6 +82,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                                 type="radio"
                                 name="houseBuildingType"
                                 value={4}
+                                checked={info?.houseBuildingType === 4}
+                                onClick={e => seterRadio(e)}
                                 onChange={e => onChange(e)}
                             />
                             <span className="fs-11 ms-2">Блочный</span>
@@ -75,6 +93,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                                 type="radio"
                                 name="houseBuildingType"
                                 value={5}
+                                checked={info?.houseBuildingType === 5}
+                                onClick={e => seterRadio(e)}
                                 onChange={e => onChange(e)}
                             />
                             <span className="fs-11 ms-2">Деревянный</span>
@@ -84,6 +104,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                                 type="radio"
                                 name="houseBuildingType"
                                 value={6}
+                                checked={info?.houseBuildingType === 6}
+                                onClick={e => seterRadio(e)}
                                 onChange={e => onChange(e)}
                             />
                             <span className="fs-11 ms-2">Керамзитный</span>
@@ -93,6 +115,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                                 type="radio"
                                 name="houseBuildingType"
                                 value={7}
+                                checked={info?.houseBuildingType === 7}
+                                onClick={e => seterRadio(e)}
                                 onChange={e => onChange(e)}
                             />
                             <span className="fs-11 ms-2">Газоблок</span>
@@ -102,6 +126,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                                 type="radio"
                                 name="houseBuildingType"
                                 value={8}
+                                checked={info?.houseBuildingType === 8}
+                                onClick={e => seterRadio(e)}
                                 onChange={e => onChange(e)}
                             />
                             <span className="fs-11 ms-2">Пеноблок</span>
@@ -111,6 +137,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                                 type="radio"
                                 name="houseBuildingType"
                                 value={9}
+                                checked={info?.houseBuildingType === 9}
+                                onClick={e => seterRadio(e)}
                                 onChange={e => onChange(e)}
                             />
                             <span className="fs-11 ms-2">Армолитовые блоки</span>
@@ -120,6 +148,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                                 type="radio"
                                 name="houseBuildingType"
                                 value={10}
+                                checked={info?.houseBuildingType === 10}
+                                onClick={e => seterRadio(e)}
                                 onChange={e => onChange(e)}
                             />
                             <span className="fs-11 ms-2">Сип-панели</span>
@@ -129,6 +159,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                                 type="radio"
                                 name="houseBuildingType"
                                 value={11}
+                                checked={info?.houseBuildingType === 11}
+                                onClick={e => seterRadio(e)}
                                 onChange={e => onChange(e)}
                             />
                             <span className="fs-11 ms-2">Смешанные</span>
@@ -146,6 +178,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                                 type="radio"
                                 name="elevatorType"
                                 value={0}
+                                checked={info?.elevatorType === 0}
+                                onClick={e => seterRadio(e)}
                                 onChange={e => onChange(e)}
                             />
                             <span className="fs-11 ms-2">Нет</span>
@@ -154,6 +188,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                             <input
                                 type="radio"
                                 name="elevatorType"
+                                checked={info?.elevatorType === 1}
+                                onClick={e => seterRadio(e)}
                                 value={1}
                                 onChange={e => onChange(e)}
                             />
@@ -163,6 +199,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                             <input
                                 type="radio"
                                 name="elevatorType"
+                                checked={info?.elevatorType === 2}
+                                onClick={e => seterRadio(e)}
                                 value={2}
                                 onChange={e => onChange(e)}
                             />
@@ -172,6 +210,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                             <input
                                 type="radio"
                                 name="elevatorType"
+                                checked={info?.elevatorType === 3}
+                                onClick={e => seterRadio(e)}
                                 value={3}
                                 onChange={e => onChange(e)}
                             />
@@ -181,6 +221,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                             <input
                                 type="radio"
                                 name="elevatorType"
+                                checked={info?.elevatorType === 4}
+                                onClick={e => seterRadio(e)}
                                 value={4}
                                 onChange={e => onChange(e)}
                             />
@@ -199,6 +241,7 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                         type="number"
                         placeholder="3-100"
                         name='ceilingHeight'
+                        value={info?.ceilingHeight || ''}
                         className="fs-11"
                         onChange={e => onChange(e)}
                     />
@@ -214,6 +257,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                             <input
                                 type="radio"
                                 name="hasRamp"
+                                checked={info?.hasRamp === 1}
+                                onClick={e => seterRadio(e)}
                                 value={1}
                                 onChange={e => onChange(e)}
                             />
@@ -225,6 +270,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                             <input
                                 type="radio"
                                 name="hasRamp"
+                                checked={info?.hasRamp === 0}
+                                onClick={e => seterRadio(e)}
                                 value={0}
                                 onChange={e => onChange(e)}
                             />
@@ -242,6 +289,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                             <input
                                 type="radio"
                                 name="hasGarbage"
+                                checked={info?.hasGarbage === 1}
+                                onClick={e => seterRadio(e)}
                                 value={1}
                                 onChange={e => onChange(e)}
                             />
@@ -253,6 +302,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                             <input
                                 type="radio"
                                 name="hasGarbage"
+                                checked={info?.hasGarbage === 0}
+                                onClick={e => seterRadio(e)}
                                 value={0}
                                 onChange={e => onChange(e)}
                             />
@@ -270,6 +321,7 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                             <input
                                 type="checkbox"
                                 name="hasGroundParking"
+                                checked={info?.hasGroundParking || false}
                                 onChange={e => onChange(e)}
                             />
                             <span className="fs-11 ms-3">Наземная</span>
@@ -280,6 +332,7 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                             <input
                                 type="checkbox"
                                 name="hasUnderGroundParking"
+                                checked={info?.hasUnderGroundParking || false}
                                 onChange={e => onChange(e)}
                             />
                             <span className="fs-11 ms-3">Подземная</span>
@@ -290,6 +343,7 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                             <input
                                 type="checkbox"
                                 name="hasMoreLayerParking"
+                                checked={info?.hasMoreLayerParking || false}
                                 onChange={e => onChange(e)}
                             />
                             <span className="fs-11 ms-3">Многоуров.</span>
@@ -299,7 +353,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                         <label className="mb-3">
                             <input
                                 type="checkbox"
-                                name="hasOpenInDvor"
+                                name="hasYardParking"
+                                checked={info?.hasYardParking || false}
                                 onChange={e => onChange(e)}
                             />
                             <span className="fs-11 ms-3">Открытая во дворе</span>
@@ -309,7 +364,8 @@ const AboutBuildingCommercial = ({onChange, activeField, seterActiveField}) => {
                         <label className="mb-3">
                             <input
                                 type="checkbox"
-                                name="hasInDvorPerPalka"
+                                name="hasBarrierParking"
+                                checked={info?.hasBarrierParking || false}
                                 onChange={e => onChange(e)}
                             />
                             <span className="fs-11 ms-3">Во дворе за шлагбаумом</span>

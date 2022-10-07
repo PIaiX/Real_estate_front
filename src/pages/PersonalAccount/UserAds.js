@@ -111,6 +111,11 @@ export default function UserAds({routeName}) {
                                     userAvatar={i.user?.avatar}
                                     reportStatus={i.reportStatus}
                                     routeName={routeName}
+                                    totalArea={i?.totalArea}
+                                    estateName={i?.estate?.name}
+                                    buildingTypeForUser={i?.buildingTypeForUser}
+                                    realEstateTypeForUser={i?.estate?.realEstateTypeForUser}
+                                    acres={i?.acres}
                                 />
                                 <div
                                     className={(view === 'as-a-list') ? "d-flex justify-content-end align-items-center mt-2" : "mt-2"}>

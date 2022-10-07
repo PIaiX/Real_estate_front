@@ -21,6 +21,14 @@ import CustomSelect from "../components/CustomSelect";
 import {userInfo} from "../API/users";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import Slider3 from "../components/Slider3";
+import ForLivingAd from "../components/cardPageComponents/forLivingAd";
+import {localEstates} from "../helpers/localEstates";
+import ForParkingAd from "../components/cardPageComponents/forParkingAd";
+import ForSteadAd from "../components/cardPageComponents/forSteadAd";
+import ForCommercialAd from "../components/cardPageComponents/forCommercialAd";
+import ForAboutBuildingLivingAd from "../components/cardPageComponents/forAboutBuildingLivingAd";
+import ForAboutBuildingCommercialAd from "../components/cardPageComponents/forAboutBuildingCommercialAd";
+import ForAboutBuildingParkingAd from "../components/cardPageComponents/forAboutBuildingParkingAd";
 
 SwiperCore.use([Navigation, Thumbs, EffectFade]);
 
@@ -176,7 +184,18 @@ export default function CardPage() {
     }
 
     const title = () => {
-        return <span>{ads?.title} м<sup>2</sup></span>
+        if (ads?.estate?.realEstateTypeForUser?.toLowerCase() === localEstates.kvartiri) {
+            return <span>{ads?.estate?.name} {ads?.totalArea} м<sup>2</sup></span>
+        }
+        if (ads?.estate?.realEstateTypeForUser?.toLowerCase() === localEstates.zemelia) {
+            return <span>{ads?.estate?.name} {ads?.acres} м<sup>2</sup></span>
+        }
+        if (ads?.estate?.realEstateTypeForUser?.toLowerCase() === localEstates.commer) {
+            return <span>{ads?.buildingTypeForUser}</span>
+        }
+        if (ads?.estate?.realEstateTypeForUser?.toLowerCase() === localEstates.parking) {
+            return <span>{ads?.estate?.name} {ads?.totalArea} м<sup>2</sup></span>
+        }
     }
 
     useEffect(() => {
@@ -202,8 +221,13 @@ export default function CardPage() {
                     setIsShowResponseModal(false)
                     setResponseData({token, userId, realEstateId: ads?.id})
                     setImages([])
-                    setTimeout(() => {setAlert('success', true, 'Отклик успешно отправлен')}, 500)
-
+                    setTimeout(() => {
+                        setAlert('success', true, 'Отклик успешно отправлен')
+                    }, 500)
+                    getResponsesAd(ads?.id, token)
+                        .then((res) => {
+                            setResponsesAd(res)
+                        })
                 })
                 .catch(() => {
                     setAlert('danger', true, 'Произошла ошибка')
@@ -236,7 +260,18 @@ export default function CardPage() {
                 <Breadcrumbs currentRouteName={title() || 'Объявление'} cardPage={true}/>
             </div>
             <section id="sec-7" className="container pb-5">
-                <h1>{ads?.title} м<sup>2</sup></h1>
+                {ads?.estate?.realEstateTypeForUser?.toLowerCase() === localEstates.kvartiri &&
+                    <h1>{ads?.estate?.name} {ads?.totalArea} м<sup>2</sup></h1>
+                }
+                {ads?.estate?.realEstateTypeForUser?.toLowerCase() === localEstates.zemelia &&
+                    <h1>{ads?.estate?.name} {ads?.acres} м<sup>2</sup></h1>
+                }
+                {ads?.estate?.realEstateTypeForUser?.toLowerCase() === localEstates.commer &&
+                    <h1>{ads?.buildingTypeForUser}</h1>
+                }
+                {ads?.estate?.realEstateTypeForUser?.toLowerCase() === localEstates.parking &&
+                    <h1>{ads?.estate?.name} {ads?.totalArea} м<sup>2</sup></h1>
+                }
                 <div className="d-flex align-items-center mb-2 mb-xxl-3">
                     <img src="/img/icons/pin.svg" alt="адрес"/>
                     <div className="fs-11 fw-6 ms-2 ms-sm-4">
@@ -423,7 +458,7 @@ export default function CardPage() {
                                             {ads?.communalPrice ? `Коммунальные платежи: ${ads?.communalPrice} ₽` : "Не включая коммунальные платежи"}
                                             <br/>Залог {ads?.pledge} ₽, коммисия: {ads?.commissionForUser}
                                             <br/>Предоплата: {ads?.prepaymentTypeForUser},
-                                            аренда: {ads?.rentalTypeForUser}
+                                            аренда: {ads?.rentalPeriodTypeForUser}
                                         </div>
                                     </div>}
                             </div>
@@ -470,243 +505,233 @@ export default function CardPage() {
                             {ads?.description}
                         </p>
 
+                        <h4 className="mt-4 mt-sm-5 mb-3">О сделке</h4>
+                        {ads?.transactionType === 1 &&
+                            <div className="column-2">
+                                <div className="specification fs-11">
+                                    <div className="left">
+                                        <span>Продавец</span>
+                                    </div>
+                                    <div className="right">
+                                        <span>{ads?.sellerTypeForUser}</span>
+                                    </div>
+                                </div>
+                                <div className="specification fs-11">
+                                    <div className="left">
+                                        <span>Условия сделки</span>
+                                    </div>
+                                    <div className="right">
+                                        <span>{ads?.saleTypeForUser}</span>
+                                    </div>
+                                </div>
+                                <div className="specification fs-11">
+                                    <div className="left">
+                                        <span>Ипотека</span>
+                                    </div>
+                                    <div className="right">
+                                        <span>{ads?.isMortgage ? 'да' : 'нет'}</span>
+                                    </div>
+                                </div>
+                                <div className="specification fs-11">
+                                    <div className="left">
+                                        <span>Обременения</span>
+                                    </div>
+                                    <div className="right">
+                                        <span>{ads?.isEncumbrances ? 'да' : 'нет'}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        {ads?.transactionType === 0 &&
+                            <div className="column-2">
+                                <div className="specification fs-11">
+                                    <div className="left">
+                                        <span>Тип аренды</span>
+                                    </div>
+                                    <div className="right">
+                                        <span>{ads?.rentalPeriodTypeForUser}</span>
+                                    </div>
+                                </div>
+                                <div className="specification fs-11">
+                                    <div className="left">
+                                        <span>Продавец</span>
+                                    </div>
+                                    <div className="right">
+                                        <span>{ads?.sellerTypeForUser}</span>
+                                    </div>
+                                </div>
+                                <div className="specification fs-11">
+                                    <div className="left">
+                                        <span>Условия сделки</span>
+                                    </div>
+                                    <div className="right">
+                                        <span>{ads?.saleTypeForUser}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
                         <h4 className="mt-4 mt-sm-5 mb-3">Характерстики</h4>
-                        <div className="column-2">
-                            <div className="specification fs-11">
-                                <div className="left">
-                                    <span>Комнат</span>
-                                </div>
-                                <div className="right">
-                                    <span>{ads?.roomsForUser}</span>
-                                </div>
-                            </div>
-                            <div className="specification fs-11">
-                                <div className="left">
-                                    <span>Общая площадь</span>
-                                </div>
-                                <div className="right">
-                                    <span>{ads?.totalArea} м<sup>2</sup></span>
-                                </div>
-                            </div>
-                            <div className="specification fs-11">
-                                <div className="left">
-                                    <span>Жилая площадь</span>
-                                </div>
-                                {(ads?.livingArea !== null) ?
-                                    <div className="right">
-                                        <span>{ads?.livingArea} м<sup>2</sup></span>
-                                    </div>
-                                    :
-                                    <div className="right">
-                                        <span>{ads?.livingAreaForUser}</span>
-                                    </div>}
-                            </div>
-                            <div className="specification fs-11">
-                                <div className="left">
-                                    <span>Площадь кухни</span>
-                                </div>
-                                {(ads?.kitchenArea !== null) ?
-                                    <div className="right">
-                                        <span>{ads?.kitchenArea} м<sup>2</sup></span>
-                                    </div>
-                                    :
-                                    <div className="right">
-                                        <span>{ads?.kitchenAreaForUser}</span>
-                                    </div>
-                                }
-                            </div>
-                            <div className="specification fs-11">
-                                <div className="left">
-                                    <span>Этаж</span>
-                                </div>
-                                <div className="right">
-                                    <span>{ads?.floor}/{ads?.maxFloorForUser}</span>
-                                </div>
-                            </div>
-                            <div className="specification fs-11">
-                                <div className="left">
-                                    <span>Планировка</span>
-                                </div>
-                                <div className="right">
-                                    <span>{ads?.layoutForUser}</span>
-                                </div>
-                            </div>
-                            <div className="specification fs-11">
-                                <div className="left">
-                                    <span>Ремонт</span>
-                                </div>
-                                <div className="right">
-                                    <span>{ads?.repairTypeForUser}</span>
-                                </div>
-                            </div>
-                            <div className="specification fs-11">
-                                <div className="left">
-                                    <span>Санузел</span>
-                                </div>
-                                <div className="right">
-                                    <span>{ads?.WCTypeForUser}</span>
-                                </div>
-                            </div>
-                            <div className="specification fs-11">
-                                <div className="left">
-                                    <span>Балкон/Лоджия</span>
-                                </div>
-                                <div className="right">
-                                    <span>{ads?.balconyTypeForUser}</span>
-                                </div>
-                            </div>
-                            <div className="specification fs-11">
-                                <div className="left">
-                                    <span>Лифт</span>
-                                </div>
-                                <div className="right">
-                                    <span>{ads?.elevatorTypeForUser}</span>
-                                </div>
-                            </div>
-                        </div>
+                        {ads?.estate?.realEstateTypeForUser?.toLowerCase()?.includes(localEstates.kvartiri) &&
+                            <ForLivingAd
+                                rooms={ads?.roomsForUser}
+                                totalArea={ads?.totalArea}
+                                livingArea={ads?.livingArea}
+                                livingAreaForUser={ads?.livingAreaForUser}
+                                kitchenArea={ads?.kitchenArea}
+                                kitchenAreaForUser={ads?.kitchenAreaForUser}
+                                maxFloorForUser={ads?.maxFloorForUser}
+                                floor={ads?.floor}
+                                layoutForUser={ads?.layoutForUser}
+                                repairTypeForUser={ads?.repairTypeForUser}
+                                WCTypeForUser={ads?.WCTypeForUser}
+                                balconyTypeForUser={ads?.balconyTypeForUser}
+                                elevatorTypeForUser={ads?.elevatorTypeForUser}
+                                windRoseDirectionType={ads?.windRoseDirectionTypeForUser}
+                                window={ads?.windowForUser}
+                                windowType={ads?.windowTypeForUser}
+                                estateType={ads?.estate?.name}
+                                outBuildingType={ads?.outBuildingTypeForUser}
+                                landArea={ads?.landArea}
+                                estateTypeForUser={ads?.estateTypeForUser}
+                                areaTypeForUser={ads?.areaTypeForUser}
+                            />
+                        }
+                        {ads?.estate?.realEstateTypeForUser?.toLowerCase()?.includes(localEstates.parking) &&
+                            <ForParkingAd
+                                hasSecurity={ads?.hasSecurity}
+                                locationTypeForUser={ads?.locationTypeForUser}
+                                totalArea={ads?.totalArea}
+                                estateType={ads?.estate?.name}
+                            />
+                        }
+                        {ads?.estate?.realEstateTypeForUser?.toLowerCase()?.includes(localEstates.commer) &&
+                            <ForCommercialAd
+                                buildingType={ads?.buildingTypeForUser}
+                                directionTypeForUser={ads?.directionTypeForUser}
+                                hasVentilation={ads?.hasVentilation}
+                                gradeType={ads?.gradeTypeForUser}
+                                hasSecurityAlarm={ads?.hasSecurityAlarm}
+                                hasFireAlarm={ads?.hasFireAlarm}
+                            />
+                        }
+                        {ads?.estate?.realEstateTypeForUser?.toLowerCase()?.includes(localEstates.zemelia) &&
+                            <ForSteadAd
+                                acres={ads?.acres}
+                                cityDistance={ads?.cityDistance}
+                            />
+                        }
 
-                        <h4 className="mt-4 mt-sm-5 mb-3">Дополнительная информация</h4>
-                        <div className="row row-cols-2 row-cols-md-3 gx-2 gx-sm-4">
-                            {ads?.hasGroundParking ?
-                                <div className="d-flex align-items-center fs-11 mb-2">
-                                    <img src="/img/icons/parking.svg" alt="Парковка"
-                                         className="icon-mini"/>
-                                    <span className="ms-2 ms-sm-3">Парковка</span>
-                                </div>
-                                : ""}
-                            {ads?.hasConditioner ?
-                                <div className="d-flex align-items-center fs-11 mb-2">
-                                    <img src="/img/icons/air-conditioner.svg" alt="Кондиционер"
-                                         className="icon-mini"/>
-                                    <span className="ms-2 ms-sm-3">Кондиционер</span>
-                                </div>
-                                : ''}
+                        {ads?.estate?.realEstateTypeForUser?.toLowerCase()?.includes(localEstates.kvartiri) &&
+                            <>
+                                <h4 className="mt-4 mt-sm-5 mb-3">Дополнительная информация</h4>
+                                <div className="row row-cols-2 row-cols-md-3 gx-2 gx-sm-4">
+                                    {ads?.hasGroundParking ?
+                                        <div className="d-flex align-items-center fs-11 mb-2">
+                                            <img src="/img/icons/parking.svg" alt="Парковка"
+                                                 className="icon-mini"/>
+                                            <span className="ms-2 ms-sm-3">Парковка</span>
+                                        </div>
+                                        : ""}
+                                    {ads?.hasConditioner ?
+                                        <div className="d-flex align-items-center fs-11 mb-2">
+                                            <img src="/img/icons/air-conditioner.svg" alt="Кондиционер"
+                                                 className="icon-mini"/>
+                                            <span className="ms-2 ms-sm-3">Кондиционер</span>
+                                        </div>
+                                        : ''}
 
-                            {ads?.hasFurniture ?
-                                <div className="d-flex align-items-center fs-11 mb-2">
-                                    <img src="/img/icons/furniture.svg" alt="Мебель"
-                                         className="icon-mini"/>
-                                    <span className="ms-2 ms-sm-3">Мебель</span>
-                                </div>
-                                : ''}
+                                    {ads?.hasFurniture ?
+                                        <div className="d-flex align-items-center fs-11 mb-2">
+                                            <img src="/img/icons/furniture.svg" alt="Мебель"
+                                                 className="icon-mini"/>
+                                            <span className="ms-2 ms-sm-3">Мебель</span>
+                                        </div>
+                                        : ''}
 
-                            {ads?.hasBathroom ?
-                                <div className="d-flex align-items-center fs-11 mb-2">
-                                    <img src="/img/icons/bath.svg" alt="Ванна" className="icon-mini"/>
-                                    <span className="ms-2 ms-sm-3">Ванна</span>
-                                </div>
-                                : ''}
+                                    {ads?.hasBathroom ?
+                                        <div className="d-flex align-items-center fs-11 mb-2">
+                                            <img src="/img/icons/bath.svg" alt="Ванна" className="icon-mini"/>
+                                            <span className="ms-2 ms-sm-3">Ванна</span>
+                                        </div>
+                                        : ''}
 
-                            {ads?.hasRefrigerator ?
-                                <div className="d-flex align-items-center fs-11 mb-2">
-                                    <img src="/img/icons/fridge.svg" alt="Холодильник"
-                                         className="icon-mini"/>
-                                    <span className="ms-2 ms-sm-3">Холодильник</span>
-                                </div>
-                                : ''}
+                                    {ads?.hasRefrigerator ?
+                                        <div className="d-flex align-items-center fs-11 mb-2">
+                                            <img src="/img/icons/fridge.svg" alt="Холодильник"
+                                                 className="icon-mini"/>
+                                            <span className="ms-2 ms-sm-3">Холодильник</span>
+                                        </div>
+                                        : ''}
 
-                            {ads?.hasWashingMachine ?
-                                <div className="d-flex align-items-center fs-11 mb-2">
-                                    <img src="/img/icons/washer.svg" alt="Стиральная машина"
-                                         className="icon-mini"/>
-                                    <span className="ms-2 ms-sm-3">Стиральная машина</span>
+                                    {ads?.hasWashingMachine ?
+                                        <div className="d-flex align-items-center fs-11 mb-2">
+                                            <img src="/img/icons/washer.svg" alt="Стиральная машина"
+                                                 className="icon-mini"/>
+                                            <span className="ms-2 ms-sm-3">Стиральная машина</span>
+                                        </div>
+                                        : ""}
+                                    {ads?.withPets ?
+                                        <div className="d-flex align-items-center fs-11 mb-2">
+                                            <img src="/img/icons/pets.svg" alt="Можно с животными"
+                                                 className="icon-mini"/>
+                                            <span className="ms-2 ms-sm-3">Можно с животными</span>
+                                        </div>
+                                        : ''}
+                                    {ads?.withKids ? <div className="d-flex align-items-center fs-11 mb-2">
+                                            <img src="/img/icons/kids.svg" alt="Можно с детьми"
+                                                 className="icon-mini"/>
+                                            <span className="ms-2 ms-sm-3">Можно с детьми</span>
+                                        </div>
+                                        : ''}
                                 </div>
-                                : ""}
-                            {ads?.withPets ?
-                                <div className="d-flex align-items-center fs-11 mb-2">
-                                    <img src="/img/icons/pets.svg" alt="Можно с животными"
-                                         className="icon-mini"/>
-                                    <span className="ms-2 ms-sm-3">Можно с животными</span>
-                                </div>
-                                : ''}
-                            {ads?.withKids ? <div className="d-flex align-items-center fs-11 mb-2">
-                                    <img src="/img/icons/kids.svg" alt="Можно с детьми"
-                                         className="icon-mini"/>
-                                    <span className="ms-2 ms-sm-3">Можно с детьми</span>
-                                </div>
-                                : ''}
-                        </div>
+                            </>
+                        }
 
                         <h4 className="mt-4 mt-sm-5 mb-3">О здании</h4>
-                        <div className="column-2">
-                            <div className="specification fs-11">
-                                <div className="left">
-                                    <span>Тип дома</span>
-                                </div>
-                                <div className="right">
-                                    <span>{ads?.houseBuildingTypeForUser}</span>
-                                </div>
-                            </div>
-                            <div className="specification fs-11">
-                                <div className="left">
-                                    <span>Лифт</span>
-                                </div>
-                                <div className="right">
-                                    <span>{ads?.elevatorTypeForUser}</span>
-                                </div>
-                            </div>
-                            <div className="specification fs-11">
-                                <div className="left">
-                                    <span>Год постройки</span>
-                                </div>
-                                <div className="right">
-                                    <span>{ads?.yearOfConstructionForUser}</span>
-                                </div>
-                            </div>
-                            <div className="specification fs-11">
-                                <div className="left">
-                                    <span>Высота потолков</span>
-                                </div>
-                                <div className="right">
-                                    <span>{ads?.ceilingHeightForUser} м</span>
-                                </div>
-                            </div>
-                            <div className="specification fs-11">
-                                <div className="left">
-                                    <span>Пандус</span>
-                                </div>
-                                {ads?.hasRamp ?
-                                    <div className="right">
-                                        <span>Есть</span>
-                                    </div>
-                                    :
-                                    <div className="right">
-                                        <span>Нет</span>
-                                    </div>
-                                }
-                            </div>
-                            <div className="specification fs-11">
-                                <div className="left">
-                                    <span>Мусоропровод</span>
-                                </div>
-                                <div className="right">
-                                    <span>Нет</span>
-                                </div>
-                            </div>
-                            <div className="specification fs-11">
-                                <div className="left">
-                                    <span>Парковка</span>
-                                </div>
-                                {ads?.hasGroundParking ?
-                                    <div className="right">
-                                        <span>Наземная</span>
-                                    </div>
-                                    :
-                                    ''}
-                                {ads?.hasMoreLayerParking ?
-                                    <div className="right">
-                                        <span>Многоуровневая</span>
-                                    </div>
-                                    :
-                                    ''}
-                                {ads?.hasUnderGroundParking ?
-                                    <div className="right">
-                                        <span>Подземная</span>
-                                    </div>
-                                    :
-                                    ''}
-                            </div>
-                        </div>
+                        {ads?.estate?.realEstateTypeForUser?.toLowerCase()?.includes(localEstates.kvartiri) &&
+                            <ForAboutBuildingLivingAd
+                                houseBuildingTypeForUser={ads?.houseBuildingTypeForUser}
+                                elevatorTypeForUser={ads?.elevatorTypeForUser}
+                                yearOfConstructionForUser={ads?.yearOfConstructionForUser}
+                                ceilingHeightForUser={ads?.ceilingHeightForUser}
+                                hasRamp={ads?.hasRamp}
+                                hasGroundParking={ads?.hasGroundParking}
+                                hasMoreLayerParking={ads?.hasMoreLayerParking}
+                                hasUnderGroundParking={ads?.hasUnderGroundParking}
+                                hasGarbage={ads?.hasGarbage}
+                                hasYardParking={ads?.hasYardParking}
+                                hasBarrierParking={ads?.hasBarrierParking}
+                                outBuildingType={ads?.outBuildingType}
+                                hasBasement={ads?.hasBasement}
+                            />
+                        }
+                        {ads?.estate?.realEstateTypeForUser?.toLowerCase()?.includes(localEstates.parking) &&
+                            <ForAboutBuildingParkingAd
+                                estateType={ads?.estate?.name}
+                                yearOfConstructionForUser={ads?.yearOfConstructionForUser}
+                                hasGroundParking={ads?.hasGroundParking}
+                                hasMoreLayerParking={ads?.hasMoreLayerParking}
+                                hasUnderGroundParking={ads?.hasUnderGroundParking}
+                                hasYardParking={ads?.hasYardParking}
+                                hasBarrierParking={ads?.hasBarrierParking}
+                            />
+                        }
+                        {ads?.estate?.realEstateTypeForUser?.toLowerCase()?.includes(localEstates.commer) &&
+                            <ForAboutBuildingCommercialAd
+                                ceilingHeightForUser={ads?.ceilingHeightForUser}
+                                hasRamp={ads?.hasRamp}
+                                hasGroundParking={ads?.hasGroundParking}
+                                hasMoreLayerParking={ads?.hasMoreLayerParking}
+                                hasUnderGroundParking={ads?.hasUnderGroundParking}
+                                hasGarbage={ads?.hasGarbage}
+                                hasYardParking={ads?.hasYardParking}
+                                hasBarrierParking={ads?.hasBarrierParking}
+                                houseBuildingTypeForUser={ads?.houseBuildingTypeForUser}
+                                elevatorTypeForUser={ads?.elevatorTypeForUser}
+                                yearOfConstructionForUser={ads?.yearOfConstructionForUser}
+                            />
+                        }
                         {ads && (
                             <>
                                 <h4 className="mt-4 mt-sm-5" ref={mapRef}>На карте</h4>

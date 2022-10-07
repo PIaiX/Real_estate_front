@@ -2,16 +2,6 @@ import React, {useEffect} from 'react';
 import {onSingleParamQuery} from '../helpers/collectDataFromForm';
 
 const PopularQueries = ({initialFilters, setFilters}) => {
-    const onScroll = (e) => {
-        console.log(e)
-    }
-
-    useEffect(() => {
-        document.addEventListener('scroll', onScroll)
-
-        return document.removeEventListener('scroll', onScroll)
-    }, [])
-
     return (
         <div
             className="popular-queries"

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-const AdTypeResidential = ({estateName, onChange}) => {
+const AdTypeResidential = ({estateName, onChange, info, seterRadio}) => {
     return (
         <>
             {(
@@ -23,7 +23,9 @@ const AdTypeResidential = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='estateType'
-                                            value='0'
+                                            value={0}
+                                            checked={info?.estateType === 0}
+                                            onClick={(e) => seterRadio(e)}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Новостройка</span>
@@ -34,7 +36,9 @@ const AdTypeResidential = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='estateType'
-                                            value='1'
+                                            value={1}
+                                            checked={info?.estateType === 1}
+                                            onClick={(e) => seterRadio(e)}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Вторичка</span>
@@ -63,6 +67,7 @@ const AdTypeResidential = ({estateName, onChange}) => {
                                     <input
                                         type='text'
                                         name='landArea'
+                                        value={info?.landArea || ''}
                                         onChange={(e) => onChange(e)}
                                     />
                                 </label>
@@ -81,7 +86,9 @@ const AdTypeResidential = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='areaType'
-                                            value='0'
+                                            value={0}
+                                            checked={info?.areaType === 0}
+                                            onClick={(e) => seterRadio(e)}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">СНТ</span>
@@ -92,7 +99,9 @@ const AdTypeResidential = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='areaType'
-                                            value='1'
+                                            value={1}
+                                            checked={info?.areaType === 1}
+                                            onClick={(e) => seterRadio(e)}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">ИЖС</span>
@@ -103,7 +112,9 @@ const AdTypeResidential = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='areaType'
-                                            value='2'
+                                            value={2}
+                                            checked={info?.areaType === 2}
+                                            onClick={(e) => seterRadio(e)}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">ЛПХ</span>

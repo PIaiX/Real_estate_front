@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AdTypeCommercial = ({estateName, onChange}) => {
+const AdTypeCommercial = ({estateName, onChange, info, seterRadio}) => {
 
     return (
         <>
@@ -22,7 +22,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='directionType'
-                                            value={"0"}
+                                            value={0}
+                                            checked={info?.directionType === 0}
+                                            onClick={e => seterRadio(e)}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Административная деятельность</span>
@@ -33,7 +35,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='directionType'
-                                            value={"1"}
+                                            checked={info?.directionType === 1}
+                                            onClick={e => seterRadio(e)}
+                                            value={1}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Гостиничный бизнес и общественное питание</span>
@@ -44,7 +48,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='directionType'
-                                            value={'2'}
+                                            checked={info?.directionType === 2}
+                                            onClick={e => seterRadio(e)}
+                                            value={2}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Информация и связь</span>
@@ -55,7 +61,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='directionType'
-                                            value={'3'}
+                                            checked={info?.directionType === 3}
+                                            onClick={e => seterRadio(e)}
+                                            value={3}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Обрабатывающие производства</span>
@@ -66,7 +74,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='directionType'
-                                            value={'4'}
+                                            checked={info?.directionType === 4}
+                                            onClick={e => seterRadio(e)}
+                                            value={4}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Строительство</span>
@@ -77,7 +87,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='directionType'
-                                            value={'5'}
+                                            checked={info?.directionType === 5}
+                                            onClick={e => seterRadio(e)}
+                                            value={5}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Водоотведение, водоснабжение, утилизация и сбор отходов, ликвидация различного рода загрязнений</span>
@@ -88,7 +100,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='directionType'
-                                            value={'6'}
+                                            checked={info?.directionType === 6}
+                                            onClick={e => seterRadio(e)}
+                                            value={6}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Домашние хозяйства</span>
@@ -99,7 +113,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='directionType'
-                                            value={'7'}
+                                            checked={info?.directionType === 7}
+                                            onClick={e => seterRadio(e)}
+                                            value={7}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Лесное и сельское хозяйство, рыбоводство, рыболовство, охота</span>
@@ -110,7 +126,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='directionType'
-                                            value={'8'}
+                                            checked={info?.directionType === 8}
+                                            onClick={e => seterRadio(e)}
+                                            value={8}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Образование</span>
@@ -121,7 +139,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='directionType'
-                                            value={'9'}
+                                            checked={info?.directionType === 9}
+                                            onClick={e => seterRadio(e)}
+                                            value={9}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Торговля (опт и розница), а также ремонт автомобилей и мотоциклов</span>
@@ -132,7 +152,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='directionType'
-                                            value={'10'}
+                                            checked={info?.directionType === 10}
+                                            onClick={e => seterRadio(e)}
+                                            value={10}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span
@@ -144,7 +166,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='directionType'
-                                            value={'11'}
+                                            checked={info?.directionType === 11}
+                                            onClick={e => seterRadio(e)}
+                                            value={11}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Другие услуги</span>
@@ -155,7 +179,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='directionType'
-                                            value={'12'}
+                                            checked={info?.directionType === 12}
+                                            onClick={e => seterRadio(e)}
+                                            value={12}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span
@@ -167,7 +193,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='directionType'
-                                            value={'13'}
+                                            checked={info?.directionType === 13}
+                                            onClick={e => seterRadio(e)}
+                                            value={13}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Операции с недвижимостью</span>
@@ -178,7 +206,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='directionType'
-                                            value={'14'}
+                                            checked={info?.directionType === 14}
+                                            onClick={e => seterRadio(e)}
+                                            value={14}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Финансы и страхование</span>
@@ -189,7 +219,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='directionType'
-                                            value={'15'}
+                                            checked={info?.directionType === 15}
+                                            onClick={e => seterRadio(e)}
+                                            value={15}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span
@@ -201,7 +233,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='directionType'
-                                            value={'16'}
+                                            checked={info?.directionType === 16}
+                                            onClick={e => seterRadio(e)}
+                                            value={16}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Здравоохранение</span>
@@ -212,7 +246,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='directionType'
-                                            value={'17'}
+                                            checked={info?.directionType === 17}
+                                            onClick={e => seterRadio(e)}
+                                            value={17}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Обеспечение газом, паром, энергией, кондиционирование</span>
@@ -223,7 +259,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='directionType'
-                                            value={'18'}
+                                            checked={info?.directionType === 18}
+                                            onClick={e => seterRadio(e)}
+                                            value={18}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Спорт, культура, досуг, развлечения</span>
@@ -234,7 +272,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='directionType'
-                                            value={'19'}
+                                            checked={info?.directionType === 19}
+                                            onClick={e => seterRadio(e)}
+                                            value={19}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Хранение и транспортировка</span>
@@ -255,7 +295,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='hasVentilation'
-                                            value='1'
+                                            checked={info?.hasVentilation === 1}
+                                            onClick={e => seterRadio(e)}
+                                            value={1}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Есть</span>
@@ -266,7 +308,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='hasVentilation'
-                                            value='0'
+                                            checked={info?.hasVentilation === 0}
+                                            onClick={e => seterRadio(e)}
+                                            value={0}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Нет</span>
@@ -287,7 +331,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='hasFireAlarm'
-                                            value='1'
+                                            checked={info?.hasFireAlarm === 1}
+                                            onClick={e => seterRadio(e)}
+                                            value={1}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Есть</span>
@@ -298,7 +344,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='hasFireAlarm'
-                                            value='0'
+                                            checked={info?.hasFireAlarm === 0}
+                                            onClick={e => seterRadio(e)}
+                                            value={0}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Нет</span>
@@ -319,7 +367,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='hasSecurityAlarm'
-                                            value='1'
+                                            checked={info?.hasSecurityAlarm === 1}
+                                            onClick={e => seterRadio(e)}
+                                            value={1}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Есть</span>
@@ -330,7 +380,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='hasSecurityAlarm'
-                                            value='0'
+                                            checked={info?.hasSecurityAlarm === 0}
+                                            onClick={e => seterRadio(e)}
+                                            value={0}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">Нет</span>
@@ -351,7 +403,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='gradeType'
-                                            value='0'
+                                            checked={info?.gradeType === 0}
+                                            onClick={e => seterRadio(e)}
+                                            value={0}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">A</span>
@@ -362,7 +416,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='gradeType'
-                                            value='1'
+                                            checked={info?.gradeType === 1}
+                                            onClick={e => seterRadio(e)}
+                                            value={1}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">A+</span>
@@ -373,7 +429,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='gradeType'
-                                            value='2'
+                                            checked={info?.gradeType === 2}
+                                            onClick={e => seterRadio(e)}
+                                            value={2}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">B</span>
@@ -384,7 +442,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='gradeType'
-                                            value='3'
+                                            checked={info?.gradeType === 3}
+                                            onClick={e => seterRadio(e)}
+                                            value={3}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">B+</span>
@@ -395,7 +455,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='gradeType'
-                                            value='4'
+                                            checked={info?.gradeType === 4}
+                                            onClick={e => seterRadio(e)}
+                                            value={4}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">C</span>
@@ -406,7 +468,9 @@ const AdTypeCommercial = ({estateName, onChange}) => {
                                         <input
                                             type='radio'
                                             name='gradeType'
-                                            value='5'
+                                            checked={info?.gradeType === 5}
+                                            onClick={e => seterRadio(e)}
+                                            value={5}
                                             onChange={(e) => onChange(e)}
                                         />
                                         <span className="fs-11 ms-2">D</span>

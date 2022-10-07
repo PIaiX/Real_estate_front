@@ -1,6 +1,15 @@
 import React, {useState} from 'react';
 
-const AboutBuildingParking = ({onChange, activeField, seterActiveField, resetValid, valid}) => {
+const AboutBuildingParking = (
+    {
+        onChange,
+        activeField,
+        seterActiveField,
+        resetValid,
+        valid,
+        info,
+        estateName
+    }) => {
 
     return (
         <fieldset data-show={(activeField === 4) ? 'true' : 'false'} name="anchor-4"
@@ -18,6 +27,7 @@ const AboutBuildingParking = ({onChange, activeField, seterActiveField, resetVal
                         type="number"
                         className="fs-11"
                         name='yearOfConstruction'
+                        value={info?.yearOfConstruction || ''}
                         style={{borderColor: valid.isInValidYear ? '#DA1E2A' : ''}}
                         placeholder="1850-..."
                         onChange={e => {
@@ -27,68 +37,78 @@ const AboutBuildingParking = ({onChange, activeField, seterActiveField, resetVal
                     />
                 </div>
             </div>
-            <hr className="d-none d-md-block my-4"/>
-            <div className="row align-items-center mt-4 mt-sm-5 mt-md-0">
-                <div className="col-md-3 fs-11 title mb-3 m-md-0" style={{color: valid.isInValidParking ? '#DA1E2A' : ''}}>Парковка*:</div>
-                <div className="col-md-9 row row-cols-2 row-cols-xl-3">
-                    <div>
-                        <label className="mb-3">
-                            <input
-                                type="checkbox"
-                                name="hasGroundParking"
-                                onChange={e => {
-                                    onChange(e)
-                                    resetValid(e, 'isInValidParking')
-                                }}
-                            />
-                            <span className="fs-11 ms-3">Наземная</span>
-                        </label>
+            {
+                estateName?.toLowerCase() === 'паркинг' &&
+                <>
+                    <hr className="d-none d-md-block my-4"/>
+                    <div className="row align-items-center mt-4 mt-sm-5 mt-md-0">
+                        <div className="col-md-3 fs-11 title mb-3 m-md-0" style={{color: valid.isInValidParking ? '#DA1E2A' : ''}}>Парковка*:</div>
+                        <div className="col-md-9 row row-cols-2 row-cols-xl-3">
+                            <div>
+                                <label className="mb-3">
+                                    <input
+                                        type="checkbox"
+                                        name="hasGroundParking"
+                                        checked={info?.hasGroundParking || false}
+                                        onChange={e => {
+                                            onChange(e)
+                                            resetValid(e, 'isInValidParking')
+                                        }}
+                                    />
+                                    <span className="fs-11 ms-3">Наземная</span>
+                                </label>
+                            </div>
+                            <div>
+                                <label className="mb-3">
+                                    <input
+                                        type="checkbox"
+                                        name="hasUnderGroundParking"
+                                        checked={info?.hasUnderGroundParking || false}
+                                        onChange={e => {
+                                            onChange(e)
+                                            resetValid(e, 'isInValidParking')
+                                        }}
+                                    />
+                                    <span className="fs-11 ms-3">Подземная</span>
+                                </label>
+                            </div>
+                            <div>
+                                <label className="mb-3">
+                                    <input
+                                        type="checkbox"
+                                        name="hasMoreLayerParking"
+                                        checked={info?.hasMoreLayerParking || false}
+                                        onChange={e => onChange(e)}
+                                    />
+                                    <span className="fs-11 ms-3">Многоуров.</span>
+                                </label>
+                            </div>
+                            <div>
+                                <label className="mb-3">
+                                    <input
+                                        type="checkbox"
+                                        name="hasYardParking"
+                                        checked={info?.hasYardParking || false}
+                                        onChange={e => onChange(e)}
+                                    />
+                                    <span className="fs-11 ms-3">Открытая во дворе</span>
+                                </label>
+                            </div>
+                            <div>
+                                <label className="mb-3">
+                                    <input
+                                        type="checkbox"
+                                        name="hasBarrierParking"
+                                        checked={info?.hasBarrierParking || false}
+                                        onChange={e => onChange(e)}
+                                    />
+                                    <span className="fs-11 ms-3">Во дворе за шлагбаумом</span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <label className="mb-3">
-                            <input
-                                type="checkbox"
-                                name="hasUnderGroundParking"
-                                onChange={e => {
-                                    onChange(e)
-                                    resetValid(e, 'isInValidParking')
-                                }}
-                            />
-                            <span className="fs-11 ms-3">Подземная</span>
-                        </label>
-                    </div>
-                    <div>
-                        <label className="mb-3">
-                            <input
-                                type="checkbox"
-                                name="hasMoreLayerParking"
-                                onChange={e => onChange(e)}
-                            />
-                            <span className="fs-11 ms-3">Многоуров.</span>
-                        </label>
-                    </div>
-                    <div>
-                        <label className="mb-3">
-                            <input
-                                type="checkbox"
-                                name="hasOpenInDvor"
-                                onChange={e => onChange(e)}
-                            />
-                            <span className="fs-11 ms-3">Открытая во дворе</span>
-                        </label>
-                    </div>
-                    <div>
-                        <label className="mb-3">
-                            <input
-                                type="checkbox"
-                                name="hasInDvorPerPalka"
-                                onChange={e => onChange(e)}
-                            />
-                            <span className="fs-11 ms-3">Во дворе за шлагбаумом</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
+                </>
+            }
 
             <div
                 className="d-lg-none row row-cols-2 row-cols-sm-3 justify-content-center gx-2 gx-sm-4 mt-4">

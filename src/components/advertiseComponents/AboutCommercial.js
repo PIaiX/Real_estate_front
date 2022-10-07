@@ -1,6 +1,15 @@
 import React from 'react';
 
-const AboutCommercial = ({onChange, activeField, seterActiveField, valid, resetValid}) => {
+const AboutCommercial = (
+    {
+        onChange,
+        activeField,
+        seterActiveField,
+        valid,
+        resetValid,
+        info,
+        seterRadio
+    }) => {
 
     return (
         <fieldset data-show={(activeField === 2) ? 'true' : 'false'} name="anchor-2"
@@ -25,6 +34,8 @@ const AboutCommercial = ({onChange, activeField, seterActiveField, valid, resetV
                                     type="radio"
                                     name="buildingType"
                                     value={0}
+                                    onClick={e => seterRadio(e)}
+                                    checked={info?.buildingType === 0}
                                     onChange={(e) => {
                                         onChange(e)
                                         resetValid(e, 'isInValidBuildingType')
@@ -39,6 +50,8 @@ const AboutCommercial = ({onChange, activeField, seterActiveField, valid, resetV
                                     type="radio"
                                     name="buildingType"
                                     value={1}
+                                    onClick={e => seterRadio(e)}
+                                    checked={info?.buildingType === 1}
                                     onChange={(e) => {
                                         onChange(e)
                                         resetValid(e, 'isInValidBuildingType')
@@ -53,6 +66,8 @@ const AboutCommercial = ({onChange, activeField, seterActiveField, valid, resetV
                                     type="radio"
                                     name="buildingType"
                                     value={2}
+                                    onClick={e => seterRadio(e)}
+                                    checked={info?.buildingType === 2}
                                     onChange={(e) => {
                                         onChange(e)
                                         resetValid(e, 'isInValidBuildingType')
@@ -67,6 +82,8 @@ const AboutCommercial = ({onChange, activeField, seterActiveField, valid, resetV
                                     type="radio"
                                     name="buildingType"
                                     value={3}
+                                    onClick={e => seterRadio(e)}
+                                    checked={info?.buildingType === 3}
                                     onChange={(e) => {
                                         onChange(e)
                                         resetValid(e, 'isInValidBuildingType')
@@ -81,6 +98,8 @@ const AboutCommercial = ({onChange, activeField, seterActiveField, valid, resetV
                                     type="radio"
                                     name="buildingType"
                                     value={4}
+                                    onClick={e => seterRadio(e)}
+                                    checked={info?.buildingType === 4}
                                     onChange={(e) => {
                                         onChange(e)
                                         resetValid(e, 'isInValidBuildingType')

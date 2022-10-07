@@ -7,7 +7,9 @@ const AboutParking = (
         seterActiveField,
         estateName,
         valid,
-        resetValid
+        resetValid,
+        info,
+        seterRadio
     }) => {
 
     return (
@@ -23,6 +25,7 @@ const AboutParking = (
                             <input
                                 type="text"
                                 name="residentalComplex"
+                                value={info?.residentalComplex || ''}
                                 className="fs-11"
                                 placeholder="Например: “Центральный”"
                                 onChange={(e) => onChange(e)}
@@ -51,6 +54,8 @@ const AboutParking = (
                                         <input
                                             type="radio"
                                             name="locationType"
+                                            checked={info?.locationType === 0}
+                                            onClick={e => seterRadio(e)}
                                             value={0}
                                             onChange={(e) => onChange(e)}
                                         />
@@ -62,6 +67,8 @@ const AboutParking = (
                                         <input
                                             type="radio"
                                             name="locationType"
+                                            checked={info?.locationType === 1}
+                                            onClick={e => seterRadio(e)}
                                             value={1}
                                             onChange={(e) => onChange(e)}
                                         />
@@ -90,6 +97,7 @@ const AboutParking = (
                     <input
                         type="number"
                         name="totalArea"
+                        value={info?.totalArea || ''}
                         placeholder="0"
                         style={{borderColor: valid.isInValidTotalAreaParking ? '#DA1E2A' : ''}}
                         className="fs-11 area w-100"
@@ -110,6 +118,8 @@ const AboutParking = (
                                 <input
                                     type="radio"
                                     name="hasSecurity"
+                                    checked={info?.hasSecurity === 1}
+                                    onClick={e => seterRadio(e)}
                                     value={1}
                                     onChange={e => onChange(e)}
                                 />
@@ -121,6 +131,8 @@ const AboutParking = (
                                 <input
                                     type="radio"
                                     name="hasSecurity"
+                                    checked={info?.hasSecurity === 0}
+                                    onClick={e => seterRadio(e)}
                                     value={0}
                                     onChange={e => onChange(e)}
                                 />

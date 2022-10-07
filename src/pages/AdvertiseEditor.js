@@ -2025,7 +2025,7 @@ export default function Advertise() {
                                             <label className="me-5">
                                                 <input
                                                     type="radio"
-                                                    name="hypothec"
+                                                    name="isMortgage"
                                                     value={0}
                                                     checked={btnRadio.isMortgage === 0}
                                                     onClick={() => setBtnRadio(prevState => ({...prevState, isMortgage: 0}))}
