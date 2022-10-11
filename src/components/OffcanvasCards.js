@@ -39,7 +39,10 @@ const OffcanvasCards = (props) => {
                             rentalTypeForUser={card.rentalTypeForUser}
                             wishlistStatus={card.wishlistStatus}
                             userAvatar={card.user?.avatar}
-
+                            estateName={card?.estate?.name}
+                            buildingTypeForUser={card?.buildingTypeForUser}
+                            realEstateTypeForUser={card?.estate?.realEstateTypeForUser}
+                            acres={card?.acres}
                         />
                     </div>
                 ))

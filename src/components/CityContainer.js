@@ -48,7 +48,7 @@ const CityContainer = React.memo(({ymaps}) => {
                 options={cities}
                 callback={({title}) => changeCity(title)}
                 child={SearchDropdown}
-                placeholder='Find your city'
+                placeholder='Введите ваш город'
                 align='right'
                 initialCount='100'
             />

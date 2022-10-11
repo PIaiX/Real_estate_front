@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {Slider2} from '../components/Slider2';
 import {Slider1} from "../components/Slider1";
 import Tile from '../components/Tile';
@@ -17,6 +17,7 @@ import Loader from "../components/Loader";
 import TileServices from "../components/TileServices";
 import YMap from "../components/YMap";
 import OffcanvasCards from '../components/OffcanvasCards';
+import Form from 'react-bootstrap/Form'
 
 export default function MainPage() {
     const currentUser = useCurrentUser()

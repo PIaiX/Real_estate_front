@@ -37,8 +37,6 @@ export const Slider1 = (props) => {
         }
     }, [hotAds])
 
-    console.log(userAds)
-
     return (
         <Swiper
             className="swiper-4"

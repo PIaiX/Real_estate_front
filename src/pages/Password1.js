@@ -11,7 +11,6 @@ const schema = Joi.object({
   email: Joi.string()
     .email({ tlds: { allow: false } })
     .min(4)
-    .max(20)
     .required()
     .messages({
       "string.empty": "Email адрес не может быть пустым",

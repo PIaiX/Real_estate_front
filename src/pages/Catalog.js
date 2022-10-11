@@ -457,6 +457,10 @@ const Catalog = ({routeName}) => {
                                                     wishlistStatus={catalogItem.wishlistStatus}
                                                     userAvatar={catalogItem.user?.avatar}
                                                     routeName={routeName}
+                                                    estateName={catalogItem?.estate?.name}
+                                                    buildingTypeForUser={catalogItem?.buildingTypeForUser}
+                                                    realEstateTypeForUser={catalogItem?.estate?.realEstateTypeForUser}
+                                                    acres={catalogItem?.acres}
                                                 />
                                             </div>
                                         ))
