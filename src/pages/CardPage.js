@@ -242,6 +242,7 @@ export default function CardPage() {
 
                     <div className="d-flex">
                         <button
+
                             type="button"
                             className="btn-pin"
                             onClick={goToMap}
@@ -251,7 +252,7 @@ export default function CardPage() {
                                     d="M7.5 18C7.5 18 15 11.6033 15 6.75C15 4.95979 14.2098 3.2429 12.8033 1.97703C11.3968 0.711159 9.48912 0 7.5 0C5.51088 0 3.60322 0.711159 2.1967 1.97703C0.790176 3.2429 2.96403e-08 4.95979 0 6.75C0 11.6033 7.5 18 7.5 18ZM7.5 10.125C6.50544 10.125 5.55161 9.76942 4.84835 9.13649C4.14509 8.50355 3.75 7.64511 3.75 6.75C3.75 5.85489 4.14509 4.99645 4.84835 4.36351C5.55161 3.73058 6.50544 3.375 7.5 3.375C8.49456 3.375 9.44839 3.73058 10.1517 4.36351C10.8549 4.99645 11.25 5.85489 11.25 6.75C11.25 7.64511 10.8549 8.50355 10.1517 9.13649C9.44839 9.76942 8.49456 10.125 7.5 10.125Z"/>
                             </svg>
                         </button>
-                        <BtnFav realEstateId={ads?.id} wishlist={ads?.wishlistStatus}/>
+                        <BtnFav realEstateId={ads?.id} wishlistStatus={ads?.wishlistStatus}/>
                         <BtnRep realEstateId={ads?.id} reportStatus={ads?.reportStatus} type="reportAd"/>
                     </div>
                 </div>
@@ -275,7 +276,7 @@ export default function CardPage() {
                 <div className="d-flex align-items-center mb-2 mb-xxl-3">
                     <img src="/img/icons/pin.svg" alt="адрес"/>
                     <div className="fs-11 fw-6 ms-2 ms-sm-4">
-                        <div>ЖК "{ads?.residentalComplexForUser}"</div>
+                        <div>{ads?.residentalComplex ? `ЖК: "${ads?.residentalComplexForUser}"` : ''}</div>
                         <div className='text-capitalize'>{ads?.address}</div>
                     </div>
                 </div>
@@ -288,7 +289,7 @@ export default function CardPage() {
                                         d="M7.5 18C7.5 18 15 11.6033 15 6.75C15 4.95979 14.2098 3.2429 12.8033 1.97703C11.3968 0.711159 9.48912 0 7.5 0C5.51088 0 3.60322 0.711159 2.1967 1.97703C0.790176 3.2429 2.96403e-08 4.95979 0 6.75C0 11.6033 7.5 18 7.5 18ZM7.5 10.125C6.50544 10.125 5.55161 9.76942 4.84835 9.13649C4.14509 8.50355 3.75 7.64511 3.75 6.75C3.75 5.85489 4.14509 4.99645 4.84835 4.36351C5.55161 3.73058 6.50544 3.375 7.5 3.375C8.49456 3.375 9.44839 3.73058 10.1517 4.36351C10.8549 4.99645 11.25 5.85489 11.25 6.75C11.25 7.64511 10.8549 8.50355 10.1517 9.13649C9.44839 9.76942 8.49456 10.125 7.5 10.125Z"/>
                                 </svg>
                             </button>
-                            <BtnFav realEstateId={ads?.id} wishlist={ads?.wishlistStatus}/>
+                            <BtnFav realEstateId={ads?.id} wishlistStatus={ads?.wishlistStatus}/>
                             <BtnRep realEstateId={ads?.id} reportStatus={ads?.reportStatus} type="reportAd"/>
                         </div>
                         <div className="d-flex fs-09">

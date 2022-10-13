@@ -81,7 +81,8 @@ export const Slider1 = (props) => {
                         isHot={popular.isHot}
                         title={popular.title}
                         price={popular.price}
-                        addressName={popular.residentComplexForUser}
+                        residentalComplex={popular?.residentalComplex}
+                        residentalComplexForUser={popular?.residentalComplexForUser}
                         address={popular.address}
                         metro={popular.metro}
                         text={popular.description}
@@ -105,7 +106,8 @@ export const Slider1 = (props) => {
                         isHot={recommend.isHot}
                         title={recommend.title}
                         price={recommend.price}
-                        addressName={recommend.residentComplexForUser}
+                        residentalComplex={recommend?.residentalComplex}
+                        residentalComplexForUser={recommend?.residentalComplexForUser}
                         address={recommend.address}
                         metro={recommend.metro}
                         text={recommend.description}
@@ -129,7 +131,8 @@ export const Slider1 = (props) => {
                         isHot={userAds.isHot}
                         title={userAds.title}
                         price={userAds.price}
-                        addressName={userAds.residentalComplexForUser}
+                        residentalComplex={userAds?.residentalComplex}
+                        residentalComplexForUser={userAds?.residentalComplexForUser}
                         address={userAds.address}
                         metro={userAds.metro}
                         text={userAds.description}
@@ -154,7 +157,8 @@ export const Slider1 = (props) => {
                         isHot={hotAd.isHot}
                         title={hotAd.title}
                         price={hotAd.price}
-                        addressName={hotAd.residentComplexForUser}
+                        residentalComplex={hotAd?.residentalComplex}
+                        residentalComplexForUser={hotAd?.residentalComplexForUser}
                         address={hotAd.address}
                         metro={hotAd.metro}
                         text={hotAd.description}

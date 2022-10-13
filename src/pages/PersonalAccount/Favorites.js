@@ -82,7 +82,8 @@ export default function Favorites({routeName}) {
                                         title={wishItem.title}
                                         price={wishItem.price}
                                         transactionType={wishItem.transactionType}
-                                        addressName={wishItem.residentComplexForUser}
+                                        residentalComplex={wishItem?.residentalComplex}
+                                        residentalComplexForUser={wishItem?.residentalComplexForUser}
                                         address={wishItem.address}
                                         metro={wishItem.metro}
                                         text={wishItem.description}

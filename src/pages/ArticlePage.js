@@ -55,22 +55,23 @@ export default function ArticlePage() {
                             <div className='h-auto'>
                                 {recommend?.map((i) =>
                                     <Card
-                                        key={i.id}
-                                        uuid={i.uuid}
-                                        isVip={i.isVip}
-                                        isHot={i.isHot}
+                                        key={i?.id}
+                                        uuid={i?.uuid}
+                                        isVip={i?.isVip}
+                                        isHot={i?.isHot}
                                         className="mb-4"
                                         type="tiled"
-                                        pictures={[i.image, i.images]}
-                                        title={i.title}
-                                        price={i.price}
-                                        addressName={i.residentalComplexForUser}
-                                        address={i.address}
-                                        metro={i.metro}
-                                        text={i.description}
-                                        date={i.createdAtForUser}
-                                        communalPayments={i.communalPriceForUser}
-                                        commission={i.commissionForUser}
+                                        pictures={[i?.image, i?.images]}
+                                        title={i?.title}
+                                        price={i?.price}
+                                        residentalComplex={i?.residentalComplex}
+                                        residentalComplexForUser={i?.residentalComplexForUser}
+                                        address={i?.address}
+                                        metro={i?.metro}
+                                        text={i?.description}
+                                        date={i?.createdAtForUser}
+                                        communalPayments={i?.communalPriceForUser}
+                                        commission={i?.commissionForUser}
                                     />
                                 )}
                                 <button

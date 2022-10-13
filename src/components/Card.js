@@ -1,4 +1,4 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useEffect, useRef, useState} from 'react';
 import BtnFav from './BtnFav';
 import BtnRep from './BtnRep';
 import HoverSlider from './HoverSlider';
@@ -71,7 +71,7 @@ const Card = (props) => {
                                     <div className="fs-09 ms-2">
                                         <div className='text-capitalize'>{props.address}</div>
                                         <div>
-                                            ЖК: "{props?.residentalComplex}"
+                                            {props?.residentalComplex ? `ЖК: "${props?.residentalComplexForUser}"` : ''}
                                         </div>
                                     </div>
                                 </div>
@@ -196,7 +196,7 @@ const Card = (props) => {
                     <div className="address d-flex align-items-start mb-3">
                         <img src="/img/icons/pin.svg" alt="адрес"/>
                         <div className="fs-09 ms-2">
-                            <div className="mb-1">ЖК: "{props.residentalComplex}"</div>
+                            <div className="mb-1">{props?.residentalComplex ? `ЖК: "${props?.residentalComplexForUser}"` : ''}</div>
                             <div>{props.address}</div>
                         </div>
                     </div>

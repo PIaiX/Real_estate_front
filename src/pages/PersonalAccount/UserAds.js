@@ -85,27 +85,28 @@ export default function UserAds({routeName}) {
                 {myAds?.isLoaded
                     ? myAds?.data?.length > 0
                         ? myAds?.data?.map((i) => (
-                            <div className="mb-4 mb-md-5" key={i.id}>
+                            <div className="mb-4 mb-md-5" key={i?.id}>
                                 <Card
                                     type={view}
-                                    pictures={[i.image, i.images]}
-                                    isVip={i.isVip}
-                                    isHot={i.isHot}
-                                    title={i.title}
-                                    price={i.price}
-                                    transactionType={i.transactionType}
-                                    residentalComplex={i.residentalComplexForUser}
-                                    address={i.address}
-                                    metro={i.metro}
-                                    text={i.description}
-                                    date={i.createdAtForUser}
-                                    uuid={i.uuid}
-                                    user={i.user}
-                                    communalPrice={i.communalPrice}
-                                    pledge={i.pledge}
-                                    commissionForUser={i.commissionForUser}
-                                    prepaymentTypeForUser={i.prepaymentTypeForUser}
-                                    rentalTypeForUser={i.rentalTypeForUser}
+                                    pictures={[i?.image, i?.images]}
+                                    isVip={i?.isVip}
+                                    isHot={i?.isHot}
+                                    title={i?.title}
+                                    price={i?.price}
+                                    transactionType={i?.transactionType}
+                                    residentalComplex={i?.residentalComplex}
+                                    residentalComplexForUser={i?.residentalComplexForUser}
+                                    address={i?.address}
+                                    metro={i?.metro}
+                                    text={i?.description}
+                                    date={i?.createdAtForUser}
+                                    uuid={i?.uuid}
+                                    user={i?.user}
+                                    communalPrice={i?.communalPrice}
+                                    pledge={i?.pledge}
+                                    commissionForUser={i?.commissionForUser}
+                                    prepaymentTypeForUser={i?.prepaymentTypeForUser}
+                                    rentalTypeForUser={i?.rentalTypeForUser}
                                     id={i?.id}
                                     wishlistStatus={i?.wishlistStatus}
                                     userAvatar={i.user?.avatar}

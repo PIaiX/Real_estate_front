@@ -24,7 +24,8 @@ const OffcanvasCards = (props) => {
                             title={card.title}
                             price={card.price}
                             transactionType={card.transactionType}
-                            addressName={card.residentComplexForUser}
+                            residentalComplex={card?.residentalComplex}
+                            residentalComplexForUser={card?.residentalComplexForUser}
                             address={card.address}
                             metro={card.metro}
                             text={card.description}
