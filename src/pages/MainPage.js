@@ -81,11 +81,11 @@ export default function MainPage() {
     }, [page, userId, city])
 
     useEffect(() => {
-        if (userId && city) {
-            getCatalog(1, 6, '', city, {isHot: true, estateId: 1})
+        if (userId && city && typesEstate) {
+            getCatalog(1, 6, '', city, {isHot: true, estateId: typesEstate[0]?.estates[0]?.id})
                 .then(data => setHotAds(data?.body?.data))
         }
-    }, [city])
+    }, [city,typesEstate])
 
     useEffect(() => {
         getTypesEstate().then(result => setTypesEstate(result))
@@ -170,11 +170,13 @@ export default function MainPage() {
             <section id="sec-3" className="container mb-6">
                 <div className="main-page__ymaps-container">
                     <h3>Найти на карте</h3>
-                    <YMap
-                        items={mapData}
-                        className='main-page__ymaps'
-                        callback={ids => setIds(ids)}
-                    />
+                    {mapData &&
+                        <YMap
+                            items={mapData}
+                            className='main-page__ymaps'
+                            callback={ids => setIds(ids)}
+                        />
+                    }
                     <OffcanvasCards
                         className="main-page__offcanvas-cards"
                         cards={cards}

@@ -26,7 +26,6 @@ const Header = () => {
         email: '',
         question: ''
     }
-
     const [data, setData] = useState({...initialData})
     const [isShowQuestionModal, setIsShowQuestionModal] = useState(false)
     const fields = {
@@ -90,14 +89,18 @@ const Header = () => {
             <header>
                 <div className="container">
                     <Link to="/" className="order-1 me-lg-auto">
-                        <img src="/img/icons/logo.svg" alt="Название сайта" className="logo"/>
+                        <img src={window.innerWidth < 576 ? '/img/icons/miniLogo.svg' : '/img/icons/logo.svg'} alt="Название сайта" className="logo"/>
                     </Link>
                     <nav className="d-none d-lg-flex order-2">
                         <NavLink to="/" className={`${(pathname === '/') ? 'active' : ''}`}>Главная</NavLink>
                         <NavLink to="/services">Услуги</NavLink>
                         <NavLink to="/hypothec">Ипотека</NavLink>
-                        <button className='button-header-question' onClick={() => setIsShowQuestionModal(true)}>Задать
-                            вопрос
+                        <button
+                            className='button-header-question'
+                            onClick={() => setIsShowQuestionModal(true)}
+                            style={{whiteSpace: 'nowrap'}}
+                        >
+                            Задать вопрос
                         </button>
                     </nav>
                     <div className="d-none d-md-flex order-4 order-lg-3">

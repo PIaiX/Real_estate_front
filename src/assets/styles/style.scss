@@ -1030,13 +1030,9 @@ header {
   }
 
   .logo {
-    max-height: 30px;
+    max-height: 38px;
     object-fit: scale-down;
     object-position: center;
-    @media (max-width: 576px) {
-      max-width: 40px;
-      max-height: 20px;
-    }
   }
 
   .custom-select {

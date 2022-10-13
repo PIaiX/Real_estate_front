@@ -916,15 +916,9 @@ header .container nav a.active, header .container nav a:hover, header .container
   }
 }
 header .logo {
-  max-height: 30px;
+  max-height: 38px;
   object-fit: scale-down;
   object-position: center;
-}
-@media (max-width: 576px) {
-  header .logo {
-    max-width: 40px;
-    max-height: 20px;
-  }
 }
 @media (max-width: 575px) {
   header .custom-select {

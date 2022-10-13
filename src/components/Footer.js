@@ -45,8 +45,8 @@ const Footer = () => {
                     </div>
                     <div className='col-12 col-xl-3 mt-4 mt-xl-0'>
                         <div className='d-flex flex-row flex-xl-column align-items-center justify-content-center'>
-                            <img src='/img/Ellipse 49.png' className='logo'/>
-                            <div className='text-center fs-08 fw-5'>© ВСЕ ПРАВА ЗАЩИЩЕНЫ · НЕДВИЖИМОСТЬ · 2022</div>
+                            <img src='/img/icons/biglogo.svg' className='logo'/>
+                            <div className='text-center fs-08 fw-5'>© ВСЕ ПРАВА ЗАЩИЩЕНЫ · DAKVARTIRA · 2022</div>
                         </div>
                     </div>
                 </div>
