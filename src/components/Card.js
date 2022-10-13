@@ -36,6 +36,8 @@ const Card = (props) => {
         )
     }
 
+
+
     if (type === 'as-a-list') {
         return (
             <div className={`card-midi${props.className || ''}`}>
