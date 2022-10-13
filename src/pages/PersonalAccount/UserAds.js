@@ -120,11 +120,6 @@ export default function UserAds({routeName}) {
                                 />
                                 <div
                                     className={(view === 'as-a-list') ? "d-flex justify-content-end align-items-center mt-2" : "mt-2"}>
-                                    <button type="button" className="color-1 d-flex align-items-center">
-                                        <img src="/img/icons/pa-8.svg"
-                                             alt="Срочная продажа"/>
-                                        <span className="ms-2">Срочная продажа</span>
-                                    </button>
                                     <Link to={`/advertise/${i?.uuid}`}
                                           className={(view === 'as-a-list') ? "ms-4 color-1 d-flex align-items-center" : "mt-2 color-1 d-flex align-items-center"}
                                     >

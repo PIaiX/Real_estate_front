@@ -19,7 +19,7 @@ export default function Favorites({routeName}) {
     const currentUser = useCurrentUser()
     const userId = currentUser?.id
     const view = useUpdateSize('1399px');
-    const wishlistPag = usePagination(1)
+    const wishlistPag = usePagination(10)
     const [wishlistData, setWishlistData] = useState({isLoaded: false})
     const axiosPrivate = useAxiosPrivate();
     const dispatch = useDispatch()
