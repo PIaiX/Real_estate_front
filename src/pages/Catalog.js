@@ -441,7 +441,8 @@ const Catalog = ({routeName}) => {
                                                     title={catalogItem.title}
                                                     price={catalogItem.price}
                                                     transactionType={catalogItem.transactionType}
-                                                    residentalComplex={catalogItem.residentalComplexForUser}
+                                                    residentalComplex={catalogItem.residentalComplex}
+                                                    residentalComplexForUser={catalogItem.residentalComplexForUser}
                                                     address={catalogItem.address}
                                                     metro={catalogItem.metro}
                                                     text={catalogItem.description}

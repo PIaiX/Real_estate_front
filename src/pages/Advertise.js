@@ -27,6 +27,7 @@ import {fields} from "../components/advertiseComponents/fields";
 import {getAdsPage} from "../API/adspage";
 import {dadataReAddress} from "../API/dadataReAddress";
 import {updateAd} from "../API/users";
+import {deleteImage} from "../API/deleteImage";
 
 export default function Advertise() {
 
@@ -44,7 +45,8 @@ export default function Advertise() {
     const [imgs, setImages] = useState([]);
     const [mainImg, setMainImg] = useState(0);
     const [activeField, setActiveField] = useState(1); //для мобильных устройств
-    const f = imgs[mainImg]
+    const [mainImage, setMainImage] = useState([])
+    const f = mainImage[mainImg]
     const image = f?.file
     const axiosPrivate = useAxiosPrivate();
     const token = useAccessToken()
@@ -141,7 +143,7 @@ export default function Advertise() {
             acres: ad?.acres || 0,
             cityDistance: ad?.cityDistance || 0,
             hasBarrierParking: ad?.hasBarrierParking,
-            hasYardParking: ad?.hasYardParking
+            hasYardParking: ad?.hasYardParking,
         })
         setBtnRadio({
             transactionType: ad?.transactionType,
@@ -179,10 +181,14 @@ export default function Advertise() {
             saleType: Number(ad?.saleType)
         })
         setDeal(ad?.transactionType)
+        setMainImage([{data_url: `https://api.antontig.beget.tech/uploads/${ad.image}`}])
+        setImages(ad?.images?.map(i => {
+            return {id: i.id, data_url: `https://api.antontig.beget.tech/uploads/${i.image}`}
+        }))
     }, [ad])
 
     useEffect(() => {
-        if(uuid === undefined) {
+        if (uuid === undefined) {
             setData({
                 transactionType: 1,
                 pledge: 0,
@@ -219,6 +225,8 @@ export default function Advertise() {
                 saleType: 2
             })
             setDeal(1)
+            setMainImage([])
+            setImages([])
         }
     }, [uuid])
 
@@ -277,7 +285,7 @@ export default function Advertise() {
     useEffect(() => {
         data['fias_id'] && dadataFias(data['fias_id'])
             .then(res => setDistrict({
-                city,
+                city: res?.suggestions[0]?.data?.city,
                 name: res?.suggestions[0]?.data?.city_district
             }))
     }, [data?.address])
@@ -299,14 +307,6 @@ export default function Advertise() {
     }, [btnRadio.estateTypeId, types, loadData])
 
     useEffect(() => {
-        (data['fias_id']) && dadataFias(data['fias_id'])
-            .then(res => setDistrict({
-                city,
-                name: res?.suggestions[0]?.data?.city_district
-            }))
-    }, [data.address])
-
-    useEffect(() => {
         if (data?.address) {
             dadataReAddress({query: data?.address, count: 5})
                 .then(res => {
@@ -316,17 +316,28 @@ export default function Advertise() {
                             address: res[0]?.value,
                             fias_id: res[0]?.data?.fias_id,
                             latitude: res[0]?.data?.geo_lat,
-                            longitude: res[0]?.data?.geo_lon
+                            longitude: res[0]?.data?.geo_lon,
+                            city: res[0]?.data?.city
                         }
                     ))
                 })
         }
     }, [data?.address])
 
-    const onChange = (imageList, addUpdateIndex, e) => {
-        resetFieldVal(e, 'isInValidImage')
+    useEffect(() => {
+        if (data?.residentalComplex === null || data?.residentalComplex === undefined) {
+            delete data?.residentalComplex
+        }
+    }, [data?.residentalComplex])
+
+    const onChangeForOtherImages = (imageList) => {
         setImages(imageList);
     };
+
+    const onChangeForMainImage = (imageList,e) => {
+        resetFieldVal(e, 'isInValidImage')
+        setMainImage(imageList)
+    }
 
     const onRent = (e) => {
         setDeal(+e.target.value); //переключение типа
@@ -342,10 +353,6 @@ export default function Advertise() {
         setData(prevData => {
             return {...prevData, [name]: value}
         })
-    }
-
-    const resetForm = () => {
-        setImages([])
     }
 
     const yearsForValidation = () => {
@@ -370,7 +377,7 @@ export default function Advertise() {
         const isInValidFloor = data["floor"] === undefined || data?.floor < 0;
         const isInValidMaxFloor = data?.maxFloor < 0;
         const isInValidDescription = data.description?.length < 30 || data.description === undefined
-        const isInValidImage = imgs?.length === 0 || imgs === undefined || imgs?.length === 1
+        const isInValidImage = image === undefined
         const isInValidPrice = data.price === undefined || data?.price < 0
         const isInValidEstateTypeId = data.estateTypeId === undefined || data.estateTypeId === 0
         const isInValidYear = data?.yearOfConstruction?.length > 4 || data?.yearOfConstruction?.length <= 3 || yearsForValidation() === undefined
@@ -453,29 +460,38 @@ export default function Advertise() {
 
             const userId = currentUser?.id;
             const formData = new FormData();
-            const req = {...data, token, userId, image};
+            let req ;
 
-            for (const key in req) {
-                formData.append(key, req[key])
+            if (image === undefined) {
+                req = {...data, token, userId};
+                for (const key in req) {
+                    formData.append(key, req[key])
+                }
+            } else {
+                req = {...data, token, userId, image};
+                for (const key in req) {
+                    formData.append(key, req[key])
+                }
             }
+
             formData.append('district[][city]', district['city'])
             formData.append('district[][name]', district['name'])
 
+
             if (imgs?.length >= 1) {
-                if (imgs?.length === 2) {
-                    imgs.forEach((i, index) => {
-                        if (i.file?.name !== image.name) {
-                            formData.append('images[]', i.file)
-                        }
-                    })
-                } else {
-                    imgs.forEach((i, index) => {
-                        if (i.file?.name !== image.name) {
-                            formData.append('images', i.file)
-                        }
-                    })
-                }
+                imgs.forEach((i, index) => {
+                    if (i.file?.name !== image.name) {
+                        formData.append('images[]', i.file)
+                    }
+                })
+            } else {
+                imgs.forEach((i, index) => {
+                    if (i.file?.name !== image.name) {
+                        formData.append('images', i.file)
+                    }
+                })
             }
+
             addAdvertise(axiosPrivate, formData).then(() => {
                 setAlert('success', true, 'Объявление успешно опубликовано, переход в ваши объявления')
                 setTimeout(() => {
@@ -500,7 +516,6 @@ export default function Advertise() {
         const isInValidFloor = data["floor"] === undefined || data?.floor < 0;
         const isInValidMaxFloor = data?.maxFloor < 0;
         const isInValidDescription = data.description?.length < 30 || data.description === undefined
-        const isInValidImage = imgs?.length === 0 || imgs === undefined || imgs?.length === 1
         const isInValidPrice = data.price === undefined || data?.price < 0
         const isInValidEstateTypeId = data.estateTypeId === undefined || data.estateTypeId === 0
         const isInValidYear = data?.yearOfConstruction?.length > 4 || data?.yearOfConstruction?.length <= 3 || yearsForValidation() === undefined
@@ -556,9 +571,6 @@ export default function Advertise() {
         } else if (isInValidDescription) {
             scroller.scrollTo("anchor-3", {offset: -80})
             setValid({...valid, isInValidDescription: true})
-        } else if (isInValidImage) {
-            scroller.scrollTo("anchor-3", {offset: -80})
-            setValid({...valid, isInValidImage: true})
         } else if (
             (
                 data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') ||
@@ -582,17 +594,26 @@ export default function Advertise() {
         } else {
             const userId = currentUser?.id;
             const formData = new FormData();
-            const req = {...data, token, userId, image};
+            let req;
 
-            for (const key in req) {
-                formData.append(key, req[key]);
+            if (image === undefined) {
+                req = {...data, token, userId}
+                for (const key in req) {
+                    formData.append(key, req[key])
+                }
+            } else {
+                req = {...data, token, userId, image}
+                for (const key in req) {
+                    formData.append(key, req[key])
+                }
+
             }
 
             formData.append('district[][city]', district['city'])
             formData.append('district[][name]', district['name'])
 
-            if (imgs?.length >= 1) {
-                if (imgs?.length === 2) {
+            if (imgs.hasOwnProperty('file')) {
+                if (imgs?.length >= 1) {
                     imgs.forEach((i, index) => {
                         if (i.file?.name !== image.name) {
                             formData.append('images[]', i.file)
@@ -600,12 +621,13 @@ export default function Advertise() {
                     })
                 } else {
                     imgs.forEach((i, index) => {
-                        if (i.file?.name !== image.name) {
+                        if (i.file?.name !== image?.name) {
                             formData.append('images', i.file)
                         }
                     })
                 }
             }
+
 
             updateAd(axiosPrivate, uuid, formData).then(() => {
                 setAlert('success', true, 'Объявление успешно отредактировано, переход в мои объявления')
@@ -642,7 +664,8 @@ export default function Advertise() {
             "address": e.value,
             "latitude": e.data?.geo_lat,
             "longitude": e.data?.geo_lon,
-            "fias_id": e.data?.fias_id
+            "fias_id": e.data?.fias_id,
+            "city": e.data?.city
         }))
     }, [])
 
@@ -685,80 +708,29 @@ export default function Advertise() {
                     <div className="mob-indicator">
                         <div
                             className={(activeField === 1) ? 'active' : ''}
-                            /*style={{backgroundColor: (valid?.isInValidEstateTypeId || valid?.isInValidEstateId) ? '#DA1E2A' : ''}}*/
                         >
-                            {/*{
-                                (valid?.isInValidEstateTypeId || valid?.isInValidEstateId)
-                                    ? 1
-                                    : (data?.transactionType && data?.estateId && data?.estateTypeId)
-                                        ? <img src="/img/icons/compform.svg"
-                                               style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
-                                        : 1
-                            }*/}
                             1
                         </div>
                         <div
                             className={(activeField === 2) ? 'active' : ''}
-                            /*style={{
-                                backgroundColor:
-                                    (valid?.isInValidAddress ||
-                                        valid?.isInValidHouseType ||
-                                        valid?.isInValidTotalArea ||
-                                        valid?.isInValidRoomType ||
-                                        valid?.isInValidFloor)
-                                        ? '#DA1E2A' : ''
-                            }}*/
                         >
-                            {/*{
-                                (valid?.isInValidAddress || valid?.isInValidHouseType || valid?.isInValidTotalArea || valid?.isInValidRoomType || valid?.isInValidFloor)
-                                    ? 2
-                                    : (data?.address && data?.totalArea && data['floor'])
-                                        ? <img src="/img/icons/compform.svg"
-                                               style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
-                                        : 2
-                            }*/}
                             2
                         </div>
                         <div
                             className={(activeField === 3) ? 'active' : ''}
                             style={{backgroundColor: (valid?.isInValidDescription || valid?.isInValidImage || valid?.isInValidAddress) ? '#DA1E2A' : ''}}
                         >
-                            {/*{
-                                (valid?.isInValidDescription || valid?.isInValidImage)
-                                    ? 3
-                                    : (image && data?.description)
-                                        ? <img src="/img/icons/compform.svg"
-                                               style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
-                                        : 3
-                            }*/}
                             3
                         </div>
                         <div
                             className={(activeField === 4) ? 'active' : ''}
-                            /*style={{backgroundColor: (valid?.isInValidYear || valid?.isInValidCeilingHeight) ? '#DA1E2A' : ''}}*/
                         >
-                            {/*{
-                                (valid?.isInValidYear || valid?.isInValidCeilingHeight)
-                                    ? 4
-                                    : (data?.yearOfConstruction && data?.ceilingHeight)
-                                        ? <img src="/img/icons/compform.svg"
-                                               style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
-                                        : 4
-                            }*/}
                             4
                         </div>
                         <div
                             className={(activeField === 5) ? 'active' : ''}
                             style={{backgroundColor: valid?.isInValidPrice ? '#DA1E2A' : ''}}
                         >
-                            {/*{
-                                (valid?.isInValidPrice)
-                                    ? 5
-                                    : (data?.price)
-                                        ? <img src="/img/icons/compform.svg"
-                                               style={{width: 1.5 + 'em', height: 1.5 + 'em'}} alt="comp"/>
-                                        : 5
-                            }*/}
                             5
                         </div>
                     </div>
@@ -785,7 +757,10 @@ export default function Advertise() {
                                                     name="deal"
                                                     value={0}
                                                     checked={btnRadio?.transactionType === 0}
-                                                    onClick={() => setBtnRadio(prevState => ({...prevState, transactionType: 0}))}
+                                                    onClick={() => setBtnRadio(prevState => ({
+                                                        ...prevState,
+                                                        transactionType: 0
+                                                    }))}
                                                     onChange={(e) => {
                                                         onRent(e)
                                                         setData(prevData => {
@@ -804,7 +779,10 @@ export default function Advertise() {
                                                     name="deal"
                                                     value={1}
                                                     checked={btnRadio.transactionType === 1}
-                                                    onClick={() => setBtnRadio(prevState => ({...prevState, transactionType: 1}))}
+                                                    onClick={() => setBtnRadio(prevState => ({
+                                                        ...prevState,
+                                                        transactionType: 1
+                                                    }))}
                                                     onChange={(e) => {
                                                         onSale(e)
                                                         setData(prevData => {
@@ -836,7 +814,10 @@ export default function Advertise() {
                                                             name="rental-type"
                                                             value="1"
                                                             checked={btnRadio.rentalPeriod === 1}
-                                                            onClick={() => setBtnRadio(prevState => ({...prevState, rentalPeriod: 1}))}
+                                                            onClick={() => setBtnRadio(prevState => ({
+                                                                ...prevState,
+                                                                rentalPeriod: 1
+                                                            }))}
                                                             onChange={(e) => {
                                                                 setData(prevData => {
                                                                     return {
@@ -857,7 +838,10 @@ export default function Advertise() {
                                                             name="rental-type"
                                                             value="3"
                                                             checked={btnRadio.rentalPeriod === 3}
-                                                            onClick={() => setBtnRadio(prevState => ({...prevState, rentalPeriod: 3}))}
+                                                            onClick={() => setBtnRadio(prevState => ({
+                                                                ...prevState,
+                                                                rentalPeriod: 3
+                                                            }))}
                                                             onChange={(e) => {
                                                                 setData(prevData => {
                                                                     return {
@@ -877,7 +861,10 @@ export default function Advertise() {
                                                             name="rental-type"
                                                             value="0"
                                                             checked={btnRadio.rentalPeriod === 0}
-                                                            onClick={() => setBtnRadio(prevState => ({...prevState, rentalPeriod: 0}))}
+                                                            onClick={() => setBtnRadio(prevState => ({
+                                                                ...prevState,
+                                                                rentalPeriod: 0
+                                                            }))}
                                                             onChange={(e) => {
                                                                 setData(prevData => {
                                                                     return {
@@ -1046,6 +1033,7 @@ export default function Advertise() {
                         {
                             data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') &&
                             <AboutResidential
+                                transactionType={data?.transactionType}
                                 valid={valid}
                                 resetValid={resetValid}
                                 activeField={activeField}
@@ -1150,7 +1138,7 @@ export default function Advertise() {
                                 </div>
                                 <div className="col-md-9">
                                     <AddressSuggestions
-                                        delay={300}
+                                        delay={600}
                                         defaultQuery={data?.address}
                                         containerClassName='advertise__address'
                                         inputProps={{
@@ -1195,9 +1183,8 @@ export default function Advertise() {
                                 </div>
                                 <div className="col-md-9">
                                     <ImageUploading
-                                        multiple
-                                        value={imgs}
-                                        onChange={onChange}
+                                        value={mainImage}
+                                        onChange={onChangeForMainImage}
                                         maxNumber={maxNumber}
                                         dataURLKey="data_url"
                                         acceptType={['JPG', 'JPEG', 'PNG', 'WEBP']}
@@ -1225,19 +1212,6 @@ export default function Advertise() {
                                                                             src="/img/icons/update.svg"
                                                                             alt="Обновить"/>
                                                                     </button>
-                                                                    <button type="button"
-                                                                            onClick={() => onImageRemove(index)}>
-                                                                        <img
-                                                                            src="/img/icons/delete.svg"
-                                                                            alt="Удалить"/>
-                                                                    </button>
-                                                                    {
-                                                                        (index !== mainImg) &&
-                                                                        <button type="button"
-                                                                                onClick={() => setMainImg(index)}
-                                                                                className="main-img">Сделать
-                                                                            главным</button>
-                                                                    }
                                                                 </div>
                                                                 {
                                                                     (index === mainImg) &&
@@ -1260,9 +1234,73 @@ export default function Advertise() {
                                                                 <line y1="10.25" x2="21" y2="10.25" stroke="white"
                                                                       strokeWidth="1.5"/>
                                                             </svg>
-                                                            <span className="ms-2">Добавить фото</span>
+                                                            <span className="ms-2">Добавить главное фото</span>
                                                         </button>
-                                                        <button type="button" onClick={onImageRemoveAll}>Удалить все
+                                                    </div>
+                                                </div>
+                                                <span
+                                                    className="text-danger">{errors?.acceptType && "Поддерживаемые форматы файла: JPEG, JPG, PNG"}
+                                                  </span>
+                                            </>
+                                        )}
+                                    </ImageUploading>
+                                    <ImageUploading
+                                        multiple
+                                        value={imgs}
+                                        onChange={onChangeForOtherImages}
+                                        maxNumber={maxNumber}
+                                        dataURLKey="data_url"
+                                        acceptType={['JPG', 'JPEG', 'PNG', 'WEBP']}
+                                    >
+                                        {({
+                                              imageList,
+                                              onImageUpload,
+                                              onImageRemoveAll,
+                                              onImageUpdate,
+                                              onImageRemove,
+                                              isDragging,
+                                              dragProps,
+                                              errors
+                                          }) => (
+                                            <>
+                                                <div className="upload__image-wrapper">
+                                                    <div className="imgs-box">
+                                                        {imageList.map((image, index) => (
+                                                            <div key={index} className="image-item">
+                                                                <img src={image.data_url} alt=""/>
+                                                                <div className="image-item__btn-wrapper">
+                                                                    <button
+                                                                        type="button"
+                                                                        onClick={() => {
+                                                                            onImageRemove(index)
+                                                                            uuid && deleteImage(axiosPrivate, image.id, token)
+                                                                                .then(() => setAlert('success', true, 'Картинка успешно удалена'))
+                                                                                .catch(() => setAlert('danger', true, 'Произошла ошибка'))
+                                                                        }}
+                                                                    >
+                                                                        <img
+                                                                            src="/img/icons/delete.svg"
+                                                                            alt="Удалить"/>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                    <div className="d-flex justify-content-center">
+                                                        <button type="button"
+                                                                className="btn btn-1 px-3 px-sm-4 me-3 me-sm-4"
+                                                                style={isDragging ? {color: "red"} : null}
+                                                                onClick={onImageUpload}
+                                                                {...dragProps}
+                                                        >
+                                                            <svg width="21" height="21" viewBox="0 0 21 21" fill="none"
+                                                                 xmlns="http://www.w3.org/2000/svg">
+                                                                <line x1="10.75" x2="10.75" y2="21" stroke="white"
+                                                                      strokeWidth="1.5"/>
+                                                                <line y1="10.25" x2="21" y2="10.25" stroke="white"
+                                                                      strokeWidth="1.5"/>
+                                                            </svg>
+                                                            <span className="ms-2">Добавить фотографии</span>
                                                         </button>
                                                     </div>
                                                 </div>
@@ -1485,7 +1523,10 @@ export default function Advertise() {
                                                         name="sellerType"
                                                         value={0}
                                                         checked={btnRadio?.sellerType === 0}
-                                                        onClick={() => setBtnRadio(prevState => ({...prevState, sellerType: 0}))}
+                                                        onClick={() => setBtnRadio(prevState => ({
+                                                            ...prevState,
+                                                            sellerType: 0
+                                                        }))}
                                                         onChange={e => {
                                                             setData(prevData => {
                                                                 return {...prevData, "sellerType": e.target.value}
@@ -1500,7 +1541,10 @@ export default function Advertise() {
                                                         name="sellerType"
                                                         value={1}
                                                         checked={btnRadio?.sellerType === 1}
-                                                        onClick={() => setBtnRadio(prevState => ({...prevState, sellerType: 1}))}
+                                                        onClick={() => setBtnRadio(prevState => ({
+                                                            ...prevState,
+                                                            sellerType: 1
+                                                        }))}
                                                         onChange={e => {
                                                             setData(prevData => {
                                                                 return {...prevData, "sellerType": e.target.value}
@@ -1515,7 +1559,10 @@ export default function Advertise() {
                                                         name="sellerType"
                                                         value={2}
                                                         checked={btnRadio?.sellerType === 2}
-                                                        onClick={() => setBtnRadio(prevState => ({...prevState, sellerType: 2}))}
+                                                        onClick={() => setBtnRadio(prevState => ({
+                                                            ...prevState,
+                                                            sellerType: 2
+                                                        }))}
                                                         onChange={e => {
                                                             setData(prevData => {
                                                                 return {...prevData, "sellerType": e.target.value}
@@ -1530,7 +1577,10 @@ export default function Advertise() {
                                                         name="sellerType"
                                                         value={3}
                                                         checked={btnRadio?.sellerType === 3}
-                                                        onClick={() => setBtnRadio(prevState => ({...prevState, sellerType: 3}))}
+                                                        onClick={() => setBtnRadio(prevState => ({
+                                                            ...prevState,
+                                                            sellerType: 3
+                                                        }))}
                                                         onChange={e => {
                                                             setData(prevData => {
                                                                 return {...prevData, "sellerType": e.target.value}
@@ -1584,7 +1634,10 @@ export default function Advertise() {
                                                     name="saleType"
                                                     value={0}
                                                     checked={btnRadio?.saleType === 0}
-                                                    onClick={() => setBtnRadio(prevState => ({...prevState, saleType: 0}))}
+                                                    onClick={() => setBtnRadio(prevState => ({
+                                                        ...prevState,
+                                                        saleType: 0
+                                                    }))}
                                                     onChange={e => {
                                                         setData(prevData => ({...prevData, "saleType": e.target.value}))
                                                     }}
@@ -1597,7 +1650,10 @@ export default function Advertise() {
                                                     name="saleType"
                                                     value={1}
                                                     checked={btnRadio?.saleType === 1}
-                                                    onClick={() => setBtnRadio(prevState => ({...prevState, saleType: 1}))}
+                                                    onClick={() => setBtnRadio(prevState => ({
+                                                        ...prevState,
+                                                        saleType: 1
+                                                    }))}
                                                     onChange={e => {
                                                         setData(prevData => ({...prevData, "saleType": e.target.value}))
                                                     }}
@@ -1610,7 +1666,10 @@ export default function Advertise() {
                                                     name="saleType"
                                                     value={2}
                                                     checked={btnRadio?.saleType === 2}
-                                                    onClick={() => setBtnRadio(prevState => ({...prevState, saleType: 2}))}
+                                                    onClick={() => setBtnRadio(prevState => ({
+                                                        ...prevState,
+                                                        saleType: 2
+                                                    }))}
                                                     onChange={e => {
                                                         setData(prevData => ({...prevData, "saleType": e.target.value}))
                                                     }}
@@ -1774,7 +1833,10 @@ export default function Advertise() {
                                                     name="sellerType"
                                                     value={0}
                                                     checked={btnRadio?.sellerType === 0}
-                                                    onClick={() => setBtnRadio(prevState => ({...prevState, sellerType: 0}))}
+                                                    onClick={() => setBtnRadio(prevState => ({
+                                                        ...prevState,
+                                                        sellerType: 0
+                                                    }))}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "sellerType": e.target.value}
@@ -1789,7 +1851,10 @@ export default function Advertise() {
                                                     name="sellerType"
                                                     value={1}
                                                     checked={btnRadio?.sellerType === 1}
-                                                    onClick={() => setBtnRadio(prevState => ({...prevState, sellerType: 1}))}
+                                                    onClick={() => setBtnRadio(prevState => ({
+                                                        ...prevState,
+                                                        sellerType: 1
+                                                    }))}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "sellerType": e.target.value}
@@ -1804,7 +1869,10 @@ export default function Advertise() {
                                                     name="sellerType"
                                                     value={2}
                                                     checked={btnRadio?.sellerType === 2}
-                                                    onClick={() => setBtnRadio(prevState => ({...prevState, sellerType: 2}))}
+                                                    onClick={() => setBtnRadio(prevState => ({
+                                                        ...prevState,
+                                                        sellerType: 2
+                                                    }))}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "sellerType": e.target.value}
@@ -1819,7 +1887,10 @@ export default function Advertise() {
                                                     name="sellerType"
                                                     value={3}
                                                     checked={btnRadio?.sellerType === 3}
-                                                    onClick={() => setBtnRadio(prevState => ({...prevState, sellerType: 3}))}
+                                                    onClick={() => setBtnRadio(prevState => ({
+                                                        ...prevState,
+                                                        sellerType: 3
+                                                    }))}
                                                     onChange={e => {
                                                         setData(prevData => {
                                                             return {...prevData, "sellerType": e.target.value}
@@ -1872,7 +1943,10 @@ export default function Advertise() {
                                                     name="saleType"
                                                     value={0}
                                                     checked={btnRadio?.saleType === 0}
-                                                    onClick={() => setBtnRadio(prevState => ({...prevState, saleType: 0}))}
+                                                    onClick={() => setBtnRadio(prevState => ({
+                                                        ...prevState,
+                                                        saleType: 0
+                                                    }))}
                                                     onChange={e => {
                                                         setData(prevData => ({...prevData, "saleType": e.target.value}))
                                                     }}
@@ -1885,7 +1959,10 @@ export default function Advertise() {
                                                     name="saleType"
                                                     value={1}
                                                     checked={btnRadio?.saleType === 1}
-                                                    onClick={() => setBtnRadio(prevState => ({...prevState, saleType: 1}))}
+                                                    onClick={() => setBtnRadio(prevState => ({
+                                                        ...prevState,
+                                                        saleType: 1
+                                                    }))}
                                                     onChange={e => {
                                                         setData(prevData => ({...prevData, "saleType": e.target.value}))
                                                     }}
@@ -1898,7 +1975,10 @@ export default function Advertise() {
                                                     name="saleType"
                                                     value={2}
                                                     checked={btnRadio?.saleType === 2}
-                                                    onClick={() => setBtnRadio(prevState => ({...prevState, saleType: 2}))}
+                                                    onClick={() => setBtnRadio(prevState => ({
+                                                        ...prevState,
+                                                        saleType: 2
+                                                    }))}
                                                     onChange={e => {
                                                         setData(prevData => ({...prevData, "saleType": e.target.value}))
                                                     }}
@@ -1922,7 +2002,7 @@ export default function Advertise() {
                                         type="submit"
                                         className="btn btn-1 w-100"
                                         onClick={(e) => {
-                                            if(uuid) {
+                                            if (uuid) {
                                                 onSubmitUpdateAd(e)
                                             } else {
                                                 handleSub(e)
@@ -1957,7 +2037,7 @@ export default function Advertise() {
                             type="submit"
                             className="d-none d-lg-block btn btn-1 fs-15 mx-auto"
                             onClick={(e) => {
-                                if(uuid) {
+                                if (uuid) {
                                     onSubmitUpdateAd(e)
                                 } else {
                                     handleSub(e)

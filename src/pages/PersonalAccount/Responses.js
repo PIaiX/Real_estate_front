@@ -82,9 +82,8 @@ export default function Responses() {
 
         if (message.length) {
             emitCreateWithServiceTopicMessage(sendMessagePayloads.userId, {
-                conversationId: 0,
+                text: messageInput,
                 serviceId: sendMessagePayloads.serviceId,
-                text: messageInput
             })
                 .then(() => {
                     setAlert('success', true, 'Сообщение отправлено')
@@ -175,12 +174,12 @@ export default function Responses() {
                                         <ResponseCard
                                             type='out'
                                             id={item?.id}
-                                            userName={item?.user?.fullName}
-                                            avatar={checkPhotoPath(item?.user?.avatar)}
+                                            userName={item?.service?.user?.fullName}
+                                            avatar={checkPhotoPath(item?.service?.user?.avatar)}
                                             price={item?.price}
                                             priceType={(typeof item?.priceTypeForUser === 'string') && item.priceTypeForUser.toLowerCase()}
                                             description={item?.description}
-                                            rating={item?.user?.rating}
+                                            rating={item?.service?.user?.rating}
                                             updateData={updateData}
                                             userId={item?.userId}
                                             serviceDes={item?.service?.description}

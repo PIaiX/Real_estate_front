@@ -70,5 +70,8 @@ export default {
     RESPONSES_ACCEPT: '/responses/accept',
     RESPONSES_COMPLETE: '/responses/complete',
     RESPONSES_ACTIONS: '/responses',
-    RESPONSES_CREATE: '/responses/create/service'
+    RESPONSES_CREATE: '/responses/create/service',
+
+    // delete images
+    DELETE_IMAGE: '/realEstates/deleteImage'
 }

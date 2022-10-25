@@ -9,7 +9,8 @@ const AboutResidential = (
         valid,
         resetValid,
         info,
-        seterRadio
+        seterRadio,
+        transactionType
     }) => {
 
     return (
@@ -906,24 +907,29 @@ const AboutResidential = (
                                 />
                                 <span className="fs-11 ms-3">Душевая кабина</span>
                             </label>
-                            <label className="mb-3">
-                                <input
-                                    type="checkbox"
-                                    name="withKids"
-                                    checked={info?.withKids || false}
-                                    onChange={e => onChange(e)}
-                                />
-                                <span className="fs-11 ms-3">Можно с детьми</span>
-                            </label>
-                            <label className="mb-3">
-                                <input
-                                    type="checkbox"
-                                    name="withPets"
-                                    checked={info?.withPets || false}
-                                    onChange={e => onChange(e)}
-                                />
-                                <span className="fs-11 ms-3">Можно с животными</span>
-                            </label>
+                            {
+                                transactionType === 0 &&
+                                <>
+                                    <label className="mb-3">
+                                        <input
+                                            type="checkbox"
+                                            name="withKids"
+                                            checked={info?.withKids || false}
+                                            onChange={e => onChange(e)}
+                                        />
+                                        <span className="fs-11 ms-3">Можно с детьми</span>
+                                    </label>
+                                    <label className="mb-3">
+                                        <input
+                                            type="checkbox"
+                                            name="withPets"
+                                            checked={info?.withPets || false}
+                                            onChange={e => onChange(e)}
+                                        />
+                                        <span className="fs-11 ms-3">Можно с животными</span>
+                                    </label>
+                                </>
+                            }
                         </div>
                     </div>
                 </div>

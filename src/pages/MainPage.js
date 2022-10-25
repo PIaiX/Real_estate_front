@@ -147,7 +147,7 @@ export default function MainPage() {
                     ))
                 }
                 <TileServices
-                    img='/img/icons/ipoteka.svg'
+                    img='/img/icons/hypothec.svg'
                     name='Ипотека'
                     dynamic={false}
                 />

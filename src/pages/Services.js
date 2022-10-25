@@ -191,7 +191,7 @@ export default function Services() {
                     <div className="row row-cols-5 gx-2 gx-lg-4">
                         <div>
                             <NavLink to='/hypothec'>
-                                <img src='/img/icons/ipoteka.svg' height='60px' width='40px'/>
+                                <img src='/img/icons/hypothec.svg' height='60px' width='40px'/>
                                 <span>Ипотека</span>
                             </NavLink>
                         </div>

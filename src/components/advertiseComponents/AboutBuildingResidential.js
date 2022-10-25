@@ -241,6 +241,7 @@ const AboutBuildingResidential = (
                     <input
                         type="number"
                         placeholder="3-100"
+                        step='1'
                         style={{borderColor: valid?.isInValidCeilingHeight ? '#DA1E2A' : ''}}
                         name='ceilingHeight'
                         value={info?.ceilingHeight || ''}

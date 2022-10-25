@@ -11,7 +11,6 @@ const YMap = (props) => {
 
     useEffect(() => {
         objectManager && objectManager.removeAll() && initObjectManager()
-
     }, [items])
 
     const feature = items?.length && items.map(item => ({
@@ -124,12 +123,21 @@ const YMap = (props) => {
         objectManager.objects.events.add(['click'], onObjectEvent)
     }
 
+    const mapCoordinates = () => {
+        if (items?.length === 1) {
+            return [items[0]?.latitude, items[0]?.longitude]
+        } else {
+            return mapCenter
+        }
+    }
+
     return (
+
         <div className={`y-maps-container ${props.className || ''}`}>
             <Map
                 className='y-maps'
                 state={{
-                    center: mapCenter || [0, 0],
+                    center: mapCoordinates() || [0, 0],
                     zoom: 10,
                     controls: [],
                 }}

@@ -36,7 +36,7 @@ export default function CardPage() {
 
     const token = useAccessToken()
     const [pageTop, setPageTop] = useState(false);
-    const [ads, setAds] = useState({})
+    const [ads, setAds] = useState(null)
     const {uuid} = useParams()
     const user = useCurrentUser()
     const userId = user?.id

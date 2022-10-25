@@ -36,15 +36,18 @@ const Card = (props) => {
         )
     }
 
-
-
     if (type === 'as-a-list') {
         return (
             <div className={`card-midi${props.className || ''}`}>
                 <div className="row">
                     <div className="col-4">
-                        <HoverSlider urls={pictures}/>
-                        <ImgPreview urls={pictures}/>
+                        <NavLink
+                            to={`/card-page/${props?.uuid}`}
+                            state={{prevRoute: pathname, routeName: props?.routeName, prevSearch: search}}
+                        >
+                            <HoverSlider urls={pictures}/>
+                            <ImgPreview urls={pictures}/>
+                        </NavLink>
                     </div>
                     <div className="col-5">
                         <div className="h-100 d-flex flex-column justify-content-between align-items-start">
@@ -168,7 +171,12 @@ const Card = (props) => {
     } else {
         return (
             <div className={`card-mini ${props.className || ''}`}>
+                <NavLink
+                    to={`/card-page/${props?.uuid}`}
+                    state={{prevRoute: pathname, routeName: props?.routeName, prevSearch: search}}
+                >
                 <HoverSlider urls={pictures}/>
+                </NavLink>
                 <div className="p-3">
                     <div className="d-flex justify-content-between mb-3">
                         <div className="title color-1 title-font fw-7 fs-11">

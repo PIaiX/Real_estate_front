@@ -78,7 +78,7 @@ const legalEntitySchema = Joi.object({
     taxIdentificationNumber: Joi.string()
         .pattern(/.*[0-9].*/)
         .min(10)
-        .max(10)
+        .max(12)
         .required()
         .messages({
             "string.empty": "Заполните ИНН",
