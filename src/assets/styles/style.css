@@ -4379,17 +4379,17 @@ footer nav.mobile ul li a.active svg.type-2 path {
 }
 @media (max-width: 1659px) {
   .offcanvas-ymap, .offcanvas-cards {
-    height: calc(100vh - 395px);
+    height: calc(100vh - 350px);
   }
 }
 @media (max-width: 1399px) {
   .offcanvas-ymap, .offcanvas-cards {
-    height: calc(100vh - 380px);
+    height: calc(100vh - 340px);
   }
 }
 @media (max-width: 1199px) {
   .offcanvas-ymap, .offcanvas-cards {
-    height: calc(100vh - 361px);
+    height: calc(100vh - 310px);
   }
 }
 .offcanvas-ymap {
@@ -4494,17 +4494,17 @@ footer nav.mobile ul li a.active svg.type-2 path {
 }
 @media (max-width: 1659px) {
   .catalog__ymaps-container {
-    height: calc(100vh - 395px);
+    height: calc(100vh - 350px);
   }
 }
 @media (max-width: 1399px) {
   .catalog__ymaps-container {
-    height: calc(100vh - 380px);
+    height: calc(100vh - 340px);
   }
 }
 @media (max-width: 1199px) {
   .catalog__ymaps-container {
-    height: calc(100vh - 361px);
+    height: calc(100vh - 310px);
   }
 }
 @media (max-width: 991px) {

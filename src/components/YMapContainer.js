@@ -6,7 +6,7 @@ import {animateScroll as scroll} from 'react-scroll';
 import getForMap from '../API/ymap';
 import {useSelector} from 'react-redux';
 
-const YMapContainer = ({isShowMap, filters, setFilters, onResetFilters, onApplyFilters, foundCount}) => {
+const YMapContainer = ({isShowMap, filters, setFilters, onResetFilters, onApplyFilters, foundCount, searchParams, searchParamsTransactionType}) => {
     const city = useSelector(state => state.selectedCity)
     const [ids, setIds] = useState([])
     const [cards, setCards] = useState([])
@@ -64,6 +64,8 @@ const YMapContainer = ({isShowMap, filters, setFilters, onResetFilters, onApplyF
                 onApplyFilters={onApplyFilters}
                 foundCount={foundCount}
                 enforceFocus={false}
+                searchParams={searchParams}
+                searchParamsTransactionType={searchParamsTransactionType}
             />
             <OffcanvasCards
                 className="offcanvas-cards"

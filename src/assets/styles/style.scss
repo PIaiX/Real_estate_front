@@ -4620,13 +4620,13 @@ footer {
     height: calc(100vh - 410px);
 
     @media (max-width: 1659px) {
-      height: calc(100vh - 395px);
+      height: calc(100vh - 350px);
     }
     @media (max-width: 1399px) {
-      height: calc(100vh - 380px);
+      height: calc(100vh - 340px);
     }
     @media (max-width: 1199px) {
-      height: calc(100vh - 361px);
+      height: calc(100vh - 310px);
     }
   }
 
@@ -4742,13 +4742,13 @@ footer {
     z-index: $ymaps-z-index;
 
     @media (max-width: 1659px) {
-      height: calc(100vh - 395px);
+      height: calc(100vh - 350px);
     }
     @media (max-width: 1399px) {
-      height: calc(100vh - 380px);
+      height: calc(100vh - 340px);
     }
     @media (max-width: 1199px) {
-      height: calc(100vh - 361px);
+      height: calc(100vh - 310px);
     }
     @media (max-width: 991px) {
       height: calc(100vh - 270px);
