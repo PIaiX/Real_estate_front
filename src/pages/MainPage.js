@@ -17,7 +17,6 @@ import Loader from "../components/Loader";
 import TileServices from "../components/TileServices";
 import YMap from "../components/YMap";
 import OffcanvasCards from '../components/OffcanvasCards';
-import Form from 'react-bootstrap/Form'
 
 export default function MainPage() {
     const currentUser = useCurrentUser()
@@ -126,9 +125,9 @@ export default function MainPage() {
                     img='/img/icons/domaDachiKottedzhi.svg'
                     titles={["Дома Дачи"]}
                     hoverLinks={[
-                        {name: 'Купить', link: `/catalog/?transactionType=1&typesEstate=1`},
-                        {name: 'Сдать', link: '/advertise'},
                         {name: 'Продать', link: '/advertise'},
+                        {name: 'Сдать', link: '/advertise'},
+                        {name: 'Купить', link: `/catalog/?transactionType=1&typesEstate=1`},
                         {name: 'Снять', link: `/catalog/?transactionType=0&typesEstate=1`}]}
                 />
                 {
@@ -136,12 +135,12 @@ export default function MainPage() {
                     typesEstate.map(type => (
                         <Tile
                             key={type.id}
-                            img={`/img/icons/${type.slug}.svg`}
+                            img={`/img/icons/${type?.slug}.svg`}
                             titles={[type.name]}
                             hoverLinks={[
-                                {name: 'Купить', link: `/catalog/?transactionType=1&typesEstate=${type.id}`},
-                                {name: 'Сдать', link: '/advertise'},
                                 {name: 'Продать', link: '/advertise'},
+                                {name: 'Сдать', link: '/advertise'},
+                                {name: 'Купить', link: `/catalog/?transactionType=1&typesEstate=${type.id}`},
                                 {name: 'Снять', link: `/catalog/?transactionType=0&typesEstate=${type.id}`}]}
                         />
                     ))

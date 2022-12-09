@@ -28,6 +28,7 @@ import {getAdsPage} from "../API/adspage";
 import {dadataReAddress} from "../API/dadataReAddress";
 import {updateAd} from "../API/users";
 import {deleteImage} from "../API/deleteImage";
+import AdTypeLandPlot from "../components/advertiseComponents/AdTypeLandPlot";
 
 export default function Advertise() {
 
@@ -1004,6 +1005,15 @@ export default function Advertise() {
                                     onChange={seterDataInComponent}
                                 />
                             }
+                            {/*{(data?.estateTypeName?.toLowerCase()?.includes('земельные участки') && data?.estateName?.toLowerCase()?.includes('земельный участок')) &&
+                                <AdTypeLandPlot
+                                    seterRadio={seterRadioBtns}
+                                    onChange={seterDataInComponent}
+                                    info={{
+                                        areaType: btnRadio?.areaType
+                                    }}
+                                />
+                            }*/}
 
                             {/* для мобильных устроийств */}
                             <div
@@ -1553,7 +1563,7 @@ export default function Advertise() {
                                                             })
                                                         }}
                                                     />
-                                                    <span className="fs-11 ms-2">Застройщики</span>
+                                                    <span className="fs-11 ms-2">Застройщик</span>
                                                 </label>
                                                 <label>
                                                     <input
@@ -1571,7 +1581,7 @@ export default function Advertise() {
                                                             })
                                                         }}
                                                     />
-                                                    <span className="fs-11 ms-2 text-nowrap">Агенства</span>
+                                                    <span className="fs-11 ms-2 text-nowrap">Агенство</span>
                                                 </label>
                                                 <label>
                                                     <input

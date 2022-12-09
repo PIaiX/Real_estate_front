@@ -30,9 +30,9 @@ const CatalogList = () => {
                             img={`/img/icons/${type.slug}.svg`}
                             titles={[type.name]}
                             hoverLinks={[
-                                {name: 'Купить', link: `/catalog/page/1?transactionType=1&typesEstate=${type.id}`},
-                                {name: 'Сдать', link: '/advertise'},
                                 {name: 'Продать', link: '/advertise'},
+                                {name: 'Сдать', link: '/advertise'},
+                                {name: 'Купить', link: `/catalog/page/1?transactionType=1&typesEstate=${type.id}`},
                                 {name: 'Снять', link: `/catalog/page/1?transactionType=0&typesEstate=${type.id}`}]}
                         />
                     ))

@@ -12,7 +12,7 @@ import usePagination from "../hooks/pagination";
 import CustomModal from "../components/CustomModal";
 import {emitCreateWithServiceTopicMessage} from "../API/socketConversations";
 import {bindActionCreators} from "redux";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import alertActions from "../store/actions/alert"
 
 export default function Services() {
@@ -31,6 +31,7 @@ export default function Services() {
         isLoading: false,
         data: [],
     })
+    const city = useSelector(state => state?.selectedCity)
     const [users, setUsers] = useState({
         isLoading: false,
         data: [],
@@ -51,13 +52,13 @@ export default function Services() {
     const [messageInputError, setMessageInputError] = useState('')
 
     const find = () => {
-        let qw;
+        let serviceId;
         servicesTypesLocal.find(i => {
             if (i.slug === slug) {
-                return qw = i.value
+                return serviceId = i.value
             }
         })
-        return qw
+        return serviceId
     }
 
     const [payload, setPayload] = useState({
@@ -74,7 +75,7 @@ export default function Services() {
     }, [find(), services.currentPage])
 
     useEffect(() => {
-        getServicesUsers(axiosPrivate, delayPayload)
+        getServicesUsers(axiosPrivate, delayPayload, city)
             .then(res => setUsers({isLoading: true, data: res?.body?.data, meta: res?.body?.meta}))
     }, [delayPayload])
 
@@ -241,7 +242,7 @@ export default function Services() {
                             </NavLink>
                         </div>
                         <div>
-                            <NavLink to={`/service/remont`}>
+                            <NavLink to={`/service/remontStroitelstvo`}>
                                 <svg width="77" height="69" viewBox="0 0 77 69" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path className="fill"
@@ -251,7 +252,7 @@ export default function Services() {
                                     <path className="fill"
                                           d="M76.1354 12.2867L68.7216 6.70025C68.485 6.52189 68.1975 6.42543 67.9008 6.42543H62.2879V1.86451C62.2879 1.11012 61.6764 0.499512 60.9229 0.499512H50.9803C50.2268 0.499512 49.6153 1.11012 49.6153 1.86451V6.42543H36.5886C35.8342 6.42543 35.2236 7.03604 35.2236 7.79043V18.4311C35.2236 19.1854 35.8342 19.7961 36.5886 19.7961H49.6153V67.1352C49.6153 67.8886 50.2268 68.5002 50.9803 68.5002H60.9229C61.6764 68.5002 62.2879 67.8886 62.2879 67.1352V19.7961H75.3146C76.0681 19.7961 76.6796 19.1854 76.6796 18.4311V13.3769C76.6796 12.9483 76.4785 12.5452 76.1354 12.2867ZM52.3453 3.22951H59.5579V6.42543H52.3453V3.22951ZM59.5579 65.7702H52.3453V19.7961H59.5579V65.7702ZM73.9496 17.0661H37.9536V9.15543H67.444L73.9496 14.0576V17.0661Z"/>
                                 </svg>
-                                <span>Ремонт</span>
+                                <span>Ремонт/строительство</span>
                             </NavLink>
                         </div>
                         <div>

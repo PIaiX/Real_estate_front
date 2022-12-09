@@ -54,11 +54,23 @@ export default function BtnRep(props) {
 
     const addReportForUser = async () => {
             await addReportUser(axiosPrivate, data)
+                .then(() => {
+                    setAlert('success', true, 'Жалоба успешно добавлена')
+                })
+                .catch(() => {
+                    setAlert('danger', true, 'Произошла ошибка')
+                })
             setReportUserStatus(reportUserStatus => !reportUserStatus)
     }
 
     const deleteReportForUser = async () => {
             await deleteReportUser(axiosPrivate, data)
+                .then(() => {
+                    setAlert('success', true, 'Жалоба успешно отозвана')
+                })
+                .catch(() => {
+                    setAlert('danger', true, 'Произошла ошибка')
+                })
             setReportUserStatus(reportUserStatus => !reportUserStatus)
     }
 
