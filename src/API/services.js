@@ -29,7 +29,7 @@ export const getAttributesTypes = async (axiosPrivate, serviceId) => {
 
 export const getServicesUsers = async (axiosPrivate, payload, city= '') => {
     try {
-        const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.SERVICES_ACTIONS}`, payload)
+        const response = await axiosPrivate.post(`${process.env.REACT_APP_BASE_URL}${apiRoutes.SERVICES_ACTIONS}`, {...payload, address: city})
         return response.data
     } catch (error) {
         console.log(error)
