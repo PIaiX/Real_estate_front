@@ -157,14 +157,6 @@ export default function CreateService() {
     }, [subServiceType, loadService])
 
     useEffect(() => {
-        address['fias_id'] && dadataFias(address['fias_id'])
-            .then(res => setDistrict({
-                city: res?.suggestions[0]?.data?.city,
-                name: res?.suggestions[0]?.data?.city_district
-            }))
-    }, [address?.address])
-
-    useEffect(() => {
         if (address?.address && id) {
             dadataReAddress({query: address?.address, count: 5})
                 .then(res => {
@@ -182,15 +174,19 @@ export default function CreateService() {
         }
     }, [address?.address])
 
+    useEffect(() => {
+        address?.fias_id && dadataFias(address?.fias_id)
+            .then(res => setDistrict({
+                city: res?.suggestions[0]?.data?.city,
+                name: res?.suggestions[0]?.data?.city_district
+            }))
+    }, [address])
+
     const suggestionsRef = useCallback(node => {
         if (node !== null) {
             node.setInputValue(address?.address)
         }
     }, [address?.address])
-
-    console.log(address)
-    console.log(payloads)
-    console.log(district)
 
     return (
         <div className="px-2 px-sm-4 px-xxl-5 pb-4 pb-xxl-5">

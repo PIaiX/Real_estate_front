@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {GeolocationControl, Map, ObjectManager, withYMaps, ZoomControl} from 'react-yandex-maps';
+import {GeolocationControl, Map, ObjectManager, ZoomControl} from 'react-yandex-maps';
 import {useSelector} from 'react-redux';
 
 const YMap = (props) => {
@@ -25,6 +25,7 @@ const YMap = (props) => {
                 id: item.id,
                 isHot: item.isHot,
                 isVip: item.isVip,
+                wishlistStatus: item?.wishlistStatus
             }
         }
     }))
@@ -75,17 +76,9 @@ const YMap = (props) => {
         const features = feature && feature.map(item => {
             const isHot = item.properties.data.isHot
             const isVip = item.properties.data.isVip
+            const wishlistStatus = item.properties.data.wishlistStatus
 
-            if (isHot && isVip) {
-                return {
-                    ...item,
-                    options: {
-                        iconLayout: 'default#image',
-                        iconImageHref: '/img/icons/Ymaps/default-placemark.svg',
-                        iconImageSize: [46, 47],
-                    }
-                }
-            } else if (isHot && !isVip) {
+            if (isHot) {
                 return {
                     ...item,
                     options: {
@@ -94,7 +87,8 @@ const YMap = (props) => {
                         iconImageSize: [43, 60],
                     }
                 }
-            } else if (isVip && !isHot) {
+            }
+            if (isVip) {
                 return {
                     ...item,
                     options: {
@@ -103,16 +97,28 @@ const YMap = (props) => {
                         iconImageSize: [46, 47],
                     }
                 }
-            } else {
+            }
+
+            if (wishlistStatus) {
                 return {
                     ...item,
                     options: {
                         iconLayout: 'default#image',
-                        iconImageHref: '/img/icons/Ymaps/default-placemark.svg',
+                        iconImageHref: '/img/icons/Ymaps/wishlist-placemark.svg',
                         iconImageSize: [46, 47],
                     }
                 }
             }
+
+            return {
+                ...item,
+                options: {
+                    iconLayout: 'default#image',
+                    iconImageHref: '/img/icons/Ymaps/default-placemark.svg',
+                    iconImageSize: [46, 47],
+                }
+            }
+
         })
         objectManager.add(JSON.stringify(features))
 
